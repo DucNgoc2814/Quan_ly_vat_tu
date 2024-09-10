@@ -12,4 +12,14 @@ class Payment extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'payment_id');
+    }
+
+    public function importOrders()
+    {
+        return $this->hasMany(Import_Order::class, 'payment_id');
+    }
 }

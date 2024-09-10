@@ -18,4 +18,14 @@ class Variation extends Model
         'description',
         'is_active',
     ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
+    }
+
+    public function attributeValues()
+    {
+        return $this->belongsToMany(Attribute_Value::class, 'variation_attribute_value', 'variation_id', 'attribute_value_id');
+    }
 }

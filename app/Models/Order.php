@@ -22,4 +22,34 @@ class Order extends Model
         'paid_amount',
         'payable_amount',
     ];
+
+    public function payment()
+    {
+        return $this->belongsTo(Payment::class, 'payment_id');
+    }
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Order_Status::class, 'status');
+    }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(Order_Detail::class, 'order_id');
+    }
+
+    public function contract()
+    {
+        return $this->hasOne(Contract::class, 'oder_id');
+    }
+
+    public function debts()
+    {
+        return $this->hasMany(Debt::class, 'order_id');
+    }
 }

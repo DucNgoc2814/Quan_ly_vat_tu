@@ -12,4 +12,9 @@ class Customer_rank extends Model
         'name',
         'discount'
     ];
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class, 'customer_rank_id');
+    }
 }

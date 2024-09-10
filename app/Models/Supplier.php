@@ -14,4 +14,14 @@ class Supplier extends Model
         'number_phone',
         'address',
     ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'publisher_product', 'supplier_id', 'product_id');
+    }
+
+    public function importOrders()
+    {
+        return $this->hasMany(Import_Order::class, 'supplier_id');
+    }
 }

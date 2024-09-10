@@ -12,4 +12,9 @@ class Contract_status extends Model
         'name',
         'description'
     ];
+
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class, 'contract_status_id');
+    }
 }

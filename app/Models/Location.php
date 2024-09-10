@@ -14,4 +14,9 @@ class Location extends Model
         'address',
         'description',
     ];
+
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class, 'customer_id');
+    }
 }

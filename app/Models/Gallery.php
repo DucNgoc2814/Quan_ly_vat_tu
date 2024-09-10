@@ -13,4 +13,9 @@ class Gallery extends Model
         'product_id',
         'url',
     ];
+
+    public function products()
+    {
+        return $this->hasMany(Product::class, 'gallery_id');
+    }
 }

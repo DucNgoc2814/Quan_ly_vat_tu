@@ -16,4 +16,19 @@ class Contract extends Model
         'file',
         'note',
     ];
+
+    public function status()
+    {
+        return $this->belongsTo(Contract_Status::class, 'contract_status_id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Contract_Type::class, 'contract_type_id');
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'oder_id');
+    }
 }
