@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Contract extends Model
 {
     use HasFactory;
+
+    public function status()
+    {
+        return $this->belongsTo(Contract_Status::class, 'contract_status_id');
+    }
+
+    public function type()
+    {
+        return $this->belongsTo(Contract_Type::class, 'contract_type_id');
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'oder_id');
+    }
 }

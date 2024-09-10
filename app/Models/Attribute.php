@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Attribute extends Model
 {
     use HasFactory;
+
+    public function attributeValues()
+    {
+        return $this->hasMany(Attribute_Value::class, 'attribute_id');
+    }
 }
