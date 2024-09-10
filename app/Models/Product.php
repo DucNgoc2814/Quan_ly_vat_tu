@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'category_id',
+        'unit_id',
+        'brand_id',
+        'name',
+        'price',
+        'description',
+        'is_active',
+    ];
 
     public function category()
     {

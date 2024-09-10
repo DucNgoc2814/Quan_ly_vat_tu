@@ -9,6 +9,11 @@ class Trip extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'cargo_car_id',
+        'employee_id',
+    ];
+
     public function cargoCar()
     {
         return $this->belongsTo(Cargo_Car::class, 'cargo_car_id');

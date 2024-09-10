@@ -9,6 +9,16 @@ class Variation extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'product_id',
+        'sku',
+        'name',
+        'stock',
+        'price_export',
+        'description',
+        'is_active',
+    ];
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');

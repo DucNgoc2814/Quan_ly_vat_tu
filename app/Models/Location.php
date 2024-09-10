@@ -9,6 +9,12 @@ class Location extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'customer_id',
+        'address',
+        'description',
+    ];
+
     public function customer()
     {
         return $this->belongsTo(Customer::class, 'customer_id');

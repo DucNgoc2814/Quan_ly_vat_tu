@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Customer_rank extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'discount'
+    ];
 
     public function customers()
     {

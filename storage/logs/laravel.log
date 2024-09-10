@@ -560,3 +560,11 @@ Did you mean one of these?
 #33 C:\\laragon\\www\\DuAnTotNghiep\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #34 {main}
 "} 
+[2024-09-10 16:28:32] local.ERROR: syntax error, unexpected token "}", expecting "," or ";" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"}\", expecting \",\" or \";\" at C:\\Users\\quannd\\Desktop\\Quan_ly_vat_tu\\app\\Models\\Contract.php:12)
+[stacktrace]
+#0 {main}
+"} 
+[2024-09-10 16:29:59] local.ERROR: Unclosed '[' on line 11 does not match '}' {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Unclosed '[' on line 11 does not match '}' at C:\\Users\\quannd\\Desktop\\Quan_ly_vat_tu\\app\\Models\\Customer_rank.php:12)
+[stacktrace]
+#0 {main}
+"} 

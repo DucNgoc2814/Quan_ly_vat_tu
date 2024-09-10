@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Role_employee extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'wage',
+    ];
 
     public function permissions()
     {
