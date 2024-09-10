@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Request extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'employee_send',
+        'employee_get',
+        'title',
+        'content',
+    ];
 }
