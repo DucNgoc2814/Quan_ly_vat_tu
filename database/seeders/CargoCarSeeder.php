@@ -15,6 +15,7 @@ class CargoCarSeeder extends Seeder
     {
          $hardData = [
             [
+                
                 'cargo_car_type_id' => 1,
                 'license_plate' => '29C-123.45',
                 'is_active' => 1,

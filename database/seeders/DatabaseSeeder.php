@@ -15,21 +15,46 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            //  <+====================Tình====================+>
+            ContractStatusSeeder::class,
+            DebtTypeSeeder::class,
+            PaymentSeeder::class,
+            ContractTypeSeeder::class,
+            UnitSeeder::class,
+            CategorySeeder::class,
+            BrandSeeder::class,
+            ProductSeeder::class,
+            GallerySeeder::class,
+            FeedbackSeeder::class,
+            InventorieSeeder::class,
             AttributeSeeder::class,
             AttributeValueSeeder::class,
-            BrandSeeder::class,
-            CategorySeeder::class,
-            CargoCarTypeSeeder::class,
-            CategorySeeder::class,
-            ContractStatusSeeder::class,
-            ContractTypeSeeder::class,
-            PaymentSeeder::class,
-            ProductSeeder::class,
-            UnitSeeder::class,
+            VariationSeeder::class,
             VariationAttributeValueSeeder::class,
-            VariationSeeder::class
-            // <+====================Tình====================+>
+            OrderStatuSeeder::class,
+            CustomerRankSeeder::class,
+            CustomerSeeder::class,
+            LocationSeeder::class,
+            OrderSeeder::class,
+            ContractSeeder::class,
+            OrderDetailSeeder::class,
+            CargoCarTypeSeeder::class,
+            DebtSeeder::class,
+            PaymentHistorySeeder::class,
+            RoleEmployeeSeeder::class,
+            EmployeeSeeder::class,
+            SupplierSeeder::class,
+            OrderCanceledSeeder::class,
+            ImportOrderSeeder::class,
+            ImportOrderDetailSeeder::class,
+            PermissionSeeder::class,
+            CargoCarSeeder::class,
+            PermissionRoleEmployeeSeeder::class,
+            PublisherProductSeeder::class,
+            RequestSeeder::class,
+            SliderSeeder::class,
+            TripSeeder::class,
+            TripDetailSeeder::class
+
         ]);
     }
 }
