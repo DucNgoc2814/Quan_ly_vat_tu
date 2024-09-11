@@ -17,5 +17,5 @@ Route::get('/', function () {
     return view('admin/dashboard');
 });
 Route::get('/products', function () {
-    return view('admin/compoents/products/index');
+    return view('admin/compoents/products/create');
 });
