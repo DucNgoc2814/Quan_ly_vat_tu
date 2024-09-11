@@ -15,21 +15,32 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            //  <+====================Tình====================+>
+            ContractStatusSeeder::class,
+            DebtTypeSeeder::class,
+            PaymentSeeder::class,
+            ContractTypeSeeder::class,
+            UnitSeeder::class,
+            CategorySeeder::class,
+            BrandSeeder::class,
+            ProductSeeder::class,
+            GallerySeeder::class,
+            FeedbackSeeder::class,
+            InventorieSeeder::class,
             AttributeSeeder::class,
             AttributeValueSeeder::class,
-            BrandSeeder::class,
-            CategorySeeder::class,
-            CargoCarTypeSeeder::class,
-            CategorySeeder::class,
-            ContractStatusSeeder::class,
-            ContractTypeSeeder::class,
-            PaymentSeeder::class,
-            ProductSeeder::class,
-            UnitSeeder::class,
+            VariationSeeder::class,
             VariationAttributeValueSeeder::class,
-            VariationSeeder::class
-            // <+====================Tình====================+>
+            LocationSeeder::class,
+            OrderStatuSeeder::class,
+            OrderSeeder::class,
+            OrderDetailSeeder::class,
+            CargoCarTypeSeeder::class,
+            DebtSeeder::class,
+            PaymentHistorySeeder::class,
+            EmployeeSeeder::class,
+            OrderCanceledSeeder::class,
+            ImportOrderSeeder::class,
+            ImportOrderDetailSeeder::class,
         ]);
     }
 }
