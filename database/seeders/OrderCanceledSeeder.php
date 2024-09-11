@@ -32,12 +32,6 @@ class OrderCanceledSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'order_id' => 4,
-                'note' => 'Khách hàng thay đổi địa chỉ giao hàng.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
         ];
 
         foreach ($orderCanceleds as $orderCanceled) {

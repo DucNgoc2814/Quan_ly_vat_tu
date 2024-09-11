@@ -30,17 +30,31 @@ class DatabaseSeeder extends Seeder
             AttributeValueSeeder::class,
             VariationSeeder::class,
             VariationAttributeValueSeeder::class,
-            LocationSeeder::class,
             OrderStatuSeeder::class,
+            CustomerRankSeeder::class,
+            CustomerSeeder::class,
+            LocationSeeder::class,
             OrderSeeder::class,
+            ContractSeeder::class,
             OrderDetailSeeder::class,
             CargoCarTypeSeeder::class,
             DebtSeeder::class,
             PaymentHistorySeeder::class,
+            RoleEmployeeSeeder::class,
             EmployeeSeeder::class,
+            SupplierSeeder::class,
             OrderCanceledSeeder::class,
             ImportOrderSeeder::class,
             ImportOrderDetailSeeder::class,
+            PermissionSeeder::class,
+            CargoCarSeeder::class,
+            PermissionRoleEmployeeSeeder::class,
+            PublisherProductSeeder::class,
+            RequestSeeder::class,
+            SliderSeeder::class,
+            TripSeeder::class,
+            TripDetailSeeder::class
+
         ]);
     }
 }

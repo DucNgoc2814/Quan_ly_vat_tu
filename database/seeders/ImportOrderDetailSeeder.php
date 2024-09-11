@@ -15,25 +15,12 @@ class ImportOrderDetailSeeder extends Seeder
     {
         $importOrderDetails = [
             [
-                'import_order_id' => 1,
-                'product_id' => 1,
-                'variation_id' => 1,     
-                'quantity' => 10,
-                'price' => 50000,
-            ],
-            [
-                'import_order_id' => 1,
-                'product_id' => 2,
-                'variation_id' => null,
-                'quantity' => 5,
-                'price' => 75000,
-            ],
-            [
-                'import_order_id' => 2,
-                'product_id' => 3,
-                'variation_id' => 2,
-                'quantity' => 20,
-                'price' => 100000,
+                'id' => 1,
+                'import_order_id' =>  1,
+                'product_id' =>  1,
+                'variation_id' =>  1,
+                'quantity' =>  1,
+                'price' =>  100
             ],
         ];
 

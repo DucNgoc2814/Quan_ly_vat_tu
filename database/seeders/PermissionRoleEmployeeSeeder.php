@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class PermissionRoleEmployeeSeeder extends Seeder
 {
@@ -12,6 +13,11 @@ class PermissionRoleEmployeeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        DB::table(table: 'permission_role_employees')->insert([
+            [
+                'permisson_id' => 1,
+                'role_employee_id' => 1,
+            ],
+        ]);
     }
 }

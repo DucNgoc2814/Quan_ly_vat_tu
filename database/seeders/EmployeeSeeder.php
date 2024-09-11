@@ -15,6 +15,7 @@ class EmployeeSeeder extends Seeder
     {
         $employees = [
             [
+                'id' => 1,
                 'role_id' => 1,
                 'name' => 'Nguyễn Văn A',
                 'email' => 'nguyenvana@example.com',
@@ -25,6 +26,7 @@ class EmployeeSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'id' => 2,
                 'role_id' => 2,
                 'name' => 'Trần Thị B',
                 'email' => 'tranthib@example.com',
@@ -35,6 +37,7 @@ class EmployeeSeeder extends Seeder
                 'is_active' => true,
             ],
             [
+                'id' => 3,
                 'role_id' => 3,
                 'name' => 'Phạm Văn C',
                 'email' => 'phamvanc@example.com',

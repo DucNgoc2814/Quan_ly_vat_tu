@@ -15,6 +15,7 @@ class OrderSeeder extends Seeder
     {
         $orders = [
             [
+                'id' => 1,
                 'payment_id' => 1,
                 'customer_id' => 1,
                 'status' => 1,
@@ -30,6 +31,7 @@ class OrderSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id'=> 2,
                 'payment_id' => 2,
                 'customer_id' => 2,
                 'status' => 2,
@@ -45,6 +47,7 @@ class OrderSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'id'=> 3,
                 'payment_id' => 1,
                 'customer_id' => 3,
                 'status' => 3,
