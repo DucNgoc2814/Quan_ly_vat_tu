@@ -7,16 +7,15 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Datatables</h4>
+                <h4 class="mb-sm-0">Danh sách đơn hàng bán ra </h4>
 
-                <div class="col-sm-auto">
+                {{-- <div class="col-sm-auto">
                     <div>
                         <a href="" class="btn btn-success"
                             id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm bài
                             viết</a>
                     </div>
-                </div>
-
+                </div> --}}
             </div>
         </div>
     </div>
@@ -28,6 +27,7 @@
                         <div class="col-sm ">
                             <input type="date" class="form-control w-25" id="exampleInputdate">
                         </div>
+
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
