@@ -13,6 +13,8 @@ class Payment extends Model
         'name'
     ];
 
+    public $timestamps = false;
+
     public function orders()
     {
         return $this->hasMany(Order::class, 'payment_id');

@@ -13,6 +13,8 @@ class Role_employee extends Model
         'wage',
     ];
 
+    public $timestamps = false;
+
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'permission_role_employees', 'role_employee_id', 'permisson_id');

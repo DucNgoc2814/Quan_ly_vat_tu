@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('slug', 255);
             $table->string('customer_name', 255);
             $table->string('email', 255);
-            $table->integer('number_phone');
+            $table->string('number_phone', 11);
             $table->string('address', 255);
             $table->integer('total_amount');
             $table->integer('paid_amount');

@@ -17,18 +17,22 @@ class PaymentHistorySeeder extends Seeder
             [
                 'debt_id' => 1,
                 'amount' => 50000,
+                'created_at' => now(),
             ],
             [
                 'debt_id' => 1,
                 'amount' => 20000,
+                'created_at' => now(),
             ],
             [
                 'debt_id' => 2,
                 'amount' => 75000,
+                'created_at' => now(),
             ],
             [
                 'debt_id' => 3,
                 'amount' => 100000,
+                'created_at' => now(),
             ],
         ];
 

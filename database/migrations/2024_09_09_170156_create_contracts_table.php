@@ -17,8 +17,9 @@ return new class extends Migration
             $table->foreignId('contract_type_id')->constrained('contract_types');
             $table->foreignId('oder_id')->constrained('orders');
             $table->string('name', 255);
-            $table->string('file', 255)->nullable();
+            $table->string('file', 255);
             $table->text('note')->nullable();
+            $table->timestamps();
         });
     }
 

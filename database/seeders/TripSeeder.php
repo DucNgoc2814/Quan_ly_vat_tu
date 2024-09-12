@@ -18,6 +18,7 @@ class TripSeeder extends Seeder
                 'id'=> 1,
                 'cargo_car_id' => 1,
                 'employee_id' => 1,
+                'status' => 1,
             ],
         ]);
     }

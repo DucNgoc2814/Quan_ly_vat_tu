@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('payment_id')->constrained('payments');
             $table->foreignId('customer_id')->constrained('customers');
-            $table->foreignId('status')->constrained('order_status');
+            $table->foreignId('status_id')->constrained('order_status');
             $table->string('slug', 255);
             $table->string('customer_name', 255);
             $table->string('email', 255);

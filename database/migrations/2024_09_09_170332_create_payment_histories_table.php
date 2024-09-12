@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('debt_id')->constrained('debts');
             $table->integer('amount');
+            $table->date('created_at');
         });
     }
 
