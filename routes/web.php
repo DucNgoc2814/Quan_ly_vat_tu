@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin/dashboard');
 });
-Route::get('/products', function () {
-    return view('admin/compoents/products/index');
+Route::get('/orders', function () {
+    return view('admin/compoents/orders/index');
 });
