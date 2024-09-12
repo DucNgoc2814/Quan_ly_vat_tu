@@ -10,7 +10,17 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
+        'role_id',
         'name',
-        'wage',
+        'email',
+        'image',
+        'cccd',
+        'date',
+        'description',
+        'is_active',
+    ];
+
+    protected $cast = [
+        'is_active' => 'boolean',
     ];
 }

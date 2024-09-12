@@ -16,4 +16,6 @@ class Import_order_detail extends Model
         'quantity',
         'price',
     ];
+
+    public $timestamps = false;
 }

@@ -14,6 +14,8 @@ class Gallery extends Model
         'url',
     ];
 
+    public $timestamps = false;
+
     public function products()
     {
         return $this->hasMany(Product::class, 'gallery_id');

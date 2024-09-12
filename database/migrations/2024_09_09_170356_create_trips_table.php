@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('cargo_car_id')->constrained('cargo_cars');
             $table->foreignId('employee_id')->constrained('employees');
+            $table->integer('status');
+            $table->timestamps();
         });
     }
 

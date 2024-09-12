@@ -9,11 +9,17 @@ class Cargo_car extends Model
 {
     use HasFactory;
 
-protected $fillable = [
-    'cargo_car_type_id',
-    'license_plate',
-    'is_active',
-];
+    protected $fillable = [
+        'cargo_car_type_id',
+        'license_plate',
+        'is_active',
+    ];
+
+    protected $cast = [
+        'is_active' => 'boolean',
+    ];
+    
+    public $timestamps = false;
 
     public function cargoCarType()
     {

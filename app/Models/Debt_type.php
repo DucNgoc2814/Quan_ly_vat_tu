@@ -13,6 +13,8 @@ class Debt_type extends Model
         'description'
     ];
 
+    public $timestamps = false;
+
     public function debts()
     {
         return $this->hasMany(Debt::class, 'debt_type_id');

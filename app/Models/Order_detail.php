@@ -17,6 +17,8 @@ class Order_detail extends Model
         'price',
     ];
 
+    public $timestamps = false;
+
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('email', 255);
             $table->integer('number_phone');
             $table->text('content');
-            $table->dateTime('created_at');
+            $table->date('created_at');
         });
     }
 

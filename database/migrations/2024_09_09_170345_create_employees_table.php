@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('role_id')->constrained('role_employees');
             $table->string('name', 255);
-            $table->string('email', 255);
+            $table->string('email', 255)->unique();
             $table->string('image', 255)->nullable();
-            $table->integer('cccd');
+            $table->integer('cccd')->unique();
             $table->integer('date');
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);

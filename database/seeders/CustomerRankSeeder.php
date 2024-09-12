@@ -16,7 +16,7 @@ class CustomerRankSeeder extends Seeder
         DB::table(table: 'customer_ranks')->insert([
             [
                 'id' => 1,
-                'name' => 'DISOCUNT100',
+                'name' => 'DISOCUNT10',
                 'discount' => 10,
             ],
             [

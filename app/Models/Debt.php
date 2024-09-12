@@ -13,4 +13,6 @@ class Debt extends Model
         'debt_type_id',
         'order_id'
     ];
+
+    public $timestamps = false;
 }

@@ -19,6 +19,10 @@ class Variation extends Model
         'is_active',
     ];
 
+    protected $cast = [
+        'is_active' => 'boolean',
+    ];
+    
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');

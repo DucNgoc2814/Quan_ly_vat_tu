@@ -13,6 +13,8 @@ class Attribute extends Model
         'name'
     ];
 
+    public $timestamps = false;
+
     public function attributeValues()
     {
         return $this->hasMany(Attribute_Value::class, 'attribute_id');
