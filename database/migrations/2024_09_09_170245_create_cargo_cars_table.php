@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cargo_cars', function (Blueprint $table) {
             $table->id();
             $table->foreignId('cargo_car_type_id')->constrained('cargo_car_types');
-            $table->string('license_plate', 255);
+            $table->string('license_plate', 255)->unique();
             $table->boolean('is_active')->default(true);
         });
     }
