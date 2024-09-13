@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,3 +19,5 @@ Route::get('/', function () {
 Route::get('/products', function () {
     return view('admin/compoents/products/index');
 });
+
+ Route::resource('sliders', SliderController::class);
