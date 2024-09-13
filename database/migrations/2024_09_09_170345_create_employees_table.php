@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('email', 255)->unique();
             $table->string('image', 255)->nullable();
             $table->integer('cccd')->unique();
-            $table->integer('date');
+            $table->string('number_phone', 11)->unique();
+            $table->date('date');
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
