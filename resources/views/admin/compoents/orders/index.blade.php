@@ -62,8 +62,8 @@
                                     <td>{{ $order->slug }}</td>
                                     <td>{{ $order->created_at }}</td>
                                     <td>{{ $order->customers->name }}</td>
-                                    <td>{{ $order->customers->name }}</td>
-                                    <td>{{ $order->slug }}</td>
+                                    <td>{{ $order->customers_name }}</td>
+                                    <td>{{ $order->number_phone }}</td>
                                     <td>{{ $order->customers->name }}</td>
                                     <td><span class="badge bg-info-subtle text-info">{{ $order->slug }}</span></td>
                                     <td>{{ $order->slug }}</td>
