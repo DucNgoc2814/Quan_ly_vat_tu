@@ -122,7 +122,7 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-4">
-                            <p class="text-muted">Thêm ảnh bài viết</p>
+                            <p class="text-muted">Thêm khách hàng</p>
                             <div class="text-center">
                                 <div class="position-relative d-inline-block">
                                     <div class="position-absolute top-100 start-100 translate-middle">
