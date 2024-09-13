@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_rank_id')->constrained('customer_ranks');
             $table->string('name', 255);
-            $table->string('email', 255);
+            $table->string('email', 255)->unique();
             $table->string('password', 255);
+            $table->string('number_phone', 11)->unique();
             $table->string('image', 255)->nullable();
             $table->date('date');
             $table->boolean('is_active')->default(true);
