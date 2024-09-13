@@ -11,8 +11,14 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    const PATH_VIEW = 'admin.compoents.orders.';
     public function index()
     {
+
+        $data = Order::with(['payment','customer','status','orderDetails','contract','debts'])->latest()->paginate(10);
+
+        return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
     }
 
     /**
