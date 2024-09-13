@@ -17,15 +17,15 @@ class SupplierSeeder extends Seeder
             [
                 'id' => 1,
                 'name' => 'VINFAST',
-                'email'=> 'vinfast@gmail.com',
+                'email'=> 'vinfast123@gmail.com',
                 'number_phone'=> '0999999999',
                 'address'=> 'VIET NAM',
             ],
             [
                 'id' => 2,
                 'name' => 'a',
-                'email'=> 'vinfast@gmail.com',
-                'number_phone'=> '0999999999',
+                'email'=> 'vinfast3@gmail.com',
+                'number_phone'=> '0919999999',
                 'address'=> 'VIET NAM',
             ],
         ]);
