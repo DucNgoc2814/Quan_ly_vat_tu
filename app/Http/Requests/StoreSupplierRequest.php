@@ -11,7 +11,7 @@ class StoreSupplierRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,25 @@ class StoreSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:suppliers,email',
+            'number_phone' => 'required|numeric|unique:suppliers,number_phone',
+            'address' => 'required',
+
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Không được bỏ trống !',
+            'email.required' => 'Không được bỏ trống !',
+            'email.email' => 'Không đúng định dạng !',
+            'email.unique' => 'Không được trung email nhà cung cấp !',
+            'number_phone.required' => 'Không được bỏ trống !',
+            'number_phone.unique' => 'Không được trùng số điện thoại !',
+            'number_phone.numeric' => 'Số điện thoại không đúng định dạng bắt buộc phải là số !',
+            'address.required' => 'Không được bỏ trống !',
         ];
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SupplierController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin/dashboard');
 });
-Route::get('/products', function () {
+Route::get('/products', action: function () {
     return view('admin/components/product/create');
 });
+
+Route::resource('supplier',SupplierController::class);

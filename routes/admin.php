@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\OrderController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SupplierController;
 
 
 Route::prefix('admin')
     ->as('admin.')
-    ->group(function () {
+    ->group(function (): void {
         Route::prefix('compoents')
             ->as('compoents.')
             ->group(function (): void {
