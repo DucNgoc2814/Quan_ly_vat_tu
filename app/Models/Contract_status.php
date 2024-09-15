@@ -13,6 +13,8 @@ class Contract_status extends Model
         'description'
     ];
 
+    public $timestamps = false;
+
     public function contracts()
     {
         return $this->hasMany(Contract::class, 'contract_status_id');

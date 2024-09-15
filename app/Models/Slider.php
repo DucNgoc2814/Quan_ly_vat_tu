@@ -16,6 +16,7 @@ class Slider extends Model
         'date_end',
         'status',
     ];
-    public $timestamps = false;
 
+
+    public $timestamps = false;
 }

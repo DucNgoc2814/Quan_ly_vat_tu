@@ -12,5 +12,8 @@ class Payment_history extends Model
     protected $fillable = [
         'debt_id',
         'amount',
+        'created_at'
     ];
+
+    public $timestamps = false;
 }

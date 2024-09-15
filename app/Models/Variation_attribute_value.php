@@ -13,4 +13,6 @@ class Variation_attribute_value extends Model
         'variation_id',
         'attribute_value_id',
     ];
+
+    public $timestamps = false;
 }

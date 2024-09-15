@@ -12,6 +12,7 @@ class Trip extends Model
     protected $fillable = [
         'cargo_car_id',
         'employee_id',
+        'status'
     ];
 
     public function cargoCar()

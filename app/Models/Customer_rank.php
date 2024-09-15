@@ -13,6 +13,9 @@ class Customer_rank extends Model
         'discount'
     ];
 
+
+    public $timestamps = false;
+
     public function customers()
     {
         return $this->hasMany(Customer::class, 'customer_rank_id');

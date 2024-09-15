@@ -15,6 +15,8 @@ class Attribute_value extends Model
         'value',
     ];
 
+    public $timestamps = false;
+
     public function attribute()
     {
         return $this->belongsTo(Attribute::class, 'attribute_id');

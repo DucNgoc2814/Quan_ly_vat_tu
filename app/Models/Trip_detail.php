@@ -13,4 +13,6 @@ class Trip_detail extends Model
         'trip_id',
         'total_amount',
     ];
+
+    public $timestamps = false;
 }

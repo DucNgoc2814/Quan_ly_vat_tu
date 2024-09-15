@@ -24,12 +24,7 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-                        <div class="col-sm-auto">
-                            <div>
-                                <a href="{{ route('sliders.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm Sliders </a>
-                            </div>
-                        </div>
+                        
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
@@ -42,13 +37,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{route('sliders.store')}}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('sliders.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
                                 <label class="form-label">Hình ảnh</label>
-                                <input type="file" name="url_" id="url_" class="from-control @error('url_') is-invalid @enderror" onchange="showImage(event)" >
-                                <img src="" alt="" id="img_slider" style="width: 150px; display: none;" class="mt-3"> 
+                                <input type="file" name="url_" id="url_"
+                                    class="from-control @error('url_') is-invalid @enderror" onchange="showImage(event)">
+                                <img src="" alt="" id="img_slider" style="width: 150px; display: none;"
+                                    class="mt-3">
 
                                 @error('url_')
                                     <p class="text-danger">{{ $message }}</p>
@@ -70,21 +67,21 @@
                                 @enderror
                             </div>
                             <div class="col-lg-8">
-                              <label class="form-label">Ngày kết thúc</label>
-                              <input type="date" name="date_end" placeholder="Nhập ngày kết thúc" class="form-control">
-                              @error('date_end')
-                                  <p class="text-danger">{{ $message }}</p>
-                              @enderror
-                          </div>
-                            
+                                <label class="form-label">Ngày kết thúc</label>
+                                <input type="date" name="date_end" placeholder="Nhập ngày kết thúc" class="form-control">
+                                @error('date_end')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+
                         </div>
                         <div class="mt-3">
-                         <button class = "btn btn-success text ">Submit</button>
-                       </div>
+                            <button class = "btn btn-success text ">Submit</button>
+                        </div>
                     </form>
                 </div>
             </div>
-            
+
         </div><!--end col-->
     </div>
 @endsection

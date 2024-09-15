@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Hamcrest\Type\IsBoolean;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,9 +14,14 @@ class Customer extends Model
         'name',
         'email',
         'password',
+        'number_phone',
         'image',
         'date',
         'is_active',
+    ];
+
+    protected $cast = [
+        'is_active' => 'boolean',
     ];
 
     public function rank()

@@ -12,4 +12,6 @@ class Publisher_product extends Model
         'supplier_id',
         'product_id',
     ];
+
+    public $timestamps = false;
 }

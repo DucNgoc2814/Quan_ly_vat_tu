@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained('customers');
             $table->string('address', 255);
             $table->string('description', 255);
+            $table->timestamps();
         });
     }
 
