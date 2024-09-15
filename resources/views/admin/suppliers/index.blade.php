@@ -1,5 +1,10 @@
 @extends('admin.layouts.master')
 
+@section('title')
+    Danh sách nhà cung cấp
+@endsection
+
+
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -12,7 +17,7 @@
                 <div id="success-alert" class="alert alert-success">{{ session('success') }}</div>
             @endif
         </div>
-        
+
     </div>
     <div class="row">
         <div class="col-lg-12">
@@ -24,7 +29,8 @@
                         <div class="col-sm-auto">
                             <div>
                                 <a href="{{ route('them-moi-nha-cung-cap') }}" class="btn btn-success"
-                                    id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới nhà cung cấp </a>
+                                    id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới nhà cung cấp
+                                </a>
                             </div>
                         </div>
                         <div class="col-sm">
@@ -83,7 +89,7 @@
                                                         <a class="dropdown-item remove-item-btn"
                                                             data-form-id="delete-form-{{ $item->id }}">
                                                             <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                            
+
                                                             Ẩn nhà cung cấp
                                                         </a>
                                                     </li>
@@ -106,17 +112,37 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="d-flex justify-content-end mt-2">
+                    <div class="d-flex justify-content-end mt-2">
                         <div class="pagination-wrap hstack gap-2">
-                            <a class="page-item pagination-prev disabled" href="#">
-                                Previous
-                            </a>
-                            <ul class="pagination listjs-pagination mb-0"></ul>
-                            <a class="page-item pagination-next" href="#">
-                                Next
-                            </a>
+
+                            @if ($listsupplier->onFirstPage())
+                                <a class="page-item pagination-prev disabled" href="#">
+                                    Previous
+                                </a>
+                            @else
+                                <a class="page-item pagination-prev" href="{{ $listsupplier->previousPageUrl() }}">
+                                    Previous
+                                </a>
+                            @endif
+                            <ul class="pagination listjs-pagination mb-0">
+                                @foreach ($listsupplier->getUrlRange(1, $listsupplier->lastPage()) as $page => $url)
+                                    <li class="page-item{{ $listsupplier->currentPage() == $page ? 'active' : '' }}">
+                                        <a href="{{ $url }}" class="page-link">{{ $page }} </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            @if ($listsupplier->hasMorePages())
+                                <a href="{{ $listsupplier->nextPageUrl() }}">
+                                    Next
+                                </a>
+                            @else
+                                <a class="page-item pagination-next disabled" href="#">
+                                    Next
+                                </a>
+                            @endif
                         </div>
-                    </div> --}}
+                    </div>
+
                 </div>
                 <!--end card-body-->
             </div>

@@ -22,7 +22,7 @@ class SupplierController extends Controller
                     ->orwhere('email', 'like', "%{$search}%")
                     ->orwhere('number_phone', 'like', "%{$search}%")
                     ->orwhere('address', 'like', "%{$search}%");
-            })->get();
+            })->paginate(5);
         // $listsupplier = Supplier::query()->get();
         return view('admin.suppliers.index', compact('listsupplier'));
     }
@@ -90,7 +90,7 @@ class SupplierController extends Controller
     }
 
     public function listTrashSupplier(Request $request){
-        $listTrashSupplier = Supplier::onlyTrashed()->get();
+        $listTrashSupplier = Supplier::onlyTrashed()->paginate(5);
         return view('admin.suppliers.trashsuppier', compact('listTrashSupplier'));
     }
     public function restoreSupplier(String $id){

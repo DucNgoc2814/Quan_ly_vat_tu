@@ -1,5 +1,8 @@
 @extends('admin.layouts.master')
 
+@section('title')
+    Sửa thông tin nhà cung cấp
+@endsection
 
 
 @section('content')

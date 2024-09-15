@@ -1,4 +1,8 @@
 @extends('admin.layouts.master')
+@section('title')
+Danh sách đã ẩn
+@endsection
+
 
 @section('content')
     <div class="row">
@@ -90,17 +94,36 @@
                             </div>
                         </div>
                     </div>
-                    {{-- <div class="d-flex justify-content-end mt-2">
+                    <div class="d-flex justify-content-end mt-2">
                         <div class="pagination-wrap hstack gap-2">
-                            <a class="page-item pagination-prev disabled" href="#">
-                                Previous
-                            </a>
-                            <ul class="pagination listjs-pagination mb-0"></ul>
-                            <a class="page-item pagination-next" href="#">
-                                Next
-                            </a>
+
+                            @if ($listTrashSupplier->onFirstPage())
+                                <a class="page-item pagination-prev disabled" href="#">
+                                    Previous
+                                </a>
+                            @else
+                                <a class="page-item pagination-prev" href="{{ $listTrashSupplier->previousPageUrl() }}">
+                                    Previous
+                                </a>
+                            @endif
+                            <ul class="pagination listjs-pagination mb-0">
+                                @foreach ($listTrashSupplier->getUrlRange(1, $listTrashSupplier->lastPage()) as $page => $url)
+                                    <li class="page-item{{ $listTrashSupplier->currentPage() == $page ? 'active' : '' }}">
+                                        <a href="{{ $url }}" class="page-link">{{ $page }} </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                            @if ($listTrashSupplier->hasMorePages())
+                                <a href="{{ $listTrashSupplier->nextPageUrl() }}">
+                                    Next
+                                </a>
+                            @else
+                                <a class="page-item pagination-next disabled" href="#">
+                                    Next
+                                </a>
+                            @endif
                         </div>
-                    </div> --}}
+                    </div>
                 </div>
                 <!--end card-body-->
             </div>
