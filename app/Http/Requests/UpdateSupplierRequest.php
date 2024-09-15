@@ -23,8 +23,8 @@ class UpdateSupplierRequest extends FormRequest
     {
         return [
             'name' => 'required|max:255',
-            'email' => 'required|email|unique:suppliers,email,' . $this->route('supplier'),
-            'number_phone' => 'required|numeric|unique:suppliers,number_phone,'. $this->route('supplier'),
+            'email' => 'required|email|unique:suppliers,email,' . $this->route('id'),
+            'number_phone' => 'required|numeric|unique:suppliers,number_phone,' . $this->route('id'),
             'address' => 'required',
 
         ];

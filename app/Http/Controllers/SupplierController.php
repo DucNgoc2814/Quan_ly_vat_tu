@@ -13,9 +13,17 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $listsupplier = Supplier::query()->get();
+        $search = $request->input("search");
+        $listsupplier = Supplier::select('suppliers.*')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                    ->orwhere('email', 'like', "%{$search}%")
+                    ->orwhere('number_phone', 'like', "%{$search}%")
+                    ->orwhere('address', 'like', "%{$search}%");
+            })->get();
+        // $listsupplier = Supplier::query()->get();
         return view('admin.suppliers.index', compact('listsupplier'));
     }
 
@@ -35,7 +43,7 @@ class SupplierController extends Controller
         if ($request->isMethod('post')) {
             $params = $request->except('_token');
             Supplier::create($params);
-            return redirect('supplier')->with('success', 'Bạn đã thêm mới thành công nhà cung cấp');
+            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thêm mới thành công nhà cung cấp');
         }
     }
 
@@ -59,13 +67,13 @@ class SupplierController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplierRequest $request,String $id)
+    public function update(UpdateSupplierRequest $request, String $id)
     {
         if ($request->isMethod('PUT')) {
             $params = $request->except('_token', '_method');
             $supplier = Supplier::findOrFail($id);
             $supplier->update($params);
-            return redirect('supplier')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
+            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
         }
     }
 
@@ -74,11 +82,20 @@ class SupplierController extends Controller
      */
     public function destroy(Request $request, String $id)
     {
-        if($request->isMethod('delete')) {
+        if ($request->isMethod('delete')) {
             $supplier = Supplier::findOrFail($id);
             $supplier->delete();
-            return redirect('supplier')->with('success','Bạn đã ẩn nhà cung cấp thành công !');
-
+            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã ẩn nhà cung cấp thành công !');
         }
+    }
+
+    public function listTrashSupplier(Request $request){
+        $listTrashSupplier = Supplier::onlyTrashed()->get();
+        return view('admin.suppliers.trashsuppier', compact('listTrashSupplier'));
+    }
+    public function restoreSupplier(String $id){
+        $supplier = Supplier::onlyTrashed()->findOrFail($id);
+        $supplier->restore();
+        return redirect('quan-ly-tai-khoan/danh-sach-da-an-nha-cup-cap')->with('success','Bạn đã khôi phục thành công');
     }
 }

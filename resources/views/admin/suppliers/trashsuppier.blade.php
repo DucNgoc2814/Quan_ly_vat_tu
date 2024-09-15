@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách nhà cung cấp</h4>
+                <h4 class="mb-sm-0">Danh sách đã ẩn nhà cung cấp</h4>
             </div>
         </div>
         <div>
@@ -12,7 +12,6 @@
                 <div id="success-alert" class="alert alert-success">{{ session('success') }}</div>
             @endif
         </div>
-        
     </div>
     <div class="row">
         <div class="col-lg-12">
@@ -23,19 +22,19 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('them-moi-nha-cung-cap') }}" class="btn btn-success"
-                                    id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới nhà cung cấp </a>
+                                {{-- <a href="{{ route('them-moi-nha-cung-cap') }}" class="btn btn-success"
+                                    id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới nhà cung cấp </a> --}}
                             </div>
                         </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="{{ route('danh-sach-nha-cung-cap') }}">
+                                {{-- <form class="search-box ms-2" method="GET" action="{{ route('danh-sach-nha-cung-cap') }}">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
                                         value="{{ old('search') }}" placeholder="Tìm dữ liệu...">
                                     <i class="ri-search-line search-icon"></i>
-                                </form>
+                                </form> --}}
                                 <a href="{{ route('danh-sach-nha-cung-cap') }}"><button
-                                        class="btn btn-secondary">All</button></a>
+                                        class="btn btn-secondary">Quay lại danh sách nhà cung cấp</button></a>
                             </div>
                         </div>
                     </div>
@@ -55,7 +54,7 @@
                                 </tr>
                             </thead>
                             <tbody class="list form-check-all text-muted">
-                                @foreach ($listsupplier as $item)
+                                @foreach ($listTrashSupplier as $item)
                                     <tr>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
@@ -68,26 +67,11 @@
                                                     <i class="ri-more-fill align-middle"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a href="{{ route('sua-nha-cung-cap', ['id' => $item->id]) }}"
+                                                    <li><a onclick="return confirm('Bạn có muốn khôi phục lại nhà cung cấp không ?')" href="{{ route('khoi-phuc', ['id' => $item->id]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                            Sửa thông tin</a></li>
+                                                            Khôi phục nhà cung cấp</a></li>
                                                     <li>
-                                                        <form id="delete-form-{{ $item->id }}"
-                                                            action="{{ route('an-nha-cung-cap', ['id' => $item->id]) }}"
-                                                            method="post" style="display: none">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-                                                    <li>
-                                                        <a class="dropdown-item remove-item-btn"
-                                                            data-form-id="delete-form-{{ $item->id }}">
-                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                            
-                                                            Ẩn nhà cung cấp
-                                                        </a>
-                                                    </li>
-
                                                 </ul>
                                             </div>
                                         </td>
@@ -126,25 +110,6 @@
     </div>
 @endsection
 
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.remove-item-btn').forEach(function(element) {
-            element.addEventListener('click', function(event) {
-                event.preventDefault();
-                var formId = this.getAttribute('data-form-id');
-                var form = document.getElementById(formId);
-
-                if (confirm('Bạn có muốn ẩn nó không !')) {
-                    form.submit();
-                }
-            });
-
-        });
-    });
-</script>
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         var successAlert = document.getElementById('success-alert');
@@ -158,3 +123,4 @@
         }
     });
 </script>
+

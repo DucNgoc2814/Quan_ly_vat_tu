@@ -118,8 +118,12 @@
                     <div class="collapse menu-dropdown" id="sidebarSuppliers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{url('supplier')}}" target="_blank" class="nav-link"
+                                <a href="{{route('danh-sach-nha-cung-cap')}}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('danh-sach-da-an-nha-cup-cap')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách đã ẩn</a>
                             </li>
                         </ul>
                     </div>

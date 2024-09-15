@@ -1,8 +1,6 @@
 @extends('admin.layouts.master')
 
-@section('title')
-    Thêm bài viết
-@endsection
+
 
 @section('content')
     <!-- start page title -->
@@ -22,7 +20,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('supplier.update', $supplier->id) }}"
+    <form method="POST" action="{{ route('cap-nhat', $supplier->id) }}"
         onsubmit="return confirm('Bạn có muốn cập nhật thông tin không !')">
         @csrf
         @method('PUT')

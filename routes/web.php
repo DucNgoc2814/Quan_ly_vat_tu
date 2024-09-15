@@ -21,4 +21,5 @@ Route::get('/products', action: function () {
     return view('admin/components/product/create');
 });
 
-Route::resource('supplier',SupplierController::class);
+
+
