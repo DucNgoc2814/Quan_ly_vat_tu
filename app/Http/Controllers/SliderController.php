@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Slider;
 use App\Http\Requests\StoreSliderRequest;
 use App\Http\Requests\UpdateSliderRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
 {
@@ -13,7 +15,9 @@ class SliderController extends Controller
      */
     public function index()
     {
-        //
+        $title = " Danh sách Slider";
+        $sliders = Slider::query()->get();
+        return view('admin.compoents.sliders.index', compact('sliders', 'title'));
     }
 
     /**
@@ -21,7 +25,8 @@ class SliderController extends Controller
      */
     public function create()
     {
-        //
+        $title = "Thêm Slider";
+        return view('admin.compoents.sliders.create');
     }
 
     /**
@@ -29,7 +34,32 @@ class SliderController extends Controller
      */
     public function store(StoreSliderRequest $request)
     {
-        //
+        if ($request->isMethod('POST')) {
+            // dd($request);
+            $params['status'] = $request->has('status') ? 1 : 0;
+            if ($request->hasFile('url_')) {
+                $filpath = $request->file('url_')->store('uploads/sliders', 'public');
+                $array = [
+                    "url_" => $filpath,
+                    "description" => $request->description,
+                    "date_start" => $request->date_start,
+                    "date_end" => $request->date_end,
+                    "status" => 1
+
+                ];
+            } else {
+                $array = [
+                    "url_" => '',
+                    "description" => $request->description,
+                    "date_start" => $request->date_start,
+                    "date_end" => $request->date_end,
+                    "status" => 1
+
+                ];
+            }
+            Slider::create($array);
+            return redirect()->route('sliders.index')->with('msg', 'Thêm slider  thành công');
+        }
     }
 
     /**
@@ -43,24 +73,66 @@ class SliderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Slider $slider)
+    public function edit(string $id)
     {
-        //
+        $title = "Cập nhật slider";
+        $sliders = Slider::findOrFail($id);
+        return view('admin.compoents.sliders.edit', compact('sliders'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSliderRequest $request, Slider $slider)
+    public function update(Request $request, string $id)
     {
-        //
+        if ($request->isMethod('PUT')) {
+            // dd($request);
+            $params = $request->post();
+            $sliders = Slider::findOrFail($id);
+            if ($request->hasFile('url_')) {
+                if ($sliders->url && Storage::disk('public')->exists('uploads/sliders')) {
+                    Storage::disk('public')->delete($sliders->url_);
+                }
+                $filpath = $request->file('url_')->store('uploads/sliders', 'public');
+                $array = [
+                    "url_" => $filpath,
+                    "description" => $request->description,
+                    "date_start" => $request->date_start,
+                    "date_end" => $request->date_end,
+                    "status" => $params['status']
+
+                ];
+            } else {
+                $array = [
+                    "url_" => $sliders->url_,
+                    "description" => $request->description,
+                    "date_start" => $request->date_start,
+                    "date_end" => $request->date_end,
+                    "status" => $params['status'],
+
+                ];
+            }
+            $sliders->update($array);
+            return redirect()->route('sliders.index')->with('msg', 'Thêm slider  thành công');
+        }
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Slider $slider)
+    public function destroy(string $id)
     {
-        //
+        $slider = Slider::find($id);
+        if ($slider) {
+            $slider->delete();
+            if ($slider->url_ && Storage::disk('public')->exists('uploads/sliders')) {
+                Storage::disk('public')->delete($slider->url_);
+            }
+            return back()->with('delete', 'Xóa slider thành công!');
+
+        } else {
+            return back()->with('error', 'slider không tồn tại!');
+        }
     }
 }
