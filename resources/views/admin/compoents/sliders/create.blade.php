@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-lg-8">
                                 <label class="form-label">Mô tả</label>
-                                <input type="text" name="description" placeholder="Nhập mô tả" class="form-control">
+                                <input type="text" name="description" placeholder="Nhập mô tả" class="form-control" >
                                 @error('description')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
@@ -72,6 +72,17 @@
                                 @error('date_end')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
+                            </div>
+                            <div class="col-lg-8">
+                                <label for="status" class="form-label">Trạng thái</label>
+                                <div class="mb-3 ms-1">
+                                    <input type="radio" name="status" value="1" class="me-1" id="firstRadio" checked>
+                                    <label for="firstRadio" class="form-check-label text-success">Hiển Thị</label>
+
+                                    <input class="me-1" type="radio" name="status" value="0" id="secondRadio">
+                                    <label for="secondRadio" class="form-check-label text-danger">Ẩn</label>
+                                </div>
+                                
                             </div>
 
                         </div>

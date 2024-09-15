@@ -7,11 +7,11 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Datatables</h4>
+                <h4 class="mb-sm-0">Danh sách sliders</h4>
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{route('sliders.create')}}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm Sliders </a>
                     </div>
                 </div>
@@ -24,9 +24,9 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-                         <div class="col-sm ">
-                              <input type="date" class="form-control w-25" id="exampleInputdate">
-                          </div>
+                        <div class="col-sm ">
+                            <input type="date" class="form-control w-25" id="exampleInputdate">
+                        </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
@@ -47,7 +47,7 @@
                                 <th data-ordering="false">Mô tả</th>
                                 <th data-ordering="false">Ngày bắt đầu</th>
                                 <th data-ordering="false">Ngày kết thúc</th>
-                                <th data-ordering="false">Hành động</th>
+                                <th data-ordering="false">Hiển thị</th>
 
                                 <th>Action</th>
                             </tr>
@@ -55,11 +55,21 @@
                         <tbody>
                             @foreach ($sliders as $item)
                                 <tr>
-                                    <td><img src="{{asset('storage/'.$item->url_)}}" width="100px" alt=""></td>
+                                    <td><img src="{{ asset('storage/' . $item->url_) }}" width="100px" alt=""></td>
                                     <td>{{ $item->description }}</td>
                                     <td>{{ $item->date_start }}</td>
                                     <td>{{ $item->date_end }}</td>
-                                    <td>{{ $item->status }}</td>
+                                    <td>
+                                        <div class="form-check form-switch form-switch">
+                                            @if ($item->status == 1)
+                                                <input class="form-check-input" type="checkbox" name="is_active"
+                                                    value="1" id="is_active" checked>
+                                            @else
+                                                <input class="form-check-input" type="checkbox" name="is_active"
+                                                    value="0" id="is_active">
+                                            @endif
+                                        </div>
+
 
                                     <td>
                                         <div class="dropdown d-inline-block">
@@ -71,14 +81,23 @@
                                                 <li><a href="#!" class="dropdown-item"><i
                                                             class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
                                                 </li>
-                                                <li><a class="dropdown-item edit-item-btn"><i
+                                                <li><a href="{{ route('edit', $item->id) }}"
+                                                        class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
                                                 <li>
-                                                    <a class="dropdown-item remove-item-btn">
-                                                        <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                        Delete
-                                                    </a>
+
+                                                    <form action="{{ route('destroy', $item->id) }}"
+                                                        method="post">
+                                                        @method('DELETE')
+                                                        @csrf
+
+                                                        <button class="dropdown-item remove-list" type="submit"
+                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa slider này không?')">
+                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                            Xóa
+                                                        </button>
+                                                    </form>
                                                 </li>
                                             </ul>
                                         </div>
