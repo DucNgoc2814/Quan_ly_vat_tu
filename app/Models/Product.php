@@ -23,7 +23,7 @@ class Product extends Model
         'is_active' => 'boolean',
     ];
 
-    
+
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
@@ -34,9 +34,9 @@ class Product extends Model
         return $this->belongsTo(Unit::class, 'unit_id');
     }
 
-    public function gallery()
+    public function galleries()
     {
-        return $this->belongsTo(Gallery::class, 'gallery_id');
+        return $this->hasMany(Gallery::class, 'id');
     }
 
     public function brand()

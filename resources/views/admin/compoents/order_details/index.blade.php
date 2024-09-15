@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách đơn hàng bán ra </h4>
+                <h4 class="mb-sm-0">Chi tiết đơn hàng: </h4>
 
                 {{-- <div class="col-sm-auto">
                     <div>
@@ -44,51 +44,27 @@
                         style="width:100%">
                         <thead>
                             <tr>
-                                <th data-ordering="false">Mã đơn hàng </th>
-                                <th data-ordering="false">Ngày đặt hàng </th>
-                                <th data-ordering="false">Tên người đặt </th>
-                                <th data-ordering="false">Tên tên người nhận </th>
-                                <th data-ordering="false">Số điện thoại người nhận</th>
-                                <th data-ordering="false">Email</th>
-                                <th data-ordering="false">Địa chỉ giao hàng</th>
-                                <th>Phương thức thanh toán</th>
-                                <th>Giá trị đơn hàng</th>
-                                <th>Số tiền đã thanh toán</th>
-                                <th>Số tiền chưa thanh toán</th>
-                                <th>Trạng thái giao hàng</th>
-                                <th>Action</th>
+                                <th data-ordering="false">Số thứ tự</th>
+                                <th data-ordering="false">Mã đơn hàng</th>
+                                <th data-ordering="false">Tên sản phẩm </th>
+                                <th data-ordering="false">Ảnh sản phẩm </th>
+                                <th data-ordering="false">Giá sản phẩm</th>
+                                <th data-ordering="false">Đơn vị</th>
+                                <th data-ordering="false">Số lượng </th>
+                                <th data-ordering="false">Biến thể</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $order)
+                            @foreach ($data as $order_detail)
                                 <tr>
-                                    <td>{{ $order->slug }}</td>
-                                    <td>{{ $order->created_at }}</td>
-                                    <td>{{ $order->customer->name }}</td>
-                                    <td>{{ $order->customer_name }}</td>
-                                    <td>{{ $order->number_phone }}</td>
-                                    <td>{{ $order->email }}</td>
-                                    <td>{{ $order->address }}</td>
-                                    <td><span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span></td>
-                                    <td>{{ number_format($order->total_amount) }}</td>
-                                    <td>{{ number_format($order->paid_amount) }}</td>
-                                    <td>{{ number_format($order->total_amount - $order->paid_amount) }}</td>
-                                    <td><span class="badge bg-danger">{{ $order->orderStatus->description }}</span></td>
-                                    <td>
-                                        <div class="dropdown d-inline-block">
-                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-fill align-middle"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="{{ route('quan-ly-don-hang.chi-tiet-don-hang') }}"
-                                                        class="dropdown-item"><i
-                                                            class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi Tiết
-                                                        Đơn Hàng</a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
+                                    <td>{{ $order_detail->id }}</td>
+                                    <td>{{ $order_detail->order->slug }}</td>
+                                    <td>{{ $order_detail->product->name }}</td>
+                                    <td>{{ $order_detail->product->galleries->url }}</td>
+                                    <td>{{ $order_detail->price }}</td>
+                                    <td>{{ $order_detail->product->unit->name }}</td>
+                                    <td>{{ $order_detail->quantity }}</td>
+                                    <td>{{ $order_detail->variation->name }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

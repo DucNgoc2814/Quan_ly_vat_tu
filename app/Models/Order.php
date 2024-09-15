@@ -20,7 +20,6 @@ class Order extends Model
         'address',
         'total_amount',
         'paid_amount',
-        'payable_amount',
     ];
 
     public function payment()
@@ -33,19 +32,19 @@ class Order extends Model
         return $this->belongsTo(Customer::class, 'customer_id');
     }
 
-    public function status()
+    public function orderStatus()
     {
-        return $this->belongsTo(Order_Status::class, 'status');
+        return $this->belongsTo(Order_status::class, 'status_id');
     }
 
     public function orderDetails()
     {
-        return $this->hasMany(Order_Detail::class, 'order_id');
+        return $this->hasMany(Order_detail::class, 'order_id');
     }
 
     public function contract()
     {
-        return $this->hasOne(Contract::class, 'oder_id');
+        return $this->hasOne(Contract::class, 'order_id');
     }
 
     public function debts()

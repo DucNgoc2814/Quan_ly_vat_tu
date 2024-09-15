@@ -16,8 +16,7 @@ class OrderController extends Controller
     public function index()
     {
 
-        $data = Order::with(['payment','customer','status','orderDetails','contract','debts'])->latest()->paginate(10);
-
+        $data = Order::with(['payment','customer','orderStatus'])->latest()->paginate(10);
         return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
     }
 
@@ -42,7 +41,6 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
     }
 
     /**

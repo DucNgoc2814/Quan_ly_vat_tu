@@ -1,19 +1,13 @@
 <?php
 
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDetailController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::prefix('admin')
-    ->as('admin.')
+Route::prefix('quan-ly-don-hang')
+    ->as('quan-ly-don-hang.')
     ->group(function () {
-        Route::prefix('compoents')
-            ->as('compoents.')
-            ->group(function (): void {
-                Route::prefix('orders')
-                    ->as('orders.')
-                    ->group(function () {
-                        Route::get('/', [OrderController::class, 'index'])->name('index');
-                    });
-            });
+        Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('danh-sach-ban');
+        Route::get('/chi-tiet-don-hang', [OrderDetailController::class, 'index'])->name('chi-tiet-don-hang');
     });

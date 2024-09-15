@@ -11,9 +11,12 @@ class OrderDetailController extends Controller
     /**
      * Display a listing of the resource.
      */
+    const PATH_VIEW = 'admin.compoents.order_details.';
     public function index()
     {
-        //
+        $data = Order_detail::with(['order','product','variation'])->latest('id')->paginate(10);
+
+        return view(self::PATH_VIEW. __FUNCTION__ , compact('data'));
     }
 
     /**

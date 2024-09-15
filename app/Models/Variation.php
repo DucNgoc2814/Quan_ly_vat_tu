@@ -22,7 +22,7 @@ class Variation extends Model
     protected $cast = [
         'is_active' => 'boolean',
     ];
-    
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'product_id');
@@ -31,5 +31,10 @@ class Variation extends Model
     public function attributeValues()
     {
         return $this->belongsToMany(Attribute_Value::class, 'variation_attribute_value', 'variation_id', 'attribute_value_id');
+    }
+
+    public function orderDetail()
+    {
+        return $this->belongsTo(Order_detail::class, foreignKey: 'variation_id');
     }
 }
