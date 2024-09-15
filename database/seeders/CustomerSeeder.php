@@ -23,7 +23,6 @@ class CustomerSeeder extends Seeder
                 'password' => 'abc12345678',
                 'number_phone' => '012345678',
                 'image' => '',
-                'date' => '2004-05-06',
                 'is_active' => true,
             ],
             [
@@ -34,7 +33,7 @@ class CustomerSeeder extends Seeder
                 'password' => 'abc12345678',
                 'number_phone' => '012345672',
                 'image' => '',
-                'date' => '2004-05-06',
+                'amount' => 100000000,
                 'is_active' => true,
             ],
             [
@@ -45,7 +44,7 @@ class CustomerSeeder extends Seeder
                 'password' => 'abc12345678',
                 'number_phone' => '012345671',
                 'image' => '',
-                'date' => '2004-05-06',
+                'amount' => 200000000,
                 'is_active' => true,
             ],
             [
@@ -56,7 +55,7 @@ class CustomerSeeder extends Seeder
                 'password' => 'abc12345678',
                 'number_phone' => '012345677',
                 'image' => '',
-                'date' => '2004-05-06',
+                'amount' => 300000000,
                 'is_active' => true,
             ],
         ]);

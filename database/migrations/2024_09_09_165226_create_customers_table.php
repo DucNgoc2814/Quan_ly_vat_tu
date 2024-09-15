@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password', 255);
             $table->string('number_phone', 11)->unique();
             $table->string('image', 255)->nullable();
-            $table->date('date');
+            $table->integer('amount')->default(0);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

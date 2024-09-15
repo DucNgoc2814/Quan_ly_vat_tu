@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 255)->unique();
             $table->integer('discount');
+            $table->integer('amount');
         });
     }
 

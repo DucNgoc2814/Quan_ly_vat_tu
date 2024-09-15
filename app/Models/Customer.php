@@ -16,7 +16,7 @@ class Customer extends Model
         'password',
         'number_phone',
         'image',
-        'date',
+        'amount',
         'is_active',
     ];
 
