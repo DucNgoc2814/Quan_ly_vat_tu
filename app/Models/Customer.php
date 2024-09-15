@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Hamcrest\Type\IsBoolean;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Customer extends Model
+class Customer extends Authenticatable
 {
     use HasFactory;
     protected $fillable = [
@@ -16,12 +16,8 @@ class Customer extends Model
         'password',
         'number_phone',
         'image',
-        'date',
+        'amount',
         'is_active',
-    ];
-
-    protected $cast = [
-        'is_active' => 'boolean',
     ];
 
     public function rank()
