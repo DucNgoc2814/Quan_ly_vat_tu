@@ -28,3 +28,6 @@ Route::post('handleRegister', [CustomerController::class, 'handleRegister'])->na
 
 Route::get('dang-nhap', [CustomerController::class, 'login'])->name('login');
 Route::post('handleLogin', [CustomerController::class, 'handleLogin'])->name('handleLogin');
+
+
+
