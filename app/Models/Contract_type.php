@@ -14,4 +14,8 @@ class Contract_type extends Model
     ];
 
     public $timestamps = false;
+
+    public function contracts(){
+        return $this->hasMany(Contract::class);
+    }
 }

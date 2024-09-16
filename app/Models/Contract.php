@@ -17,18 +17,18 @@ class Contract extends Model
         'note',
     ];
 
-    public function status()
+    public function contractStatus()
     {
-        return $this->belongsTo(Contract_Status::class, 'contract_status_id');
+        return $this->belongsTo(Contract_Status::class);
     }
 
-    public function type()
+    public function contractType()
     {
-        return $this->belongsTo(Contract_Type::class, 'contract_type_id');
+        return $this->belongsTo(Contract_Type::class);
     }
 
     public function order()
     {
-        return $this->belongsTo(Order::class, 'oder_id');
+        return $this->belongsTo(Order::class);
     }
 }

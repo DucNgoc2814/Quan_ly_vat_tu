@@ -12,7 +12,7 @@ class Permission_role_employee extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'permisson_id',
+        'permission_id',
         'role_employee_id',
     ];
 }

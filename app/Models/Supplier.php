@@ -19,11 +19,11 @@ class Supplier extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'publisher_product', 'supplier_id', 'product_id');
+        return $this->belongsToMany(Product::class);
     }
 
     public function importOrders()
     {
-        return $this->hasMany(Import_Order::class, 'supplier_id');
+        return $this->hasMany(Import_Order::class);
     }
 }
