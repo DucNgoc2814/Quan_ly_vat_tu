@@ -9,13 +9,7 @@
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Chi tiết đơn hàng: </h4>
 
-                {{-- <div class="col-sm-auto">
-                    <div>
-                        <a href="" class="btn btn-success"
-                            id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm bài
-                            viết</a>
-                    </div>
-                </div> --}}
+                
             </div>
         </div>
     </div>

@@ -9,13 +9,12 @@
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Danh sách đơn hàng bán ra </h4>
 
-                {{-- <div class="col-sm-auto">
+                <div class="col-sm-auto">
                     <div>
-                        <a href="" class="btn btn-success"
-                            id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm bài
-                            viết</a>
+                        <a href="{{ route('quan-ly-don-hang.them-don-hang') }}" class="btn btn-success" id="addproduct-btn"><i
+                                class="ri-add-line align-bottom me-1"></i>Thêm đơn hàng</a>
                     </div>
-                </div> --}}
+                </div>
             </div>
         </div>
     </div>
