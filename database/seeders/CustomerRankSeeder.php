@@ -18,11 +18,13 @@ class CustomerRankSeeder extends Seeder
                 'id' => 1,
                 'name' => 'DISOCUNT10',
                 'discount' => 10,
+                'amount' => 1000000,
             ],
             [
                 'id' => 2,
                 'name' => 'DISOCUNT100',
                 'discount' => 30,
+                'amount' => 2000000,
             ],
         ]);
     }

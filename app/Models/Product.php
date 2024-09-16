@@ -26,36 +26,44 @@ class Product extends Model
     
     public function category()
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsTo(Category::class);
     }
 
     public function unit()
     {
-        return $this->belongsTo(Unit::class, 'unit_id');
+        return $this->belongsTo(Unit::class);
     }
 
     public function gallery()
     {
-        return $this->belongsTo(Gallery::class, 'gallery_id');
+        return $this->hasMany(Gallery::class);
     }
 
     public function brand()
     {
-        return $this->belongsTo(Brand::class, 'brand_id');
+        return $this->belongsTo(Brand::class);
     }
 
     public function suppliers()
     {
-        return $this->belongsToMany(Supplier::class, 'publisher_product', 'product_id', 'supplier_id');
+        return $this->belongsToMany(Supplier::class);
     }
 
     public function inventories()
     {
-        return $this->hasMany(Inventory::class, 'product_id');
+        return $this->hasMany(Inventory::class);
     }
 
     public function variations()
     {
-        return $this->hasMany(Variation::class, 'product_id');
+        return $this->hasMany(Variation::class);
+    }
+
+    public function importOrderDetails(){
+        return $this->hasMany(Import_order_detail::class);
+    }
+
+    public function OrderDetails(){
+        return $this->hasMany(Order_detail::class);
     }
 }

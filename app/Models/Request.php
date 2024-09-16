@@ -14,4 +14,8 @@ class Request extends Model
         'title',
         'content',
     ];
+
+    public function employeeGet(){
+        return $this->belongsTo(Employee::class);
+    }
 }

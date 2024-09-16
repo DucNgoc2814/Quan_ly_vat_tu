@@ -15,4 +15,12 @@ class Trip_detail extends Model
     ];
 
     public $timestamps = false;
+
+    public function order(){
+        return $this->belongsTo(Order::class);
+    }
+
+    public function trip(){
+        return $this->belongsTo(Trip::class);
+    }
 }
