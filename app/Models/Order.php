@@ -29,7 +29,7 @@ class Order extends Model
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class, 'customer_id');
+        return $this->belongsTo(Customer::class);
     }
 
     public function orderStatus()
@@ -39,16 +39,16 @@ class Order extends Model
 
     public function orderDetails()
     {
-        return $this->hasMany(Order_detail::class, 'order_id');
+        return $this->hasMany(Order_detail::class);
     }
 
     public function contract()
     {
-        return $this->hasOne(Contract::class, 'order_id');
+        return $this->hasOne(Contract::class);
     }
 
     public function debts()
     {
-        return $this->hasMany(Debt::class, 'order_id');
+        return $this->hasMany(Debt::class);
     }
 }

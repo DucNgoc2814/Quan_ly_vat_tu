@@ -17,6 +17,6 @@ class Contract_status extends Model
 
     public function contracts()
     {
-        return $this->hasMany(Contract::class, 'contract_status_id');
+        return $this->hasMany(Contract::class);
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\BrandController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
@@ -17,9 +19,11 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('admin/dashboard');
 });
+Route::get('/products', action: function () {
+    return view('admin/components/product/create');
+});
 
 Route::get('dang-ky', [CustomerController::class, 'register'])->name('dang-ky');
-//nếu thay đổi đăng nhập thành công thì xóa ->name('dang-ky') và thay đổi lại route ở đang nhập
 Route::post('handleRegister', [CustomerController::class, 'handleRegister'])->name('handleRegister');
 
 Route::get('dang-nhap', [CustomerController::class, 'login'])->name('login');
@@ -40,3 +44,4 @@ Route::post('handleLogin', [CustomerController::class, 'handleLogin'])->name('ha
 
 
 //     });
+

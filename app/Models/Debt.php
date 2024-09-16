@@ -15,4 +15,16 @@ class Debt extends Model
     ];
 
     public $timestamps = false;
+
+    public function debtType(){
+        return $this->belongsTo(Debt_type::class);
+    }
+
+    public function paymentHistories(){
+        return $this->hasMany(Payment_history::class);
+    }
+
+    public function order(){
+        return $this->belongsTo(Order::class);
+    }
 }

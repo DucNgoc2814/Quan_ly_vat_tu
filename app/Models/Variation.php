@@ -25,16 +25,21 @@ class Variation extends Model
 
     public function product()
     {
-        return $this->belongsTo(Product::class, 'product_id');
-    }
-
-    public function attributeValues()
-    {
-        return $this->belongsToMany(Attribute_Value::class, 'variation_attribute_value', 'variation_id', 'attribute_value_id');
+        return $this->belongsTo(Product::class);
     }
 
     public function orderDetail()
     {
-        return $this->belongsTo(Order_detail::class, foreignKey: 'variation_id');
+        return $this->hasMany(Order_detail::class);
     }
+
+    public function importOrderDetails(){
+        return $this->hasMany(Import_order_detail::class);
+    }
+
+    public function attributeValues()
+    {
+        return $this->belongsToMany(Attribute_Value::class);
+    }
+
 }

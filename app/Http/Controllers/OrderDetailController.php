@@ -14,7 +14,7 @@ class OrderDetailController extends Controller
     const PATH_VIEW = 'admin.compoents.order_details.';
     public function index()
     {
-        $data = Order_detail::with(['order','product','variation'])->latest('id')->paginate(10);
+        $data = Order_detail::with(['order','products','variations'])->latest('id')->paginate(10);
 
         return view(self::PATH_VIEW. __FUNCTION__ , compact('data'));
     }

@@ -10,11 +10,15 @@ class Brand extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name'
+        'name',
+        'sku',
+        'is_active'
     ];
-
+    protected $cast = [
+        'is_active' => 'boolean'
+    ];
     public function products()
     {
-        return $this->hasMany(Product::class, 'brand_id');
+        return $this->hasMany(Product::class);
     }
 }

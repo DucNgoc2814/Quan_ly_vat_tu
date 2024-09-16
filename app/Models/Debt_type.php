@@ -17,6 +17,6 @@ class Debt_type extends Model
 
     public function debts()
     {
-        return $this->hasMany(Debt::class, 'debt_type_id');
+        return $this->hasMany(Debt::class);
     }
 }

@@ -48,12 +48,10 @@
                                 <th data-ordering="false">Tên người đặt </th>
                                 <th data-ordering="false">Tên tên người nhận </th>
                                 <th data-ordering="false">Số điện thoại người nhận</th>
-                                <th data-ordering="false">Email</th>
                                 <th data-ordering="false">Địa chỉ giao hàng</th>
                                 <th>Phương thức thanh toán</th>
                                 <th>Giá trị đơn hàng</th>
                                 <th>Số tiền đã thanh toán</th>
-                                <th>Số tiền chưa thanh toán</th>
                                 <th>Trạng thái giao hàng</th>
                                 <th>Action</th>
                             </tr>
@@ -66,12 +64,10 @@
                                     <td>{{ $order->customer->name }}</td>
                                     <td>{{ $order->customer_name }}</td>
                                     <td>{{ $order->number_phone }}</td>
-                                    <td>{{ $order->email }}</td>
                                     <td>{{ $order->address }}</td>
                                     <td><span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span></td>
                                     <td>{{ number_format($order->total_amount) }}</td>
                                     <td>{{ number_format($order->paid_amount) }}</td>
-                                    <td>{{ number_format($order->total_amount - $order->paid_amount) }}</td>
                                     <td><span class="badge bg-danger">{{ $order->orderStatus->description }}</span></td>
                                     <td>
                                         <div class="dropdown d-inline-block">

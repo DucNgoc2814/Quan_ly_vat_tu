@@ -23,4 +23,16 @@ class Employee extends Model
     protected $cast = [
         'is_active' => 'boolean',
     ];
+
+    public function roleEmployee() {
+        return $this->belongsTo(Role_Employee::class);
+    }
+
+    public function trips() {
+        return $this->hasMany(Trip::class);
+    }
+
+    public function requests() {
+        return $this->hasMany(Request::class);
+    }
 }

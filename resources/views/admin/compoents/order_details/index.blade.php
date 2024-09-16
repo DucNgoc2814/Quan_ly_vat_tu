@@ -9,7 +9,7 @@
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Chi tiết đơn hàng: </h4>
 
-                
+
             </div>
         </div>
     </div>
@@ -53,12 +53,12 @@
                                 <tr>
                                     <td>{{ $order_detail->id }}</td>
                                     <td>{{ $order_detail->order->slug }}</td>
-                                    <td>{{ $order_detail->product->name }}</td>
+                                    <td>{{ $order_detail->products->name }}</td>
                                     {{-- <td>{{ $order_detail->product->galleries->url }}</td> --}}
                                     <td>{{ $order_detail->price }}</td>
-                                    <td>{{ $order_detail->product->unit->name }}</td>
+                                    <td>{{ $order_detail->products->unit->name }}</td>
                                     <td>{{ $order_detail->quantity }}</td>
-                                    <td>{{ $order_detail->variation->name }}</td>
+                                    <td>{{ $order_detail->variations->name }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

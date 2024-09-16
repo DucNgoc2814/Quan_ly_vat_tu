@@ -17,11 +17,11 @@ class Payment extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'payment_id');
+        return $this->hasMany(Order::class);
     }
 
     public function importOrders()
     {
-        return $this->hasMany(Import_Order::class, 'payment_id');
+        return $this->hasMany(Import_Order::class);
     }
 }

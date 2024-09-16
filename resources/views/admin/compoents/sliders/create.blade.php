@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-                        
+
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('sliders.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
@@ -53,7 +53,7 @@
                             </div>
                             <div class="col-lg-8">
                                 <label class="form-label">Mô tả</label>
-                                <input type="text" name="description" placeholder="Nhập mô tả" class="form-control" >
+                                <input type="text" name="description" placeholder="Nhập mô tả" class="form-control">
                                 @error('description')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
@@ -76,13 +76,14 @@
                             <div class="col-lg-8">
                                 <label for="status" class="form-label">Trạng thái</label>
                                 <div class="mb-3 ms-1">
-                                    <input type="radio" name="status" value="1" class="me-1" id="firstRadio" checked>
+                                    <input type="radio" name="status" value="1" class="me-1" id="firstRadio"
+                                        checked>
                                     <label for="firstRadio" class="form-check-label text-success">Hiển Thị</label>
 
                                     <input class="me-1" type="radio" name="status" value="0" id="secondRadio">
                                     <label for="secondRadio" class="form-check-label text-danger">Ẩn</label>
                                 </div>
-                                
+
                             </div>
 
                         </div>

@@ -15,11 +15,10 @@ class Order_status extends Model
     ];
 
     public $timestamps = false;
-    
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'status_id');
+        return $this->hasMany(Order::class);
     }
 
 }

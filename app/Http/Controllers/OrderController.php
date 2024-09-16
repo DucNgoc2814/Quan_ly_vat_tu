@@ -52,20 +52,20 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
-
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request) {
                 $customers = Customer::findOrFail($request->customer_id);
 
-                $latestOrder = Order::latest()->first();
-                $orderNumber = $latestOrder ? (intval(substr($latestOrder->slug, -3)) + 1) : 1;
-                $slug = 'order-' . str_pad($orderNumber, 3, '0', STR_PAD_LEFT);
+                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,5);
+                $timestamp = now()->format('His_dmY');
+                $slug= 'DH' . $randomChars . $timestamp;
 
 
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
                     "customer_id" => $request->customer_id,
-                    "status_id" => $request->status_id,
+                    "status_id" => 1,
                     "slug" => $slug,
                     "customer_name" => $request->customer_name ?? $customers->name,
                     "email" => $request->email ?? $customers->email,

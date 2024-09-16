@@ -20,18 +20,18 @@ class Customer extends Authenticatable
         'is_active',
     ];
 
-    public function rank()
+    public function customerRank()
     {
-        return $this->belongsTo(Customer_Rank::class, 'customer_rank_id');
+        return $this->belongsTo(Customer_Rank::class);
     }
 
     public function locations()
     {
-        return $this->hasMany(Location::class, 'customer_id');
+        return $this->hasMany(Location::class);
     }
 
     public function orders()
     {
-        return $this->hasMany(Order::class, 'customer_id');
+        return $this->hasMany(Order::class);
     }
 }

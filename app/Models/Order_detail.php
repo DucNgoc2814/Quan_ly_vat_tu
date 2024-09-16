@@ -21,16 +21,16 @@ class Order_detail extends Model
 
     public function order()
     {
-        return $this->belongsTo(Order::class, 'order_id');
+        return $this->belongsTo(Order::class);
     }
 
-    public function product()
+    public function products()
     {
-        return $this->hasOne(Product::class, 'id');
+        return $this->hasOne(Product::class,'id');
     }
 
-    public function variation()
+    public function variations()
     {
-        return $this->hasOne(Variation::class, 'id');
+        return $this->hasOne(Variation::class,'id');
     }
 }

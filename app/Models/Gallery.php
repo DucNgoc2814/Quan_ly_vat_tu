@@ -18,6 +18,6 @@ class Gallery extends Model
 
     public function product()
     {
-        return $this->belongsToMany(Product::class, 'gallery_id');
+        return $this->belongsTo(Product::class);
     }
 }
