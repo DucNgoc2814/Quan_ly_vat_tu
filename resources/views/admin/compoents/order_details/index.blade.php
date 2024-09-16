@@ -60,7 +60,7 @@
                                     <td>{{ $order_detail->id }}</td>
                                     <td>{{ $order_detail->order->slug }}</td>
                                     <td>{{ $order_detail->product->name }}</td>
-                                    <td>{{ $order_detail->product->galleries->url }}</td>
+                                    {{-- <td>{{ $order_detail->product->galleries->url }}</td> --}}
                                     <td>{{ $order_detail->price }}</td>
                                     <td>{{ $order_detail->product->unit->name }}</td>
                                     <td>{{ $order_detail->quantity }}</td>

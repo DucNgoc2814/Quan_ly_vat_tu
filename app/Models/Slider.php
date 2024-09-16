@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Slider extends Model
 {
     use HasFactory;
+    protected $table="sliders";
     protected $fillable = [
         'url_',
         'description',
@@ -15,6 +16,7 @@ class Slider extends Model
         'date_end',
         'status',
     ];
+
 
     public $timestamps = false;
 }

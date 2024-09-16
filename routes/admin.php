@@ -5,6 +5,7 @@ use App\Http\Controllers\OrderDetailController;
 use Illuminate\Support\Facades\Route;
 
 
+
 Route::prefix('quan-ly-don-hang')
     ->as('quan-ly-don-hang.')
     ->group(function () {
