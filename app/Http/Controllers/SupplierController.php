@@ -5,15 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use Symfony\Component\HttpFoundation\Request;
+
 
 class SupplierController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->input("search");
+        $listsupplier = Supplier::select('suppliers.*')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                    ->orwhere('email', 'like', "%{$search}%")
+                    ->orwhere('number_phone', 'like', "%{$search}%")
+                    ->orwhere('address', 'like', "%{$search}%");
+            })->paginate(5);
+        // $listsupplier = Supplier::query()->get();
+        return view('admin.suppliers.index', compact('listsupplier'));
     }
 
     /**
@@ -21,7 +32,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.suppliers.create');
     }
 
     /**
@@ -29,7 +40,11 @@ class SupplierController extends Controller
      */
     public function store(StoreSupplierRequest $request)
     {
-        //
+        if ($request->isMethod('post')) {
+            $params = $request->except('_token');
+            Supplier::create($params);
+            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thêm mới thành công nhà cung cấp');
+        }
     }
 
     /**
@@ -43,24 +58,44 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Supplier $supplier)
+    public function edit(String $id)
     {
-        //
+        $supplier = Supplier::findOrFail($id);
+        return view('admin.suppliers.edit', compact('supplier'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplierRequest $request, Supplier $supplier)
+    public function update(UpdateSupplierRequest $request, String $id)
     {
-        //
+        if ($request->isMethod('PUT')) {
+            $params = $request->except('_token', '_method');
+            $supplier = Supplier::findOrFail($id);
+            $supplier->update($params);
+            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Request $request, String $id)
     {
-        //
+        if ($request->isMethod('delete')) {
+            $supplier = Supplier::findOrFail($id);
+            $supplier->delete();
+            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã ẩn nhà cung cấp thành công !');
+        }
+    }
+
+    public function listTrashSupplier(Request $request){
+        $listTrashSupplier = Supplier::onlyTrashed()->paginate(5);
+        return view('admin.suppliers.trashsuppier', compact('listTrashSupplier'));
+    }
+    public function restoreSupplier(String $id){
+        $supplier = Supplier::onlyTrashed()->findOrFail($id);
+        $supplier->restore();
+        return redirect('quan-ly-tai-khoan/danh-sach-da-an-nha-cup-cap')->with('success','Bạn đã khôi phục thành công');
     }
 }

@@ -108,6 +108,8 @@
                         </ul>
                     </div>
                 </li>
+
+                {{-- Quản lý nhà cung cấp --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarSuppliers" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarSuppliers">
@@ -116,8 +118,12 @@
                     <div class="collapse menu-dropdown" id="sidebarSuppliers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{route('danh-sach-nha-cung-cap')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('danh-sach-da-an-nha-cup-cap')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách đã ẩn</a>
                             </li>
                         </ul>
                     </div>
