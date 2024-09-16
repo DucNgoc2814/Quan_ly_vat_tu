@@ -23,11 +23,11 @@ class Cargo_car extends Model
 
     public function cargoCarType()
     {
-        return $this->belongsTo(Cargo_Car_Type::class, 'cargo_car_type_id');
+        return $this->belongsTo(Cargo_Car_Type::class);
     }
 
     public function trips()
     {
-        return $this->hasMany(Trip::class, 'cargo_car_id');
+        return $this->hasOne(Trip::class);
     }
 }

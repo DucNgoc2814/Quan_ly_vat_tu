@@ -18,4 +18,16 @@ class Import_order_detail extends Model
     ];
 
     public $timestamps = false;
+
+    public function importOrder() {
+        return $this->belongsTo(Import_order::class);
+    }
+
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
+
+    public function variation() {
+        return $this->belongsTo(Variation::class);
+    }
 }

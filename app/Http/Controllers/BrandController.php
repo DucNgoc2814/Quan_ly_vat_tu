@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\Brand;
 use App\Http\Requests\StoreBrandRequest;
 use App\Http\Requests\UpdateBrandRequest;
+use Exception;
+use voku\helper\ASCII;
+use Illuminate\Support\Str;
 
 class BrandController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+     const PATH_VIEW = 'admin.';
     public function index()
     {
-        //
+        $brands = Brand::all();
+        return view(self::PATH_VIEW . 'components.brand.index', compact('brands'));
     }
 
     /**
@@ -21,7 +27,8 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        return view(self::PATH_VIEW . 'components.brand.create');
+        
     }
 
     /**
@@ -29,7 +36,24 @@ class BrandController extends Controller
      */
     public function store(StoreBrandRequest $request)
     {
-        //
+        $brand = $request->validated();
+
+        try {
+            $sku = Str::slug(ASCII::to_ascii($brand->name));
+
+            Brand::create([
+                'name' => $brand->name,
+                'sku' => $sku,
+                'is_active' => '1'
+            ]);
+
+            return redirect()
+                ->route('thuong-hieu.index')
+                ->with('success', 'Thao tác thành công!');
+        } catch (Exception $exception) {
+
+            return back()->with('error', $exception->getMessage());
+        }
     }
 
     /**

@@ -18,6 +18,6 @@ class Gallery extends Model
 
     public function products()
     {
-        return $this->hasMany(Product::class, 'gallery_id');
+        return $this->belongsTo(Product::class);
     }
 }
