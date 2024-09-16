@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <form action="{{ route('handleLogin') }}" method="post">
+    <form action="{{ route('khach-hang.handleLogin') }}" method="post">
         @csrf
         <div class="container mb-3">
             <h1>Đăng nhập</h1>

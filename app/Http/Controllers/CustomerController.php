@@ -10,11 +10,17 @@ use Illuminate\Support\Facades\Auth;
 class CustomerController extends Controller
 {
 
-    const PATH_VIEW = 'client.';
+    const PATH_VIEW = 'client.components.customer.';
 
+
+    public function index(){
+
+
+    }
+    
     public function register()
     {
-        return view(self::PATH_VIEW . 'components.customer.register');
+        return view(self::PATH_VIEW . 'register');
     }
 
     /**
@@ -31,7 +37,7 @@ class CustomerController extends Controller
         ];
         $data['customer_rank_id'] = 1;
         Customer::create($data);
-        return redirect()->route('login')->with('success', 'Đăng ký tài khoản thành công');
+        return redirect()->route('khach-hang.login')->with('success', 'Đăng ký tài khoản thành công');
     }
 
     /**
@@ -39,7 +45,7 @@ class CustomerController extends Controller
      */
     public function login()
     {
-        return view(self::PATH_VIEW . 'components.customer.login');
+        return view(self::PATH_VIEW . 'login');
     }
 
     /**
@@ -54,7 +60,7 @@ class CustomerController extends Controller
 
         if (Auth::attempt($data)) {
             $request->session()->regenerate();
-            return redirect()->route('dang-ky')->with('success', 'Đăng nhập thành công');
+            return redirect()->route('khach-hang.dang-ky')->with('success', 'Đăng nhập thành công');
         }
         return back()->withErrors(['email' => 'Thông tin đăng nhập không chính xác.']);
         

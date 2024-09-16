@@ -21,7 +21,7 @@ class StoreCustomerRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->isMethod('post') && request()->route()->getName() == 'handleLogin') {
+        if (request()->isMethod('post') && request()->route()->getName() == 'khach-hang.handleLogin') {
             return [
                 'email' => 'required|string|email|max:255',
                 'password' => 'required|string|min:6',
