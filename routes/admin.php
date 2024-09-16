@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
@@ -19,8 +20,8 @@ Route::prefix('quan-ly-tai-khoan')
         Route::put('{id}/cap-nhat', [SupplierController::class, 'update'])->name('cap-nhat');
         Route::delete('{id}/an-nha-cung-cap', [SupplierController::class, 'destroy'])->name('an-nha-cung-cap');
     });
+
 Route::prefix('sliders')
-    ->as('sliders.')
     ->group(function () {
         Route::get('/', [SliderController::class, 'index'])->name('index');
         Route::get('/create', [SliderController::class, 'create'])->name('create');
@@ -40,4 +41,16 @@ Route::prefix('thuong-hieu')
         Route::get('{id}/sua', [BrandController::class, 'edit'])->name('edit');
         Route::put('{id}/update', [BrandController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [BrandController::class, 'destroy'])->name('destroy');
+    });
+
+
+Route::prefix('contract-types')
+    ->group(function () {
+        Route::get('/', [ContractTypeController::class, 'index'])->name('index');
+        Route::get('/create', [ContractTypeController::class, 'create'])->name('create');
+        Route::post('/store', [ContractTypeController::class, 'store'])->name('store');
+        Route::get('/show/{id}', [ContractTypeController::class, 'show'])->name('show');
+        Route::get('{id}/edit', [ContractTypeController::class, 'edit'])->name('edit');
+        Route::put('{id}/update', [ContractTypeController::class, 'update'])->name('update');
+        Route::delete('{id}/destroy', [ContractTypeController::class, 'destroy'])->name('destroy');
     });

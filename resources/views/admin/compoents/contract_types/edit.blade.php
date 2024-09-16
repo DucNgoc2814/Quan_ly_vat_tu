@@ -7,12 +7,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Cập nhật slider</h4>
+                <h4 class="mb-sm-0">{{$title}}</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Cập nhật slider</li>
+                        <li class="breadcrumb-item active">Datatables</li>
                     </ol>
                 </div>
 
@@ -24,12 +24,12 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-
+                        
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm sliders...">
+                                        placeholder="Tìm bài viết...">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
                             </div>
@@ -37,59 +37,29 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('update', $sliders->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('update', $contract_types->id) }}" method="POST" >
                         @method('PUT')
-                        @csrf
+                         @csrf
                         <div class="row">
-                            <div class="col-lg-8">
-                                <label class="form-label">Hình ảnh</label>
-                                <input type="file" name="url_" id="url_"
-                                    class="from-control @error('url_') is-invalid @enderror" onchange="showImage(event)">
-                                <img src="" alt="" id="img_slider" style="width: 150px; display: none;"
-                                    class="mt-3">
-
-                                @error('url_')
+                            
+                            <div class="col-lg-6">
+                                <label class="form-label">Tên loại hợp đồng</label>
+                                <input type="text" name="name" placeholder="Nhập tên loại hợp đồng" 
+                                class="form-control @error('name') is-invalid @enderror "   value="{{$contract_types->name}}">
+                                @error('name')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="col-lg-8">
-                                <label class="form-label">Mô tả</label>
-                                <input type="text" name="description" placeholder="Nhập mô tả" 
-                                class="form-control" value = "{{$sliders->description}}">
-
+                            <div class="col-lg-6">
+                                <label class="form-label">Mô Tả</label>
+                                <textarea type="text" name="description" placeholder="Nhập mô tả"
+                                    class="form-control @error('description') is-invalid @enderror " >{{$contract_types->description}}</textarea>
                                 @error('description')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="col-lg-8">
-                                <label class="form-label">Ngày bắt đầu</label>
-                                <input type="date" name="date_start" placeholder="Nhập ngày bắt đầu" \
-                                class="form-control" value="{{$sliders->date_start}}">
-
-                                @error('date_start')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="col-lg-8">
-                                <label class="form-label">Ngày kết thúc</label>
-                                <input type="date" name="date_end" placeholder="Nhập ngày kết thúc" 
-                                class="form-control" value="{{$sliders->date_end}}">
-
-                                @error('date_end')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="mb-3 ">
-                                    <label for="status" class="form-label">Trạng thái</label>
-                                    <select name="status" class="form-control">
-                                        <option value="1" {{ $sliders->status == '1' ? 'selected' : '' }}>Hiển thị
-                                        </option>
-                                        <option value="0" {{ $sliders->status == '0' ? 'selected' : '' }}>Ẩn</option>
-                                    </select>
-                                </div>
-
-                            </div>
+                            
+                           
 
                         </div>
                         <div class="mt-3">
@@ -129,19 +99,4 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
-@section('js')
-    <script>
-        function showImage(event) {
-            const img_slider = document.getElementById('img_slider');
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function() {
-                img_slider.src = reader.result;
-                img_slider.style.display = 'block';
-            }
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
-@endsection
+
