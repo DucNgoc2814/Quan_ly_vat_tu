@@ -10,7 +10,8 @@ class Customer_rank extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'discount'
+        'discount',
+        'amount'
     ];
 
 
@@ -18,6 +19,6 @@ class Customer_rank extends Model
 
     public function customers()
     {
-        return $this->hasMany(Customer::class, 'customer_rank_id');
+        return $this->hasMany(Customer::class);
     }
 }

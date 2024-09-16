@@ -17,6 +17,18 @@ class Trip extends Model
 
     public function cargoCar()
     {
-        return $this->belongsTo(Cargo_Car::class, 'cargo_car_id');
+        return $this->belongsTo(Cargo_Car::class);
+    }
+
+    public function employee() {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function tripDetail() {
+        return $this->belongsTo(Trip_detail::class);
+    }
+
+    public function request() {
+        return $this->belongsTo(Request::class);
     }
 }

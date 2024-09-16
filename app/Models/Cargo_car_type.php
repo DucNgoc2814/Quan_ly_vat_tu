@@ -17,6 +17,6 @@ class Cargo_car_type extends Model
 
     public function cargoCars()
     {
-        return $this->hasMany(Cargo_Car::class, 'cargo_car_type_id');
+        return $this->hasMany(Cargo_Car::class);
     }
 }

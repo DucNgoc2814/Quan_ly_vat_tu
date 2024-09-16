@@ -16,4 +16,8 @@ class Payment_history extends Model
     ];
 
     public $timestamps = false;
+
+    public function debt(){
+        return $this->belongsTo(Debt::class);
+    }
 }
