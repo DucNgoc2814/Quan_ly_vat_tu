@@ -122,7 +122,7 @@
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Sản phẩm mua</h4>
-                        <button type="button" class="btn btn-primary" onclick="addProduct()">Thêm sản phẩm</button>
+                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" onclick="addProduct()">Thêm sản phẩm</button>
                     </div>
                     <div class="card-body">
                         <div class="live-preview">
@@ -132,7 +132,7 @@
                                         <label class="form-label" for="product-title-input">Tên sản phẩm</label>
                                         <select class="form-select" id="product-title-input" name="product_id[]"
                                             data-choices data-choices-search-false>
-                                            @foreach ($products as $id => $name)
+                                            @foreach ($products as $product)
                                                 <option value="{{ $id }}">{{ $name }}</option>
                                             @endforeach
                                         </select>

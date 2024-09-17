@@ -44,7 +44,7 @@ class OrderController extends Controller
         $status = Order_status::pluck('description', 'id')->all();
         $products = Product::pluck('name', 'id')->all();
         $variation = Variation::pluck('name', 'id')->all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('payments','customers','status','products','variation'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'products', 'variation'));
     }
 
     /**
@@ -57,9 +57,9 @@ class OrderController extends Controller
             DB::transaction(function () use ($request) {
                 $customers = Customer::findOrFail($request->customer_id);
 
-                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'),0,5);
+                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 5);
                 $timestamp = now()->format('His_dmY');
-                $slug= 'DH' . $randomChars . $timestamp;
+                $slug = 'DH' . $randomChars . $timestamp;
 
 
                 $dataOrder = [
@@ -90,7 +90,7 @@ class OrderController extends Controller
 
             return redirect()->route('quan-ly-don-hang.danh-sach-ban');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            // dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
     }
@@ -105,17 +105,83 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Order $order)
+    public function edit($slug)
     {
-        //
+        $order = Order::where('slug', $slug)->firstOrFail();
+        $payments = Payment::pluck('name', 'id')->all();
+        $customers = Customer::pluck('name', 'id')->all();
+        $status = Order_status::pluck('description', 'id')->all();
+        $products = Product::pluck('name', 'id')->all();
+        $variation = Variation::pluck('name', 'id')->all();
+        $orderDetails = Order_detail::where('order_id', $order->id)->get();
+
+        return view(self::PATH_VIEW . __FUNCTION__, compact('order', 'payments', 'customers', 'status', 'products', 'variation', 'orderDetails'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrderRequest $request, Order $order)
+    public function update(UpdateOrderRequest $request, $slug)
     {
-        //
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        try {
+            DB::transaction(function () use ($request, $slug) {
+
+                // lấy đơn hàng theo slug
+                $order = Order::where('slug', $slug)->firstOrFail();
+
+                $dataOrder = [
+                    "payment_id" => $request->payment_id,
+                    "customer_id" => $request->customer_id,
+                    "status_id" => 1,
+                    "customer_name" => $request->customer_name ?? $order->name,
+                    "email" => $request->email ?? $order->email,
+                    "number_phone" => $request->number_phone ?? $order->number_phone,
+                    "address" => $request->address,
+                    "total_amount" => $request->total_amount,
+                    "paid_amount" => $request->paid_amount,
+                ];
+
+                $order->update($dataOrder);
+
+                $order->orderDetails()->delete();
+
+                // Kiểm tra xem các mảng product_id có tồn tại hay ko
+
+                if (is_array($request->product_id) && count($request->product_id) > 0) {
+
+                    foreach ($request->product_id as $key => $productID) {
+
+                        // kiểm tra tính tồn tại của các mảng liên quan
+                        $variation_id = $request->product_variant[$key] ?? null;
+                        $quantity = $request->product_quantity[$key] ?? null;
+                        $price = $request->product_price[$key] ?? null;
+
+                        // Thêm chi tiết đơn hàng mới chỉ khi có đủ thông tin
+
+                        if ($productID && $variation_id && $quantity && $price) {
+
+                            Order_detail::query()->create([
+                                'order_id' => $order->id,
+                                'product_id' => $productID,
+                                'variation_id' => $variation_id,
+                                'quantity' => $quantity,
+                                'price' => $price,
+                            ]);
+                        }
+                    }
+                }
+                else{
+                    throw new \Exception('Không có sản phẩm nào để cập nhật trong đơn hàng.');
+                }
+            });
+            DB::commit();
+
+            return redirect()->route('quan-ly-don-hang.danh-sach-ban');
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
+        }
     }
 
     /**

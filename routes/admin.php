@@ -28,6 +28,8 @@ Route::prefix('quan-ly-don-hang')
         Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('danh-sach-ban');
         Route::get('/them-don-hang', [OrderController::class, 'create'])->name('them-don-hang');
         Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('nhap-them-don-hang');
+        Route::get('{slug}/sua-don-hang', [OrderController::class, 'edit'])->name('sua-don-hang');
+        Route::put('{slug}/cap-nhat-don-hang', [OrderController::class, 'update'])->name('cap-nhat-don-hang');
 
-        Route::get('/chi-tiet-don-hang', [OrderDetailController::class, 'index'])->name('chi-tiet-don-hang');
+        Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('chi-tiet-don-hang');
     });

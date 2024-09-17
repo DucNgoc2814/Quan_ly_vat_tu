@@ -26,11 +26,11 @@ class Order_detail extends Model
 
     public function products()
     {
-        return $this->hasOne(Product::class,'id');
+        return $this->belongsTo(Product::class,'product_id');
     }
 
     public function variations()
     {
-        return $this->hasOne(Variation::class,'id');
+        return $this->belongsTo(Variation::class,'variation_id');
     }
 }

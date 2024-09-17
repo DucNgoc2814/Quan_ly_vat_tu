@@ -76,11 +76,17 @@
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="{{ route('quan-ly-don-hang.chi-tiet-don-hang') }}"
+                                                <li>
+                                                    <a href="{{ route('quan-ly-don-hang.chi-tiet-don-hang', ['slug' => $order->slug]) }}"
                                                         class="dropdown-item"><i
                                                             class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi Tiết
                                                         Đơn Hàng</a>
                                                 </li>
+                                                <li><a href="{{ route('quan-ly-don-hang.sua-don-hang', ['slug' => $order->slug]) }}"
+                                                        class="dropdown-item edit-item-btn"><i
+                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                        Edit</a></li>
+                                                <li>
                                             </ul>
                                         </div>
                                     </td>
