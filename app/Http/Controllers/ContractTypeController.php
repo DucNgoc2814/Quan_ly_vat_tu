@@ -5,17 +5,26 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreContract_typeRequest;
 use App\Http\Requests\UpdateContract_typeRequest;
 use App\Models\Contract_type;
+use Illuminate\Http\Request;
 
 class ContractTypeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
 
-        $contract_types = Contract_type::query()->get();
-        return view('admin.compoents.contract_types.index', compact('contract_types'));
+        $search = $request->input('search');
+        $contract_types = Contract_type::query()
+        ->when($search, function($query,$search){
+            return $query->where('name','like',"%{$search}");
+        })
+        ->orderByDesc('id')
+        ->paginate(4);
+        $title = "Danh sách loại hợp đồng";
+
+        return view('admin.components.contract_types.index', compact('contract_types'));
     }
 
     /**
@@ -24,7 +33,7 @@ class ContractTypeController extends Controller
     public function create()
     {
         $title = " Thêm loại hợp đồng ";
-        return view('admin.compoents.contract_types.create',compact('title'));
+        return view('admin.components.contract_types.create',compact('title'));
     }
 
     /**
@@ -60,7 +69,7 @@ class ContractTypeController extends Controller
     {
         $title = "Cập nhật loại hợp đồng";
        $contract_types = Contract_type::findOrFail($id);
-       return view('admin.compoents.contract_types.edit', compact('contract_types', 'title'));
+       return view('admin.components.contract_types.edit', compact('contract_types', 'title'));
     }
 
     /**
