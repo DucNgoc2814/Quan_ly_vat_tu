@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Thêm bài viết
+    Đăng nhập
 @endsection
 
 @section('content')
@@ -27,7 +27,10 @@
         </div>
         <br>
         <div class="container signin">
-            <p>Bạn có sẵn sàng để tạo một tài khoản? <a href="">Đăng ký</a>.</p>
+            <p>Bạn có sẵn sàng để tạo một tài khoản? <a href="{{ route('khach-hang.dang-ky') }}">Đăng ký</a>.</p>
+        </div>
+        <div class="container signin">
+            <p>Nếu bạn quên mật khẩu <a href="{{ route('khach-hang.quen-mat-khau') }}">Lấy lại mật khẩu</a>.</p>
         </div>
     </form>
 @endsection
