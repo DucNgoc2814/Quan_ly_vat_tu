@@ -43,7 +43,8 @@ class OrderController extends Controller
         $customers = Customer::get();
         $status = Order_status::pluck('description', 'id')->all();
         $products = Product::pluck('name', 'id')->all();
-        $variation = Variation::pluck('name', 'id')->all();
+        $variation = Variation::all();
+        // $variation = Variation::pluck('name', 'id')->all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'products', 'variation'));
     }
 
@@ -130,10 +131,17 @@ class OrderController extends Controller
                 // lấy đơn hàng theo slug
                 $order = Order::where('slug', $slug)->firstOrFail();
 
+                // Kiểm tra tính họp lệ của trạng thái mới
+                $currentStatus = $order->status_id;
+                $newStatus = $request->status_id;
+
+                if(!$this->isValidStatusTransition($currentStatus, $newStatus)){
+                    throw new \Exception('Trạng thái không hợp lệ.');
+                }
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
                     "customer_id" => $request->customer_id,
-                    "status_id" => 1,
+                    "status_id" => $newStatus,
                     "customer_name" => $request->customer_name ?? $order->name,
                     "email" => $request->email ?? $order->email,
                     "number_phone" => $request->number_phone ?? $order->number_phone,

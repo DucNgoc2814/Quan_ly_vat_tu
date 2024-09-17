@@ -33,6 +33,7 @@
                             <label class="form-label" for="customer_id ">Tên người đặt</label>
                             <select class="form-select" id="customer_id" name="customer_id" data-choices
                                 data-choices-search-false>
+                                <option value="">Chọn Tên</option>
                                 @foreach ($customers as $custumer)
                                     <option value="{{ $custumer->id }}">{{ $custumer->name }}</option>
                                 @endforeach
@@ -107,6 +108,7 @@
                             <label class="form-label" for="payment_id">Phương thức thanh toán</label>
                             <select class="form-select" id="payment_id" name="payment_id" data-choices
                                 data-choices-search-false>
+                                <option value="">Chọn Phương Thức Thanh Toán</option>
                                 @foreach ($payments as $id => $name)
                                     <option value="{{ $id }}">{{ $name }}</option>
                                 @endforeach
@@ -122,39 +124,34 @@
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Sản phẩm mua</h4>
-                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" onclick="addProduct()">Thêm sản phẩm</button>
+                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary"
+                            onclick="addProduct()">Thêm sản phẩm</button>
                     </div>
                     <div class="card-body">
                         <div class="live-preview">
                             <div class="row gy-4" id="product_list">
                                 <div class="col-md-12" id="product_default_item">
                                     <div class="mb-2">
-                                        <label class="form-label" for="product-title-input">Tên sản phẩm</label>
-                                        <select class="form-select" id="product-title-input" name="product_id[]"
-                                            data-choices data-choices-search-false>
-                                            @foreach ($products as $product)
-                                                <option value="{{ $id }}">{{ $name }}</option>
+                                        <label class="form-label" for="product-variant-input">Sản phẩm</label>
+                                        <select class="form-select" id="product-variant-input" name="product_variant[]"
+                                            data-choices data-choices-search-false onchange="updatePrice(this)">
+                                            <option value="">Chọn Sản Phẩm</option>
+                                            @foreach ($variation as $id => $variant)
+                                                <option value="{{ $id }}"
+                                                    data-price="{{ $variant->price_export }}">
+                                                    {{ $variant->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="mb-2">
-                                        <label class="form-label" for="product-variant-input">Biến thể</label>
-                                        <select class="form-select" id="product-variant-input" name="product_variant[]"
-                                            data-choices data-choices-search-false>
-                                            @foreach ($variation as $id => $name)
-                                                <option value="{{ $id }}">{{ $name }}</option>
-                                            @endforeach
-                                        </select>
+                                        <label class="form-label" for="product-price-input">Giá sản phẩm</label>
+                                        <input type="number" class="form-control" id="product-price-input"
+                                            name="product_price[]" readonly>
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
                                         <input type="number" class="form-control" id="product-quantity-input"
                                             name="product_quantity[]" placeholder="Nhập số lượng">
-                                    </div>
-                                    <div class="mb-2">
-                                        <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                                        <input type="number" class="form-control" id="product-price-input"
-                                            name="product_price[]" placeholder="Nhập giá">
                                     </div>
                                 </div>
                             </div>
@@ -217,44 +214,36 @@
         function addProduct() {
             let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
             let html = `
-        <div class="col-md-12" id="${id}_item">
-            <hr class="mb-2">
-            <div class="mb-2">
-                <label class="form-label mt-3" for="product-title-input">Tên sản phẩm</label>
-                <select class="form-select" name="product_id[]" data-choices data-choices-search-false>
-                    @foreach ($products as $id => $name)
-                        <option value="{{ $id }}">{{ $name }}</option>
-                    @endforeach
-                </select>
+            <div class="col-md-12" id="${id}_item">
+                <hr class="mb-2">
+                <div class="mb-2">
+                    <label class="form-label" for="product-variant-input">Sản phẩm</label>
+                    <select class="form-select" name="product_variant[]" data-choices data-choices-search-false onchange="updatePrice(this)">
+                        <option value="">Chọn Sản Phẩm</option>
+                        @foreach ($variation as $id => $variant)
+                            <option value="{{ $id }}" data-price="{{ $variant->price_export }}">
+                                {{ $variant->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label" for="product-price-input">Giá sản phẩm</label>
+                    <input type="number" class="form-control" name="product_price[]" readonly>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
+                    <input type="number" class="form-control" name="product_quantity[]" placeholder="Nhập số lượng" min="1" value="1">
+                </div>
+                <div class="mb-2">
+                    <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
+                        <span class="bx bx-trash"></span> Xóa sản phẩm
+                    </button>
+                </div>
             </div>
-            <div class="mb-2">
-                <label class="form-label" for="product-variant-input">Biến thể</label>
-                <select class="form-select" id="product-variant-input" name="product_variant[]"
-                    data-choices data-choices-search-false>
-                    @foreach ($variation as $id => $name)
-                        <option value="{{ $id }}">{{ $name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="mb-2">
-                <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
-                <input type="number" class="form-control" name="product_quantity[]" placeholder="Nhập số lượng">
-            </div>
-            <div class="mb-2">
-                <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                <input type="number" class="form-control" name="product_price[]" placeholder="Nhập giá">
-            </div>
-            <div class="mb-2">
-                <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
-                    <span class="bx bx-trash"></span> Xóa sản phẩm
-                </button>
-            </div>
-        </div>
-        `;
+            `;
 
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
-            addInputListeners(); // Thêm sự kiện lắng nghe cho các sản phẩm mới
-            calculateTotal();
+            addInputListeners(); // Thêm sự kiện lắng nghe cho sản phẩm mới
         }
 
         // Hàm để tính tổng giá trị đơn hàng
@@ -270,6 +259,26 @@
             document.getElementById('total_amount').value = total.toFixed(2);
         }
 
+        // Hàm để cập nhật giá khi chọn sản phẩm
+        function updatePrice(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const price = selectedOption.getAttribute('data-price');
+
+            const priceInput = selectElement.closest('.mb-2').nextElementSibling.querySelector(
+                'input[name="product_price[]"]');
+            if (priceInput) {
+                priceInput.value = price;
+            }
+            calculateTotal();
+        }
+
+        // Hàm để thêm sự kiện lắng nghe cho input
+        function addInputListeners() {
+            document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
+                input.addEventListener('input', calculateTotal);
+            });
+        }
+
         // Hàm để xóa sản phẩm
         function removeProduct(id) {
             if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -278,17 +287,9 @@
             }
         }
 
-        // Thêm sự kiện lắng nghe cho input (số lượng, giá sản phẩm)
-        function addInputListeners() {
-            const productList = document.getElementById('product_list');
-            productList.querySelectorAll('[name="product_quantity[]"], [name="product_price[]"]').forEach(function(input) {
-                input.addEventListener('input', calculateTotal);
-            });
-        }
-
         // Gọi hàm khi trang được tải lần đầu
         document.addEventListener('DOMContentLoaded', function() {
-            addInputListeners(); // Thêm sự kiện lắng nghe khi trang tải lần đầu
+            addInputListeners();
             calculateTotal();
         });
     </script>

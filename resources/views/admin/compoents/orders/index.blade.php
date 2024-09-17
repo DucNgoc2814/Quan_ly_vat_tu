@@ -68,7 +68,7 @@
                                     <td><span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span></td>
                                     <td>{{ number_format($order->total_amount) }}</td>
                                     <td>{{ number_format($order->paid_amount) }}</td>
-                                    <td><span class="badge bg-danger">{{ $order->orderStatus->description }}</span></td>
+                                    <td><span class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">{{ $order->orderStatus->description }}</span></td>
                                     <td>
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
