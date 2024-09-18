@@ -108,13 +108,18 @@
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="payment_id">Phương thức thanh toán</label>
-                            <select class="form-select" id="payment_id" name="payment_id" data-choices
-                                data-choices-search-false>
+                            <select class="form-select @error('payment_id') is-invalid @enderror" id="payment_id"
+                                name="payment_id" data-choices data-choices-search-false>
                                 @foreach ($payments as $id => $name)
                                     <option @selected($order->payment_id == $id) value="{{ $id }}">{{ $name }}
                                     </option>
                                 @endforeach
                             </select>
+                            @error('payment_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -172,9 +177,9 @@
                                             <div class="mb-2">
                                                 <div class="mb-2">
                                                     <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                                                    <select class="form-select" id="product-variant-input"
-                                                        name="variation_id[]" data-choices data-choices-search-false
-                                                        onchange="updatePrice(this)">
+                                                    <select class="form-select @error('variation_id') is-invalid @enderror"
+                                                        id="product-variant-input" name="variation_id[]" data-choices
+                                                        data-choices-search-false onchange="updatePrice(this)">
                                                         <option value="">Chọn Sản Phẩm</option>
                                                         @foreach ($variation as $variant)
                                                             <option value="{{ $variant->id }}"
@@ -186,6 +191,11 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
+                                                    @error('variation_id')
+                                                        <span class="invalid-feedback" role="alert">
+                                                            <strong>{{ $message }}</strong>
+                                                        </span>
+                                                    @enderror
                                                 </div>
                                                 <div class="mb-2">
                                                     <label class="form-label" for="product-price-input">Giá sản
@@ -196,7 +206,9 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="mb-2">
-                                                            <label class="form-label" for="product-quantity-input">Số
+                                                            <label
+                                                                class="form-label @error('product_quantity') is-invalid @enderror"
+                                                                for="product-quantity-input">Số
                                                                 lượng sản
                                                                 phẩm</label>
                                                             <input type="number"
@@ -234,9 +246,9 @@
                                         <div class="mb-2">
                                             <div class="mb-2">
                                                 <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                                                <select class="form-select" id="product-variant-input"
-                                                    name="product_variant[]" data-choices data-choices-search-false
-                                                    onchange="updatePrice(this)">
+                                                <select class="form-select @error('variation_id') is-invalid @enderror"
+                                                    id="product-variant-input" name="product_variant[]" data-choices
+                                                    data-choices-search-false onchange="updatePrice(this)">
                                                     <option value="">Chọn Sản Phẩm</option>
                                                     @foreach ($variation as $id => $variant)
                                                         <option @selected($detail->variation_id == $id) value="{{ $id }}"
@@ -245,6 +257,11 @@
                                                             {{ $variant->name }}</option>
                                                     @endforeach
                                                 </select>
+                                                @error('variation_id')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                             <div class="mb-2">
                                                 <label class="form-label" for="product-price-input">Giá sản
@@ -274,7 +291,8 @@
                                                         <label class="form-label" for="product-stock-input">Số lượng sản
                                                             phẩm có trong kho</label>
                                                         <input type="number" class="form-control"
-                                                            id="product-stock-input" name="stock" readonly>
+                                                            id="product-stock-input" name="stock"
+                                                            value="{{ $detail->variation->stock ?? '' }}" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -348,13 +366,18 @@
                 <hr class="mb-2">
                 <div class="mb-2">
                     <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                    <select class="form-select" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
-                        <option value="">Chọn Sản Phẩm</option>
-                        @foreach ($variation as $id => $variant)
-                            <option value="{{ $id }}" data-price="{{ $variant->price_export }}" data-stock="{{ $variant->stock }}">
+                    <select class="form-select @error('variation_id') is-invalid @enderror" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
+                        <option value="0">Chọn Sản Phẩm</option>
+                        @foreach ($variation as $variant)
+                            <option value="{{ $variant->id }}" data-price="{{ $variant->price_export }}" data-stock="{{ $variant->stock }}">
                                 {{ $variant->name }}</option>
                         @endforeach
                     </select>
+                    @error('variation_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <div class="mb-2">
                     <label class="form-label" for="product-price-input">Giá sản phẩm</label>
@@ -382,7 +405,7 @@
                             <label class="form-label" for="product-stock-input">Số lượng sản
                                 phẩm có trong kho</label>
                             <input type="number" class="form-control"
-                                id="product-stock-input" name="stock" readonly>
+                                id="product-stock-input" name="stock" value="{{ $detail->variation->stock ?? '' }}" readonly>
                         </div>
                     </div>
                 </div>
@@ -409,6 +432,17 @@
             }
 
             document.getElementById('total_amount').value = total.toFixed(2);
+        }
+
+        function updateStockForExistingProducts() {
+            document.querySelectorAll('[name="variation_id[]"]').forEach(select => {
+                const selectedOption = select.options[select.selectedIndex];
+                const stock = selectedOption.getAttribute('data-stock');
+                const stockInput = select.closest('.col-md-12').querySelector('input[name="stock"]');
+                if (stockInput) {
+                    stockInput.value = stock;
+                }
+            });
         }
 
         // Hàm để cập nhật giá khi chọn sản phẩm
@@ -448,6 +482,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             addInputListeners();
             calculateTotal();
+            updateStockForExistingProducts();
         });
     </script>
 @endsection

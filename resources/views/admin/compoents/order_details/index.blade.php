@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Chi tiết đơn hàngC
+    Chi tiết đơn hàng
 @endsection
 
 @section('content')
@@ -42,7 +42,7 @@
                                 <tr>
                                     <td>{{ $orderDetail->id }}</td>
                                     <td>{{ $orderDetail->order->slug }}</td>
-                                    <td>{{ $orderDetail->variations?->product?->name ?? 'Không có thông tin sản phẩm'}}</td>
+                                    <td>{{ $orderDetail->variations?->name ?? 'Không có thông tin sản phẩm'}}</td>
                                     <td>
                                         {{-- @if ($orderDetail->products->galleries->first()->url && Storage::exists($orderDetail->products->galleries->first()->url))
                                             <img src="{{ \Storage::url($orderDetail->products->galleries->first()->url) ?? 'Không có ảnh'}}" width="100px" alt="">

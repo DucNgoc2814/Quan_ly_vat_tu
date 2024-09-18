@@ -31,16 +31,16 @@
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="customer_id ">Tên người đặt</label>
-                            <select class="form-select" id="customer_id" name="customer_id" data-choices
-                                data-choices-search-false>
+                            <select class="form-select @error('customer_id') is-invalid @enderror" id="customer_id"
+                                name="customer_id" data-choices data-choices-search-false>
                                 <option value="">Chọn Tên</option>
                                 @foreach ($customers as $custumer)
                                     <option value="{{ $custumer->id }}">{{ $custumer->name }}</option>
                                 @endforeach
                             </select>
-                            @error('title')
-                                <span role="alert">
-                                    <span class="text-danger">a</span>
+                            @error('customer_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -48,12 +48,12 @@
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="customer_name">Tên người nhận</label>
-                            <input type="text" class="form-control" id="customer_name" value=""
-                                placeholder="Nhập tên người nhận " name="customer_name">
+                            <input type="text" class="form-control  @error('customer_name') is-invalid @enderror"
+                                id="customer_name" value="" placeholder="Nhập tên người nhận " name="customer_name">
                             {{-- {{ Auth::user()->name }} --}}
-                            @error('title')
-                                <span role="alert">
-                                    <span class="text-danger">a</span>
+                            @error('customer_name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -61,12 +61,13 @@
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="number_phone">Số điện thoại người nhận</label>
-                            <input type="text" class="form-control" id="number_phone" value=""
-                                placeholder="Nhập số điện thoại người nhận" name="number_phone">
+                            <input type="text" class="form-control @error('number_phone') is-invalid @enderror"
+                                id="number_phone" value="" placeholder="Nhập số điện thoại người nhận"
+                                name="number_phone">
                             {{-- {{ Auth::user()->number_phone }}e"> --}}
-                            @error('title')
-                                <span role="alert">
-                                    <span class="text-danger">a</span>
+                            @error('number_phone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -74,12 +75,12 @@
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="email">Email người nhận</label>
-                            <input type="text" class="form-control" id="email" value=""
-                                placeholder="Nhập email người nhận" name="email">
+                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
+                                value="" placeholder="Nhập email người nhận" name="email">
                             {{-- {{ Auth::user()->email }} --}}
-                            @error('title')
-                                <span role="alert">
-                                    <span class="text-danger">a</span>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -87,11 +88,11 @@
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="address">Địa chỉ giao hàng</label>
-                            <input type="text" class="form-control" id="address" value=""
-                                placeholder="Nhập địa chỉ giao hàng" name="address">
-                            @error('title')
-                                <span role="alert">
-                                    <span class="text-danger">a</span>
+                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address"
+                                value="" placeholder="Nhập địa chỉ giao hàng" name="address">
+                            @error('address')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -106,16 +107,16 @@
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="payment_id">Phương thức thanh toán</label>
-                            <select class="form-select" id="payment_id" name="payment_id" data-choices
-                                data-choices-search-false>
+                            <select class="form-select @error('payment_id') is-invalid @enderror" id="payment_id"
+                                name="payment_id" data-choices data-choices-search-false>
                                 <option value="">Chọn Phương Thức Thanh Toán</option>
                                 @foreach ($payments as $id => $name)
                                     <option value="{{ $id }}">{{ $name }}</option>
                                 @endforeach
                             </select>
-                            @error('title')
-                                <span role="alert">
-                                    <span class="text-danger">a</span>
+                            @error('payment_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
@@ -133,16 +134,22 @@
                                 <div class="col-md-12" id="product_default_item">
                                     <div class="mb-2">
                                         <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                                        <select class="form-select" id="product-variant-input" name="variation_id[]"
-                                            data-choices data-choices-search-false onchange="updatePrice(this)">
-                                            <option value="">Chọn Sản Phẩm</option>
-                                            @foreach ($variation as $id => $variant)
-                                                <option value="{{ $id }}"
+                                        <select class="form-select @error('variation_id') is-invalid @enderror"
+                                            id="product-variant-input" name="variation_id[]" data-choices
+                                            data-choices-search-false onchange="updatePrice(this)">
+                                            <option value="0">Chọn Sản Phẩm</option>
+                                            @foreach ($variation as $variant)
+                                                <option value="{{ $variant->id }}"
                                                     data-price="{{ $variant->price_export }}"
                                                     data-stock="{{ $variant->stock }}">
                                                     {{ $variant->name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('variation_id')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label" for="product-price-input">Giá sản phẩm</label>
@@ -154,8 +161,15 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="product-quantity-input">Số lượng sản
                                                     phẩm</label>
-                                                <input type="number" class="form-control" id="product-quantity-input"
-                                                    name="product_quantity[]" placeholder="Nhập số lượng">
+                                                <input type="number"
+                                                    class="form-control  @error('product_quantity') is-invalid @enderror"
+                                                    id="product-quantity-input" name="product_quantity[]"
+                                                    placeholder="Nhập số lượng">
+                                                @error('product_quantity')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -190,9 +204,11 @@
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label class="form-label" for="paid_amount">Số tiền đã trả</label>
-                                    <input type="text" class="form-control form-control-lg" id="paid_amount"
-                                        value="" placeholder="Nhập số tiền đã trả" name="paid_amount">
-                                    @error('amount_paid')
+                                    <input type="text"
+                                        class="form-control form-control-lg  @error('paid_amount') is-invalid @enderror"
+                                        id="paid_amount" value="" placeholder="Nhập số tiền đã trả"
+                                        name="paid_amount">
+                                    @error('paid_amount')
                                         <span role="alert">
                                             <span class="text-danger">{{ $message }}</span>
                                         </span>
@@ -232,13 +248,18 @@
                 <hr class="mb-2">
                 <div class="mb-2">
                     <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                    <select class="form-select" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
-                        <option value="">Chọn Sản Phẩm</option>
-                        @foreach ($variation as $id => $variant)
-                            <option value="{{ $id }}" data-price="{{ $variant->price_export }}" data-stock="{{ $variant->stock }}">
+                    <select class="form-select @error('variation_id') is-invalid @enderror" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
+                        <option value="0">Chọn Sản Phẩm</option>
+                        @foreach ($variation as $variant)
+                            <option value="{{ $variant->id }}" data-price="{{ $variant->price_export }}" data-stock="{{ $variant->stock }}">
                                 {{ $variant->name }}</option>
                         @endforeach
                     </select>
+                    @error('variation_id')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <div class="mb-2">
                     <label class="form-label" for="product-price-input">Giá sản phẩm</label>
@@ -248,7 +269,12 @@
                     <div class="col-md-6">
                         <div class="mb-2">
                             <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
-                            <input type="number" class="form-control" name="product_quantity[]" placeholder="Nhập số lượng" min="1" value="1">
+                            <input type="number" class="form-control  @error('product_quantity') is-invalid @enderror" name="product_quantity[]" placeholder="Nhập số lượng" min="1" value="1">
+                            @error('product_quantity')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -274,6 +300,8 @@
         function calculateTotal() {
             let total = 0;
             const quantities = document.getElementsByName('product_quantity[]');
+            // console.log(quantities);
+
             const prices = document.getElementsByName('product_price[]');
 
             for (let i = 0; i < quantities.length; i++) {

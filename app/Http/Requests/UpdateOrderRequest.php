@@ -22,17 +22,27 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'customer_id' => 'required|exists:customers,id',
-            'customer_name' => 'required|string|max:255',
-            'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers',
-            'email' => 'required|email|max:255',
-            'address' => 'required|string|max:255',
-            'payment_id' => 'required|exists:payments,id',
-            'variation_id' => 'required|array',
-            'variation_id.*' => 'exists:variations,id',
-            'product_quantity' => 'required|array',
-            'product_quantity.*' => 'numeric|min:1',
-            'paid_amount' => 'required|numeric|min:0|lte:total_amount',
+            // 'customer_id' => 'required|exists:customers,id',
+            // 'customer_name' => 'required|string|max:255',
+            // 'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers',
+            // 'email' => 'required|email|max:255',
+            // 'address' => 'required|string|max:255',
+            // 'payment_id' => 'required|exists:payments,id',
+            // 'variation_id' => 'required|array',
+            // 'variation_id.*' => 'exists:variations,id',
+            // 'product_quantity' => 'required|array',
+            // 'product_quantity.*' => [
+            //     'numeric|min:1',
+            //     function ($attribute, $value, $fail) {
+            //         $index = explode('.', $attribute)[1];
+            //         $variationId = $this->input('variation_id')[$index];
+            //         $variation = \App\Models\Variation::find($variationId);
+            //         if ($variation && $value > $variation->stock) {
+            //             $fail("Số lượng sản phẩm không được lớn hơn số lượng có trong kho ({$variation->stock}).");
+            //         }
+            //     },
+            // ],
+            // 'paid_amount' => 'required|numeric|min:0|lte:total_amount',
         ];
     }
 
@@ -69,6 +79,7 @@ class UpdateOrderRequest extends FormRequest
             'product_quantity.array' => 'Dữ liệu số lượng sản phẩm không hợp lệ.',
             'product_quantity.*.numeric' => 'Số lượng sản phẩm phải là số.',
             'product_quantity.*.min' => 'Số lượng sản phẩm phải lớn hơn 0.',
+            'product_quantity.*.max' => 'Số lượng sản phẩm không được lớn hơn số lượng có trong kho.',
 
             'paid_amount.required' => 'Vui lòng nhập số tiền đã trả.',
             'paid_amount.numeric' => 'Số tiền đã trả phải là số.',

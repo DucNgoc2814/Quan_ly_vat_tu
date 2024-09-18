@@ -53,10 +53,10 @@ class OrderController extends Controller
      */
     public function store(StoreOrderRequest $request)
     {
+        // dd($request->all());
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request) {
-                // dd($request->all());
                 $customers = Customer::findOrFail($request->customer_id);
 
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 5);
@@ -87,10 +87,12 @@ class OrderController extends Controller
                             'quantity' => $request->product_quantity[$key],
                             'price' => $request->product_price[$key],
                         ]);
+
                     }
                 } else {
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
+
             });
 
             return redirect()->route('quan-ly-don-hang.danh-sach-ban');
@@ -120,6 +122,7 @@ class OrderController extends Controller
         // $variation = Variation::pluck('name', 'id')->all();
         $orderDetails = Order_detail::where('order_id', $order->id)->get();
 
+        // dd($variation);
         return view(self::PATH_VIEW . __FUNCTION__, compact('order', 'payments', 'customers', 'status', 'variation', 'orderDetails'));
     }
 
