@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ContractController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\SupplierController;
 
 
@@ -19,6 +19,7 @@ Route::prefix('quan-ly-tai-khoan')
         Route::put('{id}/cap-nhat', [SupplierController::class, 'update'])->name('cap-nhat');
         Route::delete('{id}/an-nha-cung-cap', [SupplierController::class, 'destroy'])->name('an-nha-cung-cap');
     });
+
 Route::prefix('sliders')
     ->as('sliders.')
     ->group(function () {
@@ -37,7 +38,17 @@ Route::prefix('thuong-hieu')
         Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
         Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
         Route::post('/store', [BrandController::class, 'store'])->name('store');
-        Route::get('{id}/sua', [BrandController::class, 'edit'])->name('edit');
-        Route::put('{id}/update', [BrandController::class, 'update'])->name('update');
+        Route::get('/sua/{sku}', [BrandController::class, 'edit'])->name('edit');
+        Route::put('/update/{brand}', [BrandController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [BrandController::class, 'destroy'])->name('destroy');
+    });
+Route::prefix('hop-dong')
+    ->as('hop-dong.')
+    ->group(function () {
+        Route::get('/danh-sach', [ContractController::class, 'index'])->name('index');
+        Route::get('/them-moi', [ContractController::class, 'create'])->name('create');
+        Route::post('/store', [ContractController::class, 'store'])->name('store');
+        Route::get('/sua/{contract}', [ContractController::class, 'edit'])->name('edit');
+        Route::put('/update/{brand}', [ContractController::class, 'update'])->name('update');
+        Route::delete('{id}/destroy', [ContractController::class, 'destroy'])->name('destroy');
     });

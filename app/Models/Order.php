@@ -35,21 +35,25 @@ class Order extends Model
 
     public function status()
     {
-        return $this->belongsTo(Order_Status::class);
+        return $this->belongsTo(Order_status::class);
     }
 
     public function orderDetails()
     {
-        return $this->hasMany(Order_Detail::class);
+        return $this->hasMany(Order_detail::class);
     }
 
     public function contract()
     {
-        return $this->hasOne(Contract::class);
+        return $this->hasOne(Contract::class, 'order_id');
     }
 
     public function debts()
     {
         return $this->hasMany(Debt::class);
+    }
+
+    public function orderCanceled() {
+        return $this->hasOne(Order_canceled::class);
     }
 }

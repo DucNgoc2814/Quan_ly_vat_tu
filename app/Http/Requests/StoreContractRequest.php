@@ -11,7 +11,7 @@ class StoreContractRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string|max:255',
+            'order_id' => 'required|exists:orders,id',
+            'contract_type_id' => 'required|exists:contract_types,id',
+            'note' => 'nullable|string',
+            'file' => 'file|mimes:pdf|max:2048',
         ];
     }
 }

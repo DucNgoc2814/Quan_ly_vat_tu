@@ -39,6 +39,6 @@ class Variation extends Model
 
     public function attributeValues()
     {
-        return $this->belongsToMany(Attribute_Value::class);
+        return $this->belongsToMany(Attribute_value::class);
     }
 }
