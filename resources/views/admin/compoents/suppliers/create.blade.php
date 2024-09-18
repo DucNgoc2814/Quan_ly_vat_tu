@@ -22,7 +22,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{route('them-moi')}}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('them-moi') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="row">
@@ -31,26 +31,28 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Tên nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập tên nhà cung cấp" name="name" value="{{old('name')}}">
+                            <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                placeholder="Nhập tên nhà cung cấp" name="name" value="{{ old('name') }}">
                             @error('name')
                                 <span role="alert">
-                                    <span class="text-danger">{{$message}}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 </span>
                             @enderror
                         </div>
                     </div>
                 </div>
                 <!-- end card -->
-          
+
                 <!-- end card -->
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Email nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập email" name="email" value="{{old('email')}}">
+                            <input type="text" class="form-control  @error('email') is-invalid @enderror"
+                                placeholder="Nhập email" name="email" value="{{ old('email') }}">
                             @error('email')
                                 <span role="alert">
-                                    <span class="text-danger">{{$message}}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 </span>
                             @enderror
                         </div>
@@ -61,10 +63,11 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Số điện thoại nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập số điện thoại" name="number_phone" value="{{old('number_phone')}}">
+                            <input type="text" class="form-control  @error('number_phone') is-invalid @enderror"
+                                placeholder="Nhập số điện thoại" name="number_phone" value="{{ old('number_phone') }}">
                             @error('number_phone')
                                 <span role="alert">
-                                    <span class="text-danger">{{$message}}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 </span>
                             @enderror
                         </div>
@@ -75,10 +78,11 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Địa chỉ nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập địa chỉ nhà cung cấp" name="address" value="{{old('address')}}">
+                            <input type="text" class="form-control  @error('address') is-invalid @enderror"
+                                placeholder="Nhập địa chỉ nhà cung cấp" name="address" value="{{ old('address') }}">
                             @error('address')
                                 <span role="alert">
-                                    <span class="text-danger">{{$message}}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 </span>
                             @enderror
                         </div>
