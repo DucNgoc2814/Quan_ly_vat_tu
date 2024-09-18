@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
+    Chi tiết đơn hàngC
 @endsection
 
 @section('content')
@@ -41,17 +42,17 @@
                                 <tr>
                                     <td>{{ $orderDetail->id }}</td>
                                     <td>{{ $orderDetail->order->slug }}</td>
-                                    <td>{{ $orderDetail->products->name }}</td>
+                                    <td>{{ $orderDetail->variations?->product?->name ?? 'Không có thông tin sản phẩm'}}</td>
                                     <td>
                                         {{-- @if ($orderDetail->products->galleries->first()->url && Storage::exists($orderDetail->products->galleries->first()->url))
                                             <img src="{{ \Storage::url($orderDetail->products->galleries->first()->url) ?? 'Không có ảnh'}}" width="100px" alt="">
                                         @endif --}}
-                                        {{ $orderDetail->products->galleries->first()->url ?? 'Không có ảnh'}}
+                                        {{ $orderDetail->variations?->product?->galleries?->first()?->url ?? 'Không có ảnh'}}
                                     </td>
                                     <td>{{ number_format($orderDetail->price) }}</td>
-                                    <td>{{ $orderDetail->products->unit->name }}</td>
+                                    <td>{{ $orderDetail->variations?->product?->unit?->name ?? 'Không có đơn vị'}}</td>
                                     <td>{{ $orderDetail->quantity }}</td>
-                                    <td>{{ $orderDetail->variations->name ?? 'Không có biến thể' }}</td>
+                                    <td>{{ $orderDetail->variations?->name ?? 'Không có biến thể' }}</td>
                                 </tr>
                             @endforeach
                         </tbody>

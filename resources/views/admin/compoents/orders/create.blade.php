@@ -133,12 +133,13 @@
                                 <div class="col-md-12" id="product_default_item">
                                     <div class="mb-2">
                                         <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                                        <select class="form-select" id="product-variant-input" name="product_variant[]"
+                                        <select class="form-select" id="product-variant-input" name="variation_id[]"
                                             data-choices data-choices-search-false onchange="updatePrice(this)">
                                             <option value="">Chọn Sản Phẩm</option>
                                             @foreach ($variation as $id => $variant)
                                                 <option value="{{ $id }}"
-                                                    data-price="{{ $variant->price_export }}">
+                                                    data-price="{{ $variant->price_export }}"
+                                                    data-stock="{{ $variant->stock }}">
                                                     {{ $variant->name }}</option>
                                             @endforeach
                                         </select>
@@ -148,10 +149,23 @@
                                         <input type="number" class="form-control" id="product-price-input"
                                             name="product_price[]" readonly>
                                     </div>
-                                    <div class="mb-2">
-                                        <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
-                                        <input type="number" class="form-control" id="product-quantity-input"
-                                            name="product_quantity[]" placeholder="Nhập số lượng">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="product-quantity-input">Số lượng sản
+                                                    phẩm</label>
+                                                <input type="number" class="form-control" id="product-quantity-input"
+                                                    name="product_quantity[]" placeholder="Nhập số lượng">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="product-stock-input">Số lượng sản
+                                                    phẩm có trong kho</label>
+                                                <input type="number" class="form-control" id="product-stock-input"
+                                                    name="stock" readonly>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -218,10 +232,10 @@
                 <hr class="mb-2">
                 <div class="mb-2">
                     <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                    <select class="form-select" name="product_variant[]" data-choices data-choices-search-false onchange="updatePrice(this)">
+                    <select class="form-select" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
                         <option value="">Chọn Sản Phẩm</option>
                         @foreach ($variation as $id => $variant)
-                            <option value="{{ $id }}" data-price="{{ $variant->price_export }}">
+                            <option value="{{ $id }}" data-price="{{ $variant->price_export }}" data-stock="{{ $variant->stock }}">
                                 {{ $variant->name }}</option>
                         @endforeach
                     </select>
@@ -230,9 +244,19 @@
                     <label class="form-label" for="product-price-input">Giá sản phẩm</label>
                     <input type="number" class="form-control" name="product_price[]" readonly>
                 </div>
-                <div class="mb-2">
-                    <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
-                    <input type="number" class="form-control" name="product_quantity[]" placeholder="Nhập số lượng" min="1" value="1">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-2">
+                            <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
+                            <input type="number" class="form-control" name="product_quantity[]" placeholder="Nhập số lượng" min="1" value="1">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-2">
+                            <label class="form-label" for="product-stock-input">Số lượng sản phẩm có trong kho</label>
+                            <input type="number" class="form-control" name="stock" readonly>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-2">
                     <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
@@ -263,11 +287,18 @@
         function updatePrice(selectElement) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
             const price = selectedOption.getAttribute('data-price');
+            const stock = selectedOption.getAttribute('data-stock');
 
             const priceInput = selectElement.closest('.mb-2').nextElementSibling.querySelector(
                 'input[name="product_price[]"]');
+            const stockInput = selectElement.closest('.col-md-12').querySelector('input[name="stock"]');
+
+
             if (priceInput) {
                 priceInput.value = price;
+            }
+            if (stockInput) {
+                stockInput.value = stock;
             }
             calculateTotal();
         }

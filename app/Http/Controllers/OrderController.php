@@ -11,6 +11,7 @@ use App\Models\Order_status;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\Variation;
+use Exception;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -42,10 +43,9 @@ class OrderController extends Controller
         $payments = Payment::pluck('name', 'id')->all();
         $customers = Customer::get();
         $status = Order_status::pluck('description', 'id')->all();
-        $products = Product::pluck('name', 'id')->all();
         $variation = Variation::all();
         // $variation = Variation::pluck('name', 'id')->all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'products', 'variation'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation'));
     }
 
     /**
@@ -56,6 +56,7 @@ class OrderController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request) {
+                // dd($request->all());
                 $customers = Customer::findOrFail($request->customer_id);
 
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 5);
@@ -78,20 +79,23 @@ class OrderController extends Controller
 
                 $order = Order::query()->create($dataOrder);
 
-                foreach ($request->product_id as $key => $productID) {
-                    Order_detail::query()->create([
-                        'order_id' => $order->id,
-                        'product_id' => $productID,
-                        'variation_id' => $request->product_variant[$key],
-                        'quantity' => $request->product_quantity[$key],
-                        'price' => $request->product_price[$key],
-                    ]);
+                if (is_array($request->variation_id) && count($request->variation_id) > 0) {
+                    foreach ($request->variation_id as $key => $variationID) {
+                        Order_detail::query()->create([
+                            'order_id' => $order->id,
+                            'variation_id' => $variationID,
+                            'quantity' => $request->product_quantity[$key],
+                            'price' => $request->product_price[$key],
+                        ]);
+                    }
+                } else {
+                    throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
             });
 
             return redirect()->route('quan-ly-don-hang.danh-sach-ban');
         } catch (\Throwable $th) {
-            // dd($th->getMessage());
+            dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
     }
@@ -112,11 +116,11 @@ class OrderController extends Controller
         $payments = Payment::pluck('name', 'id')->all();
         $customers = Customer::pluck('name', 'id')->all();
         $status = Order_status::pluck('description', 'id')->all();
-        $products = Product::pluck('name', 'id')->all();
-        $variation = Variation::pluck('name', 'id')->all();
+        $variation = Variation::all();
+        // $variation = Variation::pluck('name', 'id')->all();
         $orderDetails = Order_detail::where('order_id', $order->id)->get();
 
-        return view(self::PATH_VIEW . __FUNCTION__, compact('order', 'payments', 'customers', 'status', 'products', 'variation', 'orderDetails'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('order', 'payments', 'customers', 'status', 'variation', 'orderDetails'));
     }
 
     /**
@@ -135,9 +139,9 @@ class OrderController extends Controller
                 $currentStatus = $order->status_id;
                 $newStatus = $request->status_id;
 
-                if(!$this->isValidStatusTransition($currentStatus, $newStatus)){
-                    throw new \Exception('Trạng thái không hợp lệ.');
-                }
+                // if (!$this->isValidStatusTransition($currentStatus, $newStatus)) {
+                //     throw new \Exception('Trạng thái không hợp lệ.');
+                // }
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
                     "customer_id" => $request->customer_id,
@@ -156,30 +160,27 @@ class OrderController extends Controller
 
                 // Kiểm tra xem các mảng product_id có tồn tại hay ko
 
-                if (is_array($request->product_id) && count($request->product_id) > 0) {
+                if (is_array($request->variation_id) && count($request->variation_id) > 0) {
 
-                    foreach ($request->product_id as $key => $productID) {
+                    foreach ($request->variation_id as $key => $variationID) {
 
                         // kiểm tra tính tồn tại của các mảng liên quan
-                        $variation_id = $request->product_variant[$key] ?? null;
                         $quantity = $request->product_quantity[$key] ?? null;
                         $price = $request->product_price[$key] ?? null;
 
                         // Thêm chi tiết đơn hàng mới chỉ khi có đủ thông tin
 
-                        if ($productID && $variation_id && $quantity && $price) {
+                        if ($variationID && $quantity && $price) {
 
                             Order_detail::query()->create([
                                 'order_id' => $order->id,
-                                'product_id' => $productID,
-                                'variation_id' => $variation_id,
+                                'variation_id' => $variationID,
                                 'quantity' => $quantity,
                                 'price' => $price,
                             ]);
                         }
                     }
-                }
-                else{
+                } else {
                     throw new \Exception('Không có sản phẩm nào để cập nhật trong đơn hàng.');
                 }
             });

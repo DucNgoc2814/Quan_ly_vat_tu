@@ -16,7 +16,7 @@ class OrderDetailController extends Controller
     {
         $data = Order_detail::whereHas('order', function($query) use ($slug){
             $query->where('slug', $slug);
-        })->with(['order','products','variations'])->get();
+        })->with(['order','variations'])->get();
 
         return view(self::PATH_VIEW. __FUNCTION__ , data: compact('data'));
     }
