@@ -98,7 +98,7 @@
     <script src="{{ asset('themes/admin/assets/js/plugins.js') }}"></script>
 
     @yield('scripts-list')
-    
+
     <!-- App js -->
     <script src="{{ asset('themes/admin/assets/js/app.js') }}"></script>
 

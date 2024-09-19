@@ -9,9 +9,9 @@ use App\Models\Customer;
 use App\Models\Order_detail;
 use App\Models\Order_status;
 use App\Models\Payment;
-use App\Models\Product;
 use App\Models\Variation;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -28,16 +28,71 @@ class OrderController extends Controller
      */
 
     const PATH_VIEW = 'admin.compoents.orders.';
-    public function index()
-    {
+    // public function index()
+    // {
 
-        $data = Order::with(['payment', 'customer', 'orderStatus'])->latest()->paginate(10);
-        return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
-    }
+    //     $data = Order::with(['payment', 'customer', 'orderStatus'])->latest()->paginate(10);
+    //     return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
+    // }
 
     /**
      * Show the form for creating a new resource.
      */
+
+    // public function index(Request $request)
+    // {
+    //     $query = Order::query();
+
+    //     if ($request->has('orderDate')) {
+    //         $date = $request->input('orderDate');
+    //         $query->whereDate('created_at', $date);
+    //     }
+
+    //     $query->orderBy('created_at', 'desc');
+    //     $data = $query->paginate(10);
+
+    //     if ($data->isEmpty()) {
+    //         $message = 'Không có đơn hàng nào cho ngày đã chọn.';
+    //         return view('admin.compoents.orders.index', compact('data', 'message'));
+    //     }
+
+    //     return view('admin.compoents.orders.index', compact('data'));
+    // }
+
+    public function index(Request $request)
+    {
+        $query = Order::query();
+
+        if ($request->has('search') && $request->has('search_column')) {
+            $searchTerm = $request->input('search');
+            $searchColumn = $request->input('search_column');
+            $query->where($searchColumn, 'LIKE', "%{$searchTerm}%");
+        }
+
+        if ($request->has('orderDate')) {
+            $date = $request->input('orderDate');
+            $query->whereDate('created_at', $date);
+        }
+
+        $query->orderBy('created_at', 'desc');
+        $data = $query->paginate(10);
+
+        $columns = [
+            'slug' => 'Mã đơn hàng',
+            'created_at' => 'Ngày đặt hàng',
+            'customer_name' => 'Tên người nhận',
+            'number_phone' => 'Số điện thoại người nhận',
+            'address' => 'Địa chỉ giao hàng',
+        ];
+
+        if ($data->isEmpty()) {
+            $message = 'Không có đơn hàng nào cho tiêu chí tìm kiếm.';
+            return view('admin.compoents.orders.index', compact('data', 'message', 'columns'));
+        }
+
+        return view('admin.compoents.orders.index', compact('data', 'columns'));
+    }
+
     public function create()
     {
         $payments = Payment::pluck('name', 'id')->all();
@@ -51,9 +106,62 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+
+
+    // public function store(StoreOrderRequest $request)
+    // {
+    //     // dd($request->all());
+    //     date_default_timezone_set('Asia/Ho_Chi_Minh');
+    //     try {
+    //         DB::transaction(function () use ($request) {
+    //             $customers = Customer::findOrFail($request->customer_id);
+
+    //             $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 5);
+    //             $timestamp = now()->format('His_dmY');
+    //             $slug = 'DH' . $randomChars . $timestamp;
+
+
+    //             $dataOrder = [
+    //                 "payment_id" => $request->payment_id,
+    //                 "customer_id" => $request->customer_id,
+    //                 "status_id" => 1,
+    //                 "slug" => $slug,
+    //                 "customer_name" => $request->customer_name ?? $customers->name,
+    //                 "email" => $request->email ?? $customers->email,
+    //                 "number_phone" => $request->number_phone ?? $customers->number_phone,
+    //                 "address" => $request->address,
+    //                 "total_amount" => $request->total_amount,
+    //                 "paid_amount" => $request->paid_amount,
+    //             ];
+
+    //             $order = Order::query()->create($dataOrder);
+
+    //             if (is_array($request->variation_id) && count($request->variation_id) > 0) {
+    //                 foreach ($request->variation_id as $key => $variationID) {
+    //                     Order_detail::query()->create([
+    //                         'order_id' => $order->id,
+    //                         'variation_id' => $variationID,
+    //                         'quantity' => $request->product_quantity[$key],
+    //                         'price' => $request->product_price[$key],
+    //                     ]);
+
+    //                 }
+    //             } else {
+    //                 throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
+    //             }
+
+    //         });
+
+    //         return redirect()->route('quan-ly-don-hang.danh-sach-ban');
+    //     } catch (\Throwable $th) {
+    //         dd($th->getMessage());
+    //         return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
+    //     }
+    // }
+
+
     public function store(StoreOrderRequest $request)
     {
-        // dd($request->all());
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request) {
@@ -63,11 +171,10 @@ class OrderController extends Controller
                 $timestamp = now()->format('His_dmY');
                 $slug = 'DH' . $randomChars . $timestamp;
 
-
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
                     "customer_id" => $request->customer_id,
-                    "status_id" => 1,
+                    "status_id" => 1, // Trạng thái mặc định 'Chờ xác nhận'
                     "slug" => $slug,
                     "customer_name" => $request->customer_name ?? $customers->name,
                     "email" => $request->email ?? $customers->email,
@@ -81,13 +188,31 @@ class OrderController extends Controller
 
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationID) {
+
+                        // Tìm variation theo ID
+                        $variation = Variation::findOrFail($variationID);
+                        $orderQuantity = $request->product_quantity[$key];
+
+                        // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
+                        logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
+                        logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
+
+                        // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
+                        if ($orderQuantity > $variation->stock) {
+                            throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
+                        }
+
+                        // Tạo chi tiết đơn hàng
                         Order_detail::query()->create([
                             'order_id' => $order->id,
                             'variation_id' => $variationID,
-                            'quantity' => $request->product_quantity[$key],
+                            'quantity' => $orderQuantity,
                             'price' => $request->product_price[$key],
                         ]);
 
+                        // Giảm số lượng hàng tồn kho
+                        $variation->stock -= $orderQuantity;
+                        $variation->save();
                     }
                 } else {
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
@@ -101,6 +226,7 @@ class OrderController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
     }
+
 
     /**
      * Display the specified resource.
@@ -140,7 +266,7 @@ class OrderController extends Controller
 
                 // Kiểm tra tính họp lệ của trạng thái mới
                 $currentStatus = $order->status_id;
-                $newStatus = $request->status_id;
+                $newStatus = $request->status_id ?? $currentStatus;
 
                 // if (!$this->isValidStatusTransition($currentStatus, $newStatus)) {
                 //     throw new \Exception('Trạng thái không hợp lệ.');
@@ -159,6 +285,14 @@ class OrderController extends Controller
 
                 $order->update($dataOrder);
 
+                // Trả lại số lượng hàng tồn kho trước khi cập nhật
+                foreach ($order->orderDetails as $detail) {
+                    $variation = Variation::findOrFail($detail->variation_id);
+                    $variation->stock += $detail->quantity; // Trả lại số lượng đã bán trước đó
+                    $variation->save();
+                }
+
+                // xóa chi tiết đơn hàng cũ
                 $order->orderDetails()->delete();
 
                 // Kiểm tra xem các mảng product_id có tồn tại hay ko
@@ -175,12 +309,18 @@ class OrderController extends Controller
 
                         if ($variationID && $quantity && $price) {
 
+                            $variation = Variation::findOrFail($variationID);
+
                             Order_detail::query()->create([
                                 'order_id' => $order->id,
                                 'variation_id' => $variationID,
                                 'quantity' => $quantity,
                                 'price' => $price,
                             ]);
+
+                            // Giảm số lượng hàng tồn kho
+                            $variation->stock -= $quantity;
+                            $variation->save();
                         }
                     }
                 } else {
@@ -202,5 +342,37 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+    // public function updateStatus(Request $request)
+    // {
+    //     $order = Order::findOrFail($request->order_id);
+    //     $newStatus = $request->status;
+
+    //     // Kiểm tra logic chuyển trạng thái
+    //     if (
+    //         ($order->status_id == 1 && in_array($newStatus, [2, 5])) ||
+    //         ($order->status_id == 2 && in_array($newStatus, [3, 5])) ||
+    //         ($order->status_id == 3 && $newStatus == 4)
+    //     ) {
+    //         $order->status_id = $newStatus;
+    //         $order->save();
+
+    //         return response()->json(['success' => true]);
+    //     }
+
+    //     return response()->json(['success' => false], 400);
+    // }
+    public function updateStatus(Request $request, $slug)
+    {
+        $order = Order::where('slug', $slug)->firstOrFail();
+        $newStatus = $request->input('status');
+
+        if ($newStatus !== null) {
+            $order->status_id = $newStatus;
+            $order->save();
+            return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
+        }
+
+        return redirect()->back()->with('error', 'Trạng thái không hợp lệ');
     }
 }

@@ -30,6 +30,7 @@ Route::prefix('quan-ly-don-hang')
         Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('nhap-them-don-hang');
         Route::get('{slug}/sua-don-hang', [OrderController::class, 'edit'])->name('sua-don-hang');
         Route::put('{slug}/cap-nhat-don-hang', [OrderController::class, 'update'])->name('cap-nhat-don-hang');
+        Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('cap-nhat-trang-thai');
 
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('chi-tiet-don-hang');
     });

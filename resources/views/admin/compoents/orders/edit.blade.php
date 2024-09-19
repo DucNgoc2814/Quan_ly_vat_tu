@@ -124,43 +124,81 @@
                     </div>
                 </div>
                 <div class="card">
-                    <div class="card-body">
+                    {{-- <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="status_id">Trạng thái giao hàng</label>
                             <select class="form-select" id="status_id" name="status_id" data-choices
                                 data-choices-search-false>
                                 @foreach ($status as $id => $description)
-                                    {{-- Hiển thị chỉ các trạng thái hợp lệ dựa vào trangj thái hiện tại của đơn hàng --}}
                                     @if ($order->status_id == 1 && in_array($id, [1, 2, 5]))
                                         <option @selected($order->status_id == $id) value="{{ $id }}">
                                             {{ $description }}
-                                            {{-- {{dd($order->status_id)}} --}}
                                         </option>
                                     @elseif ($order->status_id == 2 && in_array($id, [2, 3, 5]))
                                         <option @selected($order->status_id == $id) value="{{ $id }}">
                                             {{ $description }}
-                                            {{-- {{dd($order->status_id)}} --}}
                                         </option>
                                     @elseif ($order->status_id == 3 && in_array($id, [3, 4]))
                                         <option @selected($order->status_id == $id) value="{{ $id }}">
                                             {{ $description }}
-                                            {{-- {{dd($order->status_id)}} --}}
                                         </option>
                                     @elseif ($order->status_id == 4 && $id == 4)
                                         <option @selected($order->status_id == $id) value="{{ $id }}">
                                             {{ $description }}
-                                            {{-- {{dd($order->status_id)}} --}}
                                         </option>
                                     @elseif ($order->status_id == 5 && $id == 5)
                                         <option @selected($order->status_id == $id) value="{{ $id }}">
                                             {{ $description }}
-                                            {{-- {{dd($order->status_id)}} --}}
                                         </option>
                                     @endif
                                 @endforeach
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
+                    {{-- <div class="card-body">
+                        <div class="mb-2">
+                            <label class="form-label" for="status_id">Trạng thái giao hàng</label>
+                            @if ($order->status_id == 1)
+                                <form action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
+                                    method="POST" class="d-inline status-update-form">
+                                    @csrf
+                                    <input type="hidden" name="status" value="2">
+                                    <button type="submit" class="btn btn-sm btn-warning">Xác nhận</button>
+                                </form>
+                                <form action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
+                                    method="POST" class="d-inline status-update-form">
+                                    @csrf
+                                    <input type="hidden" name="status" value="5">
+                                    <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
+                                </form>
+                            @elseif ($order->status_id == 2)
+                                <form action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
+                                    method="POST" class="d-inline status-update-form">
+                                    @csrf
+                                    <input type="hidden" name="status" value="3">
+                                    <button type="submit" class="btn btn-sm btn-secondary">Xử lý</button>
+                                </form>
+                                <form action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
+                                    method="POST" class="d-inline status-update-form">
+                                    @csrf
+                                    <input type="hidden" name="status" value="5">
+                                    <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
+                                </form>
+                            @elseif ($order->status_id == 3)
+                                <form action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
+                                    method="POST" class="d-inline status-update-form">
+                                    @csrf
+                                    <input type="hidden" name="status" value="4">
+                                    <button type="submit" class="btn btn-sm btn-info">Đang giao hàng</button>
+                                </form>
+                            @elseif ($order->status_id == 4)
+                                <button type="button" class="btn btn-sm btn-success" disabled>Giao hàng thành
+                                    công</button>
+                            @elseif ($order->status_id == 5)
+                                <button type="button" class="btn btn-sm btn-danger" disabled>Hủy</button>
+                            @endif
+                        </div>
+                    </div> --}}
                 </div>
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
@@ -250,8 +288,8 @@
                                                     id="product-variant-input" name="product_variant[]" data-choices
                                                     data-choices-search-false onchange="updatePrice(this)">
                                                     <option value="">Chọn Sản Phẩm</option>
-                                                    @foreach ($variation as $id => $variant)
-                                                        <option @selected($detail->variation_id == $id) value="{{ $id }}"
+                                                    @foreach ($variation as $variant)
+                                                        <option @selected($detail->variation_id == $id) value="{{ $variant->id }}"
                                                             data-price="{{ $variant->price_export }}"
                                                             data-stock="{{ $variant->stock }}">
                                                             {{ $variant->name }}</option>
@@ -483,6 +521,19 @@
             addInputListeners();
             calculateTotal();
             updateStockForExistingProducts();
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const forms = document.querySelectorAll('.status-update-form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    if (confirm('Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?')) {
+                        this.submit();
+                    }
+                });
+            });
         });
     </script>
 @endsection

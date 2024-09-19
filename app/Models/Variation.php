@@ -22,6 +22,7 @@ class Variation extends Model
     protected $cast = [
         'is_active' => 'boolean',
     ];
+    public $timestamps = false;
 
     public function product()
     {
