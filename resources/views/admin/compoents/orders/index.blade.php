@@ -51,29 +51,33 @@
                     </div> --}}
                     <div class="d-flex">
                         <div class="col-sm">
-                          <form action="{{ route('quan-ly-don-hang.danh-sach-ban') }}" method="GET" class="d-flex">
-                            <input type="date" class="form-control w-25 h-25" id="orderDate" name="orderDate" value="{{ request('orderDate') }}" />
-                            <button type="submit" class="btn btn-primary" id="button-addon2">
-                              Button
-                            </button>
-                          </form>
+                            <form action="{{ route('quan-ly-don-hang.danh-sach-ban') }}" method="GET" class="d-flex">
+                                <input type="date" class="form-control w-25 h-25" id="orderDate" name="orderDate"
+                                    value="{{ request('orderDate') }}" />
+                                <button type="submit" class="btn btn-primary" id="button-addon2">
+                                    Tìm kiếm
+                                </button>
+                            </form>
                         </div>
                         <div class="col-sm">
-                          <form class="search-box ms-2 d-flex" method="GET" action="">
-                            <select name="search_column" class="form-select me-2 h-25" style="width: auto;">
-                              <option value="slug">Mã đơn hàng</option>
-                              <option value="created_at">Ngày đặt hàng</option>
-                              <option value="customer_name">Tên người nhận</option>
-                              <option value="number_phone">Số điện thoại người nhận</option>
-                              <option value="address">Địa chỉ giao hàng</option>
-                            </select>
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control" id="searchProductList" name="search" placeholder="Tìm kiếm..." aria-label="Recipient's username" aria-describedby="button-addon2">
-                                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm kiếm</button>
-                              </div>
-                          </form>
+                            <form class="search-box ms-2 d-flex" method="GET" action="">
+                                <select name="search_column" class="form-select me-2 h-25" style="width: auto;">
+                                    <option value="slug">Mã đơn hàng</option>
+                                    <option value="created_at">Ngày đặt hàng</option>
+                                    <option value="customer_name">Tên người nhận</option>
+                                    <option value="number_phone">Số điện thoại người nhận</option>
+                                    <option value="address">Địa chỉ giao hàng</option>
+                                </select>
+                                <div class="input-group mb-3">
+                                    <input type="text" class="form-control" id="searchProductList" name="search"
+                                        placeholder="Tìm kiếm..." aria-label="Recipient's username"
+                                        aria-describedby="button-addon2">
+                                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm
+                                        kiếm</button>
+                                </div>
+                            </form>
                         </div>
-                      </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     @if (isset($message))
@@ -109,27 +113,6 @@
                                         </td>
                                         <td>{{ number_format($order->total_amount) }}</td>
                                         <td>{{ number_format($order->paid_amount) }}</td>
-                                        {{-- <td><span class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">{{ $order->orderStatus->description }}</span></td> --}}
-                                        {{-- <td>
-                                        @if ($order->status_id == 1)
-                                            <button type="button" class="btn btn-sm btn-primary update-status"
-                                                data-order-id="{{ $order->id }}" data-status="2">Xác nhận</button>
-                                            <button type="button" class="btn btn-sm btn-danger update-status"
-                                                data-order-id="{{ $order->id }}" data-status="5">Hủy</button>
-                                        @elseif ($order->status_id == 2)
-                                            <button type="button" class="btn btn-sm btn-primary update-status"
-                                                data-order-id="{{ $order->id }}" data-status="3">Xử lý</button>
-                                            <button type="button" class="btn btn-sm btn-danger update-status"
-                                                data-order-id="{{ $order->id }}" data-status="5">Hủy</button>
-                                        @elseif ($order->status_id == 3)
-                                            <button type="button" class="btn btn-sm btn-success update-status"
-                                                data-order-id="{{ $order->id }}" data-status="4">Giao hàng thành
-                                                công</button>
-                                        @else
-                                            <span
-                                                class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">{{ $order->orderStatus->description }}</span>
-                                        @endif
-                                    </td> --}}
                                         <td>
                                             @if ($order->status_id == 1)
                                                 <form
@@ -140,13 +123,6 @@
                                                     <button type="submit" class="btn btn-sm btn-warning">Xác
                                                         nhận</button>
                                                 </form>
-                                                <form
-                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
-                                                    method="POST" class="d-inline status-update-form">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="5">
-                                                    <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
-                                                </form>
                                             @elseif ($order->status_id == 2)
                                                 <form
                                                     action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
@@ -155,13 +131,6 @@
                                                     <input type="hidden" name="status" value="3">
                                                     <button type="submit" class="btn btn-sm btn-secondary">Xử
                                                         lý</button>
-                                                </form>
-                                                <form
-                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
-                                                    method="POST" class="d-inline status-update-form">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="5">
-                                                    <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
                                                 </form>
                                             @elseif ($order->status_id == 3)
                                                 <form
@@ -181,7 +150,32 @@
                                                 <span
                                                     class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">{{ $order->orderStatus->description }}</span>
                                             @endif
+                                            {{-- @if ($order->status_id <= 2)
+                                                <form
+                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
+                                                    method="POST" class="d-inline status-update-form"
+                                                    data-order-slug="{{ $order->slug }}">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="5">
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal" data-bs-target="#cancelOrderModal"
+                                                        onclick="confirmCancelOrder('{{ $order->slug }}')">Hủy</button>
+                                                </form>
+                                            @endif --}}
+                                            @if ($order->status_id <= 2)
+                                                <form
+                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
+                                                    method="POST" class="d-inline status-update-form"
+                                                    data-order-slug="{{ $order->slug }}">
+                                                    @csrf
+                                                    <input type="hidden" name="status" value="5">
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                        data-bs-toggle="modal" data-bs-target="#cancelOrderModal"
+                                                        onclick="confirmCancelOrder('{{ $order->slug }}')">Hủy</button>
+                                                </form>
+                                            @endif
                                         </td>
+
                                         <td>
                                             <div class="dropdown d-inline-block">
                                                 <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
@@ -216,6 +210,50 @@
     </div>
 
     {{ $data->links() }}
+
+    <div class="offcanvas offcanvas-end" id="offcanvasExample" tabindex="-1" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Hủy đơn hàng</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <label class="form-label" for="note">Ghi chú</label>
+            <textarea name="note" class="form-control" id="note" cols="30" rows="3"
+                placeholder="Nhập lý do đơn hàng bị hủy..."></textarea>
+        </div>
+        <form id="cancelOrderForm" action="" method="POST">
+            @csrf
+            <input type="hidden" name="status" value="5">
+            <input type="hidden" name="note" id="noteHidden"> <!-- Trường ẩn để lưu ghi chú -->
+            <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    {{-- <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="cancelOrderModalLabel">Hủy đơn hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="cancelOrderForm" action="" method="POST">
+                        @csrf
+                        <input type="hidden" name="status" value="5">
+                        <label class="form-label" for="note">Ghi chú</label>
+                        <textarea name="note" class="form-control" id="note" cols="30" rows="3"
+                            placeholder="Nhập lý do đơn hàng bị hủy..."></textarea>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            <button type="submit" class="btn btn-danger">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> --}}
 @endsection
 
 @section('scripts-list')
@@ -245,54 +283,72 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
 
-{{-- @section('scripts')
-    <script>
-        $(document).ready(function() {
-            $('.update-status').click(function() {
-                var orderId = $(this).data('order-id');
-                var status = $(this).data('status');
-
-                $.ajax({
-                    url: "{{ route('quan-ly-don-hang.cap-nhat-trang-thai') }}",
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        order_id: orderId,
-                        status: status
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            alert('Cập nhật trạng thái thành công');
-                            location.reload();
-                        } else {
-                            alert('Có lỗi xảy ra khi cập nhật trạng thái');
-                        }
-                    },
-                    error: function() {
-                        alert('Có lỗi xảy ra khi cập nhật trạng thái');
-                    }
-                });
-            });
-        });
-    </script>
-@endsection --}}
-
 @section('scripts')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const forms = document.querySelectorAll('.status-update-form');
+
             forms.forEach(form => {
                 form.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    if (confirm('Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?')) {
-                        this.submit();
+
+                    // Lấy trạng thái từ input hidden
+                    const status = this.querySelector('input[name="status"]').value;
+                    const orderSlug = this.getAttribute(
+                        'data-order-slug'); // Lấy slug đơn hàng từ thuộc tính data
+
+                    // Chỉ xử lý xác nhận cho nút hủy (status = 5)
+                    if (status == 5) {
+                        confirmCancelOrder(orderSlug); // Gọi hàm xác nhận hủy đơn hàng
+                    } else {
+                        if (confirm('Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?')) {
+                            this.submit(); // Submit form nếu người dùng bấm OK
+                        }
                     }
                 });
             });
         });
 
+        function confirmCancelOrder(orderSlug) {
+            if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+                // Mở offcanvas sau khi xác nhận
+                openOffcanvas(orderSlug);
+            }
+        }
 
+        // function openOffcanvas(orderSlug) {
+        //     var myOffcanvas = document.getElementById('offcanvasExample');
+        //     var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+        //     bsOffcanvas.show();
 
-        // hiển thị tất cả sau khi lọc
+        //     // Cập nhật form hủy đơn hàng
+        //     const cancelOrderForm = document.getElementById('cancelOrderForm');
+        //     cancelOrderForm.action = `{{ route('quan-ly-don-hang.cap-nhat-trang-thai', '') }}/${orderSlug}`;
+
+        //     // Bắt sự kiện submit cho form hủy
+        //     cancelOrderForm.addEventListener('submit', function(e) {
+        //         e.preventDefault(); // Ngăn việc submit form mặc định
+        //         if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+        //             this.submit(); // Submit form hủy nếu người dùng bấm OK
+        //         }
+        //     });
+        // }
+        function openOffcanvas(orderSlug) {
+            var myOffcanvas = document.getElementById('offcanvasExample');
+            var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+            bsOffcanvas.show();
+
+            // Cập nhật form hủy đơn hàng
+            const cancelOrderForm = document.getElementById('cancelOrderForm');
+            cancelOrderForm.action = `{{ route('quan-ly-don-hang.cap-nhat-trang-thai', '') }}/${orderSlug}`;
+
+            // Lấy giá trị textarea
+            const noteTextarea = document.getElementById('note');
+            const noteHidden = document.getElementById('noteHidden');
+
+            cancelOrderForm.onsubmit = function() {
+                noteHidden.value = noteTextarea.value; // Đẩy giá trị vào trường ẩn
+            };
+        }
     </script>
 @endsection

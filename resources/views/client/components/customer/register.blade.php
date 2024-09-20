@@ -1,11 +1,11 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Thêm bài viết
+    Đăng ký
 @endsection
 
 @section('content')
-    <form action="{{ route('handleRegister') }}" method="post">
+    <form action="{{ route('khach-hang.handleRegister') }}" method="post">
         @csrf
         <div class="container mb-3">
             <h1>Đăng ký</h1>
@@ -42,7 +42,7 @@
         </div>
         <br>
         <div class="container signin">
-            <p>Bạn có sẵn sàng để tạo một tài khoản? <a href="">Đăng nhập</a>.</p>
+            <p>Bạn có sẵn sàng để tạo một tài khoản? <a href="{{ route('khach-hang.dang-nhap') }}">Đăng nhập</a>.</p>
         </div>
     </form>
 @endsection

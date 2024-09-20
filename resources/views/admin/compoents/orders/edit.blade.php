@@ -217,7 +217,7 @@
                                                     <label class="form-label" for="product-variant-input">Sản phẩm</label>
                                                     <select class="form-select @error('variation_id') is-invalid @enderror"
                                                         id="product-variant-input" name="variation_id[]" data-choices
-                                                        data-choices-search-false onchange="updatePrice(this)">
+                                                        data-choices-search-false onchange="updatePrice(this)" >
                                                         <option value="">Chọn Sản Phẩm</option>
                                                         @foreach ($variation as $variant)
                                                             <option value="{{ $variant->id }}"

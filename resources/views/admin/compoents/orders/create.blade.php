@@ -35,7 +35,7 @@
                                 name="customer_id" data-choices data-choices-search-false>
                                 <option value="">Chọn Tên</option>
                                 @foreach ($customers as $custumer)
-                                    <option value="{{ $custumer->id }}">{{ $custumer->name }}</option>
+                                    <option value="{{ $custumer->id }}">{{ $custumer->name }} - {{ $custumer->number_phone }}</option>
                                 @endforeach
                             </select>
                             @error('customer_id')
