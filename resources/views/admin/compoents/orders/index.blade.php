@@ -193,7 +193,7 @@
                                                     <li><a href="{{ route('quan-ly-don-hang.sua-don-hang', ['slug' => $order->slug]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                            Cập nhật</a></li>
+                                                            Cập nhật.</a></li>
                                                     <li>
                                                 </ul>
                                             </div>
