@@ -64,18 +64,20 @@ class CargoCarController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cargo_car $id)
+    public function edit(string $id)
     {
         $title = "Cập nhập xe vận chuyển";
         $loai_xe = Cargo_car_type::query()->get();
-        return view('admin.components.cargo_cars.edit',compact('title','loai_xe'));
+        $cargo_car = Cargo_car::findOrFail($id);
+        // dd($cargo_car->cargo_car_type_id);
+        return view('admin.components.cargo_cars.edit',compact('title','loai_xe', 'cargo_car'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCargo_carRequest $request, Cargo_car $id)
-    {
+    public function update(UpdateCargo_carRequest $request, string $id)
+     {
        if($request->isMethod('PUT')){
         $cargo_car = Cargo_car::find($id);
         $data = [
@@ -84,6 +86,7 @@ class CargoCarController extends Controller
             'is_active' => $request->is_active
         ];
         $cargo_car->update($data);
+        return redirect()->route('index')->with('success','Thêm xe vận chuyển thành công');
 
        }
     }

@@ -61,7 +61,7 @@ Route::prefix('contract-types')
         Route::get('/create', [CargoCarController::class, 'create'])->name('create');
         Route::post('/store', [CargoCarController::class, 'store'])->name('store');
         Route::get('/show/{id}', [CargoCarController::class, 'show'])->name('show');
-        Route::get('{id}/edit', [CargoCarController::class, 'edit'])->name('edit');
-        Route::put('{id}/update', [CargoCarController::class, 'update'])->name('update');
-        Route::delete('{id}/destroy', [CargoCarController::class, 'destroy'])->name('destroy');
+        Route::get('/edit/{id}', [CargoCarController::class, 'edit'])->name('edit');
+        Route::put('/update/{id}', [CargoCarController::class, 'update'])->name('update');
+        Route::delete('/destroy/{id}', [CargoCarController::class, 'destroy'])->name('destroy');
     });
