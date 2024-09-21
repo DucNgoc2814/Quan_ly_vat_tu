@@ -25,10 +25,7 @@ Route::prefix('quan-ly-tai-khoan')
 
 
 Route::prefix('quan-ly-don-hang')
-    ->as('quan-ly-don-hang.');
-
-Route::prefix('sliders')
-    ->as('sliders.')
+    ->as('quan-ly-don-hang.')
     ->group(function () {
         Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('danh-sach-ban');
         Route::get('/them-don-hang', [OrderController::class, 'create'])->name('them-don-hang');
@@ -38,6 +35,7 @@ Route::prefix('sliders')
         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('cap-nhat-trang-thai');
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('chi-tiet-don-hang');
     });
+
 Route::prefix('sliders')
     ->as('sliders.')
     ->group(function () {

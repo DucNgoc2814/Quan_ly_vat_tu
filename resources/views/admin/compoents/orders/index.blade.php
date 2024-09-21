@@ -200,7 +200,7 @@
                                                     data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="ri-more-fill align-middle"></i>
                                                 </button>
-                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                {{-- <ul class="dropdown-menu dropdown-menu-end">
                                                     <li>
                                                         <a href="{{ route('quan-ly-don-hang.chi-tiet-don-hang', ['slug' => $order->slug]) }}"
                                                             class="dropdown-item"><i
@@ -213,6 +213,20 @@
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Cập nhật</a></li>
                                                     <li>
+                                                </ul> --}}
+                                                <ul class="dropdown-menu dropdown-menu-end">
+                                                    <li>
+                                                        <a href="{{ route('quan-ly-don-hang.chi-tiet-don-hang', ['slug' => $order->slug]) }}"
+                                                            class="dropdown-item"><i
+                                                                class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi
+                                                            Tiết Đơn Hàng</a>
+                                                    </li>
+                                                    @if ($order->status_id == 1 || $order->status_id == 2)
+                                                    <li><a href="{{ route('quan-ly-don-hang.sua-don-hang', ['slug' => $order->slug]) }}"
+                                                            class="dropdown-item edit-item-btn"><i
+                                                                class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                            Cập nhật</a></li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </td>
