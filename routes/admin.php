@@ -5,6 +5,7 @@ use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 
@@ -24,9 +25,6 @@ Route::prefix('quan-ly-tai-khoan')
 
 Route::prefix('quan-ly-don-hang')
     ->as('quan-ly-don-hang.')
-
-Route::prefix('sliders')
-    ->as('sliders.')
     ->group(function () {
         Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('danh-sach-ban');
         Route::get('/them-don-hang', [OrderController::class, 'create'])->name('them-don-hang');
@@ -34,8 +32,11 @@ Route::prefix('sliders')
         Route::get('{slug}/sua-don-hang', [OrderController::class, 'edit'])->name('sua-don-hang');
         Route::put('{slug}/cap-nhat-don-hang', [OrderController::class, 'update'])->name('cap-nhat-don-hang');
         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('cap-nhat-trang-thai');
-
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('chi-tiet-don-hang');
+    });
+Route::prefix('sliders')
+    ->as('sliders.')
+    ->group(function () {
         Route::get('/', [SliderController::class, 'index'])->name('index');
         Route::get('/create', [SliderController::class, 'create'])->name('create');
         Route::post('/store', [SliderController::class, 'store'])->name('store');
