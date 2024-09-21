@@ -17,7 +17,7 @@ class SliderController extends Controller
     {
         $title = " Danh sách Slider";
         $sliders = Slider::query()->get();
-        return view('admin.compoents.sliders.index', compact('sliders', 'title'));
+        return view('admin.components.sliders.index', compact('sliders', 'title'));
     }
 
     /**
@@ -26,7 +26,7 @@ class SliderController extends Controller
     public function create()
     {
         $title = "Thêm Slider";
-        return view('admin.compoents.sliders.create');
+        return view('admin.components.sliders.create');
     }
 
     /**
@@ -77,13 +77,13 @@ class SliderController extends Controller
     {
         $title = "Cập nhật slider";
         $sliders = Slider::findOrFail($id);
-        return view('admin.compoents.sliders.edit', compact('sliders'));
+        return view('admin.components.sliders.edit', compact('sliders'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateSliderRequest $request, string $id)
     {
         if ($request->isMethod('PUT')) {
             // dd($request);

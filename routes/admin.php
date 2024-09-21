@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CargoCarController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\OrderController;
@@ -65,4 +66,14 @@ Route::prefix('hop-dong')
         Route::get('/sua/{contract}', [ContractController::class, 'edit'])->name('edit');
         Route::put('/update/{brand}', [ContractController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [ContractController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('quan-ly-van-chuyen')
+    ->group(function () {
+        Route::get('/', [CargoCarController::class, 'index'])->name('index');
+        Route::get('/create', [CargoCarController::class, 'create'])->name('create');
+        Route::post('/store', [CargoCarController::class, 'store'])->name('store');
+        Route::get('/show/{id}', [CargoCarController::class, 'show'])->name('show');
+        Route::get('{id}/edit', [CargoCarController::class, 'edit'])->name('edit');
+        Route::put('{id}/update', [CargoCarController::class, 'update'])->name('update');
+        Route::delete('{id}/destroy', [CargoCarController::class, 'destroy'])->name('destroy');
     });
