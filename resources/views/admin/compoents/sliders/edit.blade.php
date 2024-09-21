@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('sliders.update', $sliders->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('update', $sliders->id) }}" method="POST" enctype="multipart/form-data">
                         @method('PUT')
                         @csrf
                         <div class="row">

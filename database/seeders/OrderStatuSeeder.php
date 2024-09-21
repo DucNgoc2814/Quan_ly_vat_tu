@@ -37,7 +37,7 @@ class OrderStatuSeeder extends Seeder
         ];
 
         foreach ($orderStatuses as $status) {
-            DB::table('order_status')->insert($status);
+            DB::table('order_statuses')->insert($status);
         }
     }
 }
