@@ -20,7 +20,7 @@ class ContractTypeController extends Controller
         ->when($search, function($query,$search){
             return $query->where('name','like',"%{$search}");
         })
-        ->orderByDesc('id')
+        ->orderBy('id')
         ->paginate(4);
         $title = "Danh sách loại hợp đồng";
 
@@ -42,9 +42,11 @@ class ContractTypeController extends Controller
     public function store(StoreContract_typeRequest  $request )
     {
         if($request->isMethod('POST')){
+           
             $data = [
                 'name'=> $request->name,
                 'description'=> $request->description,
+
             ];
             Contract_type::create($data);
             return redirect()->route('index')->with('msg','Thêm loại hợp đồng thành công');
@@ -93,8 +95,7 @@ class ContractTypeController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        
+    { 
         $contract_type = Contract_type::findOrFail($id);
         $contract_type->delete();
         return redirect()->route('index')->with('msg', 'Xóa loại hợp đồng thành công ');

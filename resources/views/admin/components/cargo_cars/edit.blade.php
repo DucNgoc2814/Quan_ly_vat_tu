@@ -37,31 +37,48 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('store') }}" method="POST">
+                    <form action="{{ route('update',$cargo_car->id) }}" method="POST">
                         @csrf
+                        @method('PUT')
                         <div class="row">
 
                             <div class="col-lg-8">
-                                <label class="form-label">Tên loại hợp đồng</label>
-                                <input type="text" name="name" placeholder="Nhập tên loại hợp đồng"
-                                    class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
-                                @error('name')
+                                <label class="form-label">Tên xe vận chuyển</label>
+                                <select name="cargo_car_type_id" id="cargo_car_type_id" class="form-control @error('cargo_car_type_id') is-invalid @enderror">
+                                   <option selected>--Chọn loại xe--</option>
+                                   @foreach ($loai_xe as $item)
+                                       <option value="{{$item->id}}"
+                                        {{old('cargo_car_type_id','')==$item->id ? 'selected' : ''}}> {{$item->name}}
+                                       </option>
+                                   @endforeach
+
+                                </select>
+                                @error('cargo_car_type_id')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             
                             <div class="col-lg-8">
-                                <label class="form-label">Mô Tả</label>
-                                <textarea type="text" name="description " placeholder="Nhập mô tả"
-                                    class="form-control @error('description') is-invalid @enderror" value="{{ old('description') }}"></textarea>
-                                @error('description')
+                                <label class="form-label">Biển số</label>
+                                <input type="text" name="license_plate" placeholder="Nhập biển số xe"
+                                    class="form-control @error('license_plate') is-invalid @enderror" value="{{ old('license_plate',$cargo_car->license_plate) }}">
+                                @error('license_plate')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
+                            <div class="col-lg-8">
+                              <label for="status" class="form-label">Trạng thái</label>
+                              <div class="mb-3 ms-1">
+                                  <input type="radio" name="is_active" value="1" class="me-1" id="firstRadio"
+                                      checked>
+                                  <label for="firstRadio" class="form-check-label text-success">Đang vận chuyển</label>
+
+                                  <input class="me-1" type="radio" name="is_active" value="0" id="secondRadio">
+                                  <label for="secondRadio" class="form-check-label text-danger">Chờ Xác Nhân</label>
+                              </div>
 
 
-
-                        </div>
+                      
                         <div class="mt-3">
                             <button class = "btn btn-success text ">Submit</button>
                         </div>
@@ -99,3 +116,4 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
+
