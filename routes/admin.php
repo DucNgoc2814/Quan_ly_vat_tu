@@ -5,6 +5,7 @@ use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 
@@ -23,7 +24,7 @@ Route::prefix('quan-ly-tai-khoan')
 
 
 Route::prefix('quan-ly-don-hang')
-    ->as('quan-ly-don-hang.')
+    ->as('quan-ly-don-hang.');
 
 Route::prefix('sliders')
     ->as('sliders.')
