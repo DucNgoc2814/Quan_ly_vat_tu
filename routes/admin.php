@@ -23,7 +23,7 @@ Route::prefix('quan-ly-tai-khoan')
 
 
 Route::prefix('quan-ly-don-hang')
-    ->as('quan-ly-don-hang.')
+    ->as('quan-ly-don-hang.');
 
 Route::prefix('sliders')
     ->as('sliders.')
