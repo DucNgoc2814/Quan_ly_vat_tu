@@ -31,7 +31,7 @@
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm bài viết...">
+                                        placeholder="Tìm bài viết..." >
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
                             </div>
@@ -92,6 +92,7 @@
                         </tbody>
 
                     </table>
+                    {{$contract_types->links('pagination::bootstrap-5')}}
                 </div>
             </div>
         </div><!--end col-->
