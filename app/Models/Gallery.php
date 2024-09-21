@@ -16,7 +16,7 @@ class Gallery extends Model
 
     public $timestamps = false;
 
-    public function products()
+    public function product()
     {
         return $this->belongsTo(Product::class);
     }

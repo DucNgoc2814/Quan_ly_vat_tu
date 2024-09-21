@@ -11,9 +11,14 @@ class OrderDetailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    const PATH_VIEW = 'admin.compoents.order_details.';
+    public function index($slug)
     {
-        //
+        $data = Order_detail::whereHas('order', function($query) use ($slug){
+            $query->where('slug', $slug);
+        })->with(['order','variations'])->get();
+
+        return view(self::PATH_VIEW. __FUNCTION__ , data: compact('data'));
     }
 
     /**
