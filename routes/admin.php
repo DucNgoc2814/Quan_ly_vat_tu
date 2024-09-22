@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\CargoCarController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
+use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 
@@ -23,10 +25,7 @@ Route::prefix('quan-ly-tai-khoan')
 
 
 Route::prefix('quan-ly-don-hang')
-    ->as('quan-ly-don-hang.');
-
-Route::prefix('sliders')
-    ->as('sliders.')
+    ->as('quan-ly-don-hang.')
     ->group(function () {
         Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('danh-sach-ban');
         Route::get('/them-don-hang', [OrderController::class, 'create'])->name('them-don-hang');
@@ -34,8 +33,11 @@ Route::prefix('sliders')
         Route::get('{slug}/sua-don-hang', [OrderController::class, 'edit'])->name('sua-don-hang');
         Route::put('{slug}/cap-nhat-don-hang', [OrderController::class, 'update'])->name('cap-nhat-don-hang');
         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('cap-nhat-trang-thai');
-
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('chi-tiet-don-hang');
+    });
+Route::prefix('sliders')
+    ->as('sliders.')
+    ->group(function () {
         Route::get('/', [SliderController::class, 'index'])->name('index');
         Route::get('/create', [SliderController::class, 'create'])->name('create');
         Route::post('/store', [SliderController::class, 'store'])->name('store');
@@ -65,4 +67,14 @@ Route::prefix('hop-dong')
         Route::get('/sua/{contract}', [ContractController::class, 'edit'])->name('edit');
         Route::put('/update/{brand}', [ContractController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [ContractController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('quan-ly-van-chuyen')
+    ->group(function () {
+        Route::get('/', [CargoCarController::class, 'index'])->name('index');
+        Route::get('/create', [CargoCarController::class, 'create'])->name('create');
+        Route::post('/store', [CargoCarController::class, 'store'])->name('store');
+        Route::get('/show/{id}', [CargoCarController::class, 'show'])->name('show');
+        Route::get('{id}/edit', [CargoCarController::class, 'edit'])->name('edit');
+        Route::put('{id}/update', [CargoCarController::class, 'update'])->name('update');
+        Route::delete('{id}/destroy', [CargoCarController::class, 'destroy'])->name('destroy');
     });

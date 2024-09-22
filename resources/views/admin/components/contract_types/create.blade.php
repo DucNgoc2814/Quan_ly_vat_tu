@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">{{$title}}</h4>
+                <h4 class="mb-sm-0">{{ $title }}</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
@@ -24,12 +24,12 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-                        
+
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm bài viết...">
+                                    <input type="text" class="form-control " id="searchProductList" name="search"
+                                        placeholder="Tìm hợp đồng...">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
                             </div>
@@ -37,27 +37,29 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('store') }}" method="POST" >
+                    <form action="{{ route('store') }}" method="POST">
                         @csrf
                         <div class="row">
-                            
+
                             <div class="col-lg-8">
                                 <label class="form-label">Tên loại hợp đồng</label>
-                                <input type="text" name="name" placeholder="Nhập mô tả" class="form-control" >
-                                @error('description')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="col-lg-8">
-                                <label class="form-label">Mô Tả</label>
-                                <textarea type="text" name="description" placeholder="Nhập ngày bắt đầu"
-                                    class="form-control"></textarea>
-                                @error('description')
+                                <input type="text" name="name" placeholder="Nhập tên loại hợp đồng"
+                                    class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}">
+                                @error('name')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             
-                           
+                            <div class="col-lg-8">
+                                <label class="form-label">Mô Tả</label>
+                                <textarea type="text" name="description " placeholder="Nhập mô tả"
+                                    class="form-control @error('description') is-invalid @enderror" value="{{ old('description') }}"></textarea>
+                                @error('description')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+
+
 
                         </div>
                         <div class="mt-3">
@@ -97,4 +99,3 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
-
