@@ -43,6 +43,7 @@ Route::prefix('sliders')
         Route::get('{id}/edit', [SliderController::class, 'edit'])->name('edit');
         Route::put('{id}/update', [SliderController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [SliderController::class, 'destroy'])->name('destroy');
+        
     });
 
 Route::prefix('thuong-hieu')
