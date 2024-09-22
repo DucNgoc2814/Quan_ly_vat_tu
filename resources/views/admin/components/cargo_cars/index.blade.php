@@ -43,14 +43,14 @@
                         style="width:100%">
                         <thead>
                             <tr>
-                                <th data-ordering="false">Loại Xe</th>
+                                <th data-ordering="false">Loại xe vận chuyển</th>
                                 <th data-ordering="false">Biển số xe</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($cargo_cars as $item)
+                            @foreach ($cargo_car as $item)
                                 <tr>
                                     <td>
                                         <span  class="text-xs font-weight-bold">{{ $item->cargoCarType->name }}</span>

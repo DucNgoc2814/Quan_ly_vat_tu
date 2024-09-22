@@ -42,7 +42,7 @@
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
-                                <label class="form-label">Tên xe vận chuyển</label>
+                                <label class="form-label">Loại xe vận chuyển</label>
                                 <select name="cargo_car_type_id" id="cargo_car_type_id"
                                     class="form-control @error('cargo_car_type_id') is-invalid @enderror">
                                     <option selected>--Chọn loại xe--</option>
@@ -72,17 +72,17 @@
                                 <label for="status" class="form-label">Trạng thái</label>
                                 <select name="is_active" id="is_active"
                                     class="form-control @error('is_active') is-invalid @enderror">
-                                   
-                                        <option value="1" class="text-success"
-                                        {{old('is_active', $cargo_car->is_active) == 1 ? 'selected' : '' }}>
-                                           Đang vận chuyển
-                                        </option>
-                                        <option value="0"
-                                        {{old('is_active', $cargo_car->is_active) == 0 ? 'selected' : '' }}>
-                                           Chờ xác nhận
-                                        </option>
-                                    
-                                    
+                                    <option value="">--Chọn trạng thái--</option>
+                                    <option class="text-success" value="1"
+                                        {{ old('is_active', $cargo_car->is_active) == 1 ? 'selected' : '' }}>
+                                        Đang vận chuyển
+                                    </option>
+                                    <option class="text-danger" value="0"
+                                        {{ old('is_active', $cargo_car->is_active) == 0 ? 'selected' : '' }}>
+                                        Chờ xác nhận
+                                    </option>
+
+
 
                                 </select>
                                 {{-- <select name="is_active" id="status" class="form-control">
@@ -91,7 +91,7 @@
 
                               </select> --}}
 
-                              
+
                                 {{-- <div class="mb-3 ms-1">
                                     <input type="radio" name="is_active" value="1" class="me-1" id="firstRadio"
                                         {{ (old('is_active') ?? $cargo_car->is_active) == 1 ? 'checkted' : '' }}>

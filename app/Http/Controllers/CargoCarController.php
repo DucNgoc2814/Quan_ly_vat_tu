@@ -15,9 +15,9 @@ class CargoCarController extends Controller
     public function index()
     {
         $title = "Danh sách xe vận chuyển";
-        $cargo_cars = Cargo_car::with('CargoCarType')->get();
+        $cargo_car = Cargo_car::with('CargoCarType')->get();
         $loai_xe = Cargo_car_type::query()->get();
-        return view('admin.components.cargo_cars.index', compact('title', 'cargo_cars','loai_xe'));
+        return view('admin.components.cargo_cars.index', compact('title', 'cargo_car','loai_xe'));
     }
 
     /**
@@ -37,7 +37,8 @@ class CargoCarController extends Controller
      */
     public function store(StoreCargo_carRequest $request)
     {
-        //
+        
+
         if($request->isMethod('POST')){
             // dd($request->all());
             $data = [
@@ -86,7 +87,7 @@ class CargoCarController extends Controller
             'is_active' => $request->is_active
         ];
         $cargo_car->update($data);
-        return redirect()->route('index')->with('success','Thêm xe vận chuyển thành công');
+        return redirect()->route('index')->with('success','Cập nhật xe vận chuyển thành công');
 
        }
     }
@@ -94,8 +95,11 @@ class CargoCarController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Cargo_car $cargo_car)
+    public function destroy(string $id)
     {
-        //
+        $cargo_car = Cargo_car::findOrFail($id);
+        $cargo_car->delete();
+        return redirect()->route('index')->with('success','Xóa xe vận chuyển thành công');
+
     }
 }
