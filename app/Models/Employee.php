@@ -25,7 +25,7 @@ class Employee extends Model
     ];
 
     public function roleEmployee() {
-        return $this->belongsTo(Role_Employee::class);
+        return $this->belongsTo(Role_employee::class);
     }
 
     public function trips() {

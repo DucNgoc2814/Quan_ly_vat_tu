@@ -11,7 +11,7 @@ class Contract extends Model
     protected $fillable = [
         'contract_status_id',
         'contract_type_id',
-        'oder_id',
+        'order_id',
         'name',
         'file',
         'note',
@@ -19,16 +19,16 @@ class Contract extends Model
 
     public function contractStatus()
     {
-        return $this->belongsTo(Contract_Status::class);
+        return $this->belongsTo(Contract_status::class);
     }
 
     public function contractType()
     {
-        return $this->belongsTo(Contract_Type::class);
+        return $this->belongsTo(Contract_type::class);
     }
 
     public function order()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Order::class, 'order_id');
     }
 }

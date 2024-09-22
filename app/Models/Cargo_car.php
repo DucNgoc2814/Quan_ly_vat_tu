@@ -23,7 +23,7 @@ class Cargo_car extends Model
 
     public function cargoCarType()
     {
-        return $this->belongsTo(Cargo_Car_Type::class);
+        return $this->belongsTo(Cargo_car_type::class);
     }
 
     public function trips()

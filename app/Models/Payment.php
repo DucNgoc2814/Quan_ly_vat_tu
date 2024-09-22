@@ -22,6 +22,6 @@ class Payment extends Model
 
     public function importOrders()
     {
-        return $this->hasMany(Import_Order::class);
+        return $this->hasMany(Import_order::class);
     }
 }

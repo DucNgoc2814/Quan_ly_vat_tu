@@ -33,7 +33,6 @@ class DatabaseSeeder extends Seeder
             OrderStatuSeeder::class,
             CustomerRankSeeder::class,
             CustomerSeeder::class,
-            LocationSeeder::class,
             OrderSeeder::class,
             ContractSeeder::class,
             OrderDetailSeeder::class,

@@ -22,7 +22,7 @@ class Customer extends Authenticatable
 
     public function customerRank()
     {
-        return $this->belongsTo(Customer_Rank::class);
+        return $this->belongsTo(Customer_rank::class);
     }
 
     public function locations()

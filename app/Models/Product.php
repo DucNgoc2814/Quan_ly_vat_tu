@@ -23,7 +23,7 @@ class Product extends Model
         'is_active' => 'boolean',
     ];
 
-    
+
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -34,7 +34,7 @@ class Product extends Model
         return $this->belongsTo(Unit::class);
     }
 
-    public function gallery()
+    public function galleries()
     {
         return $this->hasMany(Gallery::class);
     }
@@ -64,6 +64,6 @@ class Product extends Model
     }
 
     public function OrderDetails(){
-        return $this->hasMany(Order_detail::class);
+        return $this->belongsTo(Order_detail::class);
     }
 }
