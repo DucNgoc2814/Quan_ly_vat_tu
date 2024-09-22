@@ -40,7 +40,9 @@
                         <thead>
                             <tr>
                                 <th data-ordering="false">ID</th>
+                                <th data-ordering="false">SKU</th>
                                 <th data-ordering="false">Tên thương hiệu</th>
+                                <th data-ordering="false">Hiển thị</th>
                                 <th data-ordering="false">Thao tác</th>
                             </tr>
                         </thead>
@@ -48,9 +50,19 @@
                             @foreach ($brands as $data)
                                 <tr>
                                     <td>{{ $data->id }}</td>
+                                    <td>{{ $data->sku }}</td>
                                     <td>{{ $data->name }}</td>
+                                    <td> <div class="form-check form-switch form-switch">
+                                        @if ($data->is_active == 1)
+                                            <input class="form-check-input" type="checkbox" name="is_active"
+                                                value="1" id="is_active" checked>
+                                        @else
+                                            <input class="form-check-input" type="checkbox" name="is_active"
+                                                value="0" id="is_active">
+                                        @endif
+                                    </div></td>
                                     <td>
-                                        <a href="{{ route('thuong-hieu.edit', $data->id) }}" class="dropdown-item edit-item-btn"><i
+                                        <a href="{{ route('thuong-hieu.edit', $data->sku) }}" class="dropdown-item edit-item-btn"><i
                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                 Sửa</a></li>
                                         
@@ -63,6 +75,7 @@
             </div>
         </div><!--end col-->
     </div>
+    {{ $brands->links() }}
 @endsection
 
 @section('scripts-list')

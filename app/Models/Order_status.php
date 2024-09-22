@@ -14,10 +14,26 @@ class Order_status extends Model
         'description',
     ];
 
+
+    public function getColorAttribute(){
+        switch($this->id){
+            case 1:
+                return 'warning';
+            case 2:
+                return 'primary';
+            case 3:
+                return 'info';
+            case 4:
+                return 'success';
+            default:
+                return 'danger';
+        }
+    }
     public $timestamps = false;
 
     public function orders()
     {
         return $this->hasMany(Order::class);
     }
+
 }

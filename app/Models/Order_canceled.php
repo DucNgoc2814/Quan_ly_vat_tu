@@ -13,4 +13,8 @@ class Order_canceled extends Model
         'order_id',
         'note',
     ];
+
+    public function order(){
+        return $this->belongsTo(Order::class);
+    }
 }

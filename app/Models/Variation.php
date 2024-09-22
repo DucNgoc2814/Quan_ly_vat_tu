@@ -22,7 +22,8 @@ class Variation extends Model
     protected $cast = [
         'is_active' => 'boolean',
     ];
-    
+    public $timestamps = false;
+
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -39,6 +40,7 @@ class Variation extends Model
 
     public function attributeValues()
     {
-        return $this->belongsToMany(Attribute_Value::class);
+        return $this->belongsToMany(Attribute_value::class);
     }
+
 }

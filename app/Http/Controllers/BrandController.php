@@ -15,11 +15,11 @@ class BrandController extends Controller
      * Display a listing of the resource.
      */
 
-     const PATH_VIEW = 'admin.';
+    const PATH_VIEW = 'admin.components.brand.';
     public function index()
     {
-        $brands = Brand::all();
-        return view(self::PATH_VIEW . 'components.brand.index', compact('brands'));
+        $brands = Brand::query()->latest('id')->paginate(10);
+        return view(self::PATH_VIEW . __FUNCTION__, compact('brands'));
     }
 
     /**
@@ -27,8 +27,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        return view(self::PATH_VIEW . 'components.brand.create');
-        
+        return view(self::PATH_VIEW . __FUNCTION__);
     }
 
     /**
@@ -37,21 +36,18 @@ class BrandController extends Controller
     public function store(StoreBrandRequest $request)
     {
         $brand = $request->validated();
-
         try {
-            $sku = Str::slug(ASCII::to_ascii($brand->name));
-
+            $sku = Str::slug(ASCII::to_ascii($brand['name']));
             Brand::create([
-                'name' => $brand->name,
+                'name' => $brand['name'],
                 'sku' => $sku,
-                'is_active' => '1'
+                'is_active' => isset($brand['is_active']) ? 1 : 0,
             ]);
-
             return redirect()
                 ->route('thuong-hieu.index')
                 ->with('success', 'Thao tác thành công!');
         } catch (Exception $exception) {
-
+            dd($exception->getMessage());
             return back()->with('error', $exception->getMessage());
         }
     }
@@ -67,9 +63,10 @@ class BrandController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Brand $brand)
+    public function edit(String $sku)
     {
-        //
+        $brand = Brand::where('sku', $sku)->firstOrFail();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('brand'));
     }
 
     /**
@@ -77,8 +74,22 @@ class BrandController extends Controller
      */
     public function update(UpdateBrandRequest $request, Brand $brand)
     {
-        //
+        $data = $request->validated();
+        try {
+            $sku = Str::slug(ASCII::to_ascii($data['name']));
+            $brand->update([
+                'name' => $data['name'],
+                'sku' => $sku,
+                'is_active' => isset($data['is_active']) ? 1 : 0,
+            ]);
+            return redirect()
+                ->route('thuong-hieu.index')
+                ->with('success', 'Thao tác thành công!');
+        } catch (Exception $exception) {
+            return back()->with('error', $exception->getMessage());
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.

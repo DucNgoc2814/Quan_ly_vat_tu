@@ -11,7 +11,7 @@
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('create') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('quan-ly-slider.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm Sliders </a>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                         <tbody>
                             @foreach ($sliders as $item)
                                 <tr>
-                                    <td><img src="{{ asset('storage/' . $item->url_) }}" width="100px" alt=""></td>
+                                    <td><img src="{{ asset('storage/' . $item->url) }}" width="100px" height="100px" alt=""></td>
                                     <td>{{ $item->description }}</td>
                                     <td>{{ $item->date_start }}</td>
                                     <td>{{ $item->date_end }}</td>
@@ -81,13 +81,13 @@
                                                 <li><a href="#!" class="dropdown-item"><i
                                                             class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
                                                 </li>
-                                                <li><a href="{{ route('edit', $item->id) }}"
+                                                <li><a href="{{ route('quan-ly-slider.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
                                                 <li>
 
-                                                    <form action="{{ route('destroy', $item->id) }}"
+                                                    <form action="{{ route('quan-ly-slider.destroy', $item->id) }}"
                                                         method="post">
                                                         @method('DELETE')
                                                         @csrf

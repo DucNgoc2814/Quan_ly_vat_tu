@@ -22,9 +22,7 @@ class StoreCargo_car_typeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'cargo_car_type_id' => 'required|exists:cargo_car_types,id',
-          'license_plate' => 'required|string|max:20|unique:cargo_cars,license_plate',
-          'is_active'=> 'required|in:0,1',
+           
         ];
     }
     
