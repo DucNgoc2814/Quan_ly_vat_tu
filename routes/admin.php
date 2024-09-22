@@ -4,6 +4,7 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CargoCarController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\SliderController;
@@ -21,6 +22,18 @@ Route::prefix('quan-ly-tai-khoan')
         Route::get('{id}/sua-nha-cung-cap', [SupplierController::class, 'edit'])->name('sua-nha-cung-cap');
         Route::put('{id}/cap-nhat', [SupplierController::class, 'update'])->name('cap-nhat');
         Route::delete('{id}/an-nha-cung-cap', [SupplierController::class, 'destroy'])->name('an-nha-cung-cap');
+    });
+
+Route::prefix('quan-ly-nhan-vien')
+    ->group(function () {
+        Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('danh-sach-nhan-vien');
+        // Route::get('/danh-sach-da-an-nha-cup-cap', [EmployeeController::class, 'listTrashSupplier'])->name('danh-sach-da-an-nha-cup-cap');
+        // Route::get('{id}/khoi-phuc', [EmployeeController::class, 'restoreSupplier'])->name('khoi-phuc');
+        Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('them-moi-nhan-vien');
+        Route::post('/them-moi', [EmployeeController::class, 'store'])->name('them-moi');
+        // Route::get('{id}/sua-nha-cung-cap', [EmployeeController::class, 'edit'])->name('sua-nha-cung-cap');
+        // Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('cap-nhat');
+        // Route::delete('{id}/an-nha-cung-cap', [EmployeeController::class, 'destroy'])->name('an-nha-cung-cap');
     });
 
 

@@ -15,7 +15,7 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->input("search");
+        $search = $request->get("search");
         $listsupplier = Supplier::select('suppliers.*')
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', "%{$search}%")
@@ -23,7 +23,6 @@ class SupplierController extends Controller
                     ->orwhere('number_phone', 'like', "%{$search}%")
                     ->orwhere('address', 'like', "%{$search}%");
             })->paginate(5);
-        // $listsupplier = Supplier::query()->get();
         return view('admin.compoents.suppliers.index', compact('listsupplier'));
     }
 

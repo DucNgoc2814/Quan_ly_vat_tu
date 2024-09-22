@@ -500,8 +500,8 @@
                     <div class="collapse menu-dropdown" id="sidebarEmployees">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{route('danh-sach-nhan-vien')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách nhân viên</a>
                             </li>
                         </ul>
                     </div>

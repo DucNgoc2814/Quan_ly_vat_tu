@@ -14,6 +14,7 @@ class Employee extends Model
         'name',
         'email',
         'image',
+        'number_phone',
         'cccd',
         'date',
         'description',
@@ -25,7 +26,7 @@ class Employee extends Model
     ];
 
     public function roleEmployee() {
-        return $this->belongsTo(Role_employee::class);
+        return $this->belongsTo(Role_employee::class,'role_id');
     }
 
     public function trips() {
