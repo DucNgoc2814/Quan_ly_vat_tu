@@ -11,7 +11,7 @@
                 <h4 class="mb-sm-0">Chi tiết đơn hàng: {{ $data->first()->order->slug }}</h4>
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('quan-ly-don-hang.danh-sach-ban') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('quan-ly-don-hang.index') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-arrow-left-line align-bottom me-1"></i>Trang danh sách</a>
                     </div>
                 </div>
@@ -23,7 +23,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>

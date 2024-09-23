@@ -9,7 +9,7 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('themes/admin/assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}">
 
     @yield('styles-list')
 
