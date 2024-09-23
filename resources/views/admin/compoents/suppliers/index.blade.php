@@ -28,19 +28,19 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('them-moi-nha-cung-cap') }}" class="btn btn-success"
+                                <a href="{{ route('quan-ly-tai-khoan.them-moi-nha-cung-cap') }}" class="btn btn-success"
                                     id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới nhà cung cấp
                                 </a>
                             </div>
                         </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="{{ route('danh-sach-nha-cung-cap') }}">
+                                <form class="search-box ms-2" method="GET" action="{{ route('quan-ly-tai-khoan.danh-sach-nha-cung-cap') }}">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
                                         value="{{ old('search') }}" placeholder="Tìm dữ liệu...">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
-                                <a href="{{ route('danh-sach-nha-cung-cap') }}"><button
+                                <a href="{{ route('quan-ly-tai-khoan.danh-sach-nha-cung-cap') }}"><button
                                         class="btn btn-secondary">All</button></a>
                             </div>
                         </div>
@@ -74,13 +74,13 @@
                                                     <i class="ri-more-fill align-middle"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a href="{{ route('sua-nha-cung-cap', ['id' => $item->id]) }}"
+                                                    <li><a href="{{ route('quan-ly-tai-khoan.sua-nha-cung-cap', ['id' => $item->id]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Sửa thông tin</a></li>
                                                     <li>
                                                         <form id="delete-form-{{ $item->id }}"
-                                                            action="{{ route('an-nha-cung-cap', ['id' => $item->id]) }}"
+                                                            action="{{ route('quan-ly-tai-khoan.an-nha-cung-cap', ['id' => $item->id]) }}"
                                                             method="post" style="display: none">
                                                             @csrf
                                                             @method('DELETE')

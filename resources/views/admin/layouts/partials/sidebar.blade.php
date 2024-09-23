@@ -118,11 +118,11 @@
                     <div class="collapse menu-dropdown" id="sidebarSuppliers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{route('danh-sach-nha-cung-cap')}}" target="_blank" class="nav-link"
+                                <a href="{{route('quan-ly-tai-khoan.danh-sach-nha-cung-cap')}}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('danh-sach-da-an-nha-cup-cap')}}" target="_blank" class="nav-link"
+                                <a href="{{route('quan-ly-tai-khoan.danh-sach-da-an-nha-cup-cap')}}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Danh sách đã ẩn</a>
                             </li>
                         </ul>
@@ -500,7 +500,7 @@
                     <div class="collapse menu-dropdown" id="sidebarEmployees">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{route('danh-sach-nhan-vien')}}" target="_blank" class="nav-link"
+                                <a href="{{url('quan-ly-tai-khoan.danh-sach-nhan-vien')}}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Danh sách nhân viên</a>
                             </li>
                         </ul>

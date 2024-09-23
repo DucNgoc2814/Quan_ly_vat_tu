@@ -28,20 +28,19 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('them-moi-nhan-vien') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm mới người lao động
+                                <a href="{{ url('quan-ly-nhan-vien.them-moi-nhan-vien') }}" class="btn btn-success"
+                                    id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới người lao động
                                 </a>
                             </div>
                         </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="{{ route('danh-sach-nhan-vien') }}">
+                                <form class="search-box ms-2" method="GET" action="#">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
                                         value="{{ old('search') }}" placeholder="Tìm dữ liệu...">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
-                                <a href="{{ route('danh-sach-nhan-vien') }}"><button
-                                        class="btn btn-secondary">All</button></a>
+                                <a href=""><button class="btn btn-secondary">All</button></a>
                             </div>
                         </div>
                     </div>
@@ -50,17 +49,18 @@
                 <!--end card-body-->
                 <div class="card-body">
                     <div class="table-responsive table-card mb-4 ">
-                        <table class="table table-nowrap mb-0 text-center" id="tasksTable">
+                        <table class="table table-nowrap mb-0 text-center" id="myTable">
                             <thead class="table-light text-muted ">
                                 <tr>
                                     <th>Chức vụ</th>
-                                    <th>Tên người lao động</th>
+                                    <th>Họ Tên</th>
                                     {{-- <th>Email</th> --}}
-                                    <th>Hình ảnh</th>
+                                    <th>Ảnh</th>
                                     <th>CCCD</th>
                                     <th>Số điện thoại</th>
                                     <th>Ngày sinh</th>
-                                    <th>Miêu tả</th>
+                                    <th>Mô tả</th>
+                                    <th>Hoạt động</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -79,6 +79,17 @@
                                         <td>{{ $item->number_phone }}</td>
                                         <td>{{ $item->date }}</td>
                                         <td>{{ $item->description }}</td>
+                                        <td>
+                                            <div class="col-lg-6 form-check form-switch form-switch ms-3 mt-3">
+                                                <input class="form-check-input" type="checkbox" name="is_active"
+                                                    id="is_active" value="1"
+                                                    {{ $item->is_active == 1 ? 'checked' : '' }}
+                                                    onclick="updateStatus(this, '{{ $item->id }}')">
+                                            </div>
+                                        </td>
+
+
+
 
                                         <td style="text-align: center">
                                             <div class="dropdown d-inline-block">
@@ -86,26 +97,22 @@
                                                     data-bs-toggle="dropdown" aria-expanded="false">
                                                     <i class="ri-more-fill align-middle"></i>
                                                 </button>
+
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a href="{{ route('sua-nha-cung-cap', ['id' => $item->id]) }}"
+                                                    <li><a href="{{ route('quan-ly-nhan-vien.sua-thong-tin-nhan-vien', ['id' => $item->id]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Sửa thông tin</a></li>
                                                     <li>
-                                                        <form id="delete-form-{{ $item->id }}"
-                                                            action="{{ route('an-nha-cung-cap', ['id' => $item->id]) }}"
-                                                            method="post" style="display: none">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-                                                    <li>
+
+                                                        {{-- <li>
                                                         <a class="dropdown-item remove-item-btn"
                                                             data-form-id="delete-form-{{ $item->id }}">
                                                             <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
 
                                                             Ẩn nhà cung cấp
                                                         </a>
-                                                    </li>
+                                                    </li> --}}
 
                                                 </ul>
                                             </div>
@@ -128,31 +135,7 @@
                     <div class="d-flex justify-content-end mt-2">
                         <div class="pagination-wrap hstack gap-2">
 
-                            @if ($data->onFirstPage())
-                                <a class="page-item pagination-prev disabled" href="#">
-                                    Previous
-                                </a>
-                            @else
-                                <a class="page-item pagination-prev" href="{{ $data->previousPageUrl() }}">
-                                    Previous
-                                </a>
-                            @endif
-                            <ul class="pagination listjs-pagination mb-0">
-                                @foreach ($data->getUrlRange(1, $data->lastPage()) as $page => $url)
-                                    <li class="page-item{{ $data->currentPage() == $page ? 'active' : '' }}">
-                                        <a href="{{ $url }}" class="page-link">{{ $page }} </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            @if ($data->hasMorePages())
-                                <a href="{{ $data->nextPageUrl() }}">
-                                    Next
-                                </a>
-                            @else
-                                <a class="page-item pagination-next disabled" href="#">
-                                    Next
-                                </a>
-                            @endif
+                           
                         </div>
                     </div>
 
@@ -197,3 +180,43 @@
         }
     });
 </script>
+
+
+
+@section('scripts')
+    <script>
+        function updateStatus(checkbox, id) {
+            // Get current status
+            const isActive = checkbox.checked ? 1 : 0;
+
+            // Send AJAX request to update status
+            fetch('/update-employee-status', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        id: id,
+                        is_active: isActive
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Handle response
+                    if (data.success) {
+                        console.log('Update successful!', data.is_active);
+                    } else {
+                        console.log('An error occurred!');
+                        // Reset checkbox to previous state if needed
+                        checkbox.checked = !checkbox.checked;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Reset checkbox to previous state on error
+                    checkbox.checked = !checkbox.checked;
+                });
+        }
+    </script>
+@endsection

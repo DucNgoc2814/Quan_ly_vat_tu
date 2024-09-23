@@ -34,7 +34,8 @@
                             <select name="role_id" class="form-control @error('role_id') is-invalid @enderror">
                                 <option value="">Chọn chức vụ</option>
                                 @foreach ($data as $item)
-                                    <option value="{{$item->id}}" {{ old('role_id') == $item->id ? 'selected' : '' }}>{{ $item->name }}</option>
+                                    <option value="{{ $item->id }}" {{ old('role_id') == $item->id ? 'selected' : '' }}>
+                                        {{ $item->name }}</option>
                                 @endforeach
                             </select>
                             @error('role_id')
@@ -93,7 +94,8 @@
 
                             <div id="image-preview" class="mt-3" style="display: none">
                                 <h5>Hình ảnh đã chọn:</h5>
-                                <img style="border-radius:4px" width="200px" id="preview" src="" alt="Image" class="img-fluid">
+                                <img style="border-radius:4px" width="200px" id="preview" src="" alt="Image"
+                                    class="img-fluid">
                             </div>
                         </div>
                     </div>
@@ -133,7 +135,7 @@
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Ngày sinh</label>
                             <input type="date" class="form-control  @error('date') is-invalid @enderror"
-                                 name="date" value="{{ old('date') }}">
+                                name="date" value="{{ old('date') }}">
                             @error('date')
                                 <span role="alert">
                                     <span class="text-danger">{{ $message }}</span>
@@ -161,14 +163,13 @@
                         <div class="mb-3">
                             <div class="col-lg-6 form-check form-switch form-switch ms-3 mt-3">
                                 <label class="form-label">Hiển thị</label>
-                                <input class="form-check-input" type="checkbox" name="is_active" value="1"
-                                id="is_active" checked>
+                                <input class="form-check-input" type="checkbox" name="is_active" value="1" id="is_active">
                             </div>
                         </div>
                     </div>
                 </div>
-                
-                
+
+
                 <div class="text-end mb-3">
                     <button type="submit" class="btn btn-success w-sm">Thêm mới nhân viên</button>
                 </div>
@@ -209,4 +210,5 @@
             }
         }
     </script>
+   
 @endsection
