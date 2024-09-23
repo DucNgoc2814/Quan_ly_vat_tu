@@ -4,6 +4,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 /*
 |--------------------------------------------------------------------------
@@ -23,19 +24,20 @@ Route::get('/products', action: function () {
     return view('admin/components/product/create');
 });
 
-route::prefix('khach-hang')
+
+Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
+Route::post('/handleRegister', [LoginController::class, 'handleRegister'])->name('handleRegister');
+Route::get('/dang-nhap', [LoginController::class, 'login'])->name('login');
+Route::post('/handleLogin', [LoginController::class, 'handleLogin'])->name('handleLogin');
+Route::get('/quen-mat-khau', [LoginController::class, 'forgotPassword'])->name('forgotPassword');
+Route::post('/sendMaill', [LoginController::class, 'sendMaill'])->name('sendMaill');
+Route::get('/nhap-otp', [LoginController::class, 'showVerifyOtp'])->name('showVerifyOtp');
+Route::post('/verifyOtp', [LoginController::class, 'verifyOtp'])->name('verifyOtp');
+Route::get('/doi-mat-khau', [LoginController::class, 'changepassword'])->name('changepassword');
+Route::post('/passwordchange', [LoginController::class, 'passwordchange'])->name('passwordchange');
+
+Route::prefix('khach-hang')
     ->as('khach-hang.')
     ->group(function () {
-        Route::get('/dang-ky', [CustomerController::class, 'register'])->name('dang-ky');
-        Route::post('/handleRegister', [CustomerController::class, 'handleRegister'])->name('handleRegister');
-        Route::get('/dang-nhap', [CustomerController::class, 'login'])->name('dang-nhap');
-        Route::post('/handleLogin', [CustomerController::class, 'handleLogin'])->name('handleLogin');
-        Route::get('/quen-mat-khau', [CustomerController::class, 'forgotPassword'])->name('quen-mat-khau');
-        Route::post('/sendMaill', [CustomerController::class, 'sendMaill'])->name('sendMaill');
-        Route::get('/nhap-otp', [CustomerController::class, 'showVerifyOtp'])->name('nhap-otp');
-        Route::post('/verifyOtp', [CustomerController::class, 'verifyOtp'])->name('verifyOtp');
-
-        Route::get('/doi-mat-khau', [CustomerController::class, 'changepassword'])->name('doi-mat-khau');
-        Route::post('/passwordchange', [CustomerController::class, 'passwordchange'])->name('passwordchange');
-
+        Route::get('/danh-sach', [CustomerController::class, 'index'])->name('index');
     });
