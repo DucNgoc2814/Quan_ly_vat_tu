@@ -24,18 +24,11 @@
                             </div>
                         </div>
                         <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control" id="searchDataList" name="search"
-                                        placeholder="Tìm dữ liệu...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>
@@ -46,7 +39,7 @@
                                 <th data-ordering="false">Thao tác</th>
                             </tr>
                         </thead>
-                        <tbody id="bodyTableDataList">
+                        <tbody>
                             @foreach ($brands as $data)
                                 <tr>
                                     <td>{{ $data->id }}</td>
@@ -65,6 +58,7 @@
                                         <a href="{{ route('thuong-hieu.edit', $data->sku) }}" class="dropdown-item edit-item-btn"><i
                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                 Sửa</a></li>
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -74,7 +68,6 @@
             </div>
         </div><!--end col-->
     </div>
-    {{ $brands->links() }}
 @endsection
 
 @section('scripts-list')

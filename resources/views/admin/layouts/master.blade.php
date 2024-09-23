@@ -23,11 +23,9 @@
     <link href="{{ asset('themes/admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{ asset('themes/admin/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
-
     {{-- link ajax jquery --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
-
     @yield('styles')
 </head>
 
@@ -101,7 +99,9 @@
 
     <!-- App js -->
     <script src="{{ asset('themes/admin/assets/js/app.js') }}"></script>
-
+<script>
+new DataTable('#myTable')
+</script>
     @yield('scripts')
 </body>
 
