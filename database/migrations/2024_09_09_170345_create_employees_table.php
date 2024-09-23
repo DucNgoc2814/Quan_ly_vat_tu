@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('name', 255);
             $table->string('email', 255)->unique();
             $table->string('image', 255)->nullable();
-            $table->integer('cccd')->unique();
+            $table->string('cccd',12)->unique();
             $table->string('number_phone', 11)->unique();
             $table->date('date');
             $table->text('description')->nullable();

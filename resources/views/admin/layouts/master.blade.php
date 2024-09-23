@@ -10,9 +10,7 @@
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('themes/admin/assets/images/favicon.ico') }}">
-
     @yield('styles-list')
-
     <!-- Layout config Js -->
     <script src="{{ asset('themes/admin/assets/js/layout.js') }}"></script>
     <!-- Bootstrap Css -->
@@ -23,19 +21,25 @@
     <link href="{{ asset('themes/admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="{{ asset('themes/admin/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
-
+    {{-- link ajax jquery --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+    .form-control-sm{
+        width: 250px !important;
+        height:  35px !important;
+    }
+</style>
+    <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
     @yield('styles')
 </head>
 
 <body>
     <!-- Begin page -->
-    <div id="layout-wrapper">
+    <div id="jquery-wrapper">
         @include('admin.layouts.partials.header')
-
         <!-- ========== App Menu ========== -->
         @include('admin.layouts.partials.sidebar')
         <!-- Left Sidebar End -->
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -96,10 +100,12 @@
     <script src="{{ asset('themes/admin/assets/js/plugins.js') }}"></script>
 
     @yield('scripts-list')
-
     <!-- App js -->
     <script src="{{ asset('themes/admin/assets/js/app.js') }}"></script>
-
+    <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
+<script>
+new DataTable('#myTable')
+</script>
     @yield('scripts')
 </body>
 
