@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('hop-dong.update') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('hop-dong.update', $id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-12">

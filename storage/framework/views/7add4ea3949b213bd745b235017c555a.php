@@ -96,7 +96,7 @@
     <script src="<?php echo e(asset('themes/admin/assets/js/plugins.js')); ?>"></script>
 
     <?php echo $__env->yieldContent('scripts-list'); ?>
-    
+
     <!-- App js -->
     <script src="<?php echo e(asset('themes/admin/assets/js/app.js')); ?>"></script>
 
