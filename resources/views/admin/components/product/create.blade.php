@@ -40,9 +40,23 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="mb-3">
-                                            <label class="form-label" for="product-title-input">Tiêu đề</label>
+                                            <label class="form-label" for="product-title-input">Tên sản phẩm</label>
                                             <input type="text" class="form-control" id="product-title-input"
-                                                value="" placeholder="Thêm tiêu đề" name="title">
+                                                value="" placeholder="Thêm sản phẩm" name="title">
+                                            @error('title')
+                                                <span role="alert">
+                                                    <span class="text-danger">a</span>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="product-title-input">Giá sản phẩm</label>
+                                            <input type="text" class="form-control" id="product-title-input"
+                                                value="" placeholder="Thêm giá sản phẩm" name="title">
                                             @error('title')
                                                 <span role="alert">
                                                     <span class="text-danger">a</span>
@@ -56,29 +70,13 @@
                                 <!-- end card -->
 
 
+
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="mb-4">
                                             <div>
-                                                <label class="form-label" for="meta-description-input">Mô tả bài
-                                                    viết</label>
-                                                <textarea class="form-control" id="meta-description-input" placeholder="Nhập mô tả" rows="3" name="description"></textarea>
-                                                @error('description')
-                                                    <span role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="mb-4">
-                                            <div>
-                                                <label class="form-label" for="meta-description-input">Nội dung bài
-                                                    viết</label>
-                                                <textarea class="form-control" id="meta-description-input" placeholder="Nhập nội dung" rows="9" name="content"></textarea>
+                                                <label class="form-label" for="meta-description-input">Mô tả</label>
+                                                <textarea class="form-control" id="meta-description-input" placeholder="Nhập nội dung" rows="6" name="content"></textarea>
                                                 @error('content')
                                                     <span role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -87,10 +85,6 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- end card -->
-                                <div class="text-end mb-3">
-                                    <button type="submit" class="btn btn-success w-sm">Thêm mới</button>
                                 </div>
                             </div>
                             <!-- end col -->
@@ -103,19 +97,23 @@
                                                 id="is_active" checked>
                                             <label class="form-check-label" for="1">Hiển thị</label>
                                         </div>
-                                        <div class="form-check form-switch form-switch">
-                                            <input class="form-check-input" type="checkbox" name="is_trending"
-                                                value="1" id="is_trending">
-                                            <label class="form-check-label" for="is_trending">Nổi bật</label>
-                                        </div>
-                                        <div class="form-check form-switch form-switch">
-                                            <input class="form-check-input" type="checkbox" name="is_popular" value="1"
-                                                id="is_popular">
-                                            <label class="form-check-label" for="is_popular">Phổ biến</label>
-                                        </div>
                                     </div>
 
                                     <!-- end card body -->
+                                </div>
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-title mb-0">Thương hiệu</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <select class="form-select" id="choices-category-input" name="category_id"
+                                            data-choices data-choices-search-false>
+                                            @foreach ($brands as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="card">
                                     <div class="card-header">
@@ -133,33 +131,64 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header">
-                                        <label class="form-label" for="meta-description-input">Ảnh bài viết</label>
+                                        <h5 class="card-title mb-0">Đơn vị</h5>
                                     </div>
                                     <div class="card-body">
-                                        <div class="mb-4">
-                                            <p class="text-muted">Thêm ảnh bài viết</p>
-                                            <div class="text-center">
-                                                <div class="position-relative d-inline-block">
-                                                    <div class="position-absolute top-100 start-100 translate-middle">
-                                                        <label for="product-image-input" class="mb-0"
-                                                            data-bs-toggle="tooltip" data-bs-placement="right"
-                                                            title="Select Image">
-                                                            <div class="avatar-xs">
-                                                                <div
-                                                                    class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
-                                                                    <i class="ri-image-fill"></i>
-                                                                </div>
-                                                            </div>
-                                                        </label>
-                                                        <input class="form-control d-none" value=""
-                                                            id="product-image-input" type="file"
-                                                            accept="image/png, image/gif, image/jpeg" name="image">
+                                        <select class="form-select" id="choices-category-input" name="category_id"
+                                            data-choices data-choices-search-false>
+                                            @foreach ($units as $key => $value)
+                                                <option value="{{ $key }}">{{ $value }}</option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header align-items-center d-flex">
+                                <h4 class="card-title mb-0 flex-grow-1">Sản phẩm mua</h4>
+                                <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary"
+                                    onclick="addProduct()">Thêm sản phẩm</button>
+                            </div>
+                            <div class="card-body">
+                                <div class="live-preview">
+                                    <div class="row gy-4" id="product_list">
+                                        <div class="col-md-12" id="product_default_item">
+            
+                                            <div class="mb-2">
+                                                <label class="form-label" for="product-price-input">Tên sản phẩm</label>
+                                                <input type="number" class="form-control" id="product-price-input"
+                                                    name="product_price[]">
+                                            </div>
+                                            <div class="mb-2">
+                                                <label class="form-label" for="product-price-input">Giá sản phẩm</label>
+                                                <input type="number" class="form-control" id="product-price-input"
+                                                    name="product_price[]">
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="mb-2">
+                                                        <label class="form-label" for="product-quantity-input">Số lượng sản
+                                                            phẩm</label>
+                                                        <input type="number"
+                                                            class="form-control  @error('product_quantity') is-invalid @enderror"
+                                                            id="product-quantity-input" name="product_quantity[]"
+                                                            placeholder="Nhập số lượng">
+                                                        @error('product_quantity')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror
                                                     </div>
-                                                    <div class="avatar-lg">
-                                                        <div class="avatar-title bg-light rounded">
-                                                            <img src="" id="product-img"
-                                                                class="avatar-md h-auto" />
-                                                        </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-2">
+                                                        <label class="form-label" for="product-stock-input">Số lượng sản
+                                                            phẩm có trong kho</label>
+                                                        <input type="number" class="form-control" id="product-stock-input"
+                                                            name="stock" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -177,6 +206,15 @@
 
         </div><!--end col-->
     </div>
+    <script>
+        document.getElementById('product-image-input').addEventListener('change', function(event) {
+            var output = document.getElementById('product-img');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+                URL.revokeObjectURL(output.src)
+            }
+        });
+    </script>
 @endsection
 
 @section('scripts-list')
@@ -204,4 +242,72 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+@endsection
+
+
+@section('scripts')
+    <script>
+        // Hàm để thêm sản phẩm mới
+        function addProduct() {
+            let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
+            let html = `
+            <div class="col-md-12" id="${id}_item">
+                <hr class="mb-2">
+                
+                <div class="mb-2">
+                    <label class="form-label" for="product-price-input">Giá sản phẩm</label>
+                    <input type="number" class="form-control" name="product_price[]" readonly>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="mb-2">
+                            <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
+                            <input type="number" class="form-control  @error('product_quantity') is-invalid @enderror" name="product_quantity[]" placeholder="Nhập số lượng" min="1" value="1">
+                            @error('product_quantity')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-2">
+                            <label class="form-label" for="product-stock-input">Số lượng sản phẩm có trong kho</label>
+                            <input type="number" class="form-control" name="stock" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-2">
+                    <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
+                        <span class="bx bx-trash"></span> Xóa sản phẩm
+                    </button>
+                </div>
+            </div>
+            `;
+
+            document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
+            addInputListeners(); // Thêm sự kiện lắng nghe cho sản phẩm mới
+        }
+
+        // Hàm để thêm sự kiện lắng nghe cho input
+        function addInputListeners() {
+            document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
+                input.addEventListener('input', calculateTotal);
+            });
+        }
+
+        // Hàm để xóa sản phẩm
+        function removeProduct(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
+                document.getElementById(id).remove();
+                calculateTotal();
+            }
+        }
+
+        // Gọi hàm khi trang được tải lần đầu
+        document.addEventListener('DOMContentLoaded', function() {
+            addInputListeners();
+            calculateTotal();
+        });
+    </script>
 @endsection

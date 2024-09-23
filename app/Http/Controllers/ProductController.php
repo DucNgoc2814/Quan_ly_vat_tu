@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Brand;
 use App\Models\Category;
+use App\Models\Unit;
 
 class ProductController extends Controller
 {
@@ -26,8 +28,8 @@ class ProductController extends Controller
     public function create()
     {
         $categories =  Category::pluck('name', 'id');
-        $brands =  Category::pluck('name', 'id');
-        $units =  Category::pluck('name', 'id');
+        $brands =  Brand::pluck('name', 'id');
+        $units =  Unit::pluck('name', 'id');
         return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units'));
     }
 
