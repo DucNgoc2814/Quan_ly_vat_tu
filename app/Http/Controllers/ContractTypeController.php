@@ -23,7 +23,6 @@ class ContractTypeController extends Controller
         ->orderBy('id')
         ->paginate(4);
         $title = "Danh sách loại hợp đồng";
-
         return view('admin.components.contract_types.index', compact('contract_types'));
     }
 
@@ -42,7 +41,7 @@ class ContractTypeController extends Controller
     public function store(StoreContract_typeRequest  $request )
     {
         if($request->isMethod('POST')){
-           
+
             $data = [
                 'name'=> $request->name,
                 'description'=> $request->description,
@@ -51,7 +50,7 @@ class ContractTypeController extends Controller
             Contract_type::create($data);
             return redirect()->route('index')->with('msg','Thêm loại hợp đồng thành công');
         }
-        
+
     }
 
     /**
@@ -59,7 +58,7 @@ class ContractTypeController extends Controller
      */
     public function show(Contract_type $contract_type)
     {
-        
+
 
 
     }
@@ -95,7 +94,7 @@ class ContractTypeController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    { 
+    {
         $contract_type = Contract_type::findOrFail($id);
         $contract_type->delete();
         return redirect()->route('index')->with('msg', 'Xóa loại hợp đồng thành công ');
