@@ -11,7 +11,7 @@
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('create') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('quan-ly-loai-hop-dong.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm danh mục hợp đồng </a>
                     </div>
                 </div>
@@ -65,13 +65,13 @@
                                                 <li><a href="#!" class="dropdown-item"><i
                                                             class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
                                                 </li>
-                                                <li><a href="{{ route('edit', $item->id) }}"
+                                                <li><a href="{{ route('quan-ly-loai-hop-dong.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
                                                 <li>
 
-                                                    <form action="{{ route('destroy', $item->id) }}"
+                                                    <form action="{{ route('quan-ly-loai-hop-dong.destroy', $item->id) }}"
                                                         method="post">
                                                         @method('DELETE')
                                                         @csrf

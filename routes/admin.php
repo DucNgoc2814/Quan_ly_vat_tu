@@ -67,14 +67,25 @@ Route::prefix('hop-dong')
         Route::put('/update/{brand}', [ContractController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [ContractController::class, 'destroy'])->name('destroy');
     });
+
     Route::prefix('quan-ly-van-chuyen')
     ->as('quan-ly-van-chuyen.')
     ->group(function () {
         Route::get('/danh-sach-xe-van-chuyen', [CargoCarController::class, 'index'])->name('index');
         Route::get('/them-moi-xe-van-chuyen', [CargoCarController::class, 'create'])->name('create');
         Route::post('/them-moi-xe-van-chuyen', [CargoCarController::class, 'store'])->name('store');
-        Route::get('/chi-tiet-xe-van-chuyen/{id}', [CargoCarController::class, 'show'])->name('show');
         Route::get('/sua-xe-van-chuyen/{id}', [CargoCarController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat-xe-van-chuyen/{id}', [CargoCarController::class, 'update'])->name('update');
         Route::delete('/xoa-xe-van-chuyen/{id}', [CargoCarController::class, 'destroy'])->name('destroy');
+    });
+Route::prefix('quan-ly-loai-hop-dong')
+    ->as('quan-ly-loai-hop-dong.')
+    ->group(function () {
+        Route::get('/danh-sach', [ContractTypeController::class, 'index'])->name('index');
+        Route::get('/them-loai-hop-dong', [ContractTypeController::class, 'create'])->name('create');
+        Route::post('/them-loai-hop-dong', [ContractTypeController::class, 'store'])->name('store');
+        Route::get('/chi-tiet-loai-hop-dong/{id}', [ContractTypeController::class, 'show'])->name('show');
+        Route::get('/sua-loai-hop-dong/{id}', [ContractTypeController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat-loai-hop-dong/{id}', [ContractTypeController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [ContractTypeController::class, 'destroy'])->name('destroy');
     });

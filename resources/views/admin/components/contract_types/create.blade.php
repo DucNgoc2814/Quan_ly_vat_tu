@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('store') }}" method="POST">
+                    <form action="{{ route('quan-ly-loai-hop-dong.store') }}" method="POST">
                         @csrf
                         <div class="row">
 
