@@ -25,11 +25,6 @@ class Customer extends Authenticatable
         return $this->belongsTo(Customer_rank::class);
     }
 
-    public function locations()
-    {
-        return $this->hasMany(Location::class);
-    }
-
     public function orders()
     {
         return $this->hasMany(Order::class);

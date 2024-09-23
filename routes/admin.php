@@ -45,7 +45,6 @@ Route::prefix('sliders')
         Route::get('{id}/edit', [SliderController::class, 'edit'])->name('edit');
         Route::put('{id}/update', [SliderController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [SliderController::class, 'destroy'])->name('destroy');
-        
     });
 
 Route::prefix('thuong-hieu')
@@ -68,7 +67,7 @@ Route::prefix('hop-dong')
         Route::put('/update/{brand}', [ContractController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [ContractController::class, 'destroy'])->name('destroy');
     });
-    Route::prefix('quan-ly-van-chuyen')
+Route::prefix('quan-ly-van-chuyen')
     ->group(function () {
         Route::get('/', [CargoCarController::class, 'index'])->name('index');
         Route::get('/create', [CargoCarController::class, 'create'])->name('create');
