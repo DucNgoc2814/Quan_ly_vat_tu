@@ -3,17 +3,31 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Role_employee;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use Symfony\Component\HttpFoundation\Request;
 
 class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->get("search");
+        $data = Employee::select('employees.*')
+            ->when($search, function ($query, $search) {
+                return $query->where('name', 'like', "%{$search}%")
+                    ->orwhere('email', 'like', "%{$search}%")
+                    ->orwhere('name', 'like', "%{$search}%")
+                    ->orwhere('cccd', 'like', "%{$search}%")
+                    ->orwhere('number_phone', 'like', "%{$search}%");
+            })->get();
+
+        $role_empoly = Role_employee::query()->get();
+        return view('admin.components.employees.index', compact('data', 'role_empoly'));
     }
 
     /**
@@ -21,7 +35,8 @@ class EmployeeController extends Controller
      */
     public function create()
     {
-        //
+        $data = Role_employee::query()->get();
+        return view('admin.components.employees.create', compact('data'));
     }
 
     /**
@@ -29,7 +44,15 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        //
+        if ($request->isMethod('post')) {
+            $params = $request->except('_method');
+            $params['is_active'] = $request->has('is_active') ? 1 : 0;
+            if ($request->hasFile('image')) {
+                $params['image'] = $request->file('image')->store('uploads/profile', 'public') ?: null;
+            }
+            Employee::create($params);
+            return redirect()->route('danh-sach-nhan-vien')->with('success', 'Bạn đã thêm mới thành công');
+        }
     }
 
     /**
@@ -43,18 +66,37 @@ class EmployeeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Employee $employee)
+    public function edit(String $id)
     {
-        //
+        $datae = Employee::findOrFail($id);
+        $data = Role_employee::query()->get();
+        return view('admin.components.employees.edit', compact('datae', 'data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEmployeeRequest $request, Employee $employee)
+    public function update(UpdateEmployeeRequest $request, String $id)
     {
-        //
+        if ($request->isMethod('put')) {
+            $params = $request->except('_method', '_token');
+            $params['is_active'] = $request->has('is_active') ? 1 : 0; // Handle the checkbox state
+
+            $datae = Employee::findOrFail($id);
+
+            if ($request->hasFile('image')) {
+                if ($datae->image) {
+                    Storage::disk('public')->delete($datae->image);
+                }
+                $params['image'] = $request->file('image')->store('uploads/profile', 'public') ?: $datae->image;
+            }
+
+            $datae->update($params);
+
+            return redirect()->route('danh-sach-nhan-vien')->with('success', 'Bạn đã cập nhật thành công thành công');
+        }
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -62,5 +104,22 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         //
+    }
+
+    /**
+     * Update the active status of the specified employee.
+     */
+    public function updateStatus(UpdateEmployeeRequest $request)
+    {
+        $request->validate([
+            'id' => 'required|integer|exists:employees,id',
+            'is_active' => 'required|boolean',
+        ]);
+
+        $employee = Employee::find($request->id);
+        $employee->is_active = $request->is_active;
+        $employee->save();
+
+        return response()->json(['success' => true, 'is_active' => $employee->is_active]);
     }
 }

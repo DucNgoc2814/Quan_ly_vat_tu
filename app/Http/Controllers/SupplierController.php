@@ -15,7 +15,7 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->input("search");
+        $search = $request->get("search");
         $listsupplier = Supplier::select('suppliers.*')
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', "%{$search}%")
@@ -23,8 +23,7 @@ class SupplierController extends Controller
                     ->orwhere('number_phone', 'like', "%{$search}%")
                     ->orwhere('address', 'like', "%{$search}%");
             })->paginate(5);
-        // $listsupplier = Supplier::query()->get();
-        return view('admin.suppliers.index', compact('listsupplier'));
+        return view('admin.compoents.suppliers.index', compact('listsupplier'));
     }
 
     /**
@@ -32,7 +31,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return view('admin.suppliers.create');
+        return view('admin.compoents.suppliers.create');
     }
 
     /**
@@ -61,7 +60,7 @@ class SupplierController extends Controller
     public function edit(String $id)
     {
         $supplier = Supplier::findOrFail($id);
-        return view('admin.suppliers.edit', compact('supplier'));
+        return view('admin.compoents.suppliers.edit', compact('supplier'));
     }
 
     /**
@@ -91,7 +90,7 @@ class SupplierController extends Controller
 
     public function listTrashSupplier(Request $request){
         $listTrashSupplier = Supplier::onlyTrashed()->paginate(5);
-        return view('admin.suppliers.trashsuppier', compact('listTrashSupplier'));
+        return view('admin.compoents.suppliers.trashsuppier', compact('listTrashSupplier'));
     }
     public function restoreSupplier(String $id){
         $supplier = Supplier::onlyTrashed()->findOrFail($id);
