@@ -1,5 +1,4 @@
 @extends('admin.layouts.master')
-
 @section('title')
     Danh sách nhà cung cấp
 @endsection
@@ -44,6 +43,7 @@
                                         class="btn btn-secondary">All</button></a>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

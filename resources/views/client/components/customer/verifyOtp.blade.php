@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <form action="{{ route('khach-hang.verifyOtp') }}" method="post">
+    <form action="{{ route('verifyOtp') }}" method="post">
         @csrf
         <div class="container">
             <h1>Xác thực OTP</h1>
@@ -22,11 +22,12 @@
             @enderror
             <hr>
             <button type="submit" class="btn btn-primary" id="submitOTP">Xác thực</button>
-            <a href="{{ route('khach-hang.quen-mat-khau') }}">
+            <a href="{{ route('forgotPassword') }}">
                 <p class="btn btn-primary mt-3 ms-3">Quay lại</p>
             </a>
         </div>
     </form>
+    
 @endsection
 
 <script>

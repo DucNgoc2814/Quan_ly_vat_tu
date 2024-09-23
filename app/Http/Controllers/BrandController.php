@@ -18,7 +18,7 @@ class BrandController extends Controller
     const PATH_VIEW = 'admin.components.brand.';
     public function index()
     {
-        $brands = Brand::query()->latest('id')->paginate(10);
+        $brands = Brand::query()->latest('id')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('brands'));
     }
 
