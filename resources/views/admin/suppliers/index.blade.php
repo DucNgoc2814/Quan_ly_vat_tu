@@ -1,5 +1,4 @@
 @extends('admin.layouts.master')
-
 @section('title')
     Danh sách nhà cung cấp
 @endsection
@@ -36,7 +35,7 @@
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="{{ route('danh-sach-nha-cung-cap') }}">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
+                                    <input type="text" class="form-control" id="inputSearch" name="search"
                                         value="{{ old('search') }}" placeholder="Tìm dữ liệu...">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
@@ -44,6 +43,7 @@
                                         class="btn btn-secondary">All</button></a>
                             </div>
                         </div>
+
                     </div>
                 </div>
 

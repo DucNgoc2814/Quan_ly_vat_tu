@@ -24,18 +24,20 @@
     <!-- custom Css-->
     <link href="{{ asset('themes/admin/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
 
+    {{-- link ajax jquery --}}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
+
     @yield('styles')
 </head>
 
 <body>
     <!-- Begin page -->
-    <div id="layout-wrapper">
+    <div id="jquery-wrapper">
         @include('admin.layouts.partials.header')
-
         <!-- ========== App Menu ========== -->
         @include('admin.layouts.partials.sidebar')
         <!-- Left Sidebar End -->
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->

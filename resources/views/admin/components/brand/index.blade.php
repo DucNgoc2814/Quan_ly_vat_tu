@@ -26,7 +26,7 @@
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
+                                    <input type="text" class="form-control" id="searchDataList" name="search"
                                         placeholder="Tìm dữ liệu...">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
@@ -46,7 +46,7 @@
                                 <th data-ordering="false">Thao tác</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="bodyTableDataList">
                             @foreach ($brands as $data)
                                 <tr>
                                     <td>{{ $data->id }}</td>
@@ -65,7 +65,6 @@
                                         <a href="{{ route('thuong-hieu.edit', $data->sku) }}" class="dropdown-item edit-item-btn"><i
                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                 Sửa</a></li>
-                                        
                                     </td>
                                 </tr>
                             @endforeach
