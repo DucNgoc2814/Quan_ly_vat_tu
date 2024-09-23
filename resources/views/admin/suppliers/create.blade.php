@@ -88,9 +88,6 @@
             <!-- end col -->
         </div>
     </form>
-
-
-
     <script>
         document.getElementById('product-image-input').addEventListener('change', function(event) {
             var output = document.getElementById('product-img');

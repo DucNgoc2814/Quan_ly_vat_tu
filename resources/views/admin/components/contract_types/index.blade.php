@@ -26,7 +26,7 @@
                         <div class="col-sm ">
                             <input type="date" class="form-control w-25" id="exampleInputdate">
                         </div>
-                            <div class="d-flex justify-content-sm-end search-box ">
+                            <div class="d-flex justify-content-sm-end  search-box ">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
                                         placeholder="Tìm bài viết..." >
                                     <i class="ri-search-line search-icon"></i>

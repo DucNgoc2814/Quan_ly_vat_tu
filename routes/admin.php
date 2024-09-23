@@ -77,6 +77,7 @@ Route::prefix('quan-ly-van-chuyen')
         Route::put('{id}/update', [CargoCarController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [CargoCarController::class, 'destroy'])->name('destroy');
     });
+
 Route::prefix('contract-types')
     ->group(function () {
         Route::get('/', [ContractTypeController::class, 'index'])->name('index');
