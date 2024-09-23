@@ -16,15 +16,12 @@
                         <li class="breadcrumb-item active">Thêm mới nhà cung cấp</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
     <!-- end page title -->
-
     <form method="POST" action="{{route('them-moi')}}" enctype="multipart/form-data">
         @csrf
-
         <div class="row">
             <div class="col">
                 <div class="card">
@@ -41,7 +38,7 @@
                     </div>
                 </div>
                 <!-- end card -->
-          
+
                 <!-- end card -->
                 <div class="card">
                     <div class="card-body">
