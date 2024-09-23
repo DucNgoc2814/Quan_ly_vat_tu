@@ -12,7 +12,7 @@
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('quan-ly-don-hang.them-don-hang') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('quan-ly-don-hang.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm đơn hàng</a>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                     </div> --}}
                     <div class="d-flex">
                         <div class="col-sm">
-                            <form action="{{ route('quan-ly-don-hang.danh-sach-ban') }}" method="GET" class="d-flex">
+                            <form action="{{ route('quan-ly-don-hang.index') }}" method="GET" class="d-flex">
                                 <input type="date" class="form-control w-25 h-25" id="orderDate" name="orderDate"
                                     value="{{ request('orderDate') }}" />
                                 <button type="submit" class="btn btn-primary" id="button-addon2">
@@ -83,7 +83,7 @@
                     @if (isset($message))
                         <div class="alert alert-info">{{ $message }}</div>
                     @else
-                        <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                        <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                             style="width:100%">
                             <thead>
                                 <tr>
@@ -113,61 +113,11 @@
                                         </td>
                                         <td>{{ number_format($order->total_amount) }}</td>
                                         <td>{{ number_format($order->paid_amount) }}</td>
-                                        {{-- <td>
-                                            @if ($order->status_id == 1)
-                                                <form
-                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
-                                                    method="POST" class="d-inline status-update-form">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="2">
-                                                    <button type="submit" class="btn btn-sm btn-warning">Xác
-                                                        nhận</button>
-                                                </form>
-                                            @elseif ($order->status_id == 2)
-                                                <form
-                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
-                                                    method="POST" class="d-inline status-update-form">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="3">
-                                                    <button type="submit" class="btn btn-sm btn-secondary">Xử
-                                                        lý</button>
-                                                </form>
-                                            @elseif ($order->status_id == 3)
-                                                <form
-                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
-                                                    method="POST" class="d-inline status-update-form">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="4">
-                                                    <button type="submit" class="btn btn-sm btn-info">Đang giao
-                                                        hàng</button>
-                                                </form>
-                                            @elseif ($order->status_id == 4)
-                                                <button type="submit" class="btn btn-sm btn-success">Giao hàng thành
-                                                    công</button>
-                                            @elseif ($order->status_id == 5)
-                                                <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
-                                            @else
-                                                <span
-                                                    class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">{{ $order->orderStatus->description }}</span>
-                                            @endif
-                                            @if ($order->status_id <= 2)
-                                                <form
-                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
-                                                    method="POST" class="d-inline status-update-form"
-                                                    data-order-slug="{{ $order->slug }}">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="5">
-                                                    <button type="submit" class="btn btn-sm btn-danger"
-                                                        data-bs-toggle="modal" data-bs-target="#cancelOrderModal"
-                                                        onclick="confirmCancelOrder('{{ $order->slug }}')">Hủy</button>
-                                                </form>
-                                            @endif
-                                        </td> --}}
 
                                         <td>
                                             @if ($order->status_id < 4)
                                                 <form
-                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
+                                                    action="{{ route('quan-ly-don-hang.updateStatus', $order->slug) }}"
                                                     method="POST" class="d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
@@ -202,17 +152,17 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li>
-                                                        <a href="{{ route('quan-ly-don-hang.chi-tiet-don-hang', ['slug' => $order->slug]) }}"
+                                                        <a href="{{ route('quan-ly-don-hang.indexDetail', ['slug' => $order->slug]) }}"
                                                             class="dropdown-item"><i
                                                                 class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi
-                                                            Tiết
-                                                            Đơn Hàng</a>
+                                                            Tiết Đơn Hàng</a>
                                                     </li>
-                                                    <li><a href="{{ route('quan-ly-don-hang.sua-don-hang', ['slug' => $order->slug]) }}"
+                                                    @if ($order->status_id == 1 || $order->status_id == 2)
+                                                    <li><a href="{{ route('quan-ly-don-hang.edit', ['slug' => $order->slug]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Cập nhật</a></li>
-                                                    <li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </td>
@@ -247,31 +197,6 @@
         </form>
     </div>
 
-    <!-- Modal -->
-    {{-- <div class="modal fade" id="cancelOrderModal" tabindex="-1" aria-labelledby="cancelOrderModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="cancelOrderModalLabel">Hủy đơn hàng</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="cancelOrderForm" action="" method="POST">
-                        @csrf
-                        <input type="hidden" name="status" value="5">
-                        <label class="form-label" for="note">Ghi chú</label>
-                        <textarea name="note" class="form-control" id="note" cols="30" rows="3"
-                            placeholder="Nhập lý do đơn hàng bị hủy..."></textarea>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                            <button type="submit" class="btn btn-danger">Hủy</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div> --}}
 @endsection
 
 @section('scripts-list')
@@ -399,7 +324,7 @@
             bsOffcanvas.show();
 
             const cancelOrderForm = document.getElementById('cancelOrderForm');
-            cancelOrderForm.action = `{{ route('quan-ly-don-hang.cap-nhat-trang-thai', '') }}/${orderSlug}`;
+            cancelOrderForm.action = `{{ route('quan-ly-don-hang.updateStatus', '') }}/${orderSlug}`;
 
             const noteTextarea = document.getElementById('note');
             const noteHidden = document.getElementById('noteHidden');
