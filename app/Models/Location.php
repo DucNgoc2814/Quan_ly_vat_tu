@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Slider extends Model
+class Location extends Model
 {
     use HasFactory;
-    protected $table="sliders";
+
     protected $fillable = [
-        'url',
+        'customer_id',
+        'address',
         'description',
-        'date_start',
-        'date_end',
-        'status',
     ];
 
-
-    public $timestamps = false;
+    public function customer(){
+        return $this->belongsTo(Customer::class);
+    }
 }

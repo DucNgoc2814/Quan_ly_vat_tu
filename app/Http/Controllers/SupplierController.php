@@ -15,7 +15,7 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->input("search");
+        $search = $request->get("search");
         $listsupplier = Supplier::select('suppliers.*')
             ->when($search, function ($query, $search) {
                 return $query->where('name', 'like', "%{$search}%")
@@ -24,7 +24,7 @@ class SupplierController extends Controller
                     ->orwhere('address', 'like', "%{$search}%");
             })->paginate(5);
         // $listsupplier = Supplier::query()->get();
-        return view('admin.suppliers.index', compact('listsupplier'));
+        return view('admin.components.suppliers.index', compact('listsupplier'));
     }
 
     /**
@@ -32,7 +32,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return view('admin.suppliers.create');
+        return view('admin.components.suppliers.create');
     }
 
     /**
@@ -61,7 +61,7 @@ class SupplierController extends Controller
     public function edit(String $id)
     {
         $supplier = Supplier::findOrFail($id);
-        return view('admin.suppliers.edit', compact('supplier'));
+        return view('admin.components.suppliers.edit', compact('supplier'));
     }
 
     /**
@@ -73,7 +73,7 @@ class SupplierController extends Controller
             $params = $request->except('_token', '_method');
             $supplier = Supplier::findOrFail($id);
             $supplier->update($params);
-            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
+            return redirect('quan-ly-nha-phan-phoi/danh-sach')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
         }
     }
 
@@ -85,17 +85,17 @@ class SupplierController extends Controller
         if ($request->isMethod('delete')) {
             $supplier = Supplier::findOrFail($id);
             $supplier->delete();
-            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã ẩn nhà cung cấp thành công !');
+            return redirect('quan-ly-nha-phan-phoi/danh-sach')->with('success', 'Bạn đã ẩn nhà cung cấp thành công !');
         }
     }
 
     public function listTrashSupplier(Request $request){
         $listTrashSupplier = Supplier::onlyTrashed()->paginate(5);
-        return view('admin.suppliers.trashsuppier', compact('listTrashSupplier'));
+        return view('admin.components.suppliers.trashsuppier', compact('listTrashSupplier'));
     }
     public function restoreSupplier(String $id){
         $supplier = Supplier::onlyTrashed()->findOrFail($id);
         $supplier->restore();
-        return redirect('quan-ly-tai-khoan/danh-sach-da-an-nha-cup-cap')->with('success','Bạn đã khôi phục thành công');
+        return redirect('quan-ly-nha-phan-phoi/danh-sach-da-an')->with('success','Bạn đã khôi phục thành công');
     }
 }
