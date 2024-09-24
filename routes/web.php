@@ -41,3 +41,4 @@ Route::prefix('khach-hang')
     ->group(function () {
         Route::get('/danh-sach', [CustomerController::class, 'index'])->name('index');
     });
+    
