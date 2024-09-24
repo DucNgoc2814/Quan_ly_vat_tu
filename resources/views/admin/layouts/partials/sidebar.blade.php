@@ -4,19 +4,19 @@
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ asset('themes/admin/assets/images/logo-sm.png') }}" alt="" height="22">
+                <img src="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}" alt="" height="180">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('themes/admin/assets/images/logo-dark.png') }}" alt="" height="17">
+                <img src="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}" alt="" height="200">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="index.html" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ asset('themes/admin/assets/assets/images/logo-sm.png') }}" alt="" height="22">
+                <img src="{{ asset('themes/admin/assets/assets/images/Gemothemes/admin/assets/images/Gemo__1_-removebg-preview.png') }}" alt="" height="180">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('themes/admin/assets/images/logo-light.png') }}" alt="" height="17">
+                <img src="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}" alt="" height="200">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -118,11 +118,11 @@
                     <div class="collapse menu-dropdown" id="sidebarSuppliers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{route('danh-sach-nha-cung-cap')}}" target="_blank" class="nav-link"
+                                <a href="{{route('quan-ly-tai-khoan.danh-sach-nha-cung-cap')}}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Danh sách</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('danh-sach-da-an-nha-cup-cap')}}" target="_blank" class="nav-link"
+                                <a href="{{route('quan-ly-tai-khoan.danh-sach-da-an-nha-cup-cap')}}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Danh sách đã ẩn</a>
                             </li>
                         </ul>
@@ -187,7 +187,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarContractTypes" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarContractTypes">
-                        <span data-key="t-layouts">Quản lý loại hợp đồng</span> 
+                        <span data-key="t-layouts">Quản lý loại hợp đồng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarContractTypes">
                         <ul class="nav nav-sm flex-column">
@@ -500,8 +500,8 @@
                     <div class="collapse menu-dropdown" id="sidebarEmployees">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{url('quan-ly-tai-khoan.danh-sach-nhan-vien')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách nhân viên</a>
                             </li>
                         </ul>
                     </div>

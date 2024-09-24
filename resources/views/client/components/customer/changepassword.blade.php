@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <form action="{{ route('khach-hang.passwordchange') }}" method="post">
+    <form action="{{ route('passwordchange') }}" method="post">
         @csrf
         <div class="container">
             <h1>Đổi mật khẩu</h1>
@@ -25,10 +25,10 @@
             <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
         </div><br>
         <div class="container signin">
-            <p>Nếu bạn chưa có tài khoản: <a href="{{ route('khach-hang.dang-ky') }}">Đăng ký</a>.</p>
+            <p>Nếu bạn chưa có tài khoản: <a href="{{ route('register') }}">Đăng ký</a>.</p>
         </div>
         <div class="container signin">
-            <p>Nếu bạn đã có tài khoản: <a href="{{ route('khach-hang.dang-nhap') }}">Đăng nhập</a>.</p>
+            <p>Nếu bạn đã có tài khoản: <a href="{{ route('login') }}">Đăng nhập</a>.</p>
         </div>
     </form>
 @endsection

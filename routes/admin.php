@@ -4,14 +4,14 @@ use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CargoCarController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
-
-
 Route::prefix('quan-ly-tai-khoan')
+->as('quan-ly-tai-khoan.')
     ->group(function () {
         Route::get('/danh-sach-nha-cung-cap', [SupplierController::class, 'index'])->name('danh-sach-nha-cung-cap');
         Route::get('/danh-sach-da-an-nha-cup-cap', [SupplierController::class, 'listTrashSupplier'])->name('danh-sach-da-an-nha-cup-cap');
@@ -23,18 +23,33 @@ Route::prefix('quan-ly-tai-khoan')
         Route::delete('{id}/an-nha-cung-cap', [SupplierController::class, 'destroy'])->name('an-nha-cung-cap');
     });
 
+Route::prefix('quan-ly-nhan-vien')
+->as('quan-ly-nhan-vien.')
+    ->group(function () {
+        Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('danh-sach-nhan-vien');
+        // Route::get('/danh-sach-da-an-nha-cup-cap', [EmployeeController::class, 'listTrashSupplier'])->name('danh-sach-da-an-nha-cup-cap');
+        // Route::get('{id}/khoi-phuc', [EmployeeController::class, 'restoreSupplier'])->name('khoi-phuc');
+        Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('them-moi-nhan-vien');
+        Route::post('/them-moi', [EmployeeController::class, 'store'])->name('them-moi');
+        Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('sua-thong-tin-nhan-vien');
+        Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('cap-nhat');
+        Route::post('/update-employee-status', [EmployeeController::class, 'updateStatus']);
+                // Route::delete('{id}/an-nha-cung-cap', [EmployeeController::class, 'destroy'])->name('an-nha-cung-cap');
+    });
+
 
 Route::prefix('quan-ly-don-hang')
     ->as('quan-ly-don-hang.')
     ->group(function () {
-        Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('danh-sach-ban');
-        Route::get('/them-don-hang', [OrderController::class, 'create'])->name('them-don-hang');
-        Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('nhap-them-don-hang');
-        Route::get('{slug}/sua-don-hang', [OrderController::class, 'edit'])->name('sua-don-hang');
-        Route::put('{slug}/cap-nhat-don-hang', [OrderController::class, 'update'])->name('cap-nhat-don-hang');
-        Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('cap-nhat-trang-thai');
-        Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('chi-tiet-don-hang');
+        Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index');
+        Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create');
+        Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store');
+        Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat-don-hang/{slug}', [OrderController::class, 'update'])->name('update');
+        Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus');
+        Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail');
     });
+
 Route::prefix('sliders')
     ->as('sliders.')
     ->group(function () {
@@ -46,7 +61,6 @@ Route::prefix('sliders')
         Route::put('{id}/update', [SliderController::class, 'update'])->name('update');
         Route::delete('{id}/destroy', [SliderController::class, 'destroy'])->name('destroy');
     });
-
 Route::prefix('thuong-hieu')
     ->as('thuong-hieu.')
     ->group(function () {
