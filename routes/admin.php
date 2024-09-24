@@ -51,12 +51,8 @@ Route::prefix('quan-ly-ban-hang')
         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus');
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail');
     });
-<<<<<<< HEAD
-Route::prefix('quan-ly-thanh-truot')
-=======
 
 Route::prefix('sliders')
->>>>>>> 94c31b33e6440523dcff8e4c1874171dcc1f070f
     ->as('sliders.')
     ->group(function () {
         Route::get('/danh-sach', [SliderController::class, 'index'])->name('index');
