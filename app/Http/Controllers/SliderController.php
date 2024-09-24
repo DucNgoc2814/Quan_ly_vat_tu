@@ -58,7 +58,7 @@ class SliderController extends Controller
                 ];
             }
             Slider::create($array);
-            return redirect()->route('quan-ly-slider.index')->with('msg', 'Thêm slider  thành công');
+            return redirect()->route('sliders.index')->with('msg', 'Thêm slider  thành công');
         }
     }
 
@@ -113,7 +113,7 @@ class SliderController extends Controller
                 ];
             }
             $sliders->update($array);
-            return redirect()->route('quan-ly-slider.index')->with('msg', 'Thêm slider  thành công');
+            return redirect()->route('sliders.index')->with('msg', 'Thêm slider  thành công');
         }
 
     }

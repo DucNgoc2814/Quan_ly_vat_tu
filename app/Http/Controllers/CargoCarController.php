@@ -47,7 +47,7 @@ class CargoCarController extends Controller
                 'is_active' => $request->is_active
             ];
             Cargo_car::create($data);
-            return redirect()->route('quan-ly-van-chuyen.index')->with('success','Thêm xe vận chuyển thành công');
+            return redirect()->route('CargoCars.index')->with('success','Thêm xe vận chuyển thành công');
 
         }
 
@@ -87,7 +87,7 @@ class CargoCarController extends Controller
             'is_active' => $request->is_active
         ];
         $cargo_car->update($data);
-        return redirect()->route('quan-ly-van-chuyen.index')->with('success','Cập nhật xe vận chuyển thành công');
+        return redirect()->route('CargoCars.index')->with('success','Cập nhật xe vận chuyển thành công');
 
        }
     }
@@ -99,7 +99,7 @@ class CargoCarController extends Controller
     {
         $cargo_car = Cargo_car::findOrFail($id);
         $cargo_car->delete();
-        return redirect()->route('quan-ly-van-chuyen.index')->with('success','Xóa xe vận chuyển thành công');
+        return redirect()->route('CargoCars.index')->with('success','Xóa xe vận chuyển thành công');
 
     }
 }

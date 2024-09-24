@@ -11,7 +11,7 @@
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('quan-ly-van-chuyen.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('CargoCars.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm vận chuyển </a>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
+                {{-- <div class="card-header border-0">
                     <div class="row g-4">
                         <div class="col-sm ">
                             <input type="date" class="form-control w-25" id="exampleInputdate">
@@ -37,11 +37,11 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
-                        <input type="text" placeholder="">
+                       
                         <thead>
                             <tr>
                                 <th data-ordering="false">Loại xe vận chuyển</th>
@@ -74,17 +74,14 @@
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="#!" class="dropdown-item"><i
-                                                            class="ri-eye-fill align-bottom me-2 text-muted"></i>
-                                                        View</a>
-                                                </li>
-                                                <li><a href="{{ route('quan-ly-van-chuyen.edit', $item->id) }}"
+                                                
+                                                <li><a href="{{ route('CargoCars.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
                                                 <li>
 
-                                                    <form action="{{ route('quan-ly-van-chuyen.destroy', $item->id) }}" method="post">
+                                                    <form action="{{ route('CargoCars.destroy', $item->id) }}" method="post">
                                                         @method('DELETE')
                                                         @csrf
 

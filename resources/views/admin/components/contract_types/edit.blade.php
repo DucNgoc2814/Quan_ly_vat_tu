@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('quan-ly-loai-hop-dong.update', $contract_types->id) }}" method="POST" >
+                    <form action="{{ route('ContractTypes.update', $contract_types->id) }}" method="POST" >
                         @method('PUT')
                          @csrf
                         <div class="row">
