@@ -47,7 +47,7 @@ class OrderController extends Controller
 
         $query->orderBy('created_at', 'desc');
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         $columns = [
             'slug' => 'Mã đơn hàng',

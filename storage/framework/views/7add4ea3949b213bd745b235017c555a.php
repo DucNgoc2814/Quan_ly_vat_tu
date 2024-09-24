@@ -9,10 +9,9 @@
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="<?php echo e(asset('themes/admin/assets/images/favicon.ico')); ?>">
+    <link rel="shortcut icon" href="<?php echo e(asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png')); ?>">
 
     <?php echo $__env->yieldContent('styles-list'); ?>
-
     <!-- Layout config Js -->
     <script src="<?php echo e(asset('themes/admin/assets/js/layout.js')); ?>"></script>
     <!-- Bootstrap Css -->
@@ -23,19 +22,25 @@
     <link href="<?php echo e(asset('themes/admin/assets/css/app.min.css')); ?>" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
     <link href="<?php echo e(asset('themes/admin/assets/css/custom.min.css')); ?>" rel="stylesheet" type="text/css" />
-
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<style>
+    .form-control-sm{
+        width: 250px !important;
+        height:  35px !important;
+    }
+</style>
+    <script src="<?php echo e(asset('themes/admin/assets/js/jquery.js')); ?>"></script>
     <?php echo $__env->yieldContent('styles'); ?>
 </head>
 
 <body>
     <!-- Begin page -->
-    <div id="layout-wrapper">
+    <div id="jquery-wrapper">
         <?php echo $__env->make('admin.layouts.partials.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
         <!-- ========== App Menu ========== -->
         <?php echo $__env->make('admin.layouts.partials.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- Left Sidebar End -->
-
         <!-- ============================================================== -->
         <!-- Start right Content here -->
         <!-- ============================================================== -->
@@ -96,10 +101,12 @@
     <script src="<?php echo e(asset('themes/admin/assets/js/plugins.js')); ?>"></script>
 
     <?php echo $__env->yieldContent('scripts-list'); ?>
-
     <!-- App js -->
     <script src="<?php echo e(asset('themes/admin/assets/js/app.js')); ?>"></script>
-
+    <script src="<?php echo e(asset('themes/admin/assets/js/jquery.js')); ?>"></script>
+<script>
+new DataTable('#myTable')
+</script>
     <?php echo $__env->yieldContent('scripts'); ?>
 </body>
 

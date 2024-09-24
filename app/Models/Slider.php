@@ -10,7 +10,7 @@ class Slider extends Model
     use HasFactory;
     protected $table="sliders";
     protected $fillable = [
-        'url_',
+        'url',
         'description',
         'date_start',
         'date_end',

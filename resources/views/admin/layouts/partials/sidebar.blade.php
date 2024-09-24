@@ -64,6 +64,11 @@
                                 <a href="layouts-horizontal.html" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Quản lý slide</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('sliders.create') }}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới thanh trượt</a>
+                            </li>
+                            
                         </ul>
                     </div>
                 </li>
@@ -100,8 +105,6 @@
                         </ul>
                     </div>
                 </li>
-
-                {{-- Quản lý nhà cung cấp --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarSuppliers" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarSuppliers">
@@ -276,6 +279,8 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarOrderCanceled" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarOrderCanceled">
+                    <a class="nav-link menu-link" href="#sidebarOrderCanceled" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarOrderCanceled">
                         <span data-key="t-layouts">Quản lý đơn hàng đã hủy</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarOrderCanceled">
@@ -288,14 +293,18 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
+                    <a class="nav-link menu-link text-warning" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarTrips">
-                        <span data-key="t-layouts">Quản lý chuyến đi</span>
+                        <span data-key="t-layouts">Quản lý vận chuyển</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarTrips">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="{{ route('CargoCars.index') }}" target="_blank" class="nav-link "
+                                    data-key="t-horizontal">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('CargoCars.create') }}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>

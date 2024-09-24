@@ -24,13 +24,6 @@
                             </div>
                         </div>
                         <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm dữ liệu...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -65,7 +58,7 @@
                                         <a href="{{ route('thuong-hieu.edit', $data->sku) }}" class="dropdown-item edit-item-btn"><i
                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                 Sửa</a></li>
-                                        
+
                                     </td>
                                 </tr>
                             @endforeach
@@ -75,7 +68,6 @@
             </div>
         </div><!--end col-->
     </div>
-    {{ $brands->links() }}
 @endsection
 
 @section('scripts-list')
@@ -92,15 +84,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
     <script src="assets/js/pages/datatables.init.js"></script>
 @endsection
-
 @section('styles-list')
-    <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection

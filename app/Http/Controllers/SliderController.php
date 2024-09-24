@@ -35,12 +35,12 @@ class SliderController extends Controller
     public function store(StoreSliderRequest $request)
     {
         if ($request->isMethod('POST')) {
-            // dd($request);
+            // dd($request->all());
             $params['status'] = $request->has('status') ? 1 : 0;
-            if ($request->hasFile('url_')) {
-                $filpath = $request->file('url_')->store('uploads/sliders', 'public');
+            if ($request->hasFile('url')) {
+                $filpath = $request->file('url')->store('uploads/sliders', 'public');
                 $array = [
-                    "url_" => $filpath,
+                    "url" => $filpath,
                     "description" => $request->description,
                     "date_start" => $request->date_start,
                     "date_end" => $request->date_end,
@@ -49,7 +49,7 @@ class SliderController extends Controller
                 ];
             } else {
                 $array = [
-                    "url_" => '',
+                    "url" => '',
                     "description" => $request->description,
                     "date_start" => $request->date_start,
                     "date_end" => $request->date_end,
@@ -89,13 +89,13 @@ class SliderController extends Controller
             // dd($request);
             $params = $request->post();
             $sliders = Slider::findOrFail($id);
-            if ($request->hasFile('url_')) {
+            if ($request->hasFile('url')) {
                 if ($sliders->url && Storage::disk('public')->exists('uploads/sliders')) {
-                    Storage::disk('public')->delete($sliders->url_);
+                    Storage::disk('public')->delete($sliders->url);
                 }
-                $filpath = $request->file('url_')->store('uploads/sliders', 'public');
+                $filpath = $request->file('url')->store('uploads/sliders', 'public');
                 $array = [
-                    "url_" => $filpath,
+                    "url" => $filpath,
                     "description" => $request->description,
                     "date_start" => $request->date_start,
                     "date_end" => $request->date_end,
@@ -104,7 +104,7 @@ class SliderController extends Controller
                 ];
             } else {
                 $array = [
-                    "url_" => $sliders->url_,
+                    "url" => $sliders->url,
                     "description" => $request->description,
                     "date_start" => $request->date_start,
                     "date_end" => $request->date_end,
@@ -126,8 +126,8 @@ class SliderController extends Controller
         $slider = Slider::find($id);
         if ($slider) {
             $slider->delete();
-            if ($slider->url_ && Storage::disk('public')->exists('uploads/sliders')) {
-                Storage::disk('public')->delete($slider->url_);
+            if ($slider->url && Storage::disk('public')->exists('uploads/sliders')) {
+                Storage::disk('public')->delete($slider->url);
             }
             return back()->with('delete', 'Xóa slider thành công!');
 

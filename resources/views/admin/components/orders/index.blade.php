@@ -12,7 +12,7 @@
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('quan-ly-don-hang.them-don-hang') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('order.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm đơn hàng</a>
                     </div>
                 </div>
@@ -25,7 +25,7 @@
                 <div class="card-header border-0">
                     <div class="d-flex">
                         <div class="col-sm">
-                            <form action="{{ route('quan-ly-don-hang.danh-sach-ban') }}" method="GET" class="d-flex">
+                            <form action="{{ route('order.index') }}" method="GET" class="d-flex">
                                 <input type="date" class="form-control w-25 h-25" id="orderDate" name="orderDate"
                                     value="{{ request('orderDate') }}" />
                                 <button type="submit" class="btn btn-primary" id="button-addon2">
@@ -52,11 +52,12 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     @if (isset($message))
                         <div class="alert alert-info">{{ $message }}</div>
                     @else
+                        <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                             style="width:100%">
                             <thead>
@@ -89,7 +90,7 @@
                                         <td>
                                             @if ($order->status_id < 4)
                                                 <form
-                                                    action="{{ route('quan-ly-don-hang.cap-nhat-trang-thai', $order->slug) }}"
+                                                    action="{{ route('order.updateStatus', $order->slug) }}"
                                                     method="POST" class="d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
@@ -124,17 +125,17 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li>
-                                                        <a href="{{ route('quan-ly-don-hang.chi-tiet-don-hang', ['slug' => $order->slug]) }}"
+                                                        <a href="{{ route('order.indexDetail', ['slug' => $order->slug]) }}"
                                                             class="dropdown-item"><i
                                                                 class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi
-                                                            Tiết
-                                                            Đơn Hàng</a>
+                                                            Tiết Đơn Hàng</a>
                                                     </li>
-                                                    <li><a href="{{ route('quan-ly-don-hang.sua-don-hang', ['slug' => $order->slug]) }}"
+                                                    @if ($order->status_id == 1 || $order->status_id == 2)
+                                                    <li><a href="{{ route('order.edit', ['slug' => $order->slug]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Cập nhật</a></li>
-                                                    <li>
+                                                    @endif
                                                 </ul>
                                             </div>
                                         </td>
@@ -148,8 +149,6 @@
             </div>
         </div>
     </div>
-
-    {{ $data->links() }}
 
     <div class="offcanvas offcanvas-end" id="offcanvasExample" tabindex="-1" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
@@ -225,7 +224,7 @@
             bsOffcanvas.show();
 
             const cancelOrderForm = document.getElementById('cancelOrderForm');
-            cancelOrderForm.action = `{{ route('quan-ly-don-hang.cap-nhat-trang-thai', '') }}/${orderSlug}`;
+            cancelOrderForm.action = `{{ route('order.updateStatus', '') }}/${orderSlug}`;
 
             const noteTextarea = document.getElementById('note');
             const noteHidden = document.getElementById('noteHidden');

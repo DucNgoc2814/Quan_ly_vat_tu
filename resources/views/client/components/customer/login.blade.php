@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <form action="{{ route('khach-hang.handleLogin') }}" method="post">
+    <form action="{{ route('handleLogin') }}" method="post">
         @csrf
         <div class="container mb-3">
             <h1>Đăng nhập</h1>
@@ -27,10 +27,10 @@
         </div>
         <br>
         <div class="container signin">
-            <p>Bạn có sẵn sàng để tạo một tài khoản? <a href="{{ route('khach-hang.dang-ky') }}">Đăng ký</a>.</p>
+            <p>Bạn có sẵn sàng để tạo một tài khoản? <a href="{{ route('register') }}">Đăng ký</a>.</p>
         </div>
         <div class="container signin">
-            <p>Nếu bạn quên mật khẩu <a href="{{ route('khach-hang.quen-mat-khau') }}">Lấy lại mật khẩu</a>.</p>
+            <p>Nếu bạn quên mật khẩu <a href="{{ route('forgotPassword') }}">Lấy lại mật khẩu</a>.</p>
         </div>
     </form>
 @endsection

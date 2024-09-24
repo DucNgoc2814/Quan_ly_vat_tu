@@ -11,7 +11,7 @@
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('create') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('CargoCars.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm vận chuyển </a>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
+                {{-- <div class="card-header border-0">
                     <div class="row g-4">
                         <div class="col-sm ">
                             <input type="date" class="form-control w-25" id="exampleInputdate">
@@ -37,20 +37,21 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
+                       
                         <thead>
                             <tr>
-                                <th data-ordering="false">Loại Xe</th>
+                                <th data-ordering="false">Loại xe vận chuyển</th>
                                 <th data-ordering="false">Biển số xe</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($cargo_cars as $item)
+                            @foreach ($cargo_car as $item)
                                 <tr>
                                     <td>
                                         <span  class="text-xs font-weight-bold">{{ $item->cargoCarType->name }}</span>
@@ -59,9 +60,9 @@
 
                                     <td>
                                         @if($item->is_active== 1)
-                                        
+
                                         <span style="color: green" class=" badge-soft-success">Đang vận chuyển</span>
-                                        @else 
+                                        @else
                                         <span style="color: red"  class=" badge-soft-danger">Chờ xác nhận</span>
                                         @endif
                                     </td>
@@ -73,17 +74,14 @@
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="#!" class="dropdown-item"><i
-                                                            class="ri-eye-fill align-bottom me-2 text-muted"></i>
-                                                        View</a>
-                                                </li>
-                                                <li><a href="{{ route('edit', $item->id) }}"
+                                                
+                                                <li><a href="{{ route('CargoCars.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
                                                 <li>
 
-                                                    <form action="{{ route('destroy', $item->id) }}" method="post">
+                                                    <form action="{{ route('CargoCars.destroy', $item->id) }}" method="post">
                                                         @method('DELETE')
                                                         @csrf
 
@@ -112,7 +110,6 @@
 @section('scripts-list')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
     <!--datatable js-->
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
@@ -123,10 +120,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
     <script src="assets/js/pages/datatables.init.js"></script>
 @endsection
-
 @section('styles-list')
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />

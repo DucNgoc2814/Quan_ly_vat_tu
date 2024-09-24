@@ -8,10 +8,9 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Danh sách danh mục hợp đồng</h4>
-
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('create') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('ContractTypes.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm danh mục hợp đồng </a>
                     </div>
                 </div>
@@ -22,24 +21,20 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
+                {{-- <div class="card-header border-0">
                     <div class="row g-4">
                         <div class="col-sm ">
                             <input type="date" class="form-control w-25" id="exampleInputdate">
                         </div>
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
+                            <div class="d-flex justify-content-sm-end search-box ">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
                                         placeholder="Tìm bài viết..." >
                                     <i class="ri-search-line search-icon"></i>
-                                </form>
-                            </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>
@@ -62,16 +57,16 @@
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="#!" class="dropdown-item"><i
+                                                {{-- <li><a href="#!" class="dropdown-item"><i
                                                             class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                </li>
-                                                <li><a href="{{ route('edit', $item->id) }}"
+                                                </li> --}}
+                                                <li><a href="{{ route('ContractTypes.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
                                                 <li>
 
-                                                    <form action="{{ route('destroy', $item->id) }}"
+                                                    <form action="{{ route('ContractTypes.destroy', $item->id) }}"
                                                         method="post">
                                                         @method('DELETE')
                                                         @csrf
