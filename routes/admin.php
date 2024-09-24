@@ -12,16 +12,27 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 
 
-Route::prefix('quan-ly-tai-khoan')
+Route::prefix('mau')
+    ->as('mau.')
     ->group(function () {
-        Route::get('/danh-sach-nha-cung-cap', [SupplierController::class, 'index'])->name('danh-sach-nha-cung-cap');
-        Route::get('/danh-sach-da-an-nha-cup-cap', [SupplierController::class, 'listTrashSupplier'])->name('danh-sach-da-an-nha-cup-cap');
-        Route::get('{id}/khoi-phuc', [SupplierController::class, 'restoreSupplier'])->name('khoi-phuc');
-        Route::get('/them-moi-nha-cung-cap', [SupplierController::class, 'create'])->name('them-moi-nha-cung-cap');
-        Route::post('/them-moi', [SupplierController::class, 'store'])->name('them-moi');
-        Route::get('{id}/sua-nha-cung-cap', [SupplierController::class, 'edit'])->name('sua-nha-cung-cap');
-        Route::put('{id}/cap-nhat', [SupplierController::class, 'update'])->name('cap-nhat');
-        Route::delete('{id}/an-nha-cung-cap', [SupplierController::class, 'destroy'])->name('an-nha-cung-cap');
+        Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
+        Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
+        Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
+        Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
+    });
+
+Route::prefix('quan-ly-nha-phan-phoi')
+    ->as('supplier.')
+    ->group(function () {
+        Route::get('/danh-sach', [SupplierController::class, 'index'])->name('index');
+        Route::get('/danh-sach-da-an', [SupplierController::class, 'listTrashSupplier'])->name('listTrashSupplier');
+        Route::get('/khoi-phuc/{id}', [SupplierController::class, 'restoreSupplier'])->name('restoreSupplier');
+        Route::get('/them-moi', [SupplierController::class, 'create'])->name('create');
+        Route::post('/them-moi', [SupplierController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [SupplierController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat/{id}', [SupplierController::class, 'update'])->name('update');
+        Route::delete('/an/{id}', [SupplierController::class, 'destroy'])->name('destroy');
     });
 
 
@@ -31,8 +42,8 @@ Route::prefix('quan-ly-don-hang')
         Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('danh-sach-ban');
         Route::get('/them-don-hang', [OrderController::class, 'create'])->name('them-don-hang');
         Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('nhap-them-don-hang');
-        Route::get('{slug}/sua-don-hang', [OrderController::class, 'edit'])->name('sua-don-hang');
-        Route::put('{slug}/cap-nhat-don-hang', [OrderController::class, 'update'])->name('cap-nhat-don-hang');
+        Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('sua-don-hang');
+        Route::put('/cap-nhat-don-hang/{slug}', [OrderController::class, 'update'])->name('cap-nhat-don-hang');
         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('cap-nhat-trang-thai');
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('chi-tiet-don-hang');
     });
@@ -49,14 +60,13 @@ Route::prefix('sliders')
     });
 
 Route::prefix('thuong-hieu')
-    ->as('thuong-hieu.')
+    ->as('brand.')
     ->group(function () {
         Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
         Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
         Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
         Route::get('/sua/{sku}', [BrandController::class, 'edit'])->name('edit');
         Route::put('/sua/{brand}', [BrandController::class, 'update'])->name('update');
-        Route::delete('xoa/{id}', [BrandController::class, 'destroy'])->name('destroy');
     });
 Route::prefix('hop-dong')
     ->as('hop-dong.')
@@ -66,7 +76,6 @@ Route::prefix('hop-dong')
         Route::post('/them-moi', [ContractController::class, 'store'])->name('store');
         Route::get('/sua/{contract}', [ContractController::class, 'edit'])->name('edit');
         Route::put('/sua/{contract}', [ContractController::class, 'update'])->name('update');
-        Route::delete('xoa/{contract}', [ContractController::class, 'destroy'])->name('destroy');
     });
 Route::prefix('quan-ly-van-chuyen')
     ->as('quan-ly-van-chuyen.')

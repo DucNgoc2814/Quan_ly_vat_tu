@@ -14,9 +14,9 @@ class PaymentSeeder extends Seeder
     public function run(): void
     {
         DB::table('payments')->insert([
-            ['id' => 1, 'name' => 'Thanh toán bằng tiền mặt'],
-            ['id' => 2, 'name' => 'Thanh toán qua thẻ momo'],
-            ['id' => 3, 'name' => 'Thanh toán qua chuyển khoản ngân hàng'],
+            ['id' => 1, 'name' => 'Tiền mặt'],
+            ['id' => 2, 'name' => 'Momo'],
+            ['id' => 3, 'name' => 'Chuyển Khoản'],
         ]);
     }
 }

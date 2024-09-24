@@ -73,7 +73,7 @@ class SupplierController extends Controller
             $params = $request->except('_token', '_method');
             $supplier = Supplier::findOrFail($id);
             $supplier->update($params);
-            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
+            return redirect('quan-ly-nha-phan-phoi/danh-sach')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
         }
     }
 
@@ -85,7 +85,7 @@ class SupplierController extends Controller
         if ($request->isMethod('delete')) {
             $supplier = Supplier::findOrFail($id);
             $supplier->delete();
-            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã ẩn nhà cung cấp thành công !');
+            return redirect('quan-ly-nha-phan-phoi/danh-sach')->with('success', 'Bạn đã ẩn nhà cung cấp thành công !');
         }
     }
 
@@ -96,6 +96,6 @@ class SupplierController extends Controller
     public function restoreSupplier(String $id){
         $supplier = Supplier::onlyTrashed()->findOrFail($id);
         $supplier->restore();
-        return redirect('quan-ly-tai-khoan/danh-sach-da-an-nha-cup-cap')->with('success','Bạn đã khôi phục thành công');
+        return redirect('quan-ly-nha-phan-phoi/danh-sach-da-an')->with('success','Bạn đã khôi phục thành công');
     }
 }
