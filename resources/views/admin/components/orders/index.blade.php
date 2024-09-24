@@ -52,12 +52,11 @@
                             </form>
                         </div>
                     </div>
-                </div> --}}
+                </div>
                 <div class="card-body">
                     @if (isset($message))
                         <div class="alert alert-info">{{ $message }}</div>
                     @else
-                        <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                             style="width:100%">
                             <thead>
