@@ -73,7 +73,7 @@ class SupplierController extends Controller
             $params = $request->except('_token', '_method');
             $supplier = Supplier::findOrFail($id);
             $supplier->update($params);
-            return redirect('quan-ly-nha-phan-phoi/danh-sach')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
+            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
         }
     }
 
