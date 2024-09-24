@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+
 @section('title')
     Danh sách nhà cung cấp
 @endsection
@@ -27,30 +28,29 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('quan-ly-tai-khoan.them-moi-nha-cung-cap') }}" class="btn btn-success"
+                                <a href="{{ route('supplier.create') }}" class="btn btn-success"
                                     id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới nhà cung cấp
                                 </a>
                             </div>
                         </div>
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="{{ route('quan-ly-tai-khoan.danh-sach-nha-cung-cap') }}">
+                                <form class="search-box ms-2" method="GET" action="{{ route('supplier.index') }}">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
                                         value="{{ old('search') }}" placeholder="Tìm dữ liệu...">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
-                                <a href="{{ route('quan-ly-tai-khoan.danh-sach-nha-cung-cap') }}"><button
+                                <a href="{{ route('supplier.index') }}"><button
                                         class="btn btn-secondary">All</button></a>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
                 <!--end card-body-->
                 <div class="card-body">
                     <div class="table-responsive table-card mb-4 ">
-                        <table class="table table-nowrap mb-0" id="tasksTable">
+                        <table class="table table-nowrap mb-0" id="myTable">
                             <thead class="table-light text-muted">
                                 <tr>
                                     <th>Tên nhà cung cấp</th>
@@ -74,13 +74,13 @@
                                                     <i class="ri-more-fill align-middle"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a href="{{ route('quan-ly-tai-khoan.sua-nha-cung-cap', ['id' => $item->id]) }}"
+                                                    <li><a href="{{ route('supplier.edit', ['id' => $item->id]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Sửa thông tin</a></li>
                                                     <li>
                                                         <form id="delete-form-{{ $item->id }}"
-                                                            action="{{ route('quan-ly-tai-khoan.an-nha-cung-cap', ['id' => $item->id]) }}"
+                                                            action="{{ route('supplier.destroy', ['id' => $item->id]) }}"
                                                             method="post" style="display: none">
                                                             @csrf
                                                             @method('DELETE')
@@ -89,7 +89,6 @@
                                                         <a class="dropdown-item remove-item-btn"
                                                             data-form-id="delete-form-{{ $item->id }}">
                                                             <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-
                                                             Ẩn nhà cung cấp
                                                         </a>
                                                     </li>

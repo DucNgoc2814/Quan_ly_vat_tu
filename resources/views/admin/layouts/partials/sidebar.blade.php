@@ -46,8 +46,29 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                    data-key="t-horizontal">Danh sách danh mục</a>
                             </li>
+                        </ul>
+                    </div>
+                    <div class="collapse menu-dropdown" id="sidebarCategories">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Quản lý thương hiệu</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="collapse menu-dropdown" id="sidebarCategories">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Quản lý slide</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('sliders.create') }}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới thanh trượt</a>
+                            </li>
+                            
                         </ul>
                     </div>
                 </li>
@@ -61,40 +82,11 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                    data-key="t-horizontal">Danh sách sản phẩm</a>
                             </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarSliders" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarSliders">
-                        <span data-key="t-layouts">Quản lý thanh trượt</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarSliders">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('sliders.index') }}" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Danh sách thanh trượt</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('sliders.create') }}" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới thanh trượt</a>
-                            </li>
-                            
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarGalleries" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarGalleries">
-                        <span data-key="t-layouts">Quản lý phòng trưng bày</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarGalleries">
-                        <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                    data-key="t-horizontal">Quản lý đơn vị</a>
                             </li>
                         </ul>
                     </div>
@@ -116,97 +108,35 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarSuppliers" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarSuppliers">
-                        <span data-key="t-layouts">Quản lý nhà cung cấp</span>
+                        <span data-key="t-layouts">Quản lý tài khoản</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarSuppliers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('quan-ly-tai-khoan.danh-sach-nha-cung-cap') }}" target="_blank"
-                                    class="nav-link" data-key="t-horizontal">Danh sách</a>
+                                <a href="{{ route('supplier.index') }}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Quản lý nhà cung cấp</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('quan-ly-tai-khoan.danh-sach-da-an-nha-cup-cap') }}" target="_blank"
-                                    class="nav-link" data-key="t-horizontal">Danh sách đã ẩn</a>
+                                <a href="{{ route('supplier.index') }}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Quản lý khách hàng</a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarUnits" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarUnits">
-                        <span data-key="t-layouts">Quản lý đơn vị</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarUnits">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarBrands" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarBrands">
-                        <span data-key="t-layouts">Quản lý thương hiệu</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarBrands">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarAttributeValues" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarAttributeValues">
-                        <span data-key="t-layouts">Quản lý thuộc tính giá trị</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarAttributeValues">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarPayments" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarPayments">
-                        <span data-key="t-layouts">Quản lý thanh toán</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarPayments">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-<<<<<<< HEAD
-                    <a class="nav-link menu-link text-warning" href="#sidebarContractTypes" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarContractTypes">
-                        <span data-key="t-layouts">Quản lý loại hợp đồng</span> 
-=======
                     <a class="nav-link menu-link" href="#sidebarContractTypes" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarContractTypes">
-                        <span data-key="t-layouts">Quản lý loại hợp đồng</span>
->>>>>>> 94c31b33e6440523dcff8e4c1874171dcc1f070f
+                        <span data-key="t-layouts">Quản lý hợp đồng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarContractTypes">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{route('ContractTypes.index')}}" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">danh sách loại hợp đồng</a>
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách hợp đồng</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('ContractTypes.create')}}" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới loại hợp đồng</a>
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Lịch sử chuyển tiền</a>
                             </li>
                         </ul>
                     </div>
@@ -214,27 +144,17 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarCargoCarTypers" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarCargoCarTypers">
-                        <span data-key="t-layouts">Quản lý lái xe</span>
+                        <span data-key="t-layouts">Quản lý xe</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCargoCarTypers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                    data-key="t-horizontal">Danh sách xe</a>
                             </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarVariations" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarVariations">
-                        <span data-key="t-layouts">Quản lý biến thể</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarVariations">
-                        <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                    data-key="t-horizontal">Quản lý loại xe</a>
                             </li>
                         </ul>
                     </div>
@@ -254,85 +174,34 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarCustomers" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarCustomers">
-                        <span data-key="t-layouts">Quản lý khách hàng</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarCustomers">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarContractStatus" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarContractStatus">
-                        <span data-key="t-layouts">Quản lý trạng thái hợp đồng</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarContractStatus">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarCustomerRanks" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarCustomerRanks">
-                        <span data-key="t-layouts">Quản lý xếp hạng</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarCustomerRanks">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarContracts" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarContracts">
-                        <span data-key="t-layouts">Quản lý hợp đồng</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarContracts">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarCargoCars" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarCargoCars">
-                        <span data-key="t-layouts">Quản lý xe chở hàng</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarCargoCars">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarRoleEmployees" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarRoleEmployees">
-                        <span data-key="t-layouts">Quản lý vai trò nhân viên</span>
+                        <span data-key="t-layouts">Quản lý nhân viên</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarRoleEmployees">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                    data-key="t-horizontal">Danh sách</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarOrders" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarOrders">
+                        <span data-key="t-layouts">Quản lý đơn hàng</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarOrders">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách đơn đặt</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách đơn mua</a>
                             </li>
                         </ul>
                     </div>
@@ -352,11 +221,11 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarPermissionRoleEmployees" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarPermissionRoleEmployees">
-                        <span data-key="t-layouts">Quản lý phân quyền</span>
+                    <a class="nav-link menu-link" href="#sidebarPaymentHistories" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarPaymentHistories">
+                        <span data-key="t-layouts">Quản lý lịch sử thanh toán</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarPermissionRoleEmployees">
+                    <div class="collapse menu-dropdown" id="sidebarPaymentHistories">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="layouts-horizontal.html" target="_blank" class="nav-link"
@@ -366,11 +235,11 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarPaymentHistories" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarPaymentHistories">
-                        <span data-key="t-layouts">Quản lý lịch sử thanh toán</span>
+                    <a class="nav-link menu-link" href="#sidebarTripDetails" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarTripDetails">
+                        <span data-key="t-layouts">Quản lý chi tiết chuyến đi</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarPaymentHistories">
+                    <div class="collapse menu-dropdown" id="sidebarTripDetails">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="layouts-horizontal.html" target="_blank" class="nav-link"
@@ -410,6 +279,8 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarOrderCanceled" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarOrderCanceled">
+                    <a class="nav-link menu-link" href="#sidebarOrderCanceled" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarOrderCanceled">
                         <span data-key="t-layouts">Quản lý đơn hàng đã hủy</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarOrderCanceled">
@@ -447,8 +318,50 @@
                     <div class="collapse menu-dropdown" id="sidebarEmployees">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ url('quan-ly-tai-khoan.danh-sach-nhan-vien') }}" target="_blank"
-                                    class="nav-link" data-key="t-horizontal">Danh sách nhân viên</a>
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarOrderStatus" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarOrderStatus">
+                        <span data-key="t-layouts">Quản lý trạng thái đơn hàng</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarOrderStatus">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarImportOrders" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarImportOrders">
+                        <span data-key="t-layouts">Quản lý đơn hàng nhập khẩu</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarImportOrders">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarImportOrderDetails" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarImportOrderDetails">
+                        <span data-key="t-layouts">Quản lý chi tiết đơn hàng nhập khẩu</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarImportOrderDetails">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
                     </div>
@@ -467,30 +380,6 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarOrders" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarOrders">
-                        <span data-key="t-layouts">Quản lý đơn hàng</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarOrders">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{route('order.index')}}" class="nav-link text-danger"
-                                    data-key="t-horizontal">Đơn hàng bán ra</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" class="nav-link"
-                                    data-key="t-horizontal">Đơn hàng nhập vào</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" class="nav-link"
-                                    data-key="t-horizontal">Đơn hàng đã hủy</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-
             </ul>
         </div>
         <!-- Sidebar -->
