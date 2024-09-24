@@ -22,15 +22,6 @@
                                         class="ri-add-line align-bottom me-1"></i>Thêm sản phẩm</a>
                             </div>
                         </div>
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm dữ liệu...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">
