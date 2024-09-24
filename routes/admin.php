@@ -13,30 +13,23 @@ use App\Http\Controllers\SupplierController;
 
 
 Route::prefix('quan-ly-tai-khoan')
-->as('quan-ly-tai-khoan.')
+->as('suppliers.')
     ->group(function () {
-        Route::get('/danh-sach-nha-cung-cap', [SupplierController::class, 'index'])->name('danh-sach-nha-cung-cap');
-        Route::get('/danh-sach-da-an-nha-cup-cap', [SupplierController::class, 'listTrashSupplier'])->name('danh-sach-da-an-nha-cup-cap');
-        Route::get('{id}/khoi-phuc', [SupplierController::class, 'restoreSupplier'])->name('khoi-phuc');
-        Route::get('/them-moi-nha-cung-cap', [SupplierController::class, 'create'])->name('them-moi-nha-cung-cap');
-        Route::post('/them-moi', [SupplierController::class, 'store'])->name('them-moi');
-        Route::get('{id}/sua-nha-cung-cap', [SupplierController::class, 'edit'])->name('sua-nha-cung-cap');
-        Route::put('{id}/cap-nhat', [SupplierController::class, 'update'])->name('cap-nhat');
-        Route::delete('{id}/an-nha-cung-cap', [SupplierController::class, 'destroy'])->name('an-nha-cung-cap');
+        Route::get('/danh-sach-nha-cung-cap', [SupplierController::class, 'index'])->name('index');
+        Route::get('/them-moi-nha-cung-cap', [SupplierController::class, 'create'])->name('create');
+        Route::post('/them-moi', [SupplierController::class, 'store'])->name('store');
+        Route::get('{id}/sua-nha-cung-cap', [SupplierController::class, 'edit'])->name('edit');
+        Route::put('{id}/cap-nhat', [SupplierController::class, 'update'])->name('update');
     });
 
 Route::prefix('quan-ly-nhan-vien')
-->as('quan-ly-nhan-vien.')
+->as('employees.')
     ->group(function () {
-        Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('danh-sach-nhan-vien');
-        // Route::get('/danh-sach-da-an-nha-cup-cap', [EmployeeController::class, 'listTrashSupplier'])->name('danh-sach-da-an-nha-cup-cap');
-        // Route::get('{id}/khoi-phuc', [EmployeeController::class, 'restoreSupplier'])->name('khoi-phuc');
-        Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('them-moi-nhan-vien');
-        Route::post('/them-moi', [EmployeeController::class, 'store'])->name('them-moi');
-        Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('sua-thong-tin-nhan-vien');
-        Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('cap-nhat');
-        Route::post('/update-employee-status', [EmployeeController::class, 'updateStatus']);
-                // Route::delete('{id}/an-nha-cung-cap', [EmployeeController::class, 'destroy'])->name('an-nha-cung-cap');
+        Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('index');
+        Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('create');
+        Route::post('/them-moi', [EmployeeController::class, 'store'])->name('store');
+        Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
+        Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
     });
 
 

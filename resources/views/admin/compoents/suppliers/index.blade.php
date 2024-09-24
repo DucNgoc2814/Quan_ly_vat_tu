@@ -27,22 +27,12 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('quan-ly-tai-khoan.them-moi-nha-cung-cap') }}" class="btn btn-success"
+                                <a href="{{ route('suppliers.create') }}" class="btn btn-success"
                                     id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới nhà cung cấp
                                 </a>
                             </div>
                         </div>
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="{{ route('quan-ly-tai-khoan.danh-sach-nha-cung-cap') }}">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        value="{{ old('search') }}" placeholder="Tìm dữ liệu...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
-                                <a href="{{ route('quan-ly-tai-khoan.danh-sach-nha-cung-cap') }}"><button
-                                        class="btn btn-secondary">All</button></a>
-                            </div>
-                        </div>
+                        
 
                     </div>
                 </div>
@@ -74,26 +64,12 @@
                                                     <i class="ri-more-fill align-middle"></i>
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a href="{{ route('quan-ly-tai-khoan.sua-nha-cung-cap', ['id' => $item->id]) }}"
+                                                    <li><a href="{{ route('suppliers.edit', ['id' => $item->id]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Sửa thông tin</a></li>
                                                     <li>
-                                                        <form id="delete-form-{{ $item->id }}"
-                                                            action="{{ route('quan-ly-tai-khoan.an-nha-cung-cap', ['id' => $item->id]) }}"
-                                                            method="post" style="display: none">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                        </form>
-                                                    <li>
-                                                        <a class="dropdown-item remove-item-btn"
-                                                            data-form-id="delete-form-{{ $item->id }}">
-                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-
-                                                            Ẩn nhà cung cấp
-                                                        </a>
-                                                    </li>
-
+                                                    
                                                 </ul>
                                             </div>
                                         </td>
@@ -115,31 +91,7 @@
                     <div class="d-flex justify-content-end mt-2">
                         <div class="pagination-wrap hstack gap-2">
 
-                            @if ($listsupplier->onFirstPage())
-                                <a class="page-item pagination-prev disabled" href="#">
-                                    Previous
-                                </a>
-                            @else
-                                <a class="page-item pagination-prev" href="{{ $listsupplier->previousPageUrl() }}">
-                                    Previous
-                                </a>
-                            @endif
-                            <ul class="pagination listjs-pagination mb-0">
-                                @foreach ($listsupplier->getUrlRange(1, $listsupplier->lastPage()) as $page => $url)
-                                    <li class="page-item{{ $listsupplier->currentPage() == $page ? 'active' : '' }}">
-                                        <a href="{{ $url }}" class="page-link">{{ $page }} </a>
-                                    </li>
-                                @endforeach
-                            </ul>
-                            @if ($listsupplier->hasMorePages())
-                                <a href="{{ $listsupplier->nextPageUrl() }}">
-                                    Next
-                                </a>
-                            @else
-                                <a class="page-item pagination-next disabled" href="#">
-                                    Next
-                                </a>
-                            @endif
+                           
                         </div>
                     </div>
 
@@ -152,23 +104,6 @@
     </div>
 @endsection
 
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.remove-item-btn').forEach(function(element) {
-            element.addEventListener('click', function(event) {
-                event.preventDefault();
-                var formId = this.getAttribute('data-form-id');
-                var form = document.getElementById(formId);
-
-                if (confirm('Bạn có muốn ẩn nó không !')) {
-                    form.submit();
-                }
-            });
-
-        });
-    });
-</script>
 
 
 <script>

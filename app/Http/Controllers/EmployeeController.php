@@ -51,7 +51,7 @@ class EmployeeController extends Controller
                 $params['image'] = $request->file('image')->store('uploads/profile', 'public') ?: null;
             }
             Employee::create($params);
-            return redirect()->route('danh-sach-nhan-vien')->with('success', 'Bạn đã thêm mới thành công');
+            return redirect()->route('employees.index')->with('success', 'Bạn đã thêm mới thành công');
         }
     }
 
@@ -93,7 +93,7 @@ class EmployeeController extends Controller
 
             $datae->update($params);
 
-            return redirect()->route('danh-sach-nhan-vien')->with('success', 'Bạn đã cập nhật thành công thành công');
+            return redirect()->route('employees.index')->with('success', 'Bạn đã cập nhật thành công thành công');
         }
     }
 

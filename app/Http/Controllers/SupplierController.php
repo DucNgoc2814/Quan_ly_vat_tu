@@ -76,25 +76,6 @@ class SupplierController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request, String $id)
-    {
-        if ($request->isMethod('delete')) {
-            $supplier = Supplier::findOrFail($id);
-            $supplier->delete();
-            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã ẩn nhà cung cấp thành công !');
-        }
-    }
 
-    public function listTrashSupplier(Request $request){
-        $listTrashSupplier = Supplier::onlyTrashed()->paginate(5);
-        return view('admin.compoents.suppliers.trashsuppier', compact('listTrashSupplier'));
-    }
-    public function restoreSupplier(String $id){
-        $supplier = Supplier::onlyTrashed()->findOrFail($id);
-        $supplier->restore();
-        return redirect('quan-ly-tai-khoan/danh-sach-da-an-nha-cup-cap')->with('success','Bạn đã khôi phục thành công');
-    }
+
 }
