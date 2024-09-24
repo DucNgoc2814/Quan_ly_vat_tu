@@ -22,7 +22,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('quan-ly-nhan-vien.cap-nhat', $datae->id) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('employees.update', $datae->id) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row">

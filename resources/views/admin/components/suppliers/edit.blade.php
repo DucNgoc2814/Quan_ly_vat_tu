@@ -23,7 +23,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('supplier.update', $supplier->id) }}"
+    <form method="POST" action="{{ route('suppliers.update', $supplier->id) }}"
         onsubmit="return confirm('Bạn có muốn cập nhật thông tin không !')">
         @csrf
         @method('PUT')
