@@ -25,15 +25,6 @@
                 <div class="card-header border-0">
                     <div class="d-flex">
                         <div class="col-sm">
-                            <form action="{{ route('order.index') }}" method="GET" class="d-flex">
-                                <input type="date" class="form-control w-25 h-25" id="orderDate" name="orderDate"
-                                    value="{{ request('orderDate') }}" />
-                                <button type="submit" class="btn btn-primary" id="button-addon2">
-                                    Tìm kiếm
-                                </button>
-                            </form>
-                        </div>
-                        <div class="col-sm">
                             <form class="search-box ms-2 d-flex" method="GET" action="">
                                 <select name="search_column" class="form-select me-2 h-25" style="width: auto;">
                                     <option value="slug">Mã đơn hàng</option>
