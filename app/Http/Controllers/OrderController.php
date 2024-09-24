@@ -57,7 +57,7 @@ class OrderController extends Controller
 
         $query->orderBy('created_at', 'desc');
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         $columns = [
             'slug' => 'Mã đơn hàng',
@@ -69,10 +69,10 @@ class OrderController extends Controller
 
         if ($data->isEmpty()) {
             $message = 'Không có đơn hàng nào cho tiêu chí tìm kiếm.';
-            return view('admin.compoents.orders.index', compact('data', 'message', 'columns'));
+            return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'message', 'columns'));
         }
 
-        return view('admin.compoents.orders.index', compact('data', 'columns'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'columns'));
     }
 
     public function create()
