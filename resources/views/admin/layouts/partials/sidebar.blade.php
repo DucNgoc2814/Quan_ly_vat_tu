@@ -74,9 +74,14 @@
                     <div class="collapse menu-dropdown" id="sidebarSliders">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{ route('sliders.index') }}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách thanh trượt</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('sliders.create') }}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới thanh trượt</a>
+                            </li>
+                            
                         </ul>
                     </div>
                 </li>
@@ -183,15 +188,25 @@
                     </div>
                 </li>
                 <li class="nav-item">
+<<<<<<< HEAD
+                    <a class="nav-link menu-link text-warning" href="#sidebarContractTypes" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarContractTypes">
+                        <span data-key="t-layouts">Quản lý loại hợp đồng</span> 
+=======
                     <a class="nav-link menu-link" href="#sidebarContractTypes" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarContractTypes">
                         <span data-key="t-layouts">Quản lý loại hợp đồng</span>
+>>>>>>> 94c31b33e6440523dcff8e4c1874171dcc1f070f
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarContractTypes">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{route('ContractTypes.index')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">danh sách loại hợp đồng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('ContractTypes.create')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới loại hợp đồng</a>
                             </li>
                         </ul>
                     </div>
@@ -407,14 +422,18 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
+                    <a class="nav-link menu-link text-warning" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarTrips">
-                        <span data-key="t-layouts">Quản lý chuyến đi</span>
+                        <span data-key="t-layouts">Quản lý vận chuyển</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarTrips">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="{{ route('CargoCars.index') }}" target="_blank" class="nav-link "
+                                    data-key="t-horizontal">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('CargoCars.create') }}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>

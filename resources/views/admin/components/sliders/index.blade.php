@@ -11,7 +11,7 @@
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('create') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('sliders.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm Sliders </a>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
+                {{-- <div class="card-header border-0">
                     <div class="row g-4">
                         <div class="col-sm ">
                             <input type="date" class="form-control w-25" id="exampleInputdate">
@@ -37,9 +37,9 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>
@@ -55,7 +55,7 @@
                         <tbody>
                             @foreach ($sliders as $item)
                                 <tr>
-                                    <td><img src="{{ asset('storage/' . $item->url_) }}" width="100px" alt=""></td>
+                                    <td><img src="{{ asset('storage/' . $item->url) }}" width="100px" height="100px" alt=""></td>
                                     <td>{{ $item->description }}</td>
                                     <td>{{ $item->date_start }}</td>
                                     <td>{{ $item->date_end }}</td>
@@ -78,16 +78,16 @@
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="#!" class="dropdown-item"><i
+                                                {{-- <li><a href="#!" class="dropdown-item"><i
                                                             class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                                                </li>
-                                                <li><a href="{{ route('edit', $item->id) }}"
+                                                </li> --}}
+                                                <li><a href="{{ route('sliders.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
                                                 <li>
 
-                                                    <form action="{{ route('destroy', $item->id) }}"
+                                                    <form action="{{ route('sliders.destroy', $item->id) }}"
                                                         method="post">
                                                         @method('DELETE')
                                                         @csrf
