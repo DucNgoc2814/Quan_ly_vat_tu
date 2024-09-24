@@ -1,4 +1,5 @@
 @extends('admin.layouts.master')
+
 @section('title')
     Danh sách nhà cung cấp
 @endsection
@@ -40,7 +41,7 @@
                 <!--end card-body-->
                 <div class="card-body">
                     <div class="table-responsive table-card mb-4 ">
-                        <table class="table table-nowrap mb-0" id="tasksTable">
+                        <table class="table table-nowrap mb-0" id="myTable">
                             <thead class="table-light text-muted">
                                 <tr>
                                     <th>Tên nhà cung cấp</th>

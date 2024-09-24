@@ -28,17 +28,7 @@ class OrderController extends Controller
      * Display a listing of the resource.
      */
 
-    const PATH_VIEW = 'admin.compoents.orders.';
-    // public function index()
-    // {
-
-    //     $data = Order::with(['payment', 'customer', 'orderStatus'])->latest()->paginate(10);
-    //     return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
-    // }
-
-    /**
-     * Show the form for creating a new resource.
-     */
+    const PATH_VIEW = 'admin.components.orders.';
 
     public function index(Request $request)
     {
@@ -57,7 +47,7 @@ class OrderController extends Controller
 
         $query->orderBy('created_at', 'desc');
 
-        $data = $query->paginate(10);
+        $data = $query->get();
 
         $columns = [
             'slug' => 'Mã đơn hàng',
@@ -69,10 +59,10 @@ class OrderController extends Controller
 
         if ($data->isEmpty()) {
             $message = 'Không có đơn hàng nào cho tiêu chí tìm kiếm.';
-            return view('admin.compoents.orders.index', compact('data', 'message', 'columns'));
+            return view('admin.components.orders.index', compact('data', 'message', 'columns'));
         }
 
-        return view('admin.compoents.orders.index', compact('data', 'columns'));
+        return view('admin.components.orders.index', compact('data', 'columns'));
     }
 
     public function create()

@@ -121,6 +121,7 @@
                                 <a href="{{route('suppliers.index')}}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Danh sách</a>
                             </li>
+                         
                         </ul>
                     </div>
                 </li>

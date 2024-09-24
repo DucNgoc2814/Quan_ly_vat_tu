@@ -22,7 +22,8 @@ class StoreCargo_car_typeRequest extends FormRequest
     public function rules(): array
     {
         return [
-          'license_plate' => 'required|string',
+           
         ];
     }
+    
 }

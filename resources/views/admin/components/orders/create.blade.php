@@ -22,7 +22,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('quan-ly-don-hang.nhap-them-don-hang') }}">
+    <form method="POST" action="{{ route('order.store') }}">
         @csrf
 
         <div class="row">
@@ -47,7 +47,7 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-2">
-                            <label class="form-label" for="customer_name">Tên người nhận</label>
+                            <label class="form-label" for="customer_name">Tên người nhận.</label>
                             <input type="text" class="form-control  @error('customer_name') is-invalid @enderror"
                                 id="customer_name" value="" placeholder="Nhập tên người nhận " name="customer_name">
                             {{-- {{ Auth::user()->name }} --}}

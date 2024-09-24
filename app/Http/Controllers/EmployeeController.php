@@ -106,20 +106,5 @@ class EmployeeController extends Controller
         //
     }
 
-    /**
-     * Update the active status of the specified employee.
-     */
-    public function updateStatus(UpdateEmployeeRequest $request)
-    {
-        $request->validate([
-            'id' => 'required|integer|exists:employees,id',
-            'is_active' => 'required|boolean',
-        ]);
 
-        $employee = Employee::find($request->id);
-        $employee->is_active = $request->is_active;
-        $employee->save();
-
-        return response()->json(['success' => true, 'is_active' => $employee->is_active]);
-    }
 }

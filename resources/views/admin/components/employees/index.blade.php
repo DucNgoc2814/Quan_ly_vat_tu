@@ -33,16 +33,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="#">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        value="{{ old('search') }}" placeholder="Tìm dữ liệu...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
-                                <a href=""><button class="btn btn-secondary">All</button></a>
-                            </div>
-                        </div>
+                        
                     </div>
                 </div>
 

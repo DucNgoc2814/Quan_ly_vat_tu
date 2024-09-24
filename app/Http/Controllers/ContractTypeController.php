@@ -48,7 +48,7 @@ class ContractTypeController extends Controller
 
             ];
             Contract_type::create($data);
-            return redirect()->route('index')->with('msg','Thêm loại hợp đồng thành công');
+            return redirect()->route('ContractTypes.index')->with('msg','Thêm loại hợp đồng thành công');
         }
 
     }
@@ -85,7 +85,7 @@ class ContractTypeController extends Controller
                 'description' => $request->description,
             ];
             $contract_types->update($data);
-            return redirect()->route('index')->with('msg','Cập nhật loại hợp đồng thành công');
+            return redirect()->route('ContractTypes.index')->with('msg','Cập nhật loại hợp đồng thành công');
 
         }
     }
@@ -97,6 +97,6 @@ class ContractTypeController extends Controller
     {
         $contract_type = Contract_type::findOrFail($id);
         $contract_type->delete();
-        return redirect()->route('index')->with('msg', 'Xóa loại hợp đồng thành công ');
+        return redirect()->route('ContractTypes.index')->with('msg', 'Xóa loại hợp đồng thành công ');
     }
 }

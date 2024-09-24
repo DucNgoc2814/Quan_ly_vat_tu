@@ -23,7 +23,8 @@ class SupplierController extends Controller
                     ->orwhere('number_phone', 'like', "%{$search}%")
                     ->orwhere('address', 'like', "%{$search}%");
             })->paginate(5);
-        return view('admin.compoents.suppliers.index', compact('listsupplier'));
+        // $listsupplier = Supplier::query()->get();
+        return view('admin.components.suppliers.index', compact('listsupplier'));
     }
 
     /**
@@ -31,7 +32,7 @@ class SupplierController extends Controller
      */
     public function create()
     {
-        return view('admin.compoents.suppliers.create');
+        return view('admin.components.suppliers.create');
     }
 
     /**
@@ -60,7 +61,7 @@ class SupplierController extends Controller
     public function edit(String $id)
     {
         $supplier = Supplier::findOrFail($id);
-        return view('admin.compoents.suppliers.edit', compact('supplier'));
+        return view('admin.components.suppliers.edit', compact('supplier'));
     }
 
     /**
@@ -72,7 +73,7 @@ class SupplierController extends Controller
             $params = $request->except('_token', '_method');
             $supplier = Supplier::findOrFail($id);
             $supplier->update($params);
-            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
+            return redirect('quan-ly-nha-phan-phoi/danh-sach')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
         }
     }
 

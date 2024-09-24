@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('logins', function (Blueprint $table) {
+        Schema::create('locations', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('customer_id')->constrained('customers');
+            $table->string('address');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -22,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('logins');
+        Schema::dropIfExists('locations');
     }
 };
