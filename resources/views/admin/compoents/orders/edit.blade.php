@@ -22,7 +22,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('quan-ly-don-hang.update', ['slug' => $order->slug]) }}">
+    <form method="POST" action="{{ route('order.update', ['slug' => $order->slug]) }}">
         @csrf
         @method('PUT')
         <div class="row">

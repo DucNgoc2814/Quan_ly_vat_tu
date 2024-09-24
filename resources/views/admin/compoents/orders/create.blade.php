@@ -22,7 +22,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('quan-ly-don-hang.store') }}">
+    <form method="POST" action="{{ route('order.store') }}">
         @csrf
 
         <div class="row">

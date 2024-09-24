@@ -12,7 +12,7 @@
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('quan-ly-don-hang.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                        <a href="{{ route('order.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm đơn hàng</a>
                     </div>
                 </div>
@@ -22,36 +22,10 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
-                    {{-- <div class="row g-4">
-                        <div class="col-sm">
-                            <form action="{{ route('quan-ly-don-hang.danh-sach-ban') }}" method="GET" class="d-flex">
-                                <input type="date" class="form-control w-25" id="orderDate" name="orderDate"
-                                    value="{{ request('orderDate') }}">
-                                <button type="submit" class="btn btn-primary" id="button-addon2">Button</button>
-                            </form>
-                        </div>
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2 d-flex" method="GET" action="">
-                                    <select name="search_column" class="form-select me-2"
-                                        style="width: auto;">
-                                        <option value="slug">Mã đơn hàng</option>
-                                        <option value="created_at">Ngày đặt hàng</option>
-                                        <option value="customer_name">Tên người nhận</option>
-                                        <option value="number_phone">Số điện thoại người nhận</option>
-                                        <option value="address">Địa chỉ giao hàng</option>
-                                    </select>
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm kiếm...">
-                                    <button type="submit" class="btn btn-primary ms-2">Tìm kiếm</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div> --}}
+                {{-- <div class="card-header border-0">
                     <div class="d-flex">
                         <div class="col-sm">
-                            <form action="{{ route('quan-ly-don-hang.index') }}" method="GET" class="d-flex">
+                            <form action="{{ route('order.index') }}" method="GET" class="d-flex">
                                 <input type="date" class="form-control w-25 h-25" id="orderDate" name="orderDate"
                                     value="{{ request('orderDate') }}" />
                                 <button type="submit" class="btn btn-primary" id="button-addon2">
@@ -78,7 +52,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     @if (isset($message))
                         <div class="alert alert-info">{{ $message }}</div>
@@ -117,7 +91,7 @@
                                         <td>
                                             @if ($order->status_id < 4)
                                                 <form
-                                                    action="{{ route('quan-ly-don-hang.updateStatus', $order->slug) }}"
+                                                    action="{{ route('order.updateStatus', $order->slug) }}"
                                                     method="POST" class="d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
@@ -152,13 +126,13 @@
                                                 </button>
                                                 <ul class="dropdown-menu dropdown-menu-end">
                                                     <li>
-                                                        <a href="{{ route('quan-ly-don-hang.indexDetail', ['slug' => $order->slug]) }}"
+                                                        <a href="{{ route('order.indexDetail', ['slug' => $order->slug]) }}"
                                                             class="dropdown-item"><i
                                                                 class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi
                                                             Tiết Đơn Hàng</a>
                                                     </li>
                                                     @if ($order->status_id == 1 || $order->status_id == 2)
-                                                    <li><a href="{{ route('quan-ly-don-hang.edit', ['slug' => $order->slug]) }}"
+                                                    <li><a href="{{ route('order.edit', ['slug' => $order->slug]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Cập nhật</a></li>
@@ -176,8 +150,6 @@
             </div>
         </div><!--end col-->
     </div>
-
-    {{ $data->links() }}
 
     <div class="offcanvas offcanvas-end" id="offcanvasExample" tabindex="-1" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
@@ -226,76 +198,6 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
 
-{{-- @section('scripts')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const forms = document.querySelectorAll('.status-update-form');
-
-            forms.forEach(form => {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    // Lấy trạng thái từ input hidden
-                    const status = this.querySelector('input[name="status"]').value;
-                    const orderSlug = this.getAttribute(
-                        'data-order-slug'); // Lấy slug đơn hàng từ thuộc tính data
-
-                    // Chỉ xử lý xác nhận cho nút hủy (status = 5)
-                    if (status == 5) {
-                        confirmCancelOrder(orderSlug); // Gọi hàm xác nhận hủy đơn hàng
-                    } else {
-                        if (confirm('Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?')) {
-                            this.submit(); // Submit form nếu người dùng bấm OK
-                        }
-                    }
-                });
-            });
-        });
-
-        function confirmCancelOrder(orderSlug) {
-            if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
-                // Mở offcanvas sau khi xác nhận
-                openOffcanvas(orderSlug);
-            }
-        }
-
-        // function openOffcanvas(orderSlug) {
-        //     var myOffcanvas = document.getElementById('offcanvasExample');
-        //     var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
-        //     bsOffcanvas.show();
-
-        //     // Cập nhật form hủy đơn hàng
-        //     const cancelOrderForm = document.getElementById('cancelOrderForm');
-        //     cancelOrderForm.action = `{{ route('quan-ly-don-hang.cap-nhat-trang-thai', '') }}/${orderSlug}`;
-
-        //     // Bắt sự kiện submit cho form hủy
-        //     cancelOrderForm.addEventListener('submit', function(e) {
-        //         e.preventDefault(); // Ngăn việc submit form mặc định
-        //         if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
-        //             this.submit(); // Submit form hủy nếu người dùng bấm OK
-        //         }
-        //     });
-        // }
-        function openOffcanvas(orderSlug) {
-            var myOffcanvas = document.getElementById('offcanvasExample');
-            var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
-            bsOffcanvas.show();
-
-            // Cập nhật form hủy đơn hàng
-            const cancelOrderForm = document.getElementById('cancelOrderForm');
-            cancelOrderForm.action = `{{ route('quan-ly-don-hang.cap-nhat-trang-thai', '') }}/${orderSlug}`;
-
-            // Lấy giá trị textarea
-            const noteTextarea = document.getElementById('note');
-            const noteHidden = document.getElementById('noteHidden');
-
-            cancelOrderForm.onsubmit = function() {
-                noteHidden.value = noteTextarea.value; // Đẩy giá trị vào trường ẩn
-            };
-        }
-    </script>
-@endsection --}}
-
 @section('scripts')
     <script>
         function confirmStatusChange(selectElement) {
@@ -324,7 +226,7 @@
             bsOffcanvas.show();
 
             const cancelOrderForm = document.getElementById('cancelOrderForm');
-            cancelOrderForm.action = `{{ route('quan-ly-don-hang.updateStatus', '') }}/${orderSlug}`;
+            cancelOrderForm.action = `{{ route('order.updateStatus', '') }}/${orderSlug}`;
 
             const noteTextarea = document.getElementById('note');
             const noteHidden = document.getElementById('noteHidden');

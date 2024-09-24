@@ -40,8 +40,8 @@ Route::prefix('quan-ly-nhan-vien')
     });
 
 
-Route::prefix('quan-ly-don-hang')
-    ->as('quan-ly-don-hang.')
+Route::prefix('quan-ly-ban-hang')
+    ->as('order.')
     ->group(function () {
         Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index');
         Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create');
