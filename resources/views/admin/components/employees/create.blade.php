@@ -22,7 +22,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('them-moi') }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('employees.store') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="row">

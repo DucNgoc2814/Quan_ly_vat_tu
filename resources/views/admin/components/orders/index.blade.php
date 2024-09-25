@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
+                {{-- <div class="card-header border-0">
                     <div class="d-flex">
                         <div class="col-sm">
                             <form class="search-box ms-2 d-flex" method="GET" action="">
@@ -43,7 +43,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     @if (isset($message))
                         <div class="alert alert-info">{{ $message }}</div>
