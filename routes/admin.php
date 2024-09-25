@@ -38,16 +38,24 @@ Route::prefix('quan-ly-nha-phan-phoi')
         Route::put('/cap-nhat/{id}', [SupplierController::class, 'update'])->name('update');
         Route::delete('/an/{id}', [SupplierController::class, 'destroy'])->name('destroy');
     });
+Route::prefix('quan-ly-tai-khoan')
+    ->as('suppliers.')
+    ->group(function () {
+        Route::get('/danh-sach-nha-cung-cap', [SupplierController::class, 'index'])->name('index');
+        Route::get('/them-moi-nha-cung-cap', [SupplierController::class, 'create'])->name('create');
+        Route::post('/them-moi', [SupplierController::class, 'store'])->name('store');
+        Route::get('{id}/sua-nha-cung-cap', [SupplierController::class, 'edit'])->name('edit');
+        Route::put('{id}/cap-nhat', [SupplierController::class, 'update'])->name('update');
+    });
 
 Route::prefix('quan-ly-nhan-vien')
-    ->as('quan-ly-nhan-vien.')
+    ->as('employees.')
     ->group(function () {
-        Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('danh-sach-nhan-vien');
-        Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('them-moi-nhan-vien');
-        Route::post('/them-moi', [EmployeeController::class, 'store'])->name('them-moi');
-        Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('sua-thong-tin-nhan-vien');
-        Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('cap-nhat');
-        Route::post('/update-employee-status', [EmployeeController::class, 'updateStatus']);
+        Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('index');
+        Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('create');
+        Route::post('/them-moi', [EmployeeController::class, 'store'])->name('store');
+        Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
+        Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
     });
 
 

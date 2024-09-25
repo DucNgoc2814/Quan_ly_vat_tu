@@ -30,7 +30,12 @@ class CargoCarTypeController extends Controller
      */
     public function store(StoreCargo_car_typeRequest $request)
     {
-        
+        $data = [
+            'name' => $request->name,
+            'capacity' => $request->capacity,
+        ];
+        cargo_car_type::query()->create($data);
+        return redirect()->route('cargo_car_types.index');
     }
 
     /**
@@ -46,7 +51,8 @@ class CargoCarTypeController extends Controller
      */
     public function edit(Cargo_car_type $cargo_car_type)
     {
-        //
+    
+
     }
 
     /**
@@ -54,7 +60,7 @@ class CargoCarTypeController extends Controller
      */
     public function update(UpdateCargo_car_typeRequest $request, Cargo_car_type $cargo_car_type)
     {
-        //
+
     }
 
     /**
@@ -62,6 +68,7 @@ class CargoCarTypeController extends Controller
      */
     public function destroy(Cargo_car_type $cargo_car_type)
     {
-        //
+    
     }
 }
+

@@ -22,7 +22,16 @@ class StoreCargo_car_typeRequest extends FormRequest
     public function rules(): array
     {
         return [
-           
+            'name' => 'required|string',
+            'capacity' => 'required|string',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'name' => 'Không dược bỏ trống',
+            'capacity' => 'Không dược bỏ trống',
         ];
     }
     
