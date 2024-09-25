@@ -11,8 +11,8 @@
 
                 <div class="col-sm-auto">
                     <div>
-                        <a href="{{ route('CargoCars.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                class="ri-add-line align-bottom me-1"></i>Thêm vận chuyển </a>
+                        <a href="{{ route('units.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                class="ri-add-line align-bottom me-1"></i>Thêm đơn vị </a>
                     </div>
                 </div>
 
@@ -43,10 +43,7 @@
                                     <td>
                                         {{ $item->name }}
                                    </td>
-
-                                    
-
-                                    <td>
+                                   <td>
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -54,13 +51,13 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 
-                                                <li><a href="{{ route('CargoCars.edit', $item->id) }}"
+                                                <li><a href="{{ route('units.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
                                                 <li>
 
-                                                    <form action="{{ route('CargoCars.destroy', $item->id) }}" method="post">
+                                                    <form action="{{ route('units.destroy', $item->id) }}" method="post">
                                                         @method('DELETE')
                                                         @csrf
 

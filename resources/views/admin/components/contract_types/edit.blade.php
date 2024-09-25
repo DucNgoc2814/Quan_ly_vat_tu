@@ -12,7 +12,7 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
+                        <li class="breadcrumb-item active">{{$title}}</li>
                     </ol>
                 </div>
 
@@ -42,7 +42,7 @@
                          @csrf
                         <div class="row">
                             
-                            <div class="col-lg-6">
+                            <div class="col-lg-10">
                                 <label class="form-label">Tên loại hợp đồng</label>
                                 <input type="text" name="name" placeholder="Nhập tên loại hợp đồng" 
                                 class="form-control @error('name') is-invalid @enderror "   value="{{$contract_types->name}}">
@@ -50,17 +50,15 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="col-lg-6">
-                                <label class="form-label">Mô Tả</label>
+                            <div class="col-lg-10">
+                                <label class="form-label">Mô tả</label>
                                 <textarea type="text" name="description" placeholder="Nhập mô tả"
                                     class="form-control @error('description') is-invalid @enderror " >{{$contract_types->description}}</textarea>
                                 @error('description')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            
-                           
-
+                          
                         </div>
                         <div class="mt-3">
                             <button class = "btn btn-success text ">Submit</button>

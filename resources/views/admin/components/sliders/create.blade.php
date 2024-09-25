@@ -7,12 +7,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Datatables</h4>
+                <h4 class="mb-sm-0">{{$title}}</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Datatables</li>
+                        <li class="breadcrumb-item active">{{$title}}</li>
                     </ol>
                 </div>
 
@@ -124,19 +124,4 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
-@section('js')
-    <script>
-        function showImage(event) {
-            const img_slider = document.getElementById('img_slider');
-            const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function() {
-                img_slider.src = reader.result;
-                img_slider.style.display = 'block';
-            }
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
-@endsection
+
