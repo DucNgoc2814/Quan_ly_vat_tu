@@ -27,6 +27,6 @@ class Import_order extends Model
     }
 
     public function importOrderDetails(){
-        return $this->hasMany(Import_order_detail::class);
+        return $this->belongsTo(Import_order_detail::class);
     }
 }

@@ -45,7 +45,7 @@
                     <div class="collapse menu-dropdown" id="sidebarCategories">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Danh sách danh mục</a>
                             </li>
                         </ul>
@@ -53,7 +53,7 @@
                     <div class="collapse menu-dropdown" id="sidebarCategories">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Quản lý thương hiệu</a>
                             </li>
                         </ul>
@@ -61,11 +61,11 @@
                     <div class="collapse menu-dropdown" id="sidebarCategories">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Quản lý slide</a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo e(route('sliders.create')); ?>" target="_blank" class="nav-link"
+                                <a href="<?php echo e(route('sliders.create')); ?>" class="nav-link"
                                     data-key="t-horizontal">Thêm mới thanh trượt</a>
                             </li>
                             
@@ -81,11 +81,11 @@
                     <div class="collapse menu-dropdown" id="sidebarProducts">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Danh sách sản phẩm</a>
                             </li>
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Quản lý đơn vị</a>
                             </li>
                         </ul>
@@ -99,7 +99,7 @@
                     <div class="collapse menu-dropdown" id="sidebarFeedbacks">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -113,11 +113,11 @@
                     <div class="collapse menu-dropdown" id="sidebarSuppliers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="<?php echo e(route('supplier.index')); ?>" target="_blank" class="nav-link"
+                                <a href="<?php echo e(route('supplier.index')); ?>" class="nav-link"
                                     data-key="t-horizontal">Quản lý nhà cung cấp</a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?php echo e(route('supplier.index')); ?>" target="_blank" class="nav-link"
+                                <a href="<?php echo e(route('supplier.index')); ?>" class="nav-link"
                                     data-key="t-horizontal">Quản lý khách hàng</a>
                             </li>
                         </ul>
@@ -131,11 +131,11 @@
                     <div class="collapse menu-dropdown" id="sidebarContractTypes">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Danh sách hợp đồng</a>
                             </li>
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Lịch sử chuyển tiền</a>
                             </li>
                         </ul>
@@ -149,11 +149,11 @@
                     <div class="collapse menu-dropdown" id="sidebarCargoCarTypers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Danh sách xe</a>
                             </li>
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Quản lý loại xe</a>
                             </li>
                         </ul>
@@ -167,7 +167,7 @@
                     <div class="collapse menu-dropdown" id="sidebarLocations">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -181,7 +181,7 @@
                     <div class="collapse menu-dropdown" id="sidebarRoleEmployees">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Danh sách</a>
                             </li>
                         </ul>
@@ -196,11 +196,11 @@
                     <div class="collapse menu-dropdown" id="sidebarOrders">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Danh sách đơn đặt</a>
                             </li>
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Danh sách đơn mua</a>
                             </li>
                         </ul>
@@ -214,7 +214,7 @@
                     <div class="collapse menu-dropdown" id="sidebarDebts">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -228,7 +228,7 @@
                     <div class="collapse menu-dropdown" id="sidebarPaymentHistories">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -242,7 +242,7 @@
                     <div class="collapse menu-dropdown" id="sidebarTripDetails">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -256,7 +256,7 @@
                     <div class="collapse menu-dropdown" id="sidebarPermissons">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
@@ -270,7 +270,7 @@
                     <div class="collapse menu-dropdown" id="sidebarDebtTypes">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="layouts-horizontal.html" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>

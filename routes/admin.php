@@ -119,7 +119,7 @@ Route::prefix('khach-hang')
         Route::get('/danh-sach', [CustomerController::class, 'index'])->name('index');
     });
 
-Route::prefix('quan-ly-san-pham')
+Route::prefix('san-pham')
     ->as('product.')
     ->group(function () {
         Route::get('/danh-sach', [ProductController::class, 'index'])->name('index');

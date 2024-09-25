@@ -18,7 +18,7 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('san-pham.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                <a href="{{ route('product.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                         class="ri-add-line align-bottom me-1"></i>Thêm sản phẩm</a>
                             </div>
                         </div>
@@ -49,7 +49,11 @@
                                     <td>{{ $data->brand->name }}</td>
                                     <td>{{ $data->variations->sum('stock') }}</td>
                                     <td>{{ $data->unit->name }}</td>
-                                    <td>{{ number_format($data->variations->avg('price_export'))  }}</td>
+                                    <td>
+                                        @foreach ($data->variations as $variation)
+                                            {{ $variation->importOrderDetails->avg('price') > 0 ? $variation->importOrderDetails->avg('price') : 0 }}
+                                        @endforeach
+                                    </td>
                                     <td>
                                         <div class="form-check form-switch form-switch">
                                             @if ($data->is_active == 1)
@@ -62,7 +66,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="{{ route('san-pham.edit', $data) }}" class="dropdown-item edit-item-btn"><i
+                                        <a href="{{ route('product.edit', $data) }}" class="dropdown-item edit-item-btn"><i
                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                             Sửa</a>
                                     </td>
