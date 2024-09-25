@@ -37,49 +37,57 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('store') }}" method="POST">
+                    <form action="{{ route('CargoCars.store') }}" method="POST">
                         @csrf
                         <div class="row">
 
                             <div class="col-lg-8">
-                                <label class="form-label">Tên xe vận chuyển</label>
-                                <select name="cargo_car_type_id" id="cargo_car_type_id" class="form-control @error('cargo_car_type_id') is-invalid @enderror">
-                                   <option selected>--Chọn loại xe--</option>
-                                   @foreach ($loai_xe as $item)
-                                       <option value="{{$item->id}}"
-                                        {{old('cargo_car_type_id')==$item->id ? 'selected' : ''}}> {{$item->name}}
-                                       </option>
-                                   @endforeach
+                                <label class="form-label">Loại xe vận chuyển</label>
+                                <select name="cargo_car_type_id" id="cargo_car_type_id"
+                                    class="form-control @error('cargo_car_type_id') is-invalid @enderror">
+                                    <option value="" selected>--Chọn loại xe--</option>
+                                    @foreach ($loai_xe as $item)
+                                        <option value="{{ $item->id }}"
+                                            {{ old('cargo_car_type_id') == $item->id ? 'selected' : '' }}>
+                                            {{ $item->name }}
+                                        </option>
+                                    @endforeach
 
                                 </select>
                                 @error('cargo_car_type_id')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            
+
                             <div class="col-lg-8">
                                 <label class="form-label">Biển số</label>
                                 <input type="text" name="license_plate" placeholder="Nhập biển số xe"
-                                    class="form-control @error('license_plate') is-invalid @enderror" value="{{ old('license_plate') }}">
+                                    class="form-control @error('license_plate') is-invalid @enderror"
+                                    value="{{ old('license_plate') }}">
                                 @error('license_plate')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="col-lg-8">
-                              <label for="status" class="form-label">Trạng thái</label>
-                              <div class="mb-3 ms-1">
-                                  <input type="radio" name="is_active" value="1" class="me-1" id="firstRadio"
-                                      checked>
-                                  <label for="firstRadio" class="form-check-label text-success">Đang vận chuyển</label>
-
-                                  <input class="me-1" type="radio" name="is_active" value="0" id="secondRadio">
-                                  <label for="secondRadio" class="form-check-label text-danger">Chờ Xác Nhân</label>
-                              </div>
-
-
-                      
-                        <div class="mt-3">
-                            <button class = "btn btn-success text ">Submit</button>
+                                <label for="status" class="form-label">Trạng thái</label>
+                                <select name="is_active" id="is_active"
+                                class="form-control @error('is_active') is-invalid @enderror">
+                                <option value="">--Chọn trạng thái--</option>
+                                    <option value="1" class="text-success">
+                                       Đang vận chuyển
+                                    </option>
+                                    <option value="0" class="text-danger">
+                                       Chờ xác nhận
+                                    </option>
+                                </select>      
+                               
+                                @error('is_active')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="mt-3">
+                                <button class = "btn btn-success text ">Submit</button>
+                            </div>
                         </div>
                     </form>
                 </div>

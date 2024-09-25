@@ -19,19 +19,10 @@
                         <div class="col-sm ">
                             <input type="date" class="form-control w-25" id="exampleInputdate">
                         </div>
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control" id="mytable" name="search"
-                                        placeholder="Tìm bài viết...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>

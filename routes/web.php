@@ -36,8 +36,4 @@ Route::post('/verifyOtp', [LoginController::class, 'verifyOtp'])->name('verifyOt
 Route::get('/doi-mat-khau', [LoginController::class, 'changepassword'])->name('changepassword');
 Route::post('/passwordchange', [LoginController::class, 'passwordchange'])->name('passwordchange');
 
-Route::prefix('khach-hang')
-    ->as('khach-hang.')
-    ->group(function () {
-        Route::get('/danh-sach', [CustomerController::class, 'index'])->name('index');
-    });
+

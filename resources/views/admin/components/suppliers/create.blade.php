@@ -1,60 +1,62 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Sửa thông tin nhà cung cấp
+    Thêm nhà cung cấp
 @endsection
-
 
 @section('content')
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Sửa thông tin nhà cung cấp</h4>
+                <h4 class="mb-sm-0">Thêm mới nhà cung cấp</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Danh sách</a></li>
-                        <li class="breadcrumb-item active">Sửa thông tin nhà cung cấp</li>
+                        <li class="breadcrumb-item active">Thêm mới nhà cung cấp</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
     <!-- end page title -->
+<<<<<<< HEAD:resources/views/admin/suppliers/create.blade.php
+    <form method="POST" action="{{route('them-moi')}}" enctype="multipart/form-data">
+=======
 
-    <form method="POST" action="{{ route('quan-ly-tai-khoan.cap-nhat', $supplier->id) }}"
-        onsubmit="return confirm('Bạn có muốn cập nhật thông tin không !')">
+<<<<<<< HEAD:resources/views/admin/compoents/suppliers/create.blade.php
+    <form method="POST" action="{{ route('quan-ly-tai-khoan.them-moi') }}" enctype="multipart/form-data">
+>>>>>>> f58b97a83c6731fd074588573eebd36df4ab0056:resources/views/admin/compoents/suppliers/create.blade.php
+=======
+    <form method="POST" action="{{route('supplier.store')}}" enctype="multipart/form-data">
+>>>>>>> 0211da7dac110b8a8a89da6a85f55edf896f08db:resources/views/admin/components/suppliers/create.blade.php
         @csrf
-        @method('PUT')
         <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Tên nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập tên nhà cung cấp" name="name"
-                                value="{{ $supplier->name }}">
+                            <input type="text" class="form-control" placeholder="Nhập tên nhà cung cấp" name="name" value="{{old('name')}}">
                             @error('name')
                                 <span role="alert">
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger">{{$message}}</span>
                                 </span>
                             @enderror
                         </div>
                     </div>
                 </div>
                 <!-- end card -->
-
+          
                 <!-- end card -->
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Email nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập email" name="email"
-                                value="{{ $supplier->email }}">
+                            <input type="text" class="form-control" placeholder="Nhập email" name="email" value="{{old('email')}}">
                             @error('email')
                                 <span role="alert">
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger">{{$message}}</span>
                                 </span>
                             @enderror
                         </div>
@@ -65,11 +67,10 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Số điện thoại nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập số điện thoại" name="number_phone"
-                                value="{{ $supplier->number_phone }}">
+                            <input type="text" class="form-control" placeholder="Nhập số điện thoại" name="number_phone" value="{{old('number_phone')}}">
                             @error('number_phone')
                                 <span role="alert">
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger">{{$message}}</span>
                                 </span>
                             @enderror
                         </div>
@@ -80,26 +81,22 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Địa chỉ nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập địa chỉ nhà cung cấp"
-                                name="address" value="{{ $supplier->address }}">
+                            <input type="text" class="form-control" placeholder="Nhập địa chỉ nhà cung cấp" name="address" value="{{old('address')}}">
                             @error('address')
                                 <span role="alert">
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger">{{$message}}</span>
                                 </span>
                             @enderror
                         </div>
                     </div>
                 </div>
                 <div class="text-end mb-3">
-                    <button type="submit" class="btn btn-success w-sm">Xác nhận cập nhật thông tin</button>
+                    <button type="submit" class="btn btn-success w-sm">Thêm mới</button>
                 </div>
             </div>
             <!-- end col -->
         </div>
     </form>
-
-
-
     <script>
         document.getElementById('product-image-input').addEventListener('change', function(event) {
             var output = document.getElementById('product-img');
