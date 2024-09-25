@@ -11,7 +11,6 @@ class Import_order_detail extends Model
 
     protected $fillable = [
         'import_order_id',
-        'product_id',
         'variation_id',
         'quantity',
         'price',
@@ -21,10 +20,6 @@ class Import_order_detail extends Model
 
     public function importOrder() {
         return $this->belongsTo(Import_order::class);
-    }
-
-    public function product() {
-        return $this->belongsTo(Product::class);
     }
 
     public function variation() {
