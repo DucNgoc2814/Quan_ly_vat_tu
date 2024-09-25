@@ -127,11 +127,11 @@
                     <div class="collapse menu-dropdown" id="sidebarSuppliers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('supplier.index') }}"  class="nav-link"
+                                <a href="{{ route('suppliers.index') }}"  class="nav-link"
                                     data-key="t-horizontal">Quản lý nhà cung cấp</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('supplier.index') }}"  class="nav-link"
+                                <a href="{{ route('suppliers.index') }}"  class="nav-link"
                                     data-key="t-horizontal">Quản lý khách hàng</a>
                             </li>
                         </ul>
