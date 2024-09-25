@@ -3,6 +3,7 @@
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CargoCarController;
 use App\Http\Controllers\CargoCarTypeController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
@@ -140,7 +141,7 @@ Route::prefix('quan-ly-san-pham')
         Route::delete('/xoa/{id}', [ProductController::class, 'destroy'])->name('destroy');
     });
 
-Route::prefix('loai-xe-cho-hang')
+Route::prefix('loai-xe')
     ->as('cargo_car_types.')
     ->group(function () {
         Route::get('/danh-sach', [CargoCarTypeController::class, 'index'])->name('index');
@@ -149,4 +150,14 @@ Route::prefix('loai-xe-cho-hang')
         Route::get('/sua/{id}', [CargoCarTypeController::class, 'edit'])->name('edit');
         Route::put('/sua/{id}', [CargoCarTypeController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [CargoCarTypeController::class, 'destroy'])->name('destroy');
+    });
+Route::prefix('danh-muc')
+    ->as('category.')
+    ->group(function () {
+        Route::get('/danh-sach', [CategoryController::class, 'index'])->name('index');
+        Route::get('/them-moi', [CategoryController::class, 'create'])->name('create');
+        Route::post('/store', [CategoryController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [CategoryController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [CategoryController::class, 'destroy'])->name('destroy');
     });

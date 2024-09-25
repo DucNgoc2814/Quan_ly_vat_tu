@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Models\Order;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    const PATH_VIEW = 'admin.components.Categories.';
+
     public function index()
     {
-        //
+        $data = DB::table('Categories')->get();
+        return view(self::PATH_VIEW . 'index', compact('data')); 
     }
 
     /**
@@ -21,7 +23,9 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        $orders = Order::query()->pluck('slug', 'id');
+        $types = Category::query()->pluck('name', 'id');
+        return view(self::PATH_VIEW . __FUNCTION__, compact('orders', 'types'));
     }
 
     /**

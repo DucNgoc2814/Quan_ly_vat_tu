@@ -1,13 +1,13 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Danh sách loại xe
+    Danh sách danh mục
 @endsection
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách loại xe</h4>
+                <h4 class="mb-sm-0">Danh sách danh mục</h4>
             </div>
 
         </div>
@@ -19,8 +19,8 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('cargo_car_types.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm loại xe </a>
+                                <a href="{{ route('category.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                        class="ri-add-line align-bottom me-1"></i>Thêm danh mục </a>
                             </div>
                         </div>
                     </div>
@@ -34,7 +34,9 @@
     <tr>
         <th data-ordering="false">ID</th>
         <th data-ordering="false">Tên</th>
-        <th data-ordering="false">Dung Tích</th>
+        <th data-ordering="false">Mã Hàng</th>
+        <th data-ordering="false">Image</th>
+        <th data-ordering="false">Ghi Chú</th>
         <th>Hành động</th>
     </tr>
 </thead>
@@ -43,7 +45,10 @@
         <tr>
             <td>{{ $item->id }}</td>
             <td>{{ $item->name }}</td>
-            <td>{{ $item->capacity }}</td>
+            <td>{{ $item->sku }}</td>
+            <td>{{ $item->image }}</td>
+            <td>{{ $item->description }}</td>
+
             <td>
                 <div class="dropdown d-inline-block">
                     <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
@@ -54,16 +59,17 @@
                         <li><a href="#!" class="dropdown-item"><i
                                     class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
                         </li>
-                        <li><a href="cargo_car_types.edit" class="dropdown-item edit-item-btn"><i
+                        <li><a href="
+                                class="dropdown-item edit-item-btn"><i
                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                Sửa</a></li>
+                                Edit</a></li>
                         <li>
 
                             <form action="{{ route('cargo_car_types.destroy', ['id'=>1]) }}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 <button class="dropdown-item remove-list" type="submit"
-                                    onclick="return confirm('Bạn có chắc chắn muốn xóa xe này không?')">
+                                    onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')">
                                     <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
                                     Xóa
                                 </button>
