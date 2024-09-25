@@ -51,7 +51,7 @@ class EmployeeController extends Controller
                 $params['image'] = $request->file('image')->store('uploads/profile', 'public') ?: null;
             }
             Employee::create($params);
-            return redirect()->route('danh-sach-nhan-vien')->with('success', 'Bạn đã thêm mới thành công');
+            return redirect()->route('employees.index')->with('success', 'Bạn đã thêm mới thành công');
         }
     }
 
@@ -93,7 +93,7 @@ class EmployeeController extends Controller
 
             $datae->update($params);
 
-            return redirect()->route('danh-sach-nhan-vien')->with('success', 'Bạn đã cập nhật thành công thành công');
+            return redirect()->route('employees.index')->with('success', 'Bạn đã cập nhật thành công thành công');
         }
     }
 
@@ -106,20 +106,5 @@ class EmployeeController extends Controller
         //
     }
 
-    /**
-     * Update the active status of the specified employee.
-     */
-    public function updateStatus(UpdateEmployeeRequest $request)
-    {
-        $request->validate([
-            'id' => 'required|integer|exists:employees,id',
-            'is_active' => 'required|boolean',
-        ]);
 
-        $employee = Employee::find($request->id);
-        $employee->is_active = $request->is_active;
-        $employee->save();
-
-        return response()->json(['success' => true, 'is_active' => $employee->is_active]);
-    }
 }
