@@ -12,7 +12,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
-
+use App\Http\Controllers\UnitController;
 
 Route::prefix('mau')
     ->as('mau.')
@@ -128,4 +128,14 @@ Route::prefix('quan-ly-san-pham')
         Route::get('/sua/{sku}', [ProductController::class, 'edit'])->name('edit');
         Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [ProductController::class, 'destroy'])->name('destroy');
+    });
+    Route::prefix('quan-ly-don-vi')
+    ->as('units.')
+    ->group(function () {
+        Route::get('/danh-sach', [UnitController::class, 'index'])->name('index');
+        Route::get('/them-moi', [UnitController::class, 'create'])->name('create');
+        Route::post('/them-moi', [UnitController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [UnitController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [UnitController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [UnitController::class, 'destroy'])->name('destroy');
     });

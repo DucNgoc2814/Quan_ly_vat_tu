@@ -13,7 +13,8 @@ class UnitController extends Controller
      */
     public function index()
     {
-        //
+        $unit = Unit::query()->get();
+        return view('admin.components.units.index', compact('unit'));
     }
 
     /**
