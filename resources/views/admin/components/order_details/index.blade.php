@@ -39,8 +39,8 @@
                                 </label>
                             </div>
                         </div>
-                        <h5 class="fs-16 mb-1">Anna Adame</h5>
-                        <p class="text-muted mb-0">Lead Designer / Developer</p>
+                        <p>Tên người đặt</p>
+                        <h4 class="fs-16 mb-1">{{ $data->first()->order->customer->name }}</h4>
                     </div>
                 </div>
             </div>
@@ -49,7 +49,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-4">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">Portfolio</h5>
+                            <h5 class="card-title mb-0">Thông tin người đặt</h5>
                         </div>
                     </div>
                     <div class="mb-3 d-flex">
@@ -58,8 +58,7 @@
                                 <i class="ri-github-fill"></i>
                             </span>
                         </div>
-                        <input type="email" class="form-control" id="gitUsername" placeholder="Username"
-                            value="@daveadame">
+                        <input type="email" class="form-control" id="gitUsername" value="{{ $data->first()->order->customer->email }}" readonly>
                     </div>
                     <div class="mb-3 d-flex">
                         <div class="avatar-xs d-block flex-shrink-0 me-3">
@@ -67,17 +66,7 @@
                                 <i class="ri-global-fill"></i>
                             </span>
                         </div>
-                        <input type="text" class="form-control" id="websiteInput" placeholder="www.example.com"
-                            value="www.velzon.com">
-                    </div>
-                    <div class="mb-3 d-flex">
-                        <div class="avatar-xs d-block flex-shrink-0 me-3">
-                            <span class="avatar-title rounded-circle fs-16 bg-success">
-                                <i class="ri-dribbble-fill"></i>
-                            </span>
-                        </div>
-                        <input type="text" class="form-control" id="dribbleName" placeholder="Username"
-                            value="@dave_adame">
+                        <input type="text" class="form-control" id="websiteInput" value="{{ $data->first()->order->customer->number_phone }}" readonly>
                     </div>
                     <div class="d-flex">
                         <div class="avatar-xs d-block flex-shrink-0 me-3">
@@ -85,8 +74,7 @@
                                 <i class="ri-pinterest-fill"></i>
                             </span>
                         </div>
-                        <input type="text" class="form-control" id="pinterestName" placeholder="Username"
-                            value="Advance Dave">
+                        <input type="text" class="form-control" id="pinterestName" value="{{ $data->first()->order?->customer?->customer_rank?->name ?? 'chưa được  ' }}" readonly>
                     </div>
                 </div>
             </div>
@@ -99,7 +87,8 @@
                     <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
-                                <i class="fas fa-home"></i> Personal Details
+                                <i class="fas fa-home"></i>
+                                <h3>Chi tiết đơn hàng: {{ $data->first()->order->slug }}</h3>
                             </a>
                         </li>
                     </ul>
