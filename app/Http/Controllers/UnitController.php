@@ -38,7 +38,7 @@ class UnitController extends Controller
                 'name'=> $request->name
             ];
             Unit::create($data);
-            return redirect()->route('units.index')->with('success','Thêm thành công');
+            return redirect()->route('units.index')->with('success','Thêm thành công. ');
         }
     }
 
@@ -55,6 +55,7 @@ class UnitController extends Controller
      */
     public function edit(string $id)
     {
+        $title = "Sửa đơn vị";
         $unit = Unit::findOrFail($id);
         return view('admin.components.units.edit',compact('title','unit'));
     }
@@ -62,17 +63,28 @@ class UnitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUnitRequest $request, Unit $unit)
+    public function update(UpdateUnitRequest $request, string $id)
     {
         //
+        if($request->isMethod('PUT')){
+            $unit = Unit::find($id);
+            $data = [
+                'name' => $request->name
+            ];
+            $unit->update($data);
+            return redirect()->route('units.index')->with('success','Sửa thành công. ');
+        }
 
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Unit $unit)
+    public function destroy(string $id)
     {
         //
+        $unit = Unit::find($id);
+        $unit->delete();
+        return redirect()->route('units.index')->with('success', 'Xóa đơn vị thành công. ');
     }
 }

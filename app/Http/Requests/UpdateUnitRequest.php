@@ -11,7 +11,7 @@ class UpdateUnitRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,16 @@ class UpdateUnitRequest extends FormRequest
     {
         return [
             //
+            'name' => "required|string|max:55"
+        ];
+    }
+    public function messages(): array
+    {
+        return[
+            'name.required' => "Tên đơn vị không được bỏ trống. ",
+            'name.string' => "Tên đơn vị phải là chuỗi ký tự. ",
+            'name.max' => "Tên đơn vị phải nhỏ hơn 55 ký tự. ",
+
         ];
     }
 }
