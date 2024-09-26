@@ -13,8 +13,9 @@ class UnitController extends Controller
      */
     public function index()
     {
+        $title="Danh sách đơn vị";
         $unit = Unit::query()->get();
-        return view('admin.components.units.index', compact('unit'));
+        return view('admin.components.units.index', compact('unit','title'));
     }
 
     /**
@@ -23,6 +24,8 @@ class UnitController extends Controller
     public function create()
     {
         //
+        $title="Thêm đơn vị";
+        return view('admin.components.units.create',compact('title'));
     }
 
     /**
@@ -30,23 +33,30 @@ class UnitController extends Controller
      */
     public function store(StoreUnitRequest $request)
     {
-        //
+        if($request->isMethod('POST')){
+            $data = [
+                'name'=> $request->name
+            ];
+            Unit::create($data);
+            return redirect()->route('units.index')->with('success','Thêm thành công');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Unit $unit)
+    public function show(string $id)
     {
-        //
+        
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Unit $unit)
+    public function edit(string $id)
     {
-        //
+        $unit = Unit::findOrFail($id);
+        return view('admin.components.units.edit',compact('title','unit'));
     }
 
     /**
@@ -55,6 +65,7 @@ class UnitController extends Controller
     public function update(UpdateUnitRequest $request, Unit $unit)
     {
         //
+
     }
 
     /**
