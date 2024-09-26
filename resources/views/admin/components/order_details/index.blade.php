@@ -11,11 +11,12 @@
             <div class="overlay-content">
                 <div class="text-end p-3">
                     <div class="p-0 ms-auto rounded-circle profile-photo-edit">
-                        <input id="profile-foreground-img-file-input" type="file"
-                            class="profile-foreground-img-file-input">
-                        <label for="profile-foreground-img-file-input" class="profile-photo-edit btn btn-light">
-                            <i class="ri-image-edit-line align-bottom me-1"></i> Change Cover
-                        </label>
+                        <div class="col-sm-auto">
+                            <div>
+                                <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                                        class="ri-arrow-left-line align-bottom me-1"></i>Trang danh sách</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,7 +50,7 @@
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-4">
                         <div class="flex-grow-1">
-                            <h5 class="card-title mb-0">Thông tin người đặt</h5>
+                            <h5 class="card-title mb-0">Thông tin khách hàng</h5>
                         </div>
                     </div>
                     <div class="mb-3 d-flex">
@@ -58,7 +59,8 @@
                                 <i class="ri-github-fill"></i>
                             </span>
                         </div>
-                        <input type="email" class="form-control" id="gitUsername" value="{{ $data->first()->order->customer->email }}" readonly>
+                        <input type="email" class="form-control" id="gitUsername"
+                            value="{{ $data->first()->order->customer->email }}" readonly>
                     </div>
                     <div class="mb-3 d-flex">
                         <div class="avatar-xs d-block flex-shrink-0 me-3">
@@ -66,7 +68,8 @@
                                 <i class="ri-global-fill"></i>
                             </span>
                         </div>
-                        <input type="text" class="form-control" id="websiteInput" value="{{ $data->first()->order->customer->number_phone }}" readonly>
+                        <input type="text" class="form-control" id="websiteInput"
+                            value="{{ $data->first()->order->customer->number_phone }}" readonly>
                     </div>
                     <div class="d-flex">
                         <div class="avatar-xs d-block flex-shrink-0 me-3">
@@ -74,7 +77,9 @@
                                 <i class="ri-pinterest-fill"></i>
                             </span>
                         </div>
-                        <input type="text" class="form-control" id="pinterestName" value="{{ $data->first()->order?->customer?->customer_rank?->name ?? 'chưa được  ' }}" readonly>
+                        <input type="text" class="form-control" id="pinterestName"
+                            value="{{ $data->first()->order?->customer?->customer_rank?->name ?? 'Không có khuyến mãi' }}"
+                            readonly>
                     </div>
                 </div>
             </div>
@@ -88,7 +93,8 @@
                         <li class="nav-item">
                             <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
                                 <i class="fas fa-home"></i>
-                                <h3>Chi tiết đơn hàng: {{ $data->first()->order->slug }}</h3>
+                                <h3>Thông tin đơn hàng: {{ $data->first()->order->slug }}</h3>
+                                {{-- <h3>Thông tin giao hàng</h3> --}}
                             </a>
                         </li>
                     </ul>
@@ -100,115 +106,60 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="firstnameInput" class="form-label">First Name</label>
-                                            <input type="text" class="form-control" id="firstnameInput"
-                                                placeholder="Enter your firstname" value="Dave">
+                                            <label for="customer_name" class="form-label">Tên người nhận</label>
+                                            <input type="text" class="form-control" id="customer_name"
+                                                value="{{ $data->first()->order->customer_name }}" readonly>
                                         </div>
                                     </div>
                                     <!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="lastnameInput" class="form-label">Last Name</label>
-                                            <input type="text" class="form-control" id="lastnameInput"
-                                                placeholder="Enter your lastname" value="Adame">
+                                            <label for="created_at" class="form-label">Ngày đặt hàng</label>
+                                            <input type="text" class="form-control" id="created_at"
+                                                value="{{ $data->first()->order->created_at }}" readonly>
                                         </div>
                                     </div>
                                     <!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="phonenumberInput" class="form-label">Phone Number</label>
-                                            <input type="text" class="form-control" id="phonenumberInput"
-                                                placeholder="Enter your phone number" value="+(1) 987 6543">
+                                            <label for="number_phone" class="form-label">Số điện thoại</label>
+                                            <input type="text" class="form-control" id="number_phone"
+                                                value="{{ $data->first()->order->number_phone }}" readonly>
                                         </div>
                                     </div>
                                     <!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="emailInput" class="form-label">Email Address</label>
-                                            <input type="email" class="form-control" id="emailInput"
-                                                placeholder="Enter your email" value="daveadame@velzon.com">
+                                            <label for="email" class="form-label">Email </label>
+                                            <input type="email" class="form-control" id="email"
+                                                value="{{ $data->first()->order->email }}" readonly>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="payment_id" class="form-label">Phương thức thanh toán</label>
+                                            <input type="text" class="form-control" id="payment_id"
+                                                value="{{ $data->first()->order->payment->name }}" readonly>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="status_id" class="form-label">Trạng thái đơn hàng </label>
+                                            <input type="text" class="form-control" id="status_id"
+                                                placeholder="Enter your email"
+                                                value="{{ $data->first()->order->orderStatus->name }}" readonly>
                                         </div>
                                     </div>
                                     <!--end col-->
                                     <div class="col-lg-12">
                                         <div class="mb-3">
-                                            <label for="JoiningdatInput" class="form-label">Joining Date</label>
-                                            <input type="text" class="form-control" data-provider="flatpickr"
-                                                id="JoiningdatInput" data-date-format="d M, Y"
-                                                data-deafult-date="24 Nov, 2021" placeholder="Select date" />
+                                            <label for="address" class="form-label">Địa chỉ giao hàng </label>
+                                            <input type="text" class="form-control" id="address"
+                                                value="{{ $data->first()->order->address }}" readonly>
                                         </div>
                                     </div>
-                                    <!--end col-->
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label for="skillsInput" class="form-label">Skills</label>
-                                            <select class="form-control" name="skillsInput" data-choices
-                                                data-choices-text-unique-true multiple id="skillsInput">
-                                                <option value="illustrator">Illustrator</option>
-                                                <option value="photoshop">Photoshop</option>
-                                                <option value="css">CSS</option>
-                                                <option value="html">HTML</option>
-                                                <option value="javascript" selected>Javascript</option>
-                                                <option value="python">Python</option>
-                                                <option value="php">PHP</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="designationInput" class="form-label">Designation</label>
-                                            <input type="text" class="form-control" id="designationInput"
-                                                placeholder="Designation" value="Lead Designer / Developer">
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label for="websiteInput1" class="form-label">Website</label>
-                                            <input type="text" class="form-control" id="websiteInput1"
-                                                placeholder="www.example.com" value="www.velzon.com" />
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-4">
-                                        <div class="mb-3">
-                                            <label for="cityInput" class="form-label">City</label>
-                                            <input type="text" class="form-control" id="cityInput" placeholder="City"
-                                                value="California" />
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-4">
-                                        <div class="mb-3">
-                                            <label for="countryInput" class="form-label">Country</label>
-                                            <input type="text" class="form-control" id="countryInput"
-                                                placeholder="Country" value="United States" />
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-4">
-                                        <div class="mb-3">
-                                            <label for="zipcodeInput" class="form-label">Zip Code</label>
-                                            <input type="text" class="form-control" minlength="5" maxlength="6"
-                                                id="zipcodeInput" placeholder="Enter zipcode" value="90011">
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-12">
-                                        <div class="mb-3 pb-2">
-                                            <label for="exampleFormControlTextarea" class="form-label">Description</label>
-                                            <textarea class="form-control" id="exampleFormControlTextarea" placeholder="Enter your description" rows="3">Hi I'm Anna Adame,It will be as simple as Occidental; in fact, it will be Occidental. To an English person, it will seem like simplified English, as a skeptical Cambridge friend of mine told me what Occidental is European languages are members of the same family.</textarea>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-12">
-                                        <div class="hstack gap-2 justify-content-end">
-                                            <button type="submit" class="btn btn-primary">Updates</button>
-                                            <button type="button" class="btn btn-soft-success">Cancel</button>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
                                 </div>
                                 <!--end row-->
                             </form>
@@ -217,63 +168,81 @@
                 </div>
             </div>
         </div>
-        <!--end col-->
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Chi tiết đơn hàng: {{ $data->first()->order->slug }}</h4>
-                <div class="col-sm-auto">
-                    <div>
-                        <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
-                                class="ri-arrow-left-line align-bottom me-1"></i>Trang danh sách</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                        style="width:100%">
-                        <thead>
-                            <tr>
-                                <th data-ordering="false">Số thứ tự</th>
-                                <th data-ordering="false">Mã đơn hàng</th>
-                                <th data-ordering="false">Tên sản phẩm </th>
-                                <th data-ordering="false">Ảnh sản phẩm </th>
-                                <th data-ordering="false">Giá sản phẩm</th>
-                                <th data-ordering="false">Đơn vị</th>
-                                <th data-ordering="false">Số lượng </th>
-                                <th data-ordering="false">Biến thể</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($data as $orderDetail)
+        <div class="col-12 mt-5">
+            <div class="card mt-n5">
+                <div class="card-body p-4">
+                    <div class="table-responsive table-card p-4">
+                        <table class="table table-nowrap table-striped-columns mb-0">
+                            <thead class="table-light">
                                 <tr>
-                                    <td>{{ $orderDetail->id }}</td>
-                                    <td>{{ $orderDetail->order->slug }}</td>
-                                    <td>{{ $orderDetail->variations?->name ?? 'Không có thông tin sản phẩm' }}</td>
-                                    <td>
-                                        {{-- @if ($orderDetail->products->galleries->first()->url && Storage::exists($orderDetail->products->galleries->first()->url))
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Tên sản phẩm</th>
+                                    <th scope="col">Hình ảnh</th>
+                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Đơn vị</th>
+                                    <th scope="col">Giá sản phẩm</th>
+                                    <th scope="col">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($data as $index => $orderDetail)
+                                    <tr>
+                                        <td>{{ $index + 1 }}</td>
+                                        <td>{{ $orderDetail->variations?->name ?? 'Không có thông tin sản phẩm' }}</td>
+                                        <td>
+                                            {{-- @if ($orderDetail->products->galleries->first()->url && Storage::exists($orderDetail->products->galleries->first()->url))
                                             <img src="{{ \Storage::url($orderDetail->products->galleries->first()->url) ?? 'Không có ảnh'}}" width="100px" alt="">
                                         @endif --}}
-                                        {{ $orderDetail->variations?->product?->galleries?->first()?->url ?? 'Không có ảnh' }}
-                                    </td>
-                                    <td>{{ number_format($orderDetail->price) }}</td>
-                                    <td>{{ $orderDetail->variations?->product?->unit?->name ?? 'Không có đơn vị' }}</td>
-                                    <td>{{ $orderDetail->quantity }}</td>
-                                    <td>{{ $orderDetail->variations?->name ?? 'Không có biến thể' }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                                            {{ $orderDetail->variations?->product?->galleries?->first()?->url ?? 'Không có ảnh' }}
+                                        </td>
+                                        <td>{{ $orderDetail->quantity }}</td>
+                                        <td>{{ $orderDetail->variations?->product?->unit?->name ?? 'Không có đơn vị' }}
+                                        </td>
+                                        <td>{{ number_format($orderDetail->price) }}</td>
+                                        <td>{{ number_format($orderDetail->quantity * $orderDetail->price) }}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div><!--end col-->
+        </div>
+        <div class="col-12 mt-5">
+            <div class="card">
+                <div class="card-body ">
+                    <div class="d-flex justify-content-between">
+                        <h3 class="fw-bold">Tổng cộng:</h3>
+                        <h4>{{ number_format($data->first()->order->total_amount) }}đ</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h3 class="fw-bold">Số tiền đã trả:</h3>
+                        <h4>{{ number_format($data->first()->order->paid_amount) }}đ</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-n5 ">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h2 class="fw-bold">Tổng thanh toán:</h2>
+                        <h3>{{ number_format($data->first()->order->total_amount - $data->first()->order->paid_amount) }}đ</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 mt-5">
+            <div class="card mt-n5">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary">Xuất hóa đơn</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end col-->
     </div>
 @endsection
 

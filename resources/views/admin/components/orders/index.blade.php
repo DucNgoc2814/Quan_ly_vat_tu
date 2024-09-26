@@ -87,7 +87,7 @@
                                                     <select name="status" class="form-select form-select-sm"
                                                         onchange="confirmStatusChange(this)">
                                                         <option value="{{ $order->status_id }}" selected>
-                                                            {{ $order->orderStatus->description }}</option>
+                                                            {{ $order->orderStatus->name }}</option>
                                                         @if ($order->status_id == 1)
                                                             <option value="2">Xác Nhận</option>
                                                             <option value="5">Hủy</option>
@@ -102,7 +102,7 @@
                                             @else
                                                 <span
                                                     class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">
-                                                    {{ $order->orderStatus->description }}
+                                                    {{ $order->orderStatus->name }}
                                                 </span>
                                             @endif
                                         </td>
