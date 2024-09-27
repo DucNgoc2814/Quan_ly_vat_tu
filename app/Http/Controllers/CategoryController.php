@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $data = DB::table('Categories')->get();
-        return view(self::PATH_VIEW . 'index', compact('data')); 
+        return view(self::PATH_VIEW . 'index', compact('data'));
     }
 
     /**
@@ -23,9 +23,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $orders = Order::query()->pluck('slug', 'id');
-        $types = Category::query()->pluck('name', 'id');
-        return view(self::PATH_VIEW . __FUNCTION__, compact('orders', 'types'));
+        $categories = Category::query()->pluck('sku', 'id');
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
     }
 
     /**
@@ -33,8 +32,18 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $data = [
+            'name' => $request->name,
+            'sku' => $request->sku,
+            'image' => $request->image,
+            'description' => $request->description,
+        ];
+        Category::create($data);
+        // return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
+        return redirect()->route('categories.index')->with('success', 'Thêm mới thành công!');
     }
+
+
 
     /**
      * Display the specified resource.

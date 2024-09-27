@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Thêm danh mục</h4>
@@ -38,7 +38,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <label class="form-label">Tên danh mục</label>
-                                <input type="text" name="name" placeholder="Nhập tên danh mục" class="form-control">
+                                <input value="{{old('name')}}" type="text" name="name" placeholder="Nhập tên danh mục" class="form-control">
                                 @error('name')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
@@ -46,36 +46,22 @@
                             <div class="col-lg-12 mt-3">
                                 <label class="form-label">Mã Danh Mục</label>
                                 <select name="" id="" class="form-select">
-                                    @foreach ($orders as $id => $name)
+                                    @foreach ($categories as $id => $name)
                                         <option value="{{ $id }}">{{ $name }}</option>
                                     @endforeach
                                 </select>
-                                @error('')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
                             </div>
                             <div class="col-lg-12 mt-3">
-                                <label class="form-label">Loại danh mục</label>
-                                <select name="contract_type_id" id="" class="form-select">
-                                    @foreach ($types as $id => $name)
-                                        <option value="{{ $id }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('contract_type_id')
+                                <label class="form-label">image</label>
+                                <input value="{{old('image')}}" type="file" name="image" class="form-control">
+                                @error('image')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="col-lg-12 mt-3">
                                 <label class="form-label">Mô tả</label>
-                                <textarea type="text" name="note" placeholder="Nhập mô tả (không bắt buộc)" class="form-control" rows="3"></textarea>
-                                @error('note')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="col-lg-12 mt-3">
-                                <label class="form-label">File</label>
-                                <input type="file" name="file" class="form-control">
-                                @error('file')
+                                <textarea type="text" name="description" placeholder="Nhập mô tả (không bắt buộc)" class="form-control" rows="3"></textarea>
+                                @error('description')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -88,7 +74,58 @@
             </div>
 
         </div><!--end col-->
-    </div>
+    </div> --}}
+    <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div>
+            <a href="{{ route('category.index') }}" class="btn btn-success" id="addproduct-btn">Danh
+                sách danh mục </a>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <label class="form-label">Tên danh mục</label>
+                <input value="{{ old('name') }}" type="text" name="name" placeholder="Nhập tên danh mục" class="form-control">
+                @error('name')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+    
+            <div class="col-lg-12 mt-3">
+                <label class="form-label">Mã Danh Mục</label>
+                <select name="category_id" id="" class="form-select">
+                    @foreach ($categories as $id => $name)
+                        <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>
+                            {{ $name }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('category_id')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+    
+            <div class="col-lg-12 mt-3">
+                <label class="form-label">Image</label>
+                <input value="{{ old('image') }}" type="file" name="image" class="form-control">
+                @error('image')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+    
+            <div class="col-lg-12 mt-3">
+                <label class="form-label">Mô tả</label>
+                <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
+                @error('description')
+                    <p class="text-danger">{{ $message }}</p>
+                @enderror
+            </div>
+        </div>
+    
+        <div class="mt-3">
+            <button class="btn btn-success text">Thêm mới</button>
+        </div>
+    </form>
+    
 @endsection
 
 @section('scripts-list')
