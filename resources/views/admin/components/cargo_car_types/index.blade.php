@@ -52,7 +52,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a href="#!" class="dropdown-item"><i
-                                    class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
+                                    class="ri-eye-fill align-bottom me-2 text-muted"></i> View.</a>
                         </li>
                         <li><a href="cargo_car_types.edit" class="dropdown-item edit-item-btn"><i
                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>

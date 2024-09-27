@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="mt-3">
-                            <button type="submit" class = "btn btn-success text ">Submit.</button>
+                            <button type="submit" class = "btn btn-success text ">Submit</button>
                         </div>
                     </form>
                 </div>
