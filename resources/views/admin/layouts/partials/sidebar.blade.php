@@ -118,10 +118,10 @@
                     <div class="collapse menu-dropdown" id="sidebarSuppliers">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{route('suppliers.index')}}" target="_blank" class="nav-link"
+                                <a href="{{ route('suppliers.index') }}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Danh sách</a>
                             </li>
-                         
+
                         </ul>
                     </div>
                 </li>
@@ -154,8 +154,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarAttributeValues" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarAttributeValues">
+                    <a class="nav-link menu-link" href="#sidebarAttributeValues" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarAttributeValues">
                         <span data-key="t-layouts">Quản lý thuộc tính giá trị</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarAttributeValues">
@@ -182,9 +182,9 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarContractTypes" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarContractTypes">
-                        <span data-key="t-layouts">Quản lý loại hợp đồng</span> 
+                    <a class="nav-link menu-link" href="#sidebarContractTypes" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarContractTypes">
+                        <span data-key="t-layouts">Quản lý loại hợp đồng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarContractTypes">
                         <ul class="nav nav-sm flex-column">
@@ -196,8 +196,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarCargoCarTypers" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarCargoCarTypers">
+                    <a class="nav-link menu-link" href="#sidebarCargoCarTypers" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarCargoCarTypers">
                         <span data-key="t-layouts">Quản lý lái xe</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCargoCarTypers">
@@ -224,8 +224,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarPublisherProduct" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarPublisherProduct">
+                    <a class="nav-link menu-link" href="#sidebarPublisherProduct" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarPublisherProduct">
                         <span data-key="t-layouts">Quản lý nhà cung cấp sản phẩm</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarPublisherProduct">
@@ -238,8 +238,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarVariationAttributeValue" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarVariationAttributeValue">
+                    <a class="nav-link menu-link" href="#sidebarVariationAttributeValue" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarVariationAttributeValue">
                         <span data-key="t-layouts">Quản lý giá trị thuộc tính biến thể</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarVariationAttributeValue">
@@ -280,8 +280,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarContractStatus" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarContractStatus">
+                    <a class="nav-link menu-link" href="#sidebarContractStatus" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarContractStatus">
                         <span data-key="t-layouts">Quản lý trạng thái hợp đồng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarContractStatus">
@@ -294,8 +294,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarCustomerRanks" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarCustomerRanks">
+                    <a class="nav-link menu-link" href="#sidebarCustomerRanks" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarCustomerRanks">
                         <span data-key="t-layouts">Quản lý xếp hạng khách hàng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarCustomerRanks">
@@ -336,9 +336,9 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarRoleEmployees" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarRoleEmployees">
-                         <span data-key="t-layouts">Quản lý vai trò nhân viên</span>
+                    <a class="nav-link menu-link" href="#sidebarRoleEmployees" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarRoleEmployees">
+                        <span data-key="t-layouts">Quản lý vai trò nhân viên</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarRoleEmployees">
                         <ul class="nav nav-sm flex-column">
@@ -350,8 +350,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarOrderDetails" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarOrderDetails">
+                    <a class="nav-link menu-link" href="#sidebarOrderDetails" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarOrderDetails">
                         <span data-key="t-layouts">Quản lý chi tiết đơn hàng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarOrderDetails">
@@ -392,8 +392,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarPermissionRoleEmployees" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarPermissionRoleEmployees">
+                    <a class="nav-link menu-link" href="#sidebarPermissionRoleEmployees" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarPermissionRoleEmployees">
                         <span data-key="t-layouts">Quản lý phân quyền nhân viên </span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarPermissionRoleEmployees">
@@ -406,8 +406,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarPaymentHistories" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarPaymentHistories">
+                    <a class="nav-link menu-link" href="#sidebarPaymentHistories" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarPaymentHistories">
                         <span data-key="t-layouts">Quản lý lịch sử thanh toán</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarPaymentHistories">
@@ -420,8 +420,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarTripDetails" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarTripDetails">
+                    <a class="nav-link menu-link" href="#sidebarTripDetails" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarTripDetails">
                         <span data-key="t-layouts">Quản lý chi tiết chuyến đi</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarTripDetails">
@@ -462,8 +462,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarOrderCanceled" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarOrderCanceled">
+                    <a class="nav-link menu-link" href="#sidebarOrderCanceled" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarOrderCanceled">
                         <span data-key="t-layouts">Quản lý đơn hàng đã hủy</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarOrderCanceled">
@@ -483,8 +483,12 @@
                     <div class="collapse menu-dropdown" id="sidebarTrips">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
-                                    data-key="t-horizontal">Thêm mới</a>
+                                <a href="{{ route('CargoCars.index')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách chuyến đi</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('CargoCars.create')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Thêm mới chuyến đi</a>
                             </li>
                         </ul>
                     </div>
@@ -497,15 +501,15 @@
                     <div class="collapse menu-dropdown" id="sidebarEmployees">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{route('employees.index')}}" target="_blank" class="nav-link"
+                                <a href="{{ route('employees.index') }}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Danh sách nhân viên</a>
                             </li>
                         </ul>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarOrderStatus" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarOrderStatus">
+                    <a class="nav-link menu-link" href="#sidebarOrderStatus" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarOrderStatus">
                         <span data-key="t-layouts">Quản lý trạng thái đơn hàng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarOrderStatus">
@@ -518,8 +522,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarImportOrders" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarImportOrders">
+                    <a class="nav-link menu-link" href="#sidebarImportOrders" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarImportOrders">
                         <span data-key="t-layouts">Quản lý đơn hàng nhập khẩu</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarImportOrders">
@@ -532,8 +536,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarImportOrderDetails" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarImportOrderDetails">
+                    <a class="nav-link menu-link" href="#sidebarImportOrderDetails" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarImportOrderDetails">
                         <span data-key="t-layouts">Quản lý chi tiết đơn hàng nhập khẩu</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarImportOrderDetails">
@@ -563,7 +567,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarApps" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarApps">
-                       <span data-key="t-apps"> Quản lý đơn hàng</span>
+                        <span data-key="t-apps"> Quản lý đơn hàng</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarApps">
                         <ul class="nav nav-sm flex-column">
@@ -576,7 +580,7 @@
                                     <ul class="nav nav-sm flex-column">
                                         <li class="nav-item">
                                             <a href="apps-calendar.html" class="nav-link" data-key="t-main-calender">
-                                                thêm  </a>
+                                                thêm </a>
                                         </li>
                                         <li class="nav-item">
                                             <a href="apps-calendar-month-grid.html" class="nav-link"
