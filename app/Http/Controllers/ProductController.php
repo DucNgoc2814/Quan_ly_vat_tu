@@ -42,9 +42,6 @@ class ProductController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
-                $customers = Customer::findOrFail($request->customer_id);
-
-                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 5);
                 $timestamp = now()->format('His_dmY');
                 $slug = 'DH' . $randomChars . $timestamp;
 
