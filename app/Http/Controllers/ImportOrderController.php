@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Import_order_detail;
+use App\Models\Payment;
+use App\Models\Supplier;
+use App\Models\Variation;
 use App\Models\Import_order;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreImport_orderRequest;
 use App\Http\Requests\UpdateImport_orderRequest;
+use Exception;
 
 class ImportOrderController extends Controller
 {
@@ -13,7 +19,8 @@ class ImportOrderController extends Controller
      */
     public function index()
     {
-        //
+        $data = Import_order::query()->get();
+        return view("admin.components.import_orders.index", compact("data"));
     }
 
     /**
@@ -21,7 +28,10 @@ class ImportOrderController extends Controller
      */
     public function create()
     {
-        //
+        $payments = Payment::query()->get();
+        $suppliers = Supplier::query()->get();
+        $variants = Variation::all();
+        return view("admin.components.import_orders.create", compact("payments", "suppliers", "variants"));
     }
 
     /**
@@ -29,9 +39,51 @@ class ImportOrderController extends Controller
      */
     public function store(StoreImport_orderRequest $request)
     {
-        //
-    }
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
 
+        try {
+            DB::transaction(function () use ($request) {
+                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
+                $timestamp = now()->format('His');
+                $slug = 'DH' . $randomChars . $timestamp;
+
+                $importOrder = Import_order::create([
+                    "payment_id" => $request->payment_id,
+                    "supplier_id" => $request->supplier_id,
+                    "slug" => $slug,
+                    "product_quantity" => $request->product_quantity,
+                    "total_amount" => $request->total_amount,
+                    "paid_amount" => $request->paid_amount,
+                ]);
+
+                if (is_array($request->variation_id) && count($request->variation_id) > 0) {
+                    foreach ($request->variation_id as $key => $variationID) {
+                        $quantity = $request->product_quantity[$key];
+
+                        // Tạo chi tiết đơn hàng nhập
+                        Import_order_detail::create([
+                            'import_order_id' => $importOrder->id,
+                            'variation_id' => $variationID,
+                            'quantity' => $quantity,
+                            'price' => $request->product_price[$key],
+                        ]);
+
+                        // Cập nhật số lượng trong bảng variation
+                        $variation = Variation::find($variationID);
+                        $variation->stock += $quantity;
+                        $variation->save();
+                    }
+                } else {
+                    throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng nhập');
+                }
+            });
+
+            return redirect()->route('importOrder.index')->with('success', 'Đơn hàng nhập đã được tạo thành công');
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng nhập: ' . $th->getMessage());
+        }
+    }
     /**
      * Display the specified resource.
      */

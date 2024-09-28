@@ -21,6 +21,10 @@ class Import_order extends Model
         return $this->belongsTo(Supplier::class);
     }
 
+    public function payment() {
+        return $this->belongsTo(Payment::class);
+    }
+
     public function importOrderDetails(){
         return $this->hasMany(Import_order_detail::class);
     }
