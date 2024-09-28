@@ -74,7 +74,11 @@
                     <div class="collapse menu-dropdown" id="sidebarSliders">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" target="_blank" class="nav-link"
+                                <a href="{{route('sliders.index')}}" target="_blank" class="nav-link"
+                                    data-key="t-horizontal">Danh sách</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{route('sliders.create')}}" target="_blank" class="nav-link"
                                     data-key="t-horizontal">Thêm mới</a>
                             </li>
                         </ul>
