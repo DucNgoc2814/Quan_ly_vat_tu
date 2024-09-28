@@ -156,7 +156,7 @@ Route::prefix('danh-muc')
     ->group(function () {
         Route::get('/danh-sach', [CategoryController::class, 'index'])->name('index');
         Route::get('/them-moi', [CategoryController::class, 'create'])->name('create');
-        Route::post('/store', [CategoryController::class, 'store'])->name('store');
+        Route::post('/them-moi', [CategoryController::class, 'store'])->name('store');
         Route::get('/sua/{id}', [CategoryController::class, 'edit'])->name('edit');
         Route::put('/sua/{id}', [CategoryController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [CategoryController::class, 'destroy'])->name('destroy');

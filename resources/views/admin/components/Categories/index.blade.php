@@ -28,60 +28,65 @@
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
-                       
 
-<thead>
-    <tr>
-        <th data-ordering="false">ID</th>
-        <th data-ordering="false">Tên</th>
-        <th data-ordering="false">Mã Hàng</th>
-        <th data-ordering="false">Image</th>
-        <th data-ordering="false">Ghi Chú</th>
-        <th>Hành động</th>
-    </tr>
-</thead>
-<tbody>
-    @foreach ($data as $item)
-        <tr>
-            <td>{{ $item->id }}</td>
-            <td>{{ $item->name }}</td>
-            <td>{{ $item->sku }}</td>
-            <td>{{ $item->image }}</td>
-            <td>{{ $item->description }}</td>
 
-            <td>
-                <div class="dropdown d-inline-block">
-                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="ri-more-fill align-middle"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a href="#!" class="dropdown-item"><i
-                                    class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
-                        </li>
-                        <li><a href="
-                                class="dropdown-item edit-item-btn"><i
-                                    class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                Edit</a></li>
-                        <li>
+                        <thead>
+                            <tr>
+                                <th data-ordering="false">ID</th>
+                                <th data-ordering="false">Tên</th>
+                                <th data-ordering="false">Mã Hàng</th>
+                                <th data-ordering="false">Image</th>
+                                <th data-ordering="false">Ghi Chú</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data as $item)
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->sku }}</td>
+                                    <td>{{ $item->image }}</td>
+                                    <td>{{ $item->description }}</td>
 
-                            <form action="{{ route('cargo_car_types.destroy', ['id'=>1]) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button class="dropdown-item remove-list" type="submit"
-                                    onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')">
-                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                    Xóa
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </td>
-        </tr>
-    @endforeach
+                                    <td>
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ri-more-fill align-middle"></i>
+                                            </button>
+                                            <ul class="dropdown-menu dropdown-menu-end">
+                                                <li><a href="#!" class="dropdown-item"><i
+                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
+                                                </li>
+                                                <li><a href="#!" class="dropdown-item"><i
+                                                    class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
+                                        </li>
+                                                {{-- <li><a href="class="dropdown-item
+                                                        edit-item-btn"><i
+                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                        Edit</a></li>
+                                                <li> --}}
 
-</tbody>
+                                                    <form action="{{ route('category.destroy', $item->id) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button class="dropdown-item remove-list" type="submit"
+                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')">
+                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                            Xóa
+                                                        </button>
+                                                    </form>
+
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -114,4 +119,3 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
-

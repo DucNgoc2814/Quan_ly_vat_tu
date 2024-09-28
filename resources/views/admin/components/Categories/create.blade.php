@@ -84,15 +84,16 @@
         <div class="row">
             <div class="col-lg-12">
                 <label class="form-label">Tên danh mục</label>
-                <input value="{{ old('name') }}" type="text" name="name" placeholder="Nhập tên danh mục" class="form-control">
+                <input value="{{ old('name') }}" type="text" name="name" placeholder="Nhập tên danh mục"
+                    class="form-control">
                 @error('name')
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>
-    
+
             <div class="col-lg-12 mt-3">
                 <label class="form-label">Mã Danh Mục</label>
-                <select name="category_id" id="" class="form-select">
+                <select name="sku" id="" class="form-select">
                     @foreach ($categories as $id => $name)
                         <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>
                             {{ $name }}
@@ -103,7 +104,7 @@
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>
-    
+
             <div class="col-lg-12 mt-3">
                 <label class="form-label">Image</label>
                 <input value="{{ old('image') }}" type="file" name="image" class="form-control">
@@ -111,7 +112,7 @@
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>
-    
+
             <div class="col-lg-12 mt-3">
                 <label class="form-label">Mô tả</label>
                 <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
@@ -120,12 +121,11 @@
                 @enderror
             </div>
         </div>
-    
+
         <div class="mt-3">
-            <button class="btn btn-success text">Thêm mới</button>
+            <button type="submit" class="btn btn-success text">Thêm mới</button>
         </div>
     </form>
-    
 @endsection
 
 @section('scripts-list')

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -24,23 +26,32 @@ class CategoryController extends Controller
     public function create()
     {
         $categories = Category::query()->pluck('sku', 'id');
-        return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
+        return view(self::PATH_VIEW . 'create', compact('categories'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(Request $request)
     {
-        $data = [
-            'name' => $request->name,
-            'sku' => $request->sku,
-            'image' => $request->image,
-            'description' => $request->description,
-        ];
-        Category::create($data);
-        // return view(self::PATH_VIEW . __FUNCTION__, compact('categories'));
-        return redirect()->route('categories.index')->with('success', 'Thêm mới thành công!');
+
+
+        try {
+            $data = [
+                'name' => $request->name,
+                'sku' => $request->sku,
+                'image' => $request->image,
+                'description' => $request->description,
+            ];
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('images', 'public');
+                $data['image'] = $imagePath;
+            }
+            Category::query()->create($data);
+            return redirect()->route('category.index');
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+        }
     }
 
 
@@ -56,24 +67,54 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Category $category)
-    {
-        //
+    public function edit($id)
+    { {
+            $category = Category::findOrFail($id);
+
+            return view('admin.categories.edit', compact('category'));
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(Request $request, $id)
     {
-        //
+        // Tìm danh mục theo ID
+        $category = Category::findOrFail($id);
+
+        // Validate dữ liệu
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'sku' => 'required|string|max:255',
+            'image' => 'nullable|string',
+            'description' => 'nullable|string',
+        ]);
+
+        // Cập nhật dữ liệu danh mục
+        $category->update([
+            'name' => $request->name,
+            'sku' => $request->sku,
+            'image' => $request->image,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('category.index')->with('success', 'Cập nhật danh mục thành công');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::findOrFail($id);
+
+        if ($category->products()->count() > 0) {
+            return redirect()->route('category.index')->with('error', 'Không thể xóa danh mục vì vẫn còn sản phẩm liên quan.');
+        }
+
+        $category->delete();
+
+        return redirect()->route('category.index')->with('success', 'Xóa danh mục thành công.');
     }
 }
