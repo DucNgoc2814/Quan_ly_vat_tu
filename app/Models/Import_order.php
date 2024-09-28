@@ -13,13 +13,8 @@ class Import_order extends Model
         'payment_id',
         'supplier_id',
         'slug',
-        'customer_name',
-        'email',
-        'number_phone',
-        'address',
         'total_amount',
         'paid_amount',
-        'payable_amount',
     ];
 
     public function supplier() {
