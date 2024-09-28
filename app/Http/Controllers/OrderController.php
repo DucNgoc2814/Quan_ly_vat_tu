@@ -59,10 +59,10 @@ class OrderController extends Controller
 
         if ($data->isEmpty()) {
             $message = 'Không có đơn hàng nào cho tiêu chí tìm kiếm.';
-            return view('admin.components.orders.index', compact('data', 'message', 'columns'));
+            return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'message', 'columns'));
         }
 
-        return view('admin.components.orders.index', compact('data', 'columns'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'columns'));
     }
 
     public function create()
@@ -88,8 +88,8 @@ class OrderController extends Controller
             DB::transaction(function () use ($request) {
                 $customers = Customer::findOrFail($request->customer_id);
 
-                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 5);
-                $timestamp = now()->format('His_dmY');
+                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
+                $timestamp = now()->format('His');
                 $slug = 'DH' . $randomChars . $timestamp;
 
                 $dataOrder = [
@@ -141,7 +141,7 @@ class OrderController extends Controller
 
             });
 
-            return redirect()->route('quan-ly-don-hang.danh-sach-ban');
+            return redirect()->route('order.index');
         } catch (\Throwable $th) {
             dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
