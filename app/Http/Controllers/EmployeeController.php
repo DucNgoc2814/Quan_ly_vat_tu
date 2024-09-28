@@ -105,6 +105,4 @@ class EmployeeController extends Controller
     {
         //
     }
-
-
 }

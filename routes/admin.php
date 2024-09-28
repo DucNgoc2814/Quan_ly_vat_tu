@@ -12,8 +12,17 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
-
-
+// <+====================ROUTER MẪU====================+>
+// Route::prefix('duong-dan-mau')
+//     ->as('sampleRoute.')
+//     ->group(function () {
+//         Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
+//         Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
+//         Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
+//         Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
+//         Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
+//     });
+// <+====================ROUTE MẪU====================+>
 Route::prefix('quan-ly-tai-khoan')
     ->as('suppliers.')
     ->group(function () {
@@ -32,15 +41,6 @@ Route::prefix('quan-ly-nhan-vien')
         Route::post('/them-moi', [EmployeeController::class, 'store'])->name('store');
         Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
         Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
-    });
-Route::prefix('mau')
-    ->as('mau.')
-    ->group(function () {
-        Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
-        Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
-        Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
-        Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
-        Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
     });
 
 

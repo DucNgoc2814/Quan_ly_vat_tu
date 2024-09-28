@@ -1,9 +1,7 @@
 @extends('admin.layouts.master')
-
 @section('title')
     Danh sách đơn hàng bán ra
 @endsection
-
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -57,11 +55,11 @@
                                     <th data-ordering="false">Người nhận </th>
                                     <th data-ordering="false">Số điện thoại</th>
                                     <th>Tổng tiền</th>
-                                    <th>Đã thanh toán</th>
+                                    <th>Đã trả</th>
                                     <th>PTTT</th>
                                     <th data-ordering="false">Ngày đặt hàng </th>
                                     <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,11 +74,10 @@
                                         <td>
                                             <span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span>
                                         </td>
-                                        <td>{{ $order->created_at }}</td>
+                                        <td class="date-column">{{ $order->created_at }}</td>
                                         <td>
                                             @if ($order->status_id < 4)
-                                                <form
-                                                    action="{{ route('order.updateStatus', $order->slug) }}"
+                                                <form action="{{ route('order.updateStatus', $order->slug) }}"
                                                     method="POST" class="d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
@@ -121,10 +118,10 @@
                                                             Tiết Đơn Hàng</a>
                                                     </li>
                                                     @if ($order->status_id == 1 || $order->status_id == 2)
-                                                    <li><a href="{{ route('order.edit', ['slug' => $order->slug]) }}"
-                                                            class="dropdown-item edit-item-btn"><i
-                                                                class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                            Cập nhật</a></li>
+                                                        <li><a href="{{ route('order.edit', ['slug' => $order->slug]) }}"
+                                                                class="dropdown-item edit-item-btn"><i
+                                                                    class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                                Cập nhật</a></li>
                                                     @endif
                                                 </ul>
                                             </div>
@@ -159,24 +156,6 @@
     </div>
 @endsection
 
-@section('scripts-list')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-    <script src="assets/js/pages/datatables.init.js"></script>
-@endsection
-
 @section('styles-list')
     <!--datatable css-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
@@ -188,11 +167,11 @@
 
 @section('scripts')
     <script>
+        myTable_filter
         function confirmStatusChange(selectElement) {
             const newStatus = selectElement.value;
             const form = selectElement.closest('form');
             const orderSlug = form.getAttribute('data-order-slug');
-
             if (newStatus == 5) {
                 if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
                     openOffcanvas(orderSlug);
@@ -207,18 +186,14 @@
                 }
             }
         }
-
         function openOffcanvas(orderSlug) {
             var myOffcanvas = document.getElementById('offcanvasExample');
             var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
             bsOffcanvas.show();
-
             const cancelOrderForm = document.getElementById('cancelOrderForm');
             cancelOrderForm.action = `{{ route('order.updateStatus', '') }}/${orderSlug}`;
-
             const noteTextarea = document.getElementById('note');
             const noteHidden = document.getElementById('noteHidden');
-
             cancelOrderForm.onsubmit = function(e) {
                 e.preventDefault();
                 noteHidden.value = noteTextarea.value;
@@ -228,4 +203,5 @@
             };
         }
     </script>
+   <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 @endsection

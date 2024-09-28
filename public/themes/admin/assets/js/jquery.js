@@ -1065,7 +1065,7 @@ $jscomp.polyfill(
             d = a.oLanguage,
             e = a.oPreviousSearch,
             h = a.aanFeatures,
-          f = '<input style="width=15%" type="search" class="form-control' + b.sFilterInput + '" />',
+          f = '<input style="width=15%" type="search" id="inputSearch" class="form-control' + b.sFilterInput + '" />',
             g = d.sSearch;
         g = g.match(/_INPUT_/) ? g.replace("_INPUT_", f) : g + f;
         b = l("<div/>", {

@@ -61,7 +61,6 @@ class OrderController extends Controller
             $message = 'Không có đơn hàng nào cho tiêu chí tìm kiếm.';
             return view('admin.components.orders.index', compact('data', 'message', 'columns'));
         }
-
         return view('admin.components.orders.index', compact('data', 'columns'));
     }
 
