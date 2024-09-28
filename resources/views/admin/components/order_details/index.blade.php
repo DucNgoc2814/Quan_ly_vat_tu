@@ -24,12 +24,12 @@
     </div>
 
     <div class="row">
-        <div class="col-xxl-3">
+        <div class="col-xxl-4">
             <div class="card mt-n5">
-                <div class="card-body p-4">
+                <div class="card-body p-3">
                     <div class="text-center">
-                        <div class="profile-user position-relative d-inline-block mx-auto  mb-4">
-                            <img src="assets/images/users/avatar-1.jpg"
+                        <div class="profile-user position-relative d-inline-block mx-auto mb-3">
+                            <img src="{{ asset('themes/admin/assets/images/users/avatar-1.jpg') }}"
                                 class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
                             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                 <input id="profile-img-file-input" type="file" class="profile-img-file-input">
@@ -40,8 +40,7 @@
                                 </label>
                             </div>
                         </div>
-                        <p>Tên người đặt</p>
-                        <h4 class="fs-16 mb-1">{{ $data->first()->order->customer->name }}</h4>
+                        <h4 class="fs-16">{{ $data->first()->order->customer->name }}</h4>
                     </div>
                 </div>
             </div>
@@ -78,7 +77,7 @@
                             </span>
                         </div>
                         <input type="text" class="form-control" id="pinterestName"
-                            value="{{ $data->first()->order?->customer?->customer_rank?->name ?? 'Không có khuyến mãi' }}"
+                            value="{{ $data->first()->order->customer->customerRank->name }}"
                             readonly>
                     </div>
                 </div>
@@ -86,7 +85,7 @@
             <!--end card-->
         </div>
         <!--end col-->
-        <div class="col-xxl-9">
+        <div class="col-xxl-8">
             <div class="card mt-xxl-n5">
                 <div class="card-header">
                     <ul class="nav nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
