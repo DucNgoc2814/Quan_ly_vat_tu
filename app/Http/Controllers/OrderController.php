@@ -263,7 +263,7 @@ class OrderController extends Controller
 
             return redirect()->route('order.index')->with('success', 'Cập nhật đơn hàng thành công!');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            // dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
     }
