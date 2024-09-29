@@ -81,7 +81,7 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
-                                                    <a href="{{ route('order.indexDetail', ['slug' => $item->slug]) }}"
+                                                    <a href="{{ route('importOrder.show', ['slug' => $item->slug]) }}"
                                                         class="dropdown-item"><i
                                                             class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi
                                                         Tiết Đơn Hàng</a>

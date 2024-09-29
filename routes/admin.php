@@ -137,16 +137,5 @@ Route::prefix('nhap-don-hang')
         Route::post('/them-moi-don-nhap', [ImportOrderController::class, 'store'])->name('store');
         Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
-    });
-
-// Route::prefix('quan-ly-ban-hang')
-//     ->as('order.')
-//     ->group(function () {
-//         Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index');
-//         Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create');
-//         Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store');
-//         Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit');
-//         Route::put('/cap-nhat-don-hang/{slug}', [OrderController::class, 'update'])->name('update');
-//         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus');
-//         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail');
-//     });
+        Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderController::class, 'show'])->name('show');
+});

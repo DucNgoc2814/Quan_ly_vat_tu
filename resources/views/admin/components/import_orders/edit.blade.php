@@ -22,8 +22,9 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('importOrder.store') }}">
+    <form method="POST" action="{{ route('importOrder.update', ['slug' => $import_order->slug]) }}">
         @csrf
+        @method('PUT')
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
