@@ -77,8 +77,7 @@
                             </span>
                         </div>
                         <input type="text" class="form-control" id="pinterestName"
-                            value="{{ $data->first()->order->customer->customerRank->name }}"
-                            readonly>
+                            value="{{ $data->first()->order->customer->customerRank->name }}" readonly>
                     </div>
                 </div>
             </div>
@@ -227,7 +226,8 @@
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <h2 class="fw-bold">Tổng thanh toán:</h2>
-                        <h3>{{ number_format($data->first()->order->total_amount - $data->first()->order->paid_amount) }}đ</h3>
+                        <h3>{{ number_format($data->first()->order->total_amount - $data->first()->order->paid_amount) }}đ
+                        </h3>
                     </div>
                 </div>
             </div>
@@ -244,5 +244,4 @@
         <!--end col-->
     </div>
 @endsection
-
 
