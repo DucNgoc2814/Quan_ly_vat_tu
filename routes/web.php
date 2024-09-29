@@ -25,6 +25,7 @@ Route::get('/products', action: function () {
 });
 
 
+
 Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::post('/handleRegister', [LoginController::class, 'handleRegister'])->name('handleRegister');
 Route::get('/dang-nhap', [LoginController::class, 'login'])->name('login');
@@ -35,5 +36,9 @@ Route::get('/nhap-otp', [LoginController::class, 'showVerifyOtp'])->name('showVe
 Route::post('/verifyOtp', [LoginController::class, 'verifyOtp'])->name('verifyOtp');
 Route::get('/doi-mat-khau', [LoginController::class, 'changepassword'])->name('changepassword');
 Route::post('/passwordchange', [LoginController::class, 'passwordchange'])->name('passwordchange');
+
+
+
+
 
 

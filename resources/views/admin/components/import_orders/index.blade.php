@@ -1,6 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('title')
+<<<<<<< HEAD
+=======
+    Danh sách đơn hàng nhập
+>>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
 @endsection
 
 @section('content')
@@ -26,18 +30,29 @@
                         style="width:100%">
                         <thead>
                             <tr>
+<<<<<<< HEAD
                                 {{-- <th data-ordering="false">ID</th> --}}
                                 <th data-ordering="false">Phương thức thanh toán</th>
                                 <th data-ordering="false">Tên nhà phân phối</th>
                                 <th data-ordering="false">Tổng tiền</th>
                                 <th data-ordering="false">Tiền đã trả</th>
                                 <th data-ordering="false">Slug</th>
+=======
+                                <th data-ordering="false">Mã đơn hàng</th>
+                                <th data-ordering="false">Tên nhà phân phối</th>
+                                <th data-ordering="false">Tổng tiền</th>
+                                <th data-ordering="false">Tiền đã trả</th>
+                                <th data-ordering="false">Phương thức thanh toán</th>
+                                <th data-ordering="false">Ngày đặt hàng</th>
+                                <th>Trạng thái</th>
+>>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
                                 <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $item)
                                 <tr>
+<<<<<<< HEAD
                                     {{-- <td>{{ $item->id }}</td> --}}
                                     <td>{{ $item->payment->name }}</td>
                                     <td>{{ $item->supplier->name }}</td>
@@ -45,12 +60,49 @@
                                     <td>{{ $item->paid_amount }}</td>
                                     <td>{{ $item->slug }}</td>
                                     <td>
+=======
+                                    <td>{{ $item->slug }}</td>
+                                    <td>{{ $item->supplier->name }}</td>
+                                    <td>{{ $item->total_amount }}</td>
+                                    <td>{{ $item->paid_amount }}</td>
+                                    <td>{{ $item->payment->name }}</td>
+                                    <td>{{ $item->created_at }}</td>
+                                    <td>
+                                        @if ($item->status_id < 4)
+                                            <form action="" method="POST" class="d-inline status-update-form"
+                                                data-order-slug="{{ $item->slug }}">
+                                                @csrf
+                                                <select name="status" class="form-select form-select-sm"
+                                                    onchange="confirmStatusChange(this)">
+                                                    <option value="{{ $item->status_id }}" selected>
+                                                        {{ $item->orderStatus->name }}</option>
+                                                    @if ($item->status_id == 1)
+                                                        <option value="2">Xác Nhận</option>
+                                                        <option value="5">Hủy</option>
+                                                    @elseif ($item->status_id == 2)
+                                                        <option value="3">Đang giao</option>
+                                                        <option value="5">Hủy</option>
+                                                    @elseif ($item->status_id == 3)
+                                                        <option value="4">Thành công</option>
+                                                    @endif
+                                                </select>
+                                            </form>
+                                        @else
+                                            <span
+                                                class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">
+                                                {{ $order->orderStatus->name }}
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+>>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
+<<<<<<< HEAD
                                          
                                                 <li><a href="{{ route('importOrder.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
@@ -70,6 +122,20 @@
                                                         </button>
                                                     </form>
                                                 </li>
+=======
+                                                <li>
+                                                    <a href="{{ route('importOrder.show', ['slug' => $item->slug]) }}"
+                                                        class="dropdown-item"><i
+                                                            class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi
+                                                        Tiết Đơn Hàng</a>
+                                                </li>
+                                                @if ($item->status_id == 1 || $item->status_id == 2)
+                                                    <li><a href="{{ route('importOrder.edit', ['slug' => $item->slug]) }}"
+                                                            class="dropdown-item edit-item-btn"><i
+                                                                class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                            Cập nhật</a></li>
+                                                @endif
+>>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
                                             </ul>
                                         </div>
                                     </td>

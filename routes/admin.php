@@ -13,8 +13,17 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
-
-
+// <+====================ROUTER MẪU====================+>
+// Route::prefix('duong-dan-mau')
+//     ->as('sampleRoute.')
+//     ->group(function () {
+//         Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
+//         Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
+//         Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
+//         Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
+//         Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
+//     });
+// <+====================ROUTE MẪU====================+>
 Route::prefix('quan-ly-tai-khoan')
     ->as('suppliers.')
     ->group(function () {
@@ -34,17 +43,6 @@ Route::prefix('quan-ly-nhan-vien')
         Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
         Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
     });
-Route::prefix('mau')
-    ->as('mau.')
-    ->group(function () {
-        Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
-        Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
-        Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
-        Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
-        Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
-    });
-
-
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {
@@ -67,7 +65,6 @@ Route::prefix('quan-ly-thanh-truot')
         Route::put('/nhap-sua/{id}', [SliderController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [SliderController::class, 'destroy'])->name('destroy');
     });
-
 Route::prefix('thuong-hieu')
     ->as('brand.')
     ->group(function () {
@@ -127,17 +124,14 @@ Route::prefix('quan-ly-san-pham')
     });
 
 
-    
 
 Route::prefix('nhap-don-hang')
     ->as('importOrder.')
     ->group(function () {
         Route::get('/danh-sach', [ImportOrderController::class, 'index'])->name('index');
         Route::get('/them-moi', [ImportOrderController::class, 'create'])->name('create');
-        Route::post('/them-moi', [ImportOrderController::class, 'store'])->name('store');
-        Route::get('/sua/{sku}', [ImportOrderController::class, 'edit'])->name('edit');
-        Route::put('/sua/{sku}', [ImportOrderController::class, 'update'])->name('update');
-        Route::delete('/xoa/{id}', [ImportOrderController::class, 'destroy'])->name('destroy');
-    });
-
-
+        Route::post('/them-moi-don-nhap', [ImportOrderController::class, 'store'])->name('store');
+        Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
+        Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderController::class, 'show'])->name('show');
+});
