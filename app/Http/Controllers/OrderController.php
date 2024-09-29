@@ -30,39 +30,48 @@ class OrderController extends Controller
 
     const PATH_VIEW = 'admin.components.orders.';
 
-    public function index(Request $request)
+    // public function index(Request $request)
+    // {
+    //     $query = Order::query();
+
+    //     if ($request->filled('search') && $request->filled('search_column')) {
+    //         $searchTerm = $request->input('search');
+    //         $searchColumn = $request->input('search_column');
+    //         $query->where($searchColumn, 'LIKE', "%{$searchTerm}%");
+    //     }
+
+    //     if ($request->filled('orderDate')) {
+    //         $date = $request->input('orderDate');
+    //         $query->whereDate('created_at', $date);
+    //     }
+
+    //     $query->orderBy('created_at', 'desc');
+
+    //     $data = $query->get();
+
+    //     $columns = [
+    //         'slug' => 'Mã đơn hàng',
+    //         'created_at' => 'Ngày đặt hàng',
+    //         'customer_name' => 'Tên người nhận',
+    //         'number_phone' => 'Số điện thoại người nhận',
+    //         'address' => 'Địa chỉ giao hàng',
+    //     ];
+
+    //     if ($data->isEmpty()) {
+    //         $message = 'Không có đơn hàng nào cho tiêu chí tìm kiếm.';
+    //         return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'message', 'columns'));
+    //     }
+
+    //     return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'columns'));
+    // }
+
+
+    public function index()
     {
-        $query = Order::query();
+        $data = Order::with(['payment', 'customer', 'orderStatus'])
+            ->get();
 
-        if ($request->filled('search') && $request->filled('search_column')) {
-            $searchTerm = $request->input('search');
-            $searchColumn = $request->input('search_column');
-            $query->where($searchColumn, 'LIKE', "%{$searchTerm}%");
-        }
-
-        if ($request->filled('orderDate')) {
-            $date = $request->input('orderDate');
-            $query->whereDate('created_at', $date);
-        }
-
-        $query->orderBy('created_at', 'desc');
-
-        $data = $query->get();
-
-        $columns = [
-            'slug' => 'Mã đơn hàng',
-            'created_at' => 'Ngày đặt hàng',
-            'customer_name' => 'Tên người nhận',
-            'number_phone' => 'Số điện thoại người nhận',
-            'address' => 'Địa chỉ giao hàng',
-        ];
-
-        if ($data->isEmpty()) {
-            $message = 'Không có đơn hàng nào cho tiêu chí tìm kiếm.';
-            return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'message', 'columns'));
-        }
-
-        return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'columns'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
     }
 
     public function create()
@@ -141,7 +150,9 @@ class OrderController extends Controller
 
             });
 
-            return redirect()->route('order.index');
+            return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
+
+            // dd(session('success'));
         } catch (\Throwable $th) {
             dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
@@ -250,7 +261,7 @@ class OrderController extends Controller
             });
             DB::commit();
 
-            return redirect()->route('quan-ly-don-hang.danh-sach-ban');
+            return redirect()->route('order.index')->with('success', 'Cập nhật đơn hàng thành công!');
         } catch (\Throwable $th) {
             // dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
@@ -264,19 +275,6 @@ class OrderController extends Controller
     {
         //
     }
-    // public function updateStatus(Request $request, $slug)
-    // {
-    //     $order = Order::where('slug', $slug)->firstOrFail();
-    //     $newStatus = $request->input('status');
-
-    //     if ($newStatus !== null) {
-    //         $order->status_id = $newStatus;
-    //         $order->save();
-    //         return redirect()->back()->with('success', 'Cập nhật trạng thái thành công');
-    //     }
-
-    //     return redirect()->back()->with('error', 'Trạng thái không hợp lệ');
-    // }
     public function updateStatus(Request $request, $slug)
     {
         // Tìm đơn hàng theo slug

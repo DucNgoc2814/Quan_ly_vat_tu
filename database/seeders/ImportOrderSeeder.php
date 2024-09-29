@@ -34,16 +34,6 @@ class ImportOrderSeeder extends Seeder
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'payment_id' => 3,
-                'supplier_id' => 2,
-                'status_id' => 3,
-                'slug' => 'order-3',
-                'total_amount' => 500000,
-                'paid_amount' => 300000,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
         ];
 
         foreach ($importOrders as $order) {
