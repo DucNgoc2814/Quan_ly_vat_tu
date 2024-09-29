@@ -22,7 +22,8 @@ class Import_order_detail extends Model
         return $this->belongsTo(Import_order::class);
     }
 
-    public function variation() {
-        return $this->belongsTo(Variation::class);
+    public function variations()
+    {
+        return $this->belongsTo(Variation::class,'variation_id');
     }
 }

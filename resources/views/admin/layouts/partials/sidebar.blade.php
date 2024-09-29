@@ -128,12 +128,12 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{ route('suppliers.index') }}"  class="nav-link"
-                                    data-key="t-horizontal">Quản lý nhà cung cấp</a>
+                                    data-key="t-horizontal">Danh sách nhà cung cấp</a>
                             </li>
-                            <li class="nav-item">
+                            {{-- <li class="nav-item">
                                 <a href="{{ route('suppliers.index') }}"  class="nav-link"
                                     data-key="t-horizontal">Quản lý khách hàng</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>
@@ -265,7 +265,7 @@
                     <div class="collapse menu-dropdown" id="sidebarRoleEmployees">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html"  class="nav-link"
+                                <a href="{{route('employees.index')}}"  class="nav-link"
                                     data-key="t-horizontal">Danh sách</a>
                             </li>
                         </ul>
@@ -297,7 +297,7 @@
                                     data-key="t-horizontal">Danh sách đơn bán</a>
                             </li>
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html"  class="nav-link"
+                                <a href="{{ route('importOrder.index') }}"  class="nav-link"
                                     data-key="t-horizontal">Danh sách đơn mua</a>
                             </li>
                         </ul>

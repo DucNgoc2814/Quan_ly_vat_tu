@@ -252,7 +252,7 @@ class OrderController extends Controller
 
             return redirect()->route('quan-ly-don-hang.danh-sach-ban');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
+            // dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
     }

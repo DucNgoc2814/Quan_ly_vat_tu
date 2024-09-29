@@ -6,6 +6,7 @@ use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ImportOrderController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
@@ -124,3 +125,28 @@ Route::prefix('quan-ly-san-pham')
         Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [ProductController::class, 'destroy'])->name('destroy');
     });
+
+
+
+
+Route::prefix('nhap-don-hang')
+    ->as('importOrder.')
+    ->group(function () {
+        Route::get('/danh-sach', [ImportOrderController::class, 'index'])->name('index');
+        Route::get('/them-moi', [ImportOrderController::class, 'create'])->name('create');
+        Route::post('/them-moi-don-nhap', [ImportOrderController::class, 'store'])->name('store');
+        Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
+    });
+
+// Route::prefix('quan-ly-ban-hang')
+//     ->as('order.')
+//     ->group(function () {
+//         Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index');
+//         Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create');
+//         Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store');
+//         Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit');
+//         Route::put('/cap-nhat-don-hang/{slug}', [OrderController::class, 'update'])->name('update');
+//         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus');
+//         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail');
+//     });
