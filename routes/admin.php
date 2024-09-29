@@ -158,6 +158,8 @@ Route::prefix('danh-muc')
         Route::get('/them-moi', [CategoryController::class, 'create'])->name('create');
         Route::post('/them-moi', [CategoryController::class, 'store'])->name('store');
         Route::get('/sua/{id}', [CategoryController::class, 'edit'])->name('edit');
+
         Route::put('/sua/{id}', [CategoryController::class, 'update'])->name('update');
+        
         Route::delete('/xoa/{id}', [CategoryController::class, 'destroy'])->name('destroy');
     });

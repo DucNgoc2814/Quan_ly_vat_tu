@@ -46,7 +46,7 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->sku }}</td>
-                                    <td>{{ $item->image }}</td>
+                                    <td><img src="{{ asset('storage/' . $item->image) }}" width="100px" height="100px" alt=""></td>
                                     <td>{{ $item->description }}</td>
 
                                     <td>
@@ -56,7 +56,7 @@
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="#!" class="dropdown-item"><i
+                                                <li><a href="{{route('category.edit',$item->id)}}" class="dropdown-item"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
                                                 </li>
                                                 <li><a href="#!" class="dropdown-item"><i

@@ -34,8 +34,6 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-
-
         try {
             $data = [
                 'name' => $request->name,
@@ -68,39 +66,46 @@ class CategoryController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit($id)
-    { {
-            $category = Category::findOrFail($id);
-
-            return view('admin.categories.edit', compact('category'));
-        }
+    {
+        $category = Category::findOrFail($id);
+        return view('admin.components.categories.edit', compact('category'));
     }
+    
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
-        // Tìm danh mục theo ID
-        $category = Category::findOrFail($id);
 
-        // Validate dữ liệu
+
+        $data = [
+            'name' => $request->name,
+            'sku' => $request->sku,
+            'description' => $request->description,
+        ];
         $request->validate([
-            'name' => 'required|string|max:255',
-            'sku' => 'required|string|max:255',
-            'image' => 'nullable|string',
+            'name' => 'required|string|',
+            'sku' => 'required|string|',
+            'image' => 'nullable|image|',
             'description' => 'nullable|string',
         ]);
 
-        // Cập nhật dữ liệu danh mục
-        $category->update([
-            'name' => $request->name,
-            'sku' => $request->sku,
-            'image' => $request->image,
-            'description' => $request->description,
-        ]);
+        $category = Category::findOrFail($id);
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $data['image'] = $imagePath;
+        }
 
-        return redirect()->route('category.index')->with('success', 'Cập nhật danh mục thành công');
+        DB::table('categories')
+              ->where('id', $id)
+              ->update($data);
+     
+        return redirect()->route('category.index')->with('success', 'Danh mục đã được cập nhật thành công.');
+
+
     }
+
 
     /**
      * Remove the specified resource from storage.
