@@ -132,7 +132,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('suppliers.index') }}"  class="nav-link"
                                     data-key="t-horizontal">Quản lý khách hàng</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>

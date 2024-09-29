@@ -6,6 +6,7 @@ use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ImportOrderController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
@@ -121,3 +122,17 @@ Route::prefix('quan-ly-san-pham')
         Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [ProductController::class, 'destroy'])->name('destroy');
     });
+
+
+
+
+Route::prefix('nhap-don-hang')
+    ->as('importOrder.')
+    ->group(function () {
+        Route::get('/danh-sach', [ImportOrderController::class, 'index'])->name('index');
+        Route::get('/them-moi', [ImportOrderController::class, 'create'])->name('create');
+        Route::post('/them-moi-don-nhap', [ImportOrderController::class, 'store'])->name('store');
+        Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
+        Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderController::class, 'show'])->name('show');
+});
