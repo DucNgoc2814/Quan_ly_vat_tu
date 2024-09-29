@@ -21128,3 +21128,23 @@
 #52 C:\\laragon\\www\\Quan_ly_vat_tu\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #53 {main}
 "} 
+[2024-09-29 17:48:04] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 100  
+[2024-09-29 17:48:04] local.DEBUG: Số lượng mua của variation 1 là: 5  
+[2024-09-29 17:48:04] local.DEBUG: Số lượng tồn kho (stock) của variation 3 là: 49  
+[2024-09-29 17:48:04] local.DEBUG: Số lượng mua của variation 3 là: 1  
+[2024-09-29 20:31:16] local.DEBUG: Số lượng tồn kho (stock) của variation 3 là: 48  
+[2024-09-29 20:31:16] local.DEBUG: Số lượng mua của variation 3 là: 22  
+[2024-09-29 20:42:30] local.DEBUG: Số lượng tồn kho (stock) của variation 3 là: 26  
+[2024-09-29 20:42:30] local.DEBUG: Số lượng mua của variation 3 là: 2  
+[2024-09-29 20:54:08] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 95  
+[2024-09-29 20:54:08] local.DEBUG: Số lượng mua của variation 1 là: 5  
+[2024-09-29 20:54:29] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 90  
+[2024-09-29 20:54:29] local.DEBUG: Số lượng mua của variation 1 là: 9  
+[2024-09-29 20:55:29] local.DEBUG: Số lượng tồn kho (stock) của variation 5 là: 150  
+[2024-09-29 20:55:29] local.DEBUG: Số lượng mua của variation 5 là: 9  
+[2024-09-29 20:58:28] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 81  
+[2024-09-29 20:58:28] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-09-29 21:00:11] local.DEBUG: Số lượng tồn kho (stock) của variation 4 là: 80  
+[2024-09-29 21:00:11] local.DEBUG: Số lượng mua của variation 4 là: 10  
+[2024-09-29 21:03:50] local.DEBUG: Số lượng tồn kho (stock) của variation 3 là: 24  
+[2024-09-29 21:03:50] local.DEBUG: Số lượng mua của variation 3 là: 4  
