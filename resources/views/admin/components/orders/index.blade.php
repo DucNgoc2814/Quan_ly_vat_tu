@@ -1,9 +1,7 @@
 @extends('admin.layouts.master')
-
 @section('title')
     Danh sách đơn hàng bán ra
 @endsection
-
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -57,11 +55,11 @@
                                     <th data-ordering="false">Người nhận </th>
                                     <th data-ordering="false">Số điện thoại</th>
                                     <th>Tổng tiền</th>
-                                    <th>Đã thanh toán</th>
+                                    <th>Đã trả</th>
                                     <th>PTTT</th>
                                     <th data-ordering="false">Ngày đặt hàng </th>
                                     <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,7 +74,7 @@
                                         <td>
                                             <span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span>
                                         </td>
-                                        <td>{{ $order->created_at }}</td>
+                                        <td class="date-column">{{ $order->created_at }}</td>
                                         <td>
                                             @if ($order->status_id < 4)
                                                 <form action="{{ route('order.updateStatus', $order->slug) }}"
@@ -133,20 +131,19 @@
                             </tbody>
                         </table>
                     @endif
-
                 </div>
             </div>
         </div>
     </div>
+
 @endsection
-
 @section('scripts')
-    <script>
+        <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 
+    <script>
         function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
             const form = selectElement.closest('form');
-
             if (newStatus == 5) {
                 Swal.fire({
                     title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
@@ -190,18 +187,14 @@
                 });
             }
         }
-
         function openOffcanvas(orderSlug) {
             var myOffcanvas = document.getElementById('offcanvasExample');
             var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
             bsOffcanvas.show();
-
             const cancelOrderForm = document.getElementById('cancelOrderForm');
             cancelOrderForm.action = `{{ route('order.updateStatus', '') }}/${orderSlug}`;
-
             const noteTextarea = document.getElementById('note');
             const noteHidden = document.getElementById('noteHidden');
-
             cancelOrderForm.onsubmit = function(e) {
                 e.preventDefault();
                 noteHidden.value = noteTextarea.value;
@@ -225,3 +218,4 @@
         });
     </script>
 @endsection
+

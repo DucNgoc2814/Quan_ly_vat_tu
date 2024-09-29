@@ -1,31 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("button").click(function () {
+                    $.ajax({
+                        url: "http://127.0.0.1:8000/thuong-hieu/store",
+                        type: "POST",
+                        data: {
+                            name: "1",
+                            order_id: "1",
+                            contract_type_id: "1",
+                            contract_status_id: "1",
+                            note: "1",
+                            file: "1",
+                        },
+                        success: function (data, status) {
+                            alert("Data: " + data + "\nStatus: " + status);
+                        },
+                        error: function (xhr, status, error) {
+                            alert("Error: " + error + "\nStatus: " + status);
+                        }
+                    });
+                });
+            });
+        </script>
     </head>
     <body>
-        <link rel="stylesheet" href="/DataTables/datatables.css" />
-        <script src="/DataTables/datatables.js"></script>
-
-        <table id="myTable" class="display">
-            <thead>
-                <tr>
-                    <th>Column 1</th>
-                    <th>Column 2</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Row 1 Data 1</td>
-                    <td>Row 1 Data 2</td>
-                </tr>
-                <tr>
-                    <td>Row 2 Data 1</td>
-                    <td>Row 2 Data 2</td>
-                </tr>
-            </tbody>
-        </table>
+        <button>
+            Send an HTTP POST request to a page and get the result back
+        </button>
     </body>
 </html>

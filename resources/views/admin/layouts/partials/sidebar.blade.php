@@ -81,7 +81,6 @@
                                 <a href="{{ route('sliders.create') }}"  class="nav-link"
                                     data-key="t-horizontal">Thêm mới thanh trượt</a>
                             </li>
-
                         </ul>
                     </div>
                 </li>
