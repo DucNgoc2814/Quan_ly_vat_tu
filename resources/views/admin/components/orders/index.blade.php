@@ -1,9 +1,7 @@
 @extends('admin.layouts.master')
-
 @section('title')
     Danh sách đơn hàng bán ra
 @endsection
-
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -22,7 +20,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
+                {{-- <div class="card-header border-0">
                     <div class="d-flex">
                         <div class="col-sm">
                             <form class="search-box ms-2 d-flex" method="GET" action="">
@@ -43,7 +41,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     @if (isset($message))
                         <div class="alert alert-info">{{ $message }}</div>
@@ -57,11 +55,11 @@
                                     <th data-ordering="false">Người nhận </th>
                                     <th data-ordering="false">Số điện thoại</th>
                                     <th>Tổng tiền</th>
-                                    <th>Đã thanh toán</th>
+                                    <th>Đã trả</th>
                                     <th>PTTT</th>
                                     <th data-ordering="false">Ngày đặt hàng </th>
                                     <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,16 +74,15 @@
                                         <td>
                                             <span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span>
                                         </td>
-                                        <td>{{ $order->created_at }}</td>
+                                        <td class="date-column">{{ $order->created_at }}</td>
                                         <td>
                                             @if ($order->status_id < 4)
-                                                <form
-                                                    action="{{ route('order.updateStatus', $order->slug) }}"
+                                                <form action="{{ route('order.updateStatus', $order->slug) }}"
                                                     method="POST" class="d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
                                                     <select name="status" class="form-select form-select-sm"
-                                                        onchange="confirmStatusChange(this)">
+                                                        onchange="confirmStatusChange(this, '{{ $order->slug }}')">
                                                         <option value="{{ $order->status_id }}" selected>
                                                             {{ $order->orderStatus->name }}</option>
                                                         @if ($order->status_id == 1)
@@ -121,10 +118,10 @@
                                                             Tiết Đơn Hàng</a>
                                                     </li>
                                                     @if ($order->status_id == 1 || $order->status_id == 2)
-                                                    <li><a href="{{ route('order.edit', ['slug' => $order->slug]) }}"
-                                                            class="dropdown-item edit-item-btn"><i
-                                                                class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                            Cập nhật</a></li>
+                                                        <li><a href="{{ route('order.edit', ['slug' => $order->slug]) }}"
+                                                                class="dropdown-item edit-item-btn"><i
+                                                                    class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                                Cập nhật</a></li>
                                                     @endif
                                                 </ul>
                                             </div>
@@ -134,64 +131,70 @@
                             </tbody>
                         </table>
                     @endif
-
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end" id="offcanvasExample" tabindex="-1" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Hủy đơn hàng</h5>
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <label class="form-label" for="note">Ghi chú</label>
-            <textarea name="note" class="form-control" id="note" cols="30" rows="3"
-                placeholder="Nhập lý do đơn hàng bị hủy..."></textarea>
-        </div>
-        <form id="cancelOrderForm" action="" method="POST">
-            @csrf
-            <input type="hidden" name="status" value="5">
-            <input type="hidden" name="note" id="noteHidden">
-            <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
-        </form>
-    </div>
 @endsection
-
 @section('scripts')
+        <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
+
     <script>
-        function confirmStatusChange(selectElement) {
+        function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
             const form = selectElement.closest('form');
-            const orderSlug = form.getAttribute('data-order-slug');
-
             if (newStatus == 5) {
-                if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
-                    openOffcanvas(orderSlug);
-                } else {
-                    selectElement.value = selectElement.options[0].value;
-                }
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
+                    text: "Hãy nhập lý do hủy đơn hàng",
+                    input: 'textarea',
+                    inputPlaceholder: 'Nhập lý do đơn hàng bị hủy...',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Hủy',
+                    cancelButtonText: 'Thoát'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const note = result.value;
+                        const noteInput = document.createElement('input');
+                        noteInput.type = 'hidden';
+                        noteInput.name = 'note';
+                        noteInput.value = note;
+                        form.appendChild(noteInput);
+                        form.submit();
+                    } else {
+                        selectElement.value = selectElement.options[0].value;
+                    }
+                });
             } else {
-                if (confirm('Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?')) {
-                    form.submit();
-                } else {
-                    selectElement.value = selectElement.options[0].value;
-                }
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Cập nhật',
+                    cancelButtonText: 'Thoát'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit();
+                    } else {
+                        selectElement.value = selectElement.options[0].value;
+                    }
+                });
             }
         }
-
         function openOffcanvas(orderSlug) {
             var myOffcanvas = document.getElementById('offcanvasExample');
             var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
             bsOffcanvas.show();
-
             const cancelOrderForm = document.getElementById('cancelOrderForm');
             cancelOrderForm.action = `{{ route('order.updateStatus', '') }}/${orderSlug}`;
-
             const noteTextarea = document.getElementById('note');
             const noteHidden = document.getElementById('noteHidden');
-
             cancelOrderForm.onsubmit = function(e) {
                 e.preventDefault();
                 noteHidden.value = noteTextarea.value;
@@ -201,4 +204,18 @@
             };
         }
     </script>
+    <script>
+        // Kiểm tra nếu có thông báo thành công từ controller
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: "{!! session('success') !!}",
+                    confirmButtonText: 'OK'
+                });
+            @endif
+        });
+    </script>
 @endsection
+

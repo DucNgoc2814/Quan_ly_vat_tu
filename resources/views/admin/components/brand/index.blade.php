@@ -58,7 +58,6 @@
                                         <a href="{{ route('brand.edit', $data->sku) }}" class="dropdown-item edit-item-btn"><i
                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                 Sửa</a></li>
-
                                     </td>
                                 </tr>
                             @endforeach
@@ -68,5 +67,5 @@
             </div>
         </div><!--end col-->
     </div>
-@endsection
+    @endsection
 

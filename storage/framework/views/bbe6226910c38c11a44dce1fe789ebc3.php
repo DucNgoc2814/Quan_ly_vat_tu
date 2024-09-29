@@ -66,7 +66,6 @@
                                 <a href="<?php echo e(route('sliders.create')); ?>"  class="nav-link text-danger"
                                     data-key="t-horizontal">Thêm mới thanh trượt</a>
                             </li>
-
                         </ul>
                     </div>
                 </li>
@@ -122,7 +121,7 @@
                             <li class="nav-item">
                                 <a href="<?php echo e(route('suppliers.index')); ?>"  class="nav-link text-danger"
                                     data-key="t-horizontal">Quản lý khách hàng</a>
-                            </li>
+                            </li> --}}
                         </ul>
                     </div>
                 </li>

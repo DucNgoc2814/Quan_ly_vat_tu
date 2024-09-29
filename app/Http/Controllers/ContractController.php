@@ -37,35 +37,35 @@ class ContractController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreContractRequest $request)
-{
-    $contract = $request->validated();
-    $filePath = null;
-    try {
-        if ($request->hasFile('file')) {
-            $filePath = $request->file('file')->store('contracts', 'public');
-        }
-        $contract['contract_status_id'] = 1;
-        // Tạo hợp đồng và lưu đường dẫn file
-        Contract::create([
-            'name' => $contract['name'],
-            'order_id' => $contract['order_id'],
-            'contract_type_id' => $contract['contract_type_id'],
-            'contract_status_id' => $contract['contract_status_id'],
-            'note' => $contract['note'],
-            'file' => $filePath,
-        ]);
+    {
+        $contract = $request->validated();
+        $filePath = null;
+        try {
+            if ($request->hasFile('file')) {
+                $filePath = $request->file('file')->store('contracts', 'public');
+            }
+            $contract['contract_status_id'] = 1;
+            // Tạo hợp đồng và lưu đường dẫn file
+            Contract::create([
+                'name' => $contract['name'],
+                'order_id' => $contract['order_id'],
+                'contract_type_id' => $contract['contract_type_id'],
+                'contract_status_id' => $contract['contract_status_id'],
+                'note' => $contract['note'],
+                'file' => $filePath,
+            ]);
 
-        return redirect()
-            ->route('hop-dong.index')
-            ->with('success', 'Thao tác thành công!');
-    } catch (Exception $exception) {
-        if ($filePath && Storage::disk('public')->exists($filePath)) {
-            Storage::disk('public')->delete($filePath);
+            return redirect()
+                ->route('hop-dong.index')
+                ->with('success', 'Thao tác thành công!');
+        } catch (Exception $exception) {
+            if ($filePath && Storage::disk('public')->exists($filePath)) {
+                Storage::disk('public')->delete($filePath);
+            }
+            dd($exception->getMessage());
+            return back()->with('error', $exception->getMessage());
         }
-        dd($exception->getMessage());
-        return back()->with('error', $exception->getMessage());
     }
-}
 
     /**
      * Display the specified resource.
