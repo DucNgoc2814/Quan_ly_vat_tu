@@ -42,8 +42,6 @@ Route::prefix('quan-ly-nhan-vien')
         Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
         Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
     });
-
-
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {

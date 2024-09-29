@@ -16,13 +16,8 @@ return new class extends Migration
             $table->foreignId('payment_id')->constrained('payments');
             $table->foreignId('supplier_id')->constrained('suppliers');
             $table->string('slug', 255);
-            $table->string('customer_name', 255);
-            $table->string('email', 255);
-            $table->string('number_phone', 11);
-            $table->string('address', 255);
             $table->integer('total_amount');
             $table->integer('paid_amount');
-            $table->integer('payable_amount');
             $table->timestamps();
         });
     }

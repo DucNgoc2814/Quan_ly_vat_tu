@@ -84,7 +84,7 @@
                                                     <select name="status" class="form-select form-select-sm"
                                                         onchange="confirmStatusChange(this)">
                                                         <option value="{{ $order->status_id }}" selected>
-                                                            {{ $order->orderStatus->description }}</option>
+                                                            {{ $order->orderStatus->name }}</option>
                                                         @if ($order->status_id == 1)
                                                             <option value="2">Xác Nhận</option>
                                                             <option value="5">Hủy</option>
@@ -99,7 +99,7 @@
                                             @else
                                                 <span
                                                     class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">
-                                                    {{ $order->orderStatus->description }}
+                                                    {{ $order->orderStatus->name }}
                                                 </span>
                                             @endif
                                         </td>
@@ -154,18 +154,10 @@
             <button type="submit" class="btn btn-sm btn-danger">Hủy</button>
         </form>
     </div>
+   <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 @endsection
-
-@section('styles-list')
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-@endsection
-
 @section('scripts')
+
     <script>
         myTable_filter
         function confirmStatusChange(selectElement) {
@@ -203,5 +195,4 @@
             };
         }
     </script>
-   <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 @endsection
