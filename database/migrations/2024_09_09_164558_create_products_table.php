@@ -16,7 +16,8 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories');
             $table->foreignId('unit_id')->constrained('units');
             $table->foreignId('brand_id')->nullable()->constrained('brands');
-            $table->string('name', 255);
+            $table->string('slug', 255);
+            $table->string('name', 255)->unique();
             $table->integer('price');
             $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
