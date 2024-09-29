@@ -92,7 +92,6 @@ Route::prefix('quan-ly-xe')
         Route::post('/them-moi', [CargoCarController::class, 'store'])->name('store');
         Route::get('/sua/{id}', [CargoCarController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat/{id}', [CargoCarController::class, 'update'])->name('update');
-        Route::delete('/xoa/{id}', [CargoCarController::class, 'destroy'])->name('destroy');
     });
 
 Route::prefix('quan-ly-loai-hop-dong')
@@ -103,7 +102,6 @@ Route::prefix('quan-ly-loai-hop-dong')
         Route::post('/them', [ContractTypeController::class, 'store'])->name('store');
         Route::get('/sua/{id}', [ContractTypeController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat/{id}', [ContractTypeController::class, 'update'])->name('update');
-        Route::delete('/xoa/{id}', [ContractTypeController::class, 'destroy'])->name('destroy');
     });
 
 Route::prefix('khach-hang')
@@ -112,7 +110,7 @@ Route::prefix('khach-hang')
         Route::get('/danh-sach', [CustomerController::class, 'index'])->name('index');
     });
 
-Route::prefix('quan-ly-san-pham')
+Route::prefix('san-pham')
     ->as('product.')
     ->group(function () {
         Route::get('/danh-sach', [ProductController::class, 'index'])->name('index');
@@ -120,7 +118,6 @@ Route::prefix('quan-ly-san-pham')
         Route::post('/them-moi', [ProductController::class, 'store'])->name('store');
         Route::get('/sua/{sku}', [ProductController::class, 'edit'])->name('edit');
         Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
-        Route::delete('/xoa/{id}', [ProductController::class, 'destroy'])->name('destroy');
     });
 
 

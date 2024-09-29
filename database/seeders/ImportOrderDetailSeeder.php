@@ -21,6 +21,27 @@ class ImportOrderDetailSeeder extends Seeder
                 'quantity' =>  1,
                 'price' =>  100
             ],
+            [
+                'id' => 2,
+                'import_order_id' =>  1,
+                'variation_id' =>  2,
+                'quantity' =>  10,
+                'price' =>  100
+            ],
+            [
+                'id' => 3,
+                'import_order_id' =>  1,
+                'variation_id' =>  1,
+                'quantity' =>  1,
+                'price' =>  100
+            ],
+            [
+                'id' => 4,
+                'import_order_id' =>  1,
+                'variation_id' =>  1,
+                'quantity' =>  1,
+                'price' =>  100
+            ],
         ];
 
         foreach ($importOrderDetails as $detail) {

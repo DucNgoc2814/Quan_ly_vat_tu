@@ -14,7 +14,6 @@
                         <li class="breadcrumb-item active">Thêm thương hiệu</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
@@ -25,14 +24,14 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('thuong-hieu.index') }}" class="btn btn-success" id="addproduct-btn">Danh
+                                <a href="{{ route('brand.index') }}" class="btn btn-success" id="addproduct-btn">Danh
                                     sách thương hiệu </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('thuong-hieu.store') }}" method="POST">
+                    <form action="{{ route('brand.store') }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-lg-12">

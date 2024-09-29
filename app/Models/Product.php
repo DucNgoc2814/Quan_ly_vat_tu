@@ -59,11 +59,4 @@ class Product extends Model
         return $this->hasMany(Variation::class);
     }
 
-    public function importOrderDetails(){
-        return $this->hasMany(Import_order_detail::class);
-    }
-
-    public function OrderDetails(){
-        return $this->belongsTo(Order_detail::class);
-    }
 }
