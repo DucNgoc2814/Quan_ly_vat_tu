@@ -28,7 +28,7 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ url('quan-ly-nhan-vien.them-moi-nhan-vien') }}" class="btn btn-success"
+                                <a href="{{ route('employees.create') }}" class="btn btn-success"
                                     id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới người lao động
                                 </a>
                             </div>
@@ -90,21 +90,11 @@
                                                 </button>
 
                                                 <ul class="dropdown-menu dropdown-menu-end">
-                                                    <li><a href="{{ route('quan-ly-nhan-vien.sua-thong-tin-nhan-vien', ['id' => $item->id]) }}"
+                                                    <li><a href="{{ route('employees.edit', ['id' => $item->id]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Sửa thông tin</a></li>
                                                     <li>
-
-                                                        {{-- <li>
-                                                        <a class="dropdown-item remove-item-btn"
-                                                            data-form-id="delete-form-{{ $item->id }}">
-                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-
-                                                            Ẩn nhà cung cấp
-                                                        </a>
-                                                    </li> --}}
-
                                                 </ul>
                                             </div>
                                         </td>

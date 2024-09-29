@@ -73,29 +73,10 @@ class SupplierController extends Controller
             $params = $request->except('_token', '_method');
             $supplier = Supplier::findOrFail($id);
             $supplier->update($params);
-            return redirect('quan-ly-nha-phan-phoi/danh-sach')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
+            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Request $request, String $id)
-    {
-        if ($request->isMethod('delete')) {
-            $supplier = Supplier::findOrFail($id);
-            $supplier->delete();
-            return redirect('quan-ly-nha-phan-phoi/danh-sach')->with('success', 'Bạn đã ẩn nhà cung cấp thành công !');
-        }
-    }
 
-    public function listTrashSupplier(Request $request){
-        $listTrashSupplier = Supplier::onlyTrashed()->paginate(5);
-        return view('admin.components.suppliers.trashsuppier', compact('listTrashSupplier'));
-    }
-    public function restoreSupplier(String $id){
-        $supplier = Supplier::onlyTrashed()->findOrFail($id);
-        $supplier->restore();
-        return redirect('quan-ly-nha-phan-phoi/danh-sach-da-an')->with('success','Bạn đã khôi phục thành công');
-    }
+
 }

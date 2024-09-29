@@ -1483,30 +1483,8 @@
     </div>
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startSection('styles-list'); ?>
-    <!-- jsvectormap css -->
-    <link href="<?php echo e(asset('themes/admin/assets/libs/jsvectormap/css/jsvectormap.min.css')); ?>" rel="stylesheet"
-        type="text/css" />
 
-    <!--Swiper slider css-->
-    <link href="<?php echo e(asset('themes/admin/assets/libs/swiper/swiper-bundle.min.css')); ?>" rel="stylesheet"
-        type="text/css" />
-<?php $__env->stopSection(); ?>
 
-<?php $__env->startSection('scripts-list'); ?>
-    <!-- apexcharts -->
-    <script src="<?php echo e(asset('themes/admin/assets/libs/apexcharts/apexcharts.min.js')); ?>"></script>
-
-    <!-- Vector map-->
-    <script src="<?php echo e(asset('themes/admin/assets/libs/jsvectormap/js/jsvectormap.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('themes/admin/assets/libs/jsvectormap/maps/world-merc.js')); ?>"></script>
-
-    <!--Swiper slider js-->
-    <script src="<?php echo e(asset('themes/admin/assets/libs/swiper/swiper-bundle.min.j')); ?>s"></script>
-
-    <!-- Dashboard init -->
-    <script src="<?php echo e(asset('themes/admin/assets/js/pages/dashboard-ecommerce.init.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
 
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\DuAnTotNghiep\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>
