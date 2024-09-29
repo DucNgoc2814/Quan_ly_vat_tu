@@ -19,7 +19,7 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('thuong-hieu.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                <a href="{{ route('brand.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                         class="ri-add-line align-bottom me-1"></i>Thêm thương hiệu </a>
                             </div>
                         </div>
@@ -55,7 +55,7 @@
                                         @endif
                                     </div></td>
                                     <td>
-                                        <a href="{{ route('thuong-hieu.edit', $data->sku) }}" class="dropdown-item edit-item-btn"><i
+                                        <a href="{{ route('brand.edit', $data->sku) }}" class="dropdown-item edit-item-btn"><i
                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                 Sửa</a></li>
                                     </td>
