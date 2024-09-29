@@ -166,7 +166,7 @@
                                                 <input type="number"
                                                     class="form-control  @error('product_quantity') is-invalid @enderror"
                                                     id="product-quantity-input" name="product_quantity[]"
-                                                    value="{{ old('product_quantity') }}" placeholder="Nhập số lượng">
+                                                    value="{{ old('product_quantity[]') }}" placeholder="Nhập số lượng">
                                                 @error('product_quantity')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
