@@ -37,7 +37,7 @@
                             </div>
 
                             <div class="col-lg-8 mt-3">
-                                <label class="form-label">Trọng Tải</label>
+                                <label class="form-label">Trọng Tải.</label>
                                 <input type="text" name="sku" placeholder="Nhập tên mã hàng cần sửa" class="form-control"
                                     value="{{ $category->sku }}">
                                 @error('sku')
