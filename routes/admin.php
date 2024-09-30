@@ -120,9 +120,6 @@ Route::prefix('san-pham')
         Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
     });
 
-
-
-
 Route::prefix('nhap-don-hang')
     ->as('importOrder.')
     ->group(function () {
