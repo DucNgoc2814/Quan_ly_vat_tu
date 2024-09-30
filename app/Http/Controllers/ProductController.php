@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Unit;
+use App\Models\Brand;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Variation;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Unit;
-use Exception;
-use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
