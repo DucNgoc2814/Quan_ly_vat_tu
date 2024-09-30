@@ -1485,6 +1485,52 @@
     </div>
 @endsection
 
-
+@section('scripts')
+    @parent
+    <script>
+        $(document).ready(function() {
+            @if(session('import_order_request'))
+                Swal.fire({
+                    title: 'Yêu cầu nhập thêm đơn hàng',
+                    text: 'Bạn có muốn xác nhận yêu cầu này?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        setTimeout(function() {
+                            Swal.fire({
+                                title: 'Đơn hàng sẽ được gửi đi bây giờ',
+                                text: 'Bạn có muốn xác nhận gửi đơn hàng?',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Xác nhận',
+                                cancelButtonText: 'Hủy'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    // Gửi yêu cầu AJAX để lưu đơn hàng
+                                    $.ajax({
+                                        url: '{{ route("importOrder.confirmStore") }}',
+                                        method: 'POST',
+                                        data: {
+                                            _token: '{{ csrf_token() }}'
+                                        },
+                                        success: function(response) {
+                                            Swal.fire('Thành công', 'Đơn hàng đã được gửi đi', 'success');
+                                        },
+                                        error: function() {
+                                            Swal.fire('Lỗi', 'Có lỗi xảy ra khi gửi đơn hàng', 'error');
+                                        }
+                                    });
+                                }
+                            });
+                        },30 * 1000);
+                    }
+                });
+            @endif
+        });
+    </script>
+@endsection
 
 

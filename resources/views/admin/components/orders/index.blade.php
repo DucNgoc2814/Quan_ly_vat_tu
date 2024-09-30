@@ -132,7 +132,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Hủy',
+                    confirmButtonText: 'Đồng ý',
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {

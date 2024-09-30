@@ -26,6 +26,11 @@ use App\Http\Controllers\SupplierController;
 //         Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
 //     });
 // <+====================ROUTE MẪU====================+>
+
+Route::get('/', function () {
+    return view('admin/dashboard');
+})->name('admin.dashboard');
+
 Route::prefix('quan-ly-tai-khoan')
     ->as('suppliers.')
     ->group(function () {
@@ -134,4 +139,6 @@ Route::prefix('don-hang-nhap')
         Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
         Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail');
-});
+        // Route::get('/check-low-stock', [ImportOrderController::class, 'checkLowStock'])->name('check-low-stock');
+        Route::post('/confirm-store', [ImportOrderController::class, 'confirmStore'])->name('confirmStore');
+    });

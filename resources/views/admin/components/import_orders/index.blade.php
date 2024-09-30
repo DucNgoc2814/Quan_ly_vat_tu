@@ -79,6 +79,41 @@
 @endsection
 
 @section('scripts')
+    @parent
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lowStockProducts = @json($lowStockProducts);
+
+            function showLowStockAlerts() {
+                let currentIndex = 0;
+
+                function showNextAlert() {
+                    if (currentIndex < lowStockProducts.length) {
+                        const product = lowStockProducts[currentIndex];
+                        Swal.fire({
+                            title: 'Cảnh báo hàng tồn kho thấp!',
+                            text: `Sản phẩm "${product.product.name}" (${product.name}) có số lượng tồn kho thấp: ${product.stock}. Vui lòng nhập thêm hàng.`,
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            currentIndex++;
+                            showNextAlert();
+                        });
+                    }
+                }
+
+                if (lowStockProducts.length > 0) {
+                    showNextAlert();
+                }
+            }
+
+            // Show alerts immediately when the page loads
+            showLowStockAlerts();
+
+            // Set up an interval to show alerts every 5 minutes
+            setInterval(showLowStockAlerts, 5 * 60 * 1000);
+        });
+    </script>
     <script>
         // Kiểm tra nếu có thông báo thành công từ controller
         document.addEventListener('DOMContentLoaded', function() {

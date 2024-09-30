@@ -32,7 +32,7 @@
             </div>
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link text-danger menu-link" href="#sidebarDashboards" role="button" aria-expanded="false"
+                    <a class="nav-link text-danger menu-link" href="{{route('admin.dashboard')}}" role="button" aria-expanded="false"
                         aria-controls="sidebarDashboards"><span data-key="t-dashboards">Bảng điều khiển</span>
                     </a>
                 </li>
@@ -121,7 +121,7 @@
                             <li class="nav-item">
                                 <a href="{{ route('suppliers.index') }}"  class="nav-link text-danger"
                                     data-key="t-horizontal">Quản lý khách hàng</a>
-                            </li> --}}
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -161,7 +161,7 @@
                         </ul>
                     </div>
                 </li>
-               
+
                 <li class="nav-item">
                     <a class="nav-link text-danger menu-link" href="#sidebarCargoCars" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarCargoCars">
@@ -190,7 +190,7 @@
                         </ul>
                     </div>
                 </li>
-                
+
                 <li class="nav-item">
                     <a class="nav-link text-danger menu-link" href="#sidebarOrders" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarOrders">
@@ -203,7 +203,7 @@
                                     data-key="t-horizontal">Danh sách đơn bán</a>
                             </li>
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html"  class="nav-link text-danger"
+                                <a href="{{route('importOrder.index')}}"  class="nav-link text-danger"
                                     data-key="t-horizontal">Danh sách đơn mua</a>
                             </li>
                         </ul>
@@ -223,7 +223,7 @@
                         </ul>
                     </div>
                 </li>
-               
+
                 <li class="nav-item">
                     <a class="nav-link text-danger menu-link" href="#sidebarPaymentHistories" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarPaymentHistories">
