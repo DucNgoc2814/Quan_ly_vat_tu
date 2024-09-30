@@ -6,12 +6,24 @@ use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ImportOrderController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
+// <+====================ROUTER MẪU====================+>
+// Route::prefix('duong-dan-mau')
+//     ->as('sampleRoute.')
+//     ->group(function () {
+//         Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
+//         Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
+//         Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
+//         Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
+//         Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
+//     });
+// <+====================ROUTE MẪU====================+>
 use App\Http\Controllers\UnitController;
 
 Route::prefix('quan-ly-tai-khoan')
@@ -33,17 +45,6 @@ Route::prefix('quan-ly-nhan-vien')
         Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
         Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
     });
-Route::prefix('mau')
-    ->as('mau.')
-    ->group(function () {
-        Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
-        Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
-        Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
-        Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
-        Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
-    });
-
-
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {
@@ -66,7 +67,6 @@ Route::prefix('quan-ly-ban-hang')
         Route::put('/nhap-sua/{id}', [SliderController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [SliderController::class, 'destroy'])->name('destroy');
     });
-
 Route::prefix('thuong-hieu')
     ->as('brand.')
     ->group(function () {
@@ -94,7 +94,6 @@ Route::prefix('quan-ly-xe')
         Route::post('/them-moi', [CargoCarController::class, 'store'])->name('store');
         Route::get('/sua/{id}', [CargoCarController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat/{id}', [CargoCarController::class, 'update'])->name('update');
-        Route::delete('/xoa/{id}', [CargoCarController::class, 'destroy'])->name('destroy');
     });
 
 Route::prefix('quan-ly-loai-hop-dong')
@@ -105,7 +104,6 @@ Route::prefix('quan-ly-loai-hop-dong')
         Route::post('/them', [ContractTypeController::class, 'store'])->name('store');
         Route::get('/sua/{id}', [ContractTypeController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat/{id}', [ContractTypeController::class, 'update'])->name('update');
-        Route::delete('/xoa/{id}', [ContractTypeController::class, 'destroy'])->name('destroy');
     });
 
 Route::prefix('khach-hang')
@@ -114,7 +112,7 @@ Route::prefix('khach-hang')
         Route::get('/danh-sach', [CustomerController::class, 'index'])->name('index');
     });
 
-Route::prefix('quan-ly-san-pham')
+Route::prefix('san-pham')
     ->as('product.')
     ->group(function () {
         Route::get('/danh-sach', [ProductController::class, 'index'])->name('index');
@@ -122,8 +120,22 @@ Route::prefix('quan-ly-san-pham')
         Route::post('/them-moi', [ProductController::class, 'store'])->name('store');
         Route::get('/sua/{sku}', [ProductController::class, 'edit'])->name('edit');
         Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
-        Route::delete('/xoa/{id}', [ProductController::class, 'destroy'])->name('destroy');
     });
+
+
+
+
+Route::prefix('nhap-don-hang')
+    ->as('importOrder.')
+    ->group(function () {
+        Route::get('/danh-sach', [ImportOrderController::class, 'index'])->name('index');
+        Route::get('/them-moi', [ImportOrderController::class, 'create'])->name('create');
+        Route::post('/them-moi-don-nhap', [ImportOrderController::class, 'store'])->name('store');
+        Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
+        Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderController::class, 'show'])->name('show');
+});
+
     Route::prefix('quan-ly-don-vi')
     ->as('units.')
     ->group(function () {

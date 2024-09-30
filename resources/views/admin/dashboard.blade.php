@@ -1485,28 +1485,6 @@
     </div>
 @endsection
 
-@section('styles-list')
-    <!-- jsvectormap css -->
-    <link href="{{ asset('themes/admin/assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet"
-        type="text/css" />
 
-    <!--Swiper slider css-->
-    <link href="{{ asset('themes/admin/assets/libs/swiper/swiper-bundle.min.css') }}" rel="stylesheet"
-        type="text/css" />
-@endsection
 
-@section('scripts-list')
-    <!-- apexcharts -->
-    <script src="{{ asset('themes/admin/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
-
-    <!-- Vector map-->
-    <script src="{{ asset('themes/admin/assets/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
-    <script src="{{ asset('themes/admin/assets/libs/jsvectormap/maps/world-merc.js') }}"></script>
-
-    <!--Swiper slider js-->
-    <script src="{{ asset('themes/admin/assets/libs/swiper/swiper-bundle.min.j') }}s"></script>
-
-    <!-- Dashboard init -->
-    <script src="{{ asset('themes/admin/assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
-@endsection
 

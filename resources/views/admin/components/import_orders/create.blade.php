@@ -22,7 +22,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('order.store') }}">
+    <form method="POST" action="{{ route('importOrder.store') }}">
         @csrf
 
         <div class="row">
@@ -30,90 +30,12 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-2">
-                            <label class="form-label" for="customer_id ">Tên người đặt</label>
-                            <select class="form-select @error('customer_id') is-invalid @enderror" id="customer_id"
-                                name="customer_id" data-choices data-choices-search-false>
-                                <option value="">Chọn Tên</option>
-                                @foreach ($customers as $custumer)
-                                    <option value="{{ $custumer->id }}">{{ $custumer->name }} -
-                                        {{ $custumer->number_phone }}</option>
-                                @endforeach
-                            </select>
-                            @error('customer_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="customer_name">Tên người nhận.</label>
-                            <input type="text" class="form-control  @error('customer_name') is-invalid @enderror"
-                                id="customer_name" value="{{ old('customer_name') }}" placeholder="Nhập tên người nhận "
-                                name="customer_name">
-                            {{-- {{ Auth::user()->name }} --}}
-                            @error('customer_name')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="number_phone">Số điện thoại người nhận</label>
-                            <input type="text" class="form-control @error('number_phone') is-invalid @enderror"
-                                id="number_phone" value="{{ old('number_phone') }}"
-                                placeholder="Nhập số điện thoại người nhận" name="number_phone">
-                            {{-- {{ Auth::user()->number_phone }}e"> --}}
-                            @error('number_phone')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="email">Email người nhận</label>
-                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
-                                value="{{ old('email') }}" placeholder="Nhập email người nhận" name="email">
-                            {{-- {{ Auth::user()->email }} --}}
-                            @error('email')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="address">Địa chỉ giao hàng</label>
-                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address"
-                                value="{{ old('address') }}" placeholder="Nhập địa chỉ giao hàng" name="address">
-                            @error('address')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-
-
-                </div>
-                <!-- end card -->
-
-
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="payment_id">Phương thức thanh toán</label>
+                            <label class="form-label" for="payment_id ">PTTT</label>
                             <select class="form-select @error('payment_id') is-invalid @enderror" id="payment_id"
                                 name="payment_id" data-choices data-choices-search-false>
-                                <option value="">Chọn Phương Thức Thanh Toán</option>
-                                @foreach ($payments as $id => $name)
-                                    <option value="{{ $id }}">{{ $name }}</option>
+                                <option value="">Chọn Tên</option>
+                                @foreach ($payments as $pay)
+                                    <option value="{{ $pay->id }}">{{ $pay->name }}</option>
                                 @endforeach
                             </select>
                             @error('payment_id')
@@ -123,7 +45,25 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <label class="form-label" for="supplier_id ">Tên nhà cung cấp</label>
+                            <select class="form-select @error('supplier_id') is-invalid @enderror" id="supplier_id"
+                                name="supplier_id" data-choices data-choices-search-false>
+                                <option value="">Chọn Tên</option>
+                                @foreach ($suppliers as $supplier)
+                                    <option value="{{ $supplier->id }}">{{ $supplier->name }}</option>
+                                @endforeach
+                            </select>
+                            @error('supplier_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
                 </div>
+                {{-- end --}}
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Sản phẩm mua</h4>
@@ -140,7 +80,7 @@
                                             id="product-variant-input" name="variation_id[]" data-choices
                                             data-choices-search-false onchange="updatePrice(this)">
                                             <option value="0">Chọn Sản Phẩm</option>
-                                            @foreach ($variation as $variant)
+                                            @foreach ($variants as $variant)
                                                 <option value="{{ $variant->id }}"
                                                     data-price="{{ $variant->price_export }}"
                                                     data-stock="{{ $variant->stock }}">
@@ -252,10 +192,12 @@
                     <label class="form-label" for="product-variant-input">Sản phẩm</label>
                     <select class="form-select @error('variation_id') is-invalid @enderror" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
                         <option value="0">Chọn Sản Phẩm</option>
-                        @foreach ($variation as $variant)
-                            <option value="{{ $variant->id }}" data-price="{{ $variant->price_export }}" data-stock="{{ $variant->stock }}">
-                                {{ $variant->name }}</option>
-                        @endforeach
+                         @foreach ($variants as $variant)
+                                                <option value="{{ $variant->id }}"
+                                                    data-price="{{ $variant->price_export }}"
+                                                    data-stock="{{ $variant->stock }}">
+                                                    {{ $variant->name }}</option>
+                                            @endforeach
                     </select>
                     @error('variation_id')
                         <span class="invalid-feedback" role="alert">
