@@ -11,7 +11,7 @@ class StoreUnitRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,6 +23,17 @@ class StoreUnitRequest extends FormRequest
     {
         return [
             //
+            'name' => "required|string|max:55|unique:units,name"
+        ];
+    }
+    public function messages(): array
+    {
+        return[
+            'name.required' => "Tên đơn vị không được bỏ trống. ",
+            'name.string' => "Tên đơn vị phải là chuỗi ký tự. ",
+            'name.max' => "Tên đơn vị phải nhỏ hơn 55 ký tự. ",
+            'name.unique' => "Tên đơn vị đã tồn tại. ",
+
         ];
     }
 }

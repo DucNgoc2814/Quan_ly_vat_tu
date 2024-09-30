@@ -13,6 +13,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UnitController;
 // <+====================ROUTER MẪU====================+>
 // Route::prefix('duong-dan-mau')
 //     ->as('sampleRoute.')
@@ -24,6 +25,7 @@ use App\Http\Controllers\SupplierController;
 //         Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
 //     });
 // <+====================ROUTE MẪU====================+>
+
 Route::prefix('quan-ly-tai-khoan')
     ->as('suppliers.')
     ->group(function () {
@@ -129,4 +131,15 @@ Route::prefix('nhap-don-hang')
         Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
         Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderController::class, 'show'])->name('show');
-});
+    });
+
+Route::prefix('quan-ly-don-vi')
+    ->as('units.')
+    ->group(function () {
+        Route::get('/danh-sach', [UnitController::class, 'index'])->name('index');
+        Route::get('/them-moi', [UnitController::class, 'create'])->name('create');
+        Route::post('/them-moi', [UnitController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [UnitController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [UnitController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [UnitController::class, 'destroy'])->name('destroy');
+    });
