@@ -99,7 +99,7 @@ class OrderController extends Controller
 
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
                 $timestamp = now()->format('His');
-                $slug = 'DH' . $randomChars . $timestamp;
+                $slug = 'DHB' . $randomChars . $timestamp;
 
                 $dataOrder = [
                     "payment_id" => $request->payment_id,

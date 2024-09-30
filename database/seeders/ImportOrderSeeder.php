@@ -17,7 +17,6 @@ class ImportOrderSeeder extends Seeder
             [
                 'payment_id' => 1,
                 'supplier_id' => 1,
-                'status_id' => 1,
                 'slug' => 'order-1',
                 'total_amount' => 200000,
                 'paid_amount' => 100000,
@@ -27,7 +26,6 @@ class ImportOrderSeeder extends Seeder
             [
                 'payment_id' => 2,
                 'supplier_id' => 2,
-                'status_id' => 2,
                 'slug' => 'order-2',
                 'total_amount' => 500000,
                 'paid_amount' => 300000,

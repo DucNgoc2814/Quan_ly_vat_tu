@@ -138,7 +138,7 @@
 
 @endsection
 @section('scripts')
-        <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
+    <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 
     <script>
         function confirmStatusChange(selectElement, orderSlug) {
@@ -187,6 +187,7 @@
                 });
             }
         }
+
         function openOffcanvas(orderSlug) {
             var myOffcanvas = document.getElementById('offcanvasExample');
             var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
@@ -218,4 +219,3 @@
         });
     </script>
 @endsection
-

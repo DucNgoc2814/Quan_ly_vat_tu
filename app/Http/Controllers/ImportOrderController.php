@@ -10,8 +10,6 @@ use App\Models\Import_order;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreImport_orderRequest;
 use App\Http\Requests\UpdateImport_orderRequest;
-use App\Models\Order_detail;
-use App\Models\Order_status;
 use Exception;
 
 class ImportOrderController extends Controller
@@ -20,7 +18,7 @@ class ImportOrderController extends Controller
 
     public function index()
     {
-        $data = Import_order::query()->get();
+        $data = Import_order::with(['payment','supplier'])->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
     }
 
@@ -45,12 +43,11 @@ class ImportOrderController extends Controller
             DB::transaction(function () use ($request) {
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
                 $timestamp = now()->format('His');
-                $slug = 'DH' . $randomChars . $timestamp;
+                $slug = 'DHN' . $randomChars . $timestamp;
 
                 $importOrder = Import_order::create([
                     "payment_id" => $request->payment_id,
                     "supplier_id" => $request->supplier_id,
-                    "status_id" => 1,
                     "slug" => $slug,
                     "product_quantity" => $request->product_quantity,
                     "total_amount" => $request->total_amount,
@@ -81,7 +78,7 @@ class ImportOrderController extends Controller
 
             return redirect()->route('importOrder.index')->with('success', 'Đơn hàng nhập đã được tạo thành công');
         } catch (\Throwable $th) {
-            // dd($th->getMessage());
+            dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng nhập: ' . $th->getMessage());
         }
     }
@@ -109,8 +106,7 @@ class ImportOrderController extends Controller
         $suppliers = Supplier::pluck('name', 'id')->all();
         $importOrderDetails = Import_order_detail::where('import_order_id', $import_order->id)->get();
         $variations = Variation::all();
-        $status = Order_status::pluck('description', 'id')->all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('import_order', 'payments', 'suppliers', 'variations', 'status', 'importOrderDetails'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('import_order', 'payments', 'suppliers', 'variations', 'importOrderDetails'));
     }
 
     /**
@@ -127,8 +123,6 @@ class ImportOrderController extends Controller
                 $importOrder = Import_order::where('slug', $slug)->firstOrFail();
 
                 // Kiểm tra tính họp lệ của trạng thái mới
-                $currentStatus = $importOrder->status_id;
-                $newStatus = $request->status_id ?? $currentStatus;
 
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
                 $timestamp = now()->format('His');
@@ -137,7 +131,6 @@ class ImportOrderController extends Controller
                 $importOrderData = [
                     "payment_id" => $request->payment_id,
                     "supplier_id" => $request->supplier_id,
-                    "status_id" => $newStatus,
                     "product_quantity" => $request->product_quantity,
                     "total_amount" => $request->total_amount,
                     "paid_amount" => $request->paid_amount,
@@ -182,7 +175,7 @@ class ImportOrderController extends Controller
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng nhập');
                 }
             });
-            return redirect()->route('importOrder.index')->with('success', 'Đơn hàng nhập đã được tạo thành công');
+            return redirect()->route('importOrder.index')->with('success', 'Cập nhật đơn hàng thành công!');
         } catch (\Throwable $th) {
             dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật đơn hàng nhập: ' . $th->getMessage());

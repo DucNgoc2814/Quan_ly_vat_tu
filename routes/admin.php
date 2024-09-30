@@ -7,12 +7,14 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ImportOrderController;
+use App\Http\Controllers\ImportOrderDetailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
+
 // <+====================ROUTER MẪU====================+>
 // Route::prefix('duong-dan-mau')
 //     ->as('sampleRoute.')
@@ -123,7 +125,7 @@ Route::prefix('san-pham')
 
 
 
-Route::prefix('nhap-don-hang')
+Route::prefix('don-hang-nhap')
     ->as('importOrder.')
     ->group(function () {
         Route::get('/danh-sach', [ImportOrderController::class, 'index'])->name('index');
@@ -131,5 +133,5 @@ Route::prefix('nhap-don-hang')
         Route::post('/them-moi-don-nhap', [ImportOrderController::class, 'store'])->name('store');
         Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
-        Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderController::class, 'show'])->name('show');
+        Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail');
 });
