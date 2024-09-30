@@ -1,7 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('title')
+<<<<<<< HEAD
+=======
     Danh sách đơn hàng nhập
+>>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
 @endsection
 
 @section('content')
@@ -27,6 +30,14 @@
                         style="width:100%">
                         <thead>
                             <tr>
+<<<<<<< HEAD
+                                {{-- <th data-ordering="false">ID</th> --}}
+                                <th data-ordering="false">Phương thức thanh toán</th>
+                                <th data-ordering="false">Tên nhà phân phối</th>
+                                <th data-ordering="false">Tổng tiền</th>
+                                <th data-ordering="false">Tiền đã trả</th>
+                                <th data-ordering="false">Slug</th>
+=======
                                 <th data-ordering="false">Mã đơn hàng</th>
                                 <th data-ordering="false">Tên nhà phân phối</th>
                                 <th data-ordering="false">Tổng tiền</th>
@@ -34,12 +45,22 @@
                                 <th data-ordering="false">Phương thức thanh toán</th>
                                 <th data-ordering="false">Ngày đặt hàng</th>
                                 <th>Trạng thái</th>
+>>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
                                 <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($data as $item)
                                 <tr>
+<<<<<<< HEAD
+                                    {{-- <td>{{ $item->id }}</td> --}}
+                                    <td>{{ $item->payment->name }}</td>
+                                    <td>{{ $item->supplier->name }}</td>
+                                    <td>{{ $item->total_amount }}</td>
+                                    <td>{{ $item->paid_amount }}</td>
+                                    <td>{{ $item->slug }}</td>
+                                    <td>
+=======
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->supplier->name }}</td>
                                     <td>{{ $item->total_amount }}</td>
@@ -74,12 +95,34 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
+>>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
+<<<<<<< HEAD
+                                         
+                                                <li><a href="{{ route('importOrder.edit', $item->id) }}"
+                                                        class="dropdown-item edit-item-btn"><i
+                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                        Edit</a></li>
+                                                <li>
+
+                                                    <form action="{{ route('importOrder.destroy', $item->id) }}"
+                                                        method="post">
+                                                        @method('DELETE')
+                                                        @csrf
+
+                                                        <button class="dropdown-item remove-list" type="submit"
+                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa slider này không?')">
+                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                            Xóa
+                                                        </button>
+                                                    </form>
+                                                </li>
+=======
                                                 <li>
                                                     <a href="{{ route('importOrder.show', ['slug' => $item->slug]) }}"
                                                         class="dropdown-item"><i
@@ -92,6 +135,7 @@
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Cập nhật</a></li>
                                                 @endif
+>>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
                                             </ul>
                                         </div>
                                     </td>

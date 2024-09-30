@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Unit;
+use App\Models\Brand;
+use App\Models\Order;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\Variation;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\Brand;
-use App\Models\Category;
-use App\Models\Unit;
-use Exception;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -42,58 +45,52 @@ class ProductController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
-                $timestamp = now()->format('His_dmY');
-                $slug = 'DH' . $randomChars . $timestamp;
-
-                $dataOrder = [
-                    "payment_id" => $request->payment_id,
-                    "customer_id" => $request->customer_id,
-                    "status_id" => 1, // Trạng thái mặc định 'Chờ xác nhận'
+                $slug = Str::slug($request['name']);
+                $data = [
+                    "category_id" => $request->category_id,
+                    "unit_id" => $request->unit_id,
+                    "brand_id" => $request->brand_id,
                     "slug" => $slug,
-                    "customer_name" => $request->customer_name ?? $customers->name,
-                    "email" => $request->email ?? $customers->email,
-                    "number_phone" => $request->number_phone ?? $customers->number_phone,
-                    "address" => $request->address,
-                    "total_amount" => $request->total_amount,
-                    "paid_amount" => $request->paid_amount,
+                    "name" => $request->name,
+                    "price" => $request->price,
+                    "description" => $request->description,
+                    "is_active" => $request->has('is_active') ? 1 : 0,
                 ];
+                $product = Product::query()->create($data);
 
-                $order = Order::query()->create($dataOrder);
+                // if (is_array($request->variation_id) && count($request->variation_id) > 0) {
+                //     foreach ($request->variation_id as $key => $variationID) {
 
-                if (is_array($request->variation_id) && count($request->variation_id) > 0) {
-                    foreach ($request->variation_id as $key => $variationID) {
+                //         // Tìm variation theo ID
+                //         $variation = Variation::findOrFail($variationID);
+                //         $orderQuantity = $request->product_quantity[$key];
 
-                        // Tìm variation theo ID
-                        $variation = Variation::findOrFail($variationID);
-                        $orderQuantity = $request->product_quantity[$key];
+                //         // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
+                //         logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
+                //         logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
 
-                        // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
-                        logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
-                        logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
+                //         // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
+                //         if ($orderQuantity > $variation->stock) {
+                //             throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
+                //         }
 
-                        // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
-                        if ($orderQuantity > $variation->stock) {
-                            throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
-                        }
+                //         // Tạo chi tiết đơn hàng
+                //         Order_detail::query()->create([
+                //             'order_id' => $product->id,
+                //             'variation_id' => $variationID,
+                //             'quantity' => $orderQuantity,
+                //             'price' => $request->product_price[$key],
+                //         ]);
 
-                        // Tạo chi tiết đơn hàng
-                        Order_detail::query()->create([
-                            'order_id' => $order->id,
-                            'variation_id' => $variationID,
-                            'quantity' => $orderQuantity,
-                            'price' => $request->product_price[$key],
-                        ]);
-
-                        // Giảm số lượng hàng tồn kho
-                        $variation->stock -= $orderQuantity;
-                        $variation->save();
-                    }
-                } else {
-                    throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
-                }
+                //         // Giảm số lượng hàng tồn kho
+                //         $variation->stock -= $orderQuantity;
+                //         $variation->save();
+                //     }
+                // } else {
+                //     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
+                // }
             });
-
-            return redirect()->route('quan-ly-don-hang.danh-sach-ban');
+            return redirect()->route('product.index')->with('success', 'Thêm sản phẩm thành công');;
         } catch (\Throwable $th) {
             dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());

@@ -27,7 +27,7 @@
                         <div class="col-sm-auto">
                             <div>
                                 <a href="{{ route('product.index') }}" class="btn btn-success" id="addproduct-btn">Danh
-                                    sách hợp đồng </a>
+                                    sách sản phẩm</a>
                             </div>
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="product-title-input">Tên sản phẩm</label>
                                             <input type="text" class="form-control" id="product-title-input"
-                                                value="" placeholder="Thêm sản phẩm" name="title">
+                                                value="" placeholder="Thêm sản phẩm" name="name">
                                             @error('title')
                                                 <span role="alert">
                                                     <span class="text-danger">a</span>
@@ -56,7 +56,7 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="product-title-input">Giá sản phẩm</label>
                                             <input type="text" class="form-control" id="product-title-input"
-                                                value="" placeholder="Thêm giá sản phẩm" name="title">
+                                                value="" placeholder="Thêm giá sản phẩm" name="price">
                                             @error('title')
                                                 <span role="alert">
                                                     <span class="text-danger">a</span>
@@ -76,7 +76,7 @@
                                         <div class="mb-4">
                                             <div>
                                                 <label class="form-label" for="meta-description-input">Mô tả</label>
-                                                <textarea class="form-control" id="meta-description-input" placeholder="Nhập nội dung" rows="6" name="content"></textarea>
+                                                <textarea class="form-control" id="meta-description-input" placeholder="Nhập nội dung" rows="6" name="description"></textarea>
                                                 @error('content')
                                                     <span role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -106,7 +106,7 @@
                                         <h5 class="card-title mb-0">Thương hiệu</h5>
                                     </div>
                                     <div class="card-body">
-                                        <select class="form-select" id="choices-category-input" name="category_id"
+                                        <select class="form-select" id="choices-category-input" name="brand_id"
                                             data-choices data-choices-search-false>
                                             @foreach ($brands as $key => $value)
                                                 <option value="{{ $key }}">{{ $value }}</option>
@@ -134,7 +134,7 @@
                                         <h5 class="card-title mb-0">Đơn vị</h5>
                                     </div>
                                     <div class="card-body">
-                                        <select class="form-select" id="choices-category-input" name="category_id"
+                                        <select class="form-select" id="choices-category-input" name="unit_id"
                                             data-choices data-choices-search-false>
                                             @foreach ($units as $key => $value)
                                                 <option value="{{ $key }}">{{ $value }}</option>
