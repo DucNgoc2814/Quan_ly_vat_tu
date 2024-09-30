@@ -175,7 +175,6 @@
                                 <tr>
                                     <th scope="col">STT</th>
                                     <th scope="col">Tên sản phẩm</th>
-                                    <th scope="col">Hình ảnh</th>
                                     <th scope="col">Số lượng</th>
                                     <th scope="col">Đơn vị</th>
                                     <th scope="col">Giá sản phẩm</th>
@@ -187,12 +186,6 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td>{{ $orderDetail->variations?->name ?? 'Không có thông tin sản phẩm' }}</td>
-                                        <td>
-                                            {{-- @if ($orderDetail->products->galleries->first()->url && Storage::exists($orderDetail->products->galleries->first()->url))
-                                            <img src="{{ \Storage::url($orderDetail->products->galleries->first()->url) ?? 'Không có ảnh'}}" width="100px" alt="">
-                                        @endif --}}
-                                            {{ $orderDetail->variations?->product?->galleries?->first()?->url ?? 'Không có ảnh' }}
-                                        </td>
                                         <td>{{ $orderDetail->quantity }}</td>
                                         <td>{{ $orderDetail->variations?->product?->unit?->name ?? 'Không có đơn vị' }}
                                         </td>
