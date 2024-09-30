@@ -10,7 +10,6 @@ use App\Models\Import_order;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreImport_orderRequest;
 use App\Http\Requests\UpdateImport_orderRequest;
-use App\Models\Order_detail;
 use App\Models\Order_status;
 use Exception;
 
