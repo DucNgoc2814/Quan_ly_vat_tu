@@ -140,10 +140,8 @@ Route::prefix('don-hang-nhap')
         Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
         Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail');
 
-
-        
-        Route::post('/confirm-store', [ImportOrderController::class, 'confirmImportOrder'])->name('confirm');
-        Route::post('/hoan-thanh-giao-hang/{id}', [ImportOrderController::class, 'completeImportOrder'])->name('complete');
+        Route::post('/yeu-cau-huy/{slug}', [ImportOrderController::class, 'requestCancel'])->name('requestCancel');
+        Route::get('/pending-cancel-requests', [ImportOrderController::class, 'getPendingCancelRequests'])->name('pendingCancelRequests');
         Route::get('/cancel/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel');
 
     });

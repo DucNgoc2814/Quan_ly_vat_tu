@@ -59,7 +59,7 @@ class ImportOrderController extends Controller
                     "product_quantity" => $request->product_quantity,
                     "total_amount" => $request->total_amount,
                     "paid_amount" => $request->paid_amount,
-                    "status" => 1, 
+                    "status" => 1,
                 ]);
 
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
@@ -90,6 +90,59 @@ class ImportOrderController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng nhập: ' . $th->getMessage());
         }
     }
+
+    // public function cancelImportOrder($slug)
+    // {
+    //     try {
+    //         $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+    //         $importOrder->status = 4; // Giả sử 4 là trạng thái "Đã hủy"
+    //         $importOrder->save();
+
+    //         // Hoàn trả số lượng sản phẩm về kho
+    //         foreach ($importOrder->importOrderDetails as $detail) {
+    //             $variation = Variation::findOrFail($detail->variation_id);
+    //             $variation->stock -= $detail->quantity;
+    //             $variation->save();
+    //         }
+
+    //         return redirect()->route('importOrder.index')->with('success', 'Đơn hàng đã được hủy thành công');
+    //     } catch (\Exception $e) {
+    //         return redirect()->back()->with('error', 'Có lỗi xảy ra khi hủy đơn hàng: ' . $e->getMessage());
+    //     }
+    // }
+
+
+    public function requestCancel(Request $request, $slug)
+    {
+        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+
+        // Cập nhật trạng thái về chờ hủy (tạm gọi là 1)
+        $importOrder->status = 1;
+        $importOrder->cancel_reason = $request->reason; // Lưu lý do hủy
+        $importOrder->save();
+
+        return response()->json(['success' => true, 'message' => 'Chờ quản lý xác nhận hủy']);
+    }
+
+    public function getPendingCancelRequests()
+    {
+        // Lấy các yêu cầu hủy đơn hàng có trạng thái đang chờ xử lý
+        $pendingRequests = Import_order::where('status', 1) // 1 = Chờ xác nhận
+            ->whereNotNull('cancel_reason') // Chỉ lấy đơn có yêu cầu hủy
+            ->get();
+
+        return response()->json($pendingRequests);
+    }
+
+    public function cancelImportOrder($slug)
+    {
+        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+        $importOrder->status = 4; // Chuyển trạng thái thành hủy
+        $importOrder->save();
+
+        return redirect()->back()->with('success', 'Đơn hàng đã bị hủy');
+    }
+
 
 
     public function show($slug)

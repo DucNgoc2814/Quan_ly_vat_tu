@@ -70,15 +70,19 @@
                                                             class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi
                                                         Tiết Đơn Hàng</a>
                                                 </li>
-                                                <li><a href="{{ route('importOrder.edit', ['slug' => $item->slug]) }}"
-                                                        class="dropdown-item edit-item-btn"><i
-                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Cập nhật</a></li>
                                                 @if ($item->status == 1)
-                                                    <li><a href="{{ route('importOrder.cancel', ['slug' => $item->slug]) }}"
-                                                            class="dropdown-item text-danger"><i
+                                                    <li><a href="{{ route('importOrder.edit', ['slug' => $item->slug]) }}"
+                                                            class="dropdown-item edit-item-btn"><i
+                                                                class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                            Cập nhật</a></li>
+                                                    <li>
+                                                        <a href="#" class="dropdown-item text-danger"
+                                                            onclick="requestCancelOrder('{{ $item->slug }}'); return false;">
+                                                            <i
                                                                 class="ri-close-circle-line align-bottom me-2 text-danger"></i>
-                                                            Hủy đơn hàng</a></li>
+                                                            Hủy đơn hàng
+                                                        </a>
+                                                    </li>
                                                 @endif
                                             </ul>
                                         </div>
@@ -144,5 +148,48 @@
                 });
             @endif
         });
+    </script>
+
+
+    <script>
+        function requestCancelOrder(slug) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
+                text: "Vui lòng nhập lý do hủy đơn hàng:",
+                input: 'text',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận hủy',
+                cancelButtonText: 'Hủy bỏ',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Bạn cần nhập lý do hủy đơn hàng!'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch("{{ route('importOrder.requestCancel', '') }}/" + slug, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                reason: result.value // Gửi lý do hủy đơn hàng
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire('Đã gửi yêu cầu', 'Chờ quản lý xác nhận hủy', 'success');
+                            } else {
+                                Swal.fire('Lỗi', 'Không thể gửi yêu cầu hủy', 'error');
+                            }
+                        });
+                }
+            });
+        }
     </script>
 @endsection

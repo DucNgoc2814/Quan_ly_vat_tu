@@ -14,6 +14,7 @@ class Import_order extends Model
         'supplier_id',
         'slug',
         'status',
+        'cancel_reason',
         'total_amount',
         'paid_amount',
     ];

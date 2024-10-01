@@ -145,10 +145,30 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="status_id" class="form-label">Trạng thái đơn hàng </label>
-                                            <input type="text" class="form-control" id="status_id" value="" readonly>
+                                            <input type="text" class="form-control" id="status_id"
+                                                value="@if ($data->first()->importOrder->status == 1)Chờ xác nhận
+                                                      @elseif($data->first()->importOrder->status == 2)Đã xác nhận
+                                                      @elseif($data->first()->importOrder->status == 3)Giao hàng thành công
+                                                      @elseif($data->first()->importOrder->status == 4)Đã hủy
+                                                      @endif"
+                                                readonly
+                                                style="@if ($data->first()->importOrder->status == 1);
+                                                       @elseif($data->first()->importOrder->status == 2);
+                                                       @elseif($data->first()->importOrder->status == 3);
+                                                       @elseif($data->first()->importOrder->status == 4);
+                                                       @endif">
                                         </div>
                                     </div>
                                     <!--end col-->
+                                    <div class="col-lg-12">
+                                        @if ($data->first()->importOrder->status == 4) <!-- Kiểm tra nếu đơn hàng đã bị hủy (status == 4) -->
+                                            <div class="mb-3">
+                                                <label for="cancel_reason" class="form-label">Lý do hủy đơn hàng</label>
+                                                <input type="text" class="form-control" id="cancel_reason"
+                                                       value="{{ $data->first()->importOrder->cancel_reason }}" readonly>
+                                            </div>
+                                        @endif
+                                    </div>
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="address" class="form-label">Địa chỉ giao hàng </label>

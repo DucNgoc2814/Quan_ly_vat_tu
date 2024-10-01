@@ -1485,136 +1485,46 @@
     </div>
 @endsection
 
+@php
+    use App\Models\Import_order;
+    $pendingCancelRequests = Import_order::where('status', 1)->whereNotNull('cancel_reason')->get();
+@endphp
+
 @section('scripts')
-    {{-- @parent --}}
-    {{-- <script>
-        $(document).ready(function() {
-            @if (session('import_order_request'))
-                Swal.fire({
-                    title: 'Yêu cầu nhập thêm đơn hàng',
-                    text: 'Bạn có muốn xác nhận yêu cầu này?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Xác nhận',
-                    cancelButtonText: 'Hủy'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        setTimeout(function() {
-                            Swal.fire({
-                                title: 'Đơn hàng sẽ được gửi đi bây giờ',
-                                text: 'Bạn có muốn xác nhận gửi đơn hàng?',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'Xác nhận',
-                                cancelButtonText: 'Hủy'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    // Gửi yêu cầu AJAX để lưu đơn hàng
-                                    $.ajax({
-                                        url: '{{ route("importOrder.confirmStore") }}',
-                                        method: 'POST',
-                                        data: {
-                                            _token: '{{ csrf_token() }}'
-                                        },
-                                        success: function(response) {
-                                            Swal.fire('Thành công', 'Đơn hàng đã được gửi đi', 'success');
-                                        },
-                                        error: function() {
-                                            Swal.fire('Lỗi', 'Có lỗi xảy ra khi gửi đơn hàng', 'error');
-                                        }
-                                    });
-                                }
-                            });
-                        },30 * 1000);
-                    }
-                });
-            @endif
-        });
-    </script> --}}
+    @parent
     <script>
-        $(document).ready(function() {
-            @if (session('show_dashboard_alert'))
-                // Lấy thông tin sản phẩm từ session
-                const productList = @json(session('temp_import_order.details'));
+        document.addEventListener('DOMContentLoaded', function() {
+            function showPendingCancelRequests() {
+                @foreach ($pendingCancelRequests as $request)
+                    Swal.fire({
+                        title: 'Yêu cầu hủy đơn hàng',
+                        text: `Đơn hàng - {{ $request->slug }}, yêu cầu hủy - {{ $request->cancel_reason }}`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Xác nhận hủy'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href =
+                                "{{ route('importOrder.cancel', ['slug' => $request->slug]) }}";
+                        }
+                    });
+                @endforeach
+            }
 
-                // Tạo chuỗi mô tả tên sản phẩm và số lượng
-                let productsDescription = productList.map(item => {
-                    return item.quantity + ' sản phẩm';
-                }).join(', ');
+            showPendingCancelRequests();
 
-                // Hiển thị thông báo xác nhận nhập đơn hàng
-                Swal.fire({
-                    title: 'Đồng ý nhập thêm đơn hàng - ' + productsDescription + '?',
-                    text: "Bạn có muốn xác nhận thêm đơn hàng này không?",
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonText: 'Xác nhận',
-                    cancelButtonText: 'Hủy bỏ'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Gọi API để xác nhận đơn hàng
-                        $.ajax({
-                            url: "{{ route('importOrder.confirm') }}",
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            success: function(response) {
-                                // Hiển thị thông báo yêu cầu giao hàng sau 30 giây
-                                setTimeout(function() {
-                                    Swal.fire({
-                                        title: 'Tôi giao hàng ngay bây giờ nhé?',
-                                        icon: 'question',
-                                        showCancelButton: true,
-                                        confirmButtonText: 'Xác nhận',
-                                        cancelButtonText: 'Hủy bỏ'
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            // Gọi API để hoàn thành đơn hàng
-                                            $.ajax({
-                                                url: `/importOrder/complete/${response.id}`,
-                                                method: 'POST',
-                                                headers: {
-                                                    'X-CSRF-TOKEN': $(
-                                                        'meta[name="csrf-token"]'
-                                                        ).attr(
-                                                        'content')
-                                                },
-                                                success: function() {
-                                                    Swal.fire(
-                                                        'Thành công',
-                                                        'Đơn hàng đã được giao thành công',
-                                                        'success'
-                                                        );
-                                                },
-                                                error: function(xhr,
-                                                    status, error) {
-                                                    console.error(
-                                                        xhr
-                                                        .responseText
-                                                        );
-                                                    Swal.fire('Lỗi',
-                                                        'Có lỗi xảy ra khi giao hàng: ' +
-                                                        error,
-                                                        'error');
-                                                }
-                                            });
-                                        }
-                                    });
-                                }, 30000);
-                            },
-                            error: function(xhr, status, error) {
-                                console.error(xhr.responseText);
-                                Swal.fire('Lỗi', 'Có lỗi xảy ra khi xác nhận đơn hàng: ' +
-                                    error, 'error');
-                            }
-                        });
-                    }
-                });
-
-                // Xóa session sau khi hiển thị thông báo
-                {{ session()->forget('show_dashboard_alert') }}
-            @endif
+            // Kiểm tra yêu cầu hủy mới mỗi phút
+            setInterval(function() {
+                fetch("{{ route('importOrder.pendingCancelRequests') }}")
+                    .then(response => response.json())
+                    .then(requests => {
+                        if (requests.length > 0) {
+                            showPendingCancelRequests();
+                        }
+                    });
+            }, 60000);
         });
     </script>
 @endsection
