@@ -1486,10 +1486,10 @@
 @endsection
 
 @section('scripts')
-    @parent
-    <script>
+    {{-- @parent --}}
+    {{-- <script>
         $(document).ready(function() {
-            @if(session('import_order_request'))
+            @if (session('import_order_request'))
                 Swal.fire({
                     title: 'Yêu cầu nhập thêm đơn hàng',
                     text: 'Bạn có muốn xác nhận yêu cầu này?',
@@ -1530,7 +1530,91 @@
                 });
             @endif
         });
+    </script> --}}
+    <script>
+        $(document).ready(function() {
+            @if (session('show_dashboard_alert'))
+                // Lấy thông tin sản phẩm từ session
+                const productList = @json(session('temp_import_order.details'));
+
+                // Tạo chuỗi mô tả tên sản phẩm và số lượng
+                let productsDescription = productList.map(item => {
+                    return item.quantity + ' sản phẩm';
+                }).join(', ');
+
+                // Hiển thị thông báo xác nhận nhập đơn hàng
+                Swal.fire({
+                    title: 'Đồng ý nhập thêm đơn hàng - ' + productsDescription + '?',
+                    text: "Bạn có muốn xác nhận thêm đơn hàng này không?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy bỏ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Gọi API để xác nhận đơn hàng
+                        $.ajax({
+                            url: "{{ route('importOrder.confirm') }}",
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            success: function(response) {
+                                // Hiển thị thông báo yêu cầu giao hàng sau 30 giây
+                                setTimeout(function() {
+                                    Swal.fire({
+                                        title: 'Tôi giao hàng ngay bây giờ nhé?',
+                                        icon: 'question',
+                                        showCancelButton: true,
+                                        confirmButtonText: 'Xác nhận',
+                                        cancelButtonText: 'Hủy bỏ'
+                                    }).then((result) => {
+                                        if (result.isConfirmed) {
+                                            // Gọi API để hoàn thành đơn hàng
+                                            $.ajax({
+                                                url: `/importOrder/complete/${response.id}`,
+                                                method: 'POST',
+                                                headers: {
+                                                    'X-CSRF-TOKEN': $(
+                                                        'meta[name="csrf-token"]'
+                                                        ).attr(
+                                                        'content')
+                                                },
+                                                success: function() {
+                                                    Swal.fire(
+                                                        'Thành công',
+                                                        'Đơn hàng đã được giao thành công',
+                                                        'success'
+                                                        );
+                                                },
+                                                error: function(xhr,
+                                                    status, error) {
+                                                    console.error(
+                                                        xhr
+                                                        .responseText
+                                                        );
+                                                    Swal.fire('Lỗi',
+                                                        'Có lỗi xảy ra khi giao hàng: ' +
+                                                        error,
+                                                        'error');
+                                                }
+                                            });
+                                        }
+                                    });
+                                }, 30000);
+                            },
+                            error: function(xhr, status, error) {
+                                console.error(xhr.responseText);
+                                Swal.fire('Lỗi', 'Có lỗi xảy ra khi xác nhận đơn hàng: ' +
+                                    error, 'error');
+                            }
+                        });
+                    }
+                });
+
+                // Xóa session sau khi hiển thị thông báo
+                {{ session()->forget('show_dashboard_alert') }}
+            @endif
+        });
     </script>
 @endsection
-
-

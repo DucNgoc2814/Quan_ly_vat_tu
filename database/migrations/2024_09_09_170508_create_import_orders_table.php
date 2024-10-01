@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('payment_id')->constrained('payments');
             $table->foreignId('supplier_id')->constrained('suppliers');
             $table->string('slug', 255);
+            $table->enum('status',[1,2,3,4])->default(1);
             $table->integer('total_amount');
             $table->integer('paid_amount');
             $table->timestamps();

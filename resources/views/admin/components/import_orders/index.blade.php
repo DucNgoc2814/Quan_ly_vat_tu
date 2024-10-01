@@ -31,7 +31,8 @@
                                 <th data-ordering="false">Tên nhà phân phối</th>
                                 <th data-ordering="false">Tổng tiền</th>
                                 <th data-ordering="false">Tiền đã trả</th>
-                                <th data-ordering="false">Phương thức thanh toán</th>
+                                <th data-ordering="false">PTTT</th>
+                                <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Ngày đặt hàng</th>
                                 <th>Hành động</th>
                             </tr>
@@ -44,6 +45,17 @@
                                     <td>{{ number_format($item->total_amount) }}</td>
                                     <td>{{ number_format($item->paid_amount) }}</td>
                                     <td>{{ $item->payment->name }}</td>
+                                    <td>
+                                        @if ($item->status == 1)
+                                            <span class="badge bg-warning">Chờ xác nhận</span>
+                                        @elseif($item->status == 2)
+                                            <span class="badge bg-info">Đã xác nhận</span>
+                                        @elseif($item->status == 3)
+                                            <span class="badge bg-success">Giao hàng thành công</span>
+                                        @elseif($item->status == 4)
+                                            <span class="badge bg-danger">Đã hủy</span>
+                                        @endif
+                                    </td>
                                     <td>{{ $item->created_at }}</td>
                                     <td class="text-center">
                                         <div class="dropdown d-inline-block">
@@ -62,6 +74,12 @@
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Cập nhật</a></li>
+                                                @if ($item->status == 1)
+                                                    <li><a href="{{ route('importOrder.cancel', ['slug' => $item->slug]) }}"
+                                                            class="dropdown-item text-danger"><i
+                                                                class="ri-close-circle-line align-bottom me-2 text-danger"></i>
+                                                            Hủy đơn hàng</a></li>
+                                                @endif
                                             </ul>
                                         </div>
                                     </td>

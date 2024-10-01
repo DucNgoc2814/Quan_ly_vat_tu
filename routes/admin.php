@@ -139,6 +139,11 @@ Route::prefix('don-hang-nhap')
         Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
         Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail');
-        // Route::get('/check-low-stock', [ImportOrderController::class, 'checkLowStock'])->name('check-low-stock');
-        Route::post('/confirm-store', [ImportOrderController::class, 'confirmStore'])->name('confirmStore');
+
+
+        
+        Route::post('/confirm-store', [ImportOrderController::class, 'confirmImportOrder'])->name('confirm');
+        Route::post('/hoan-thanh-giao-hang/{id}', [ImportOrderController::class, 'completeImportOrder'])->name('complete');
+        Route::get('/cancel/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel');
+
     });

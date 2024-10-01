@@ -12,6 +12,7 @@ use App\Http\Requests\StoreImport_orderRequest;
 use App\Http\Requests\UpdateImport_orderRequest;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ImportOrderController extends Controller
 {
@@ -58,6 +59,7 @@ class ImportOrderController extends Controller
                     "product_quantity" => $request->product_quantity,
                     "total_amount" => $request->total_amount,
                     "paid_amount" => $request->paid_amount,
+                    "status" => 1, 
                 ]);
 
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
@@ -88,71 +90,6 @@ class ImportOrderController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng nhập: ' . $th->getMessage());
         }
     }
-    /**
-     * Display the specified resource.
-     */
-
-
-    //  public function store(StoreImport_orderRequest $request)
-    // {
-    //     // Lưu dữ liệu tạm thời vào session
-    //     session(['temp_import_order' => $request->all()]);
-
-    //     // Chuyển hướng về dashboard với thông báo
-    //     return redirect()->route('admin.dashboard')->with('import_order_request', true);
-    // }
-
-    // public function confirmStore(Request $request)
-    // {
-    //     $tempData = session('temp_import_order');
-    //     if (!$tempData) {
-    //         return response()->json(['error' => 'Không tìm thấy dữ liệu đơn hàng tạm thời'], 400);
-    //     }
-
-    //     date_default_timezone_set('Asia/Ho_Chi_Minh');
-    //     try {
-    //         DB::transaction(function () use ($tempData) {
-    //             $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 3);
-    //             $timestamp = now()->format('His');
-    //             $slug = 'DHN' . $randomChars . $timestamp;
-
-    //             $importOrder = Import_order::create([
-    //                 "payment_id" => $tempData['payment_id'],
-    //                 "supplier_id" => $tempData['supplier_id'],
-    //                 "slug" => $slug,
-    //                 "product_quantity" => $tempData['product_quantity'],
-    //                 "total_amount" => $tempData['total_amount'],
-    //                 "paid_amount" => $tempData['paid_amount'],
-    //             ]);
-
-    //             if (is_array($tempData['variation_id']) && count($tempData['variation_id']) > 0) {
-    //                 foreach ($tempData['variation_id'] as $key => $variationID) {
-    //                     $quantity = $tempData['product_quantity'][$key];
-
-    //                     Import_order_detail::create([
-    //                         'import_order_id' => $importOrder->id,
-    //                         'variation_id' => $variationID,
-    //                         'quantity' => $quantity,
-    //                         'price' => $tempData['product_price'][$key],
-    //                     ]);
-
-    //                     $variation = Variation::find($variationID);
-    //                     $variation->stock += $quantity;
-    //                     $variation->save();
-    //                 }
-    //             } else {
-    //                 throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng nhập');
-    //             }
-    //         });
-
-    //         // Xóa dữ liệu tạm thời khỏi session
-    //         session()->forget('temp_import_order');
-
-    //         return response()->json(['success' => true, 'message' => 'Đơn hàng nhập đã được tạo thành công']);
-    //     } catch (\Throwable $th) {
-    //         return response()->json(['error' => 'Có lỗi xảy ra khi tạo đơn hàng nhập: ' . $th->getMessage()], 500);
-    //     }
-    // }
 
 
     public function show($slug)

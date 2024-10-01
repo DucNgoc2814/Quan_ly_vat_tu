@@ -13,6 +13,7 @@ class Import_order extends Model
         'payment_id',
         'supplier_id',
         'slug',
+        'status',
         'total_amount',
         'paid_amount',
     ];
