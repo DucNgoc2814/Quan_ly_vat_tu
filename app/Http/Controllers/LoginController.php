@@ -76,6 +76,7 @@ class LoginController extends Controller
         if (!$customer) {
             return back()->withErrors(['email' => 'Email không tồn tại trong hệ thống.']);
         }
+        
         $otp = rand(100000, 999999);
         Mail::raw("Mã OTP của bạn là: {$otp}", function ($message) use ($request) {
             $message->to($request->email)->subject('Mã OTP để đặt lại mật khẩu');
