@@ -12,21 +12,27 @@ class Import_order extends Model
     protected $fillable = [
         'payment_id',
         'supplier_id',
+        'status_id',
         'slug',
-        'customer_name',
-        'email',
-        'number_phone',
-        'address',
         'total_amount',
         'paid_amount',
-        'payable_amount',
     ];
 
     public function supplier() {
         return $this->belongsTo(Supplier::class);
     }
 
-    public function importOrderDetails(){
-        return $this->hasMany(Import_order_detail::class);
+    public function payment() {
+        return $this->belongsTo(Payment::class);
     }
+
+    public function orderStatus()
+    {
+        return $this->belongsTo(Order_status::class, 'status_id');
+    }
+    
+    public function importOrderDetails(){
+        return $this->belongsTo(Import_order_detail::class);
+    }
+
 }

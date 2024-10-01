@@ -26,14 +26,14 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('hop-dong.index') }}" class="btn btn-success" id="addproduct-btn">Danh
+                                <a href="{{ route('product.index') }}" class="btn btn-success" id="addproduct-btn">Danh
                                     sách hợp đồng </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('hop-dong.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
@@ -143,7 +143,8 @@
                                         </select>
                                     </div>
                                 </div>
-                                
+
+
                             </div>
                         </div>
                         <div class="card">
@@ -156,21 +157,24 @@
                                 <div class="live-preview">
                                     <div class="row gy-4" id="product_list">
                                         <div class="col-md-12" id="product_default_item">
-            
                                             <div class="mb-2">
-                                                <label class="form-label" for="product-price-input">Tên sản phẩm</label>
-                                                <input type="number" class="form-control" id="product-price-input"
-                                                    name="product_price[]">
-                                            </div>
-                                            <div class="mb-2">
-                                                <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                                                <input type="number" class="form-control" id="product-price-input"
-                                                    name="product_price[]">
+                                                <label class="form-label" for="product-name-input">Tên biến thể</label>
+                                                <input type="number" class="form-control" id="product-name-input"
+                                                    name="product_name[]">
                                             </div>
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="mb-2">
-                                                        <label class="form-label" for="product-quantity-input">Số lượng sản
+                                                        <label class="form-label" for="product-price-input">Giá sản
+                                                            phẩm</label>
+                                                        <input type="number" class="form-control"
+                                                            id="product-price-input" name="product_price[]">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="mb-2">
+                                                        <label class="form-label" for="product-quantity-input">Số lượng
+                                                            sản
                                                             phẩm</label>
                                                         <input type="number"
                                                             class="form-control  @error('product_quantity') is-invalid @enderror"
@@ -181,14 +185,6 @@
                                                                 <strong>{{ $message }}</strong>
                                                             </span>
                                                         @enderror
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="mb-2">
-                                                        <label class="form-label" for="product-stock-input">Số lượng sản
-                                                            phẩm có trong kho</label>
-                                                        <input type="number" class="form-control" id="product-stock-input"
-                                                            name="stock" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -217,32 +213,7 @@
     </script>
 @endsection
 
-@section('scripts-list')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-    <script src="assets/js/pages/datatables.init.js"></script>
-@endsection
-
-@section('styles-list')
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
-@endsection
 
 
 @section('scripts')
@@ -253,27 +224,27 @@
             let html = `
             <div class="col-md-12" id="${id}_item">
                 <hr class="mb-2">
-                
                 <div class="mb-2">
-                    <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                    <input type="number" class="form-control" name="product_price[]" readonly>
-                </div>
+                    <label class="form-label" for="product-name-input">Tên biến thể</label>
+                    <input type="number" class="form-control" id="product-name-input"
+                    name="product_name[]">
+                    </div>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-2">
+                            <label class="form-label" for="product-price-input">Giá sản phẩm</label>
+                            <input type="number" class="form-control" name="product_price[]">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-2">
                             <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
-                            <input type="number" class="form-control  @error('product_quantity') is-invalid @enderror" name="product_quantity[]" placeholder="Nhập số lượng" min="1" value="1">
+                            <input type="number" class="form-control  @error('product_quantity') is-invalid @enderror" name="product_quantity[]" placeholder="Nhập số lượng" min="1">
                             @error('product_quantity')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-2">
-                            <label class="form-label" for="product-stock-input">Số lượng sản phẩm có trong kho</label>
-                            <input type="number" class="form-control" name="stock" readonly>
                         </div>
                     </div>
                 </div>
@@ -287,13 +258,6 @@
 
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
             addInputListeners(); // Thêm sự kiện lắng nghe cho sản phẩm mới
-        }
-
-        // Hàm để thêm sự kiện lắng nghe cho input
-        function addInputListeners() {
-            document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
-                input.addEventListener('input', calculateTotal);
-            });
         }
 
         // Hàm để xóa sản phẩm

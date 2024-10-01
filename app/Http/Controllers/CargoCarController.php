@@ -14,7 +14,7 @@ class CargoCarController extends Controller
      */
     public function index()
     {
-        $title = "Danh sách xe vận chuyển";
+        $title = "Danh sách xe ";
         $cargo_car = Cargo_car::with('CargoCarType')->get();
         $loai_xe = Cargo_car_type::query()->get();
         return view('admin.components.cargo_cars.index', compact('title', 'cargo_car','loai_xe'));
@@ -27,7 +27,7 @@ class CargoCarController extends Controller
     {
         //
         $loai_xe = Cargo_car_type::query()->get();
-        $title=" Thêm mới xe vận chuyển";
+        $title=" Thêm mới xe ";
         return view('admin.components.cargo_cars.create',compact('title','loai_xe'));
 
     }
@@ -67,7 +67,7 @@ class CargoCarController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Cập nhập xe vận chuyển";
+        $title = "Cập nhập xe ";
         $loai_xe = Cargo_car_type::query()->get();
         $cargo_car = Cargo_car::findOrFail($id);
         // dd($cargo_car->cargo_car_type_id);
