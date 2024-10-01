@@ -65,7 +65,7 @@
                                                         Edit</a></li>
                                                 <li>
 
-                                                    <form action="{{ route('CargoCars.destroy', $item->id) }}" method="post">
+                                                    <form action="#" method="post">
                                                         @method('DELETE')
                                                         @csrf
 
