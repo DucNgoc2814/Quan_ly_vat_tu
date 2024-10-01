@@ -13,7 +13,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
-// <+====================ROUTER MẪU====================+>
+// <+====================ROUTER MẪU====================+ >
 // Route::prefix('duong-dan-mau')
 //     ->as('sampleRoute.')
 //     ->group(function () {
