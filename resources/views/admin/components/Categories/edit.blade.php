@@ -28,7 +28,7 @@
 
                         <div class="row">
                             <div class="col-lg-8">
-                                <label class="form-label">Tên mã hàng</label>
+                                <label class="form-label">Tên mã hàng.</label>
                                 <input value="{{ $category->name }}" type="text" name="name" placeholder="Nhập tên mã hàng"
                                     class="form-control"  >
                                 @error('name')
