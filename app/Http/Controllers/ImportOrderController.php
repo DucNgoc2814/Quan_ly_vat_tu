@@ -91,27 +91,6 @@ class ImportOrderController extends Controller
         }
     }
 
-    // public function cancelImportOrder($slug)
-    // {
-    //     try {
-    //         $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-    //         $importOrder->status = 4; // Giả sử 4 là trạng thái "Đã hủy"
-    //         $importOrder->save();
-
-    //         // Hoàn trả số lượng sản phẩm về kho
-    //         foreach ($importOrder->importOrderDetails as $detail) {
-    //             $variation = Variation::findOrFail($detail->variation_id);
-    //             $variation->stock -= $detail->quantity;
-    //             $variation->save();
-    //         }
-
-    //         return redirect()->route('importOrder.index')->with('success', 'Đơn hàng đã được hủy thành công');
-    //     } catch (\Exception $e) {
-    //         return redirect()->back()->with('error', 'Có lỗi xảy ra khi hủy đơn hàng: ' . $e->getMessage());
-    //     }
-    // }
-
-
     public function requestCancel(Request $request, $slug)
     {
         $importOrder = Import_order::where('slug', $slug)->firstOrFail();
