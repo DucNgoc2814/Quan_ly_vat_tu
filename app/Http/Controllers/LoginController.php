@@ -103,10 +103,11 @@ class LoginController extends Controller
         return back()->withErrors(['otp' => 'OTP không hợp lệ hoặc đã hết hạn.']);
     }
 
-
+    //queb mat khau
     public function changepassword()
     {
         return view(self::PATH_VIEW . 'changepassword');
+
     }
 
     public function passwordchange(StoreLoginRequest $request)
