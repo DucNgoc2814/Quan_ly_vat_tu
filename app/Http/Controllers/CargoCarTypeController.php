@@ -5,15 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Cargo_car_type;
 use App\Http\Requests\StoreCargo_car_typeRequest;
 use App\Http\Requests\UpdateCargo_car_typeRequest;
+use Illuminate\Support\Facades\DB;
 
 class CargoCarTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    const PATH_VIEW = 'admin.components.cargo_car_types.';
     public function index()
+    
     {
-        //
+        $data = DB::table('cargo_car_types')->get();
+        return view(self::PATH_VIEW . 'index', compact('data')); 
     }
 
     /**
@@ -21,7 +22,7 @@ class CargoCarTypeController extends Controller
      */
     public function create()
     {
-        //
+        return view(self::PATH_VIEW . 'create');
     }
 
     /**
@@ -29,7 +30,12 @@ class CargoCarTypeController extends Controller
      */
     public function store(StoreCargo_car_typeRequest $request)
     {
-        //
+        $data = [
+            'name' => $request->name,
+            'capacity' => $request->capacity,
+        ];
+        cargo_car_type::query()->create($data);
+        return redirect()->route('cargo_car_types.index');
     }
 
     /**
@@ -45,7 +51,8 @@ class CargoCarTypeController extends Controller
      */
     public function edit(Cargo_car_type $cargo_car_type)
     {
-        //
+    
+
     }
 
     /**
@@ -53,7 +60,7 @@ class CargoCarTypeController extends Controller
      */
     public function update(UpdateCargo_car_typeRequest $request, Cargo_car_type $cargo_car_type)
     {
-        //
+
     }
 
     /**
@@ -61,6 +68,7 @@ class CargoCarTypeController extends Controller
      */
     public function destroy(Cargo_car_type $cargo_car_type)
     {
-        //
+    
     }
 }
+

@@ -11,7 +11,7 @@ class StoreCategoryRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,19 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required|string',
+            'sku' => 'required|string',
+            'image' => 'required|Image',
+            'description' => 'required|string',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            'name.required' => 'Không dược bỏ trống',
+            'sku.required' => 'Không dược bỏ trống',
+            'image.required' => 'Không được bỏ trống',
+            'description.required' => 'Không dược bỏ trống',
         ];
     }
 }

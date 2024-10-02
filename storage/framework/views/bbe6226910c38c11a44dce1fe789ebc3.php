@@ -45,7 +45,7 @@
                     <div class="collapse menu-dropdown" id="sidebarCategories">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html"  class="nav-link text-danger"
+                                <a href="<?php echo e(route('category.index')); ?>"  class="nav-link text-danger"
                                     data-key="t-horizontal">Danh sách danh mục</a>
                             </li>
                         </ul>
@@ -239,14 +239,6 @@
                         </ul>
                     </div>
                 </li>
-                
-
-                
-
-                
-
-                
-
             </ul>
         </div>
         <!-- Sidebar -->
