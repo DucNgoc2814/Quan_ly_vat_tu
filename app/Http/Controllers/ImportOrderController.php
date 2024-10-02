@@ -17,8 +17,10 @@ use Illuminate\Support\Facades\Session;
 
 class ImportOrderController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     const PATH_VIEW = 'admin.components.import_orders.';
-
     public function index()
     {
         $data = Import_order::with(['payment', 'supplier'])->get();
@@ -38,7 +40,7 @@ class ImportOrderController extends Controller
         $payments = Payment::query()->get();
         $suppliers = Supplier::query()->get();
         $variants = Variation::all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact("payments", "suppliers", "variants"));
+        return view("admin.components.import_orders.create", compact("payments", "suppliers", "variants"));
     }
 
     /**
@@ -47,6 +49,7 @@ class ImportOrderController extends Controller
     public function store(StoreImport_orderRequest $request)
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
+
 
         try {
             DB::transaction(function () use ($request) {

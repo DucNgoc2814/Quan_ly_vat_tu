@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CargoCarController;
+use App\Http\Controllers\CargoCarTypeController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
@@ -50,6 +52,8 @@ Route::prefix('quan-ly-nhan-vien')
         Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
         Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
     });
+
+
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {
@@ -61,7 +65,7 @@ Route::prefix('quan-ly-ban-hang')
         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus');
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail');
     });
-Route::prefix('quan-ly-thanh-truot')
+        Route::prefix('quan-ly-thanh-truot')
     ->as('sliders.')
     ->group(function () {
         Route::get('/danh-sach', [SliderController::class, 'index'])->name('index');

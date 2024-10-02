@@ -5,15 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Customer_rank;
 use App\Http\Requests\StoreCustomer_rankRequest;
 use App\Http\Requests\UpdateCustomer_rankRequest;
+use Illuminate\Support\Facades\DB;
 
 class CustomerRankController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+
+    const PATH_VIEW = 'admin.components.CustomerRanks.';
+
     public function index()
     {
-        //
+        $data = DB::table('customer_ranks')->get();
+        return view(self::PATH_VIEW . 'index', compact('data'));
     }
 
     /**
