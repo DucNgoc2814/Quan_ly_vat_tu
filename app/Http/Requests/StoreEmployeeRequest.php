@@ -44,7 +44,7 @@ class StoreEmployeeRequest extends FormRequest
             'number_phone.unique' => 'Không được trùng số điện thoại',
             'number_phone.required' => 'Không được bỏ trống số điện thoại ',
             'number_phone.numeric' => 'Số điện thoại phải là số',
-            'cccd.unique' => 'Căn cước công dân không được trùng',
+            'cccd.unique' => 'Căn cước công dân đã tồn tại',
             'cccd.min' => 'Căn cước công dân không hợp lệ',
            
             'cccd.numeric' => 'Căn cước công dân không hợp lệ',
