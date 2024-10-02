@@ -25,14 +25,14 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('hop-dong.index') }}" class="btn btn-success" id="addproduct-btn">Danh
+                                <a href="{{ route('contract.index') }}" class="btn btn-success" id="addproduct-btn">Danh
                                     sách hợp đồng </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('hop-dong.update', $id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('contract.update', $id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
                             <div class="col-lg-12">

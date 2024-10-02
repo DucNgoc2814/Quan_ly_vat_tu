@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('admin/dashboard');
-});
+
 Route::get('/products', action: function () {
     return view('admin/components/product/create');
 });

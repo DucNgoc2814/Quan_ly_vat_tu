@@ -24,6 +24,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::query()->with('category', 'brand', 'unit', 'variations.importOrderDetails')->get();
+        $products = Product::query()->with('category', 'brand', 'unit', 'variations.importOrderDetails')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 

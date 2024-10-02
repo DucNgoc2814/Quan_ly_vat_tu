@@ -20,28 +20,6 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                {{-- <div class="card-header border-0">
-                    <div class="d-flex">
-                        <div class="col-sm">
-                            <form class="search-box ms-2 d-flex" method="GET" action="">
-                                <select name="search_column" class="form-select me-2 h-25" style="width: auto;">
-                                    <option value="slug">Mã đơn hàng</option>
-                                    <option value="created_at">Ngày đặt hàng</option>
-                                    <option value="customer_name">Tên người nhận</option>
-                                    <option value="number_phone">Số điện thoại người nhận</option>
-                                    <option value="address">Địa chỉ giao hàng</option>
-                                </select>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm kiếm..." aria-label="Recipient's username"
-                                        aria-describedby="button-addon2">
-                                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm
-                                        kiếm</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="card-body">
                     @if (isset($message))
                         <div class="alert alert-info">{{ $message }}</div>
@@ -138,7 +116,7 @@
 
 @endsection
 @section('scripts')
-        <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
+    <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 
     <script>
         function confirmStatusChange(selectElement, orderSlug) {
@@ -154,7 +132,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Hủy',
+                    confirmButtonText: 'Đồng ý',
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -187,6 +165,7 @@
                 });
             }
         }
+
         function openOffcanvas(orderSlug) {
             var myOffcanvas = document.getElementById('offcanvasExample');
             var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
@@ -218,4 +197,3 @@
         });
     </script>
 @endsection
-

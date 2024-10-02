@@ -17,8 +17,9 @@ class ImportOrderSeeder extends Seeder
             [
                 'payment_id' => 1,
                 'supplier_id' => 1,
-                'status_id' => 1,
                 'slug' => 'order-1',
+                'status' => 1,
+                'cancel_reason' => null,
                 'total_amount' => 200000,
                 'paid_amount' => 100000,
                 'created_at' => now(),
@@ -27,8 +28,9 @@ class ImportOrderSeeder extends Seeder
             [
                 'payment_id' => 2,
                 'supplier_id' => 2,
-                'status_id' => 2,
                 'slug' => 'order-2',
+                'status' => 4,
+                'cancel_reason' => 'không muốn',
                 'total_amount' => 500000,
                 'paid_amount' => 300000,
                 'created_at' => now(),
