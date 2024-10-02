@@ -11,9 +11,13 @@ class ImportOrderDetailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    const PATH_VIEW = 'admin.components.import_order_details.';
+    public function index($slug)
     {
-        //
+        $data = Import_order_detail::whereHas('importOrder', function ($query) use ($slug) {
+            $query->where('slug', $slug);
+        })->with(['importOrder', 'variation'])->get();
+        return view(self::PATH_VIEW . __FUNCTION__, data: compact('data'));
     }
 
     /**
