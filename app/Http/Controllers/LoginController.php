@@ -99,6 +99,7 @@ class LoginController extends Controller
             session()->forget(['otp']);
             return redirect()->route('changepassword');
         }
+        
         return back()->withErrors(['otp' => 'OTP không hợp lệ hoặc đã hết hạn.']);
     }
 
