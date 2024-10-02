@@ -19,7 +19,7 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('hop-dong.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                         class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng </a>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                                     <td>{{ $data->note }}</td>
                                     <td>{{ $data->contractStatus->name }}</td>
                                     <td>
-                                        <a href="{{ route('hop-dong.edit', $data) }}"
+                                        <a href="{{ route('contract.edit', $data) }}"
                                             class="dropdown-item edit-item-btn"><i
                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                             Sửa</a>
@@ -64,5 +64,3 @@
     </div>
     {{ $contracts->links() }}
 @endsection
-
-

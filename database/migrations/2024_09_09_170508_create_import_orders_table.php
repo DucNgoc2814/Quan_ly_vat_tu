@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('payment_id')->constrained('payments');
             $table->foreignId('supplier_id')->constrained('suppliers');
-            $table->foreignId('status_id')->constrained('order_statuses');
             $table->string('slug', 255);
+            $table->enum('status',[1,2,3,4])->default(1);
+            $table->text('cancel_reason')->nullable();
             $table->integer('total_amount');
             $table->integer('paid_amount');
             $table->timestamps();

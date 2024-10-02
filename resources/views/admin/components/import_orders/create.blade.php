@@ -81,9 +81,7 @@
                                             data-choices-search-false onchange="updatePrice(this)">
                                             <option value="0">Chọn Sản Phẩm</option>
                                             @foreach ($variants as $variant)
-                                                <option value="{{ $variant->id }}"
-                                                    data-price="{{ $variant->price_export }}"
-                                                    data-stock="{{ $variant->stock }}">
+                                                <option value="{{ $variant->id }}" data-stock="{{ $variant->stock }}">
                                                     {{ $variant->name }}</option>
                                             @endforeach
                                         </select>
@@ -95,8 +93,14 @@
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                                        <input type="number" class="form-control" id="product-price-input"
-                                            name="product_price[]" readonly>
+                                        <input type="number"
+                                            class="form-control @error('product_price') is-invalid @enderror"
+                                            id="product-price-input" placeholder="Nhập giá sản phẩm" name="product_price[]">
+                                        @error('product_price')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -186,59 +190,63 @@
         function addProduct() {
             let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
             let html = `
-            <div class="col-md-12" id="${id}_item">
-                <hr class="mb-2">
+    <div class="col-md-12" id="${id}_item">
+        <hr class="mb-2">
+        <div class="mb-2">
+            <label class="form-label" for="product-variant-input">Sản phẩm</label>
+            <select class="form-select @error('variation_id') is-invalid @enderror" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
+                <option value="0">Chọn Sản Phẩm</option>
+                 @foreach ($variants as $variant)
+                    <option value="{{ $variant->id }}" data-stock="{{ $variant->stock }}">
+                        {{ $variant->name }}</option>
+                @endforeach
+            </select>
+            @error('variation_id')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+        <div class="mb-2">
+            <label class="form-label" for="product-price-input">Giá sản phẩm</label>
+            <input type="number" class="form-control @error('product_price') is-invalid @enderror" name="product_price[]"  placeholder="Nhập giá sản phẩm">
+            @error('product_price')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $message }}</strong>
+                </span>
+            @enderror
+        </div>
+        <div class="row">
+            <div class="col-md-6">
                 <div class="mb-2">
-                    <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                    <select class="form-select @error('variation_id') is-invalid @enderror" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
-                        <option value="0">Chọn Sản Phẩm</option>
-                         @foreach ($variants as $variant)
-                                                <option value="{{ $variant->id }}"
-                                                    data-price="{{ $variant->price_export }}"
-                                                    data-stock="{{ $variant->stock }}">
-                                                    {{ $variant->name }}</option>
-                                            @endforeach
-                    </select>
-                    @error('variation_id')
+                    <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
+                    <input type="number" class="form-control  @error('product_quantity') is-invalid @enderror" name="product_quantity[]" placeholder="Nhập số lượng" min="1">
+                    @error('product_quantity')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
+            </div>
+            <div class="col-md-6">
                 <div class="mb-2">
-                    <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                    <input type="number" class="form-control" name="product_price[]" readonly>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-2">
-                            <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
-                            <input type="number" class="form-control  @error('product_quantity') is-invalid @enderror" name="product_quantity[]" placeholder="Nhập số lượng" min="1" value="1">
-                            @error('product_quantity')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-2">
-                            <label class="form-label" for="product-stock-input">Số lượng sản phẩm có trong kho</label>
-                            <input type="number" class="form-control" name="stock" readonly>
-                        </div>
-                    </div>
-                </div>
-                <div class="mb-2">
-                    <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
-                        <span class="bx bx-trash"></span> Xóa sản phẩm
-                    </button>
+                    <label class="form-label" for="product-stock-input">Số lượng sản phẩm có trong kho</label>
+                    <input type="number" class="form-control" name="stock" readonly>
                 </div>
             </div>
-            `;
+        </div>
+        <div class="mb-2">
+            <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
+                <span class="bx bx-trash"></span> Xóa sản phẩm
+            </button>
+        </div>
+    </div>
+    `;
 
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
             addInputListeners(); // Thêm sự kiện lắng nghe cho sản phẩm mới
         }
+
 
         // Hàm để tính tổng giá trị đơn hàng
         function calculateTotal() {
@@ -258,17 +266,10 @@
         // Hàm để cập nhật giá khi chọn sản phẩm
         function updatePrice(selectElement) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
-            const price = selectedOption.getAttribute('data-price');
             const stock = selectedOption.getAttribute('data-stock');
 
-            const priceInput = selectElement.closest('.mb-2').nextElementSibling.querySelector(
-                'input[name="product_price[]"]');
             const stockInput = selectElement.closest('.col-md-12').querySelector('input[name="stock"]');
 
-
-            if (priceInput) {
-                priceInput.value = price;
-            }
             if (stockInput) {
                 stockInput.value = stock;
             }
@@ -277,7 +278,13 @@
 
         // Hàm để thêm sự kiện lắng nghe cho input
         function addInputListeners() {
+            // Thêm sự kiện lắng nghe cho tất cả các input số lượng
             document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
+                input.addEventListener('input', calculateTotal);
+            });
+
+            // Thêm sự kiện lắng nghe cho tất cả các input giá
+            document.querySelectorAll('[name="product_price[]"]').forEach(input => {
                 input.addEventListener('input', calculateTotal);
             });
         }
@@ -292,8 +299,8 @@
 
         // Gọi hàm khi trang được tải lần đầu
         document.addEventListener('DOMContentLoaded', function() {
-            addInputListeners();
-            calculateTotal();
+            addInputListeners(); // Lắng nghe các sự kiện cho input
+            calculateTotal(); // Tính tổng ngay khi trang tải
         });
     </script>
 @endsection

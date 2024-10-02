@@ -21,28 +21,26 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="card text-center" id="tasksList">
+            <div class="card" id="tasksList">
                 <div class="card-header border-0">
-
-
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('suppliers.create') }}" class="btn btn-success"
-                                    id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới nhà cung cấp
+                                <a href="{{ route('suppliers.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                        class="ri-add-line align-bottom me-1"></i>Thêm mới nhà cung cấp
                                 </a>
                             </div>
                         </div>
-                        
+
 
                     </div>
                 </div>
-
                 <!--end card-body-->
                 <div class="card-body">
                     <div class="table-responsive table-card mb-4 ">
-                        <table class="table table-nowrap mb-0" id="myTable">
-                            <thead class="table-light text-muted">
+                        <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                            style="width:100%">
+                            <thead>
                                 <tr>
                                     <th>Tên nhà cung cấp</th>
                                     <th>Email nhà cung cấp</th>
@@ -51,7 +49,7 @@
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
-                            <tbody class="list form-check-all text-muted">
+                            <tbody>
                                 @foreach ($listsupplier as $item)
                                     <tr>
                                         <td>{{ $item->name }}</td>
@@ -70,7 +68,6 @@
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Sửa thông tin</a></li>
                                                     <li>
-                                                    
                                                 </ul>
                                             </div>
                                         </td>
@@ -78,30 +75,13 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <!--end table-->
-                        <div class="noresult" style="display: none">
-                            <div class="text-center">
-                                <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop"
-                                    colors="primary:#121331,secondary:#08a88a" style="width:75px;height:75px"></lord-icon>
-                                <h5 class="mt-2">Sorry! No Result Found</h5>
-                                <p class="text-muted mb-0">We've searched more than 200k+ tasks We did not find any tasks
-                                    for you search.</p>
-                            </div>
-                        </div>
                     </div>
-                    <div class="d-flex justify-content-end mt-2">
-                        <div class="pagination-wrap hstack gap-2">
-
-                           
-                        </div>
-                    </div>
-
+                    <!--end card-body-->
                 </div>
-                <!--end card-body-->
+                <!--end card-->
             </div>
-            <!--end card-->
+            <!--end col-->
         </div>
-        <!--end col-->
     </div>
 @endsection
 
