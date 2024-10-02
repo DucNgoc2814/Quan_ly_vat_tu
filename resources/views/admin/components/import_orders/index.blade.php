@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Danh sách đơn hàng nhập
+
 @endsection
 
 @section('content')
@@ -31,9 +31,9 @@
                                 <th data-ordering="false">Tên nhà phân phối</th>
                                 <th data-ordering="false">Tổng tiền</th>
                                 <th data-ordering="false">Tiền đã trả</th>
-                                <th data-ordering="false">Phương thức thanh toán</th>
+                                <th data-ordering="false">PTTT</th>
+                                <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Ngày đặt hàng</th>
-                                <th>Trạng thái</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -42,37 +42,21 @@
                                 <tr>
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->supplier->name }}</td>
-                                    <td>{{ $item->total_amount }}</td>
-                                    <td>{{ $item->paid_amount }}</td>
+                                    <td>{{ number_format($item->total_amount) }}</td>
+                                    <td>{{ number_format($item->paid_amount) }}</td>
                                     <td>{{ $item->payment->name }}</td>
-                                    <td>{{ $item->created_at }}</td>
                                     <td>
-                                        @if ($item->status_id < 4)
-                                            <form action="" method="POST" class="d-inline status-update-form"
-                                                data-order-slug="{{ $item->slug }}">
-                                                @csrf
-                                                <select name="status" class="form-select form-select-sm"
-                                                    onchange="confirmStatusChange(this)">
-                                                    <option value="{{ $item->status_id }}" selected>
-                                                        {{ $item->orderStatus->name }}</option>
-                                                    @if ($item->status_id == 1)
-                                                        <option value="2">Xác Nhận</option>
-                                                        <option value="5">Hủy</option>
-                                                    @elseif ($item->status_id == 2)
-                                                        <option value="3">Đang giao</option>
-                                                        <option value="5">Hủy</option>
-                                                    @elseif ($item->status_id == 3)
-                                                        <option value="4">Thành công</option>
-                                                    @endif
-                                                </select>
-                                            </form>
-                                        @else
-                                            <span
-                                                class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">
-                                                {{ $order->orderStatus->name }}
-                                            </span>
+                                        @if ($item->status == 1)
+                                            <span class="badge bg-warning">Chờ xác nhận</span>
+                                        @elseif($item->status == 2)
+                                            <span class="badge bg-info">Đã xác nhận</span>
+                                        @elseif($item->status == 3)
+                                            <span class="badge bg-success">Giao hàng thành công</span>
+                                        @elseif($item->status == 4)
+                                            <span class="badge bg-danger">Đã hủy</span>
                                         @endif
                                     </td>
+                                    <td>{{ $item->created_at }}</td>
                                     <td class="text-center">
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
@@ -81,16 +65,24 @@
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
-                                                    <a href="{{ route('importOrder.show', ['slug' => $item->slug]) }}"
+                                                    <a href="{{ route('importOrder.indexImportDetail', ['slug' => $item->slug]) }}"
                                                         class="dropdown-item"><i
                                                             class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi
                                                         Tiết Đơn Hàng</a>
                                                 </li>
-                                                @if ($item->status_id == 1 || $item->status_id == 2)
+                                                @if ($item->status == 1)
                                                     <li><a href="{{ route('importOrder.edit', ['slug' => $item->slug]) }}"
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Cập nhật</a></li>
+                                                    <li>
+                                                        <a href="#" class="dropdown-item text-danger"
+                                                            onclick="requestCancelOrder('{{ $item->slug }}'); return false;">
+                                                            <i
+                                                                class="ri-close-circle-line align-bottom me-2 text-danger"></i>
+                                                            Hủy đơn hàng
+                                                        </a>
+                                                    </li>
                                                 @endif
                                             </ul>
                                         </div>
@@ -108,29 +100,110 @@
     </div>
 @endsection
 
-@section('scripts-list')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+@section('scripts')
+    @parent
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const lowStockProducts = @json($lowStockProducts);
 
-    <!--datatable js-->
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+            function showLowStockAlerts() {
+                let currentIndex = 0;
 
-    <script src="assets/js/pages/datatables.init.js"></script>
-@endsection
+                function showNextAlert() {
+                    if (currentIndex < lowStockProducts.length) {
+                        const product = lowStockProducts[currentIndex];
+                        Swal.fire({
+                            title: 'Cảnh báo hàng tồn kho thấp!',
+                            text: `Sản phẩm "${product.product.name}" (${product.name}) có số lượng tồn kho thấp: ${product.stock}. Vui lòng nhập thêm hàng.`,
+                            icon: 'warning',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            currentIndex++;
+                            showNextAlert();
+                        });
+                    }
+                }
 
-@section('styles-list')
-    <!--datatable css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css" />
-    <!--datatable responsive css-->
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap.min.css" />
+                if (lowStockProducts.length > 0) {
+                    showNextAlert();
+                }
+            }
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
+            // Show alerts immediately when the page loads
+            showLowStockAlerts();
+
+            // Set up an interval to show alerts every 5 minutes
+            setInterval(showLowStockAlerts, 5 * 60 * 1000);
+        });
+    </script>
+    <script>
+        // Kiểm tra nếu có thông báo thành công từ controller
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: "{!! session('success') !!}",
+                    confirmButtonText: 'OK'
+                });
+            @endif
+        });
+    </script>
+
+
+    <script>
+        function requestCancelOrder(slug) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
+                text: "Vui lòng nhập lý do hủy đơn hàng:",
+                input: 'text',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Xác nhận hủy',
+                cancelButtonText: 'Hủy bỏ',
+                inputValidator: (value) => {
+                    if (!value) {
+                        return 'Bạn cần nhập lý do hủy đơn hàng!'
+                    }
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch("{{ route('importOrder.requestCancel', '') }}/" + slug, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                reason: result.value // Gửi lý do hủy đơn hàng
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire('Đã gửi yêu cầu', 'Chờ quản lý xác nhận hủy', 'success');
+                            } else {
+                                Swal.fire('Lỗi', 'Không thể gửi yêu cầu hủy', 'error');
+                            }
+                        });
+                }
+            });
+        }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // SweetAlert khi tạo đơn hàng thành công
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: "{!! session('success') !!}",
+                    confirmButtonText: 'OK'
+                });
+            @endif
+        });
+    </script>
 @endsection

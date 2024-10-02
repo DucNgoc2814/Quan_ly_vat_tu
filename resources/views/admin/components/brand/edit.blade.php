@@ -25,7 +25,7 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('thuong-hieu.index') }}" class="btn btn-success" id="addproduct-btn">Danh
+                                <a href="{{ route('brand.index') }}" class="btn btn-success" id="addproduct-btn">Danh
                                     sách thương hiệu </a>
                             </div>
                         </div>
@@ -41,7 +41,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('thuong-hieu.update', $brand) }}" method="POST">
+                    <form action="{{ route('brand.update', $brand) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <div class="row">

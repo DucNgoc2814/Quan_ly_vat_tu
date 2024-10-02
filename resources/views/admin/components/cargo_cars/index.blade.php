@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách vận chuyển</h4>
+                <h4 class="mb-sm-0">{{$title}}</h4>
 
                 <div class="col-sm-auto">
                     <div>
@@ -63,19 +63,6 @@
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
-                                                <li>
-
-                                                    <form action="{{ route('CargoCars.destroy', $item->id) }}" method="post">
-                                                        @method('DELETE')
-                                                        @csrf
-
-                                                        <button class="dropdown-item remove-list" type="submit"
-                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">
-                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                            Xóa
-                                                        </button>
-                                                    </form>
-                                                </li>
                                             </ul>
                                         </div>
                                     </td>

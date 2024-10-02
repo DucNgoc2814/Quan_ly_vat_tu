@@ -1483,30 +1483,102 @@
     </div>
 <?php $__env->stopSection(); ?>
 
-<?php $__env->startSection('styles-list'); ?>
-    <!-- jsvectormap css -->
-    <link href="<?php echo e(asset('themes/admin/assets/libs/jsvectormap/css/jsvectormap.min.css')); ?>" rel="stylesheet"
-        type="text/css" />
+<?php
+    use App\Models\Import_order;
+    $pendingCancelRequests = Import_order::where('status', 1)->whereNotNull('cancel_reason')->get();
+?>
 
-    <!--Swiper slider css-->
-    <link href="<?php echo e(asset('themes/admin/assets/libs/swiper/swiper-bundle.min.css')); ?>" rel="stylesheet"
-        type="text/css" />
+<?php $__env->startSection('scripts'); ?>
+    <?php echo \Illuminate\View\Factory::parentPlaceholder('scripts'); ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function showPendingCancelRequests() {
+                <?php $__currentLoopData = $pendingCancelRequests; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $request): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    Swal.fire({
+                        title: 'Yêu cầu hủy đơn hàng',
+                        text: `Đơn hàng - <?php echo e($request->slug); ?>, yêu cầu hủy - <?php echo e($request->cancel_reason); ?>`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Xác nhận hủy'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href =
+                                "<?php echo e(route('importOrder.cancel', ['slug' => $request->slug])); ?>";
+                        }
+                    });
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            }
+
+            function showPendingNewOrders() {
+                <?php $__currentLoopData = $pendingNewOrders; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $request): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    Swal.fire({
+                        title: 'Yêu cầu thêm mới',
+                        text: `Sản phẩm: <?php echo e($request->product); ?> - Số lượng: <?php echo e($request->quantity); ?>`,
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Xác nhận'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch("<?php echo e(route('importOrder.confirmOrder', ['slug' => $request->importOrder->slug])); ?>", {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '<?php echo e(csrf_token()); ?>'
+                                    }
+                                }).then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire('Xác nhận thành công', data.message, 'success');
+                                        // Kiểm tra trạng thái đơn hàng mỗi 30 giây
+                                        const checkInterval = setInterval(function() {
+                                            fetch(
+                                                    "<?php echo e(route('importOrder.autoUpdateStatus', ['slug' => $request->importOrder->slug])); ?>")
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.success) {
+                                                        clearInterval(checkInterval);
+                                                        Swal.fire('Giao hàng thành công',
+                                                            data.message, 'success');
+                                                    }
+                                                });
+                                        }, 30000); // 30 giây
+                                    } else {
+                                        Swal.fire('Lỗi', 'Không thể xác nhận yêu cầu', 'error');
+                                    }
+                                });
+                        }
+                    });
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            }
+
+            function checkPendingRequests() {
+                // Kiểm tra nếu có yêu cầu hủy
+                if (<?php echo json_encode($pendingCancelRequests, 15, 512) ?>.length > 0) {
+                    showPendingCancelRequests();
+                } else {
+                    // Nếu không có yêu cầu hủy thì hiển thị yêu cầu thêm mới
+                    showPendingNewOrders();
+                }
+            }
+
+            // Hiển thị yêu cầu thêm mới hoặc hủy ngay khi trang dashboard load
+            checkPendingRequests();
+
+            // Kiểm tra yêu cầu hủy mới mỗi phút
+            setInterval(function() {
+                fetch("<?php echo e(route('importOrder.pendingCancelRequests')); ?>")
+                    .then(response => response.json())
+                    .then(requests => {
+                        if (requests.length > 0) {
+                            showPendingCancelRequests();
+                        }
+                    });
+            }, 60000);
+        });
+    </script>
 <?php $__env->stopSection(); ?>
-
-<?php $__env->startSection('scripts-list'); ?>
-    <!-- apexcharts -->
-    <script src="<?php echo e(asset('themes/admin/assets/libs/apexcharts/apexcharts.min.js')); ?>"></script>
-
-    <!-- Vector map-->
-    <script src="<?php echo e(asset('themes/admin/assets/libs/jsvectormap/js/jsvectormap.min.js')); ?>"></script>
-    <script src="<?php echo e(asset('themes/admin/assets/libs/jsvectormap/maps/world-merc.js')); ?>"></script>
-
-    <!--Swiper slider js-->
-    <script src="<?php echo e(asset('themes/admin/assets/libs/swiper/swiper-bundle.min.j')); ?>s"></script>
-
-    <!-- Dashboard init -->
-    <script src="<?php echo e(asset('themes/admin/assets/js/pages/dashboard-ecommerce.init.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
-
 
 <?php echo $__env->make('admin.layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\DuAnTotNghiep\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

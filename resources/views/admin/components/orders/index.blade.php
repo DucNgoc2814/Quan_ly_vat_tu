@@ -1,9 +1,7 @@
 @extends('admin.layouts.master')
-
 @section('title')
     Danh sách đơn hàng bán ra
 @endsection
-
 @section('content')
     <div class="row">
         <div class="col-12">
@@ -22,28 +20,6 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                {{-- <div class="card-header border-0">
-                    <div class="d-flex">
-                        <div class="col-sm">
-                            <form class="search-box ms-2 d-flex" method="GET" action="">
-                                <select name="search_column" class="form-select me-2 h-25" style="width: auto;">
-                                    <option value="slug">Mã đơn hàng</option>
-                                    <option value="created_at">Ngày đặt hàng</option>
-                                    <option value="customer_name">Tên người nhận</option>
-                                    <option value="number_phone">Số điện thoại người nhận</option>
-                                    <option value="address">Địa chỉ giao hàng</option>
-                                </select>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm kiếm..." aria-label="Recipient's username"
-                                        aria-describedby="button-addon2">
-                                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm
-                                        kiếm</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="card-body">
                     @if (isset($message))
                         <div class="alert alert-info">{{ $message }}</div>
@@ -57,11 +33,11 @@
                                     <th data-ordering="false">Người nhận </th>
                                     <th data-ordering="false">Số điện thoại</th>
                                     <th>Tổng tiền</th>
-                                    <th>Đã thanh toán</th>
+                                    <th>Đã trả</th>
                                     <th>PTTT</th>
                                     <th data-ordering="false">Ngày đặt hàng </th>
                                     <th>Trạng thái</th>
-                                    <th>Hành động</th>
+                                    <th>Thao tác</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,7 +52,7 @@
                                         <td>
                                             <span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span>
                                         </td>
-                                        <td>{{ $order->created_at }}</td>
+                                        <td class="date-column">{{ $order->created_at }}</td>
                                         <td>
                                             @if ($order->status_id < 4)
                                                 <form action="{{ route('order.updateStatus', $order->slug) }}"
@@ -133,20 +109,19 @@
                             </tbody>
                         </table>
                     @endif
-
                 </div>
             </div>
         </div>
     </div>
+
 @endsection
-
 @section('scripts')
-    <script>
+    <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 
+    <script>
         function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
             const form = selectElement.closest('form');
-
             if (newStatus == 5) {
                 Swal.fire({
                     title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
@@ -157,7 +132,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Hủy',
+                    confirmButtonText: 'Đồng ý',
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
@@ -195,13 +170,10 @@
             var myOffcanvas = document.getElementById('offcanvasExample');
             var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
             bsOffcanvas.show();
-
             const cancelOrderForm = document.getElementById('cancelOrderForm');
             cancelOrderForm.action = `{{ route('order.updateStatus', '') }}/${orderSlug}`;
-
             const noteTextarea = document.getElementById('note');
             const noteHidden = document.getElementById('noteHidden');
-
             cancelOrderForm.onsubmit = function(e) {
                 e.preventDefault();
                 noteHidden.value = noteTextarea.value;

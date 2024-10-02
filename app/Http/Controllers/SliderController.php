@@ -77,7 +77,7 @@ class SliderController extends Controller
     {
         $title = "Cập nhật slider";
         $sliders = Slider::findOrFail($id);
-        return view('admin.components.sliders.edit', compact('sliders'));
+        return view('admin.components.sliders.edit', compact('sliders','title'));
     }
 
     /**
