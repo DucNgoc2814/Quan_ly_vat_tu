@@ -1,10 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-<<<<<<< HEAD
-=======
     Danh sách đơn hàng nhập
->>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
 @endsection
 
 @section('content')
@@ -30,14 +27,6 @@
                         style="width:100%">
                         <thead>
                             <tr>
-<<<<<<< HEAD
-                                {{-- <th data-ordering="false">ID</th> --}}
-                                <th data-ordering="false">Phương thức thanh toán</th>
-                                <th data-ordering="false">Tên nhà phân phối</th>
-                                <th data-ordering="false">Tổng tiền</th>
-                                <th data-ordering="false">Tiền đã trả</th>
-                                <th data-ordering="false">Slug</th>
-=======
                                 <th data-ordering="false">Mã đơn hàng</th>
                                 <th data-ordering="false">Tên nhà phân phối</th>
                                 <th data-ordering="false">Tổng tiền</th>
@@ -69,7 +58,6 @@
                                     </td>
                                     <td>{{ $item->created_at }}</td>
                                     <td class="text-center">
->>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -96,7 +84,6 @@
                                                         </a>
                                                     </li>
                                                 @endif
->>>>>>> f9460ffe3cc00a093b3107cee361492534c620c0
                                             </ul>
                                         </div>
                                     </td>
