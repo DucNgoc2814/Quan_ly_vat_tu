@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerRankController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ImportOrderController;
 use App\Http\Controllers\ImportOrderDetailController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 
+use App\Http\Controllers\UnitController;
 // <+====================ROUTER MẪU====================+>
 // Route::prefix('duong-dan-mau')
 //     ->as('sampleRoute.')
@@ -33,6 +35,29 @@ Route::get('/', function () {
     return view('admin/dashboard');
 })->name('admin.dashboard');
 
+
+Route::prefix('mau')
+    ->as('mau.')
+    ->group(function () {
+        Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
+        Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
+        Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
+        Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
+    });
+
+Route::prefix('quan-ly-nha-phan-phoi')
+    ->as('supplier.')
+    ->group(function () {
+        Route::get('/danh-sach', [SupplierController::class, 'index'])->name('index');
+        Route::get('/danh-sach-da-an', [SupplierController::class, 'listTrashSupplier'])->name('listTrashSupplier');
+        Route::get('/khoi-phuc/{id}', [SupplierController::class, 'restoreSupplier'])->name('restoreSupplier');
+        Route::get('/them-moi', [SupplierController::class, 'create'])->name('create');
+        Route::post('/them-moi', [SupplierController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [SupplierController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat/{id}', [SupplierController::class, 'update'])->name('update');
+        Route::delete('/an/{id}', [SupplierController::class, 'destroy'])->name('destroy');
+    });
 Route::prefix('quan-ly-tai-khoan')
     ->as('suppliers.')
     ->group(function () {
@@ -53,7 +78,6 @@ Route::prefix('quan-ly-nhan-vien')
         Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
     });
 
-
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {
@@ -65,7 +89,7 @@ Route::prefix('quan-ly-ban-hang')
         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus');
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail');
     });
-        Route::prefix('quan-ly-thanh-truot')
+Route::prefix('quan-ly-thanh-truot')
     ->as('sliders.')
     ->group(function () {
         Route::get('/danh-sach', [SliderController::class, 'index'])->name('index');
@@ -86,7 +110,7 @@ Route::prefix('thuong-hieu')
         Route::put('/sua/{brand}', [BrandController::class, 'update'])->name('update');
     });
 Route::prefix('hop-dong')
-    ->as('hop-dong.')
+    ->as('contract.')
     ->group(function () {
         Route::get('/danh-sach', [ContractController::class, 'index'])->name('index');
         Route::get('/them-moi', [ContractController::class, 'create'])->name('create');
@@ -106,7 +130,7 @@ Route::prefix('quan-ly-xe')
     });
 
 Route::prefix('quan-ly-loai-hop-dong')
-    ->as('ContractTypes.')
+    ->as('contractType.')
     ->group(function () {
         Route::get('/danh-sach', [ContractTypeController::class, 'index'])->name('index');
         Route::get('/them', [ContractTypeController::class, 'create'])->name('create');
@@ -132,8 +156,6 @@ Route::prefix('san-pham')
     });
 
 
-
-
 Route::prefix('don-hang-nhap')
     ->as('importOrder.')
     ->group(function () {
@@ -151,6 +173,47 @@ Route::prefix('don-hang-nhap')
         Route::post('/xac-nhan/{slug}', [ImportOrderController::class, 'confirmOrder'])->name(name: 'confirmOrder');
         Route::get('/tu-dong-cap-nhat/{slug}', [ImportOrderController::class, 'autoUpdateStatus'])->name('autoUpdateStatus');
         Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests');
-
     });
-    Route::get('/', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
+
+Route::prefix('quan-ly-don-vi')
+    ->as('units.')
+    ->group(function () {
+        Route::get('/danh-sach', [UnitController::class, 'index'])->name('index');
+        Route::get('/them-moi', [UnitController::class, 'create'])->name('create');
+        Route::post('/them-moi', [UnitController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [UnitController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [UnitController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [UnitController::class, 'destroy'])->name('destroy');
+    });
+
+Route::prefix('loai-xe')
+    ->as('cargo_car_types.')
+    ->group(function () {
+        Route::get('/danh-sach', [CargoCarTypeController::class, 'index'])->name('index');
+        Route::get('/them-moi', [CargoCarTypeController::class, 'create'])->name('create');
+        Route::post('/store', [CargoCarTypeController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [CargoCarTypeController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [CargoCarTypeController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [CargoCarTypeController::class, 'destroy'])->name('destroy');
+    });
+Route::prefix('danh-muc')
+    ->as('category.')
+    ->group(function () {
+        Route::get('/danh-sach', [CategoryController::class, 'index'])->name('index');
+        Route::get('/them-moi', [CategoryController::class, 'create'])->name('create');
+        Route::post('/them-moi', [CategoryController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [CategoryController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+    });
+Route::prefix('xep-hang-khach-hang')
+    ->as('customer_ranks.')
+    ->group(function () {
+        Route::get('/danh-sach', [CustomerRankController::class, 'index'])->name('index');
+        Route::get('/them-moi', [CustomerRankController::class, 'create'])->name('create');
+        Route::post('/them-moi', [CustomerRankController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [CustomerRankController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [CustomerRankController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [CustomerRankController::class, 'destroy'])->name('destroy');
+    });
