@@ -192,4 +192,18 @@
             });
         }
     </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // SweetAlert khi tạo đơn hàng thành công
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Thành công!',
+                    text: "{!! session('success') !!}",
+                    confirmButtonText: 'OK'
+                });
+            @endif
+        });
+    </script>
 @endsection

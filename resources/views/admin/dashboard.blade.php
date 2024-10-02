@@ -1513,7 +1513,61 @@
                 @endforeach
             }
 
-            showPendingCancelRequests();
+            function showPendingNewOrders() {
+                @foreach ($pendingNewOrders as $request)
+                    Swal.fire({
+                        title: 'Yêu cầu thêm mới',
+                        text: `Sản phẩm: {{ $request->product }} - Số lượng: {{ $request->quantity }}`,
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Xác nhận'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            fetch("{{ route('importOrder.confirmOrder', ['slug' => $request->importOrder->slug]) }}", {
+                                    method: 'POST',
+                                    headers: {
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    }
+                                }).then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        Swal.fire('Xác nhận thành công', data.message, 'success');
+                                        // Kiểm tra trạng thái đơn hàng mỗi 30 giây
+                                        const checkInterval = setInterval(function() {
+                                            fetch(
+                                                    "{{ route('importOrder.autoUpdateStatus', ['slug' => $request->importOrder->slug]) }}")
+                                                .then(response => response.json())
+                                                .then(data => {
+                                                    if (data.success) {
+                                                        clearInterval(checkInterval);
+                                                        Swal.fire('Giao hàng thành công',
+                                                            data.message, 'success');
+                                                    }
+                                                });
+                                        }, 30000); // 30 giây
+                                    } else {
+                                        Swal.fire('Lỗi', 'Không thể xác nhận yêu cầu', 'error');
+                                    }
+                                });
+                        }
+                    });
+                @endforeach
+            }
+
+            function checkPendingRequests() {
+                // Kiểm tra nếu có yêu cầu hủy
+                if (@json($pendingCancelRequests).length > 0) {
+                    showPendingCancelRequests();
+                } else {
+                    // Nếu không có yêu cầu hủy thì hiển thị yêu cầu thêm mới
+                    showPendingNewOrders();
+                }
+            }
+
+            // Hiển thị yêu cầu thêm mới hoặc hủy ngay khi trang dashboard load
+            checkPendingRequests();
 
             // Kiểm tra yêu cầu hủy mới mỗi phút
             setInterval(function() {
