@@ -174,7 +174,7 @@ Route::prefix('nhap-don-hang')
         Route::delete('/xoa/{id}', [UnitController::class, 'destroy'])->name('destroy');
     });
 
-Route::prefix('loai-xe')
+Route::prefix(' ')
     ->as('cargo_car_types.')
     ->group(function () {
         Route::get('/danh-sach', [CargoCarTypeController::class, 'index'])->name('index');

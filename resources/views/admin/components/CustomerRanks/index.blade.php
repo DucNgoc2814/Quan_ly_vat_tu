@@ -35,7 +35,7 @@
                                 <th data-ordering="false">ID</th>
                                 <th data-ordering="false">Name</th>
                                 <th data-ordering="false">Discount</th>
-                                <th data-ordering="false">Amount</th>
+                                <th data-ordering="false">Amount.</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
