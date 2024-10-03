@@ -59,37 +59,7 @@ class ProductController extends Controller
                 ];
                 $product = Product::query()->create($data);
 
-                // if (is_array($request->variation_id) && count($request->variation_id) > 0) {
-                //     foreach ($request->variation_id as $key => $variationID) {
-
-                //         // Tìm variation theo ID
-                //         $variation = Variation::findOrFail($variationID);
-                //         $orderQuantity = $request->product_quantity[$key];
-
-                //         // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
-                //         logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
-                //         logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
-
-                //         // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
-                //         if ($orderQuantity > $variation->stock) {
-                //             throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
-                //         }
-
-                //         // Tạo chi tiết đơn hàng
-                //         Order_detail::query()->create([
-                //             'order_id' => $product->id,
-                //             'variation_id' => $variationID,
-                //             'quantity' => $orderQuantity,
-                //             'price' => $request->product_price[$key],
-                //         ]);
-
-                //         // Giảm số lượng hàng tồn kho
-                //         $variation->stock -= $orderQuantity;
-                //         $variation->save();
-                //     }
-                // } else {
-                //     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
-                // }
+            
             });
             return redirect()->route('product.index')->with('success', 'Thêm sản phẩm thành công');;
         } catch (\Throwable $th) {

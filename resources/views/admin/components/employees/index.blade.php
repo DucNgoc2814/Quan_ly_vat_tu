@@ -21,19 +21,18 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="card text-center" id="tasksList">
+            <div class="card" id="tasksList">
                 <div class="card-header border-0">
-
 
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('employees.create') }}" class="btn btn-success"
-                                    id="addproduct-btn"><i class="ri-add-line align-bottom me-1"></i>Thêm mới người lao động
+                                <a href="{{ route('employees.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                        class="ri-add-line align-bottom me-1"></i>Thêm mới người lao động
                                 </a>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
 
@@ -116,7 +115,7 @@
                     <div class="d-flex justify-content-end mt-2">
                         <div class="pagination-wrap hstack gap-2">
 
-                           
+
                         </div>
                     </div>
 
@@ -128,40 +127,6 @@
         <!--end col-->
     </div>
 @endsection
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.remove-item-btn').forEach(function(element) {
-            element.addEventListener('click', function(event) {
-                event.preventDefault();
-                var formId = this.getAttribute('data-form-id');
-                var form = document.getElementById(formId);
-
-                if (confirm('Bạn có muốn ẩn nó không !')) {
-                    form.submit();
-                }
-            });
-
-        });
-    });
-</script>
-
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var successAlert = document.getElementById('success-alert');
-        if (successAlert) {
-            setTimeout(function() {
-                successAlert.style.opacity = '0';
-                setTimeout(function() {
-                    successAlert.style.display = 'none';
-                }, 600);
-            }, 5000);
-        }
-    });
-</script>
-
 
 
 @section('scripts')
@@ -199,5 +164,37 @@
                     checkbox.checked = !checkbox.checked;
                 });
         }
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.remove-item-btn').forEach(function(element) {
+                element.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    var formId = this.getAttribute('data-form-id');
+                    var form = document.getElementById(formId);
+
+                    if (confirm('Bạn có muốn ẩn nó không !')) {
+                        form.submit();
+                    }
+                });
+
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successAlert = document.getElementById('success-alert');
+            if (successAlert) {
+                setTimeout(function() {
+                    successAlert.style.opacity = '0';
+                    setTimeout(function() {
+                        successAlert.style.display = 'none';
+                    }, 600);
+                }, 5000);
+            }
+        });
     </script>
 @endsection
