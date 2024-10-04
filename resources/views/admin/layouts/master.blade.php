@@ -45,6 +45,38 @@
             width: 250px !important;
             height: 35px !important;
         }
+
+        .variant-checkbox-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.variant-checkbox {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid black; /* Viền đen */
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: white; /* Nền trắng */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.variant-checkbox input {
+    display: none; /* Ẩn checkbox */
+}
+
+.variant-checkbox span {
+    color: black; /* Màu chữ mặc định là đen */
+    font-weight: bold;
+}
+
+.variant-checkbox input:checked + span {
+    background-color: darkblue; /* Màu nền xanh đậm khi được chọn */
+    color: white; /* Màu chữ trắng khi chọn */
+}
+
     </style>
     <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
     @yield('styles')
