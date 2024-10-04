@@ -49,20 +49,28 @@
                                     <td>{{ $item->name }}</td>
                                     <td>
                                         <img width="150px" height="150px"
-                                             src="{{ $item->image ? \Storage::url($item->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
-                                             alt="">
+                                            src="{{ $item->image ? \Storage::url($item->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
+                                            alt="">
                                     </td>
-                                    
+
                                     <td>{{ $item->cccd }}</td>
                                     <td>{{ $item->number_phone }}</td>
                                     <td>{{ $item->date }}</td>
                                     <td>{{ $item->description }}</td>
                                     <td>
-                                        <div class="col-lg-6 form-check form-switch form-switch ms-3 mt-3">
+                                        {{-- <div class="col-lg-6 form-check form-switch form-switch ms-3 mt-3">
                                             <input class="form-check-input" type="checkbox" name="is_active" id="is_active"
                                                 value="1" {{ $item->is_active == 1 ? 'checked' : '' }}
                                                 onclick="updateStatus(this, '{{ $item->id }}')">
-                                        </div>
+                                        </div> --}}
+
+                                        @if ($item->is_active == 1)
+                                            <input onchange="changeStatus('employees', {{ $item->id }},0)" class="form-check-input" type="checkbox"
+                                                name="is_active" value="1" id="is_active" checked>
+                                        @else
+                                            <input onchange="changeStatus('employees', {{ $item->id }},1)" class="form-check-input" type="checkbox"
+                                                name="is_active" value="0" id="is_active">
+                                        @endif
                                     </td>
                                     <td style="text-align: center">
                                         <div class="dropdown d-inline-block">
@@ -88,6 +96,11 @@
             </div>
         </div>
     </div>
+
+
+
+
+ 
 @endsection
 
 
@@ -162,3 +175,4 @@
         }
     </script>
 @endsection
+
