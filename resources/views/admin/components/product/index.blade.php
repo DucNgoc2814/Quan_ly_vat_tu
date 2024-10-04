@@ -1,4 +1,6 @@
 @extends('admin.layouts.master')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 @section('title')
     Danh sách sản phẩm
@@ -57,10 +59,12 @@
                                     <td>
                                         <div class="form-check form-switch form-switch">
                                             @if ($data->is_active == 1)
-                                                <input class="form-check-input" type="checkbox" name="is_active"
-                                                    value="1" id="is_active" checked>
+                                             <input onchange="changeStatus('products', {{ $data->id }},0)" class="form-check-input"
+                                             type="checkbox" name="is_active"
+       value="1" id="is_active" checked>
                                             @else
-                                                <input class="form-check-input" type="checkbox" name="is_active"
+                                                <input onchange="changeStatus('products', {{ $data->id }},1)"
+                                                 class="form-check-input" type="checkbox" name="is_active"
                                                     value="0" id="is_active">
                                             @endif
                                         </div>
@@ -78,5 +82,6 @@
             </div>
         </div><!--end col-->
     </div>
+
 @endsection
 

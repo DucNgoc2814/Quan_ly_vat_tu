@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ChangeStatusController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoginController;
@@ -34,9 +35,5 @@ Route::get('/nhap-otp', [LoginController::class, 'showVerifyOtp'])->name('showVe
 Route::post('/verifyOtp', [LoginController::class, 'verifyOtp'])->name('verifyOtp');
 Route::get('/doi-mat-khau', [LoginController::class, 'changepassword'])->name('changepassword');
 Route::post('/passwordchange', [LoginController::class, 'passwordchange'])->name('passwordchange');
-
-
-
-
-
-
+// <+====================TINHNGUYEN====================+>
+Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
