@@ -17,14 +17,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
 Route::get('/products', action: function () {
     return view('admin/components/product/create');
 });
-
-
-
 Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::post('/handleRegister', [LoginController::class, 'handleRegister'])->name('handleRegister');
 Route::get('/dang-nhap', [LoginController::class, 'login'])->name('login');
