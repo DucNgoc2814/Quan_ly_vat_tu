@@ -12,7 +12,7 @@
                 <div class="col-sm-auto">
                     <div>
                         <a href="{{ route('CargoCars.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                class="ri-add-line align-bottom me-1"></i>Thêm vận chuyển </a>
+                                class="ri-add-line align-bottom me-1"></i>Thêm chuyến đi </a>
                     </div>
                 </div>
 

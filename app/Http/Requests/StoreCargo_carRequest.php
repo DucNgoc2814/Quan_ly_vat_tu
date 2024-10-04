@@ -30,8 +30,8 @@ class StoreCargo_carRequest extends FormRequest
 
     public function messages(){
         return [
-            'cargo_car_type_id.required' => " Vui lòng chọn loại xe vận chuyển.",
-            'cargo_car_type_id.exits' => "Loại xe vận chuyển không tồn tại.",
+            'cargo_car_type_id.required' => " Vui lòng chọn loại xe chở hàng.",
+            'cargo_car_type_id.exits' => "Loại xe chở hàng không tồn tại.",
             'license_plate.required' => " Biển số xe không được bỏ trống",
             'license_plate.string' => "Biển số xe phải là kiểu chuỗi",
             'license_plate.max' => "Biển số xe không được quá 20 ký tự",
