@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\ChangeStatusController;
 use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoginController;
@@ -16,14 +17,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
 Route::get('/products', action: function () {
     return view('admin/components/product/create');
 });
-
-
-
 Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::post('/handleRegister', [LoginController::class, 'handleRegister'])->name('handleRegister');
 Route::get('/dang-nhap', [LoginController::class, 'login'])->name('login');
@@ -34,9 +30,5 @@ Route::get('/nhap-otp', [LoginController::class, 'showVerifyOtp'])->name('showVe
 Route::post('/verifyOtp', [LoginController::class, 'verifyOtp'])->name('verifyOtp');
 Route::get('/doi-mat-khau', [LoginController::class, 'changepassword'])->name('changepassword');
 Route::post('/passwordchange', [LoginController::class, 'passwordchange'])->name('passwordchange');
-
-
-
-
-
-
+// <+====================TINHNGUYEN====================+>
+Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
