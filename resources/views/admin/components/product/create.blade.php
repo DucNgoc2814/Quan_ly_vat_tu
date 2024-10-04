@@ -36,8 +36,8 @@
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
-                                 <!-- Danh mục -->
-                                 <div class="card">
+                                <!-- Danh mục -->
+                                <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title mb-0">Danh mục</h5>
                                         <select class="form-select mt-2" name="category_id">
@@ -118,7 +118,7 @@
                                     </div>
                                 </div>
 
-                               
+
 
                                 <!-- Đơn vị -->
                                 <div class="card">
@@ -136,35 +136,54 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title mb-0">Chọn loại biến thể:</h5>
-                                        <div class="mb-3 variant-checkbox-group">
+                                        <div class="mb-3 variant-checkbox-group mt-3">
                                             <label class="variant-checkbox">
-                                                <input type="checkbox" name="variant_types[]" value="color"> 
+                                                <input type="checkbox" name="variant_types[]" value="color">
                                                 <span>Màu sắc</span>
                                             </label>
                                             <label class="variant-checkbox">
-                                                <input type="checkbox" name="variant_types[]" value="size"> 
+                                                <input type="checkbox" name="variant_types[]" value="size">
                                                 <span>Kích thước</span>
                                             </label>
                                             <label class="variant-checkbox">
-                                                <input type="checkbox" name="variant_types[]" value="material"> 
+                                                <input type="checkbox" name="variant_types[]" value="material">
                                                 <span>Chất liệu</span>
                                             </label>
                                             <label class="variant-checkbox">
-                                                <input type="checkbox" name="variant_types[]" value="style"> 
+                                                <input type="checkbox" name="variant_types[]" value="style">
                                                 <span>Kiểu dáng</span>
                                             </label>
                                         </div>
-                                        <button type="button" class="btn btn-primary" onclick="getSelectedValues()">Lưu</button>
-                                
+                                        <button type="button" class="btn btn-primary"
+                                            onclick="getSelectedValues()">Lưu</button>
+
                                         <!-- Hiển thị biến thể -->
                                         <div id="variant-output" style="margin-top: 10px;"></div>
                                     </div>
                                 </div>
-                                
+
                             </div>
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="product-images-input">Ảnh sản phẩm</label>
+                                            <input type="file" class="form-control" id="product-images-input" multiple accept="image/*" onchange="previewImages()">
+                                            @error('images')
+                                                <span role="alert">
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div id="image-preview" class="mt-2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                           
                             <div class="col-lg-12">
                                 <div id="selected-variants" style="margin-top: 10px;"></div>
                             </div>
+
                             <div class="mt-3">
                                 <button class="btn btn-success text">Thêm mới</button>
                             </div>
@@ -176,25 +195,6 @@
     </div>
 
     <script>
-
-        // Tạo biến thể
-        // Hàm tạo tất cả các kết hợp giữa các giá trị biến thể
-        function generateCombinations(arrays) {
-            if (arrays.length === 0) return [];
-            if (arrays.length === 1) return arrays[0].map(item => [item]);
-
-            const combinations = [];
-            const restCombinations = generateCombinations(arrays.slice(1));
-
-            arrays[0].forEach(item => {
-                restCombinations.forEach(combo => {
-                    combinations.push([item, ...combo]);
-                });
-            });
-
-            return combinations;
-        }
-
         function getSelectedValues() {
             // Lấy các loại biến thể được chọn (checkbox)
             const selectedVariants = [];
@@ -202,7 +202,15 @@
                 selectedVariants.push($(this).val());
             });
 
-            // Dữ liệu mẫu cho giá trị biến thể (sửa ở đây nếu cần)
+            // Kiểm tra số lượng biến thể đã chọn
+            if (selectedVariants.length > 2) {
+                alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
+                // Bỏ chọn biến thể cuối cùng
+                $(this).prop('checked', false);
+                return; // Ngừng hàm nếu vượt quá
+            }
+
+            // Dữ liệu mẫu cho giá trị biến thể
             const variantValues = {
                 color: ['Xanh', 'Đỏ', 'Vàng'], // Giá trị cố định cho color
                 size: ['S', 'M', 'L'], // Giá trị cố định cho size
@@ -221,8 +229,65 @@
             resultDiv.empty(); // Xóa nội dung cũ
 
             combinations.forEach(combo => {
-                resultDiv.append('<div>' + combo.join(' - ') + '</div>');
+                const id = combo.join('_'); // Tạo id từ kết hợp
+
+                // Gán giá trị vào ô số 1 và số 2 từ các biến thể
+                const value1 = combo[0]; // Gán giá trị của biến thể đầu tiên
+                const value2 = combo[1] || ''; // Gán giá trị của biến thể thứ hai (nếu có)
+
+                const html = `
+                <div class="col-lg-12">
+                    <div class="col-md-12" id="${id}_item">
+                        <hr class="mb-2">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="mb-2">
+                                    <label class="form-label" for="product-quantity-input">Giá trị biến thể 1</label>
+                                    <input type="text" class="form-control" value="${value1}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-2">
+                                    <label class="form-label" for="product-stock-input">Giá trị biến thể 2</label>
+                                    <input type="text" class="form-control" value="${value2}" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-2">
+                                    <label class="form-label" for="product-stock-input">Giá chi tiết</label>
+                                    <input type="number" class="form-control" name="price">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="mb-2">
+                                    <label class="form-label" for="product-stock-input">Số lượng</label>
+                                    <input type="number" class="form-control" name="stock">
+                                </div>
+                            </div>
+                        </div>
+     
+                    </div>
+                </div>
+            `;
+                resultDiv.append(html);
             });
+        }
+
+        // Hàm để tạo tất cả các kết hợp từ mảng
+        function generateCombinations(arrays) {
+            return arrays.reduce((accumulator, current) => {
+                const combinations = [];
+                accumulator.forEach(accItem => {
+                    current.forEach(curItem => {
+                        combinations.push([...accItem, curItem]);
+                    });
+                });
+                return combinations.length ? combinations : [
+                    []
+                ]; // Trả về một mảng rỗng nếu không có kết hợp nào
+            }, [
+                []
+            ]);
         }
     </script>
 @endsection

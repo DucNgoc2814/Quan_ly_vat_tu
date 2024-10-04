@@ -47,36 +47,57 @@
         }
 
         .variant-checkbox-group {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
 
-.variant-checkbox {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    border: 2px solid black; /* Viền đen */
-    padding: 5px 10px;
-    border-radius: 5px;
-    background-color: white; /* Nền trắng */
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
-}
+        .variant-checkbox {
+            display: inline-flex;
+            align-items: center;
+            cursor: pointer;
+            border: 1px solid black;
+            /* Viền mỏng */
+            padding: 0;
+            /* Đặt padding thành 0 để không có khoảng cách giữa viền và nền */
+            border-radius: 5px;
+            background-color: white;
+            /* Nền trắng */
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
 
-.variant-checkbox input {
-    display: none; /* Ẩn checkbox */
-}
+        .variant-checkbox input {
+            display: none;
+            /* Ẩn checkbox */
+        }
 
-.variant-checkbox span {
-    color: black; /* Màu chữ mặc định là đen */
-    font-weight: bold;
-}
+        .variant-checkbox span {
+            color: black;
+            /* Màu chữ mặc định là đen */
+            font-weight: bold;
+            padding: 5px 10px;
+            /* Giữ padding cho span */
+            border-radius: 5px;
+            /* Bo góc cho span */
+        }
 
-.variant-checkbox input:checked + span {
-    background-color: darkblue; /* Màu nền xanh đậm khi được chọn */
-    color: white; /* Màu chữ trắng khi chọn */
-}
+        /* Khi checkbox được chọn */
+        .variant-checkbox input:checked+span {
+            background-color: rgb(11, 43, 102);
+            /* Màu nền xanh đậm khi được chọn */
+            color: white;
+            /* Màu chữ trắng khi chọn */
+            border-color: darkblue;
+            /* Viền cũng đổi sang màu xanh đậm */
+        }
 
+        /* Đảm bảo rằng không có padding giữa nền và viền */
+        .variant-checkbox input:checked+span {
+            padding: 5px 10px;
+            /* Đảm bảo padding không thay đổi khi chọn */
+            border-radius: 5px;
+            /* Bo góc giữ nguyên */
+        }
     </style>
     <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
     @yield('styles')
@@ -162,7 +183,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!--datatable js-->
-        <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
+    <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
@@ -172,9 +193,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="assets/js/pages/datatables.init.js"></script>
-  <script>
+    <script>
         new DataTable('#myTable')
     </script>
     @yield('scripts')
 </body>
+
 </html>
