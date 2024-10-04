@@ -166,20 +166,22 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="mb-3">
+                                        <div class="mb-3" id="image-inputs">
                                             <label class="form-label" for="product-images-input">Ảnh sản phẩm</label>
-                                            <input type="file" class="form-control" id="product-images-input" multiple accept="image/*" onchange="previewImages()">
+                                            <input type="file" class="form-control mb-2" name="product_images[]" accept="image/*" onchange="previewImages(this)">
                                             @error('images')
                                                 <span role="alert">
                                                     <span class="text-danger">{{ $message }}</span>
                                                 </span>
                                             @enderror
                                         </div>
+                                        <button type="button" class="btn btn-primary" onclick="addImageInput()">Thêm ảnh</button>
                                         <div id="image-preview" class="mt-2"></div>
                                     </div>
                                 </div>
                             </div>
-                           
+                            
+                            
                             <div class="col-lg-12">
                                 <div id="selected-variants" style="margin-top: 10px;"></div>
                             </div>
@@ -272,6 +274,38 @@
                 resultDiv.append(html);
             });
         }
+        function addImageInput() {
+    // Tạo một trường input mới
+    const newInput = document.createElement('input');
+    newInput.type = 'file';
+    newInput.className = 'form-control mb-2';
+    newInput.name = 'product_images[]'; // Tên của trường
+    newInput.accept = 'image/*';
+    newInput.onchange = function() {
+        previewImages(this); // Gọi hàm previewImages khi người dùng chọn ảnh
+    };
+
+    // Thêm trường input mới vào div chứa các input ảnh
+    document.getElementById('image-inputs').appendChild(newInput);
+}
+
+function previewImages(input) {
+    const previewContainer = document.getElementById('image-preview');
+    const files = input.files;
+    
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result; // Thiết lập nguồn cho ảnh
+            previewContainer.appendChild(img); // Thêm ảnh vào preview
+        }
+
+        reader.readAsDataURL(file); // Đọc file
+    }
+}
 
         // Hàm để tạo tất cả các kết hợp từ mảng
         function generateCombinations(arrays) {

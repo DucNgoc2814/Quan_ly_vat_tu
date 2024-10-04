@@ -20,20 +20,8 @@
         </div>
     </div>
     <!-- end page title -->
-<<<<<<< HEAD:resources/views/admin/suppliers/create.blade.php
-    <form method="POST" action="{{route('them-moi')}}" enctype="multipart/form-data">
-=======
 
-<<<<<<< HEAD
-<<<<<<< HEAD:resources/views/admin/compoents/suppliers/create.blade.php
-    <form method="POST" action="{{ route('quan-ly-tai-khoan.them-moi') }}" enctype="multipart/form-data">
->>>>>>> f58b97a83c6731fd074588573eebd36df4ab0056:resources/views/admin/compoents/suppliers/create.blade.php
-=======
-    <form method="POST" action="{{route('supplier.store')}}" enctype="multipart/form-data">
->>>>>>> 0211da7dac110b8a8a89da6a85f55edf896f08db:resources/views/admin/components/suppliers/create.blade.php
-=======
     <form method="POST" action="{{ route('suppliers.store') }}" enctype="multipart/form-data">
->>>>>>> f8a3cb7511ed92b9b353819589a5a259b432466b
         @csrf
         <div class="row">
             <div class="col">
