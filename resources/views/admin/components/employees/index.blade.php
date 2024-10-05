@@ -141,7 +141,7 @@
     </script>
 
 
-
+{{-- 
     <script>
         function updateStatus(checkbox, id) {
             // Get current status
@@ -173,6 +173,6 @@
                     checkbox.checked = !checkbox.checked;
                 });
         }
-    </script>
+    </script> --}}
 @endsection
 
