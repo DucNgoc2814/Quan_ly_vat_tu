@@ -141,38 +141,6 @@
     </script>
 
 
-{{-- 
-    <script>
-        function updateStatus(checkbox, id) {
-            // Get current status
-            const isActive = checkbox.checked ? 1 : 0;
 
-            // Send AJAX request to update status
-            fetch('/update-employee-status', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    },
-                    body: JSON.stringify({
-                        id: id,
-                        is_active: isActive
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        console.log('Update successful!', data.is_active);
-                    } else {
-                        console.log('An error occurred!');
-                        checkbox.checked = !checkbox.checked;
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    checkbox.checked = !checkbox.checked;
-                });
-        }
-    </script> --}}
 @endsection
 
