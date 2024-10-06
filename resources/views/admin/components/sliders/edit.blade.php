@@ -41,10 +41,16 @@
                         @method('PUT')
                         @csrf
                         <div class="row">
+                            <div style="margin-top: 10px;">
+                                <img src="{{asset('storage/'. $sliders->url)}}" width="150px" height="150px" alt="">
+                               
+                                
+                            </div>
                             <div class="col-lg-8">
+
                                 <label class="form-label">Hình ảnh</label>
                                 <input type="file" name="url" id="url"
-                                    class="from-control @error('url') is-invalid @enderror" onchange="showImage(event)">
+                                    class="from-control @error('url') is-invalid @enderror" >
                                 <img src="" alt="" id="img_slider" style="width: 150px; display: none;"
                                     class="mt-3">
 
@@ -93,7 +99,7 @@
 
                         </div>
                         <div class="mt-3">
-                            <button class = "btn btn-success text ">Submit</button>
+                            <button class = "btn btn-success text ">Gửi</button>
                         </div>
                     </form>
                 </div>
