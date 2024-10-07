@@ -58,6 +58,17 @@ class ProductController extends Controller
                     "is_active" => $request->has('is_active') ? 1 : 0,
                 ];
                 $product = Product::query()->create($data);
+                $data = [
+                    "category_id" => $request->category_id,
+                    "unit_id" => $request->unit_id,
+                    "brand_id" => $request->brand_id,
+                    "slug" => $slug,
+                    "name" => $request->name,
+                    "price" => $request->price,
+                    "description" => $request->description,
+                    "is_active" => $request->has('is_active') ? 1 : 0,
+                ];
+                $product = Product::query()->create($data);
 
             
             });
