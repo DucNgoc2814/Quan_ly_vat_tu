@@ -68,11 +68,20 @@ class ImportOrderController extends Controller
                     "status" => 1, // Trạng thái ban đầu là chờ xác nhận
                 ]);
 
-                // Lưu thông tin tạm vào bảng new_order_requests
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationID) {
                         $quantity = $request->product_quantity[$key];
+                        $price = $request->product_price[$key];
 
+                        // Thêm vào bảng import_order_details
+                        Import_order_detail::create([
+                            'import_order_id' => $importOrder->id,
+                            'variation_id' => $variationID,
+                            'quantity' => $quantity,
+                            'price' => $price,
+                        ]);
+
+                        // Vẫn giữ lại chức năng tạo NewOrderRequest
                         NewOrderRequest::create([
                             'import_order_id' => $importOrder->id,
                             'product' => $variationID,
@@ -131,26 +140,26 @@ class ImportOrderController extends Controller
         return response()->json(['success' => true, 'message' => 'Đã xác nhận đơn hàng, chờ cập nhật số lượng']);
     }
 
-    public function autoUpdateStatus($slug)
-    {
-        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-        if ($importOrder->status == 2) {
-            $importOrder->status = 3; // Giao hàng thành công
-            $importOrder->save();
+    // public function autoUpdateStatus($slug)
+    // {
+    //     $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+    //     if ($importOrder->status == 2) {
+    //         $importOrder->status = 3; // Giao hàng thành công
+    //         $importOrder->save();
 
-            // Cập nhật số lượng stock
-            $newOrderRequests = NewOrderRequest::where('import_order_id', $importOrder->id)->get();
-            foreach ($newOrderRequests as $request) {
-                $variation = Variation::find($request->product);
-                $variation->stock += $request->quantity;
-                $variation->save();
-            }
+    //         // Cập nhật số lượng stock
+    //         $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
+    //         foreach ($importOrderDetails as $detail) {
+    //             $variation = Variation::find($detail->variation_id);
+    //             $variation->stock += $detail->quantity;
+    //             $variation->save();
+    //         }
 
-            return response()->json(['success' => true, 'message' => 'Đã giao hàng thành công và cập nhật số lượng']);
-        }
+    //         return response()->json(['success' => true, 'message' => 'Đã giao hàng thành công và cập nhật số lượng']);
+    //     }
 
-        return response()->json(['success' => false, 'message' => 'Đơn hàng chưa sẵn sàng để cập nhật']);
-    }
+    //     return response()->json(['success' => false, 'message' => 'Đơn hàng chưa sẵn sàng để cập nhật']);
+    // }
 
     public function dashboard()
     {
@@ -160,6 +169,40 @@ class ImportOrderController extends Controller
 
         return view('admin.dashboard', compact('pendingNewOrders'));
     }
+
+    public function checkOrderStatus($slug)
+    {
+        $importOrder = Import_order::where('slug', $slug)->first();
+        if ($importOrder && $importOrder->status == 2) {
+            return response()->json(['status' => 'confirmed']);
+        }
+        return response()->json(['status' => 'pending']);
+    }
+
+    public function updateOrderStatus($slug)
+    {
+        $importOrder = Import_order::where('slug', $slug)->first();
+        if ($importOrder) {
+            $importOrder->status = 3; // Giao hàng thành công
+            $importOrder->save();
+
+            // Cập nhật số lượng stock
+            $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
+            foreach ($importOrderDetails as $detail) {
+                $variation = Variation::find($detail->variation_id);
+                if ($variation) {
+                    $variation->stock += $detail->quantity;
+                    $variation->save();
+                }
+            }
+
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
+    }
+
+
+
 
 
     public function show($slug)
