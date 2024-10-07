@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+
+
     <form action="{{ route('sendMaill') }}" method="post">
         @csrf
         <div class="container">
@@ -26,4 +28,6 @@
             <p>Nếu bạn đã có tài khoản: <a href="{{ route('login') }}">Đăng nhập</a>.</p>
         </div>
     </form>
+
+    
 @endsection

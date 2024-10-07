@@ -5,6 +5,8 @@
 @endsection
 
 @section('content')
+
+
     <form action="{{ route('handleLogin') }}" method="post">
         @csrf
         <div class="container mb-3">
@@ -33,4 +35,6 @@
             <p>Nếu bạn quên mật khẩu <a href="{{ route('forgotPassword') }}">Lấy lại mật khẩu</a>.</p>
         </div>
     </form>
+
+    
 @endsection
