@@ -7,12 +7,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách sliders</h4>
+                <h4 class="mb-sm-0">Danh sách thanh trượt</h4>
 
                 <div class="col-sm-auto">
                     <div>
                         <a href="{{ route('sliders.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                class="ri-add-line align-bottom me-1"></i>Thêm Sliders </a>
+                                class="ri-add-line align-bottom me-1"></i>Thêm thanh trượt </a>
                     </div>
                 </div>
 

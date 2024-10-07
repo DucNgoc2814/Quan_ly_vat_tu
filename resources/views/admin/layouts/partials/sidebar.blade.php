@@ -233,7 +233,7 @@
                                 <a href="{{route('CargoCars.index')}}" class="nav-link" data-key="t-horizontal">Danh sách chuyến đi</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('CargoCars.create')}}" class="nav-link" data-key="t-horizontal">Thêm  mới chuyến đi</a>
+                                <a href="{{route('CargoCars.create')}}" class="nav-link" data-key="t-horizontal">Thêm mới chuyến đi</a>
                             </li>
                         </ul>
                     </div>
