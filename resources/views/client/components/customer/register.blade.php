@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+
     <form action="{{ route('handleRegister') }}" method="post">
         @csrf
         <div class="container mb-3">
@@ -45,4 +46,5 @@
             <p>Bạn có sẵn sàng để tạo một tài khoản? <a href="{{ route('login') }}">Đăng nhập</a>.</p>
         </div>
     </form>
+    
 @endsection
