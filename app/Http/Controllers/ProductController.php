@@ -12,6 +12,8 @@ use App\Models\Variation;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Attribute;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -24,7 +26,6 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::query()->with('category', 'brand', 'unit', 'variations.importOrderDetails')->get();
-        $products = Product::query()->with('category', 'brand', 'unit', 'variations.importOrderDetails')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 
@@ -33,10 +34,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories =  Category::pluck('name', 'id');
+        $attributesArray = Attribute::with('attributeValues')->get()->toArray();
+        $categories = Category::pluck('name', 'id');
         $brands =  Brand::pluck('name', 'id');
         $units =  Unit::pluck('name', 'id');
-        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units', 'attributesArray'));
     }
 
     /**
@@ -44,6 +46,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        dd($request->attribute_value_id);
         try {
             DB::transaction(function () use ($request) {
                 $slug = Str::slug($request['name']);
@@ -58,24 +61,34 @@ class ProductController extends Controller
                     "is_active" => $request->has('is_active') ? 1 : 0,
                 ];
                 $product = Product::query()->create($data);
-                $data = [
-                    "category_id" => $request->category_id,
-                    "unit_id" => $request->unit_id,
-                    "brand_id" => $request->brand_id,
-                    "slug" => $slug,
-                    "name" => $request->name,
-                    "price" => $request->price,
-                    "description" => $request->description,
-                    "is_active" => $request->has('is_active') ? 1 : 0,
-                ];
-                $product = Product::query()->create($data);
 
-            
-            });
+                if ($request->hasFile('product_images')) {
+                    foreach ($request->file('product_images') as $image) {
+                        $path = Storage::put('galleries', $image);
+                        $product->galleries()->create(['url' => $path]);
+                    }
+                }
+
+                $variantPrices = $request->variant_prices;
+                $variantStocks = $request->variant_stocks;
+                $selectedVariants = $request->variant_types;
+
+                // Iterate over each combination of variants
+                foreach ($variantPrices as $index => $price) {
+                    $stock = $variantStocks[$index];
+
+                    // Assuming you have a ProductVariant model and relationship
+                    $product->variants()->create([
+                        'variant_types' => json_encode($selectedVariants[$index]), // store variant types as JSON
+                        'price' => $price,
+                        'stock' => $stock,
+                    ]);
+                }
+            }, 3);
             return redirect()->route('product.index')->with('success', 'Thêm sản phẩm thành công');;
         } catch (\Throwable $th) {
             dd($th->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $th->getMessage());
         }
     }
 
