@@ -36,7 +36,7 @@
                                 <th data-ordering="false">Name</th>
                                 <th data-ordering="false">Discount</th>
                                 <th data-ordering="false">Amount.</th>
-                                <th>Hành động.</th>
+                                <th>Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -57,7 +57,7 @@
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit</a>
                                                 </li>
                                                 <li><a href="#!" class="dropdown-item"><i
-                                                    class="ri-eye-fill align-bottom me-2 text-muted"></i> View</a>
+                                                    class="ri-eye-fill align-bottom me-2 text-muted"></i>View.</a>
                                         </li>
                                                 {{-- <li><a href="class="dropdown-item
                                                         edit-item-btn"><i
