@@ -119,6 +119,27 @@
     <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 
     <script>
+
+function changeStatusOrder(orderSlug, newStatus,note) {
+            $.ajax({
+                  url: `{{ route('order.updateStatus', '') }}/${orderSlug}`,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    status: newStatus,
+                    note:note
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Status updated successfully!');
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
         function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
             const form = selectElement.closest('form');
@@ -138,11 +159,8 @@
                     if (result.isConfirmed) {
                         const note = result.value;
                         const noteInput = document.createElement('input');
-                        noteInput.type = 'hidden';
-                        noteInput.name = 'note';
                         noteInput.value = note;
-                        form.appendChild(noteInput);
-                        form.submit();
+                        changeStatusOrder(orderSlug, newStatus, noteInput.value);
                     } else {
                         selectElement.value = selectElement.options[0].value;
                     }
@@ -158,7 +176,7 @@
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        form.submit();
+                        changeStatusOrder(orderSlug, newStatus,'');
                     } else {
                         selectElement.value = selectElement.options[0].value;
                     }
@@ -166,22 +184,22 @@
             }
         }
 
-        function openOffcanvas(orderSlug) {
-            var myOffcanvas = document.getElementById('offcanvasExample');
-            var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
-            bsOffcanvas.show();
-            const cancelOrderForm = document.getElementById('cancelOrderForm');
-            cancelOrderForm.action = `{{ route('order.updateStatus', '') }}/${orderSlug}`;
-            const noteTextarea = document.getElementById('note');
-            const noteHidden = document.getElementById('noteHidden');
-            cancelOrderForm.onsubmit = function(e) {
-                e.preventDefault();
-                noteHidden.value = noteTextarea.value;
-                if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
-                    this.submit();
-                }
-            };
-        }
+        // function openOffcanvas(orderSlug) {
+        //     var myOffcanvas = document.getElementById('offcanvasExample');
+        //     var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
+        //     bsOffcanvas.show();
+        //     const cancelOrderForm = document.getElementById('cancelOrderForm');
+        //     cancelOrderForm.action = `{{ route('order.updateStatus', '') }}/${orderSlug}`;
+        //     const noteTextarea = document.getElementById('note');
+        //     const noteHidden = document.getElementById('noteHidden');
+        //     cancelOrderForm.onsubmit = function(e) {
+        //         e.preventDefault();
+        //         noteHidden.value = noteTextarea.value;
+        //         if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+        //             this.submit();
+        //         }
+        //     };
+        // }
     </script>
     <script>
         // Kiểm tra nếu có thông báo thành công từ controller

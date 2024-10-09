@@ -12,6 +12,8 @@ use App\Models\Variation;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Attribute;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
@@ -24,7 +26,6 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::query()->with('category', 'brand', 'unit', 'variations.importOrderDetails')->get();
-        $products = Product::query()->with('category', 'brand', 'unit', 'variations.importOrderDetails')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 
@@ -33,10 +34,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories =  Category::pluck('name', 'id');
+        $attributesArray = Attribute::with('attributeValues')->get()->toArray();
+        $categories = Category::pluck('name', 'id');
         $brands =  Brand::pluck('name', 'id');
         $units =  Unit::pluck('name', 'id');
-        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units', 'attributesArray'));
     }
 
     /**
@@ -44,6 +46,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        dd($request->attribute_value_id);
         try {
             DB::transaction(function () use ($request) {
                 $slug = Str::slug($request['name']);
@@ -59,42 +62,33 @@ class ProductController extends Controller
                 ];
                 $product = Product::query()->create($data);
 
-                // if (is_array($request->variation_id) && count($request->variation_id) > 0) {
-                //     foreach ($request->variation_id as $key => $variationID) {
+                if ($request->hasFile('product_images')) {
+                    foreach ($request->file('product_images') as $image) {
+                        $path = Storage::put('galleries', $image);
+                        $product->galleries()->create(['url' => $path]);
+                    }
+                }
 
-                //         // Tìm variation theo ID
-                //         $variation = Variation::findOrFail($variationID);
-                //         $orderQuantity = $request->product_quantity[$key];
+                $variantPrices = $request->variant_prices;
+                $variantStocks = $request->variant_stocks;
+                $selectedVariants = $request->variant_types;
 
-                //         // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
-                //         logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
-                //         logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
+                // Iterate over each combination of variants
+                foreach ($variantPrices as $index => $price) {
+                    $stock = $variantStocks[$index];
 
-                //         // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
-                //         if ($orderQuantity > $variation->stock) {
-                //             throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
-                //         }
-
-                //         // Tạo chi tiết đơn hàng
-                //         Order_detail::query()->create([
-                //             'order_id' => $product->id,
-                //             'variation_id' => $variationID,
-                //             'quantity' => $orderQuantity,
-                //             'price' => $request->product_price[$key],
-                //         ]);
-
-                //         // Giảm số lượng hàng tồn kho
-                //         $variation->stock -= $orderQuantity;
-                //         $variation->save();
-                //     }
-                // } else {
-                //     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
-                // }
-            });
+                    // Assuming you have a ProductVariant model and relationship
+                    $product->variants()->create([
+                        'variant_types' => json_encode($selectedVariants[$index]), // store variant types as JSON
+                        'price' => $price,
+                        'stock' => $stock,
+                    ]);
+                }
+            }, 3);
             return redirect()->route('product.index')->with('success', 'Thêm sản phẩm thành công');;
         } catch (\Throwable $th) {
             dd($th->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $th->getMessage());
         }
     }
 
