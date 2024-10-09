@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('variation_attribute_values', function (Blueprint $table) {
+        Schema::create('attribute_value_variation', function (Blueprint $table) {
             $table->foreignId('variation_id')->constrained('variations');
             $table->foreignId('attribute_value_id')->constrained('attribute_values');
             $table->primary(['variation_id', 'attribute_value_id']);
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('variation_attribute_values');
+        Schema::dropIfExists('attribute_value_variation');
     }
 };

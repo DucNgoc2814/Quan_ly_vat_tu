@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name', 255);
             $table->integer('stock');
             $table->integer('price_export');
-            $table->text('description')->nullable();
             $table->boolean('is_active')->default(true);
         });
     }

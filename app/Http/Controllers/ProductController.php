@@ -46,7 +46,6 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        dd($request->attribute_value_id);
         try {
             DB::transaction(function () use ($request) {
                 $slug = Str::slug($request['name']);
@@ -68,21 +67,19 @@ class ProductController extends Controller
                         $product->galleries()->create(['url' => $path]);
                     }
                 }
-
-                $variantPrices = $request->variant_prices;
-                $variantStocks = $request->variant_stocks;
-                $selectedVariants = $request->variant_types;
-
-                // Iterate over each combination of variants
-                foreach ($variantPrices as $index => $price) {
-                    $stock = $variantStocks[$index];
-
-                    // Assuming you have a ProductVariant model and relationship
-                    $product->variants()->create([
-                        'variant_types' => json_encode($selectedVariants[$index]), // store variant types as JSON
-                        'price' => $price,
-                        'stock' => $stock,
+                $variations = $request->variants;
+                foreach ($variations as $variantId => $data) {
+                    $variantName = $request->name . ' (' . implode(', ', $data['attribute_value_values']) . ')';
+                    $variation = Variation::create([
+                        'product_id' => $product->id,
+                        'sku' => $this->generateUniqueSku(),
+                        'name' => $variantName,
+                        'stock' => $data['stock'],
+                        'price_export' => $data['price'],
+                        'is_active' => true, 
                     ]);
+                    // $variationId = $variation->id;
+                    $variation->attributeValues()->attach($data['attribute_value_ids']);
                 }
             }, 3);
             return redirect()->route('product.index')->with('success', 'Thêm sản phẩm thành công');;
@@ -122,5 +119,18 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function generateUniqueSku()
+    {
+        // Tạo mã SKU ngẫu nhiên
+        $sku = Str::random(8); // Bạn có thể thay đổi độ dài tùy theo yêu cầu
+
+        // Kiểm tra xem mã SKU đã tồn tại trong bảng variations chưa
+        while (Variation::where('sku', $sku)->exists()) {
+            $sku = Str::random(8); // Tạo lại mã nếu đã tồn tại
+        }
+
+        return $sku; // Trả về mã SKU duy nhất
     }
 }

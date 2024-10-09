@@ -173,7 +173,6 @@
 
                             <div class="col-lg-12">
                                 <div id="selected-variants" style="margin-top: 10px;"></div>
-                                <div id="variant-output" style="margin-top: 10px;"></div>
                             </div>
 
                             <div class="mt-3">
@@ -193,40 +192,34 @@
                 selectedVariants.push($(this).val());
             });
 
-            // Kiểm tra xem có quá 2 loại biến thể được chọn không
             if (selectedVariants.length > 2) {
                 alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
-                $(this).prop('checked', false); // Bỏ chọn biến thể vừa được chọn
-                return; // Dừng hàm nếu vượt quá
+                $(this).prop('checked', false);
+                return;
             }
 
-            // Sử dụng giá trị từ attributesArray
             const variantValues = @json($attributesArray);
-            // Tìm các giá trị biến thể đã chọn
             const selectedVariantValues = selectedVariants.map(variant => {
                 const attribute = variantValues.find(attr => attr.id == variant);
-                return attribute ? attribute.attribute_values : []; // Trả về giá trị biến thể hoặc mảng rỗng
+                return attribute ? attribute.attribute_values : [];
             });
 
-            console.log('variantValues:', variantValues);
-            console.log('selectedVariants:', selectedVariants);
             const combinations = generateCombinations(selectedVariantValues);
-
             const resultDiv = $('#selected-variants');
-            resultDiv.empty(); // Xóa nội dung trước đó
+            resultDiv.empty();
 
             combinations.forEach(combo => {
-                const id = combo.join('_'); // Tạo ID từ kết hợp
+                const id = combo.map(item => item.id).join('_');
 
                 const variantLabels = selectedVariants.map((type, index) => {
-                    const variantValue = combo[index]; // Lấy giá trị tương ứng
-                    const variantName = variantValues.find(attr => attr.id == type).name; // Lấy tên biến thể
-                    // Kiểm tra variantValue để lấy thuộc tính name
+                    const variantValue = combo[index];
+                    const variantName = variantValues.find(attr => attr.id == type).name;
                     return `
                 <div class="col-md-3">
                     <div class="mb-2">
-                        <label class="form-label" for="product-variant-input-${id}_${index}">${variantName}</label>
-                        <input type="text" class="form-control" name="attribute_value_id[${variantValue.id}]" value="${variantValue ? variantValue.value : ''}" readonly>
+                        <label class="form-label">${variantName}</label>
+                        <input type="hidden" name="variants[${id}][attribute_value_ids][]" value="${variantValue.id}">
+                        <input type="text" class="form-control" name="variants[${id}][attribute_value_values][]" value="${variantValue.value}" readonly>
                     </div>
                 </div>
             `;
@@ -240,14 +233,14 @@
                         ${variantLabels}
                         <div class="col-md-3">
                             <div class="mb-2">
-                                <label class="form-label" for="product-price-input">Giá chi tiết</label>
-                                <input type="number" class="form-control" name="variant_prices[]">
+                                <label class="form-label">Giá chi tiết</label>
+                                <input type="number" class="form-control" name="variants[${id}][price]" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-2">
-                                <label class="form-label" for="product-stock-input">Số lượng</label>
-                                <input type="number" class="form-control" name="variant_stocks[]">
+                                <label class="form-label">Số lượng</label>
+                                <input type="number" class="form-control" name="variants[${id}][stock]" required>
                             </div>
                         </div>
                     </div>
@@ -257,6 +250,7 @@
                 resultDiv.append(html);
             });
         }
+
 
 
         function addImageInput() {
