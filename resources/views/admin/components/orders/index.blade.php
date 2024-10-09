@@ -119,6 +119,27 @@
     <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 
     <script>
+
+function changeStatusOrder(orderSlug, newStatus,note) {
+            $.ajax({
+                  url: `{{ route('order.updateStatus', '') }}/${orderSlug}`,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    status: newStatus,
+                    note:note
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert('Status updated successfully!');
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
         function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
             const form = selectElement.closest('form');
@@ -138,11 +159,8 @@
                     if (result.isConfirmed) {
                         const note = result.value;
                         const noteInput = document.createElement('input');
-                        noteInput.type = 'hidden';
-                        noteInput.name = 'note';
                         noteInput.value = note;
-                        form.appendChild(noteInput);
-                        form.submit();
+                        changeStatusOrder(orderSlug, newStatus, noteInput.value);
                     } else {
                         selectElement.value = selectElement.options[0].value;
                     }
@@ -158,7 +176,7 @@
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        form.submit();
+                        changeStatusOrder(orderSlug, newStatus,'');
                     } else {
                         selectElement.value = selectElement.options[0].value;
                     }
