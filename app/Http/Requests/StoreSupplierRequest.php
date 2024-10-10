@@ -24,7 +24,7 @@ class StoreSupplierRequest extends FormRequest
         return [
             'name' => 'required|max:255',
           'email' => 'required|email|unique:suppliers,email',
-            'number_phone' => 'required|numeric|unique:suppliers,number_phone',
+            'number_phone' => 'required|regex:/^0[1-9]{1}[0-9]{8}$/|numeric|unique:suppliers,number_phone',
             'address' => 'required',
 
         ];
@@ -38,6 +38,7 @@ class StoreSupplierRequest extends FormRequest
             'email.email' => 'Không đúng định dạng !',
             'email.unique' => 'Không được trung email nhà cung cấp !',
             'number_phone.required' => 'Không được bỏ trống !',
+            'number_phone.regex' => 'Nhập đúng định dạng số điện thoại !',
             'number_phone.unique' => 'Không được trùng số điện thoại !',
             'number_phone.numeric' => 'Số điện thoại không đúng định dạng bắt buộc phải là số !',
             'address.required' => 'Không được bỏ trống !',
