@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-
+    Danh sách đơn hàng nhập
 @endsection
 
 @section('content')
@@ -205,5 +205,51 @@
                 });
             @endif
         });
+    </script>
+
+    <script>
+        function checkOrderStatus(slug) {
+            setInterval(function() {
+                fetch(`/don-hang-nhap/kiem-tra-trang-thai/${slug}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'confirmed') {
+                            Swal.fire({
+                                title: 'Đơn hàng đã giao thành công',
+                                text: `Đơn hàng - ${slug} đã được giao thành công`,
+                                icon: 'success',
+                                confirmButtonText: 'Xác nhận'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    updateOrderStatus(slug);
+                                }
+                            });
+                        }
+                    });
+            }, 30000);
+        }
+
+        function updateOrderStatus(slug) {
+            fetch(`/don-hang-nhap/cap-nhat-trang-thai/${slug}`, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    }
+                });
+        }
+
+        // Gọi hàm này cho mỗi đơn hàng có trạng thái "Đã xác nhận"
+        @foreach ($data as $item)
+            @if ($item->status == 2)
+                checkOrderStatus('{{ $item->slug }}');
+            @endif
+        @endforeach
     </script>
 @endsection
