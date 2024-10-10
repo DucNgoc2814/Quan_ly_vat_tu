@@ -9,19 +9,24 @@
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Danh sách thanh trượt</h4>
 
-                <div class="col-sm-auto">
-                    <div>
-                        <a href="{{ route('sliders.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                class="ri-add-line align-bottom me-1"></i>Thêm thanh trượt </a>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
+                <div class="card-header border-0">
+                    <div class="row g-4">
+                        <div class="col-sm-auto">
+                            <div>
+                                <a href="{{ route('sliders.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                        class="ri-add-line align-bottom me-1"></i>Thêm thanh trượt </a>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
