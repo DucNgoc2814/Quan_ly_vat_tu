@@ -16,9 +16,6 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-                        <div class="col-sm ">
-                            <input type="date" class="form-control w-25" id="exampleInputdate">
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">
