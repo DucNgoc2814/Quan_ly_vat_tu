@@ -34,7 +34,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+            $request->validate([
+                'name' => 'required',
+                'sku' => 'required',
+                'image' => 'required',
+                'description' => 'required',
+            ]);
             $data = [
                 'name' => $request->name,
                 'sku' => $request->sku,
@@ -47,9 +52,7 @@ class CategoryController extends Controller
             }
             Category::query()->create($data);
             return redirect()->route('category.index');
-        } catch (\Throwable $th) {
-            dd($th->getMessage());
-        }
+       
     }
 
 
@@ -70,7 +73,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         return view('admin.components.categories.edit', compact('category'));
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -98,20 +101,15 @@ class CategoryController extends Controller
         }
 
         DB::table('categories')
-              ->where('id', $id)
-              ->update($data);
-     
+            ->where('id', $id)
+            ->update($data);
+
         return redirect()->route('category.index')->with('success', 'Danh mục đã được cập nhật thành công.');
-
-
     }
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
-    {
-       
-    }
+    public function destroy($id) {}
 }

@@ -25,7 +25,6 @@
                     <form action="{{ route('category.update',$category->id) }}" method="POST"  enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
-
                         <div class="row">
                             <div class="col-lg-8">
                                 <label class="form-label">Tên mã hàng.</label>
@@ -35,7 +34,6 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-
                             <div class="col-lg-8 mt-3">
                                 <label class="form-label">Trọng Tải.</label>
                                 <input type="text" name="sku" placeholder="Nhập tên mã hàng cần sửa" class="form-control"
