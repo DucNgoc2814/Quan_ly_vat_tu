@@ -43,6 +43,7 @@
             <button type="submit" class="btn btn-primary">Đăng ký</button>
         </div>
         <br>
+        
         <div class="container signin">
             <p>Bạn có sẵn sàng để tạo một tài khoản? <a href="{{ route('login') }}">Đăng nhập</a>.</p>
         </div>
