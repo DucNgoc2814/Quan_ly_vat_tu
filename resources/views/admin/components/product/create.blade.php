@@ -41,10 +41,18 @@
                                     <div class="card-body">
                                         <h5 class="card-title mb-0">Danh mục</h5>
                                         <select class="form-select mt-2" name="category_id">
+                                            <option value="" selected>Chọn danh mục</option>
                                             @foreach ($categories as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                <option value="{{ $key }}"
+                                                    {{ old('category_id') == $key ? 'selected' : '' }}>{{ $value }}
+                                                </option>
                                             @endforeach
                                         </select>
+                                        @error('category_id')
+                                            <span role="alert">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="card">
@@ -52,8 +60,8 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="product-title-input">Tên sản phẩm</label>
                                             <input type="text" class="form-control" id="product-title-input"
-                                                value="" placeholder="Thêm sản phẩm" name="name">
-                                            @error('title')
+                                                value="{{ old('name') }}" placeholder="Thêm sản phẩm" name="name">
+                                            @error('name')
                                                 <span role="alert">
                                                     <span class="text-danger">{{ $message }}</span>
                                                 </span>
@@ -66,7 +74,7 @@
                                         <div class="mb-3">
                                             <label class="form-label" for="product-price-input">Giá sản phẩm</label>
                                             <input type="text" class="form-control" id="product-price-input"
-                                                value="" placeholder="Thêm giá sản phẩm" name="price">
+                                                value="{{ old('price') }}" placeholder="Thêm giá sản phẩm" name="price">
                                             @error('price')
                                                 <span role="alert">
                                                     <span class="text-danger">{{ $message }}</span>
@@ -83,7 +91,7 @@
                                             <div>
                                                 <label class="form-label" for="meta-description-input">Mô tả</label>
                                                 <textarea class="form-control" id="meta-description-input" placeholder="Nhập nội dung" rows="8"
-                                                    name="description"></textarea>
+                                                    name="description">{{ old('description') }}</textarea>
                                                 @error('description')
                                                     <span role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -100,7 +108,7 @@
                                     <div class="card-body d-flex justify-content-around">
                                         <div class="form-check form-switch form-switch">
                                             <input class="form-check-input" type="checkbox" name="is_active" value="1"
-                                                id="is_active" checked>
+                                                id="is_active" {{ old('is_active') ? 'checked' : '' }}>
                                             <label class="form-check-label" for="is_active">Hiển thị</label>
                                         </div>
                                     </div>
@@ -109,26 +117,40 @@
                                 <!-- Thương hiệu -->
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title mb-0">Thương hiệu</h5>
+                                        <h5 class="card-title mb-0">Chọn thương hiệu</h5>
                                         <select class="form-select mt-2" name="brand_id">
+                                            <option value="" selected>Chọn thương hiệu</option>
                                             @foreach ($brands as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                <option value="{{ $key }}"
+                                                    {{ old('brand_id') == $key ? 'selected' : '' }}>{{ $value }}
+                                                </option>
                                             @endforeach
                                         </select>
+                                        @error('brand_id')
+                                            <span role="alert">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
-
-
 
                                 <!-- Đơn vị -->
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title mb-0">Đơn vị</h5>
+                                        <h5 class="card-title mb-0">Chọn đơn vị</h5>
                                         <select class="form-select mt-2" name="unit_id">
+                                            <option value="" selected>Chọn đơn vị</option>
                                             @foreach ($units as $key => $value)
-                                                <option value="{{ $key }}">{{ $value }}</option>
+                                                <option value="{{ $key }}"
+                                                    {{ old('unit_id') == $key ? 'selected' : '' }}>{{ $value }}
+                                                </option>
                                             @endforeach
                                         </select>
+                                        @error('unit_id')
+                                            <span role="alert">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </span>
+                                        @enderror
                                     </div>
                                 </div>
 
@@ -140,7 +162,8 @@
                                             @foreach ($attributesArray as $attribute)
                                                 <label class="variant-checkbox">
                                                     <input type="checkbox" name="variant_types[]"
-                                                        value="{{ $attribute['id'] }}">
+                                                        value="{{ $attribute['id'] }}"
+                                                        {{ in_array($attribute['id'], old('variant_types', [])) ? 'checked' : '' }}>
                                                     <span>{{ $attribute['name'] }}</span>
                                                 </label>
                                             @endforeach
@@ -149,27 +172,32 @@
                                             onclick="getSelectedValues()">Lưu</button>
                                     </div>
                                 </div>
-
                             </div>
+
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="mb-3" id="image-inputs">
                                             <label class="form-label" for="product-images-input">Ảnh sản phẩm</label>
-                                            <input type="file" class="form-control mb-2" name="product_images[]"
-                                                accept="image/*" onchange="previewImages(this)">
-                                            @error('images')
-                                                <span role="alert">
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                </span>
-                                            @enderror
+                            
+                                            <input type="file" class="form-control mb-2" name="product_images[]" accept="image/*" onchange="previewImages(this)">
+                                            
+                                            <!-- Hiển thị lỗi cho product_images -->
+                                            @if ($errors->has('product_images'))
+                                                <div class="text-danger">{{ $errors->first('product_images') }}</div>
+                                            @endif
+                                            
+                                            <!-- Hiển thị lỗi cho từng ảnh trong mảng product_images -->
+                                            @if ($errors->has('product_images.*'))
+                                                <div class="text-danger">{{ $errors->first('product_images.*') }}</div>
+                                            @endif
                                         </div>
-                                        <button type="button" class="btn btn-primary" onclick="addImageInput()">Thêm
-                                            ảnh</button>
+                            
+                                        <button type="button" class="btn btn-primary" onclick="addImageInput()">Thêm ảnh</button>
                                     </div>
                                 </div>
                             </div>
-
+                            
 
                             <div class="col-lg-12">
                                 <div id="selected-variants" style="margin-top: 10px;"></div>
@@ -180,6 +208,7 @@
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -192,10 +221,10 @@
                 selectedVariants.push($(this).val());
             });
 
+            // Check the limit of variants
             if (selectedVariants.length > 2) {
                 alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
-                $(this).prop('checked', false);
-                return;
+                return false;
             }
 
             const variantValues = @json($attributesArray);
@@ -226,30 +255,32 @@
                 }).join('');
 
                 const html = `
-            <div class="col-lg-12">
-                <div class="col-md-12" id="${id}_item">
-                    <hr class="mb-2">
-                    <div class="row">
-                        ${variantLabels}
-                        <div class="col-md-3">
-                            <div class="mb-2">
-                                <label class="form-label">Giá chi tiết</label>
-                                <input type="number" class="form-control" name="variants[${id}][price]">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="mb-2">
-                                <label class="form-label">Số lượng</label>
-                                <input type="number" class="form-control" name="variants[${id}][stock]">
-                            </div>
-                        </div>
+    <div class="col-lg-12">
+        <div class="col-md-12" id="${id}_item">
+            <hr class="mb-2">
+            <div class="row">
+                ${variantLabels}
+                <div class="col-md-3">
+                    <div class="mb-2">
+                        <label class="form-label">Giá chi tiết</label>
+                        <input type="number" class="form-control" name="variants[${id}][price]">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-2">
+                        <label class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" name="variants[${id}][stock]">
                     </div>
                 </div>
             </div>
-        `;
+        </div>
+    </div>
+`;
+
                 resultDiv.append(html);
             });
         }
+
 
 
 

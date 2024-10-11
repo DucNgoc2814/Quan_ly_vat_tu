@@ -119,15 +119,14 @@
     <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
 
     <script>
-
-function changeStatusOrder(orderSlug, newStatus,note) {
+        function changeStatusOrder(orderSlug, newStatus, note) {
             $.ajax({
-                  url: `{{ route('order.updateStatus', '') }}/${orderSlug}`,
+                url: `{{ route('order.updateStatus', '') }}/${orderSlug}`,
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
                     status: newStatus,
-                    note:note
+                    note: note
                 },
                 success: function(response) {
                     if (response.success) {
@@ -176,7 +175,7 @@ function changeStatusOrder(orderSlug, newStatus,note) {
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        changeStatusOrder(orderSlug, newStatus,'');
+                        changeStatusOrder(orderSlug, newStatus, '');
                     } else {
                         selectElement.value = selectElement.options[0].value;
                     }

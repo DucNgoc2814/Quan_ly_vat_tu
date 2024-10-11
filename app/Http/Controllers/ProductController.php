@@ -84,8 +84,8 @@ class ProductController extends Controller
             }, 3);
             return redirect()->route('product.index')->with('success', 'Thêm sản phẩm thành công');;
         } catch (\Throwable $th) {
-            dd($th->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $th->getMessage());
+            // Trả về trang trước đó với thông báo lỗi, nhưng không dừng chương trình
+            return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra: ' . $th->getMessage());
         }
     }
 
