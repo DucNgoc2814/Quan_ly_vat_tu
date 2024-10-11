@@ -132,7 +132,6 @@
 @endsection
 @section('scripts')
     <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
-
     <script>
         function changeStatusOrder(orderSlug, newStatus, note) {
             $.ajax({
@@ -144,18 +143,13 @@
                     note: note
                 },
                 success: function(response) {
-                    console.log(newStatus);
                 },
                 error: function(xhr) {
-                    console.log(xhr.responseText);
                 }
             });
         }
-
         function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
-
-
             const form = selectElement.closest('form');
             if (newStatus == 5) {
                 Swal.fire({
@@ -172,7 +166,6 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         let optionDefaul = selectElement.querySelectorAll(`.optionDefaul`)
-                        console.log(optionDefaul);
                         selectElement.querySelectorAll(`.optionCheck`).forEach((element) => {
                             element.style.display = 'none';
                         });
@@ -206,9 +199,7 @@
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
-
                         let optionDefaul = selectElement.querySelectorAll(`.optionDefaul`)
-                        console.log(optionDefaul);
                         selectElement.querySelectorAll(`.optionCheck`).forEach((element) => {
                             element.style.display = 'none';
                         });
