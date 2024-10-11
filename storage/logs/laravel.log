@@ -365,3 +365,5 @@
 #53 F:\\Project\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('F:\\\\Project\\\\Quan...')
 #54 {main}
 "} 
+[2024-10-12 04:25:59] local.DEBUG: Số lượng tồn kho (stock) của variation 3 là: 50  
+[2024-10-12 04:25:59] local.DEBUG: Số lượng mua của variation 3 là: 2  
