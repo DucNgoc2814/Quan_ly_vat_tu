@@ -234,13 +234,13 @@
                         <div class="col-md-3">
                             <div class="mb-2">
                                 <label class="form-label">Giá chi tiết</label>
-                                <input type="number" class="form-control" name="variants[${id}][price]" required>
+                                <input type="number" class="form-control" name="variants[${id}][price]">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="mb-2">
                                 <label class="form-label">Số lượng</label>
-                                <input type="number" class="form-control" name="variants[${id}][stock]" required>
+                                <input type="number" class="form-control" name="variants[${id}][stock]">
                             </div>
                         </div>
                     </div>

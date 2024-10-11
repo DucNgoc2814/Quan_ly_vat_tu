@@ -46,6 +46,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        $variations = $request->variants;
         try {
             DB::transaction(function () use ($request) {
                 $slug = Str::slug($request['name']);
@@ -75,10 +76,9 @@ class ProductController extends Controller
                         'sku' => $this->generateUniqueSku(),
                         'name' => $variantName,
                         'stock' => $data['stock'],
-                        'price_export' => $data['price'],
+                        'price_export' => $data['price'] ? $data['price'] : $request->price,
                         'is_active' => true, 
                     ]);
-                    // $variationId = $variation->id;
                     $variation->attributeValues()->attach($data['attribute_value_ids']);
                 }
             }, 3);
