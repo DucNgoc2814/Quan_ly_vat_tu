@@ -11,61 +11,42 @@
                     <div class="row g-4">
 
                         <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control " id="searchProductList" name="search"
-                                        placeholder="Tìm danh mục...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
-                            </div>
+                           
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('category.update',$category->id) }}" method="POST"  enctype="multipart/form-data">
+                    <form action="{{ route('customer_ranks.update',$data->id) }}" method="POST"  enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
 
                         <div class="row">
                             <div class="col-lg-8">
-                                <label class="form-label">Tên mã hàng.</label>
-                                <input value="{{ $category->name }}" type="text" name="name" placeholder="Nhập tên mã hàng"
+                                <label class="form-label">Tên giảm giá.</label>
+                                <input value="{{ $data->name }}" type="text" name="name" placeholder="Nhập tên mã hàng"
                                     class="form-control"  >
                                 @error('name')
-                                    <p class="text-danger">{{ $message }}</p>
+                                    <p class="text-danger">Vui lòng nhập chính xác</p>
+                                @enderror
+                            </div>
+                            <div class="col-lg-8">
+                                <label class="form-label">Giảm giá.</label>
+                                <input value="{{ $data->discount }}" type="number" name="discount" placeholder="Nhập giảm giá"
+                                    class="form-control"  >
+                                @error('discount')
+                                    <p class="text-danger">Vui lòng nhập chính xác</p>
+                                @enderror
+                            </div>
+                            <div class="col-lg-8">
+                                <label class="form-label">Số lượng.</label>
+                                <input value="{{ $data->amount }}" type="number" name="amount" placeholder="Nhập số lượng"
+                                    class="form-control"  >
+                                @error('amount')
+                                    <p class="text-danger">Vui lòng nhập chính xác</p>
                                 @enderror
                             </div>
 
-                            <div class="col-lg-8 mt-3">
-                                <label class="form-label">Trọng Tải.</label>
-                                <input type="text" name="sku" placeholder="Nhập tên mã hàng cần sửa" class="form-control"
-                                    value="{{ $category->sku }}">
-                                @error('sku')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div style="margin-top: 10px">
-                               <p> Ảnh cũ </p>
-                                <img src="{{ asset('storage/' . $category->image) }}" width="200px" height="200px" alt="">
-                            </div>
-
-
-                            <div class="col-lg-12 mt-3">
-                                <label class="form-label">Image.</label>
-                                <input value="{{ old('image') }}" type="file" name="image" class="form-control">
-                                @error('image')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
                             
-                
-                            <div class="col-lg-12 mt-3">
-                                <label class="form-label">Mô tả</label>
-                                <textarea name="description" class="form-control" rows="3"> {{ $category->description }}</textarea>
-                                @error('description')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
                         </div>
                         <div class="mt-3">
                             <button type="submit" class = "btn btn-success text ">Update</button>

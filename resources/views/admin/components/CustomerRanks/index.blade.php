@@ -47,38 +47,20 @@
                                     <td>{{ $item->discount }}</td>
                                     <td>{{ $item->amount }}</td>
                                     <td>
-                                        <div class="dropdown d-inline-block">
-                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-fill align-middle"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="{{route('customer_ranks.edit',$item->id)}}" class="dropdown-item"><i
+                                            
+                                                <a href="{{route('customer_ranks.edit',$item->id)}}" class="dropdown-item"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i> Edit.</a>
-                                                </li>
-                                                <li><a href="#!" class="dropdown-item"><i
-                                                    class="ri-eye-fill align-bottom me-2 text-muted"></i>View.</a>
-                                        </li>
-                                                {{-- <li><a href="class="dropdown-item
-                                                        edit-item-btn"><i
-                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Edit</a></li>
-                                                <li> --}}
+                                                        {{-- <form action="{{ route('customer_ranks.destroy', $item->id) }}"
+                                                            method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="dropdown-item remove-list" type="submit"
+                                                                onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')">
+                                                                <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
+                                                                Xóa.
+                                                            </button>
+                                                        </form> --}}
 
-                                                    <form action="{{ route('customer_ranks.destroy', $item->id) }}"
-                                                        method="post">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button class="dropdown-item remove-list" type="submit"
-                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?')">
-                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                            Xóa.
-                                                        </button>
-                                                    </form>
-
-                                                </li>
-                                            </ul>
-                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
