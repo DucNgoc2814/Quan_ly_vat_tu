@@ -19,7 +19,7 @@ class Attribute_value extends Model
 
     public function attribute()
     {
-        return $this->belongsTo(Attribute::class);
+        return $this->belongsTo(Attribute::class, 'attribute_id');
     }
 
     public function variations()
