@@ -140,5 +140,4 @@
         });
     </script>
 
-    {{-- edit --}}
 @endsection
