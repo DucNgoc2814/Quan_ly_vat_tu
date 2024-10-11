@@ -176,6 +176,7 @@ function changeStatusOrder(orderSlug, newStatus,note) {
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
+                        // form.submit();
                         changeStatusOrder(orderSlug, newStatus,'');
                     } else {
                         selectElement.value = selectElement.options[0].value;
