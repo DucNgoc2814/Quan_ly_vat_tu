@@ -11,9 +11,16 @@ class TripDetailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    const PATH_VIEW = 'admin.components.trip_details.';
+    public function index(String $id)
     {
-        //
+        // $data = Trip_detail::with(['order', 'trip'])->findOrFail($id);
+        // return view(self::PATH_VIEW . 'index', compact('data'));
+
+        $data = Trip_detail::whereHas('trip', function ($query) use ($id) {
+            $query->where('id', $id);
+        })->with(['order', 'trip'])->get();
+        return view(self::PATH_VIEW . __FUNCTION__, data: compact('data'));
     }
 
     /**
