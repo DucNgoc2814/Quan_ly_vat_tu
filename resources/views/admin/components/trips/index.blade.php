@@ -18,8 +18,8 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('suppliers.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm nhà cung cấp</a>
+                                <a href="{{ route('trips.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                        class="ri-add-line align-bottom me-1"></i>Thêm chuyến xe</a>
                             </div>
                         </div>
                     </div>
@@ -53,7 +53,6 @@
                                         <a href="{{ route('trips_details.index', ['id' => $data->id]) }}" class="btn btn-secondary">
                                             Chi tiết
                                         </a>
-                                       
                                     </td>
                                     
                                 </tr>

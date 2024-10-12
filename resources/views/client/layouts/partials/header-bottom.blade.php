@@ -4,10 +4,11 @@
             <!--  logo Start-->
             <div class="col-auto">
                 <div class="logo">
-                    <a href="index.html"><img src="img/logo/logo.png" alt="logo-image"></a>
+                    <a href="index.html"><img src="{{ asset('themes/client/jantrik/img/logo/logo.png') }}"
+                            alt="logo-image"></a>
                 </div>
             </div>
-           <!--  logo End -->
+            <!--  logo End -->
 
             <!--  Desktop Memu Start -->
             <div class="col-auto d-none d-lg-block">
@@ -80,21 +81,17 @@
             <div class="col-auto">
                 <div class="cart-box text-end">
                     <ul>
-                        <li><a href="compare.html"><i class="fa fa-cog"></i></a>
-                            <ul class="ht-dropdown">
-                                <li><a href="login.html">Login</a></li>
-                                <li><a href="register.html">Register</a></li>
-                                <li><a href="account.html">Account</a></li>
-                            </ul>
-                        </li>
                         <li><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-basket"></i><span class="cart-counter">2</span></a>
+                        <li><a href="#"><i class="fa fa-shopping-basket"></i><span
+                                    class="cart-counter">2</span></a>
                             <ul class="ht-dropdown main-cart-box">
                                 <li>
                                     <!-- Cart Box Start -->
                                     <div class="single-cart-box">
                                         <div class="cart-img">
-                                            <a href="#"><img src="img/menu/1.jpg" alt="cart-image"></a>
+                                            <a href="#"><img
+                                                    src="{{ asset('themes/client/jantrik/img/menu/1.jpg') }}"
+                                                    alt="cart-image"></a>
                                         </div>
                                         <div class="cart-content">
                                             <h6><a href="product.html">Products Name</a></h6>
@@ -106,7 +103,9 @@
                                     <!-- Cart Box Start -->
                                     <div class="single-cart-box">
                                         <div class="cart-img">
-                                            <a href="#"><img src="img/menu/2.jpg" alt="cart-image"></a>
+                                            <a href="#"><img
+                                                    src="{{ asset('themes/client/jantrik/img/menu/2.jpg') }}"
+                                                    alt="cart-image"></a>
                                         </div>
                                         <div class="cart-content">
                                             <h6><a href="product.html">Products Name</a></h6>
@@ -124,6 +123,14 @@
                                     </div>
                                     <!-- Cart Footer Inner End -->
                                 </li>
+                            </ul>
+                        </li>
+                        <li><a href="compare.html"><i class="fa fa-user"></i></a>
+                            {{-- <i class="fa fa-cog"> --}}
+                            <ul class="ht-dropdown">
+                                <li><a href="{{ route('client.login') }}">Đăng nhập</a></li>
+                                <li><a href="{{ route('client.register') }}">Đăng ký</a></li>
+                                <li><a href="account.html">Tài khoản</a></li>
                             </ul>
                         </li>
                     </ul>

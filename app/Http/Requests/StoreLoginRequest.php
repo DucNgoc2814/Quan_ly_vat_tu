@@ -21,16 +21,16 @@ class StoreLoginRequest extends FormRequest
      */
     public function rules(): array
     {
-        if (request()->isMethod('post') && request()->route()->getName() == 'handleLogin') {
+        if (request()->isMethod('post') && request()->route()->getName() == 'client.handleLogin') {
             return [
                 'email' => 'required|string|email|max:255',
                 'password' => 'required|string|min:6',
             ];
-        } elseif (request()->isMethod('post') && request()->route()->getName() == 'sendMaill') {
+        } elseif (request()->isMethod('post') && request()->route()->getName() == 'client.sendMaill') {
             return [
                 'email' => 'required|string|email|max:255',
             ];
-        } elseif (request()->isMethod('post') && request()->route()->getName() == 'passwordchange') {
+        } elseif (request()->isMethod('post') && request()->route()->getName() == 'client.passwordchange') {
             return [
                 'password' => 'required|string|min:6|confirmed',
             ];

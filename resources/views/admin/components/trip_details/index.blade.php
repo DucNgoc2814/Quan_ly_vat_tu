@@ -67,14 +67,12 @@
                             <tbody>
                                 @foreach ($data as $index)
                                     <tr>
-                                        @if ($index->order->status_id == 2 || $index->order->status_id == 3)
                                             <td>{{ $index->order->slug }}</td>
                                             <td>{{ $index->order->address }}</td>
                                             <td>{{ $index->order->number_phone }}</td>
                                             <td>{{ $index->order->orderDetails->first()->variations->name }}</td>
                                             <td>{{ $index->order->orderDetails->first()->quantity }}</td>
                                             <td>{{ $index->order->orderDetails->first()->price }}</td>
-                                        @endif
                                     </tr>
                                 @endforeach
                             </tbody>

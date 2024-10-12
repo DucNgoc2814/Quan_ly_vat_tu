@@ -6,18 +6,19 @@
                 <div class="col-lg-6 mr-auto ml-auto">
                     <div class="newsletter text-center">
                         <div class="main-news-desc">
-                             <div class="news-desc">
-                                 <h3>Sign Up For Newsletters</h3>
-                                 <p>Get e-mail updates about our latest shop and special offers.</p>
-                             </div>
+                            <div class="news-desc">
+                                <h3>Sign Up For Newsletters</h3>
+                                <p>Get e-mail updates about our latest shop and special offers.</p>
+                            </div>
                         </div>
                         <div class="newsletter-box">
                             <form action="#">
-                                <input class="subscribe" placeholder="Enter your email address" name="email" id="subscribe" type="text">
+                                <input class="subscribe" placeholder="Enter your email address" name="email"
+                                    id="subscribe" type="text">
                                 <button type="submit" class="submit">subscribe</button>
                             </form>
                         </div>
-                     </div>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -31,7 +32,9 @@
                                 <span><i class="fa fa-envelope-o"></i>Mail Us: demo@example.com</span>
                                 <span><i class="fa fa-phone"></i>Phone: 0123456789</span>
                             </div>
-                            <div class="payment-mth"><a href="#"><img class="img" src="img/footer/1.png" alt="payment-image"></a></div>
+                            <div class="payment-mth"><a href="#"><img class="img"
+                                        src="{{ asset('themes/client/jantrik/img/footer/1.png') }}"
+                                        alt="payment-image"></a></div>
                         </div>
                     </div>
                 </div>
@@ -114,7 +117,9 @@
     <div class="footer-bottom off-white-bg2">
         <div class="container">
             <div class="footer-bottom-content">
-                <p class="copy-right-text">&copy; 2023 <strong> Jantrik </strong> Made with <i class="fa fa-heart text-danger"></i> by <a href="https://hasthemes.com/" target="_blank"><strong>HasThemes</strong></a></p>
+                <p class="copy-right-text">&copy; 2023 <strong> Jantrik </strong> Made with <i
+                        class="fa fa-heart text-danger"></i> by <a href="https://hasthemes.com/"
+                        target="_blank"><strong>HasThemes</strong></a></p>
                 <div class="footer-social-content">
                     <ul class="social-content-list">
                         <li><a href="#"><i class="fa fa-twitter"></i></a></li>
