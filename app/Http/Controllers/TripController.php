@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Trip;
+use App\Models\Employee;
+use App\Models\Cargo_car;
 use App\Http\Requests\StoreTripRequest;
 use App\Http\Requests\UpdateTripRequest;
+use App\Models\Order;
 
 class TripController extends Controller
 {
@@ -22,9 +25,10 @@ class TripController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+
+     public function create()
     {
-        //
+       
     }
 
     /**

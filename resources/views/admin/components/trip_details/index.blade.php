@@ -61,7 +61,6 @@
                                     <th scope="col">Tên sản phẩm</th>
                                     <th scope="col">Số lượng</th>
                                     <th scope="col">Tổng tiền</th>
-
                                 </tr>
                             </thead>
                             <tbody>
