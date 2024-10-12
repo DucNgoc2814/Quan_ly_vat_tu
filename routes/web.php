@@ -32,3 +32,5 @@ Route::get('/doi-mat-khau', [LoginController::class, 'changepassword'])->name('c
 Route::post('/passwordchange', [LoginController::class, 'passwordchange'])->name('passwordchange');
 // <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
+
+

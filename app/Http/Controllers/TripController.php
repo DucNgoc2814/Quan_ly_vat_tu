@@ -11,9 +11,12 @@ class TripController extends Controller
     /**
      * Display a listing of the resource.
      */
+    const PATH_VIEW = 'admin/components/trips/';
     public function index()
     {
-        //
+        $trips =  Trip::with(['cargoCar', 'employee'])->get();
+
+        return view(self::PATH_VIEW . 'index', compact('trips'));
     }
 
     /**
