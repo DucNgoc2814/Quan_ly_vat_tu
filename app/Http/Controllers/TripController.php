@@ -44,31 +44,31 @@ class TripController extends Controller
             $trip = Trip::create([
                 'cargo_car_id' => $request->cargo_car_id,
                 'employee_id' => $request->employee_id,
-                'status' => '1', 
+                'status' => '1',
             ]);
 
-            $orderIds = $request->input('order_ids', []);
+            $orderIds = $request->input('order_id', []);
             foreach ($orderIds as $orderId) {
                 $order = Order::findOrFail($orderId);
                 Trip_detail::create([
                     'trip_id' => $trip->id,
-                    'order_id' => $orderId,
+                    'order_id' => $order->id,
                     'total_amount' => $order->total_amount,
                 ]);
 
-                // Cập nhật trạng thái đơn hàng
+                // Update order status
                 $order->update(['status_id' => 3]);
             }
 
             DB::commit();
-
-            return redirect()->route('trips.index')->with('success', 'Chuyến xe đã được tạo thành công.');
-        } catch (\Exception $e) {
-            dd($e->getMessage());
+            return redirect()->route('trips.index')->with('success', 'Thêm đơn vận chuyển thành công');
+        } catch (\Exception $th) {
+            // echo $th->getMessage();
             DB::rollBack();
-            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+            return back()->with('error', 'Đã xảy ra lỗi: ' . $th->getMessage());
         }
     }
+
 
 
     /**

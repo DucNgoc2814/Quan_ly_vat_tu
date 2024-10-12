@@ -84,6 +84,7 @@
                                     <tbody>
                                         @foreach ($pendingOrders as $order)
                                             <tr>
+                                            <tr data-order-id="{{ $order->id }}">
                                                 <td>{{ $order->slug }}</td>
                                                 <td>{{ $order->address }}</td>
                                                 <td>{{ $order->number_phone }}</td>
@@ -100,12 +101,15 @@
                         </div>
                     </div>
                 </div>
+                @error('order_id')
+                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                @enderror
+
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <div id="selected_orders" style="display: none;"></div>
-                                <div id="order_ids_error" class="invalid-feedback" style="display:none;"></div>
                                 <div class="mb-2">
                                     <label class="form-label" for="total_amount">Tổng giá trị chuyến xe</label>
                                     <input type="text" class="form-control form-control-lg" id="total_amount"
@@ -143,12 +147,12 @@
         function addOder(button) {
             const row = button.closest('tr');
             const orderInfo = {
+                id: row.dataset.orderId, // Thêm dòng này
                 slug: row.cells[0].textContent,
                 address: row.cells[1].textContent,
                 phone: row.cells[2].textContent,
                 total: row.cells[3].textContent
             };
-
             const selectedOrdersDiv = document.getElementById('selected_orders');
 
             if (!selectedOrdersDiv.querySelector('table')) {
@@ -167,12 +171,6 @@
             </table>
             `;
             }
-            //
-            function showOrderIdsError(message) {
-                const errorDiv = document.getElementById('order_ids_error');
-                errorDiv.textContent = message;
-                errorDiv.style.display = 'block';
-            }
 
             // Thêm event listener này vào cuối phần script
             document.querySelector('form').addEventListener('submit', function(event) {
@@ -189,8 +187,9 @@
             <td>${orderInfo.phone}</td>
             <td>${orderInfo.total}</td>
             <td>
-            <button type="button" class="btn btn-danger" onclick="removeOrder(this, '${orderInfo.slug}')">Xóa</button>
+                <button type="button" class="btn btn-danger" onclick="removeOrder(this, '${orderInfo.slug}')">Xóa</button>
             </td>
+            <input type="hidden" name="order_id[]" value="${orderInfo.id}">
             `;
 
             tbody.appendChild(newRow);
@@ -200,6 +199,7 @@
             row.style.display = 'none';
 
             calculateTotal();
+
         }
 
         function removeOrder(button, slug) {
@@ -211,19 +211,20 @@
                 total: row.cells[3].textContent
             };
 
+            row.querySelector('input[name="order_id[]"]').remove();
             row.remove();
 
             const originalTable = document.querySelector('#pendingOrdersTable tbody');
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
-        <td>${orderInfo.slug}</td>
-        <td>${orderInfo.address}</td>
-        <td>${orderInfo.phone}</td>
-        <td>${orderInfo.total}</td>
-        <td style="text-align: center">
+            <td>${orderInfo.slug}</td>
+            <td>${orderInfo.address}</td>
+            <td>${orderInfo.phone}</td>
+            <td>${orderInfo.total}</td>
+            <td style="text-align: center">
             <button type="button" class="ri-add-line btn btn-primary" onclick="addOder(this)">Thêm vận chuyển</button>
-        </td>
-        `;
+            </td>
+            `;
             originalTable.appendChild(newRow);
 
             calculateTotal();
@@ -233,19 +234,24 @@
                 document.getElementById('selected_orders').style.display = 'none';
             }
         }
-
+        //
+        document.querySelector('form').addEventListener('submit', function(event) {
+            if (document.querySelectorAll('input[name="order_id[]"]').length === 0) {
+                alert('Vui lòng chọn ít nhất một đơn hàng.');
+                event.preventDefault();
+            }
+        });
+        //
         function calculateTotal() {
             let total = 0;
             const selectedOrders = document.querySelectorAll('#selected_orders tbody tr');
             selectedOrders.forEach(order => {
-                const orderTotal = parseFloat(order.cells[3].textContent.replace(/[^0-9.-]+/g, ""));
-                total += orderTotal;
+                const orderTotal = parseFloat(order.cells[3].textContent.replace(/[^\d.]/g, ''));
+                if (!isNaN(orderTotal)) {
+                    total += orderTotal;
+                }
             });
             document.getElementById('total_amount').value = total.toFixed(2);
         }
-
-
-
-        
     </script>
 @endsection

@@ -24,8 +24,7 @@ class StoreTripRequest extends FormRequest
         return [
             'cargo_car_id' => 'required|exists:cargo_cars,id',
             'employee_id' => 'required|exists:employees,id',
-            'order_ids' => 'required|array',
-            'order_ids.*' => 'exists:orders,id',
+            'order_id' => 'required|array',
             'total_amount' => 'required|numeric|min:0',
         ];
     }
@@ -35,8 +34,8 @@ class StoreTripRequest extends FormRequest
         return [
             'cargo_car_id.required' => 'Vui lòng chọn phương tiện vận chuyển.',
             'employee_id.required' => 'Vui lòng chọn tài xế.',
-            'order_ids.required' => 'Vui lòng chọn ít nhất một đơn hàng.',
-            'order_ids.array' => 'Danh sách đơn hàng không hợp lệ.',
+            'order_id.required' => 'Vui lòng chọn ít nhất một đơn hàng.',
+            'order_id.array' => 'Danh sách đơn hàng không hợp lệ.',
         ];
     }
 }
