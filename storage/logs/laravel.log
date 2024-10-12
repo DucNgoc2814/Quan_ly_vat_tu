@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [2024-10-11 16:49:39] local.ERROR: Attempt to read property "order" on null {"view":{"view":"C:\\Users\\quannd\\Desktop\\Quan_ly_vat_tu\\resources\\views\\admin\\components\\order_details\\index.blade.php","data":{"errors":"<pre class=sf-dump id=sf-dump-1091248895 data-indent-pad=\"  \"><span class=sf-dump-note>Illuminate\\Support\\ViewErrorBag</span> {<a class=sf-dump-ref>#416</a><samp data-depth=1 class=sf-dump-expanded>
   #<span class=sf-dump-protected title=\"Protected property\">bags</span>: []
 </samp>}
@@ -14060,3 +14061,5 @@
 #53 C:\\Users\\quannd\\Desktop\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(16): require_once('C:\\\\Users\\\\quannd...')
 #54 {main}
 "} 
+=======
+>>>>>>> 4d0200dbb250f3a7d5131d308080a76d12233442

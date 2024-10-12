@@ -236,6 +236,5 @@ Route::prefix('quan-ly-chuyen-xe')
     ->as('trips_details.')
     ->group(function () {
         Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index');
-
     });
 

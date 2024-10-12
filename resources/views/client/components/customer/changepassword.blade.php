@@ -1,34 +1,131 @@
-@extends('admin.layouts.master')
+@extends('client.layouts.master')
 
 @section('title')
     Đổi mật khẩu
 @endsection
 
 @section('content')
-    <form action="{{ route('passwordchange') }}" method="post">
-        @csrf
+    <!-- Breadcrumb Start -->
+    <div class="breadcrumb-area ptb-60 ptb-sm-30">
         <div class="container">
-            <h1>Đổi mật khẩu</h1>
-            <p>Vui lòng điền vào mẫu này để đổi mật khẩu.</p>
-            <hr>
-            <input type="hidden" name="email" value="{{ session('email') }}">
-            <label for="password"><b>Mật khẩu mới</b></label><br>
-            <input type="password" class="form-control w-50" placeholder="Mật khẩu" name="password" id="password">
-            @error('password')
-                <span class="text-danger">{{ $message }}</span>
-            @enderror
-            <hr>
-            <label for="psw-repeat"><b>Nhập lại mật khẩu mới</b></label><br>
-            <input type="password" class="form-control w-50" placeholder="Nhập lại mật khẩu mới" name="password_confirmation" id="password_confirmation">
-            <hr>
-            <hr>
-            <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
-        </div><br>
-        <div class="container signin">
-            <p>Nếu bạn chưa có tài khoản: <a href="{{ route('register') }}">Đăng ký</a>.</p>
+            <div class="breadcrumb">
+                <ul>
+                    <li><a href="index.html">Trang chủ</a></li>
+                    <li class="active"><a href="register.html">Đổi mật khẩu</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="container signin">
-            <p>Nếu bạn đã có tài khoản: <a href="{{ route('login') }}">Đăng nhập</a>.</p>
+        <!-- Container End -->
+    </div>
+    <!-- Breadcrumb End -->
+    <!-- Register Account Start -->
+    <div class="register-account pb-60">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="register-title">
+                        <h3 class="mb-10">Đổi mật khẩu</h3>
+                    </div>
+                </div>
+            </div>
+            <!-- Row End -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <form class="form-horizontal" action="{{ route('client.passwordchange') }}" method="post">
+                        @csrf
+                        <fieldset>
+                            <legend>Vui lòng điền vào mẫu này để đổi mật khẩu.</legend>
+                            <div class="form-group">
+                                <label class="control-label" for="f-name"><span class="require">*</span>Mật khẩu
+                                    mới</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" name="email" value="{{ session('email') }}">
+                                    <input type="password" class="form-control mt-2" placeholder="Mật khẩu mới"
+                                        name="password" id="password">
+                                    @error('password')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label" for="f-name"><span class="require">*</span>Nhập lại mật khẩu mới</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control mt-2" placeholder="Nhập lại mật khẩu mới"
+                                        name="password_confirmation" id="password_confirmation">
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="buttons newsletter-input">
+                            {{-- <div class="pull-right">I have read and agree to the <a href="#" class="agree"><b>Privacy
+                                        Policy</b></a> --}}
+                            <div class="pull-left">
+                                {{-- <input type="checkbox" name="agree" value="1"> &nbsp; --}}
+                                <input type="submit" value="Đổi mật khẩu" class="newsletter-btn">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="container signin">
+                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('client.login') }}"
+                            class="active ">Đăng Nhập</a>.</p>
+                </div>
+                <div class="container signin">
+                    <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('client.register') }}">Đăng ký</a>.</p>
+                </div>
+            </div>
+            <!-- Row End -->
         </div>
-    </form>
+        <!-- Container End -->
+    </div>
+    <!-- Register Account End -->
+    <!-- Brand Logo Start -->
+    <div class="brand-area pb-60">
+        <div class="container">
+            <!-- Brand Banner Start -->
+            <div class="brand-banner owl-carousel">
+                <div class="single-brand">
+                    <a href="#"><img class="img" src="{{ asset('themes/client/template/img/brand/1.png') }}"
+                            alt="brand-image"></a>
+                </div>
+                <div class="single-brand">
+                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/2.png') }}"
+                            alt="brand-image"></a>
+                </div>
+                <div class="single-brand">
+                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/3.png') }}"
+                            alt="brand-image"></a>
+                </div>
+                <div class="single-brand">
+                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/4.png') }}"
+                            alt="brand-image"></a>
+                </div>
+                <div class="single-brand">
+                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/5.png') }}"
+                            alt="brand-image"></a>
+                </div>
+                <div class="single-brand">
+                    <a href="#"><img class="img" src="{{ asset('themes/client/template/img/brand/1.png') }}"
+                            alt="brand-image"></a>
+                </div>
+                <div class="single-brand">
+                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/2.png') }}"
+                            alt="brand-image"></a>
+                </div>
+                <div class="single-brand">
+                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/3.png') }}"
+                            alt="brand-image"></a>
+                </div>
+                <div class="single-brand">
+                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/4.png') }}"
+                            alt="brand-image"></a>
+                </div>
+                <div class="single-brand">
+                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/5.png') }}"
+                            alt="brand-image"></a>
+                </div>
+            </div>
+            <!-- Brand Banner End -->
+        </div>
+    </div>
+    <!-- Brand Logo End -->
 @endsection
