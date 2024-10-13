@@ -212,7 +212,7 @@
     <script>
         function changeStatus(nameTable, id, is_active) {
             $.ajax({
-                url: '<?php echo e(route('updateStatus')); ?>',
+                url: '<?php echo e(route('client.updateStatus')); ?>',
                 type: 'POST',
                 data: {
                     _token: '<?php echo e(csrf_token()); ?>',

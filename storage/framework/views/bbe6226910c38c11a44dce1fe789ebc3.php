@@ -226,8 +226,7 @@
                     <div class="collapse menu-dropdown" id="sidebarTrips">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="layouts-horizontal.html" class="nav-link" data-key="t-horizontal">Thêm
-                                    mới</a>
+                                <a href="<?php echo e(route('trips.index')); ?>" class="nav-link" data-key="t-horizontal">Danh sách chuyến đi</a>
                             </li>
                         </ul>
                     </div>

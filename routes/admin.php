@@ -17,7 +17,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
-
+use App\Http\Controllers\TripController;
+use App\Http\Controllers\TripDetailController;
 use App\Http\Controllers\UnitController;
 // <+====================ROUTER MẪU====================+>
 // Route::prefix('duong-dan-mau')
@@ -173,6 +174,9 @@ Route::prefix('don-hang-nhap')
         Route::post('/xac-nhan/{slug}', [ImportOrderController::class, 'confirmOrder'])->name(name: 'confirmOrder');
         Route::get('/tu-dong-cap-nhat/{slug}', [ImportOrderController::class, 'autoUpdateStatus'])->name('autoUpdateStatus');
         Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests');
+
+        Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus');
+        Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
     });
 Route::get('/', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
 
@@ -217,3 +221,20 @@ Route::prefix('xep-hang-khach-hang')
         Route::put('/sua/{id}', [CustomerRankController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [CustomerRankController::class, 'destroy'])->name('destroy');
     });
+Route::prefix('quan-ly-chuyen-xe')
+    ->as('trips.')
+    ->group(function () {
+        Route::get('/danh-sach-chuyen-xe', [TripController::class, 'index'])->name('index');
+        Route::get('/them-moi', [TripController::class, 'create'])->name('create');
+        Route::post('/them-moi', [TripController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [TripController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [TripController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy');
+    });
+    
+Route::prefix('quan-ly-chuyen-xe')
+    ->as('trips_details.')
+    ->group(function () {
+        Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index');
+    });
+
