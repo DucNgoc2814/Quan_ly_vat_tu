@@ -196,6 +196,7 @@
             selectedOrdersDiv.style.display = 'block';
 
             // Ẩn chỉ dòng này trong bảng gốc
+            
             row.style.display = 'none';
 
             calculateTotal();
