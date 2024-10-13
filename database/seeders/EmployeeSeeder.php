@@ -40,7 +40,7 @@ class EmployeeSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'role_id' => 3,
+                'role_id' => 4,
                 'name' => 'Phạm Văn C',
                 'email' => 'phamvanc12@example.com',
                 'image' => null,

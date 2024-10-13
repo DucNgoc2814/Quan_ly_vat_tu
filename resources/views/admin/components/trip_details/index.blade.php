@@ -65,14 +65,16 @@
                             </thead>
                             <tbody>
                                 @foreach ($data as $index)
-                                    <tr>
-                                            <td>{{ $index->order->slug }}</td>
-                                            <td>{{ $index->order->address }}</td>
-                                            <td>{{ $index->order->number_phone }}</td>
-                                            <td>{{ $index->order->orderDetails->first()->variations->name }}</td>
-                                            <td>{{ $index->order->orderDetails->first()->quantity }}</td>
-                                            <td>{{ $index->order->orderDetails->first()->price }}</td>
-                                    </tr>
+                                @if ($index->order->status_id == 3)
+                                <tr>
+                                    <td>{{ $index->order->slug }}</td>
+                                    <td>{{ $index->order->address }}</td>
+                                    <td>{{ $index->order->number_phone }}</td>
+                                    <td>{{ $index->order->orderDetails->first()->variations->name }}</td>
+                                    <td>{{ $index->order->orderDetails->first()->quantity }}</td>
+                                    <td>{{ $index->order->orderDetails->first()->price }}</td>
+                            </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>
