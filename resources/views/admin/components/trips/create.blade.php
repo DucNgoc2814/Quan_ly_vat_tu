@@ -241,7 +241,7 @@
                 event.preventDefault();
             }
         });
-        //
+        //tong tien trong form
         function calculateTotal() {
             let total = 0;
             const selectedOrders = document.querySelectorAll('#selected_orders tbody tr');
