@@ -34,11 +34,12 @@
                                 name="employee_id" data-choices data-choices-search-false>
                                 <option value="">Chọn Tên</option>
                                 @foreach ($employes as $employee)
-                                <option value="{{ $employee->id }}" {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
-                                    {{ $employee->name }} - {{ $employee->number_phone }}
-                                </option>
-                            @endforeach
-                            
+                                    <option value="{{ $employee->id }}"
+                                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
+                                        {{ $employee->name }} - {{ $employee->number_phone }}
+                                    </option>
+                                @endforeach
+
                             </select>
                             @error('employee_id')
                                 <span class="invalid-feedback" role="alert">
@@ -57,8 +58,11 @@
                                 name="cargo_car_id" data-choices data-choices-search-false>
                                 <option value="">Chọn phương tiện vận chuyển</option>
                                 @foreach ($cargoCars as $cargoCar)
-                                    <option value="{{ $cargoCar->id }}" {{ old('cargo_car_id') == $cargoCar->id ? 'selected' : '' }}>
-                                        {{ $cargoCar->cargoCarType->name }}</option>
+                                    @if ($cargoCar->is_active == 0)
+                                        <option value="{{ $cargoCar->id }}"
+                                            {{ old('cargo_car_id') == $cargoCar->id ? 'selected' : '' }}>
+                                            {{ $cargoCar->cargoCarType->name }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             @error('cargo_car_id')
