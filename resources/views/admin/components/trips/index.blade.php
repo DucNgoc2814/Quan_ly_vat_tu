@@ -30,6 +30,7 @@
                         <thead>
                             <tr>
                                 <th data-ordering="false">Tên xe</th>
+                                <th data-ordering="false">Biển số xe</th>
                                 <th data-ordering="false">Tên nhân viên</th>
                                 <th data-ordering="false">Trang thái</th>
                                 <th data-ordering="false">Hàh động</th>
@@ -40,6 +41,7 @@
                             @foreach ($trips as $data)
                                 <tr>
                                     <td>{{ $data->cargoCar->cargoCarType->name }}</td>
+                                    <td>{{ $data->cargoCar->license_plate }}</td>
 
                                     <td>{{ $data->employee->name }}</td>
                                     <td>

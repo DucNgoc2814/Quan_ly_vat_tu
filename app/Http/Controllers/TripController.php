@@ -52,6 +52,7 @@ class TripController extends Controller
             $orderIds = $request->input('order_id', []);
             foreach ($orderIds as $orderId) {
                 $order = Order::findOrFail($orderId);
+                $cargor_car = Cargo_car::findOrFail($request->cargo_car_id);
                 Trip_detail::create([
                     'trip_id' => $trip->id,
                     'order_id' => $order->id,
@@ -60,6 +61,7 @@ class TripController extends Controller
 
                 // Update order status
                 $order->update(['status_id' => 3]);
+                $cargor_car->update(['is_active' => 1]);
             }
 
             DB::commit();
