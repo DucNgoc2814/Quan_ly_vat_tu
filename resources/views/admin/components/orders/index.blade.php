@@ -170,9 +170,17 @@
                         if (newStatus == 1) {
                             optionDefaul[1].style.display = ''
                             optionDefaul[4].style.display = ''
+                            optionDefaul[2].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
                         } else if (newStatus == 2) {
+                            optionDefaul[1].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
                             optionDefaul[2].style.display = ''
+                            optionDefaul[4].style.display = ''
                         } else if (newStatus == 3) {
+                             optionDefaul[1].style.display = 'none'
+                            optionDefaul[4].style.display = 'none'
+                            optionDefaul[2].style.display = 'none'
                             optionDefaul[3].style.display = ''
                         } else {
                             if (selectElement) {
@@ -208,9 +216,17 @@
                         if (newStatus == 1) {
                             optionDefaul[1].style.display = ''
                             optionDefaul[4].style.display = ''
+                            optionDefaul[2].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
                         } else if (newStatus == 2) {
+                            optionDefaul[1].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
                             optionDefaul[2].style.display = ''
+                            optionDefaul[4].style.display = ''
                         } else if (newStatus == 3) {
+                             optionDefaul[1].style.display = 'none'
+                            optionDefaul[4].style.display = 'none'
+                            optionDefaul[2].style.display = 'none'
                             optionDefaul[3].style.display = ''
                         } else {
                             if (selectElement) {
