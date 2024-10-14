@@ -48,7 +48,7 @@
                                     <td>{{ $item->roleEmployee->name }}</td>
                                     <td>{{ $item->name }}</td>
                                     <td>
-                                        <img width="150px" height="150px"
+                                        <img style="border-radius: 4px" width="150px" height="160px"
                                             src="{{ $item->image ? \Storage::url($item->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
                                             alt="">
                                     </td>
