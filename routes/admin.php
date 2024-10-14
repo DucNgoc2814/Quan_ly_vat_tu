@@ -152,8 +152,8 @@ Route::prefix('san-pham')
         Route::get('/danh-sach', [ProductController::class, 'index'])->name('index');
         Route::get('/them-moi', [ProductController::class, 'create'])->name('create');
         Route::post('/them-moi', [ProductController::class, 'store'])->name('store');
-        Route::get('/sua/{sku}', [ProductController::class, 'edit'])->name('edit');
-        Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
+        Route::get('/sua/{id}', [ProductController::class, 'edit'])->name('edit');
+        Route::put('/sua/{slug}', [ProductController::class, 'update'])->name('update');
     });
 
 

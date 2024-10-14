@@ -46,7 +46,6 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        $variations = $request->variants;
         try {
             DB::transaction(function () use ($request) {
                 $slug = Str::slug($request['name']);
@@ -77,7 +76,7 @@ class ProductController extends Controller
                         'name' => $variantName,
                         'stock' => $data['stock'],
                         'price_export' => $data['price'] ? $data['price'] : $request->price,
-                        'is_active' => true, 
+                        'is_active' => true,
                     ]);
                     $variation->attributeValues()->attach($data['attribute_value_ids']);
                 }
@@ -100,17 +99,57 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $product)
+    public function edit(Product $id)
     {
-        //
+        $product = Product::query()->findOrFail($id->id);
+        $categories = Category::pluck('name', 'id');
+        $brands = Brand::pluck('name', 'id');
+        $units = Unit::pluck('name', 'id');
+        
+        $attributesArray = Attribute::with('attributeValues')->get();
+
+        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'brands', 'units', 'attributesArray'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(Product $request, $id)
     {
-        //
+        DB::transaction(function () use ($request, $id) {
+            $product = Product::findOrFail($id);
+            $product->update([
+                'name' => $request->name,
+                'price' => $request->price,
+                'category_id' => $request->category_id,
+                'brand_id' => $request->brand_id,
+                'unit_id' => $request->unit_id,
+                'description' => $request->description,
+                'is_active' => $request->has('is_active') ? 1 : 0
+            ]);
+
+            // Cập nhật ảnh sản phẩm
+            if ($request->hasFile('product_images')) {
+                foreach ($request->file('product_images') as $image) {
+                    $imagePath = $image->store('galleries', 'public');
+                    Gallery::create([
+                        'product_id' => $product->id,
+                        'image_path' => $imagePath,
+                    ]);
+                }
+            }
+
+            // Cập nhật biến thể
+            if ($request->has('variants')) {
+                $product->variants()->delete();
+                foreach ($request->variants as $variant) {
+                    $product->variants()->create([
+                        'attribute_value_ids' => json_encode($variant['attribute_value_ids']),
+                        'price' => $variant['price'],
+                        'stock' => $variant['stock'],
+                    ]);
+                }
+            }
+        });
+
+        return redirect()->route('product.index')->with('success', 'Sản phẩm đã được cập nhật.');
     }
 
     /**
