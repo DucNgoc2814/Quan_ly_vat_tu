@@ -159,8 +159,11 @@ function changeStatusOrder(orderSlug, newStatus,note) {
                     if (result.isConfirmed) {
                         const note = result.value;
                         const noteInput = document.createElement('input');
+                        noteInput.type = 'hidden';
+                        noteInput.name = 'note';
                         noteInput.value = note;
-                        changeStatusOrder(orderSlug, newStatus, noteInput.value);
+                        form.appendChild(noteInput);
+                        form.submit();
                     } else {
                         selectElement.value = selectElement.options[0].value;
                     }
@@ -176,8 +179,8 @@ function changeStatusOrder(orderSlug, newStatus,note) {
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // form.submit();
-                        changeStatusOrder(orderSlug, newStatus,'');
+                        form.submit();
+                        // changeStatusOrder(orderSlug, newStatus,'');
                     } else {
                         selectElement.value = selectElement.options[0].value;
                     }

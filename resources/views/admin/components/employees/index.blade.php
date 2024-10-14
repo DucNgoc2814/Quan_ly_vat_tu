@@ -64,13 +64,18 @@
                                                 onclick="updateStatus(this, '{{ $item->id }}')">
                                         </div> --}}
 
-                                        @if ($item->is_active == 1)
-                                            <input onchange="changeStatus('employees', {{ $item->id }},0)" class="form-check-input" type="checkbox"
-                                                name="is_active" value="1" id="is_active" checked>
-                                        @else
-                                            <input onchange="changeStatus('employees', {{ $item->id }},1)" class="form-check-input" type="checkbox"
-                                                name="is_active" value="0" id="is_active">
-                                        @endif
+                                        <div class="col-lg-6 form-check form-switch form-switch ms-3 mt-3">
+
+                                            @if ($item->is_active == 1)
+                                                <input onchange="changeStatus('employees', {{ $item->id }},0)"
+                                                    class="form-check-input" type="checkbox" name="is_active" value="1"
+                                                    id="is_active" checked>
+                                            @else
+                                                <input onchange="changeStatus('employees', {{ $item->id }},1)"
+                                                    class="form-check-input" type="checkbox" name="is_active" value="0"
+                                                    id="is_active">
+                                            @endif
+                                        </div>
                                     </td>
                                     <td style="text-align: center">
                                         <div class="dropdown d-inline-block">
@@ -96,11 +101,6 @@
             </div>
         </div>
     </div>
-
-
-
-
- 
 @endsection
 
 
@@ -140,7 +140,4 @@
         });
     </script>
 
-{{-- edit --}}
-
 @endsection
-
