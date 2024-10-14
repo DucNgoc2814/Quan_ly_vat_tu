@@ -69,12 +69,10 @@
                                                             {{ $order->orderStatus->name }}</option>
                                                         @if ($order->status_id == 1)
                                                             <option class="optionCheck" value="2">Xác Nhận</option>
-                                                            <option class="optionCheck" value="3">Đang giao</option>
-                                                            <option class="optionCheck" value="4">Thành công</option>
+
                                                             <option class="optionCheck" value="5">Hủy</option>
                                                         @elseif ($order->status_id == 2)
                                                             <option class="optionCheck" value="3">Đang giao</option>
-                                                            <option class="optionCheck" value="4">Thành công</option>
                                                             <option class="optionCheck" value="5">Hủy</option>
                                                         @elseif ($order->status_id == 3)
                                                             <option class="optionCheck" value="4">Thành công</option>
@@ -142,12 +140,11 @@
                     status: newStatus,
                     note: note
                 },
-                success: function(response) {
-                },
-                error: function(xhr) {
-                }
+                success: function(response) {},
+                error: function(xhr) {}
             });
         }
+
         function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
             const form = selectElement.closest('form');
@@ -174,7 +171,6 @@
                             optionDefaul[4].style.display = ''
                         } else if (newStatus == 2) {
                             optionDefaul[2].style.display = ''
-                            optionDefaul[3].style.display = ''
                         } else if (newStatus == 3) {
                             optionDefaul[3].style.display = ''
                         } else {
@@ -208,7 +204,6 @@
                             optionDefaul[4].style.display = ''
                         } else if (newStatus == 2) {
                             optionDefaul[2].style.display = ''
-                            optionDefaul[3].style.display = ''
                         } else if (newStatus == 3) {
                             optionDefaul[3].style.display = ''
                         } else {
