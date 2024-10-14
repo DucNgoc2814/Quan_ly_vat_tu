@@ -9,9 +9,15 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+
 class LoginController extends Controller
 {
     const PATH_VIEW = 'client.components.customer.';
+
+    public function home()
+    {
+        return view('client.index');
+    }
 
     public function register()
     {
@@ -32,7 +38,7 @@ class LoginController extends Controller
         ];
         $data['customer_rank_id'] = 1;
         Customer::create($data);
-        return redirect()->route('login')->with('success', 'Đăng ký tài khoản thành công');
+        return redirect()->route('client.login')->with('success', 'Đăng ký tài khoản thành công');
     }
 
     /**
@@ -55,7 +61,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($data)) {
             $request->session()->regenerate();
-            return redirect()->route('register')->with('success', 'Đăng nhập thành công');
+            return redirect()->route('client.home')->with('success', 'Đăng nhập thành công');
         }
         return back()->withErrors(['email' => 'Thông tin đăng nhập không chính xác.']);
     }
@@ -76,12 +82,13 @@ class LoginController extends Controller
         if (!$customer) {
             return back()->withErrors(['email' => 'Email không tồn tại trong hệ thống.']);
         }
+
         $otp = rand(100000, 999999);
         Mail::raw("Mã OTP của bạn là: {$otp}", function ($message) use ($request) {
             $message->to($request->email)->subject('Mã OTP để đặt lại mật khẩu');
         });
         session(['otp' => $otp, 'otp_email' => $request->email, 'otp_expires' => now()->addMinutes(1)]);
-        return redirect()->route('showVerifyOtp');
+        return redirect()->route('client.showVerifyOtp');
     }
 
 
@@ -96,12 +103,13 @@ class LoginController extends Controller
         session(['email' => session('otp_email')]);
         if ($request->otp == $storedOtp) {
             session()->forget(['otp']);
-            return redirect()->route('changepassword');
+            return redirect()->route('client.changepassword');
         }
+
         return back()->withErrors(['otp' => 'OTP không hợp lệ hoặc đã hết hạn.']);
     }
 
-
+    //queb mat khau
     public function changepassword()
     {
         return view(self::PATH_VIEW . 'changepassword');
@@ -113,7 +121,7 @@ class LoginController extends Controller
             Customer::where('email', session('email'))->update([
                 'password' => bcrypt($request->password)
             ]);
-            return redirect()->route('login');
+            return redirect()->route('client.login');
         } catch (Exception $exception) {
             dd($exception->getMessage());
             return back()->with('error', $exception->getMessage());

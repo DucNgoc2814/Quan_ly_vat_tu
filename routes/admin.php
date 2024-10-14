@@ -17,7 +17,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
-
+use App\Http\Controllers\TripController;
+use App\Http\Controllers\TripDetailController;
 use App\Http\Controllers\UnitController;
 // <+====================ROUTER MẪU====================+>
 // Route::prefix('duong-dan-mau')
@@ -218,3 +219,20 @@ Route::prefix('xep-hang-khach-hang')
         Route::put('/sua/{id}', [CustomerRankController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [CustomerRankController::class, 'destroy'])->name('destroy');
     });
+Route::prefix('quan-ly-chuyen-xe')
+    ->as('trips.')
+    ->group(function () {
+        Route::get('/danh-sach-chuyen-xe', [TripController::class, 'index'])->name('index');
+        Route::get('/them-moi', [TripController::class, 'create'])->name('create');
+        Route::post('/them-moi', [TripController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [TripController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [TripController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy');
+    });
+    
+Route::prefix('quan-ly-chuyen-xe')
+    ->as('trips_details.')
+    ->group(function () {
+        Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index');
+    });
+
