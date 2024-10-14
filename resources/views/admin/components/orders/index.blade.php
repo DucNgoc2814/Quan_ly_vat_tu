@@ -95,6 +95,7 @@
                                                     {{ $order->orderStatus->name }}
                                                 </span>
                                             @endif
+
                                         </td>
                                         <td class="text-center">
                                             <div class="dropdown d-inline-block">
@@ -174,7 +175,12 @@
                         } else if (newStatus == 3) {
                             optionDefaul[3].style.display = ''
                         } else {
-                            selectElement.disabled = true;
+                            if (selectElement) {
+                                const spanElement = document.createElement('span');
+                                spanElement.className = 'badge bg-danger-subtle text-danger';
+                                spanElement.textContent = 'Hủy';
+                                selectElement.parentNode.replaceChild(spanElement, selectElement);
+                            }
                         }
                         const note = result.value;
                         const noteInput = document.createElement('input');
@@ -207,7 +213,12 @@
                         } else if (newStatus == 3) {
                             optionDefaul[3].style.display = ''
                         } else {
-                            selectElement.disabled = true;
+                            if (selectElement) {
+                                const spanElement = document.createElement('span');
+                                spanElement.className = 'badge bg-success-subtle text-success';
+                                spanElement.textContent = 'Thành công';
+                                selectElement.parentNode.replaceChild(spanElement, selectElement);
+                            }
                         }
                         changeStatusOrder(orderSlug, newStatus, '');
                     } else {
