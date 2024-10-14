@@ -178,7 +178,8 @@
                     showOrderIdsError('Vui lòng chọn ít nhất một đơn hàng.');
                     event.preventDefault();
                 }
-            }); //
+            }); 
+            //
             const tbody = selectedOrdersDiv.querySelector('tbody');
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
