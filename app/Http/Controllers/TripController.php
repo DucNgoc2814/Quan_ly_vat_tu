@@ -17,7 +17,7 @@ class TripController extends Controller
      * Display a listing of the resource.
      */
     const PATH_VIEW = 'admin/components/trips/';
-    
+
     public function index()
     {
         $trips =  Trip::with(['cargoCar', 'employee'])->get();
@@ -28,7 +28,7 @@ class TripController extends Controller
      * Show the form for creating a new resource.
      */
 
-     public function create()
+    public function create()
     {
         $employes = Employee::where('role_id', 4)->get();
         $cargoCars = Cargo_car::where('is_active', 0)->with('cargoCarType')->get();
@@ -53,7 +53,6 @@ class TripController extends Controller
             foreach ($orderIds as $orderId) {
                 $order = Order::findOrFail($orderId);
                 $cargor_car = Cargo_car::findOrFail($request->cargo_car_id);
-                // $employee = Employee::findOrFail($request->employee_id);
                 Trip_detail::create([
                     'trip_id' => $trip->id,
                     'order_id' => $order->id,
@@ -63,7 +62,7 @@ class TripController extends Controller
                 // Update order status
                 $order->update(['status_id' => 3]);
                 $cargor_car->update(['is_active' => 1]);
-                // $employee->update(['is_active' => 1]);
+                
             }
 
             DB::commit();

@@ -32,13 +32,16 @@
                             <label class="form-label" for="employee_id">Chọn tài xế</label>
                             <select class="form-select @error('employee_id') is-invalid @enderror" id="employee_id"
                                 name="employee_id" data-choices data-choices-search-false>
+
+
                                 <option value="">Chọn Tên</option>
-                                @foreach ($employes as $employee)
-                                    <option value="{{ $employee->id }}"
-                                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
-                                        {{ $employee->name }} - {{ $employee->number_phone }}
-                                    </option>
+                                @foreach ($employes as $employee)      
+                                        <option value="{{ $employee->id }}"
+                                            {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
+                                            {{ $employee->name }} - {{ $employee->number_phone }}
+                                        </option>         
                                 @endforeach
+                                
 
                             </select>
                             @error('employee_id')
