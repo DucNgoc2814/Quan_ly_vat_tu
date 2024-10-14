@@ -1138,3 +1138,5 @@
 #60 C:\\laragon\\www\\DuAnTotNghiep\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #61 {main}
 "} 
+[2024-10-14 23:03:12] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 100  
+[2024-10-14 23:03:12] local.DEBUG: Số lượng mua của variation 1 là: 1  

@@ -168,7 +168,7 @@
                                                 </label>
                                             @endforeach
                                         </div>
-                                        <button type="button" class="btn btn-primary"
+                                        <button type="button" class="btn btn-success"
                                             onclick="getSelectedValues()">Lưu</button>
                                     </div>
                                 </div>
@@ -179,25 +179,26 @@
                                     <div class="card-body">
                                         <div class="mb-3" id="image-inputs">
                                             <label class="form-label" for="product-images-input">Ảnh sản phẩm</label>
-                            
-                                            <input type="file" class="form-control mb-2" name="product_images[]" accept="image/*" onchange="previewImages(this)">
-                                            
+
+                                            <input type="file" class="form-control mb-2" name="product_images[]"
+                                                accept="image/*" onchange="previewImages(this)">
+
                                             <!-- Hiển thị lỗi cho product_images -->
                                             @if ($errors->has('product_images'))
                                                 <div class="text-danger">{{ $errors->first('product_images') }}</div>
                                             @endif
-                                            
+
                                             <!-- Hiển thị lỗi cho từng ảnh trong mảng product_images -->
                                             @if ($errors->has('product_images.*'))
                                                 <div class="text-danger">{{ $errors->first('product_images.*') }}</div>
                                             @endif
                                         </div>
-                            
-                                        <button type="button" class="btn btn-primary" onclick="addImageInput()">Thêm ảnh</button>
+                                        <button type="button" class="btn btn-primary" onclick="addImageInput()">Thêm
+                                            ảnh</button>
                                     </div>
                                 </div>
                             </div>
-                            
+
 
                             <div class="col-lg-12">
                                 <div id="selected-variants" style="margin-top: 10px;"></div>
@@ -276,7 +277,6 @@
         </div>
     </div>
 `;
-
                 resultDiv.append(html);
             });
         }

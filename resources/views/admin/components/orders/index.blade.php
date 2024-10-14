@@ -55,7 +55,7 @@
                                             <span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span>
                                         </td>
                                         <td class="date-column">{{ $order->created_at }}</td>
-                                        <td>
+                                        <td class="text-center">
                                             @if ($order->status_id < 4)
                                                 <form action="{{ route('order.updateStatus', $order->slug) }}"
                                                     method="POST" class="{{ $order->slug }} d-inline status-update-form"
@@ -180,10 +180,12 @@
                         } else {
                             selectElement.disabled = true;
                         }
-                        const note = result.value;
                         const noteInput = document.createElement('input');
+                        noteInput.type = 'hidden';
+                        noteInput.name = 'note';
                         noteInput.value = note;
-                        changeStatusOrder(orderSlug, newStatus, noteInput.value);
+                        form.appendChild(noteInput);
+                        form.submit();
                     } else {
                         selectElement.value = selectElement.options[0].value;
                     }

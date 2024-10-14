@@ -302,16 +302,20 @@
         function calculateTotal() {
             let total = 0;
             const quantities = document.getElementsByName('product_quantity[]');
-            // console.log(quantities);
-
             const prices = document.getElementsByName('product_price[]');
 
+            // Tính tổng dựa trên số lượng và giá
             for (let i = 0; i < quantities.length; i++) {
                 total += (parseFloat(quantities[i].value) || 0) * (parseFloat(prices[i].value) || 0);
             }
 
-            document.getElementById('total_amount').value = total.toFixed(2);
+            // Định dạng tổng số thành dạng có dấu chấm phân cách hàng nghìn (ví dụ: 500.000)
+            const formattedTotal = total.toFixed(0).toLocaleString('vi-VN');
+
+            // Gán giá trị đã định dạng vào ô input
+            document.getElementById('total_amount').value = formattedTotal;
         }
+
 
         // Hàm để cập nhật giá khi chọn sản phẩm
         function updatePrice(selectElement) {
