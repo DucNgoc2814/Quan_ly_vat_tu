@@ -28,7 +28,7 @@
                         <thead>
                             <tr>
                                 <th data-ordering="false">ID</th>
-                                <th data-ordering="false">Tên</th>
+                                <th data-ordering="false">Tên loại hợp đồng</th>
                                 <th data-ordering="false">Mô tả</th>
                                 <th>Hành động</th>
                             </tr>
