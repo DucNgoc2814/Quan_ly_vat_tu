@@ -145,6 +145,7 @@
 @section('scripts')
     <script>
         function addOder(button) {
+            
             const row = button.closest('tr');
             const orderInfo = {
                 id: row.dataset.orderId, // Thêm dòng này
