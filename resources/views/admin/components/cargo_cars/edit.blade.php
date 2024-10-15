@@ -29,7 +29,7 @@
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm sliders...">
+                                        placeholder="Tìm kiếm">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
                             </div>
