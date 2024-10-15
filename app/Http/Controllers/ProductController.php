@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Attribute;
+use App\Models\Gallery;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 

@@ -57,7 +57,7 @@
                 <div class="card-body">
                     <h5 class="card-title mb-0">Biến thể sản phẩm</h5>
                     <div id="variant-container">
-                        @foreach ($product->variants as $variant)
+                        @foreach ($product->variations as $variant)
                             <div class="variant-row mb-3">
                                 <select name="variants[{{ $loop->index }}][attribute_value_ids][]"
                                     class="form-select variant-attribute">
