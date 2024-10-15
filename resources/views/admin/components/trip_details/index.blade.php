@@ -13,8 +13,8 @@
                     <div class="p-0 ms-auto rounded-circle profile-photo-edit">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-arrow-left-line align-bottom me-1"></i>#</a>
+                                <a href="{{ route('trips.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                                        class="ri-arrow-left-line align-bottom me-1"></i>Quay lại trang</a>
                             </div>
                         </div>
                     </div>
@@ -61,19 +61,20 @@
                                     <th scope="col">Tên sản phẩm</th>
                                     <th scope="col">Số lượng</th>
                                     <th scope="col">Tổng tiền</th>
-
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $index)
-                                    <tr>
-                                            <td>{{ $index->order->slug }}</td>
-                                            <td>{{ $index->order->address }}</td>
-                                            <td>{{ $index->order->number_phone }}</td>
-                                            <td>{{ $index->order->orderDetails->first()->variations->name }}</td>
-                                            <td>{{ $index->order->orderDetails->first()->quantity }}</td>
-                                            <td>{{ $index->order->orderDetails->first()->price }}</td>
-                                    </tr>
+                                @if ($index->order->status_id == 3)
+                                <tr>
+                                    <td>{{ $index->order->slug }}</td>
+                                    <td>{{ $index->order->address }}</td>
+                                    <td>{{ $index->order->number_phone }}</td>
+                                    <td>{{ $index->order->orderDetails->first()->variations->name }}</td>
+                                    <td>{{ $index->order->orderDetails->first()->quantity }}</td>
+                                    <td>{{ $index->order->orderDetails->first()->price }}</td>
+                            </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>
