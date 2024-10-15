@@ -35,14 +35,14 @@
 
 
                                 <option value="">Chọn Tên</option>
-                                
-                                @foreach ($employes as $employee)      
-                                        <option value="{{ $employee->id }}"
-                                            {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
-                                            {{ $employee->name }} - {{ $employee->number_phone }}
-                                        </option>         
+
+                                @foreach ($employes as $employee)
+                                    <option value="{{ $employee->id }}"
+                                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
+                                        {{ $employee->name }} - {{ $employee->number_phone }}
+                                    </option>
                                 @endforeach
-                                
+
 
                             </select>
                             @error('employee_id')
