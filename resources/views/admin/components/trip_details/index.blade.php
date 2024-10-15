@@ -13,8 +13,8 @@
                     <div class="p-0 ms-auto rounded-circle profile-photo-edit">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-arrow-left-line align-bottom me-1"></i>#</a>
+                                <a href="{{ route('trips.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                                        class="ri-arrow-left-line align-bottom me-1"></i>Quay lại trang</a>
                             </div>
                         </div>
                     </div>

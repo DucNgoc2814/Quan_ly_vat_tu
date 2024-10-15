@@ -59,9 +59,9 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Employee $employee)
+    public function show(Employee $employee, String $id)
     {
-        //
+       
     }
 
     /**
@@ -80,6 +80,8 @@ class EmployeeController extends Controller
     public function update(UpdateEmployeeRequest $request, String $id)
     {
         if ($request->isMethod('put')) {
+
+            // dd($request->all());
             $params = $request->except('_method', '_token');
             $params['is_active'] = $request->has('is_active') ? 1 : 0; // Handle the checkbox state
 

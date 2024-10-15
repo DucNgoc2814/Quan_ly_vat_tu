@@ -30,8 +30,13 @@ class TripController extends Controller
 
     public function create()
     {
-        $employes = Employee::where('role_id', 4)->get();
-        $cargoCars = Cargo_car::where('is_active', 0)->with('cargoCarType')->get();
+        $employes = Employee::where('role_id', 4)
+        ->whereNotExists(function ($query) {
+            $query->select(DB::raw(1))
+                  ->from('trips')
+                  ->whereColumn('trips.employee_id', 'employees.id');
+        })
+        ->get();        $cargoCars = Cargo_car::where('is_active', 0)->with('cargoCarType')->get();
         $pendingOrders = Order::where('status_id', 2)->with('orderDetails')->get();
         return view(self::PATH_VIEW . 'create', compact('employes', 'cargoCars', 'pendingOrders'));
     }

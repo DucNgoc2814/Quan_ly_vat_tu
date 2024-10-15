@@ -47,7 +47,7 @@ class EmployeeSeeder extends Seeder
                 'number_phone' => '012345673',
                 'cccd' => 135792468,
                 'date' => 20220120,
-                'description' => 'Nhân viên quản lý dự án.',
+                'description' => 'Nhân viên lái xe.',
                 'is_active' => false,
             ],
         ];

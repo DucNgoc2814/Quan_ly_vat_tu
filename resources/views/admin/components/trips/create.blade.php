@@ -35,6 +35,7 @@
 
 
                                 <option value="">Chọn Tên</option>
+                                
                                 @foreach ($employes as $employee)      
                                         <option value="{{ $employee->id }}"
                                             {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
