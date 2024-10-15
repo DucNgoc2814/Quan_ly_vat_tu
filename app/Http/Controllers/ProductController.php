@@ -100,17 +100,17 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Product $id)
+    public function edit($id)
     {
-        $product = Product::query()->findOrFail($id->id);
+        $product = Product::findOrFail($id);
         $categories = Category::pluck('name', 'id');
         $brands = Brand::pluck('name', 'id');
         $units = Unit::pluck('name', 'id');
-        
-        $attributesArray = Attribute::with('attributeValues')->get();
-
-        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'brands', 'units', 'attributesArray'));
+        $attributesArray = Attribute::with('attributeValues')->get()->toArray();
+        $selectedVariantTypes = $product->variations()->pluck('attribute_value_id')->toArray();
+        return view('admin.products.edit', compact('product', 'categories', 'brands', 'units', 'attributesArray', 'selectedVariantTypes'));
     }
+
 
     public function update(Product $request, $id)
     {
