@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    
     const PATH_VIEW = 'admin.components.Categories.';
 
     public function index()
@@ -25,8 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::query()->pluck('sku', 'id');
-        return view(self::PATH_VIEW . 'create', compact('categories'));
+        return view(self::PATH_VIEW . 'create');
     }
 
     /**
@@ -34,15 +34,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $sku = $this->convertSku($request->name);
             $request->validate([
-                'name' => 'required',
-                'sku' => 'required',
+                'name' => 'required|unique:categories,name',
                 'image' => 'required',
                 'description' => 'required',
             ]);
+
             $data = [
                 'name' => $request->name,
-                'sku' => $request->sku,
+                'sku' => $sku,
                 'image' => $request->image,
                 'description' => $request->description,
             ];
@@ -81,15 +82,15 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
 
+        $sku = $this->convertSku($request->name);
 
         $data = [
             'name' => $request->name,
-            'sku' => $request->sku,
+            'sku' => $sku,
             'description' => $request->description,
         ];
         $request->validate([
-            'name' => 'required|string|',
-            'sku' => 'required|string|',
+            'name' => 'required|unique:categories,name',
             'image' => 'nullable|image|',
             'description' => 'nullable|string',
         ]);
@@ -112,4 +113,17 @@ class CategoryController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy($id) {}
+
+
+
+    private function convertSku($string)
+    {
+        $string = strtolower($string);        
+        $string = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
+        $string = preg_replace('/[^a-z0-9\s]+/', '', $string);
+        $string = preg_replace('/\s+/', '-', $string);
+        $string = trim($string, '-');
+        return $string;
+    }
+    
 }

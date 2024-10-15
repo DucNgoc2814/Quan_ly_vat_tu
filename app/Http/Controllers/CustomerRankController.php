@@ -34,9 +34,9 @@ class CustomerRankController extends Controller
     {
 
         $request->validate([
-            'name' => 'required',
-            'discount' => 'required|min:1',
-            'amount' => 'required|min:1',
+            'name' => 'required|unique:customer_ranks,name',
+            'discount' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|min:1',
         ]);
         $data = [
             'name' => $request->name,

@@ -90,21 +90,6 @@
                     <p class="text-danger">Vui lòng nhập hợp lệ</p>
                 @enderror
             </div>
-
-            <div class="col-lg-12 mt-3">
-                <label class="form-label">Mã Danh Mục</label>
-                <select name="sku" id="" class="form-select">
-                    @foreach ($categories as $id => $name)
-                        <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>
-                            {{ $name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('category_id')
-                    <p class="text-danger">Vui lòng nhập hợp lệ</p>
-                @enderror
-            </div>
-
             <div class="col-lg-12 mt-3">
                 <label class="form-label">Image</label>
                 <input value="{{ old('image') }}" type="file" name="image" class="form-control">

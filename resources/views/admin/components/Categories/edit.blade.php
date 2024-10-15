@@ -34,14 +34,6 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="col-lg-8 mt-3">
-                                <label class="form-label">Trọng Tải.</label>
-                                <input type="text" name="sku" placeholder="Nhập tên mã hàng cần sửa" class="form-control"
-                                    value="{{ $category->sku }}">
-                                @error('sku')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
                             <div style="margin-top: 10px">
                                <p> Ảnh cũ </p>
                                 <img src="{{ asset('storage/' . $category->image) }}" width="200px" height="200px" alt="">

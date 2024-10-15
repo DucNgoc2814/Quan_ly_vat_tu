@@ -20,19 +20,19 @@
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
-                                <label class="form-label">Tên giảm giá.</label>
-                                <input  type="text" name="name" placeholder="Nhập tên mã hàng"
+                                <label class="form-label">Tên mã giảm giá </label>
+                                <input  type="text" name="name" placeholder="Nhập tên mã giảm giá"
                                     class="form-control"  >
                                 @error('name')
-                                    <p class="text-danger">Vui lòng nhập chính xác</p>
+                                    <p class="text-danger">Vui lòng nhập chính xác mã giảm giáa</p>
                                 @enderror
                             </div>
                             <div class="col-lg-8">
-                                <label class="form-label">Giảm giá.</label>
-                                <input  type="number" name="discount" placeholder="Nhập giảm giá"
+                                <label class="form-label"> Mã Discount</label>
+                                <input  type="number" name="discount" placeholder="Nhập mã giảm giá"
                                     class="form-control"  >
                                 @error('discount')
-                                    <p class="text-danger">Vui lòng nhập chính xác</p>
+                                    <p class="text-danger">Vui lòng nhập chính xác mã discount </p>
                                 @enderror
                             </div>
                             <div class="col-lg-8">
@@ -40,7 +40,7 @@
                                 <input  type="number" name="amount" placeholder="Nhập số lượng"
                                     class="form-control"  >
                                 @error('amount')
-                                    <p class="text-danger">Vui lòng nhập chính xác</p>
+                                    <p class="text-danger">Vui lòng nhập chính xác số lượng</p>
                                 @enderror
                             </div>
 

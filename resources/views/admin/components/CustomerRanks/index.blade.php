@@ -1,13 +1,13 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Danh sách danh mục
+    Danh sách cấp bậc 
 @endsection
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách danh mục</h4>
+                <h4 class="mb-sm-0">Danh sách xếp hạng </h4>
             </div>
 
         </div>
@@ -20,7 +20,7 @@
                         <div class="col-sm-auto">
                             <div>
                                 <a href="{{ route('customer_ranks.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm danh mục </a>
+                                        class="ri-add-line align-bottom me-1"></i>Thêm danh sách xếp hạng </a>
                             </div>
                         </div>
                     </div>
@@ -28,8 +28,6 @@
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
-
-
                         <thead>
                             <tr>
                                 <th data-ordering="false">ID</th>
