@@ -32,14 +32,14 @@
                 <div class="card-body">
                     <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT') <!-- Use PUT method for updating -->
+                        @method('PUT')
                         <div class="row">
                             <div class="col-lg-8">
                                 <!-- Danh mục -->
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <h5 class="card-title">Danh mục</h5>
-                                        <select class="form-select mt-2" name="category_id">
+                                        <select class="form-select mt-2" name="category_id" required>
                                             <option value="" selected>Chọn danh mục</option>
                                             @foreach ($categories as $key => $value)
                                                 <option value="{{ $key }}" {{ $product->category_id == $key ? 'selected' : '' }}>{{ $value }}</option>
@@ -133,10 +133,12 @@
                                         <h5 class="card-title">Chọn loại biến thể:</h5>
                                         <div class="mb-3 variant-checkbox-group mt-3">
                                             @foreach ($attributesArray as $attribute)
-                                                <label class="variant-checkbox">
-                                                    <input type="checkbox" name="variant_types[]" value="{{ $attribute['id'] }}" {{ in_array($attribute['id'], old('variant_types', [])) ? 'checked' : '' }}>
-                                                    <span>{{ $attribute['name'] }}</span>
-                                                </label>
+                                                @if(isset($attribute['id']) && isset($attribute['name'])) <!-- Check if keys exist -->
+                                                    <label class="variant-checkbox">
+                                                        <input type="checkbox" name="variant_types[]" value="{{ $attribute['id'] }}" {{ in_array($attribute['id'], old('variant_types', [])) ? 'checked' : '' }}>
+                                                        <span>{{ $attribute['name'] }}</span>
+                                                    </label>
+                                                @endif
                                             @endforeach
                                         </div>
                                         <button type="button" class="btn btn-success" onclick="getSelectedValues()">Lưu</button>
@@ -149,12 +151,18 @@
                                     <div class="card-body">
                                         <label class="form-label" for="image-inputs">Ảnh sản phẩm</label>
                                         <div id="image-inputs">
-                                            <input type="file" class="form-control mb-2" name="product_images[]" accept="image/*" onchange="previewImages(this)">
-                                            <!-- Hiển thị lỗi cho product_images -->
+                                            @foreach($product->galleries as $image)
+                                                <div class="mb-2">
+                                                    <input type="file" class="form-control" name="product_images[]" accept="image/*" onchange="previewImages(this)">
+                                                    <img src="{{ asset($image->url) }}" alt="Image Preview" style="max-width: 100%; max-height: 100px; margin-top: 10px;">
+                                                </div>
+                                            @endforeach
+                                            <div class="mb-2">
+                                                <input type="file" class="form-control" name="product_images[]" accept="image/*" onchange="previewImages(this)">
+                                            </div>
                                             @if ($errors->has('product_images'))
                                                 <div class="text-danger">{{ $errors->first('product_images') }}</div>
                                             @endif
-                                            <!-- Hiển thị lỗi cho từng ảnh trong mảng product_images -->
                                             @if ($errors->has('product_images.*'))
                                                 <div class="text-danger">{{ $errors->first('product_images.*') }}</div>
                                             @endif
@@ -185,7 +193,6 @@
                 selectedVariants.push($(this).val());
             });
 
-            // Check the limit of variants
             if (selectedVariants.length > 2) {
                 alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
                 return false;
@@ -198,60 +205,54 @@
             });
 
             const combinations = generateCombinations(selectedVariantValues);
-            const resultDiv = $('#selected-variants');
-            resultDiv.empty();
 
-            combinations.forEach(combo => {
-                const id = combo.map(item => item.id).join('_');
-
-                const variantLabels = selectedVariants.map((type, index) => {
-                    const variantValue = combo[index];
-                    const variantName = variantValues.find(attr => attr.id == type).name;
-                    return `
-                        <div class="col-md-3">
-                            <div class="mb-2">
-                                <label class="form-label">${variantName}</label>
-                                <input type="hidden" name="variants[${id}][type][]" value="${variantValue.id}">
-                                <input type="text" class="form-control" placeholder="${variantValue.name}" value="${variantValue.name}" disabled>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-
-                resultDiv.append(`
-                    <div class="row variant-combination mb-3" id="variant_${id}">
-                        <div class="col-md-12">
-                            <h5>Biến thể: ${combo.map(v => v.name).join(' | ')}</h5>
-                            ${variantLabels}
-                            <input type="number" class="form-control" name="variants[${id}][price]" placeholder="Giá" required>
-                        </div>
-                    </div>
-                `);
+            const selectedVariantsDiv = $('#selected-variants');
+            selectedVariantsDiv.empty();
+            combinations.forEach(combination => {
+                const combinationDiv = $('<div>').addClass('combination-item').text(combination.join(' - '));
+                selectedVariantsDiv.append(combinationDiv);
             });
         }
 
         function generateCombinations(arrays) {
-            return arrays.reduce((acc, curr) => 
-                acc.flatMap(a => curr.map(b => [...a, b])), [[]]);
+            const result = [];
+
+            function combine(arr, index) {
+                if (index === arrays.length) {
+                    result.push(arr);
+                    return;
+                }
+
+                arrays[index].forEach(item => {
+                    combine([...arr, item], index + 1);
+                });
+            }
+
+            combine([], 0);
+            return result;
         }
 
         function addImageInput() {
-            const newImageInput = `<input type="file" class="form-control mb-2" name="product_images[]" accept="image/*" onchange="previewImages(this)">`;
-            $('#image-inputs').append(newImageInput)
+            const newInput = `<div class="mb-2">
+                <input type="file" class="form-control" name="product_images[]" accept="image/*" onchange="previewImages(this)">
+            </div>`;
+            $('#image-inputs').append(newInput);
         }
 
         function previewImages(input) {
-            const files = input.files;
-            if (files.length > 0) {
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const reader = new FileReader();
-                    reader.onload = function (e) {
-                        const imgPreview = `<img src="${e.target.result}" alt="Image Preview" style="max-width: 100%; max-height: 100px; margin-top: 10px;">`;
-                        $(input).after(imgPreview);
-                    }
-                    reader.readAsDataURL(file);
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imgPreview = $('<img>').attr('src', e.target.result).css({
+                        'max-width': '100%',
+                        'max-height': '100px',
+                        'margin-top': '10px'
+                    });
+                    $(input).next('img').remove(); // remove previous image preview
+                    $(input).after(imgPreview);
                 }
+                reader.readAsDataURL(file);
             }
         }
     </script>
