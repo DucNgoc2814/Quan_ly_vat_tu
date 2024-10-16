@@ -107,8 +107,13 @@ class ProductController extends Controller
         $brands = Brand::pluck('name', 'id');
         $units = Unit::pluck('name', 'id');
         $attributesArray = Attribute::with('attributeValues')->get()->toArray();
-        $selectedVariantTypes = $product->variations()->pluck('attribute_value_id')->toArray();
-        return view('admin.products.edit', compact('product', 'categories', 'brands', 'units', 'attributesArray', 'selectedVariantTypes'));
+        $selectedVariantTypes = $product->variations()
+        ->join('attribute_value_variation', 'variations.id', '=', 'attribute_value_variation.variation_id')
+        ->join('attribute_values', 'attribute_value_variation.attribute_value_id', '=', 'attribute_values.id')
+        ->pluck('attribute_values.id') // Hoặc 'attribute_values.value' nếu bạn muốn lấy giá trị
+        ->toArray();
+    
+        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'brands', 'units', 'attributesArray', 'selectedVariantTypes'));
     }
 
 

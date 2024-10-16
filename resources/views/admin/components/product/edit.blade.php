@@ -237,7 +237,7 @@
 
         function addImageInput() {
             const newImageInput = `<input type="file" class="form-control mb-2" name="product_images[]" accept="image/*" onchange="previewImages(this)">`;
-            $('#image-inputs').append(newImageInput);
+            $('#image-inputs').append(newImageInput)
         }
 
         function previewImages(input) {
