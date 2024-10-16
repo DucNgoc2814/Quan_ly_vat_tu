@@ -105,7 +105,7 @@ class OrderController extends Controller
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
                     "customer_id" => $customer_id,
-                    "status_id" => 1, // Trạng thái mặc định 'Chờ xác nhận'
+                    "status_id" => 1,
                     "slug" => $slug,
                     "customer_name" => $request->customer_name ?? $customers->name,
                     "email" => $request->email ?? $customers->email,
