@@ -21,8 +21,8 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        $title="Tạo Feedback";
-        return view('client/components/feedback/create',compact('title'));
+        
+        return view('client/components/feedback/create');
     }
 
     /**
