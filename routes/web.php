@@ -45,4 +45,6 @@ Route::prefix('client')
     ->as('feedback.')
     ->group(function () {
         Route::get('/them-moi', [FeedbackController::class, 'create'])->name('create');
+        Route::post('/them-moi', [FeedbackController::class, 'store'])->name('store');
+
     });

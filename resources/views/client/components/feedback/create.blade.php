@@ -38,20 +38,29 @@
              </ul>
              <!-- Reviews Field Start -->
              <div class=" mt-40">
-                 <form autocomplete="off" action="#">
+                 <form  action="{{route('feedback.store')}}" method="POST">
+                    @csrf
                      <div class="row">
                          <div class="col-lg-12">
                              <label class="req" for="sure-name">Tên</label>
-                             <input type="text" class="form-control" id="sure-name" required="required">
+                             <input type="text" class="form-control" name="name"  >
                          </div>
                          <div class="col-lg-12">
-                             <label class="req" for="subject">email</label>
-                             <input type="text" class="form-control" id="subject" required="required">
+                             <label class="req" for="email">email</label>
+                             <input type="text" class="form-control" name="email" >
                          </div>
                          <div class="col-lg-12">
-                             <label class="req" for="comments">Nội dung đánh giá</label>
-                             <textarea class="form-control" rows="5" id="comments" required="required"></textarea> <br>
+                            <label class="req" for="subject">SĐT</label>
+                            <input type="text" class="form-control" name="number_phone" >
+                        </div>
+                         <div class="col-lg-12">
+                             <label class="req" for="content">Nội dung đánh giá</label>
+                             <textarea class="form-control" rows="5" name="content"></textarea> <br>
                          </div>
+                         <div class="col-lg-12">
+                            <label class="req" for="content">Ngày Phản hồi</label>
+                            <input type="date" class="form-control" rows="5" name="created_at"> <br>
+                        </div>
                      </div>
                      <div class="mt-3" style="justify-content: center; display: flex;">
                          <button type="submit" class="btn btn-success ">Submit</button>
