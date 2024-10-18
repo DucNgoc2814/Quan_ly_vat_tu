@@ -51,11 +51,9 @@ class StoreOrderRequest extends FormRequest
         return [
             'customer_id.required' => 'Vui lòng chọn khách hàng.',
             'customer_id.exists' => 'Khách hàng không tồn tại.',
-
             'customer_name.required' => 'Vui lòng nhập tên khách hàng.',
             'customer_name.string' => 'Tên khách hàng phải là chuỗi ký tự.',
             'customer_name.max' => 'Tên khách hàng không được vượt quá 255 ký tự.',
-
             'number_phone.required' => 'Vui lòng nhập số điện thoại.',
             'number_phone.regex' => 'Số điện thoại không hợp lệ.',
             'number_phone.unique' => 'Số điện thoại đã được sử dụng.',
