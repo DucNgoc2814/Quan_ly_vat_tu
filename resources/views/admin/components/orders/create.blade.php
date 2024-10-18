@@ -22,7 +22,7 @@
     </div>
     <!-- end page title -->
 
-    <form method="POST" action="{{ route('order.store') }}">
+    <form method="POST" class="form-datalist" action="{{ route('order.store') }}">
         @csrf
 
         <div class="row">
@@ -31,14 +31,23 @@
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="customer_id ">Tên người đặt</label>
-                            <select class="form-select @error('customer_id') is-invalid @enderror" id="customer_id"
-                                name="customer_id" data-choices data-choices-search-false>
-                                <option value="">Chọn Tên</option>
-                                @foreach ($customers as $custumer)
-                                    <option value="{{ $custumer->id }}">{{ $custumer->name }} -
-                                        {{ $custumer->number_phone }}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" name="customer_id"
+                                class="form-control @error('customer_id') is-invalid @enderror" id="customer_id"
+                                placeholder="Nhập tên người đặt" data-choices data-choices-search-false
+                                list="customer_id_list">
+                            <div class="form-control div-datalist">
+                                <ul id="customer_list" class="ul-datalist">
+                                    @foreach ($customers as $customer)
+                                        <li class="li-datalist">
+                                            <i style="font-size: 22px; margin: 5px" class='bx bx-user'></i>
+                                            <span class="dataCustom">{{ $customer->id }} - {{ $customer->name }} - {{ $customer->number_phone }}</span>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+
+
+
                             @error('customer_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
