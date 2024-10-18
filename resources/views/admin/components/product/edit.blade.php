@@ -130,7 +130,7 @@
                                 <!-- Loại biến thể -->
                                 <div class="card mb-3">
                                     <div class="card-body">
-                                        <h5 class="card-title">Chọn loại biến thể:</h5>
+                                        <h5 class="card-title">Chọn loại biến thể: </h5>
                                         <div class="mb-3 variant-checkbox-group mt-3">
                                             @foreach ($attributesArray as $attribute)
                                                 @if(isset($attribute['id']) && isset($attribute['name'])) <!-- Check if keys exist -->
