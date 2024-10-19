@@ -30,7 +30,7 @@ class CustomerRankController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCustomer_rankRequest $request)
     {
 
         $request->validate([
@@ -73,13 +73,9 @@ class CustomerRankController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(StoreCustomer_rankRequest $request,$id)
     {
-        $request->validate([
-            'name' => 'required',
-            'discount' => 'required|min:1',
-            'amount' => 'required|min:1',
-        ]);
+        
         $data = [
             'name' => $request->name,
             'discount' => $request->discount,

@@ -20,34 +20,34 @@
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
-                                <label class="form-label">Tên mã giảm giá </label>
-                                <input  type="text" name="name" placeholder="Nhập tên mã giảm giá"
+                                <label class="form-label">Cấp bậc </label>
+                                <input  type="text" name="name" placeholder="Nhập tên cấp bậc"value="{{old('name')}}" 
                                     class="form-control"  >
                                 @error('name')
-                                    <p class="text-danger">Vui lòng nhập chính xác mã giảm giáa</p>
+                                    <p class="text-danger">{{$message}}</p>
                                 @enderror
                             </div>
                             <div class="col-lg-8">
-                                <label class="form-label"> Mã Discount</label>
-                                <input  type="number" name="discount" placeholder="Nhập mã giảm giá"
+                                <label class="form-label">  Giảm giá</label>
+                                <input  type="text" name="discount" placeholder="Nhập giảm giá"value="{{old('discount')}}"
                                     class="form-control"  >
                                 @error('discount')
-                                    <p class="text-danger">Vui lòng nhập chính xác mã discount </p>
+                                    <p class="text-danger">{{$message}} </p>
                                 @enderror
                             </div>
                             <div class="col-lg-8">
                                 <label class="form-label">Số lượng.</label>
-                                <input  type="number" name="amount" placeholder="Nhập số lượng"
+                                <input  type="number" name="amount" placeholder="Nhập số lượng"value="{{old('amount')}}"
                                     class="form-control"  >
                                 @error('amount')
-                                    <p class="text-danger">Vui lòng nhập chính xác số lượng</p>
+                                    <p class="text-danger">{{$message}}</p>
                                 @enderror
                             </div>
 
                             
                         </div>
                         <div class="mt-3">
-                            <button type="submit" class = "btn btn-success text ">Update</button>
+                            <button type="submit" class = "btn btn-success text ">Thêm mới</button>
                         </div>
                     </form>
                 </div>

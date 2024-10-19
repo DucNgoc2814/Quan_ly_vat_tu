@@ -91,7 +91,7 @@
                 @enderror
             </div>
             <div class="col-lg-12 mt-3">
-                <label class="form-label">Image</label>
+                <label class="form-label">Ảnh</label>
                 <input value="{{ old('image') }}" type="file" name="image" class="form-control">
                 @error('image')
                     <p class="text-danger">Vui lòng nhập hợp lệ</p>

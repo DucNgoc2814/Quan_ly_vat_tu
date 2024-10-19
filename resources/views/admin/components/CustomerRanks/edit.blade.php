@@ -49,7 +49,7 @@
                             
                         </div>
                         <div class="mt-3">
-                            <button type="submit" class = "btn btn-success text ">Update</button>
+                            <button type="submit" class = "btn btn-success text ">Edit</button>
                         </div>
                     </form>
                 </div>
