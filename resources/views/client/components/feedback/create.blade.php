@@ -24,16 +24,7 @@
                      <i class="fa fa-star-o"></i>
                      <i class="fa fa-star-o"></i>
                  </li>
-                 <!-- Single Review List End -->
-                 <!-- Single Review List Start -->
-                 <li>
-                     <span>Giá trị</span>
-                     <i class="fa fa-star"></i>
-                     <i class="fa fa-star"></i>
-                     <i class="fa fa-star"></i>
-                     <i class="fa fa-star"></i>
-                     <i class="fa fa-star-o"></i>
-                 </li>
+                
                  <!-- Single Review List End -->
              </ul>
              <!-- Reviews Field Start -->
