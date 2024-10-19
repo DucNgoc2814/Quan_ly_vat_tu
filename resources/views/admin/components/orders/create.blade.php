@@ -40,14 +40,12 @@
                                     @foreach ($customers as $customer)
                                         <li class="li-datalist">
                                             <i style="font-size: 22px; margin: 5px" class='bx bx-user'></i>
-                                            <span class="dataCustom">{{ $customer->id }} - {{ $customer->name }} - {{ $customer->number_phone }}</span>
+                                            <span class="dataCustom">{{ $customer->id }} - {{ $customer->name }} -
+                                                {{ $customer->number_phone }}</span>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
-
-
-
                             @error('customer_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -55,9 +53,11 @@
                             @enderror
                         </div>
                     </div>
+                </div>
+                <div class="card">
                     <div class="card-body">
                         <div class="mb-2">
-                            <label class="form-label" for="customer_name">Tên người nhận.</label>
+                            <label class="form-label" for="customer_name">Tên người nhận</label>
                             <input type="text" class="form-control  @error('customer_name') is-invalid @enderror"
                                 id="customer_name" value="{{ old('customer_name') }}" placeholder="Nhập tên người nhận "
                                 name="customer_name">
@@ -98,7 +98,14 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-2">
-                            <label class="form-label" for="address">Địa chỉ giao hàng</label>
+                            <label class="form-label" for="address">Tỉnh/Thành phố, Quận/huyện, Phường/xã</label>
+                            <input type="text" class="form-control" id="address"  value="{{ old('') }}"name="address">
+                        </div>
+                        
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-2">
+                            <label class="form-label" for="address">Địa chỉ cụ thể</label>
                             <input type="text" class="form-control @error('address') is-invalid @enderror" id="address"
                                 value="{{ old('address') }}" placeholder="Nhập địa chỉ giao hàng" name="address">
                             @error('address')
