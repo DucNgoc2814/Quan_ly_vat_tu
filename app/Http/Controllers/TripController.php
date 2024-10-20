@@ -65,6 +65,7 @@ class TripController extends Controller
             return redirect()->route('trips.index')->with('success', 'Thêm đơn vận chuyển thành công');
         } catch (\Exception $th) {
             // echo $th->getMessage();
+            
             DB::rollBack();
             return back()->with('error', 'Đã xảy ra lỗi: ' . $th->getMessage());
         }
