@@ -98,6 +98,78 @@
             border-radius: 5px;
             /* Bo góc giữ nguyên */
         }
+
+
+
+        .location-select-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .location-dropdown {
+            display: none;
+            position: absolute;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .location-dropdown.active {
+            display: block;
+        }
+
+        .location-dropdown .row>div {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+        .location-dropdown select {
+            margin-bottom: 10px;
+        }
+
+        /* Input field with icons inside */
+        .input-with-icons {
+            position: relative;
+        }
+
+        /* Styling for the icons inside the input */
+        .input-with-icons input {
+            padding-right: 40px;
+            /* Add padding to make space for the icons */
+        }
+
+        /* Icon container inside the input */
+        .input-with-icons .icon-container {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Adjust icon size */
+        .input-with-icons .ri {
+            font-size: 16px;
+            color: #6c757d;
+        }
+
+        /* Initially hide search icon */
+        .ri-search {
+            display: none;
+        }
+
+        /* Show search icon when input is focused */
+        .input-with-icons.focused .ri-search {
+            display: block;
+        }
+
+        /* Always show the dropdown arrow */
+        .bi-caret-down-fill {
+            cursor: pointer;
+        }
     </style>
     <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
     @yield('styles')
@@ -232,28 +304,27 @@
         }
     </script>
     <script>
-     $(document).ready(function() {
-        $('.div-datalist').hide();
-    $('#customer_id').on('input', function() {
-        $('.div-datalist').show();
-        var value = $(this).val().toLowerCase();
-        $('#customer_list .li-datalist').each(function() {
-            if ($(this).text().toLowerCase().indexOf(value) > -1) {
-                $(this).show();
-            } else {
-                $(this).hide();
-            }
+        $(document).ready(function() {
+            $('.div-datalist').hide();
+            $('#customer_id').on('input', function() {
+                $('.div-datalist').show();
+                var value = $(this).val().toLowerCase();
+                $('#customer_list .li-datalist').each(function() {
+                    if ($(this).text().toLowerCase().indexOf(value) > -1) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+
+            $('.div-datalist').on('click', '.li-datalist', function() {
+                var selectedText = $(this).find('.dataCustom').text();
+                $('#customer_id').val(selectedText);
+                $('#customer_list .li-datalist').hide();
+                $('.div-datalist').hide();
+            });
         });
-    });
-
-    $('.div-datalist').on('click', '.li-datalist', function() {
-        var selectedText = $(this).find('.dataCustom').text();
-        $('#customer_id').val(selectedText);
-        $('#customer_list .li-datalist').hide();
-        $('.div-datalist').hide();
-    });
-});
-
     </script>
     @yield('scripts')
 </body>

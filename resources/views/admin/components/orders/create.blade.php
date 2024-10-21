@@ -55,6 +55,11 @@
                     </div>
                 </div>
                 <div class="card">
+                    <div class="card-header align-items-center d-flex">
+                        <h4 class="card-title mb-0 flex-grow-1">Thông tin nhận hàng</h4>
+                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" onclick="">Thêm địa
+                            chỉ</button>
+                    </div>
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="customer_name">Tên người nhận</label>
@@ -97,17 +102,53 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="address">Tỉnh/Thành phố, Quận/huyện, Phường/xã</label>
-                            <input type="text" class="form-control" id="address"  value="{{ old('') }}"name="address">
+                        <label class="form-label" for="">Địa chỉ người nhận</label>
+                        <div class="container">
+                            <div class="location-select-container">
+                                <div class="input-with-icons" id="input-with-icons">
+                                    <input type="text" id="location-input" class="form-control w-" placeholder="Tìm kiếm Tỉnh/ Thành phố, Quận/ Huyện, Phường/ Xã">
+                                    <div class="icon-container">
+                                        <i class="ri-search-line"></i>
+                                        <i class="ri-arrow-down-s-line"></i>
+                                    </div>
+                                </div>
+
+                                <div class="location-dropdown p-3 border" id="location-dropdown">
+                                    <div class="row">
+                                        <!-- Select Tỉnh/Thành phố -->
+                                        <div class="col-md-4">
+                                            <label for="provinces" class="form-label">Tỉnh/Thành phố</label>
+                                            <select id="provinces" class="form-select">
+                                                <option selected disabled value="">Chọn Tỉnh/Thành phố</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Select Quận/Huyện -->
+                                        <div class="col-md-4">
+                                            <label for="districts" class="form-label">Quận/Huyện</label>
+                                            <select id="districts" class="form-select" disabled>
+                                                <option selected disabled value="">Chọn Quận/Huyện</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Select Phường/Xã -->
+                                        <div class="col-md-4">
+                                            <label for="wards" class="form-label">Phường/Xã</label>
+                                            <select id="wards" class="form-select" disabled>
+                                                <option selected disabled value="">Chọn Phường/Xã</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        
                     </div>
                     <div class="card-body">
                         <div class="mb-2">
                             <label class="form-label" for="address">Địa chỉ cụ thể</label>
-                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address"
-                                value="{{ old('address') }}" placeholder="Nhập địa chỉ giao hàng" name="address">
+                            <input type="text" class="form-control @error('address') is-invalid @enderror"
+                                id="address" value="{{ old('address') }}" placeholder="Nhập địa chỉ giao hàng"
+                                name="address">
                             @error('address')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -369,5 +410,109 @@
             addInputListeners();
             calculateTotal();
         });
+    </script>
+
+    <script>
+        const locationInput = document.getElementById('location-input');
+        const locationDropdown = document.getElementById('location-dropdown');
+        const inputWithIcons = document.getElementById('input-with-icons');
+
+        // Toggle dropdown visibility and show search icon when input is clicked
+        locationInput.addEventListener('focus', function() {
+            locationDropdown.classList.add('active');
+            inputWithIcons.classList.add('focused');
+        });
+
+        // Hide search icon and dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!inputWithIcons.contains(event.target) && !locationDropdown.contains(event.target)) {
+                locationDropdown.classList.remove('active');
+                inputWithIcons.classList.remove('focused');
+            }
+        });
+
+        // Load Provinces on page load
+        async function loadProvinces() {
+            try {
+                const response = await fetch('https://api.mysupership.vn/v1/partner/areas/province');
+                const data = await response.json();
+                console.log('Provinces data:', data);
+                const provinces = data.results;
+                populateSelect('provinces', provinces, 'code', 'name');
+            } catch (error) {
+                console.error('Lỗi khi tải tỉnh/thành phố:', error);
+            }
+        }
+
+        async function loadDistricts(provinceCode) {
+            try {
+                const response = await fetch(
+                    `https://api.mysupership.vn/v1/partner/areas/district?province=${provinceCode}`);
+                const data = await response.json();
+                console.log('Districts data:', data);
+                const districts = data.results;
+                populateSelect('districts', districts, 'code', 'name');
+                document.getElementById('districts').disabled = false;
+                document.getElementById('wards').innerHTML =
+                    '<option selected disabled value="">Chọn Phường/Xã</option>';
+                document.getElementById('wards').disabled = true;
+            } catch (error) {
+                console.error('Lỗi khi tải quận/huyện:', error);
+            }
+        }
+
+        async function loadWards(districtCode) {
+            try {
+                const response = await fetch(
+                    `https://api.mysupership.vn/v1/partner/areas/commune?district=${districtCode}`);
+                const data = await response.json();
+                console.log('Wards data:', data);
+                const wards = data.results;
+                populateSelect('wards', wards, 'code', 'name');
+                document.getElementById('wards').disabled = false;
+            } catch (error) {
+                console.error('Lỗi khi tải xã/phường:', error);
+            }
+        }
+
+        function populateSelect(selectId, data, codeField, nameField) {
+            const select = document.getElementById(selectId);
+            select.innerHTML =
+                `<option selected disabled value="">Chọn ${selectId === 'provinces' ? 'Tỉnh/Thành phố' : selectId === 'districts' ? 'Quận/Huyện' : 'Phường/Xã'}</option>`;
+            data.forEach(item => {
+                const option = document.createElement('option');
+                option.value = item[codeField];
+                option.text = item[nameField];
+                select.appendChild(option);
+            });
+        }
+
+        // Update input value when all selects are chosen
+        function updateLocationInput() {
+            const province = document.getElementById('provinces').selectedOptions[0]?.text || '';
+            const district = document.getElementById('districts').selectedOptions[0]?.text || '';
+            const ward = document.getElementById('wards').selectedOptions[0]?.text || '';
+
+            // Update the location input field with the selected values
+            locationInput.value = `${province}, ${district}, ${ward}`.trim();
+        }
+
+        // Event listeners for dropdown changes
+        document.getElementById('provinces').addEventListener('change', function() {
+            loadDistricts(this.value);
+            updateLocationInput();
+        });
+
+        document.getElementById('districts').addEventListener('change', function() {
+            loadWards(this.value);
+            updateLocationInput();
+        });
+
+        document.getElementById('wards').addEventListener('change', function() {
+            updateLocationInput();
+        });
+
+        // Call loadProvinces when page loads
+        document.addEventListener('DOMContentLoaded', loadProvinces);
     </script>
 @endsection
