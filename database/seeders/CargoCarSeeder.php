@@ -18,27 +18,27 @@ class CargoCarSeeder extends Seeder
                 
                 'cargo_car_type_id' => 1,
                 'license_plate' => '29C-123.45',
-                'is_active' => 1,
+                'is_active' => 0,
             ],
             [
                 'cargo_car_type_id' => 2,
                 'license_plate' => '30D-678.90',
-                'is_active' => 1,
+                'is_active' => 0,
             ],
             [
                 'cargo_car_type_id' => 3,
                 'license_plate' => '31E-234.56',
-                'is_active' => 1,
+                'is_active' => 0,
             ],
             [
                 'cargo_car_type_id' => 4,
-                'license_plate' => '32F-789.01',
-                'is_active' => 1,
+                'license_plate' => '32F-789.00',
+                'is_active' => 0,
             ],
             [
                 'cargo_car_type_id' => 5,
                 'license_plate' => '33G-345.67',
-                'is_active' => 1,
+                'is_active' => 0,
             ],
         ];
         $id = 1;
