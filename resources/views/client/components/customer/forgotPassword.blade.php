@@ -38,13 +38,13 @@
                             <div class="form-group">
                                 <label class="control-label" for="f-name"><span class="require">*</span>Email</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control w-50 mt-2"
+                                    <input type="text" class="form-control mt-2"
                                         placeholder="Nhập địa chỉ email của bạn vào đây..." name="email" id="email">
                                     @error('email')
                                         <label for="" class="text-danger">{{ $message }}</label>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> 
                         </fieldset>
                         <div class="buttons newsletter-input">
                             {{-- <div class="pull-right">I have read and agree to the <a href="#" class="agree"><b>Privacy

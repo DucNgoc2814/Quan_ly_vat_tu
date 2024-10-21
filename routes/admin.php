@@ -32,20 +32,9 @@ use App\Http\Controllers\UnitController;
 //     });
 // <+====================ROUTE MẪU====================+>
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('admin/dashboard');
 })->name('admin.dashboard');
-
-
-Route::prefix('mau')
-    ->as('mau.')
-    ->group(function () {
-        Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
-        Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
-        Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
-        Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
-        Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
-    });
 
 Route::prefix('quan-ly-nha-phan-phoi')
     ->as('supplier.')
@@ -152,8 +141,8 @@ Route::prefix('san-pham')
         Route::get('/danh-sach', [ProductController::class, 'index'])->name('index');
         Route::get('/them-moi', [ProductController::class, 'create'])->name('create');
         Route::post('/them-moi', [ProductController::class, 'store'])->name('store');
-        Route::get('/sua/{sku}', [ProductController::class, 'edit'])->name('edit');
-        Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
+        Route::get('/sua/{id}', [ProductController::class, 'edit'])->name('edit');
+        Route::put('/sua/{slug}', [ProductController::class, 'update'])->name('update');
     });
 
 
@@ -178,7 +167,6 @@ Route::prefix('don-hang-nhap')
         Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus');
         Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
     });
-Route::get('/', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
 
 Route::prefix('quan-ly-don-vi')
     ->as('units.')
