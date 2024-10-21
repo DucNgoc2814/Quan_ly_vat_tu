@@ -127,4 +127,8 @@ class LoginController extends Controller
             return back()->with('error', $exception->getMessage());
         }
     }
+
+    public function password(){
+        return view(self::PATH_VIEW . 'password');
+    }
 }
