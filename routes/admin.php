@@ -219,10 +219,9 @@ Route::prefix('quan-ly-chuyen-xe')
         Route::put('/sua/{id}', [TripController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy');
     });
-    
+
 Route::prefix('quan-ly-chuyen-xe')
     ->as('trips_details.')
     ->group(function () {
         Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index');
     });
-

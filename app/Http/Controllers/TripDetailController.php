@@ -29,6 +29,7 @@ class TripDetailController extends Controller
     public function create()
     {
         //
+        
     }
 
     /**

@@ -32,10 +32,10 @@
                             <tr>
                                 <th data-ordering="false">Chức vụ</th>
                                 <th data-ordering="false">Họ Tên</th>
-                                <th data-ordering="false">Ảnh</th>
-                                <th data-ordering="false">CCCD</th>
+                                {{-- <th data-ordering="false">Ảnh</th> --}}
+                                {{-- <th data-ordering="false">CCCD</th> --}}
                                 <th data-ordering="false">Số điện thoại</th>
-                                <th data-ordering="false">Ngày sinh</th>
+                                {{-- <th data-ordering="false">Ngày sinh</th> --}}
                                 <th data-ordering="false">Mô tả</th>
                                 <th data-ordering="false">Hoạt động</th>
                                 <th data-ordering="false">Thao tác</th>
@@ -47,15 +47,15 @@
                                 <tr>
                                     <td>{{ $item->roleEmployee->name }}</td>
                                     <td>{{ $item->name }}</td>
-                                    <td>
-                                        <img width="150px" height="150px"
+                                    {{-- <td>
+                                        <img style="border-radius: 4px" width="150px" height="160px"
                                             src="{{ $item->image ? \Storage::url($item->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
                                             alt="">
-                                    </td>
+                                    </td> --}}
 
-                                    <td>{{ $item->cccd }}</td>
+                                    {{-- <td>{{ $item->cccd }}</td> --}}
                                     <td>{{ $item->number_phone }}</td>
-                                    <td>{{ $item->date }}</td>
+                                    {{-- <td>{{ $item->date }}</td> --}}
                                     <td>{{ $item->description }}</td>
                                     <td>
                                         {{-- <div class="col-lg-6 form-check form-switch form-switch ms-3 mt-3">
@@ -85,11 +85,13 @@
                                             </button>
 
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                <li><a href="{{ route('employees.edit', ['id' => $item->id]) }}"
+                                                <li>
+                                                    <a href="{{ route('employees.edit', ['id' => $item->id]) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Sửa thông tin</a></li>
-                                                <li>
+                                                        Thông tin chi tiết</a>
+                                                </li>
+                                                {{-- <li> --}}
                                             </ul>
                                         </div>
                                     </td>
@@ -139,5 +141,4 @@
             }
         });
     </script>
-
 @endsection

@@ -69,12 +69,10 @@
                                                             {{ $order->orderStatus->name }}</option>
                                                         @if ($order->status_id == 1)
                                                             <option class="optionCheck" value="2">Xác Nhận</option>
-                                                            <option class="optionCheck" value="3">Đang giao</option>
-                                                            <option class="optionCheck" value="4">Thành công</option>
+
                                                             <option class="optionCheck" value="5">Hủy</option>
                                                         @elseif ($order->status_id == 2)
                                                             <option class="optionCheck" value="3">Đang giao</option>
-                                                            <option class="optionCheck" value="4">Thành công</option>
                                                             <option class="optionCheck" value="5">Hủy</option>
                                                         @elseif ($order->status_id == 3)
                                                             <option class="optionCheck" value="4">Thành công</option>
@@ -97,6 +95,7 @@
                                                     {{ $order->orderStatus->name }}
                                                 </span>
                                             @endif
+
                                         </td>
                                         <td class="text-center">
                                             <div class="dropdown d-inline-block">
@@ -117,6 +116,7 @@
                                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                                 Cập nhật</a></li>
                                                     @endif
+                                                    {{-- edit --}}
                                                 </ul>
                                             </div>
                                         </td>
@@ -142,12 +142,11 @@
                     status: newStatus,
                     note: note
                 },
-                success: function(response) {
-                },
-                error: function(xhr) {
-                }
+                success: function(response) {},
+                error: function(xhr) {}
             });
         }
+
         function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
             const form = selectElement.closest('form');
@@ -172,13 +171,25 @@
                         if (newStatus == 1) {
                             optionDefaul[1].style.display = ''
                             optionDefaul[4].style.display = ''
+                            optionDefaul[2].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
                         } else if (newStatus == 2) {
+                            optionDefaul[1].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
                             optionDefaul[2].style.display = ''
-                            optionDefaul[3].style.display = ''
+                            optionDefaul[4].style.display = ''
                         } else if (newStatus == 3) {
+                             optionDefaul[1].style.display = 'none'
+                            optionDefaul[4].style.display = 'none'
+                            optionDefaul[2].style.display = 'none'
                             optionDefaul[3].style.display = ''
                         } else {
-                            selectElement.disabled = true;
+                            if (selectElement) {
+                                const spanElement = document.createElement('span');
+                                spanElement.className = 'badge bg-danger-subtle text-danger';
+                                spanElement.textContent = 'Hủy';
+                                selectElement.parentNode.replaceChild(spanElement, selectElement);
+                            }
                         }
                         const noteInput = document.createElement('input');
                         noteInput.type = 'hidden';
@@ -208,13 +219,25 @@
                         if (newStatus == 1) {
                             optionDefaul[1].style.display = ''
                             optionDefaul[4].style.display = ''
+                            optionDefaul[2].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
                         } else if (newStatus == 2) {
+                            optionDefaul[1].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
                             optionDefaul[2].style.display = ''
-                            optionDefaul[3].style.display = ''
+                            optionDefaul[4].style.display = ''
                         } else if (newStatus == 3) {
+                             optionDefaul[1].style.display = 'none'
+                            optionDefaul[4].style.display = 'none'
+                            optionDefaul[2].style.display = 'none'
                             optionDefaul[3].style.display = ''
                         } else {
-                            selectElement.disabled = true;
+                            if (selectElement) {
+                                const spanElement = document.createElement('span');
+                                spanElement.className = 'badge bg-success-subtle text-success';
+                                spanElement.textContent = 'Thành công';
+                                selectElement.parentNode.replaceChild(spanElement, selectElement);
+                            }
                         }
                         changeStatusOrder(orderSlug, newStatus, '');
                     } else {

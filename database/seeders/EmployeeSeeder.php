@@ -40,14 +40,14 @@ class EmployeeSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'role_id' => 3,
+                'role_id' => 4,
                 'name' => 'Phạm Văn C',
                 'email' => 'phamvanc12@example.com',
                 'image' => null,
                 'number_phone' => '012345673',
                 'cccd' => 135792468,
                 'date' => 20220120,
-                'description' => 'Nhân viên quản lý dự án.',
+                'description' => 'Nhân viên lái xe.',
                 'is_active' => false,
             ],
         ];
