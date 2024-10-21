@@ -101,82 +101,90 @@ class ProductController extends Controller
      * Show the form for editing the specified resource.
      */
 
-     public function edit($id)
-     {
-         // Lấy sản phẩm từ cơ sở dữ liệu
-         $product = Product::findOrFail($id);
-     
-         // Lấy tất cả hình ảnh của sản phẩm
-         $images = Gallery::where('product_id', $id)->get();
-     
-         // Lấy danh sách danh mục, thương hiệu, và đơn vị
-         $categories = Category::all()->pluck('name', 'id');
-         $brands = Brand::all()->pluck('name', 'id');
-         $units = Unit::all()->pluck('name', 'id');
-     
-         // Lấy tất cả thuộc tính và giá trị của chúng
-         $attributes = Attribute::with('attributeValues')->get();
-         
-         $attributesArray = [];
-         foreach ($attributes as $attribute) {
-             // Kiểm tra xem thuộc tính có giá trị không trước khi gọi pluck()
-             $attributesArray[$attribute->id] = $attribute->attributeValues ? $attribute->attributeValues->pluck('value', 'id')->toArray() : [];
-         }
-         // Truyền dữ liệu vào view
-         return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'images', 'categories', 'brands', 'units', 'attributesArray'));
-     }
-     
+    public function edit($id)
+    {
+        // Lấy sản phẩm từ cơ sở dữ liệu
+        $product = Product::findOrFail($id);
+
+        // Lấy tất cả hình ảnh của sản phẩm
+        $images = Gallery::where('product_id', $id)->get();
+        // dd($images);    
+        // Lấy danh sách danh mục, thương hiệu, và đơn vị
+        $categories = Category::all()->pluck('name', 'id');
+        $brands = Brand::all()->pluck('name', 'id');
+        $units = Unit::all()->pluck('name', 'id');
+
+        // Lấy tất cả thuộc tính và giá trị của chúng
+        $attributes = Attribute::with('attributeValues')->get();
+
+        $attributesArray = [];
+        foreach ($attributes as $attribute) {
+            // Kiểm tra xem thuộc tính có giá trị không trước khi gọi pluck()
+            $attributesArray[$attribute->id] = $attribute->attributeValues ? $attribute->attributeValues->pluck('value', 'id')->toArray() : [];
+        }
+        // Truyền dữ liệu vào view
+        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'images', 'categories', 'brands', 'units', 'attributesArray'));
+    }
 
 
 
 
-     public function update(StoreProductRequest $request, $id)
-     {
-         DB::transaction(function () use ($request, $id) {
-             // Lấy sản phẩm để cập nhật
-             $product = Product::findOrFail($id);
-             
-             // Cập nhật thông tin sản phẩm
-             $product->update([
-                 'name' => $request->name,
-                 'price' => $request->price,
-                 'category_id' => $request->category_id,
-                 'brand_id' => $request->brand_id,
-                 'unit_id' => $request->unit_id,
-                 'description' => $request->description,
-                 'is_active' => $request->has('is_active') ? 1 : 0
-             ]);
-     
-             // Cập nhật ảnh sản phẩm
-             if ($request->hasFile('product_images')) {
-                 foreach ($request->file('product_images') as $image) {
-                     // Lưu ảnh vào thư mục 'galleries'
-                     $imagePath = $image->store('galleries', 'public');
-                     Gallery::create([
-                         'product_id' => $product->id,
-                         'image_path' => $imagePath,
-                     ]);
-                 }
-             }
-     
-             // Cập nhật biến thể sản phẩm
-             if ($request->has('variant_types')) {
-                 // Xóa các biến thể cũ (nếu cần)
-                 $product->variants()->delete();
-                 // Tạo biến thể mới từ request
-                 foreach ($request->variant_types as $variantType) {
-                     $product->variants()->create(['attribute_id' => $variantType]);
-                 }
-             }
-     
-             // Thông báo thành công và chuyển hướng
-             return redirect()->route('product.index')->with('success', 'Cập nhật sản phẩm thành công!');
-         });
-     
-         // Nếu có lỗi, chuyển hướng về lại trang edit với thông báo lỗi
-         return back()->withInput()->withErrors($request->errors());
-     }
-     
+
+    public function update(UpdateProductRequest $request, $id)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'category_id' => 'required|integer',
+            'brand_id' => 'required|integer',
+            'unit_id' => 'required|integer',
+            'description' => 'nullable|string',
+            'is_active' => 'boolean',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        DB::transaction(function () use ($validated, $request, $id) {
+            // Cập nhật thông tin sản phẩm
+            $product = Product::findOrFail($id);
+            $product->update($validated);
+
+            // Cập nhật các biến thể
+            if ($request->has('variations')) {
+                foreach ($request->input('variations') as $variationData) {
+                    $variation = Variation::updateOrCreate(
+                        ['id' => $variationData['id'] ?? null, 'product_id' => $id],
+                        [
+                            'sku' => $variationData['sku'],
+                            'name' => $variationData['name'],
+                            'stock' => $variationData['stock'],
+                            'price_export' => $variationData['price_export'],
+                            'description' => $variationData['description'],
+                            'is_active' => $variationData['is_active'] ?? true
+                        ]
+                    );
+
+                    // Cập nhật thuộc tính cho biến thể
+                    if (isset($variationData['attributes'])) {
+                        $variation->attributeValues()->sync($variationData['attributes']);
+                    }
+                }
+            }
+
+            // Cập nhật hình ảnh
+            if ($request->hasFile('images')) {
+                foreach ($request->file('images') as $file) {
+                    $fileName = $file->store('galleries', 'public');
+                    Gallery::create([
+                        'product_id' => $product->id,
+                        'url' => $fileName,
+                    ]);
+                }
+            }
+        });
+
+        return redirect()->route('products.index')->with('success', 'Product updated successfully');
+    }
+
 
     /**
      * Remove the specified resource from storage.

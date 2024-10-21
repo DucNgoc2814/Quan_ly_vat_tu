@@ -177,24 +177,47 @@
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="mb-3" id="image-inputs">
-                                            <label class="form-label" for="product-images-input">Ảnh sản phẩm</label>
+                                        <div class="mb-4">
+                                            <div class="d-flex justify-content-lg-between">
+                                                <label class="form-label" for="product-images-input">Ảnh sản phẩm</label>
+                                                <button type="button" class="btn btn-primary"
+                                                    onclick="addImageInput()">Thêm ảnh</button>
+                                            </div>
+                                            <div class="mt-3" id="image-inputs">
+                                                <div class="position-relative d-inline-block">
+                                                    <div class="position-absolute top-100 start-100 translate-middle">
+                                                        <label for="product-image-input" class="mb-0"
+                                                            data-bs-toggle="tooltip" data-bs-placement="right"
+                                                            title="Select Image">
+                                                            <div class="avatar-xs">
+                                                                <div
+                                                                    class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                                                                    <i class="ri-image-fill"></i>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                        <input class="form-control d-none" id="product-image-input"
+                                                            type="file" accept="image/png, image/gif, image/jpeg"
+                                                            name="product_images[]">
 
-                                            <input type="file" class="form-control mb-2" name="product_images[]"
-                                                accept="image/*" onchange="previewImages(this)">
-
-                                            <!-- Hiển thị lỗi cho product_images -->
-                                            @if ($errors->has('product_images'))
-                                                <div class="text-danger">{{ $errors->first('product_images') }}</div>
-                                            @endif
-
-                                            <!-- Hiển thị lỗi cho từng ảnh trong mảng product_images -->
-                                            @if ($errors->has('product_images.*'))
-                                                <div class="text-danger">{{ $errors->first('product_images.*') }}</div>
-                                            @endif
+                                                        @if ($errors->has('product_images'))
+                                                            <div class="text-danger">
+                                                                {{ $errors->first('product_images') }}</div>
+                                                        @endif
+                                                        @if ($errors->has('product_images.*'))
+                                                            <div class="text-danger">
+                                                                {{ $errors->first('product_images.*') }}</div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="avatar-lg">
+                                                        <div class="avatar-title bg-light rounded">
+                                                            <img src="" id="product-img"
+                                                                class="avatar-md h-auto" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <button type="button" class="btn btn-primary" onclick="addImageInput()">Thêm
-                                            ảnh</button>
                                     </div>
                                 </div>
                             </div>
@@ -280,42 +303,70 @@
                 resultDiv.append(html);
             });
         }
-
-
-
+        let imageCount = 1; // Biến để đếm số lượng ô nhập ảnh
 
         function addImageInput() {
-            // Tạo một div chứa cả input và nút xóa
-            const imageDiv = document.createElement('div');
-            imageDiv.className = 'input-group mb-2';
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'position-relative d-inline-block mb-2';
 
-            // Tạo một trường input mới
-            const newInput = document.createElement('input');
-            newInput.type = 'file';
-            newInput.className = 'form-control';
-            newInput.name = 'product_images[]'; // Tên của trường
-            newInput.accept = 'image/*';
-            newInput.onchange = function() {
-                previewImages(this); // Gọi hàm previewImages khi người dùng chọn ảnh
+            const labelWrapper = document.createElement('div');
+            labelWrapper.className = 'position-absolute top-100 start-100 translate-middle';
+
+            const label = document.createElement('label');
+            label.className = 'mb-0';
+            label.setAttribute('data-bs-toggle', 'tooltip');
+            label.setAttribute('data-bs-placement', 'right');
+            label.setAttribute('title', 'Chọn ảnh');
+            label.setAttribute('for', 'product-image-input-' + imageCount); // Đặt ID duy nhất cho label
+
+            label.innerHTML = `<div class="avatar-xs">
+                            <div class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                                <i class="ri-image-fill"></i>
+                            </div>
+                        </div>`;
+
+            const input = document.createElement('input');
+            input.className = 'form-control d-none';
+            input.type = 'file';
+            input.accept = 'image/png, image/gif, image/jpeg';
+            input.name = 'product_images[]';
+            input.id = 'product-image-input-' + imageCount; // Đặt ID duy nhất cho ô nhập
+
+            // Thêm hàm xử lý khi chọn file
+            input.addEventListener('change', function(event) {
+                const output = document.createElement('img');
+                output.id = 'product-img-' + imageCount; // ID duy nhất cho ảnh xem trước
+                output.className = 'avatar-md h-auto';
+
+                // Đặt đường dẫn ảnh xem trước
+                output.src = URL.createObjectURL(event.target.files[0]);
+                imageContainer.appendChild(output);
+
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src)
+                };
+            });
+
+            labelWrapper.appendChild(label);
+            labelWrapper.appendChild(input);
+            imageContainer.appendChild(labelWrapper);
+            document.getElementById('image-inputs').appendChild(imageContainer);
+
+            // Đảm bảo khi nhấp vào label thì sẽ kích hoạt ô nhập file
+            label.onclick = function() {
+                input.click();
             };
 
-            // Tạo nút xóa
-            const deleteButton = document.createElement('button');
-            deleteButton.type = 'button';
-            deleteButton.className = 'btn btn-danger';
-            deleteButton.innerText = 'Xóa';
-            deleteButton.onclick = function() {
-                imageDiv.remove(); // Xóa div chứa input và nút xóa
-            };
-
-            // Thêm input và nút xóa vào div
-            imageDiv.appendChild(newInput);
-            imageDiv.appendChild(deleteButton);
-
-            // Thêm div vào div chứa các input ảnh
-            document.getElementById('image-inputs').appendChild(imageDiv);
+            imageCount++; // Tăng biến đếm
         }
 
+        document.getElementById('product-image-input').addEventListener('change', function(event) {
+            var output = document.getElementById('product-img');
+            output.src = URL.createObjectURL(event.target.files[0]);
+            output.onload = function() {
+                URL.revokeObjectURL(output.src)
+            }
+        });
 
 
         // Hàm để tạo tất cả các kết hợp từ mảng

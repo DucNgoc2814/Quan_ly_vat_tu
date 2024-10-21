@@ -128,8 +128,8 @@
                         <li><a href="compare.html"><i class="fa fa-user"></i></a>
                             {{-- <i class="fa fa-cog"> --}}
                             <ul class="ht-dropdown">
-                                <li><a href="{{ route('client.login') }}">Đăng nhập</a></li>
-                                <li><a href="{{ route('client.register') }}">Đăng ký</a></li>
+                                <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                <li><a href="{{ route('register') }}">Đăng ký</a></li>
                                 <li><a href="account.html">Tài khoản</a></li>
                             </ul>
                         </li>

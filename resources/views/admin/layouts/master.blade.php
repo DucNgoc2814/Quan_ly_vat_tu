@@ -212,7 +212,7 @@
     <script>
         function changeStatus(nameTable, id, is_active) {
             $.ajax({
-                url: '{{ route('client.updateStatus') }}',
+                url: '{{ route('updateStatus') }}',
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',

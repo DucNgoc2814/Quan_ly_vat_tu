@@ -252,7 +252,7 @@
                     $(input).next('img').remove(); // remove previous image preview
                     $(input).after(imgPreview);
                 }
-                reader.readAsDataURL(file)
+                reader.readAsDataURL(file);
             } 
         }
     </script>
