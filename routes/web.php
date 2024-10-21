@@ -36,7 +36,6 @@ Route::prefix('client')
         Route::post('/verifyOtp', [LoginController::class, 'verifyOtp'])->name('verifyOtp');
         Route::get('/doi-mat-khau', [LoginController::class, 'changepassword'])->name('changepassword');
         Route::post('/passwordchange', [LoginController::class, 'passwordchange'])->name('passwordchange');
-        Route::get('/doi-mat-khau-moi', [LoginController::class, 'password'])->name('password');
         // <+====================TINHNGUYEN====================+>
         Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
     });

@@ -130,7 +130,6 @@
                             <ul class="ht-dropdown">
                                 <li><a href="{{ route('client.login') }}">Đăng nhập</a></li>
                                 <li><a href="{{ route('client.register') }}">Đăng ký</a></li>
-                                <li><a href="{{ route('client.password') }}">Đổi mật khẩu</a></li>
                                 <li><a href="account.html">Tài khoản</a></li>
                             </ul>
                         </li>
