@@ -231,6 +231,30 @@
             });
         }
     </script>
+    <script>
+     $(document).ready(function() {
+        $('.div-datalist').hide();
+    $('#customer_id').on('input', function() {
+        $('.div-datalist').show();
+        var value = $(this).val().toLowerCase();
+        $('#customer_list .li-datalist').each(function() {
+            if ($(this).text().toLowerCase().indexOf(value) > -1) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
+    $('.div-datalist').on('click', '.li-datalist', function() {
+        var selectedText = $(this).find('.dataCustom').text();
+        $('#customer_id').val(selectedText);
+        $('#customer_list .li-datalist').hide();
+        $('.div-datalist').hide();
+    });
+});
+
+    </script>
     <?php echo $__env->yieldContent('scripts'); ?>
 </body>
 

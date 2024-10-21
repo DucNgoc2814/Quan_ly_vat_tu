@@ -1,173 +1,215 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Sửa sản phẩm
+    Thêm sản phẩm
 @endsection
 
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Sửa sản phẩm</h4>
+                <h4 class="mb-sm-0">Thêm sản phẩm</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Sản phẩm</a></li>
-                        <li class="breadcrumb-item active">Sửa sản phẩm</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Sản phẩm</a></li>
+                        <li class="breadcrumb-item active">Thêm sản phẩm</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
-
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
                         <div class="col-sm-auto">
-                            <a href="{{ route('product.index') }}" class="btn btn-success">Danh sách sản phẩm</a>
+                            <div>
+                                <a href="{{ route('product.index') }}" class="btn btn-success" id="addproduct-btn">Danh sách
+                                    sản phẩm</a>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
-                        @method('PUT')
                         <div class="row">
                             <div class="col-lg-8">
                                 <!-- Danh mục -->
-                                <div class="card mb-3">
+                                <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Danh mục</h5>
-                                        <select class="form-select mt-2" name="category_id" required>
+                                        <h5 class="card-title mb-0">Danh mục</h5>
+                                        <select class="form-select mt-2" name="category_id">
                                             <option value="" selected>Chọn danh mục</option>
                                             @foreach ($categories as $key => $value)
-                                                <option value="{{ $key }}" {{ $product->category_id == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                                <option value="{{ $key }}"
+                                                    {{ old('category_id') == $key ? 'selected' : '' }}>{{ $value }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         @error('category_id')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span role="alert">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
-
-                                <!-- Tên sản phẩm -->
-                                <div class="card mb-3">
+                                <div class="card">
                                     <div class="card-body">
-                                        <label class="form-label" for="product-title-input">Tên sản phẩm</label>
-                                        <input type="text" class="form-control" id="product-title-input" name="name" value="{{ old('name', $product->name) }}" placeholder="Thêm sản phẩm" required>
-                                        @error('name')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
+                                        <div class="mb-3">
+                                            <label class="form-label" for="product-title-input">Tên sản phẩm</label>
+                                            <input type="text" class="form-control" id="product-title-input"
+                                                value="{{ old('name') }}" placeholder="Thêm sản phẩm" name="name">
+                                            @error('name')
+                                                <span role="alert">
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="product-price-input">Giá sản phẩm</label>
+                                            <input type="text" class="form-control" id="product-price-input"
+                                                value="{{ old('price') }}" placeholder="Thêm giá sản phẩm" name="price">
+                                            @error('price')
+                                                <span role="alert">
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                </span>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!-- Giá sản phẩm -->
-                                <div class="card mb-3">
+                                <!-- Phần mô tả -->
+                                <div class="card">
                                     <div class="card-body">
-                                        <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                                        <input type="number" class="form-control" id="product-price-input" name="price" value="{{ old('price', $product->price) }}" placeholder="Thêm giá sản phẩm" required>
-                                        @error('price')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <!-- Mô tả -->
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <label class="form-label" for="meta-description-input">Mô tả</label>
-                                        <textarea class="form-control" id="meta-description-input" name="description" rows="8" placeholder="Nhập nội dung" required>{{ old('description', $product->description) }}</textarea>
-                                        @error('description')
-                                            <span class="text-danger">{{ $message }}</span>
-                                        @enderror
+                                        <div class="mb-4">
+                                            <div>
+                                                <label class="form-label" for="meta-description-input">Mô tả</label>
+                                                <textarea class="form-control" id="meta-description-input" placeholder="Nhập nội dung" rows="8"
+                                                    name="description">{{ old('description') }}</textarea>
+                                                @error('description')
+                                                    <span role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-lg-4">
-                                <div class="card mb-3">
+                                <div class="card">
                                     <div class="card-body d-flex justify-content-around">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="is_active" id="is_active" value="1" {{ $product->is_active ? 'checked' : '' }}>
+                                        <div class="form-check form-switch form-switch">
+                                            <input class="form-check-input" type="checkbox" name="is_active" value="1"
+                                                id="is_active" {{ old('is_active') ? 'checked' : '' }}>
                                             <label class="form-check-label" for="is_active">Hiển thị</label>
                                         </div>
                                     </div>
                                 </div>
 
                                 <!-- Thương hiệu -->
-                                <div class="card mb-3">
+                                <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Chọn thương hiệu</h5>
+                                        <h5 class="card-title mb-0">Chọn thương hiệu</h5>
                                         <select class="form-select mt-2" name="brand_id">
                                             <option value="" selected>Chọn thương hiệu</option>
                                             @foreach ($brands as $key => $value)
-                                                <option value="{{ $key }}" {{ $product->brand_id == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                                <option value="{{ $key }}"
+                                                    {{ old('brand_id') == $key ? 'selected' : '' }}>{{ $value }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         @error('brand_id')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span role="alert">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
 
                                 <!-- Đơn vị -->
-                                <div class="card mb-3">
+                                <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Chọn đơn vị</h5>
+                                        <h5 class="card-title mb-0">Chọn đơn vị</h5>
                                         <select class="form-select mt-2" name="unit_id">
                                             <option value="" selected>Chọn đơn vị</option>
                                             @foreach ($units as $key => $value)
-                                                <option value="{{ $key }}" {{ $product->unit_id == $key ? 'selected' : '' }}>{{ $value }}</option>
+                                                <option value="{{ $key }}"
+                                                    {{ old('unit_id') == $key ? 'selected' : '' }}>{{ $value }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         @error('unit_id')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span role="alert">
+                                                <span class="text-danger">{{ $message }}</span>
+                                            </span>
                                         @enderror
                                     </div>
                                 </div>
 
                                 <!-- Loại biến thể -->
-                                <div class="card mb-3">
+                                <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Chọn loại biến thể: </h5>
+                                        <h5 class="card-title mb-0">Chọn loại biến thể:</h5>
                                         <div class="mb-3 variant-checkbox-group mt-3">
-                                            @foreach ($attributesArray as $attribute)
-                                                @if(isset($attribute['id']) && isset($attribute['name'])) <!-- Check if keys exist -->
-                                                    <label class="variant-checkbox">
-                                                        <input type="checkbox" name="variant_types[]" value="{{ $attribute['id'] }}" {{ in_array($attribute['id'], old('variant_types', [])) ? 'checked' : '' }}>
-                                                        <span>{{ $attribute['name'] }}</span>
-                                                    </label>
-                                                @endif
+                                            @foreach ($attributesArray as $id => $attribute)
+                                                <label class="variant-checkbox">
+                                                    <input type="checkbox" name="variant_types[]"
+                                                        value="{{ $attribute['id'] }}"
+                                                        {{ in_array($attribute['id'], old('variant_types', [])) ? 'checked' : '' }}>
+                                                    <span>{{ $attribute['name'] }}</span>
+                                                </label>
                                             @endforeach
                                         </div>
-                                        <button type="button" class="btn btn-success" onclick="getSelectedValues()">Lưu</button>
+                                        <button type="button" class="btn btn-success"
+                                            onclick="getSelectedValues()">Lưu</button>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-lg-12">
-                                <div class="card mb-3">
+                                <div class="card">
                                     <div class="card-body">
-                                        <label class="form-label" for="image-inputs">Ảnh sản phẩm</label>
-                                        <div id="image-inputs">
-                                            @foreach($product->galleries as $image)
-                                                <div class="mb-2">
-                                                    <input type="file" class="form-control" name="product_images[]" accept="image/*" onchange="previewImages(this)">
-                                                    <img src="{{ asset($image->url) }}" alt="Image Preview" style="max-width: 100%; max-height: 100px; margin-top: 10px;">
-                                                </div>
-                                            @endforeach
-                                            <div class="mb-2">
-                                                <input type="file" class="form-control" name="product_images[]" accept="image/*" onchange="previewImages(this)">
+                                        <div class="mb-4">
+                                            <div class="d-flex justify-content-lg-between">
+                                                <label class="form-label" for="product-images-input">Ảnh sản phẩm</label>
+                                                <!-- Nút để thêm ảnh -->
+                                                <button type="button" class="btn btn-primary" id="add-image-button">Thêm
+                                                    ảnh</button>
                                             </div>
-                                            @if ($errors->has('product_images'))
-                                                <div class="text-danger">{{ $errors->first('product_images') }}</div>
-                                            @endif
-                                            @if ($errors->has('product_images.*'))
-                                                <div class="text-danger">{{ $errors->first('product_images.*') }}</div>
-                                            @endif
+                                            <div class="mt-3" id="image-inputs">
+                                                <!-- Ô nhập ảnh mặc định đầu tiên -->
+                                                <div class="position-relative d-inline-block mb-4 me-4">
+                                                    <div class="position-absolute top-100 start-100 translate-middle">
+                                                        <label for="product-image-0" class="mb-0"
+                                                            data-bs-toggle="tooltip" data-bs-placement="right"
+                                                            title="Chọn ảnh">
+                                                            <div class="avatar-xs">
+                                                                <div
+                                                                    class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                                                                    <i class="ri-image-fill"></i>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                        <input class="form-control d-none" id="product-image-0"
+                                                            type="file" accept="image/png, image/gif, image/jpeg"
+                                                            name="product_images[]" onchange="displayImage(event, 0)">
+                                                    </div>
+                                                    <div class="avatar-lg">
+                                                        <div class="avatar-title bg-light rounded">
+                                                            <img src="" id="product-img-0"
+                                                                class="avatar-md h-auto" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <button type="button" class="btn btn-primary" onclick="addImageInput()">Thêm ảnh</button>
                                     </div>
                                 </div>
                             </div>
@@ -177,10 +219,11 @@
                             </div>
 
                             <div class="mt-3">
-                                <button type="submit" class="btn btn-success">Cập nhật sản phẩm</button>
+                                <button class="btn btn-success text">Sửa</button>
                             </div>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
@@ -193,6 +236,7 @@
                 selectedVariants.push($(this).val());
             });
 
+            // Check the limit of variants
             if (selectedVariants.length > 2) {
                 alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
                 return false;
@@ -205,55 +249,141 @@
             });
 
             const combinations = generateCombinations(selectedVariantValues);
+            const resultDiv = $('#selected-variants');
+            resultDiv.empty();
 
-            const selectedVariantsDiv = $('#selected-variants');
-            selectedVariantsDiv.empty();
-            combinations.forEach(combination => {
-                const combinationDiv = $('<div>').addClass('combination-item').text(combination.join(' - '));
-                selectedVariantsDiv.append(combinationDiv);
+            combinations.forEach(combo => {
+                const id = combo.map(item => item.id).join('_');
+
+                const variantLabels = selectedVariants.map((type, index) => {
+                    const variantValue = combo[index];
+                    const variantName = variantValues.find(attr => attr.id == type).name;
+                    return `
+                <div class="col-md-3">
+                    <div class="mb-2">
+                        <label class="form-label">${variantName}</label>
+                        <input type="hidden" name="variants[${id}][attribute_value_ids][]" value="${variantValue.id}">
+                        <input type="text" class="form-control" name="variants[${id}][attribute_value_values][]" value="${variantValue.value}" readonly>
+                    </div>
+                </div>
+            `;
+                }).join('');
+
+                const html = `
+    <div class="col-lg-12">
+        <div class="col-md-12" id="${id}_item">
+            <hr class="mb-2">
+            <div class="row">
+                ${variantLabels}
+                <div class="col-md-3">
+                    <div class="mb-2">
+                        <label class="form-label">Giá chi tiết</label>
+                        <input type="number" class="form-control" name="variants[${id}][price]">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-2">
+                        <label class="form-label">Số lượng</label>
+                        <input type="number" class="form-control" name="variants[${id}][stock]">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+`;
+                resultDiv.append(html);
             });
         }
 
-        function generateCombinations(arrays) {
-            const result = [];
+        let imageCount = 1; // Biến đếm để tạo ID duy nhất cho mỗi input ảnh
 
-            function combine(arr, index) {
-                if (index === arrays.length) {
-                    result.push(arr);
-                    return;
+        // Hàm hiển thị ảnh xem trước
+        function displayImage(event, count) {
+            event.preventDefault(); // Ngăn chặn sự kiện mặc định gây cuộn trang
+            var output = document.getElementById('product-img-' + count);
+            if (event.target.files.length > 0) { // Kiểm tra xem có file nào được chọn không
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src); // Giải phóng bộ nhớ
                 }
+            }
+        }
 
-                arrays[index].forEach(item => {
-                    combine([...arr, item], index + 1);
-                });
+        // Hàm thêm input ảnh mới
+        function addImageInput() {
+            const inputId = 'product-image-input-' + imageCount; // Tạo ID duy nhất cho input
+            const imgId = 'product-img-' + imageCount; // Tạo ID duy nhất cho ảnh
+
+            // Tạo container cho input và ảnh xem trước
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'position-relative d-inline-block mb-4 me-4';
+
+            const labelWrapper = document.createElement('div');
+            labelWrapper.className = 'position-absolute top-100 start-100 translate-middle';
+
+            const label = document.createElement('label');
+            label.className = 'mb-0';
+            label.setAttribute('for', inputId); // Đặt ID duy nhất cho label
+
+            label.innerHTML = `<div class="avatar-xs">
+                        <div class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                            <i class="ri-image-fill"></i>
+                        </div>
+                    </div>`;
+
+            // Tạo input file mới để chọn ảnh
+            const input = document.createElement('input');
+            input.className = 'form-control d-none';
+            input.type = 'file';
+            input.accept = 'image/png, image/gif, image/jpeg';
+            input.name = 'product_images[]';
+            input.id = inputId;
+            input.setAttribute('onchange', `displayImage(event, ${imageCount})`);
+
+            // Tạo vùng xem trước ảnh
+            const previewContainer = document.createElement('div');
+            previewContainer.className = 'avatar-lg';
+            previewContainer.innerHTML = `<div class="avatar-title bg-light rounded">
+                                    <img src="" id="${imgId}" class="avatar-md h-auto" />
+                                  </div>`;
+
+            labelWrapper.appendChild(label);
+            labelWrapper.appendChild(input);
+            imageContainer.appendChild(labelWrapper);
+            imageContainer.appendChild(previewContainer);
+
+            // Thêm toàn bộ phần tử mới vào vùng chứa ảnh
+            document.getElementById('image-inputs').appendChild(imageContainer);
+
+            // Tăng biến đếm cho các input tiếp theo
+            imageCount++;
+        }
+        // Kết nối sự kiện click với nút thêm ảnh
+        document.getElementById('add-image-button').addEventListener('click', addImageInput);
+        // Kết nối sự kiện click với nút thêm ảnh
+        document.getElementById('add-image-button').addEventListener('click', addImageInput);
+
+
+
+
+        // Hàm để tạo tất cả các kết hợp từ mảng
+        function generateCombinations(arrays) {
+            // Kiểm tra xem có mảng nào trống không
+            if (arrays.some(array => array.length === 0)) {
+                return []; // Trả về mảng rỗng nếu có mảng trống
             }
 
-            combine([], 0);
-            return result;
-        }
-
-        function addImageInput() {
-            const newInput = `<div class="mb-2">
-                <input type="file" class="form-control" name="product_images[]" accept="image/*" onchange="previewImages(this)">
-            </div>`;
-            $('#image-inputs').append(newInput);
-        }
-
-        function previewImages(input) {
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const imgPreview = $('<img>').attr('src', e.target.result).css({
-                        'max-width': '100%',
-                        'max-height': '100px',
-                        'margin-top': '10px'
+            return arrays.reduce((accumulator, current) => {
+                const combinations = [];
+                accumulator.forEach(accItem => {
+                    current.forEach(curItem => {
+                        combinations.push([...accItem, curItem]);
                     });
-                    $(input).next('img').remove(); // remove previous image preview
-                    $(input).after(imgPreview);
-                }
-                reader.readAsDataURL(file);
-            } 
+                });
+                return combinations;
+            }, [
+                []
+            ]); // Bắt đầu với một mảng chứa một mảng rỗng
         }
     </script>
 @endsection

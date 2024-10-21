@@ -173,22 +173,23 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="col-lg-12">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="mb-4">
                                             <div class="d-flex justify-content-lg-between">
                                                 <label class="form-label" for="product-images-input">Ảnh sản phẩm</label>
-                                                <button type="button" class="btn btn-primary"
-                                                    onclick="addImageInput()">Thêm ảnh</button>
+                                                <!-- Nút để thêm ảnh -->
+                                                <button type="button" class="btn btn-primary" id="add-image-button">Thêm
+                                                    ảnh</button>
                                             </div>
                                             <div class="mt-3" id="image-inputs">
-                                                <div class="position-relative d-inline-block">
+                                                <!-- Ô nhập ảnh mặc định đầu tiên -->
+                                                <div class="position-relative d-inline-block mb-4 me-4">
                                                     <div class="position-absolute top-100 start-100 translate-middle">
-                                                        <label for="product-image-input" class="mb-0"
+                                                        <label for="product-image-0" class="mb-0"
                                                             data-bs-toggle="tooltip" data-bs-placement="right"
-                                                            title="Select Image">
+                                                            title="Chọn ảnh">
                                                             <div class="avatar-xs">
                                                                 <div
                                                                     class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
@@ -196,22 +197,13 @@
                                                                 </div>
                                                             </div>
                                                         </label>
-                                                        <input class="form-control d-none" id="product-image-input"
+                                                        <input class="form-control d-none" id="product-image-0"
                                                             type="file" accept="image/png, image/gif, image/jpeg"
-                                                            name="product_images[]">
-
-                                                        @if ($errors->has('product_images'))
-                                                            <div class="text-danger">
-                                                                {{ $errors->first('product_images') }}</div>
-                                                        @endif
-                                                        @if ($errors->has('product_images.*'))
-                                                            <div class="text-danger">
-                                                                {{ $errors->first('product_images.*') }}</div>
-                                                        @endif
+                                                            name="product_images[]" onchange="displayImage(event, 0)">
                                                     </div>
                                                     <div class="avatar-lg">
                                                         <div class="avatar-title bg-light rounded">
-                                                            <img src="" id="product-img"
+                                                            <img src="" id="product-img-0"
                                                                 class="avatar-md h-auto" />
                                                         </div>
                                                     </div>
@@ -221,6 +213,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
 
 
                             <div class="col-lg-12">
@@ -303,70 +297,76 @@
                 resultDiv.append(html);
             });
         }
-        let imageCount = 1; // Biến để đếm số lượng ô nhập ảnh
 
+        let imageCount = 1; // Biến đếm để tạo ID duy nhất cho mỗi input ảnh
+
+        // Hàm hiển thị ảnh xem trước
+        function displayImage(event, count) {
+            event.preventDefault(); // Ngăn chặn sự kiện mặc định gây cuộn trang
+            var output = document.getElementById('product-img-' + count);
+            if (event.target.files.length > 0) { // Kiểm tra xem có file nào được chọn không
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src); // Giải phóng bộ nhớ
+                }
+            }
+        }
+
+        // Hàm thêm input ảnh mới
         function addImageInput() {
+            const inputId = 'product-image-input-' + imageCount; // Tạo ID duy nhất cho input
+            const imgId = 'product-img-' + imageCount; // Tạo ID duy nhất cho ảnh
+
+            // Tạo container cho input và ảnh xem trước
             const imageContainer = document.createElement('div');
-            imageContainer.className = 'position-relative d-inline-block mb-2';
+            imageContainer.className = 'position-relative d-inline-block mb-4 me-4';
 
             const labelWrapper = document.createElement('div');
             labelWrapper.className = 'position-absolute top-100 start-100 translate-middle';
 
             const label = document.createElement('label');
             label.className = 'mb-0';
-            label.setAttribute('data-bs-toggle', 'tooltip');
-            label.setAttribute('data-bs-placement', 'right');
-            label.setAttribute('title', 'Chọn ảnh');
-            label.setAttribute('for', 'product-image-input-' + imageCount); // Đặt ID duy nhất cho label
+            label.setAttribute('for', inputId); // Đặt ID duy nhất cho label
 
             label.innerHTML = `<div class="avatar-xs">
-                            <div class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
-                                <i class="ri-image-fill"></i>
-                            </div>
-                        </div>`;
+                        <div class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                            <i class="ri-image-fill"></i>
+                        </div>
+                    </div>`;
 
+            // Tạo input file mới để chọn ảnh
             const input = document.createElement('input');
             input.className = 'form-control d-none';
             input.type = 'file';
             input.accept = 'image/png, image/gif, image/jpeg';
             input.name = 'product_images[]';
-            input.id = 'product-image-input-' + imageCount; // Đặt ID duy nhất cho ô nhập
+            input.id = inputId;
+            input.setAttribute('onchange', `displayImage(event, ${imageCount})`);
 
-            // Thêm hàm xử lý khi chọn file
-            input.addEventListener('change', function(event) {
-                const output = document.createElement('img');
-                output.id = 'product-img-' + imageCount; // ID duy nhất cho ảnh xem trước
-                output.className = 'avatar-md h-auto';
-
-                // Đặt đường dẫn ảnh xem trước
-                output.src = URL.createObjectURL(event.target.files[0]);
-                imageContainer.appendChild(output);
-
-                output.onload = function() {
-                    URL.revokeObjectURL(output.src)
-                };
-            });
+            // Tạo vùng xem trước ảnh
+            const previewContainer = document.createElement('div');
+            previewContainer.className = 'avatar-lg';
+            previewContainer.innerHTML = `<div class="avatar-title bg-light rounded">
+                                    <img src="" id="${imgId}" class="avatar-md h-auto" />
+                                  </div>`;
 
             labelWrapper.appendChild(label);
             labelWrapper.appendChild(input);
             imageContainer.appendChild(labelWrapper);
+            imageContainer.appendChild(previewContainer);
+
+            // Thêm toàn bộ phần tử mới vào vùng chứa ảnh
             document.getElementById('image-inputs').appendChild(imageContainer);
 
-            // Đảm bảo khi nhấp vào label thì sẽ kích hoạt ô nhập file
-            label.onclick = function() {
-                input.click();
-            };
-
-            imageCount++; // Tăng biến đếm
+            // Tăng biến đếm cho các input tiếp theo
+            imageCount++;
         }
+        // Kết nối sự kiện click với nút thêm ảnh
+        document.getElementById('add-image-button').addEventListener('click', addImageInput);
+        // Kết nối sự kiện click với nút thêm ảnh
+        document.getElementById('add-image-button').addEventListener('click', addImageInput);
 
-        document.getElementById('product-image-input').addEventListener('change', function(event) {
-            var output = document.getElementById('product-img');
-            output.src = URL.createObjectURL(event.target.files[0]);
-            output.onload = function() {
-                URL.revokeObjectURL(output.src)
-            }
-        });
+
 
 
         // Hàm để tạo tất cả các kết hợp từ mảng

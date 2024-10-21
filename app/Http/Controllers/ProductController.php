@@ -103,27 +103,20 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-        // Lấy sản phẩm từ cơ sở dữ liệu
-        $product = Product::findOrFail($id);
 
-        // Lấy tất cả hình ảnh của sản phẩm
-        $images = Gallery::where('product_id', $id)->get();
-        // dd($images);    
-        // Lấy danh sách danh mục, thương hiệu, và đơn vị
-        $categories = Category::all()->pluck('name', 'id');
-        $brands = Brand::all()->pluck('name', 'id');
-        $units = Unit::all()->pluck('name', 'id');
+        // Tìm sản phẩm theo ID
+        $product = Product::with('variations')->findOrFail($id); // Sử dụng 'variations' thay vì 'variants'
+        $categories = Category::pluck('name', 'id');
+        $units = Unit::pluck('name', 'id');
+        $brands = Brand::pluck('name', 'id');
+        $attributes = Attribute::whereHas('attributeValues.variations', function ($query) use ($product) {
+            $query->where('product_id', $product->id);
+        })->with('attributeValues.variations')
+            ->get();
+        $attributesArray = Attribute::with('attributeValues')->get();
+        dd($attributesArray);
 
-        // Lấy tất cả thuộc tính và giá trị của chúng
-        $attributes = Attribute::with('attributeValues')->get();
-
-        $attributesArray = [];
-        foreach ($attributes as $attribute) {
-            // Kiểm tra xem thuộc tính có giá trị không trước khi gọi pluck()
-            $attributesArray[$attribute->id] = $attribute->attributeValues ? $attribute->attributeValues->pluck('value', 'id')->toArray() : [];
-        }
-        // Truyền dữ liệu vào view
-        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'images', 'categories', 'brands', 'units', 'attributesArray'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray'));
     }
 
 
