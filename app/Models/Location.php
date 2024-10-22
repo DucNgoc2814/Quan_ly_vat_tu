@@ -11,11 +11,18 @@ class Location extends Model
 
     protected $fillable = [
         'customer_id',
+        'customer_name',
+        'email',
+        'number_phone',
+        'province',
+        'district',
+        'ward',
         'address',
-        'description',
+        'is_active',
     ];
 
-    public function customer(){
+    public function customer()
+    {
         return $this->belongsTo(Customer::class);
     }
 }

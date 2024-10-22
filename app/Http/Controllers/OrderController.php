@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Customer;
+use App\Models\Location;
 use App\Models\Order_canceled;
 use App\Models\Order_detail;
 use App\Models\Order_status;
@@ -119,6 +120,32 @@ class OrderController extends Controller
                 ];
 
                 $order = Order::query()->create($dataOrder);
+
+                
+                $existingLocation = Location::where('customer_id', $order->customer_id)
+                ->where('customer_name', $order->customer_name)
+                ->where('email', $order->email)
+                ->where('number_phone', $order->number_phone)
+                ->where('province', $order->province)
+                ->where('district', $order->district)
+                ->where('ward', $order->ward)
+                ->where('address', $order->address)
+                ->first();
+
+            if (!$existingLocation) {
+                $location = new Location();
+                $location->customer_id = $order->customer_id;
+                $location->order_id = $order->id;
+                $location->customer_name = $order->customer_name;
+                $location->email = $order->email;
+                $location->number_phone = $order->number_phone;
+                $location->province = $order->province;
+                $location->district = $order->district;
+                $location->ward = $order->ward;
+                $location->address = $order->address;
+                $location->is_active = false;
+                $location->save();
+            }
 
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationID) {

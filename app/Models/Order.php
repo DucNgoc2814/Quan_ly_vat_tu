@@ -55,7 +55,8 @@ class Order extends Model
         return $this->hasMany(Debt::class);
     }
 
-    public function orderCanceled() {
+    public function orderCanceled()
+    {
         return $this->hasOne(Order_canceled::class);
     }
 }

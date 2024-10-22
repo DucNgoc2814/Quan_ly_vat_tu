@@ -49,7 +49,7 @@
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Thông tin nhận hàng</h4>
-                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" onclick="">Thêm địa
+                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" onclick="">Địa
                             chỉ</button>
                     </div>
                     <div class="card-body">

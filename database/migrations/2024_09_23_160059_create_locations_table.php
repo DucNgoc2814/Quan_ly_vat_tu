@@ -14,8 +14,14 @@ return new class extends Migration
         Schema::create('locations', function (Blueprint $table) {
             $table->id();
             $table->foreignId('customer_id')->constrained('customers');
+            $table->string('customer_name', 255);
+            $table->string('email', 255);
+            $table->string('number_phone', 11);
+            $table->string('province', 255);
+            $table->string('district', 255);
+            $table->string('ward', 255);
             $table->string('address');
-            $table->text('description');
+            $table->boolean('is_active')->default(0);
             $table->timestamps();
         });
     }

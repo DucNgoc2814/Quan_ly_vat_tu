@@ -57,8 +57,9 @@
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Thông tin nhận hàng</h4>
-                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" onclick="">Thêm địa
-                            chỉ</button>
+                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addressListModal">Danh sách địa chỉ</button>
+
                     </div>
                     <div class="card-body">
                         <div class="mb-2">
@@ -66,7 +67,6 @@
                             <input type="text" class="form-control  @error('customer_name') is-invalid @enderror"
                                 id="customer_name" value="{{ old('customer_name') }}" placeholder="Nhập tên người nhận "
                                 name="customer_name">
-                            {{-- {{ Auth::user()->name }} --}}
                             @error('customer_name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -159,10 +159,70 @@
                             @enderror
                         </div>
                     </div>
-
-
                 </div>
                 <!-- end card -->
+
+                <!-- Modal for Address List -->
+                <div class="modal fade" id="addressListModal" tabindex="-1" aria-labelledby="addressListModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addressListModalLabel">Danh sách địa chỉ</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="address-list">
+                                    <!-- Address 1 -->
+                                    <div class="address-item mb-3">
+                                        <strong>NGUYỄN QUỐC KHÁNH</strong> <br>
+                                        (+84) 964 583 628 <br>
+                                        Đơn Nguyên 3 - Ktx Mỹ Đình - Phường, Nguyễn Cơ Thạch <br>
+                                        Phường Mỹ Đình 2, Quận Nam Từ Liêm, Hà Nội <br>
+                                        <span class="badge bg-danger">Mặc định</span>
+                                        <div class="mt-2">
+                                            <button class="btn btn-link p-0 text-primary">Cập nhật</button>
+                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <!-- Address 2 -->
+                                    <div class="address-item mb-3">
+                                        <strong>Đào Thị Hạnh</strong> <br>
+                                        (+84) 337 284 573 <br>
+                                        Xóm Quốc Tuấn, thôn Thái An <br>
+                                        Xã Quang Phục, Huyện Tứ Kỳ, Hải Dương <br>
+                                        <div class="mt-2">
+                                            <button class="btn btn-link p-0 text-primary">Cập nhật</button>
+                                            <button class="btn btn-link p-0 text-danger">Xóa</button>
+                                            <button class="btn btn-outline-secondary btn-sm">Thiết lập mặc định</button>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <!-- Address 3 -->
+                                    <div class="address-item mb-3">
+                                        <strong>Đào Thị Hạnh</strong> <br>
+                                        (+84) 337 284 573 <br>
+                                        Công Phụ Sân Bóng Đại Học Sao Đỏ, Đường Nguyễn Thị Duệ <br>
+                                        Phường Sao Đỏ, Thành Phố Chí Linh, Hải Dương <br>
+                                        <div class="mt-2">
+                                            <button class="btn btn-link p-0 text-primary">Cập nhật</button>
+                                            <button class="btn btn-link p-0 text-danger">Xóa</button>
+                                            <button class="btn btn-outline-secondary btn-sm">Thiết lập mặc định</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
 
 
                 <div class="card">
