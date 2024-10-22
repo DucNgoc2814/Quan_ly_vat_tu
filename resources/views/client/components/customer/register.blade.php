@@ -31,7 +31,7 @@
             <!-- Row End -->
             <div class="row">
                 <div class="col-sm-12">
-                    <form class="form-horizontal" action="{{ route('client.handleRegister') }}" method="post">
+                    <form class="form-horizontal" action="{{ route('handleRegister') }}" method="post">
                         @csrf
                         <fieldset>
                             <legend>Chi tiết cá nhân của bạn</legend>
@@ -113,7 +113,7 @@
                     </form>
                 </div>
                 <div class="container signin">
-                    <p class="mt-3">Nếu bạn đã có tài khoản, hãy <a href="{{ route('client.login') }}" class="active ">Đăng Nhập</a>.</p>
+                    <p class="mt-3">Nếu bạn đã có tài khoản, hãy <a href="{{ route('login') }}" class="active ">Đăng Nhập</a>.</p>
                 </div>
             </div>
             <!-- Row End -->

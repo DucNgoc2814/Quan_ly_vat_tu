@@ -30,7 +30,7 @@
                             <p class="mtb-10"><strong>Đăng ký</strong></p>
                             <p>Bằng cách tạo tài khoản, bạn sẽ có thể mua sắm nhanh hơn, cập nhật trạng thái đơn hàng và
                                 theo dõi các đơn hàng bạn đã thực hiện trước đó.</p>
-                            <a class="customer-btn" href="{{ route('client.register') }}">TIẾP TỤC</a>
+                            <a class="customer-btn" href="{{ route('register') }}">TIẾP TỤC</a>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                         <div class="return-customer">
                             <h3 class="mb-10">KHÁCH HÀNG TRỞ LẠI</h3>
                             <p class="mb-10"><strong>Tôi là khách hàng quay lại</strong></p>
-                            <form action="{{ route('client.handleLogin') }}" method="post">
+                            <form action="{{ route('handleLogin') }}" method="post">
                                 @csrf
                                 <div class="form-group">
                                     <label class="control-label mb-2">Nhập địa chỉ email của bạn vào đây...</label>
@@ -59,7 +59,7 @@
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
-                                <p class="lost-password"><a href="{{ route('client.forgotPassword') }}">Quên mật khẩu?</a></p>
+                                <p class="lost-password"><a href="{{ route('forgotPassword') }}">Quên mật khẩu?</a></p>
                                 <input type="submit" value="ĐĂNG NHẬP" class="return-customer-btn">
                             </form>
                         </div>

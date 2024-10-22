@@ -125,12 +125,34 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="compare.html"><i class="fa fa-user"></i></a>
-                            {{-- <i class="fa fa-cog"> --}}
+                        <li>
+                            <a href="compare.html">
+                                @if (Auth::check())
+                                    @if (Auth::user()->image)
+                                        <img src="{{ asset(Auth::user()->image) }}" alt="User image" class="user-avatar">
+                                    @else
+                                        <i class="fa fa-user"></i>
+                                    @endif
+                                @else
+                                    <i class="fa fa-user"></i>
+                                @endif
+                            </a>
                             <ul class="ht-dropdown">
-                                <li><a href="{{ route('login') }}">Đăng nhập</a></li>
-                                <li><a href="{{ route('register') }}">Đăng ký</a></li>
-                                <li><a href="account.html">Tài khoản</a></li>
+                                @if (Auth::check())
+                                    @if (Auth::user()->is_active == '4')
+                                        <a href="" class="dropdown-item">Trang Admin</a>
+                                    @endif
+                                    <li><a href="account.html">Tài khoản</a></li>
+                                    <li><a href="{{ route('password') }}">Đổi mật khẩu</a></li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                    </form>
+                                @else
+                                    <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                    <li><a href="{{ route('register') }}">Đăng ký</a></li>
+                                    <li><a href="account.html">Tài khoản</a></li>
+                                @endif
                             </ul>
                         </li>
                     </ul>
