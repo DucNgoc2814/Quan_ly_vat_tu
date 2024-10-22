@@ -19,53 +19,96 @@
     </div>
     <!-- Breadcrumb End -->
     <!-- LogIn Page Start -->
-    <div class="log-in pb-60">
+    <div class="register-account pb-60">
         <div class="container">
             <div class="row">
-                <!-- New Customer Start -->
-                <div class="col-sm-6">
-                    <div class="well">
-                        <div class="new-customer">
-                            <h3>KHÁCH HÀNG MỚI</h3>
-                            <p class="mtb-10"><strong>Đăng ký</strong></p>
-                            <p>Bằng cách tạo tài khoản, bạn sẽ có thể mua sắm nhanh hơn, cập nhật trạng thái đơn hàng và
-                                theo dõi các đơn hàng bạn đã thực hiện trước đó.</p>
-                            <a class="customer-btn" href="{{ route('client.register') }}">TIẾP TỤC</a>
-                        </div>
+                <div class="col-sm-12">
+                    <div class="register-title">
+                        <h3 class="mb-10">Đổi mật khẩu</h3>
                     </div>
                 </div>
-                <!-- New Customer End -->
-                <!-- Returning Customer Start -->
-                <div class="col-sm-6">
-                    <div class="well">
-                        <div class="return-customer">
-                            <h3 class="mb-10">KHÁCH HÀNG TRỞ LẠI</h3>
-                            <p class="mb-10"><strong>Tôi là khách hàng quay lại</strong></p>
-                            <form action="{{ route('client.handleLogin') }}" method="post">
-                                @csrf
-                                <div class="form-group">
-                                    <label class="control-label mb-2">Nhập địa chỉ email của bạn vào đây...</label>
-                                    <input type="text" name="email" placeholder="Nhập địa chỉ email của bạn vào đây..."
-                                        id="input-email" class="form-control" value="{{ old('email') }}">
-                                    @error('email')
-                                        <span class="text-danger">{{ $message }}</span>
+            </div>
+            <!-- Row End -->
+            <div class="row">
+                <div class="col-sm-12">
+                    <form class="form-horizontal" action="{{ route('passwordUser') }}" method="post">
+                        @csrf
+                        <fieldset>
+                            <legend>Vui lòng điền vào mẫu này để đổi mật khẩu</legend>
+                            <div class="form-group">
+                                <label class="control-label" for="old-password"><span class="require">*</span>Mật khẩu
+                                    cũ</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mt-2">
+                                        <input type="password" class="form-control"
+                                            placeholder="Nhập mật khẩu cũ của bạn vào đây..." name="old_password"
+                                            id="old-password">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text h-100 rounded-0" onclick="togglePassword('old-password')">
+                                                <i class="fa fa-eye" id="toggle-old-password"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    @error('old_password')
+                                        <label for="" class="text-danger">{{ $message }}</label>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label class="control-label mb-2">Mật khẩu</label>
-                                    <input type="password" name="password" placeholder="Mật khẩu" id="input-password"
-                                        class="form-control" value="{{ old('password') }}">
-                                        @error('password')
-                                        <span class="text-danger">{{ $message }}</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="new-password"><span class="require">*</span>Mật khẩu
+                                    mới</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mt-2">
+                                        <input type="password" class="form-control"
+                                            placeholder="Nhập mật khẩu mới của bạn vào đây..." name="new_password"
+                                            id="new-password">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text h-100 rounded-0" onclick="togglePassword('new-password')">
+                                                <i class="fa fa-eye" id="toggle-new-password"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    @error('new_password')
+                                        <label for="" class="text-danger">{{ $message }}</label>
                                     @enderror
                                 </div>
-                                <p class="lost-password"><a href="{{ route('client.forgotPassword') }}">Quên mật khẩu?</a></p>
-                                <input type="submit" value="ĐĂNG NHẬP" class="return-customer-btn">
-                            </form>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label" for="confirm-password"><span class="require">*</span>Nhập lại
+                                    mật khẩu mới</label>
+                                <div class="col-sm-10">
+                                    <div class="input-group mt-2">
+                                        <input type="password" class="form-control"
+                                            placeholder="Nhập lại mật khẩu mới của bạn vào đây..." name="confirm_password"
+                                            id="confirm-password">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text h-100 rounded-0" onclick="togglePassword('confirm-password')">
+                                                <i class="fa fa-eye" id="toggle-confirm-password"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    @error('confirm_password')
+                                        <label for="" class="text-danger">{{ $message }}</label>
+                                    @enderror
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div class="buttons newsletter-input">
+                            <div class="pull-left">
+                                <input type="submit" value="Đổi mật khẩu" class="newsletter-btn">
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
-                <!-- Returning Customer End -->
+                <div class="container signin">
+                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('login') }}" class="active ">Đăng
+                            Nhập</a>.</p>
+                </div>
+                <div class="container signin">
+                    <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('register') }}">Đăng ký</a>.</p>
+                </div>
             </div>
             <!-- Row End -->
         </div>
@@ -123,3 +166,17 @@
     </div>
     <!-- Brand Logo End -->
 @endsection
+
+<script>
+    function togglePassword(inputId) {
+        var x = document.getElementById(inputId);
+        var y = document.getElementById("toggle-" + inputId);
+        if (x.type === "password") {
+            x.type = "text";
+            y.className = "fa fa-eye-slash";
+        } else {
+            x.type = "password";
+            y.className = "fa fa-eye";
+        }
+    }
+</script>
