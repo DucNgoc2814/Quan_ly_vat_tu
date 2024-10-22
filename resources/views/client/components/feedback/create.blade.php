@@ -2,7 +2,7 @@
 @section('content')
     <div class="review-wrapper" style="display: flex; justify-content: center; align-items: center;">
         <div class="review border-default universal-padding mt-30">
-            <h2 class="review-title mb-30">Bạn đang xem xét: <br><span>Go-Get'r Pushup Grips</span></h2>
+            <h2 class="review-title mb-30">Bạn đang xem xét: <br><span>Go-Get'</span></h2>
             <p class="review-mini-title">Đánh giá của bạn</p>
             <ul class="review-list">
                 <!-- Single Review List Start -->
