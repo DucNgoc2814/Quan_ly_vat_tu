@@ -130,11 +130,13 @@
 
         /* Input field with icons inside */
         .input-with-icons {
+            width: 100%;
             position: relative;
         }
 
         /* Styling for the icons inside the input */
         .input-with-icons input {
+            width: 100%;
             padding-right: 40px;
             /* Add padding to make space for the icons */
         }
@@ -151,23 +153,24 @@
         }
 
         /* Adjust icon size */
-        .input-with-icons .ri {
-            font-size: 16px;
+        .input-with-icons .ri-search-line,
+        .input-with-icons .ri-arrow-down-s-line {
+            font-size: 18px;
             color: #6c757d;
         }
 
         /* Initially hide search icon */
-        .ri-search {
+        .ri-search-line {
             display: none;
         }
 
         /* Show search icon when input is focused */
-        .input-with-icons.focused .ri-search {
+        .input-with-icons.focused .ri-search-line {
             display: block;
         }
 
         /* Always show the dropdown arrow */
-        .bi-caret-down-fill {
+        .ri-arrow-down-s-line {
             cursor: pointer;
         }
     </style>

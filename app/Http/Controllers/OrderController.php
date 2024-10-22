@@ -110,6 +110,9 @@ class OrderController extends Controller
                     "customer_name" => $request->customer_name ?? $customers->name,
                     "email" => $request->email ?? $customers->email,
                     "number_phone" => $request->number_phone ?? $customers->number_phone,
+                    "province" => $request->province_name,
+                    "district" => $request->district_name,
+                    "ward" => $request->ward_name,
                     "address" => $request->address,
                     "total_amount" => $request->total_amount,
                     "paid_amount" => $request->paid_amount,
@@ -190,6 +193,7 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, $slug)
     {
+        // dd($request->all());
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request, $slug) {
@@ -201,9 +205,6 @@ class OrderController extends Controller
                 $currentStatus = $order->status_id;
                 $newStatus = $request->status_id ?? $currentStatus;
 
-                // if (!$this->isValidStatusTransition($currentStatus, $newStatus)) {
-                //     throw new \Exception('Trạng thái không hợp lệ.');
-                // }
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
                     "customer_id" => $request->customer_id,
@@ -211,6 +212,9 @@ class OrderController extends Controller
                     "customer_name" => $request->customer_name ?? $order->name,
                     "email" => $request->email ?? $order->email,
                     "number_phone" => $request->number_phone ?? $order->number_phone,
+                    "province" => $request->province_name,
+                    "district" => $request->district_name,
+                    "ward" => $request->ward_name,
                     "address" => $request->address,
                     "total_amount" => $request->total_amount,
                     "paid_amount" => $request->paid_amount,

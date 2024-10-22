@@ -103,41 +103,43 @@
                     </div>
                     <div class="card-body">
                         <label class="form-label" for="">Địa chỉ người nhận</label>
-                        <div class="container">
-                            <div class="location-select-container">
-                                <div class="input-with-icons" id="input-with-icons">
-                                    <input type="text" id="location-input" class="form-control w-" placeholder="Tìm kiếm Tỉnh/ Thành phố, Quận/ Huyện, Phường/ Xã">
-                                    <div class="icon-container">
-                                        <i class="ri-search-line"></i>
-                                        <i class="ri-arrow-down-s-line"></i>
-                                    </div>
+                        <div class="location-select-container">
+                            <div class="input-with-icons" id="input-with-icons">
+                                <input type="text" id="location-input" class="form-control"
+                                    placeholder="Tìm kiếm Tỉnh/ Thành phố, Quận/ Huyện, Phường/ Xã">
+                                <div class="icon-container">
+                                    <i class="ri-search-line"></i>
+                                    <i class="ri-arrow-down-s-line"></i>
                                 </div>
+                            </div>
 
-                                <div class="location-dropdown p-3 border" id="location-dropdown">
-                                    <div class="row">
-                                        <!-- Select Tỉnh/Thành phố -->
-                                        <div class="col-md-4">
-                                            <label for="provinces" class="form-label">Tỉnh/Thành phố</label>
-                                            <select id="provinces" class="form-select">
-                                                <option selected disabled value="">Chọn Tỉnh/Thành phố</option>
-                                            </select>
-                                        </div>
+                            <div class="location-dropdown p-3 border" id="location-dropdown">
+                                <div class="row">
+                                    <!-- Select Tỉnh/Thành phố -->
+                                    <div class="col-md-4">
+                                        <label for="provinces" class="form-label">Tỉnh/Thành phố</label>
+                                        <select id="provinces" name="province" class="form-select">
+                                            <option selected disabled value="">Chọn Tỉnh/Thành phố</option>
+                                        </select>
+                                        <input type="hidden" id="province_name" name="province_name">
+                                    </div>
 
-                                        <!-- Select Quận/Huyện -->
-                                        <div class="col-md-4">
-                                            <label for="districts" class="form-label">Quận/Huyện</label>
-                                            <select id="districts" class="form-select" disabled>
-                                                <option selected disabled value="">Chọn Quận/Huyện</option>
-                                            </select>
-                                        </div>
+                                    <!-- Select Quận/Huyện -->
+                                    <div class="col-md-4">
+                                        <label for="districts" class="form-label">Quận/Huyện</label>
+                                        <select id="districts" name="district" class="form-select" disabled>
+                                            <option selected disabled value="">Chọn Quận/Huyện</option>
+                                        </select>
+                                        <input type="hidden" id="district_name" name="district_name">
+                                    </div>
 
-                                        <!-- Select Phường/Xã -->
-                                        <div class="col-md-4">
-                                            <label for="wards" class="form-label">Phường/Xã</label>
-                                            <select id="wards" class="form-select" disabled>
-                                                <option selected disabled value="">Chọn Phường/Xã</option>
-                                            </select>
-                                        </div>
+                                    <!-- Select Phường/Xã -->
+                                    <div class="col-md-4">
+                                        <label for="wards" class="form-label">Phường/Xã</label>
+                                        <select id="wards" name="ward" class="form-select" disabled>
+                                            <option selected disabled value="">Chọn Phường/Xã</option>
+                                        </select>
+                                        <input type="hidden" id="ward_name" name="ward_name">
                                     </div>
                                 </div>
                             </div>
@@ -145,9 +147,10 @@
                     </div>
                     <div class="card-body">
                         <div class="mb-2">
-                            <label class="form-label" for="address">Địa chỉ cụ thể</label>
+                            <label class="form-label" for="address">Địa chỉ cụ thể(*Số nhà, đường, ngõ, ngách, cụm dân
+                                cư, thôn)</label>
                             <input type="text" class="form-control @error('address') is-invalid @enderror"
-                                id="address" value="{{ old('address') }}" placeholder="Nhập địa chỉ giao hàng"
+                                id="address" value="{{ old('address') }}" placeholder="NHập địa chỉ cụ thể"
                                 name="address">
                             @error('address')
                                 <span class="invalid-feedback" role="alert">
@@ -493,22 +496,28 @@
             const district = document.getElementById('districts').selectedOptions[0]?.text || '';
             const ward = document.getElementById('wards').selectedOptions[0]?.text || '';
 
-            // Update the location input field with the selected values
+            // Update the location input field with the selected values (tên của tỉnh, huyện, xã)
             locationInput.value = `${province}, ${district}, ${ward}`.trim();
         }
 
         // Event listeners for dropdown changes
         document.getElementById('provinces').addEventListener('change', function() {
+            const provinceName = this.selectedOptions[0].text;
+            document.getElementById('province_name').value = provinceName; // Gán tên tỉnh vào input ẩn
             loadDistricts(this.value);
             updateLocationInput();
         });
 
         document.getElementById('districts').addEventListener('change', function() {
+            const districtName = this.selectedOptions[0].text;
+            document.getElementById('district_name').value = districtName; // Gán tên quận vào input ẩn
             loadWards(this.value);
             updateLocationInput();
         });
 
         document.getElementById('wards').addEventListener('change', function() {
+            const wardName = this.selectedOptions[0].text;
+            document.getElementById('ward_name').value = wardName; // Gán tên phường vào input ẩn
             updateLocationInput();
         });
 
