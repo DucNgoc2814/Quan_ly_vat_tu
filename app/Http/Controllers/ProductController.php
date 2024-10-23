@@ -113,7 +113,7 @@ class ProductController extends Controller
             $query->where('product_id', $product->id);
         })->with('attributeValues.variations')
             ->get();
-        $attributesArray = Attribute::with('attributeValues')->get();
+        $attributesArray = Attribute::with('attributeValues')->get()
         dd($attributesArray);
 
         return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray'));
