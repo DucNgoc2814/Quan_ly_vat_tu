@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Session;
-
+use Illuminate\Support\Facades\Storage;
 
 class LoginController extends Controller
 {
@@ -146,9 +145,9 @@ class LoginController extends Controller
     public function passwordUser(StoreLoginRequest $request)
     {
         try {
-            $customer = Auth::guard('customers')->user();
-            dd($customer, $request->all(), Hash::check($request->old_password, $customer->password));
-
+            $authUser  = Auth::user();
+            $customer = Customer::find($authUser->id);
+            // Lấy instance mới có thể write
             if (!Hash::check($request->old_password, $customer->password)) {
                 return back()->withErrors(['old_password' => 'Mật khẩu hiện tại không chính xác']);
             }
@@ -157,6 +156,36 @@ class LoginController extends Controller
             $customer->save();
 
             return redirect()->route('home')->with('success', 'Đổi mật khẩu thành công');
+        } catch (Exception $e) {
+            return back()->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
+        }
+    }
+
+    public function profile()
+    {
+        $user = Auth::user();
+        return view(self::PATH_VIEW . 'profile', compact('user'));
+    }
+
+    public function profileUser()
+    {
+        $user = Auth::user();
+        return view(self::PATH_VIEW . 'updateUser', compact('user'));
+    }
+
+    public function updateProfile(StoreLoginRequest $request)
+    {
+        try {
+            $user = Auth::user();
+            $data = [
+                'name' => $request->nameupdate,
+            ];
+
+            if ($request->hasFile('image')) {
+                $data['image'] = Storage::put('customers', $request->file('image'));
+            }
+            Customer::where('id', $user->id)->update($data);
+            return redirect()->route('profileUser')->with('success', 'Cập nhật thông tin thành công');
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
         }

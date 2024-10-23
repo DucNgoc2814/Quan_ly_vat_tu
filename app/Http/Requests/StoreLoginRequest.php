@@ -40,6 +40,10 @@ class StoreLoginRequest extends FormRequest
                 'new_password' => 'required|min:6|different:old_password',
                 'confirm_password' => 'required|same:new_password',
             ];
+        } elseif (request()->isMethod('post') && request()->route()->getName() == 'updateProfile') {
+            return [
+                'nameupdate' => 'required',
+            ];
         }
         return [
             'name' => 'required|string|max:255',
@@ -53,6 +57,7 @@ class StoreLoginRequest extends FormRequest
     {
         return [
             'name.required' => 'Vui lòng nhập tên tài khoản',
+            'nameupdate.required' => 'Vui lòng nhập tên tài khoản',
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Email không hợp lệ',
             'email.unique' => 'Email đã được sử dụng',

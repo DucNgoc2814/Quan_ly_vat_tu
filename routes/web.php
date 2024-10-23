@@ -29,5 +29,8 @@ Route::get('/doi-mat-khau', [LoginController::class, 'changepassword'])->name('c
 Route::post('/passwordchange', [LoginController::class, 'passwordchange'])->name('passwordchange');
 Route::get('/doi-mat-khau-moi', [LoginController::class, 'password'])->name('password');
 Route::post('/passwordUser', [LoginController::class, 'passwordUser'])->name('passwordUser');
+Route::get('/thong-tin-tai-khoan', [LoginController::class, 'profile'])->name('profile');
+Route::get('/cap-nhat-tai-khoan', [LoginController::class, 'profileUser'])->name('profileUser');
+Route::post('/updateProfile', [LoginController::class, 'updateProfile'])->name('updateProfile');
 // <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
