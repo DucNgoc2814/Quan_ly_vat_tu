@@ -356,3 +356,11 @@
 [2024-10-22 22:48:23] local.DEBUG: Số lượng mua của variation 1 là: 9  
 [2024-10-22 22:52:25] local.DEBUG: Số lượng tồn kho (stock) của variation 3 là: 50  
 [2024-10-22 22:52:25] local.DEBUG: Số lượng mua của variation 3 là: 9  
+[2024-10-23 09:57:43] local.DEBUG: Số lượng tồn kho (stock) của variation 4 là: 80  
+[2024-10-23 09:57:43] local.DEBUG: Số lượng mua của variation 4 là: 8  
+[2024-10-23 09:58:35] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 100  
+[2024-10-23 09:58:35] local.DEBUG: Số lượng mua của variation 1 là: 9  
+[2024-10-23 09:59:39] local.DEBUG: Số lượng tồn kho (stock) của variation 4 là: 72  
+[2024-10-23 09:59:39] local.DEBUG: Số lượng mua của variation 4 là: 2  
+[2024-10-23 09:59:39] local.DEBUG: Số lượng tồn kho (stock) của variation 3 là: 50  
+[2024-10-23 09:59:39] local.DEBUG: Số lượng mua của variation 3 là: 1  

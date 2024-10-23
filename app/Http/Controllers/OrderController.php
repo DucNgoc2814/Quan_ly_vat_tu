@@ -121,7 +121,7 @@ class OrderController extends Controller
 
                 $order = Order::query()->create($dataOrder);
 
-                
+
                 $existingLocation = Location::where('customer_id', $order->customer_id)
                 ->where('customer_name', $order->customer_name)
                 ->where('email', $order->email)
@@ -135,7 +135,6 @@ class OrderController extends Controller
             if (!$existingLocation) {
                 $location = new Location();
                 $location->customer_id = $order->customer_id;
-                $location->order_id = $order->id;
                 $location->customer_name = $order->customer_name;
                 $location->email = $order->email;
                 $location->number_phone = $order->number_phone;
@@ -337,6 +336,7 @@ class OrderController extends Controller
 
         return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công!');
     }
+    
 
 
 }
