@@ -4,7 +4,7 @@
         <div class="review border-default universal-padding mt-30">
             <h2 class="review-title mb-30">Bạn đang xem xét: <br><span>Go-Get'</span></h2>
             <p class="review-mini-title">Đánh giá của bạn</p>
-            <ul class="review-list">
+            {{-- <ul class="review-list">
                 <!-- Single Review List Start -->
                 <li>
                     <span>Chất lượng</span>
@@ -26,7 +26,7 @@
                     </div>
                 </li>
                 <!-- Single Review List End -->
-            </ul>
+            </ul> --}}
 
             <!-- Reviews Field Start -->
             <div class="mt-40">
