@@ -336,7 +336,7 @@ class OrderController extends Controller
 
         return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công!');
     }
-    
+
 
 
 }
