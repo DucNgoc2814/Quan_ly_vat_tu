@@ -22,3 +22,16 @@
 <link rel="stylesheet" href="{{ asset('themes/client/jantrik/style.css') }}">
 <!-- responsive css -->
 <link rel="stylesheet" href="{{ asset('themes/client/jantrik/css/responsive.css') }}">
+
+
+{{-- thong tin tai khoan --}}
+<!-- App favicon -->
+<link rel="shortcut icon" href="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}">
+<!-- Icons Css -->
+<link href="{{ asset('themes/admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- App Css-->
+<link href="{{ asset('themes/admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+<!-- custom Css-->
+<link href="{{ asset('themes/admin/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+{{-- link ajax jquery --}}
+
