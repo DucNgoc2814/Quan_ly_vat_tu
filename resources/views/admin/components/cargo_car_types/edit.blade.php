@@ -26,7 +26,7 @@
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
-                                <label class="form-label">Tên loại xee</label>
+                                <label class="form-label">Tên loại xe</label>
                                 <input type="text" name="name" placeholder="Nhập tên loại xe cần sửa"
                                     class="form-control  value="{{ $item->name }}">
                                 @error('name')
