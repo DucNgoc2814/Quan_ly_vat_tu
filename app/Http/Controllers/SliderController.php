@@ -26,7 +26,7 @@ class SliderController extends Controller
     public function create()
     {
         $title = "Thêm Slider";
-        return view('admin.components.sliders.create');
+        return view('admin.components.sliders.create', compact('title'));
     }
 
     /**
@@ -77,6 +77,7 @@ class SliderController extends Controller
     {
         $title = "Cập nhật slider";
         $sliders = Slider::findOrFail($id);
+        
         return view('admin.components.sliders.edit', compact('sliders','title'));
     }
 
