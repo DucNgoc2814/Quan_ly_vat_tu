@@ -103,7 +103,6 @@ class ProductController extends Controller
 
     public function edit($id)
     {
-
         // Tìm sản phẩm theo ID
         $product = Product::with('variations')->findOrFail($id); // Sử dụng 'variations' thay vì 'variants'
         $categories = Category::pluck('name', 'id');
@@ -113,15 +112,10 @@ class ProductController extends Controller
             $query->where('product_id', $product->id);
         })->with('attributeValues.variations')
             ->get();
-        $attributesArray = Attribute::with('attributeValues')->get()
-        dd($attributesArray);
+        $attributesArray = Attribute::with('attributeValues')->get();
 
         return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray'));
     }
-
-
-
-
 
     public function update(UpdateProductRequest $request, $id)
     {
