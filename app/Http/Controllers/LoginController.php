@@ -182,6 +182,9 @@ class LoginController extends Controller
             ];
 
             if ($request->hasFile('image')) {
+                if ($user->image && Storage::exists($user->image)) {
+                    Storage::delete($user->image);
+                }
                 $data['image'] = Storage::put('customers', $request->file('image'));
             }
             Customer::where('id', $user->id)->update($data);
