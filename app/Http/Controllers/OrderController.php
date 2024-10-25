@@ -81,8 +81,8 @@ class OrderController extends Controller
         $customers = Customer::get();
         $status = Order_status::pluck('description', 'id')->all();
         $variation = Variation::all();
-        // $variation = Variation::pluck('name', 'id')->all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation'));
+        $locations = Location::all();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation','locations'));
     }
 
     /**

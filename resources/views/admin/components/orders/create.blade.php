@@ -174,46 +174,34 @@
                             </div>
                             <div class="modal-body">
                                 <div class="address-list">
-                                    <!-- Address 1 -->
-                                    <div class="address-item mb-3">
-                                        <strong>NGUYỄN QUỐC KHÁNH</strong> <br>
-                                        (+84) 964 583 628 <br>
-                                        Đơn Nguyên 3 - Ktx Mỹ Đình - Phường, Nguyễn Cơ Thạch <br>
-                                        Phường Mỹ Đình 2, Quận Nam Từ Liêm, Hà Nội <br>
-                                        <span class="badge bg-danger">Mặc định</span>
-                                        <div class="mt-2">
-                                            <button class="btn btn-link p-0 text-primary">Cập nhật</button>
-                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                    @foreach ($locations as $location)
+                                        <div class="address-item mb-3">
+                                            <strong>{{ $location->customer_name }}</strong> <br>
+                                            (+84)
+                                            {{ $location->number_phone }} <br>
+                                            {{ $location->address }} <br>
+                                            {{ $location->ward }}, {{ $location->district }}, {{ $location->province }}
+                                            <br>
+                                            @if ($location->is_active)
+                                                <span class="badge bg-danger">Mặc định</span>
+                                            @endif
+                                            <div class="mt-2">
+                                                <button class="btn btn-link p-0 text-primary"
+                                                    onclick="selectAddress('{{ $location->id }}')">Cập nhật</button>
+                                                @if (!$location->is_active)
+                                                    <button class="btn btn-link p-0 text-danger"
+                                                        onclick="deleteAddress('{{ $location->id }}')">Xóa</button>
+                                                    <button class="btn btn-outline-secondary btn-sm"
+                                                        onclick="setDefaultAddress('{{ $location->id }}')">Thiết lập mặc
+                                                        định</button>
+                                                @else
+                                                    <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc
+                                                        định</button>
+                                                @endif
+                                            </div>
                                         </div>
-                                    </div>
-                                    <hr>
-
-                                    <!-- Address 2 -->
-                                    <div class="address-item mb-3">
-                                        <strong>Đào Thị Hạnh</strong> <br>
-                                        (+84) 337 284 573 <br>
-                                        Xóm Quốc Tuấn, thôn Thái An <br>
-                                        Xã Quang Phục, Huyện Tứ Kỳ, Hải Dương <br>
-                                        <div class="mt-2">
-                                            <button class="btn btn-link p-0 text-primary">Cập nhật</button>
-                                            <button class="btn btn-link p-0 text-danger">Xóa</button>
-                                            <button class="btn btn-outline-secondary btn-sm">Thiết lập mặc định</button>
-                                        </div>
-                                    </div>
-                                    <hr>
-
-                                    <!-- Address 3 -->
-                                    <div class="address-item mb-3">
-                                        <strong>Đào Thị Hạnh</strong> <br>
-                                        (+84) 337 284 573 <br>
-                                        Công Phụ Sân Bóng Đại Học Sao Đỏ, Đường Nguyễn Thị Duệ <br>
-                                        Phường Sao Đỏ, Thành Phố Chí Linh, Hải Dương <br>
-                                        <div class="mt-2">
-                                            <button class="btn btn-link p-0 text-primary">Cập nhật</button>
-                                            <button class="btn btn-link p-0 text-danger">Xóa</button>
-                                            <button class="btn btn-outline-secondary btn-sm">Thiết lập mặc định</button>
-                                        </div>
-                                    </div>
+                                        <hr>
+                                    @endforeach
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -222,6 +210,7 @@
                         </div>
                     </div>
                 </div>
+
 
                 <div class="card">
                     <div class="card-body">
@@ -581,5 +570,117 @@
 
         // Call loadProvinces when page loads
         document.addEventListener('DOMContentLoaded', loadProvinces);
+    </script>
+    <script>
+        document.getElementById('customer_id').addEventListener('change', function() {
+            const customerId = this.value.split(' ')[0]; // Lấy id khách hàng
+
+            fetch(`/admin/get-locations/${customerId}`)
+                .then(response => response.json())
+                .then(locations => {
+                    const addressList = document.querySelector('.address-list');
+                    addressList.innerHTML = ''; // Xóa nội dung cũ
+
+                    locations.forEach(location => {
+                        addressList.innerHTML += `
+                    <div class="address-item mb-3">
+                        <strong>${location.customer_name}</strong> <br>
+                        (+84) ${location.number_phone} <br>
+                        ${location.address} <br>
+                        ${location.ward}, ${location.district}, ${location.province} <br>
+                        ${location.is_active ? '<span class="badge bg-danger">Mặc định</span>' : ''}
+                        <div class="mt-2">
+                            <button class="btn btn-link p-0 text-primary" onclick="updateAddress(${JSON.stringify(location)})">Cập nhật</button>
+                            ${!location.is_active ? `
+                                                <button class="btn btn-link p-0 text-danger">Xóa</button>
+                                                <button class="btn btn-outline-secondary btn-sm">Thiết lập mặc định</button>
+                                            ` : `
+                                                <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                            `}
+                        </div>
+                    </div>
+                    <hr>
+                `;
+                    });
+                });
+        });
+
+        function handleAddressListClick() {
+            const customerId = document.getElementById('customer_id').value.split(' ')[0];
+            const addressList = document.querySelector('.address-list');
+
+            if (!customerId) {
+                addressList.innerHTML = '<div class="alert alert-warning">Hãy chọn Tên người đặt</div>';
+                return;
+            }
+
+            fetch(`/admin/get-locations/${customerId}`)
+                .then(response => response.json())
+                .then(locations => {
+                    if (locations.length === 0) {
+                        addressList.innerHTML =
+                            '<div class="alert alert-info">Không có địa chỉ nào cho khách hàng này</div>';
+                        return;
+                    }
+
+                    addressList.innerHTML = locations.map(location => `
+                <div class="address-item mb-3">
+                    <strong>${location.customer_name}</strong> <br>
+                    (+84) ${location.number_phone} <br>
+                    ${location.address} <br>
+                    ${location.ward}, ${location.district}, ${location.province} <br>
+                    ${location.is_active ? '<span class="badge bg-danger">Mặc định</span>' : ''}
+                    <div class="mt-2">
+                        <button type="button" class="btn btn-link p-0 text-primary" onclick="selectAddress('${JSON.stringify(location).replace(/'/g, "\\'")}')">Cập nhật</button>
+                    </div>
+                </div>
+                <hr>
+            `).join('');
+                });
+        }
+
+        function selectAddress(locationData) {
+            const location = JSON.parse(locationData);
+            document.getElementById('customer_name').value = location.customer_name;
+            document.getElementById('number_phone').value = location.number_phone;
+            document.getElementById('email').value = location.email;
+            document.getElementById('address').value = location.address;
+            document.getElementById('province_name').value = location.province;
+            document.getElementById('district_name').value = location.district;
+            document.getElementById('ward_name').value = location.ward;
+
+            // Update the location input display
+            document.getElementById('location-input').value =
+            `${location.province}, ${location.district}, ${location.ward}`;
+
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addressListModal'));
+            modal.hide();
+        }
+
+
+        function updateAddress(location) {
+            // Cập nhật các trường thông tin địa chỉ
+            document.getElementById('customer_name').value = location.customer_name;
+            document.getElementById('number_phone').value = location.number_phone;
+            document.getElementById('email').value = location.email;
+            document.getElementById('address').value = location.address;
+
+            // Đóng modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('addressListModal'));
+            modal.hide();
+        }
+
+        function selectAddress(locationId) {
+            const location = locations.find(l => l.id === locationId);
+            if (location) {
+                document.getElementById('customer_name').value = location.customer_name;
+                document.getElementById('number_phone').value = location.number_phone;
+                document.getElementById('email').value = location.email;
+                document.getElementById('address').value = location.address;
+                // Đóng modal
+                $('#addressListModal').modal('hide');
+            }
+        }
     </script>
 @endsection

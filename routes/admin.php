@@ -11,6 +11,7 @@ use App\Http\Controllers\CustomerRankController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ImportOrderController;
 use App\Http\Controllers\ImportOrderDetailController;
+use App\Http\Controllers\LocationController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
@@ -68,6 +69,9 @@ Route::prefix('quan-ly-tai-khoan')
         Route::get('{id}/sua-nha-cung-cap', [SupplierController::class, 'edit'])->name('edit');
         Route::put('{id}/cap-nhat', [SupplierController::class, 'update'])->name('update');
     });
+
+Route::get('/get-locations/{customer_id}', [LocationController::class, 'getLocationsByCustomer'])->name('locations.by.customer');
+
 
 Route::prefix('quan-ly-nhan-vien')
     ->as('employees.')

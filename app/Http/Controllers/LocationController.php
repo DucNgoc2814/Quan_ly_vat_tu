@@ -16,6 +16,11 @@ class LocationController extends Controller
         //
     }
 
+    public function getLocationsByCustomer($customerId)
+{
+    $locations = Location::where('customer_id', $customerId)->get();
+    return response()->json($locations);
+}
     /**
      * Show the form for creating a new resource.
      */
