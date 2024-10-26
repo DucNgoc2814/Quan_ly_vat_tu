@@ -70,7 +70,11 @@ Route::prefix('quan-ly-tai-khoan')
         Route::put('{id}/cap-nhat', [SupplierController::class, 'update'])->name('update');
     });
 
-Route::get('/get-locations/{customer_id}', [LocationController::class, 'getLocationsByCustomer'])->name('locations.by.customer');
+Route::get('/locations/{customer_id}', [LocationController::class, 'getLocationsByCustomerId']);
+Route::post('/set-default-address', [LocationController::class, 'setDefaultAddress'])->name('setDefaultAddress');
+
+
+
 
 
 Route::prefix('quan-ly-nhan-vien')
