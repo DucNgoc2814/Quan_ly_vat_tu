@@ -173,6 +173,31 @@
         .ri-arrow-down-s-line {
             cursor: pointer;
         }
+
+
+
+        .customer-list-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .customer-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .customer-item:hover {
+            background-color: #f8f9fa;
+        }
     </style>
     <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
     @yield('styles')

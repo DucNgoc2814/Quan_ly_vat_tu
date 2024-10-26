@@ -28,30 +28,56 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="customer_id ">Tên người đặt</label>
+                    {{-- <div class="card-body mb-2">
+                        <label class="form-label" for="customer_id ">Tên người đặt</label>
+                        <input type="text" name="customer_id"
+                            class="form-control @error('customer_id') is-invalid @enderror" id="customer_id"
+                            placeholder="Nhập tên người đặt" data-choices data-choices-search-false list="customer_id_list">
+                        <div class="form-control div-datalist">
+                            <ul id="customer_list" class="ul-datalist">
+                                @foreach ($customers as $customer)
+                                    <li class="li-datalist">
+                                        <i style="font-size: 22px; margin: 5px" class='bx bx-user'></i>
+                                        <span class="dataCustom">{{ $customer->id }} - {{ $customer->name }} -
+                                            {{ $customer->number_phone }}</span>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @error('customer_id')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div> --}}
+                    <div class="card-body mb-2">
+                        <label class="form-label" for="customer_id">Tên người đặt</label>
+                        <div class="position-relative">
                             <input type="text" name="customer_id"
                                 class="form-control @error('customer_id') is-invalid @enderror" id="customer_id"
-                                placeholder="Nhập tên người đặt" data-choices data-choices-search-false
-                                list="customer_id_list">
-                            <div class="form-control div-datalist">
-                                <ul id="customer_list" class="ul-datalist">
+                                placeholder="Nhập tên người đặt" autocomplete="off">
+                            <input type="hidden" name="customer_id" id="hidden_customer_id">
+                            <div class="customer-list-dropdown" style="display:none;">
+                                <ul class="list-group">
                                     @foreach ($customers as $customer)
-                                        <li class="li-datalist">
-                                            <i style="font-size: 22px; margin: 5px" class='bx bx-user'></i>
-                                            <span class="dataCustom">{{ $customer->id }} - {{ $customer->name }} -
-                                                {{ $customer->number_phone }}</span>
+                                        <li class="list-group-item customer-item" data-id="{{ $customer->id }}">
+                                            <div class="d-flex align-items-center">
+                                                <i class="bx bx-user fs-4 me-2"></i>
+                                                <div>
+                                                    <div class="fw-bold">{{ $customer->name }}</div>
+                                                    <small class="text-muted">{{ $customer->number_phone }}</small>
+                                                </div>
+                                            </div>
                                         </li>
                                     @endforeach
                                 </ul>
                             </div>
-                            @error('customer_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
                         </div>
+                        @error('customer_id')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
                     </div>
                 </div>
                 <div class="card">
@@ -592,11 +618,11 @@
                         <div class="mt-2">
                             <button class="btn btn-link p-0 text-primary" onclick="updateAddress(${JSON.stringify(location)})">Cập nhật</button>
                             ${!location.is_active ? `
-                                                <button class="btn btn-link p-0 text-danger">Xóa</button>
-                                                <button class="btn btn-outline-secondary btn-sm">Thiết lập mặc định</button>
-                                            ` : `
-                                                <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                            `}
+                                                                    <button class="btn btn-link p-0 text-danger">Xóa</button>
+                                                                    <button class="btn btn-outline-secondary btn-sm">Thiết lập mặc định</button>
+                                                                ` : `
+                                                                    <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                `}
                         </div>
                     </div>
                     <hr>
@@ -651,7 +677,7 @@
 
             // Update the location input display
             document.getElementById('location-input').value =
-            `${location.province}, ${location.district}, ${location.ward}`;
+                `${location.province}, ${location.district}, ${location.ward}`;
 
             // Close modal
             const modal = bootstrap.Modal.getInstance(document.getElementById('addressListModal'));
@@ -682,5 +708,61 @@
                 $('#addressListModal').modal('hide');
             }
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const customerInput = document.getElementById('customer_id');
+            const dropdown = document.querySelector('.customer-list-dropdown');
+            const customerItems = document.querySelectorAll('.customer-item');
+
+            // Thêm hidden input để lưu customer_id
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'customer_id';
+            customerInput.parentNode.appendChild(hiddenInput);
+
+            // Đổi name của input hiển thị
+            customerInput.name = 'customer_display';
+
+            customerInput.addEventListener('input', function() {
+                const searchText = this.value.toLowerCase();
+                let hasMatch = false;
+
+                customerItems.forEach(item => {
+                    const name = item.querySelector('.fw-bold').textContent.toLowerCase();
+                    const phone = item.querySelector('.text-muted').textContent.toLowerCase();
+
+                    if (name.includes(searchText) || phone.includes(searchText)) {
+                        item.style.display = 'block';
+                        hasMatch = true;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                dropdown.style.display = hasMatch ? 'block' : 'none';
+            });
+
+            customerItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const customerId = this.getAttribute('data-id');
+                    const name = this.querySelector('.fw-bold').textContent;
+                    const phone = this.querySelector('.text-muted').textContent;
+
+                    // Hiển thị tên và số điện thoại trong input
+                    customerInput.value = `${name} - ${phone}`;
+                    // Lưu ID vào hidden input
+                    hiddenInput.value = customerId;
+
+                    dropdown.style.display = 'none';
+                });
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!customerInput.contains(e.target) && !dropdown.contains(e.target)) {
+                    dropdown.style.display = 'none';
+                }
+            });
+        });
     </script>
 @endsection
