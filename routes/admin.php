@@ -140,7 +140,7 @@ Route::prefix('san-pham')
         Route::get('/them-moi', [ProductController::class, 'create'])->name('create');
         Route::post('/them-moi', [ProductController::class, 'store'])->name('store');
         Route::get('/sua/{id}', [ProductController::class, 'edit'])->name('edit');
-        Route::put('/sua/{slug}', [ProductController::class, 'update'])->name('update');
+        Route::put('/sua/{id}', [ProductController::class, 'update'])->name('update');
     });
 
 

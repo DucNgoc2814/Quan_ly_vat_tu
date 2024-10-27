@@ -89,28 +89,16 @@ class ProductController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-
     public function edit($id)
     {
-        // Tìm sản phẩm theo ID
-        $product = Product::with('variations')->findOrFail($id); // Sử dụng 'variations' thay vì 'variants'
+        $product = Product::with('variations')->findOrFail($id);
         $categories = Category::pluck('name', 'id');
         $units = Unit::pluck('name', 'id');
         $brands = Brand::pluck('name', 'id');
         $attributes = Attribute::whereHas('attributeValues.variations', function ($query) use ($product) {
             $query->where('product_id', $product->id);
-        })->with('attributeValues.variations')
+        })
+            ->with('attributeValues.variations')
             ->get();
         $attributesArray = Attribute::with('attributeValues')->get();
 
@@ -119,59 +107,82 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'price' => 'required|numeric',
-            'category_id' => 'required|integer',
-            'brand_id' => 'required|integer',
-            'unit_id' => 'required|integer',
-            'description' => 'nullable|string',
-            'is_active' => 'boolean',
-            'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+        try {
+            DB::transaction(function () use ($request, $id) {
+                $product = Product::findOrFail($id);
+                
+                // Lấy tên sản phẩm cũ để so sánh
+                $oldName = $product->name;
+                $newName = $request->name;
 
-        DB::transaction(function () use ($validated, $request, $id) {
-            // Cập nhật thông tin sản phẩm
-            $product = Product::findOrFail($id);
-            $product->update($validated);
+                // Cập nhật thông tin cơ bản của sản phẩm
+                $product->update([
+                    'name' => $newName,
+                    'price' => $request->price,
+                    'category_id' => $request->category_id,
+                    'brand_id' => $request->brand_id,
+                    'unit_id' => $request->unit_id,
+                    'description' => $request->description,
+                    'is_active' => $request->has('is_active'),
+                    'slug' => Str::slug($newName)
+                ]);
 
-            // Cập nhật các biến thể
-            if ($request->has('variations')) {
-                foreach ($request->input('variations') as $variationData) {
-                    $variation = Variation::updateOrCreate(
-                        ['id' => $variationData['id'] ?? null, 'product_id' => $id],
-                        [
-                            'sku' => $variationData['sku'],
-                            'name' => $variationData['name'],
-                            'stock' => $variationData['stock'],
-                            'price_export' => $variationData['price_export'],
-                            'description' => $variationData['description'],
-                            'is_active' => $variationData['is_active'] ?? true
-                        ]
-                    );
-
-                    // Cập nhật thuộc tính cho biến thể
-                    if (isset($variationData['attributes'])) {
-                        $variation->attributeValues()->sync($variationData['attributes']);
+                // Nếu tên sản phẩm thay đổi, cập nhật tên biến thể
+                if ($oldName !== $newName) {
+                    foreach ($product->variations as $variation) {
+                        // Thay thế tên cũ trong tên biến thể bằng tên mới
+                        $newVariationName = str_replace($oldName, $newName, $variation->name);
+                        $variation->update([
+                            'name' => $newVariationName
+                        ]);
                     }
                 }
-            }
 
-            // Cập nhật hình ảnh
-            if ($request->hasFile('images')) {
-                foreach ($request->file('images') as $file) {
-                    $fileName = $file->store('galleries', 'public');
-                    Gallery::create([
-                        'product_id' => $product->id,
-                        'url' => $fileName,
-                    ]);
+                // Xử lý xóa ảnh
+                $imagesToDelete = array_filter($request->input('images_to_delete', []));
+                if (!empty($imagesToDelete)) {
+                    foreach ($imagesToDelete as $galleryId) {
+                        $gallery = Gallery::find($galleryId);
+                        if ($gallery) {
+                            if (Storage::exists($gallery->url)) {
+                                Storage::delete($gallery->url);
+                            }
+                            $gallery->delete();
+                        }
+                    }
                 }
-            }
-        });
 
-        return redirect()->route('products.index')->with('success', 'Product updated successfully');
+                // Xử lý thêm ảnh mới
+                if ($request->hasFile('product_images')) {
+                    foreach ($request->file('product_images') as $image) {
+                        if ($image->isValid()) {
+                            $path = Storage::put('galleries', $image);
+                            $product->galleries()->create(['url' => $path]);
+                        }
+                    }
+                }
+
+                // Xử lý cập nhật biến thể
+                if ($request->has('variations')) {
+                    foreach ($request->variations as $variationId => $data) {
+                        $variation = Variation::find($variationId);
+                        if ($variation) {
+                            $variation->update([
+                                'price_export' => $data['price_export'],
+                                'stock' => $data['stock']
+                            ]);
+                        }
+                    }
+                }
+            });
+
+            return redirect()->route('product.index')->with('success', 'Cập nhật sản phẩm thành công');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Lỗi cập nhật sản phẩm: ' . $e->getMessage());
+        }
     }
-
 
     /**
      * Remove the specified resource from storage.
@@ -183,10 +194,8 @@ class ProductController extends Controller
 
     public function generateUniqueSku()
     {
-        // Tạo mã SKU ngẫu nhiên
         $sku = Str::random(8); // Bạn có thể thay đổi độ dài tùy theo yêu cầu
 
-        // Kiểm tra xem mã SKU đã tồn tại trong bảng variations chưa
         while (Variation::where('sku', $sku)->exists()) {
             $sku = Str::random(8); // Tạo lại mã nếu đã tồn tại
         }
