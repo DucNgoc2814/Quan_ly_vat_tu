@@ -75,8 +75,6 @@ Route::post('/set-default-address', [LocationController::class, 'setDefaultAddre
 
 
 
-
-
 Route::prefix('quan-ly-nhan-vien')
     ->as('employees.')
     ->group(function () {

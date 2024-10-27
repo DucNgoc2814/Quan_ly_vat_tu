@@ -39,6 +39,19 @@ class LocationController extends Controller
         return response()->json(['success' => true, 'message' => 'Thiết lập mặc định thành công']);
     }
 
+
+    public function getLocationsByCustomerIdIsactive($customerId)
+    {
+        // Lấy tất cả các location của customer có isactive = 1
+        $locations = Location::where('customer_id', $customerId)
+                              ->where('isactive', 1)
+                              ->get();
+
+        return response()->json($locations);
+    }
+
+
+
     /**
      * Show the form for creating a new resource.
      */

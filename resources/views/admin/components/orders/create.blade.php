@@ -551,8 +551,6 @@
         document.addEventListener('DOMContentLoaded', loadProvinces);
     </script>
 
-
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const customerItems = document.querySelectorAll('.customer-item');
@@ -590,11 +588,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Cập nhật</button>
                                     ${!location.is_active ? `
-                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                        <button class="btn btn-outline-secondary btn-sm" onclick="setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                    ` : `
-                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                    `}
+                                                                    <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                    <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                ` : `
+                                                                    <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                `}
                                 </div>
                             </div>
                             <hr>
@@ -609,28 +607,30 @@
     <script>
         function setDefaultAddress(locationId) {
             $.ajax({
-                url: '{{ route('setDefaultAddress') }}',
-                type: 'POST',
+                url: "{{ route('setDefaultAddress') }}", // Sử dụng route name 'setDefaultAddress'
+                type: "POST",
                 data: {
                     location_id: locationId,
-                    _token: '{{ csrf_token() }}' // CSRF token để xác thực request
+                    _token: "{{ csrf_token() }}"
                 },
                 success: function(response) {
                     if (response.success) {
                         alert(response.message);
-                        // Reload modal content to show the updated default address
-                        $('#addressListModal').modal('hide'); // Đóng modal
-                        location.reload(); // Reload trang để cập nhật danh sách địa chỉ
+                        // Xóa các badge Mặc định trước đó và thêm badge mới
+                        $('.badge.bg-danger').remove();
+                        $('button[onclick="setDefaultAddress(' + locationId + ')"]').closest('.address-item')
+                            .find('strong').after('<span class="badge bg-danger ms-2">Mặc định</span>');
+                    } else {
+                        alert("Có lỗi xảy ra, vui lòng thử lại.");
                     }
                 },
-                error: function() {
-                    alert('Có lỗi xảy ra, vui lòng thử lại.');
+                error: function(xhr) {
+                    console.log(xhr.responseText); // In lỗi để debug
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
                 }
             });
         }
     </script>
-
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
