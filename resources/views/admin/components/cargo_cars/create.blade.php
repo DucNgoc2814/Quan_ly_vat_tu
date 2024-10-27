@@ -86,7 +86,7 @@
                                 @enderror
                             </div>
                             <div class="mt-3">
-                                <button class = "btn btn-success text ">Submit</button>
+                                <button class = "btn btn-success text ">Gửi</button>
                             </div>
                         </div>
                     </form>

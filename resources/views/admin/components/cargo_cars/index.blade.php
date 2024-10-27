@@ -70,7 +70,7 @@
                                                 <li><a href="{{ route('CargoCars.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Edit</a></li>
+                                                        Sửa</a></li>
                                             </ul>
                                         </div>
                                     </td>

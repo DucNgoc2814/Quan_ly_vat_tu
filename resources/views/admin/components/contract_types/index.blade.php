@@ -45,7 +45,7 @@
                                             <a href="{{ route('contractType.edit', $item->id) }}"
                                                 class="dropdown-item edit-item-btn btn-hover-warning" ><i
                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                Edit</a>
+                                                Gửi</a>
                                             
                                         </div>
                                     </td>
