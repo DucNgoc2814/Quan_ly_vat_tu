@@ -1,9 +1,7 @@
 @extends('admin.layouts.master')
-
 @section('title')
     Thêm đơn hàng
 @endsection
-
 @section('content')
     <!-- start page title -->
     <div class="row">
@@ -16,15 +14,12 @@
                         <li class="breadcrumb-item active">Thêm mới đơn hàng</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
     <!-- end page title -->
-
     <form method="POST" class="form-datalist" action="{{ route('order.store') }}">
         @csrf
-
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -45,9 +40,6 @@
                                     @endforeach
                                 </ul>
                             </div>
-
-
-
                             @error('customer_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -108,12 +100,8 @@
                             @enderror
                         </div>
                     </div>
-
-
                 </div>
                 <!-- end card -->
-
-
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-2">
@@ -235,8 +223,6 @@
                 </div>
             </div>
     </form>
-
-
     <script>
         document.getElementById('product-image-input').addEventListener('change', function(event) {
             var output = document.getElementById('product-img');
@@ -247,8 +233,6 @@
         });
     </script>
 @endsection
-
-
 @section('scripts')
     <script>
         // Hàm để thêm sản phẩm mới
@@ -302,41 +286,31 @@
                 </div>
             </div>
             `;
-
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
             addInputListeners(); // Thêm sự kiện lắng nghe cho sản phẩm mới
         }
-
         // Hàm để tính tổng giá trị đơn hàng
         function calculateTotal() {
             let total = 0;
             const quantities = document.getElementsByName('product_quantity[]');
             const prices = document.getElementsByName('product_price[]');
-
             // Tính tổng dựa trên số lượng và giá
             for (let i = 0; i < quantities.length; i++) {
                 total += (parseFloat(quantities[i].value) || 0) * (parseFloat(prices[i].value) || 0);
             }
-
             // Định dạng tổng số thành dạng có dấu chấm phân cách hàng nghìn (ví dụ: 500.000)
             const formattedTotal = total.toFixed(0).toLocaleString('vi-VN');
-
             // Gán giá trị đã định dạng vào ô input
             document.getElementById('total_amount').value = formattedTotal;
         }
-
-
         // Hàm để cập nhật giá khi chọn sản phẩm
         function updatePrice(selectElement) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
             const price = selectedOption.getAttribute('data-price');
             const stock = selectedOption.getAttribute('data-stock');
-
             const priceInput = selectElement.closest('.mb-2').nextElementSibling.querySelector(
                 'input[name="product_price[]"]');
             const stockInput = selectElement.closest('.col-md-12').querySelector('input[name="stock"]');
-
-
             if (priceInput) {
                 priceInput.value = price;
             }
@@ -345,14 +319,12 @@
             }
             calculateTotal();
         }
-
         // Hàm để thêm sự kiện lắng nghe cho input
         function addInputListeners() {
             document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
                 input.addEventListener('input', calculateTotal);
             });
         }
-
         // Hàm để xóa sản phẩm
         function removeProduct(id) {
             if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -360,7 +332,6 @@
                 calculateTotal();
             }
         }
-
         // Gọi hàm khi trang được tải lần đầu
         document.addEventListener('DOMContentLoaded', function() {
             addInputListeners();
