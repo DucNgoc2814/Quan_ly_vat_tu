@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LoginController extends Controller
 {
@@ -56,16 +57,27 @@ class LoginController extends Controller
      */
     public function handleLogin(StoreLoginRequest $request)
     {
-        $data = [
+        $credentials = [
             'email' => $request->email,
             'password' => $request->password,
         ];
 
-        if (Auth::attempt($data)) {
-            $request->session()->regenerate();
-            return redirect()->route('home')->with('success', 'Đăng nhập thành công');
+        try {
+            if (!$token = JWTAuth::attempt($credentials)) {
+                return response()->json([
+                    'message' => 'Thông tin đăng nhập không chính xác'
+                ], 401);
+            }
+            return response()->json([
+                'access_token' => $token,
+                'token_type' => 'Bearer',
+                'message' => 'Đăng nhập thành công'
+            ]);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Không thể tạo token'
+            ], 500);
         }
-        return back()->withErrors(['email' => 'Thông tin đăng nhập không chính xác.']);
     }
 
     public function logout(Request $request)
