@@ -58,7 +58,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" id="receiver-info">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Thông tin nhận hàng</h4>
                         <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" data-bs-toggle="modal"
@@ -588,11 +588,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Cập nhật</button>
                                     ${!location.is_active ? `
-                                                                    <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                    <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                ` : `
-                                                                    <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                `}
+                                                                                <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                            ` : `
+                                                                                <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                            `}
                                 </div>
                             </div>
                             <hr>
@@ -685,6 +685,69 @@
                 if (!customerInput.contains(e.target) && !dropdown.contains(e.target)) {
                     dropdown.style.display = 'none';
                 }
+            });
+        });
+    </script>
+
+    <script>
+        document.querySelectorAll('.customer-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const customerId = this.getAttribute('data-id');
+                document.getElementById('hidden_customer_id').value = customerId;
+
+                // AJAX request
+                fetch(`/orders/customer-location/${customerId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            // Cập nhật các trường với dữ liệu hoặc để trống nếu không có giá trị
+                            document.getElementById('customer_name').value = data.customer_name || '';
+                            document.getElementById('email').value = data.email || '';
+                            document.getElementById('number_phone').value = data.number_phone || '';
+                            document.getElementById('address').value = data.address || '';
+
+                            // Cập nhật ô input địa chỉ
+                            const locationInput = document.getElementById('location-input');
+                            locationInput.value = data.province && data.district && data.ward ?
+                                `${data.province}, ${data.district}, ${data.ward}` :
+                                '';
+
+                            // Cập nhật các ô select cho Tỉnh/Thành phố, Quận/Huyện, Phường/Xã
+                            const provinceSelect = document.getElementById('provinces');
+                            const districtSelect = document.getElementById('districts');
+                            const wardSelect = document.getElementById('wards');
+
+                            // Cập nhật các ô select và input
+                            provinceSelect.innerHTML =
+                                `<option selected>${data.province || 'Chọn Tỉnh/Thành phố'}</option>`;
+                            districtSelect.innerHTML =
+                                `<option selected>${data.district || 'Chọn Quận/Huyện'}</option>`;
+                            wardSelect.innerHTML =
+                                `<option selected>${data.ward || 'Chọn Phường/Xã'}</option>`;
+
+                            // Hiển thị thông tin người nhận
+                            document.getElementById('receiver-info').style.display = 'block';
+                        } else {
+                            // Nếu không có dữ liệu, chỉ để trống nội dung của các ô input và select
+                            document.getElementById('customer_name').value = '';
+                            document.getElementById('email').value = '';
+                            document.getElementById('number_phone').value = '';
+                            document.getElementById('address').value = '';
+                            document.getElementById('location-input').value = '';
+
+                            // Đặt lại giá trị cho các ô select
+                            document.getElementById('provinces').innerHTML =
+                                '<option selected disabled>Chọn Tỉnh/Thành phố</option>';
+                            document.getElementById('districts').innerHTML =
+                                '<option selected disabled>Chọn Quận/Huyện</option>';
+                            document.getElementById('wards').innerHTML =
+                                '<option selected disabled>Chọn Phường/Xã</option>';
+
+                            // Vẫn giữ hiển thị thông tin người nhận
+                            document.getElementById('receiver-info').style.display = 'block';
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
             });
         });
     </script>

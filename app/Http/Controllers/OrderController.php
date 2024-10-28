@@ -82,7 +82,7 @@ class OrderController extends Controller
         $status = Order_status::pluck('description', 'id')->all();
         $variation = Variation::all();
         $locations = Location::all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation','locations'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation', 'locations'));
     }
 
     /**
@@ -123,28 +123,28 @@ class OrderController extends Controller
 
 
                 $existingLocation = Location::where('customer_id', $order->customer_id)
-                ->where('customer_name', $order->customer_name)
-                ->where('email', $order->email)
-                ->where('number_phone', $order->number_phone)
-                ->where('province', $order->province)
-                ->where('district', $order->district)
-                ->where('ward', $order->ward)
-                ->where('address', $order->address)
-                ->first();
+                    ->where('customer_name', $order->customer_name)
+                    ->where('email', $order->email)
+                    ->where('number_phone', $order->number_phone)
+                    ->where('province', $order->province)
+                    ->where('district', $order->district)
+                    ->where('ward', $order->ward)
+                    ->where('address', $order->address)
+                    ->first();
 
-            if (!$existingLocation) {
-                $location = new Location();
-                $location->customer_id = $order->customer_id;
-                $location->customer_name = $order->customer_name;
-                $location->email = $order->email;
-                $location->number_phone = $order->number_phone;
-                $location->province = $order->province;
-                $location->district = $order->district;
-                $location->ward = $order->ward;
-                $location->address = $order->address;
-                $location->is_active = false;
-                $location->save();
-            }
+                if (!$existingLocation) {
+                    $location = new Location();
+                    $location->customer_id = $order->customer_id;
+                    $location->customer_name = $order->customer_name;
+                    $location->email = $order->email;
+                    $location->number_phone = $order->number_phone;
+                    $location->province = $order->province;
+                    $location->district = $order->district;
+                    $location->ward = $order->ward;
+                    $location->address = $order->address;
+                    $location->is_active = false;
+                    $location->save();
+                }
 
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationID) {
@@ -338,5 +338,15 @@ class OrderController extends Controller
     }
 
 
+    // OrderController.php
+
+    public function getCustomerLocation($customerId)
+    {
+        $location = Location::where('customer_id', $customerId)
+            ->where('is_active', 1)
+            ->first();
+
+        return response()->json($location);
+    }
 
 }
