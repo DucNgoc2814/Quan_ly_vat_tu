@@ -209,6 +209,11 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @error('product_images')
+                                                <span role="alert">
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -287,7 +292,8 @@
                 <div class="col-md-3">
                     <div class="mb-2">
                         <label class="form-label">Số lượng</label>
-                        <input type="number" class="form-control" name="variants[${id}][stock]">
+                        <input type="number" class="form-control" name="variants[${id}][stock]" value="0" 
+                    min="0"> 
                     </div>
                 </div>
             </div>
@@ -300,7 +306,7 @@
 
         let imageCount = 1; // Biến đếm để tạo ID duy nhất cho mỗi input ảnh
 
-        // Hàm hiển thị ảnh xem trước
+        // Hm hiển thị ảnh xem trước
         function displayImage(event, count) {
             event.preventDefault(); // Ngăn chặn sự kiện mặc định gây cuộn trang
             var output = document.getElementById('product-img-' + count);
@@ -390,3 +396,4 @@
         }
     </script>
 @endsection
+

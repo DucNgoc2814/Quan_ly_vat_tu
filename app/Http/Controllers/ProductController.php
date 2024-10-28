@@ -49,43 +49,52 @@ class ProductController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
-                $slug = Str::slug($request['name']);
-                $data = [
+                // Tạo sản phẩm mới
+                $product = Product::create([
                     "category_id" => $request->category_id,
                     "unit_id" => $request->unit_id,
                     "brand_id" => $request->brand_id,
-                    "slug" => $slug,
+                    "slug" => Str::slug($request->name),
                     "name" => $request->name,
                     "price" => $request->price,
                     "description" => $request->description,
-                    "is_active" => $request->has('is_active') ? 1 : 0,
-                ];
-                $product = Product::query()->create($data);
+                    "is_active" => $request->has('is_active'),
+                ]);
 
+                // Lưu ảnh sản phẩm
                 if ($request->hasFile('product_images')) {
                     foreach ($request->file('product_images') as $image) {
                         $path = Storage::put('galleries', $image);
                         $product->galleries()->create(['url' => $path]);
                     }
                 }
-                $variations = $request->variants;
-                foreach ($variations as $variantId => $data) {
-                    $variantName = $request->name . ' (' . implode(', ', $data['attribute_value_values']) . ')';
+
+                // Tạo các biến thể
+                foreach ($request->variants as $variantData) {
+                    $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
+                    
                     $variation = Variation::create([
                         'product_id' => $product->id,
                         'sku' => $this->generateUniqueSku(),
                         'name' => $variantName,
-                        'stock' => $data['stock'],
-                        'price_export' => $data['price'] ? $data['price'] : $request->price,
+                        'stock' => $variantData['stock'],
+                        'price_export' => $variantData['price'] ?: $request->price,
                         'is_active' => true,
                     ]);
-                    $variation->attributeValues()->attach($data['attribute_value_ids']);
+
+                    // Liên kết với các giá trị thuộc tính
+                    $variation->attributeValues()->attach($variantData['attribute_value_ids']);
                 }
-            }, 3);
-            return redirect()->route('product.index')->with('success', 'Thêm sản phẩm thành công');;
-        } catch (\Throwable $th) {
-            // Trả về trang trước đó với thông báo lỗi, nhưng không dừng chương trình
-            return redirect()->back()->withInput()->with('error', 'Có lỗi xảy ra: ' . $th->getMessage());
+            });
+
+            return redirect()
+                ->route('product.index')
+                ->with('success', 'Thêm sản phẩm thành công');
+        } catch (\Exception $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
 
