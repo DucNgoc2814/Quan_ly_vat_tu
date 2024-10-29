@@ -50,6 +50,7 @@
                                     @enderror
                                 </div>
                             </div>
+                            
                         </fieldset>
                         <div class="buttons newsletter-input">
                             {{-- <div class="pull-right">I have read and agree to the <a href="#" class="agree"><b>Privacy
