@@ -43,7 +43,6 @@ class LoginController extends Controller
         Customer::create($data);
         return redirect()->route('login')->with('success', 'Đăng ký tài khoản thành công');
     }
-
     /**
      * Display the specified resource.
      */
@@ -51,7 +50,6 @@ class LoginController extends Controller
     {
         return view(self::PATH_VIEW . 'login');
     }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -61,17 +59,21 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ];
-
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json([
                     'message' => 'Thông tin đăng nhập không chính xác'
                 ], 401);
             }
+            $payload = JWTAuth::setToken($token)->getPayload();
+            session(['token' => $token]);
             return response()->json([
-                'access_token' => $token,
-                'token_type' => 'Bearer',
-                'message' => 'Đăng nhập thành công'
+                'token' => $token,
+                'decoded' => [
+                    'username' => $payload->get('username'),
+                    'id' => $payload->get('id'),
+                    'role' => $payload->get('role')
+                ]
             ]);
         } catch (Exception $e) {
             return response()->json([
@@ -79,7 +81,6 @@ class LoginController extends Controller
             ], 500);
         }
     }
-
     public function logout(Request $request)
     {
         Auth::logout();
@@ -87,7 +88,6 @@ class LoginController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('home')->with('success', 'Đăng xuất thành công');
     }
-
     /**
      * Update the specified resource in storage.
      */

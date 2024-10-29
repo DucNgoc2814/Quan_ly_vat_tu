@@ -19,7 +19,7 @@ return [
     ],
 
     'guards' => [
-        'web' => [                    // Thêm guard web
+        'web' => [
             'driver' => 'session',
             'provider' => 'customers',
         ],

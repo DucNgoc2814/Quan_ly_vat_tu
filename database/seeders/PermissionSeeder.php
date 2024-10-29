@@ -18,6 +18,18 @@ class PermissionSeeder extends Seeder
                 'id' => 1,
                 'name' => 'ADMIN',
             ],
+            [
+                'id' => 2,
+                'name' => 'Nhân Viên',
+            ],
+            [
+                'id' => 3,
+                'name' => 'Vận chuyển',
+            ],
+            [
+                'id' => 4,
+                'name' => 'Kế toán',
+            ],
         ]);
     }
 }
