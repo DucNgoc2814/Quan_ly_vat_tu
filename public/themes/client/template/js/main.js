@@ -509,6 +509,55 @@ $('.brand-banner').on('changed.owl.carousel initialized.owl.carousel', function 
             }
         }
     })
-     
+    
+    // if ($('#notification').length) {
+    //     $('#notification').css({
+    //         'background': 'linear-gradient(135deg, #28a745 0%, #20c997 100%)',
+    //         'color': 'white',
+    //         'font-size': '16px',
+    //         'font-weight': '500',
+    //         'box-shadow': '0 5px 15px rgba(0,0,0,0.2)',
+    //         'border-radius': '8px',
+    //         'padding': '15px 25px',
+    //         'opacity': '0',
+    //         'transform': 'translateY(20px)',
+    //         'animation': 'slideUp 0.5s ease forwards'
+    //     });
+    
+    //     $('<style>')
+    //         .text(`
+    //             @keyframes slideUp {
+    //                 to {
+    //                     opacity: 1;
+    //                     transform: translateY(0);
+    //                 }
+    //             }
+    //         `)
+    //         .appendTo('head');
+    
+    //     setTimeout(function() {
+    //         $('#notification').css({
+    //             'animation': 'slideDown 0.5s ease forwards'
+    //         });
+            
+    //         $('<style>')
+    //             .text(`
+    //                 @keyframes slideDown {
+    //                     to {
+    //                         opacity: 0;
+    //                         transform: translateY(20px);
+    //                     }
+    //                 }
+    //             `)
+    //             .appendTo('head');
+    
+    //         setTimeout(function() {
+    //             $('#notification').remove();
+    //         }, 500);
+    //     }, 3000);
+    // }
     
 })(jQuery);
+
+// Thêm vào cuối file, trong function (jQuery)
+

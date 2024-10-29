@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             AttributeSeeder::class,
             AttributeValueSeeder::class,
             VariationSeeder::class,
-            VariationAttributeValueSeeder::class,
+            AttributeValueVariationSeeder::class,
             OrderStatuSeeder::class,
             CustomerRankSeeder::class,
             CustomerSeeder::class,
