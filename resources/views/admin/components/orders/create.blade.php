@@ -588,11 +588,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Cập nhật</button>
                                     ${!location.is_active ? `
-                                                                                <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                            ` : `
-                                                                                <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                            `}
+                                                                                            <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                            <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                        ` : `
+                                                                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                        `}
                                 </div>
                             </div>
                             <hr>
@@ -700,42 +700,57 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data) {
-                            // Cập nhật các trường với dữ liệu hoặc để trống nếu không có giá trị
+                            // Cập nhật thông tin cơ bản
                             document.getElementById('customer_name').value = data.customer_name || '';
                             document.getElementById('email').value = data.email || '';
                             document.getElementById('number_phone').value = data.number_phone || '';
                             document.getElementById('address').value = data.address || '';
 
-                            // Cập nhật ô input địa chỉ
+                            // Cập nhật location input
                             const locationInput = document.getElementById('location-input');
                             locationInput.value = data.province && data.district && data.ward ?
-                                `${data.province}, ${data.district}, ${data.ward}` :
-                                '';
+                                `${data.province}, ${data.district}, ${data.ward}` : '';
 
-                            // Cập nhật các ô select cho Tỉnh/Thành phố, Quận/Huyện, Phường/Xã
+                            // Cập nhật các select box và hidden inputs
                             const provinceSelect = document.getElementById('provinces');
                             const districtSelect = document.getElementById('districts');
                             const wardSelect = document.getElementById('wards');
 
-                            // Cập nhật các ô select và input
+                            // Cập nhật province
                             provinceSelect.innerHTML =
-                                `<option selected>${data.province || 'Chọn Tỉnh/Thành phố'}</option>`;
+                                `<option selected value="${data.province_code}">${data.province || 'Chọn Tỉnh/Thành phố'}</option>`;
+                            document.getElementById('province_name').value = data.province;
+                            document.querySelector('select[name="province"]').value = data
+                                .province_code;
+
+                            // Cập nhật district
                             districtSelect.innerHTML =
-                                `<option selected>${data.district || 'Chọn Quận/Huyện'}</option>`;
+                                `<option selected value="${data.district_code}">${data.district || 'Chọn Quận/Huyện'}</option>`;
+                            document.getElementById('district_name').value = data.district;
+                            document.querySelector('select[name="district"]').value = data
+                                .district_code;
+
+                            // Cập nhật ward
                             wardSelect.innerHTML =
-                                `<option selected>${data.ward || 'Chọn Phường/Xã'}</option>`;
+                                `<option selected value="${data.ward_code}">${data.ward || 'Chọn Phường/Xã'}</option>`;
+                            document.getElementById('ward_name').value = data.ward;
+                            document.querySelector('select[name="ward"]').value = data.ward_code;
+
+                            // Enable các select box
+                            districtSelect.disabled = false;
+                            wardSelect.disabled = false;
 
                             // Hiển thị thông tin người nhận
                             document.getElementById('receiver-info').style.display = 'block';
                         } else {
-                            // Nếu không có dữ liệu, chỉ để trống nội dung của các ô input và select
+                            // Reset form khi không có dữ liệu
                             document.getElementById('customer_name').value = '';
                             document.getElementById('email').value = '';
                             document.getElementById('number_phone').value = '';
                             document.getElementById('address').value = '';
                             document.getElementById('location-input').value = '';
 
-                            // Đặt lại giá trị cho các ô select
+                            // Reset các select box
                             document.getElementById('provinces').innerHTML =
                                 '<option selected disabled>Chọn Tỉnh/Thành phố</option>';
                             document.getElementById('districts').innerHTML =
@@ -743,7 +758,16 @@
                             document.getElementById('wards').innerHTML =
                                 '<option selected disabled>Chọn Phường/Xã</option>';
 
-                            // Vẫn giữ hiển thị thông tin người nhận
+                            // Reset hidden inputs
+                            document.getElementById('province_name').value = '';
+                            document.getElementById('district_name').value = '';
+                            document.getElementById('ward_name').value = '';
+
+                            // Disable các select phụ thuộc
+                            document.getElementById('districts').disabled = true;
+                            document.getElementById('wards').disabled = true;
+
+                            // Vẫn hiển thị form
                             document.getElementById('receiver-info').style.display = 'block';
                         }
                     })
