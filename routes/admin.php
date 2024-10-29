@@ -32,20 +32,7 @@ use App\Http\Controllers\UnitController;
 //     });
 // <+====================ROUTE MẪU====================+>
 
-Route::get('/', function () {
-    return view('admin/dashboard');
-})->name('admin.dashboard');
-
-
-Route::prefix('mau')
-    ->as('mau.')
-    ->group(function () {
-        Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
-        Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
-        Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
-        Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
-        Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
-    });
+Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
 
 Route::prefix('quan-ly-nha-phan-phoi')
     ->as('supplier.')
@@ -152,8 +139,8 @@ Route::prefix('san-pham')
         Route::get('/danh-sach', [ProductController::class, 'index'])->name('index');
         Route::get('/them-moi', [ProductController::class, 'create'])->name('create');
         Route::post('/them-moi', [ProductController::class, 'store'])->name('store');
-        Route::get('/sua/{sku}', [ProductController::class, 'edit'])->name('edit');
-        Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
+        Route::get('/sua/{id}', [ProductController::class, 'edit'])->name('edit');
+        Route::put('/sua/{slug}', [ProductController::class, 'update'])->name('update');
     });
 
 
@@ -166,6 +153,7 @@ Route::prefix('don-hang-nhap')
         Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
         Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail');
+
         Route::post('/yeu-cau-huy/{slug}', [ImportOrderController::class, 'requestCancel'])->name('requestCancel');
         Route::get('/pending-cancel-requests', [ImportOrderController::class, 'getPendingCancelRequests'])->name('pendingCancelRequests');
         Route::get('/cancel/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel');
@@ -176,7 +164,6 @@ Route::prefix('don-hang-nhap')
         Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus');
         Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
     });
-Route::get('/', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
 
 Route::prefix('quan-ly-don-vi')
     ->as('units.')
@@ -229,7 +216,7 @@ Route::prefix('quan-ly-chuyen-xe')
         Route::put('/sua/{id}', [TripController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy');
     });
-
+    
 Route::prefix('quan-ly-chuyen-xe')
     ->as('trips_details.')
     ->group(function () {

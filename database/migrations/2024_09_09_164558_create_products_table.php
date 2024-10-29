@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('name', 255)->unique();
             $table->integer('price');
             $table->text('description')->nullable();
+            // $table->boolean('role')->default(true);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

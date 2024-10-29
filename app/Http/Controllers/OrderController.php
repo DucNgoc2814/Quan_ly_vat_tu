@@ -92,19 +92,20 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
+        // dd($request);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
-            DB::transaction(function () use ($request) {
-                $customers = Customer::findOrFail($request->customer_id);
 
+            DB::transaction(function () use ($request) {
+                $customer_id = strtok($request->customer_id, ' ');
+                $customers = Customer::findOrFail($request->customer_id);
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
                 $timestamp = now()->format('His');
                 $slug = 'DHB' . $randomChars . $timestamp;
-
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
-                    "customer_id" => $request->customer_id,
-                    "status_id" => 1, // Trạng thái mặc định 'Chờ xác nhận'
+                    "customer_id" => $customer_id,
+                    "status_id" => 1,
                     "slug" => $slug,
                     "customer_name" => $request->customer_name ?? $customers->name,
                     "email" => $request->email ?? $customers->email,
