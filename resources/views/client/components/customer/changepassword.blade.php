@@ -31,7 +31,7 @@
             <!-- Row End -->
             <div class="row">
                 <div class="col-sm-12">
-                    <form class="form-horizontal" action="{{ route('client.passwordchange') }}" method="post">
+                    <form class="form-horizontal" action="{{ route('passwordchange') }}" method="post">
                         @csrf
                         <fieldset>
                             <legend>Vui lòng điền vào mẫu này để đổi mật khẩu.</legend>
@@ -66,11 +66,11 @@
                     </form>
                 </div>
                 <div class="container signin">
-                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('client.login') }}"
+                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('login') }}"
                             class="active ">Đăng Nhập</a>.</p>
                 </div>
                 <div class="container signin">
-                    <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('client.register') }}">Đăng ký</a>.</p>
+                    <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('register') }}">Đăng ký</a>.</p>
                 </div>
             </div>
             <!-- Row End -->

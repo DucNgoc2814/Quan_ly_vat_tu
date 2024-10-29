@@ -20,5 +20,10 @@
         }
     }
 }());
-
+/* success */
+if ($('#notification').length) {
+        setTimeout(function() {
+            $('#notification').remove();
+    }, 2000);
+}
 // Place any jQuery/helper plugins in here.

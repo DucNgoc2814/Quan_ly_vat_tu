@@ -14,10 +14,20 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'customers',
     ],
 
+    'guards' => [
+        'web' => [                    // Thêm guard web
+            'driver' => 'session',
+            'provider' => 'customers',
+        ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'customers',
+        ],
+    ],
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -35,12 +45,7 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'customers',
-        ],
-    ],
+
 
     /*
     |--------------------------------------------------------------------------
