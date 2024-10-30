@@ -32,9 +32,7 @@ use App\Http\Controllers\UnitController;
 //     });
 // <+====================ROUTE MẪU====================+>
 
-Route::get('/dashboard', function () {
-    return view('admin/dashboard');
-})->name('admin.dashboard');
+Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
 
 Route::prefix('quan-ly-nha-phan-phoi')
     ->as('supplier.')
