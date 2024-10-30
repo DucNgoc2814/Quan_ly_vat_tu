@@ -50,7 +50,7 @@ class EmployeeController extends Controller
             if ($request->hasFile('image')) {
                 $params['image'] = $request->file('image')->store('uploads/profile', 'public') ?: null;
             }
-            
+
             Employee::create($params);
             return redirect()->route('employees.index')->with('success', 'Bạn đã thêm mới thành công');
         }
@@ -61,7 +61,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee, String $id)
     {
-       
+
     }
 
     /**

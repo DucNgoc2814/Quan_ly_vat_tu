@@ -31,10 +31,8 @@ use App\Http\Controllers\UnitController;
 //         Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
 //     });
 // <+====================ROUTE MẪU====================+>
+Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
 
-Route::get('/dashboard', function () {
-    return view('admin/dashboard');
-})->name('admin.dashboard');
 
 Route::prefix('quan-ly-nha-phan-phoi')
     ->as('supplier.')
@@ -219,10 +217,14 @@ Route::prefix('quan-ly-chuyen-xe')
         Route::put('/sua/{id}', [TripController::class, 'update'])->name('update');
         Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy');
     });
-    
+
 Route::prefix('quan-ly-chuyen-xe')
     ->as('trips_details.')
     ->group(function () {
         Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index');
     });
 
+
+
+
+    
