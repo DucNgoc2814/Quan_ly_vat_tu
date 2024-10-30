@@ -1,6 +1,49 @@
 @extends('client.layouts.master')
 @section('content')
-    <div class="review-wrapper" style="display: flex; justify-content: center; align-items: center;">
+    <div class="contact-email-area ptb-60">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>Contact Us</h3>
+                    <p class="text-capitalize mb-40">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                    <form id="contact-form" class="contact-form" action="{{ route('feedback.store') }}" method="post">
+                        @csrf
+                        <div class="address-wrapper">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="address-fname">
+                                        <input type="text" name="name" placeholder="Tên">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="address-email">
+                                        <input type="email" name="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="address-web">
+                                        <input type="text" name="number_" placeholder="Số điện thoại">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="address-textarea">
+                                        <textarea name="content" placeholder="Nội dung phản hồi"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="form-message ml-15"></p>
+                        <div class="col-xs-12 footer-content mail-content">
+                            <div class="send-email">
+                                <input type="submit" value="Submit" class="submit">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- <div class="review-wrapper" style="display: flex; justify-content: center; align-items: center;">
         <div class="review border-default universal-padding mt-30">
             <h2 class="review-title mb-30">Bạn đang xem xét: <br><span>Go-Get'</span></h2>
             <p class="review-mini-title">Đánh giá của bạn</p>
@@ -39,40 +82,5 @@
             </div>
             <!-- Reviews Field End -->
         </div>
-    </div>
-@endsection
-
-@section('css')
-    <style>
-        .rating {
-            display: inline-block;
-            margin-top: 10px;
-        }
-
-        .rating input {
-            display: none; /* Ẩn radio button */
-        }
-
-        .rating label {
-            font-size: 30px;
-            cursor: pointer;
-            color: white; /* Màu mặc định là trắng khi chưa chọn */
-        }
-
-        /* Khi radio được chọn thì áp dụng màu vàng */
-        .rating input:checked ~ label {
-            color: gold;
-        }
-
-        /* Hiệu ứng hover */
-        .rating label:hover,
-        .rating label:hover ~ label {
-            color: gold;
-        }
-
-        /* Khoảng cách giữa các ngôi sao */
-        .rating label {
-            margin-right: 5px;
-        }
-    </style>
+    </div> --}}
 @endsection

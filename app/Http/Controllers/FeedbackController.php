@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Feedback;
 use App\Http\Requests\StoreFeedbackRequest;
 use App\Http\Requests\UpdateFeedbackRequest;
+use App\Models\Order;
 
 class FeedbackController extends Controller
 {
@@ -21,8 +22,9 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        
-        return view('client/components/feedback/create');
+        $title ="Thêm phản hồi";
+        $orders = Order::query()->get();
+        return view('client/components/feedback/create', compact('orders','title'));
     }
 
     /**
@@ -32,16 +34,18 @@ class FeedbackController extends Controller
     {
         if ($request->isMethod('post')) {
             $data = [
+                'order_id' => $request->order_id,
                 'name' => $request->name,
                 'email' => $request->email,
                 'number_phone' => $request->number_phone,
                 'content' => $request->content,
-                'created_at' => $request->created_at,
+                'is_active' => $request->is_active
+                
             
             ];
     
             Feedback::create($data);
-            return redirect()->route('client.home')->with('success','Gửi phản hồi thành công');
+            return redirect()->route('/')->with('success','Gửi phản hồi thành công');
         }
 
     }
