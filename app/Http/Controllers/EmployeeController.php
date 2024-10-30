@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use Exception;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
@@ -35,22 +36,19 @@ class EmployeeController extends Controller
                     'message' => 'Email không tồn tại trong hệ thống'
                 ], 401);
             }
-
             if (!$employee->is_active) {
                 return response()->json([
                     'message' => 'Tài khoản đã bị vô hiệu hóa'
                 ], 401);
             }
-
             if (!$token = auth()->guard('employee')->attempt($credentials)) {
                 return response()->json([
                     'message' => 'Thông tin đăng nhập không chính xác'
                 ], 401);
             }
-
             $payload = JWTAuth::setToken($token)->getPayload();
-            session(['employee_token' => $token]);
-            return $payload;
+            Session::put('token', $token);
+            return redirect('/dashboard');
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Không thể tạo token'

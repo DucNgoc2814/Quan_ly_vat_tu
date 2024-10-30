@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChangeStatusController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
 
 Route::get('/', [LoginController::class, 'home'])->name('home');
 Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
@@ -32,5 +34,11 @@ Route::post('/passwordUser', [LoginController::class, 'passwordUser'])->name('pa
 Route::get('/thong-tin-tai-khoan', [LoginController::class, 'profile'])->name('profile');
 Route::get('/cap-nhat-tai-khoan', [LoginController::class, 'profileUser'])->name('profileUser');
 Route::post('/updateProfile', [LoginController::class, 'updateProfile'])->name('updateProfile');
-// <+====================TINHNGUYEN====================+>
-Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
+
+// employees
+Route::prefix('employees')
+->as('employees.')
+->group(function () {
+  Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
+  Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
+});
