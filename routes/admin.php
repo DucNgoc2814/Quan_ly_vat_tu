@@ -67,6 +67,12 @@ Route::prefix('quan-ly-nhan-vien')
         Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
         Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
     });
+Route::prefix('tai-khoan')
+    ->as('employees.')
+    ->group(function () {
+        Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
+        Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
+    });
 
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')

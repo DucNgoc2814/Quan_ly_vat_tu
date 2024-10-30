@@ -2,18 +2,62 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginAdminRequest;
 use App\Models\Employee;
 use App\Models\Role_employee;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use Exception;
 use Symfony\Component\HttpFoundation\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function login()
+    {
+        return view('admin.components.employees.login');
+    }
+    public function loginPost(LoginAdminRequest $request)
+    {
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+        try {
+            $employee = Employee::where('email', $request->email)->first();
+            if (!$employee) {
+                return response()->json([
+                    'message' => 'Email không tồn tại trong hệ thống'
+                ], 401);
+            }
+
+            if (!$employee->is_active) {
+                return response()->json([
+                    'message' => 'Tài khoản đã bị vô hiệu hóa'
+                ], 401);
+            }
+
+            if (!$token = auth()->guard('employee')->attempt($credentials)) {
+                return response()->json([
+                    'message' => 'Thông tin đăng nhập không chính xác'
+                ], 401);
+            }
+
+            $payload = JWTAuth::setToken($token)->getPayload();
+            session(['employee_token' => $token]);
+            return $payload;
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Không thể tạo token'
+            ], 500);
+        }
+    }
+
     public function index(Request $request)
     {
         $search = $request->get("search");
@@ -50,7 +94,7 @@ class EmployeeController extends Controller
             if ($request->hasFile('image')) {
                 $params['image'] = $request->file('image')->store('uploads/profile', 'public') ?: null;
             }
-            
+
             Employee::create($params);
             return redirect()->route('employees.index')->with('success', 'Bạn đã thêm mới thành công');
         }
@@ -61,7 +105,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee, String $id)
     {
-       
+
     }
 
     /**

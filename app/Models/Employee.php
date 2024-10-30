@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Employee extends Model
+class Employee extends Authenticatable implements JWTSubject
+
 {
     use HasFactory;
 
@@ -46,10 +49,10 @@ class Employee extends Model
     public function getJWTCustomClaims()
     {
         return [
-            'email' => $this->email,
-            'role' => null,
-            'id' => $this->id
+            'name' => $this->name,
+            'role' => $this->role_id,
+            'id' => $this->id,
+            'is_employee' => true
         ];
     }
-
 }

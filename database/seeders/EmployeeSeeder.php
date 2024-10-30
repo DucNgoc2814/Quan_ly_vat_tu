@@ -39,7 +39,6 @@ class EmployeeSeeder extends Seeder
                 'description' => 'Nhân viên kế toán.',
                 'is_active' => true,
                 'password' => bcrypt('123456789'),
-
             ],
             [
                 'id' => 3,
