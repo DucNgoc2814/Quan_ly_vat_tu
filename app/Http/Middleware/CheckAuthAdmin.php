@@ -13,16 +13,16 @@ class CheckAuthAdmin
         try {
             $token = Session::get('token');
             if (!$token) {
-                return redirect()->route('employees.login')->with('error', 'Vui lòng đăng nhập');
+                return redirect()->route('employees.notfound')->with('error', 'backLogin');
             }
             $user = JWTAuth::setToken($token)->authenticate();
             if (!$user) {
                 Session::forget('token');
-                return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập không hợp lệ');
+                return redirect()->route('employees.notfound')->with('error', 'backLogin');
             }
         } catch (Exception $e) {
             Session::forget('token');
-            return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn');
+            return redirect()->route('employees.notfound')->with('error', 'backLogin');
         }
         return $next($request);
     }

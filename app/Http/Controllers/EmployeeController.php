@@ -19,6 +19,10 @@ class EmployeeController extends Controller
      * Display a listing of the resource.
      */
 
+    public function notFound()
+    {
+        return view('admin.404');
+    }
     public function login()
     {
         return view('admin.components.employees.login');
@@ -32,27 +36,19 @@ class EmployeeController extends Controller
         try {
             $employee = Employee::where('email', $request->email)->first();
             if (!$employee) {
-                return response()->json([
-                    'message' => 'Email không tồn tại trong hệ thống'
-                ], 401);
+                return redirect()->route('employees.login')->with('error', 'Email hoặc không tồn tại trên hệ thống');
             }
             if (!$employee->is_active) {
-                return response()->json([
-                    'message' => 'Tài khoản đã bị vô hiệu hóa'
-                ], 401);
+                return redirect()->route('employees.login')->with('error', 'Tài khoản đã bị vô hiệu hóa');
             }
             if (!$token = auth()->guard('employee')->attempt($credentials)) {
-                return response()->json([
-                    'message' => 'Thông tin đăng nhập không chính xác'
-                ], 401);
+                return redirect()->route('employees.login')->with('error', 'Thông tin đăng nhập không chính xác');
             }
             $payload = JWTAuth::setToken($token)->getPayload();
             Session::put('token', $token);
             return redirect('/dashboard');
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Không thể tạo token'
-            ], 500);
+            return redirect()->route('employees.login')->with('error', 'Không thể đang nhập thử lại lần sau');
         }
     }
 

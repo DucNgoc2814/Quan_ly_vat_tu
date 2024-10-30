@@ -16,21 +16,21 @@ class RoleEmployeeSeeder extends Seeder
         DB::table('role_employees')->insert([
             [
                 'id' => 1,
-                'name' => 'Nhân viên',
+                'name' => 'Tổng giám đốc',
                 'wage' => 50000,
             ],
             [
-                'id' => 2,
+                'id' => 3,
                 'name' => 'Quản lý kho',
                 'wage' => 40000,
             ],
             [
-                'id' => 3,
+                'id' => 4,
                 'name' => 'Kế toán',
                 'wage' => 30000,
             ],
             [
-                'id' => 4,
+                'id' => 5,
                 'name' => 'Lái xe',
                 'wage' => 20000,
             ],

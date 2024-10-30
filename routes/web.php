@@ -39,6 +39,7 @@ Route::post('/updateProfile', [LoginController::class, 'updateProfile'])->name('
 Route::prefix('employees')
 ->as('employees.')
 ->group(function () {
+  Route::get('/404-not-found', [EmployeeController::class, 'notFound'])->name('notfound');
   Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
   Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
 });

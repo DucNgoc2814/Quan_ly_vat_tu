@@ -80,6 +80,12 @@
                                         <div>
                                             <h5 class="text-primary">Chào Mừng Trở Lại!</h5>
                                             <p class="text-muted">Đăng nhập để tiếp tục vào Velzon.</p>
+                                     @if(session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+@endif
+
                                         </div>
 
                                         <div class="mt-4">
@@ -88,7 +94,11 @@
                                                 <div class="mb-3">
                                                     <label for="email" class="form-label">Email</label>
                                                     <input type="email" name="email" class="form-control" id="email" placeholder="Nhập email">
+                                                      @error('email')
+                                        <span class="text-danger">*{{ $message }}</span>
+                                    @enderror
                                                 </div>
+
                                                 <div class="mb-3">
                                                     <div class="float-end">
                                                         <a href="auth-pass-reset-cover.html" class="text-muted">Quên mật khẩu?</a>
@@ -97,9 +107,11 @@
                                                     <div class="position-relative auth-pass-inputgroup mb-3">
                                                         <input type="password" name="password" class="form-control pe-5 password-input" placeholder="Nhập mật khẩu" id="password-input">
                                                         <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
+                                                         @error('password')
+                                        <span class="text-danger">*{{ $message }}</span>
+                                    @enderror
                                                     </div>
                                                 </div>
-
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" value="" id="auth-remember-check">
                                                     <label class="form-check-label" for="auth-remember-check">Ghi nhớ đăng nhập</label>
