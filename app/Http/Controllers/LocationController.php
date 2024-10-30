@@ -38,7 +38,6 @@ class LocationController extends Controller
 
         return response()->json(['success' => true, 'message' => 'Thiết lập mặc định thành công']);
     }
-
     /**
      * Show the form for creating a new resource.
      */
