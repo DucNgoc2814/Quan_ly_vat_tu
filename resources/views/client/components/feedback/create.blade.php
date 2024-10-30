@@ -4,29 +4,7 @@
         <div class="review border-default universal-padding mt-30">
             <h2 class="review-title mb-30">Bạn đang xem xét: <br><span>Go-Get'</span></h2>
             <p class="review-mini-title">Đánh giá của bạn</p>
-            {{-- <ul class="review-list">
-                <!-- Single Review List Start -->
-                <li>
-                    <span>Chất lượng</span>
-                    <div class="rating">
-                        <input type="radio" id="star5" name="quality" value="5">
-                        <label for="star5" title="5 stars"><i class="fa fa-star"></i></label>
-
-                        <input type="radio" id="star4" name="quality" value="4">
-                        <label for="star4" title="4 stars"><i class="fa fa-star"></i></label>
-
-                        <input type="radio" id="star3" name="quality" value="3">
-                        <label for="star3" title="3 stars"><i class="fa fa-star"></i></label>
-
-                        <input type="radio" id="star2" name="quality" value="2">
-                        <label for="star2" title="2 stars"><i class="fa fa-star"></i></label>
-
-                        <input type="radio" id="star1" name="quality" value="1">
-                        <label for="star1" title="1 star"><i class="fa fa-star"></i></label>
-                    </div>
-                </li>
-                <!-- Single Review List End -->
-            </ul> --}}
+            
 
             <!-- Reviews Field Start -->
             <div class="mt-40">

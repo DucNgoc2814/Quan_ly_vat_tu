@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
             BrandSeeder::class,
             ProductSeeder::class,
             GallerySeeder::class,
-            FeedbackSeeder::class,
+           
             InventorieSeeder::class,
             AttributeSeeder::class,
             AttributeValueSeeder::class,
@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             CustomerRankSeeder::class,
             CustomerSeeder::class,
             OrderSeeder::class,
+            FeedbackSeeder::class,
             ContractSeeder::class,
             OrderDetailSeeder::class,
             CargoCarTypeSeeder::class,
