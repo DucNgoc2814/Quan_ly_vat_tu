@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('ward', 255);
             $table->string('address');
             $table->boolean('is_active')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

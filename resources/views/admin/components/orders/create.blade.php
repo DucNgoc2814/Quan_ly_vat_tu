@@ -570,11 +570,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                            ` : `
-                                                <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                            `}
+                                                                <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                            ` : `
+                                                                <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                            `}
                                 </div>
                             </div>
                             <hr>
@@ -584,8 +584,33 @@
                         .catch(error => console.error('Error:', error));
                 }
             });
+
+            window.deleteAddress = function(locationId) {
+                if (confirm("Bạn có chắc muốn xóa địa chỉ này không?")) {
+                    fetch(`/locations/${locationId}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content')
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert(data.message);
+                                document.querySelector('[data-bs-target="#addressListModal"]')
+                            .click(); // Refresh danh sách địa chỉ
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => console.error('Error:', error));
+                }
+            };
         });
     </script>
+
+    
     <script>
         function setDefaultAddress(locationId) {
             $.ajax({
@@ -817,70 +842,5 @@
                     });
             });
         });
-    </script>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const customerItems = document.querySelectorAll('.customer-item');
-            const hiddenCustomerIdInput = document.getElementById('hidden_customer_id');
-            const addressListContainer = document.querySelector('.address-list');
-
-            // Xử lý khi chọn một khách hàng
-            customerItems.forEach(item => {
-                item.addEventListener('click', function() {
-                    const customerId = this.getAttribute('data-id');
-                    hiddenCustomerIdInput.value = customerId;
-                    document.getElementById('customer_id').value = this.querySelector('.fw-bold')
-                        .innerText;
-                });
-            });
-
-            // Xử lý khi mở modal danh sách địa chỉ
-            document.querySelector('[data-bs-target="#addressListModal"]').addEventListener('click', function() {
-                const customerId = hiddenCustomerIdInput.value;
-
-                // Gọi AJAX để lấy danh sách địa chỉ dựa trên customer_id
-                if (customerId) {
-                    fetch(`/locations/${customerId}`)
-                        .then(response => response.json())
-                        .then(locations => {
-                            addressListContainer.innerHTML = '';
-                            locations.forEach(location => {
-                                addressListContainer.innerHTML += `
-                                <div class="address-item mb-3">
-                                    <strong>${location.customer_name}</strong> <br>
-                                    ${location.number_phone} <br>
-                                    ${location.address} <br>
-                                    ${location.ward}, ${location.district}, ${location.province} <br>
-                                    ${location.is_active ? '<span class="badge bg-danger">Mặc định</span>' : ''}
-                                    <div class="mt-2">
-                                        <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.customer_name}', '${location.number_phone}', '${location.address}', '${location.ward}', '${location.district}', '${location.province}')">Chọn</button>
-                                        ${!location.is_active ? `
-                                                <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                            ` : `
-                                                <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                            `}
-                                    </div>
-                                </div>
-                                <hr>
-                            `;
-                            });
-                        })
-                        .catch(error => console.error('Error:', error));
-                }
-            });
-        });
-
-        // Hàm cập nhật các ô input với thông tin từ địa chỉ đã chọn
-        function selectAddress(name, phone, address, ward, district, province) {
-            document.getElementById('customer_name').value = name;
-            document.getElementById('customer_phone').value = phone;
-            document.getElementById('customer_address').value = address;
-            document.getElementById('customer_ward').value = ward;
-            document.getElementById('customer_district').value = district;
-            document.getElementById('customer_province').value = province;
-        }
     </script>
 @endsection

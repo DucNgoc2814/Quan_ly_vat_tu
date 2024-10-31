@@ -58,9 +58,11 @@ Route::prefix('quan-ly-tai-khoan')
     });
 
 Route::get('/locations/{customer_id}', [LocationController::class, 'getLocationsByCustomerId']);
-// Route::get('/locations/get/{id}', [LocationController::class, 'getLocations']);
 Route::post('/set-default-address', [LocationController::class, 'setDefaultAddress'])->name('setDefaultAddress');
 Route::get('/orders/customer-location/{customerId}', [OrderController::class, 'getCustomerLocation']);
+Route::delete('/locations/{id}', [LocationController::class, 'destroy']);
+
+
 
 
 

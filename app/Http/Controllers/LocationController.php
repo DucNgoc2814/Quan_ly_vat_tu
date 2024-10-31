@@ -81,8 +81,15 @@ class LocationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Location $location)
+    public function destroy($id)
     {
-        //
+        $location = Location::find($id);
+
+        if ($location) {
+            $location->delete(); // Xóa mềm bản ghi
+            return response()->json(['success' => true, 'message' => 'Địa chỉ đã được xóa.']);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Địa chỉ không tồn tại.']);
     }
 }

@@ -64,3 +64,11 @@
 #43 C:\\laragon\\www\\Quan_ly_vat_tu\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #44 {main}
 "} 
+[2024-10-31 21:33:30] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 100  
+[2024-10-31 21:33:30] local.DEBUG: Số lượng mua của variation 1 là: 9  
+[2024-10-31 21:34:16] local.DEBUG: Số lượng tồn kho (stock) của variation 4 là: 80  
+[2024-10-31 21:34:16] local.DEBUG: Số lượng mua của variation 4 là: 9  
+[2024-10-31 21:53:06] local.DEBUG: Số lượng tồn kho (stock) của variation 2 là: 200  
+[2024-10-31 21:53:06] local.DEBUG: Số lượng mua của variation 2 là: 10  
+[2024-10-31 21:54:06] local.DEBUG: Số lượng tồn kho (stock) của variation 2 là: 190  
+[2024-10-31 21:54:06] local.DEBUG: Số lượng mua của variation 2 là: 10  
