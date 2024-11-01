@@ -71,6 +71,6 @@ class Kernel extends HttpKernel
         // 'auth' => \App\Http\Middleware\Authenticate::class,
         'checkCustomer' => \App\Http\Middleware\CheckCustomer::class,
         'CheckEmployees' => \App\Http\Middleware\CheckEmployees::class,
-        // 'permission' => \App\Http\Middleware\CheckPermission::class,
+        'permission' => \App\Http\Middleware\CheckPermission::class,
     ];
 }

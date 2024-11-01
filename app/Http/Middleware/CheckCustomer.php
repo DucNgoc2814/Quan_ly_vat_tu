@@ -1,12 +1,9 @@
 <?php
-
 namespace App\Http\Middleware;
-
 use Closure;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Exception;
 use Illuminate\Support\Facades\Session;
-
 class CheckCustomer
 {
     public function handle($request, Closure $next)
