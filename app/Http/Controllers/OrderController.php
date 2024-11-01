@@ -31,42 +31,6 @@ class OrderController extends Controller
 
     const PATH_VIEW = 'admin.components.orders.';
 
-    // public function index(Request $request)
-    // {
-    //     $query = Order::query();
-
-    //     if ($request->filled('search') && $request->filled('search_column')) {
-    //         $searchTerm = $request->input('search');
-    //         $searchColumn = $request->input('search_column');
-    //         $query->where($searchColumn, 'LIKE', "%{$searchTerm}%");
-    //     }
-
-    //     if ($request->filled('orderDate')) {
-    //         $date = $request->input('orderDate');
-    //         $query->whereDate('created_at', $date);
-    //     }
-
-    //     $query->orderBy('created_at', 'desc');
-
-    //     $data = $query->get();
-
-    //     $columns = [
-    //         'slug' => 'Mã đơn hàng',
-    //         'created_at' => 'Ngày đặt hàng',
-    //         'customer_name' => 'Tên người nhận',
-    //         'number_phone' => 'Số điện thoại người nhận',
-    //         'address' => 'Địa chỉ giao hàng',
-    //     ];
-
-    //     if ($data->isEmpty()) {
-    //         $message = 'Không có đơn hàng nào cho tiêu chí tìm kiếm.';
-    //         return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'message', 'columns'));
-    //     }
-
-    //     return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'columns'));
-    // }
-
-
     public function index()
     {
         $data = Order::with(['payment', 'customer', 'orderStatus'])
