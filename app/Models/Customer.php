@@ -40,7 +40,7 @@ class Customer extends Authenticatable implements JWTSubject
     {
         return [
             'email' => $this->email,
-            'role' => null,
+            'role' => 'customer',
             'id' => $this->id
         ];
     }

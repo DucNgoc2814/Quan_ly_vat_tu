@@ -44,7 +44,6 @@ class EmployeeController extends Controller
             if (!$token = auth()->guard('employee')->attempt($credentials)) {
                 return redirect()->route('employees.login')->with('error', 'Thông tin đăng nhập không chính xác');
             }
-            $payload = JWTAuth::setToken($token)->getPayload();
             Session::put('token', $token);
             return redirect('/dashboard');
         } catch (Exception $e) {

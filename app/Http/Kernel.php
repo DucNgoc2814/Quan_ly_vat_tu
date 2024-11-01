@@ -65,10 +65,12 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'authAdmin' => \App\Http\Middleware\CheckAuthAdmin::class,
-        'authUser' => \App\Http\Middleware\CheckAuthUser::class,
     ];
-    // protected $routeMiddleware = [
-    //     'jwt.auth' => \App\Http\Middleware\CheckJWTAuth::class,
-    // ];
+    protected $routeMiddleware = [
+        // 'jwt.auth' => \App\Http\Middleware\CheckJWTAuth::class,
+        // 'auth' => \App\Http\Middleware\Authenticate::class,
+        'checkCustomer' => \App\Http\Middleware\CheckCustomer::class,
+        'CheckEmployees' => \App\Http\Middleware\CheckEmployees::class,
+        // 'permission' => \App\Http\Middleware\CheckPermission::class,
+    ];
 }

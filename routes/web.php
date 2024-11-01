@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
-
 Route::get('/', [LoginController::class, 'home'])->name('home');
 Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::post('/handleRegister', [LoginController::class, 'handleRegister'])->name('handleRegister');
@@ -34,12 +33,7 @@ Route::post('/passwordUser', [LoginController::class, 'passwordUser'])->name('pa
 Route::get('/thong-tin-tai-khoan', [LoginController::class, 'profile'])->name('profile');
 Route::get('/cap-nhat-tai-khoan', [LoginController::class, 'profileUser'])->name('profileUser');
 Route::post('/updateProfile', [LoginController::class, 'updateProfile'])->name('updateProfile');
-
-// employees
-Route::prefix('employees')
-->as('employees.')
-->group(function () {
-  Route::get('/404-not-found', [EmployeeController::class, 'notFound'])->name('notfound');
-  Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
-  Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
-});
+Route::get('/test', function () {
+    echo "ok";
+})
+    ->middleware('checkCustomer');
