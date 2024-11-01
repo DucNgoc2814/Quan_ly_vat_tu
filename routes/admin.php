@@ -15,6 +15,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\PermissionRoleEmployeesController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RoleEmployeeController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
@@ -54,7 +55,7 @@ Route::middleware('CheckEmployees')->group(
     function () {
         Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
         // Quản lý chức vụ
-
+        Route::post('/them-chuc-vu', [RoleEmployeeController::class, 'create'])->name('addRole');
         // PHÂN QUYỀN
         Route::get('/danh-sach-quyen-truy-cap', [PermissionRoleEmployeesController::class, 'index'])->name('listPermissions');
         Route::post('/permissions/toggle', [PermissionRoleEmployeesController::class, 'permissionsToggle'])->name('permissionsToggle');

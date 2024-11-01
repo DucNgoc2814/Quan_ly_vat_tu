@@ -18,10 +18,22 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-                        <div class="col-sm-auto">
-                            <div>
-                                <a class="btn btn-success" id="addpermission-btn"><i
+                        <div class="col-sm-auto d-flex align-items-center">
+                            <div id="addBtn">
+                                <a class="btn btn-success" onclick="showForm()"><i
                                         class="ri-add-line align-bottom me-1"></i>Thêm chức vụ</a>
+                            </div>
+                            <div id="permissionForm" class="ms-3" style="display:none;">
+                                <form class="d-flex align-items-center" method="POST" action="{{ route('addRole') }}">
+                                  @csrf
+                                    <div class="me-2">
+                                        <input type="text" class="form-control" placeholder="Tên chức vụ" name="name">
+                                    </div>
+                                    <div class="me-2">
+                                        <input type="number" class="form-control" placeholder="Tiền lương" name="wage">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Thêm chức vụ</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -61,6 +73,11 @@
         </div>
     </div>
     <script>
+        function showForm() {
+            document.getElementById('addBtn').style.display = 'none';
+            document.getElementById('permissionForm').style.display = 'block';
+        }
+
         function checkTest(role, permission, roleName, permissionName) {
             let checkbox = event.target;
             let originalState = checkbox.checked;
