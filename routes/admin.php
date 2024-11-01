@@ -57,9 +57,17 @@ Route::middleware('CheckEmployees')->group(
         // Quản lý chức vụ
         Route::post('/them-chuc-vu', [RoleEmployeeController::class, 'create'])->name('addRole');
         // PHÂN QUYỀN
-        Route::get('/danh-sach-quyen-truy-cap', [PermissionRoleEmployeesController::class, 'index'])->name('listPermissions');
         Route::post('/permissions/toggle', [PermissionRoleEmployeesController::class, 'permissionsToggle'])->name('permissionsToggle');
-
+        Route::prefix('quan-ly-nhan-vien')
+        ->as('employees.')
+        ->group(function () {
+            Route::get('/danh-sach-quyen-truy-cap', [PermissionRoleEmployeesController::class, 'index'])->name('listPermissions');
+            Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('index');
+            Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('create');
+            Route::post('/them-moi', [EmployeeController::class, 'store'])->name('store');
+            Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
+            Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
+        });
         Route::prefix('quan-ly-nha-phan-phoi')
             ->as('suppliers.')
             ->group(function () {
@@ -72,15 +80,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::put('/cap-nhat/{id}', [SupplierController::class, 'update'])->name('update');
                 Route::delete('/an/{id}', [SupplierController::class, 'destroy'])->name('destroy');
             });
-        Route::prefix('quan-ly-nhan-vien')
-            ->as('employees.')
-            ->group(function () {
-                Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('index');
-                Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('create');
-                Route::post('/them-moi', [EmployeeController::class, 'store'])->name('store');
-                Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
-                Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
-            });
+
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')
             ->group(function () {

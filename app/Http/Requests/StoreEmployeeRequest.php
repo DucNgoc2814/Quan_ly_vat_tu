@@ -31,7 +31,6 @@ class StoreEmployeeRequest extends FormRequest
             'date' => 'required|date',
             'description' => 'required',
             'password' => 'required|string|min:6',
-
         ];
     }
     public function messages(): array
