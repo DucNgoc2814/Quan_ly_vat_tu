@@ -36,7 +36,7 @@ class EmployeeController extends Controller
         try {
             $employee = Employee::where('email', $request->email)->first();
             if (!$employee) {
-                return redirect()->route('employees.login')->with('error', 'Email hoặc không tồn tại trên hệ thống');
+                return redirect()->route('employees.login')->with('error', 'Email hoặc mật khẩu không tồn tại trên hệ thống');
             }
             if (!$employee->is_active) {
                 return redirect()->route('employees.login')->with('error', 'Tài khoản đã bị vô hiệu hóa');

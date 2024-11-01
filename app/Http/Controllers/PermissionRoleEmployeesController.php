@@ -43,8 +43,8 @@ class PermissionRoleEmployeesController extends Controller
                 'role_employee_id' => $role_id,
                 'permission_id' => $permission_id
             ]);
+            toastr()->success('Cấp quyền thành công!');
         }
-
         return response()->json(['success' => true]);
     }
 

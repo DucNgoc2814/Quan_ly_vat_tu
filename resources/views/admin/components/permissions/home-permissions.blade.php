@@ -62,23 +62,49 @@
     </div>
     <script>
         function checkTest(role, permission, roleName, permissionName) {
-            let isChecked = event.target.checked;
-            let message = isChecked ?
+            let checkbox = event.target;
+            let originalState = checkbox.checked;
+            let message = originalState ?
                 `Bạn có muốn thêm quyền ${permissionName} cho ${roleName} ?` :
                 `Bạn có muốn xóa quyền ${permissionName} của ${roleName} ?`;
-            if (confirm(message)) {
-                $.ajax({
-                    url: '/permissions/toggle',
-                    type: 'POST',
-                    data: {
-                        role_id: role,
-                        permission_id: permission,
-                        _token: '{{ csrf_token() }}'
-                    },
-                });
-            } else {
-                event.target.checked = !isChecked;
-            }
+            Swal.fire({
+                title: 'Xác nhận',
+                text: message,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/permissions/toggle',
+                        type: 'POST',
+                        data: {
+                            role_id: role,
+                            permission_id: permission,
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function() {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: 'Đã cập nhật quyền thành công',
+                                icon: 'success'
+                            });
+                        },
+                        error: function() {
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: 'Đã xảy ra lỗi khi cập nhật quyền',
+                                icon: 'error'
+                            });
+                            checkbox.checked = !originalState;
+                        }
+                    });
+                } else {
+                    checkbox.checked = !originalState;
+                }
+            });
         }
     </script>
 @endsection
