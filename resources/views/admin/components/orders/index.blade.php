@@ -7,7 +7,9 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Danh sách đơn hàng bán ra </h4>
-
+                @php
+                    $option = 1;
+                @endphp
                 <div class="col-sm-auto">
                     <div>
                         <a href="{{ route('order.create') }}" class="btn btn-success" id="addproduct-btn"><i
@@ -20,28 +22,6 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                {{-- <div class="card-header border-0">
-                    <div class="d-flex">
-                        <div class="col-sm">
-                            <form class="search-box ms-2 d-flex" method="GET" action="">
-                                <select name="search_column" class="form-select me-2 h-25" style="width: auto;">
-                                    <option value="slug">Mã đơn hàng</option>
-                                    <option value="created_at">Ngày đặt hàng</option>
-                                    <option value="customer_name">Tên người nhận</option>
-                                    <option value="number_phone">Số điện thoại người nhận</option>
-                                    <option value="address">Địa chỉ giao hàng</option>
-                                </select>
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm kiếm..." aria-label="Recipient's username"
-                                        aria-describedby="button-addon2">
-                                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Tìm
-                                        kiếm</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="card-body">
                     @if (isset($message))
                         <div class="alert alert-info">{{ $message }}</div>
@@ -75,25 +55,38 @@
                                             <span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span>
                                         </td>
                                         <td class="date-column">{{ $order->created_at }}</td>
-                                        <td>
+                                        <td class="text-center">
                                             @if ($order->status_id < 4)
                                                 <form action="{{ route('order.updateStatus', $order->slug) }}"
-                                                    method="POST" class="d-inline status-update-form"
+                                                    method="POST" class="{{ $order->slug }} d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
-                                                    <select name="status" class="form-select form-select-sm"
+                                                    <select name="status" class="form-select form-select-sm "
+                                                        id="statusSelect-{{ $order->slug }}"
                                                         onchange="confirmStatusChange(this, '{{ $order->slug }}')">
-                                                        <option value="{{ $order->status_id }}" selected>
+                                                        <option class="optionCheck" value="{{ $order->status_id }}"
+                                                            selected>
                                                             {{ $order->orderStatus->name }}</option>
                                                         @if ($order->status_id == 1)
-                                                            <option value="2">Xác Nhận</option>
-                                                            <option value="5">Hủy</option>
+                                                            <option class="optionCheck" value="2">Xác Nhận</option>
+
+                                                            <option class="optionCheck" value="5">Hủy</option>
                                                         @elseif ($order->status_id == 2)
-                                                            <option value="3">Đang giao</option>
-                                                            <option value="5">Hủy</option>
+                                                            <option class="optionCheck" value="3">Đang giao</option>
+                                                            <option class="optionCheck" value="5">Hủy</option>
                                                         @elseif ($order->status_id == 3)
-                                                            <option value="4">Thành công</option>
+                                                            <option class="optionCheck" value="4">Thành công</option>
                                                         @endif
+                                                        <option class="optionDefaul" style="display: none" value="1">
+                                                            Chờ xử lý</option>
+                                                        <option class="optionDefaul" style="display: none" value="2">
+                                                            Xác Nhận</option>
+                                                        <option class="optionDefaul" style="display: none" value="3">
+                                                            Đang giao</option>
+                                                        <option class="optionDefaul" style="display: none" value="4">
+                                                            Thành công</option>
+                                                        <option class="optionDefaul" style="display: none" value="5">
+                                                            Hủy</option>
                                                     </select>
                                                 </form>
                                             @else
@@ -102,8 +95,8 @@
                                                     {{ $order->orderStatus->name }}
                                                 </span>
                                             @endif
-                                        </td>
 
+                                        </td>
                                         <td class="text-center">
                                             <div class="dropdown d-inline-block">
                                                 <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
@@ -123,6 +116,7 @@
                                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                                 Cập nhật</a></li>
                                                     @endif
+                                                    {{-- edit --}}
                                                 </ul>
                                             </div>
                                         </td>
@@ -135,12 +129,24 @@
             </div>
         </div>
     </div>
-
 @endsection
 @section('scripts')
-        <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
-
+    <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
     <script>
+        function changeStatusOrder(orderSlug, newStatus, note) {
+            $.ajax({
+                url: `{{ route('order.updateStatus', '') }}/${orderSlug}`,
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    status: newStatus,
+                    note: note
+                },
+                success: function(response) {},
+                error: function(xhr) {}
+            });
+        }
+
         function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
             const form = selectElement.closest('form');
@@ -154,11 +160,37 @@
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',
                     cancelButtonColor: '#d33',
-                    confirmButtonText: 'Hủy',
+                    confirmButtonText: 'Đồng ý',
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        const note = result.value;
+                        let optionDefaul = selectElement.querySelectorAll(`.optionDefaul`)
+                        selectElement.querySelectorAll(`.optionCheck`).forEach((element) => {
+                            element.style.display = 'none';
+                        });
+                        if (newStatus == 1) {
+                            optionDefaul[1].style.display = ''
+                            optionDefaul[4].style.display = ''
+                            optionDefaul[2].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
+                        } else if (newStatus == 2) {
+                            optionDefaul[1].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
+                            optionDefaul[2].style.display = ''
+                            optionDefaul[4].style.display = ''
+                        } else if (newStatus == 3) {
+                             optionDefaul[1].style.display = 'none'
+                            optionDefaul[4].style.display = 'none'
+                            optionDefaul[2].style.display = 'none'
+                            optionDefaul[3].style.display = ''
+                        } else {
+                            if (selectElement) {
+                                const spanElement = document.createElement('span');
+                                spanElement.className = 'badge bg-danger-subtle text-danger';
+                                spanElement.textContent = 'Hủy';
+                                selectElement.parentNode.replaceChild(spanElement, selectElement);
+                            }
+                        }
                         const noteInput = document.createElement('input');
                         noteInput.type = 'hidden';
                         noteInput.name = 'note';
@@ -180,28 +212,39 @@
                     cancelButtonText: 'Thoát'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        form.submit();
+                        let optionDefaul = selectElement.querySelectorAll(`.optionDefaul`)
+                        selectElement.querySelectorAll(`.optionCheck`).forEach((element) => {
+                            element.style.display = 'none';
+                        });
+                        if (newStatus == 1) {
+                            optionDefaul[1].style.display = ''
+                            optionDefaul[4].style.display = ''
+                            optionDefaul[2].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
+                        } else if (newStatus == 2) {
+                            optionDefaul[1].style.display = 'none'
+                            optionDefaul[3].style.display = 'none'
+                            optionDefaul[2].style.display = ''
+                            optionDefaul[4].style.display = ''
+                        } else if (newStatus == 3) {
+                             optionDefaul[1].style.display = 'none'
+                            optionDefaul[4].style.display = 'none'
+                            optionDefaul[2].style.display = 'none'
+                            optionDefaul[3].style.display = ''
+                        } else {
+                            if (selectElement) {
+                                const spanElement = document.createElement('span');
+                                spanElement.className = 'badge bg-success-subtle text-success';
+                                spanElement.textContent = 'Thành công';
+                                selectElement.parentNode.replaceChild(spanElement, selectElement);
+                            }
+                        }
+                        changeStatusOrder(orderSlug, newStatus, '');
                     } else {
                         selectElement.value = selectElement.options[0].value;
                     }
                 });
             }
-        }
-        function openOffcanvas(orderSlug) {
-            var myOffcanvas = document.getElementById('offcanvasExample');
-            var bsOffcanvas = new bootstrap.Offcanvas(myOffcanvas);
-            bsOffcanvas.show();
-            const cancelOrderForm = document.getElementById('cancelOrderForm');
-            cancelOrderForm.action = `{{ route('order.updateStatus', '') }}/${orderSlug}`;
-            const noteTextarea = document.getElementById('note');
-            const noteHidden = document.getElementById('noteHidden');
-            cancelOrderForm.onsubmit = function(e) {
-                e.preventDefault();
-                noteHidden.value = noteTextarea.value;
-                if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
-                    this.submit();
-                }
-            };
         }
     </script>
     <script>
@@ -218,4 +261,3 @@
         });
     </script>
 @endsection
-

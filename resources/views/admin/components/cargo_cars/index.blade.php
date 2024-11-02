@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">{{$title}}</h4>
+                <h4 class="mb-sm-0">{{ $title }}</h4>
 
                 <div class="col-sm-auto">
                     <div>
@@ -38,16 +38,17 @@
                             @foreach ($cargo_car as $item)
                                 <tr>
                                     <td>
-                                        <span  class="text-xs font-weight-bold">{{ $item->cargoCarType->name }}</span>
+                                        <span class="text-xs font-weight-bold">{{ $item->cargoCarType->name }}</span>
                                     </td>
                                     <td>{{ $item->license_plate }}</td>
 
                                     <td>
-                                        @if($item->is_active== 1)
-
-                                        <span style="color: green" class=" badge-soft-success">Đang vận chuyển</span>
+                                        @if ($item->is_active == 1)
+                                            <span style="color: green" class=" badge-soft-success">Đang vận chuyển</span>
+                                        @elseif ($item->is_active == 0)
+                                            <span style="color: rgb(17, 47, 216)" class=" badge-soft-danger">Đang trống</span>
                                         @else
-                                        <span style="color: red"  class=" badge-soft-danger">Chờ xác nhận</span>
+                                            <span style="color: red" class=" badge-soft-danger">Chờ xác nhận</span>
                                         @endif
                                     </td>
 
@@ -63,19 +64,6 @@
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Edit</a></li>
-                                                <li>
-
-                                                    <form action="{{ route('CargoCars.destroy', $item->id) }}" method="post">
-                                                        @method('DELETE')
-                                                        @csrf
-
-                                                        <button class="dropdown-item remove-list" type="submit"
-                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">
-                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                            Xóa
-                                                        </button>
-                                                    </form>
-                                                </li>
                                             </ul>
                                         </div>
                                     </td>
@@ -90,4 +78,3 @@
         </div><!--end col-->
     </div>
 @endsection
-

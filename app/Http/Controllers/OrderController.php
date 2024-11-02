@@ -92,19 +92,20 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
+        // dd($request);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
-            DB::transaction(function () use ($request) {
-                $customers = Customer::findOrFail($request->customer_id);
 
+            DB::transaction(function () use ($request) {
+                $customer_id = strtok($request->customer_id, ' ');
+                $customers = Customer::findOrFail($request->customer_id);
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
                 $timestamp = now()->format('His');
-                $slug = 'DH' . $randomChars . $timestamp;
-
+                $slug = 'DHB' . $randomChars . $timestamp;
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
-                    "customer_id" => $request->customer_id,
-                    "status_id" => 1, // Trạng thái mặc định 'Chờ xác nhận'
+                    "customer_id" => $customer_id,
+                    "status_id" => 1,
                     "slug" => $slug,
                     "customer_name" => $request->customer_name ?? $customers->name,
                     "email" => $request->email ?? $customers->email,
@@ -277,26 +278,33 @@ class OrderController extends Controller
     }
     public function updateStatus(Request $request, $slug)
     {
-        // Tìm đơn hàng theo slug
-        $order = Order::where('slug', $slug)->first();
+        DB::transaction(function () use ($request, $slug) {
+            $order = Order::where('slug', $slug)->firstOrFail();
+            $oldStatus = $order->status_id;
+            $newStatus = $request->input('status');
 
-        if ($order) {
             // Cập nhật trạng thái đơn hàng
-            $order->status_id = $request->input('status');
+            $order->status_id = $newStatus;
             $order->save();
 
-            // Nếu trạng thái là hủy (5), lưu ghi chú vào bảng order_canceleds
-            if ($request->input('status') == 5) {
+            // Nếu trạng thái là hủy (5)
+            if ($newStatus == 5 && $oldStatus != 5) {
+                // Hoàn lại số lượng sản phẩm vào kho
+                foreach ($order->orderDetails as $detail) {
+                    $variation = Variation::findOrFail($detail->variation_id);
+                    $variation->stock += $detail->quantity;
+                    $variation->save();
+                }
+
+                // Lưu ghi chú vào bảng order_canceleds
                 $canceledOrder = new Order_canceled();
-                $canceledOrder->order_id = $order->id; // Lưu ID đơn hàng
-                $canceledOrder->note = $request->input('note'); // Lưu ghi chú
+                $canceledOrder->order_id = $order->id;
+                $canceledOrder->note = $request->input('note');
                 $canceledOrder->save();
             }
+        });
 
-            return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công!');
-        }
-
-        return redirect()->back()->with('error', 'Đơn hàng không tồn tại!');
+        return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công!');
     }
 
 

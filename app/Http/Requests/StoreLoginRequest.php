@@ -34,6 +34,16 @@ class StoreLoginRequest extends FormRequest
             return [
                 'password' => 'required|string|min:6|confirmed',
             ];
+        } elseif (request()->isMethod('post') && request()->route()->getName() == 'passwordUser') {
+            return [
+                'old_password' => 'required',
+                'new_password' => 'required|min:6|different:old_password',
+                'confirm_password' => 'required|same:new_password',
+            ];
+        } elseif (request()->isMethod('post') && request()->route()->getName() == 'updateProfile') {
+            return [
+                'nameupdate' => 'required',
+            ];
         }
         return [
             'name' => 'required|string|max:255',
@@ -47,6 +57,7 @@ class StoreLoginRequest extends FormRequest
     {
         return [
             'name.required' => 'Vui lòng nhập tên tài khoản',
+            'nameupdate.required' => 'Vui lòng nhập tên tài khoản',
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Email không hợp lệ',
             'email.unique' => 'Email đã được sử dụng',
@@ -57,6 +68,13 @@ class StoreLoginRequest extends FormRequest
             'password.required' => 'Vui lòng nhập mật khẩu',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
             'password.confirmed' => 'Xác nhận mật khẩu không khớp',
+            //
+            'old_password.required' => 'Vui lòng nhập mật khẩu hiện tại',
+            'new_password.required' => 'Vui lòng nhập mật khẩu mới',
+            'new_password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự',
+            'new_password.different' => 'Mật khẩu mới phải khác mật khẩu hiện tại',
+            'confirm_password.required' => 'Vui lòng xác nhận mật khẩu mới',
+            'confirm_password.same' => 'Xác nhận mật khẩu không khớp với mật khẩu mới',
         ];
     }
 }

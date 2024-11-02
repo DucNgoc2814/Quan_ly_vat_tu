@@ -7,16 +7,19 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContractTypeController;
 use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerRankController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ImportOrderController;
-use App\Http\Controllers\ContractStatusController;
-use App\Http\Controllers\CustomerRankController;
+use App\Http\Controllers\ImportOrderDetailController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SliderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TripController;
+use App\Http\Controllers\TripDetailController;
+use App\Http\Controllers\UnitController;
 // <+====================ROUTER MẪU====================+>
 // Route::prefix('duong-dan-mau')
 //     ->as('sampleRoute.')
@@ -28,17 +31,10 @@ use App\Http\Controllers\SupplierController;
 //         Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
 //     });
 // <+====================ROUTE MẪU====================+>
-use App\Http\Controllers\UnitController;
 
-Route::prefix('mau')
-    ->as('mau.')
-    ->group(function () {
-        Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
-        Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
-        Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
-        Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
-        Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
-    });
+Route::get('/dashboard', function () {
+    return view('admin/dashboard');
+})->name('admin.dashboard');
 
 Route::prefix('quan-ly-nha-phan-phoi')
     ->as('supplier.')
@@ -72,7 +68,6 @@ Route::prefix('quan-ly-nhan-vien')
         Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
     });
 
-
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {
@@ -84,7 +79,7 @@ Route::prefix('quan-ly-ban-hang')
         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus');
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail');
     });
-        Route::prefix('quan-ly-thanh-truot')
+Route::prefix('quan-ly-thanh-truot')
     ->as('sliders.')
     ->group(function () {
         Route::get('/danh-sach', [SliderController::class, 'index'])->name('index');
@@ -105,7 +100,7 @@ Route::prefix('thuong-hieu')
         Route::put('/sua/{brand}', [BrandController::class, 'update'])->name('update');
     });
 Route::prefix('hop-dong')
-    ->as('hop-dong.')
+    ->as('contract.')
     ->group(function () {
         Route::get('/danh-sach', [ContractController::class, 'index'])->name('index');
         Route::get('/them-moi', [ContractController::class, 'create'])->name('create');
@@ -125,7 +120,7 @@ Route::prefix('quan-ly-xe')
     });
 
 Route::prefix('quan-ly-loai-hop-dong')
-    ->as('ContractTypes.')
+    ->as('contractType.')
     ->group(function () {
         Route::get('/danh-sach', [ContractTypeController::class, 'index'])->name('index');
         Route::get('/them', [ContractTypeController::class, 'create'])->name('create');
@@ -146,13 +141,12 @@ Route::prefix('san-pham')
         Route::get('/danh-sach', [ProductController::class, 'index'])->name('index');
         Route::get('/them-moi', [ProductController::class, 'create'])->name('create');
         Route::post('/them-moi', [ProductController::class, 'store'])->name('store');
-        Route::get('/sua/{sku}', [ProductController::class, 'edit'])->name('edit');
-        Route::put('/sua/{sku}', [ProductController::class, 'update'])->name('update');
+        Route::get('/sua/{id}', [ProductController::class, 'edit'])->name('edit');
+        Route::put('/sua/{slug}', [ProductController::class, 'update'])->name('update');
     });
 
 
-
-Route::prefix('nhap-don-hang')
+Route::prefix('don-hang-nhap')
     ->as('importOrder.')
     ->group(function () {
         Route::get('/danh-sach', [ImportOrderController::class, 'index'])->name('index');
@@ -160,10 +154,21 @@ Route::prefix('nhap-don-hang')
         Route::post('/them-moi-don-nhap', [ImportOrderController::class, 'store'])->name('store');
         Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
         Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
-        Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderController::class, 'show'])->name('show');
-});
+        Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail');
 
-    Route::prefix('quan-ly-don-vi')
+        Route::post('/yeu-cau-huy/{slug}', [ImportOrderController::class, 'requestCancel'])->name('requestCancel');
+        Route::get('/pending-cancel-requests', [ImportOrderController::class, 'getPendingCancelRequests'])->name('pendingCancelRequests');
+        Route::get('/cancel/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel');
+
+        Route::post('/xac-nhan/{slug}', [ImportOrderController::class, 'confirmOrder'])->name(name: 'confirmOrder');
+        Route::get('/tu-dong-cap-nhat/{slug}', [ImportOrderController::class, 'autoUpdateStatus'])->name('autoUpdateStatus');
+        Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests');
+
+        Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus');
+        Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
+    });
+
+Route::prefix('quan-ly-don-vi')
     ->as('units.')
     ->group(function () {
         Route::get('/danh-sach', [UnitController::class, 'index'])->name('index');
@@ -191,20 +196,33 @@ Route::prefix('danh-muc')
         Route::get('/them-moi', [CategoryController::class, 'create'])->name('create');
         Route::post('/them-moi', [CategoryController::class, 'store'])->name('store');
         Route::get('/sua/{id}', [CategoryController::class, 'edit'])->name('edit');
-
         Route::put('/sua/{id}', [CategoryController::class, 'update'])->name('update');
-        
         Route::delete('/xoa/{id}', [CategoryController::class, 'destroy'])->name('destroy');
     });
-    Route::prefix('xep-hang-khach-hang')
+Route::prefix('xep-hang-khach-hang')
     ->as('customer_ranks.')
     ->group(function () {
         Route::get('/danh-sach', [CustomerRankController::class, 'index'])->name('index');
         Route::get('/them-moi', [CustomerRankController::class, 'create'])->name('create');
         Route::post('/them-moi', [CustomerRankController::class, 'store'])->name('store');
         Route::get('/sua/{id}', [CustomerRankController::class, 'edit'])->name('edit');
-
         Route::put('/sua/{id}', [CustomerRankController::class, 'update'])->name('update');
-        
         Route::delete('/xoa/{id}', [CustomerRankController::class, 'destroy'])->name('destroy');
     });
+Route::prefix('quan-ly-chuyen-xe')
+    ->as('trips.')
+    ->group(function () {
+        Route::get('/danh-sach-chuyen-xe', [TripController::class, 'index'])->name('index');
+        Route::get('/them-moi', [TripController::class, 'create'])->name('create');
+        Route::post('/them-moi', [TripController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [TripController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [TripController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy');
+    });
+    
+Route::prefix('quan-ly-chuyen-xe')
+    ->as('trips_details.')
+    ->group(function () {
+        Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index');
+    });
+

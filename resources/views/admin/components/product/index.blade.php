@@ -1,9 +1,11 @@
 @extends('admin.layouts.master')
 
+
 @section('title')
     Danh sách sản phẩm
 @endsection
 @section('content')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -57,16 +59,18 @@
                                     <td>
                                         <div class="form-check form-switch form-switch">
                                             @if ($data->is_active == 1)
-                                                <input class="form-check-input" type="checkbox" name="is_active"
-                                                    value="1" id="is_active" checked>
+                                                <input onchange="changeStatus('products', {{ $data->id }},0)"
+                                                    class="form-check-input" type="checkbox" name="is_active" value="1"
+                                                    id="is_active" checked>
                                             @else
-                                                <input class="form-check-input" type="checkbox" name="is_active"
-                                                    value="0" id="is_active">
+                                                <input onchange="changeStatus('products', {{ $data->id }},1)"
+                                                    class="form-check-input" type="checkbox" name="is_active" value="0"
+                                                    id="is_active">
                                             @endif
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="{{ route('product.edit', $data) }}" class="dropdown-item edit-item-btn"><i
+                                        <a href="{{ route('product.edit', $data->id) }}" class="dropdown-item edit-item-btn"><i
                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                             Sửa</a>
                                     </td>
@@ -79,4 +83,3 @@
         </div><!--end col-->
     </div>
 @endsection
-
