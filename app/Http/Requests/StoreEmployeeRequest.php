@@ -30,23 +30,23 @@ class StoreEmployeeRequest extends FormRequest
             'cccd' => 'required|unique:employees|min:12|numeric',
             'date' => 'required|date',
             'description' => 'required',
-
-
+            'password' => 'required|string|min:6',
         ];
     }
     public function messages(): array
     {
         return [
+            'password.required'=>"Vui lòng nhập mật khẩu",
+            'password.min'=>"Vui lòng nhập mật khẩu lớn hơn 6 ký tự",
             'role_id.required' => 'Vui lòng chọn vị trí',
             'name.required' => 'Vui lòng nhập tên',
-            'email.required' => 'Vui lòng nhập email', 
+            'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Email không hợp lệ !',
             'number_phone.unique' => 'Không được trùng số điện thoại',
             'number_phone.required' => 'Không được bỏ trống số điện thoại ',
             'number_phone.numeric' => 'Số điện thoại phải là số',
             'cccd.unique' => 'Căn cước công dân đã tồn tại',
             'cccd.min' => 'Căn cước công dân không hợp lệ',
-           
             'cccd.numeric' => 'Căn cước công dân không hợp lệ',
             'email.unique' => 'Email không được trùng',
             // 'image.required' => 'Vui lòng chọn hình ảnh',
