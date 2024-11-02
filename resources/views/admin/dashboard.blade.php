@@ -1033,7 +1033,7 @@
                                             </div>
                                         </div>
                                         <p class="card-text text-muted">
-                                            Đơn hàng - {{ $request->slug }}, yêu cầu hủy - {{ $request->cancel_reason }}
+                                            Đơn hàng bán ra - {{ $request->slug }}, yêu cầu hủy - {{ $request->cancel_reason }}
                                         </p>
                                         <div>
                                             <a href="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
