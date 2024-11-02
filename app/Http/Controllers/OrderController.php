@@ -153,14 +153,6 @@ class OrderController extends Controller
         }
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -263,13 +255,18 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
+
+    public function requestCancel(Request $request, $slug)
     {
-        //
+        $order = Order::where('slug', $slug)->firstOrFail();
+        $order->cancel_reason = $request->cancel_reason;
+        // $order->status_id = 6;
+        $order->save();
+
+        return response()->json(['success' => true]);
     }
+
+    // Sửa lại phương thức updateStatus
     public function updateStatus(Request $request, $slug)
     {
         DB::transaction(function () use ($request, $slug) {
@@ -279,9 +276,15 @@ class OrderController extends Controller
 
             // Cập nhật trạng thái đơn hàng
             $order->status_id = $newStatus;
-            $order->save();
 
-            // Nếu trạng thái là hủy (5)
+
+            // Nếu chuyển sang trạng thái chờ xác nhận hủy
+            if ($newStatus == 6) {
+                $order->save();
+                return;
+            }
+
+            // Nếu xác nhận hủy đơn hàng
             if ($newStatus == 5 && $oldStatus != 5) {
                 // Hoàn lại số lượng sản phẩm vào kho
                 foreach ($order->orderDetails as $detail) {
@@ -293,16 +296,17 @@ class OrderController extends Controller
                 // Lưu ghi chú vào bảng order_canceleds
                 $canceledOrder = new Order_canceled();
                 $canceledOrder->order_id = $order->id;
-                $canceledOrder->note = $request->input('note');
+                $canceledOrder->note = $order->cancel_reason; // Sử dụng lý do từ yêu cầu hủy
                 $canceledOrder->save();
+
+                // Xóa lý do hủy sau khi đã xử lý
+                $order->cancel_reason = null;
             }
+            $order->save();
         });
 
         return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công!');
     }
-
-
-    // OrderController.php
 
     public function getCustomerLocation($customerId)
     {

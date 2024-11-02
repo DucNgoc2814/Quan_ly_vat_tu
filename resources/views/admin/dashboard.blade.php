@@ -3,7 +3,12 @@
 @section('title')
     Dashboard
 @endsection
-
+@php
+    use App\Models\Import_order;
+    use App\Models\Order;
+    $pendingCancelRequests = Import_order::where('status', 1)->whereNotNull('cancel_reason')->get();
+    $orderCancelRequests = Order::whereNotNull('cancel_reason')->get();
+@endphp
 @section('content')
     <div class="row">
         <div class="col">
@@ -993,17 +998,17 @@
                             </h6>
                         </div>
 
-                        <div class="p-3 mt-2">
+                        {{-- <div class="p-3 mt-2">
                             <div class="col">
                                 <div class="card card-body">
                                     <div class="d-flex mb-4 align-items-center">
                                         <div class="flex-shrink-0">
-                                            {{-- đoạn hiện ảnh này bạn thay thế cho tôi bằng icon thành công hoặc icon xác nhận  --}}
+                                            đoạn hiện ảnh này bạn thay thế cho tôi bằng icon thành công hoặc icon xác nhận
                                             <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-sm rounded-circle" />
                                         </div>
                                         <div class="flex-grow-1 ms-2">
                                             <h5 class="card-title mb-1">Yêu cầu hủy hoặc Yêu cầu thêm mới</h5>
-                                            {{-- <p class="text-muted mb-0">Digital Marketing</p> --}}
+                                            <p class="text-muted mb-0">Digital Marketing</p>
                                         </div>
                                     </div>
                                     <p class="card-text text-muted">Nội dung hủy hoặc nội dung thêm mới ( phần text ở đoạn script kia)</p>
@@ -1013,6 +1018,73 @@
                                 </div>
                             </div>
 
+                        </div> --}}
+
+                        <div class="p-3 mt-2">
+                            @foreach ($orderCancelRequests as $request)
+                                <div class="col mb-3">
+                                    <div class="card card-body">
+                                        <div class="d-flex mb-4 align-items-center">
+                                            <div class="flex-shrink-0">
+                                                <i class="ri-delete-bin-2-line text-danger fs-24"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-2">
+                                                <h5 class="card-title mb-1">Yêu cầu hủy</h5>
+                                            </div>
+                                        </div>
+                                        <p class="card-text text-muted">
+                                            Đơn hàng - {{ $request->slug }}, yêu cầu hủy - {{ $request->cancel_reason }}
+                                        </p>
+                                        <div>
+                                            <a href="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
+                                                onclick="event.preventDefault(); document.getElementById('update-status-{{ $request->slug }}').submit();"
+                                                class="btn btn-info btn-sm">Xác Nhận</a>
+                                            <a href="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
+                                                onclick="event.preventDefault(); document.getElementById('reject-status-{{ $request->slug }}').submit();"
+                                                class="btn btn-danger btn-sm">Từ Chối</a>
+                                            <form id="update-status-{{ $request->slug }}"
+                                                action="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                @method('POST')
+                                                <input type="hidden" name="status" value="5">
+                                            </form>
+                                            <form id="reject-status-{{ $request->slug }}"
+                                                action="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                <input type="hidden" name="status" value="1">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="p-3 mt-2">
+                            @foreach ($pendingNewOrders as $request)
+                                <div class="col mb-3">
+                                    <div class="card card-body">
+                                        <div class="d-flex mb-4 align-items-center">
+                                            <div class="flex-shrink-0">
+                                                <i class="ri-add-line text-info fs-24"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-2">
+                                                <h5 class="card-title mb-1">Yêu cầu thêm mới</h5>
+                                            </div>
+                                        </div>
+                                        <p class="card-text text-muted">
+                                            Sản phẩm: {{ $request->product }} - Số lượng: {{ $request->quantity }}
+                                        </p>
+                                        <div>
+                                            <button
+                                                onclick="confirmNewOrder('{{ $request->importOrder->slug }}', '{{ $request->product }}', '{{ $request->quantity }}')"
+                                                class="btn btn-info btn-sm">Xác Nhận</button>
+                                            <button onclick="rejectNewOrder('{{ $request->importOrder->slug }}')"
+                                                class="btn btn-danger btn-sm">Từ Chối</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
 
                     </div>
@@ -1023,33 +1095,11 @@
     </div>
 @endsection
 
-@php
-    use App\Models\Import_order;
-    $pendingCancelRequests = Import_order::where('status', 1)->whereNotNull('cancel_reason')->get();
-@endphp
-
 @section('scripts')
     @parent
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            function showPendingCancelRequests() {
-                @foreach ($pendingCancelRequests as $request)
-                    Swal.fire({
-                        title: 'Yêu cầu hủy đơn hàng',
-                        text: `Đơn hàng - {{ $request->slug }}, yêu cầu hủy - {{ $request->cancel_reason }}`,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Xác nhận hủy'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href =
-                                "{{ route('importOrder.cancel', ['slug' => $request->slug]) }}";
-                        }
-                    });
-                @endforeach
-            }
+
 
             function showPendingNewOrders() {
                 @foreach ($pendingNewOrders as $request)
@@ -1095,6 +1145,78 @@
                 @endforeach
             }
 
+            // function confirmNewOrder(slug, product, quantity) {
+            //     Swal.fire({
+            //         title: 'Xác nhận yêu cầu thêm mới',
+            //         text: `Sản phẩm: ${product} - Số lượng: ${quantity}`,
+            //         icon: 'info',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#3085d6',
+            //         cancelButtonColor: '#d33',
+            //         confirmButtonText: 'Xác nhận'
+            //     }).then((result) => {
+            //         if (result.isConfirmed) {
+            //             fetch(`/importOrder/confirmOrder/${slug}`, {
+            //                     method: 'POST',
+            //                     headers: {
+            //                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //                     }
+            //                 })
+            //                 .then(response => response.json())
+            //                 .then(data => {
+            //                     if (data.success) {
+            //                         Swal.fire('Xác nhận thành công', data.message, 'success');
+
+            //                         // Kiểm tra trạng thái đơn hàng mỗi 30 giây
+            //                         const checkInterval = setInterval(function() {
+            //                             fetch(`/importOrder/autoUpdateStatus/${slug}`)
+            //                                 .then(response => response.json())
+            //                                 .then(data => {
+            //                                     if (data.success) {
+            //                                         clearInterval(checkInterval);
+            //                                         Swal.fire('Cập nhật thành công', data
+            //                                             .message, 'success');
+            //                                     }
+            //                                 });
+            //                         }, 30000); // 30 giây
+            //                     } else {
+            //                         Swal.fire('Lỗi', 'Không thể xác nhận yêu cầu', 'error');
+            //                     }
+            //                 });
+            //         }
+            //     });
+            // }
+
+            // function rejectNewOrder(slug) {
+            //     Swal.fire({
+            //         title: 'Từ chối yêu cầu',
+            //         text: "Bạn có chắc chắn muốn từ chối yêu cầu này?",
+            //         icon: 'warning',
+            //         showCancelButton: true,
+            //         confirmButtonColor: '#d33',
+            //         cancelButtonColor: '#3085d6',
+            //         confirmButtonText: 'Từ chối'
+            //     }).then((result) => {
+            //         if (result.isConfirmed) {
+            //             fetch(`/importOrder/rejectOrder/${slug}`, {
+            //                     method: 'POST',
+            //                     headers: {
+            //                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            //                     }
+            //                 })
+            //                 .then(response => response.json())
+            //                 .then(data => {
+            //                     if (data.success) {
+            //                         Swal.fire('Đã từ chối yêu cầu', data.message, 'success');
+            //                     } else {
+            //                         Swal.fire('Lỗi', 'Không thể từ chối yêu cầu', 'error');
+            //                     }
+            //                 });
+            //         }
+            //     });
+            // }
+
+
             function checkPendingRequests() {
                 // Kiểm tra nếu có yêu cầu hủy
                 if (@json($pendingCancelRequests).length > 0) {
@@ -1108,16 +1230,6 @@
             // Hiển thị yêu cầu thêm mới hoặc hủy ngay khi trang dashboard load
             checkPendingRequests();
 
-            // Kiểm tra yêu cầu hủy mới mỗi phút
-            setInterval(function() {
-                fetch("{{ route('importOrder.pendingCancelRequests') }}")
-                    .then(response => response.json())
-                    .then(requests => {
-                        if (requests.length > 0) {
-                            showPendingCancelRequests();
-                        }
-                    });
-            }, 60000);
         });
     </script>
 @endsection
