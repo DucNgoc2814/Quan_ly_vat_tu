@@ -2,18 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginAdminRequest;
 use App\Models\Employee;
 use App\Models\Role_employee;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use Exception;
+use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Request;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    public function notFound()
+    {
+        return view('admin.404');
+    }
+    public function login()
+    {
+        return view('admin.components.employees.login');
+    }
+    public function loginPost(LoginAdminRequest $request)
+    {
+        $credentials = [
+            'email' => $request->email,
+            'password' => $request->password,
+        ];
+        try {
+            $employee = Employee::where('email', $request->email)->first();
+            if (!$employee) {
+                return redirect()->route('employees.login')->with('error', 'Email hoặc mật khẩu không tồn tại trên hệ thống');
+            }
+            if (!$employee->is_active) {
+                return redirect()->route('employees.login')->with('error', 'Tài khoản đã bị vô hiệu hóa');
+            }
+            if (!$token = auth()->guard('employee')->attempt($credentials)) {
+                return redirect()->route('employees.login')->with('error', 'Thông tin đăng nhập không chính xác');
+            }
+            Session::put('token', $token);
+            return redirect('/dashboard');
+        } catch (Exception $e) {
+            return redirect()->route('employees.login')->with('error', 'Không thể đang nhập thử lại lần sau');
+        }
+    }
+
     public function index(Request $request)
     {
         $search = $request->get("search");
@@ -50,7 +87,8 @@ class EmployeeController extends Controller
             if ($request->hasFile('image')) {
                 $params['image'] = $request->file('image')->store('uploads/profile', 'public') ?: null;
             }
-            
+            // Mã hóa mật khẩu trước khi lưu
+            $params['password'] = bcrypt($params['password']);
             Employee::create($params);
             return redirect()->route('employees.index')->with('success', 'Bạn đã thêm mới thành công');
         }
@@ -61,7 +99,7 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee, String $id)
     {
-       
+
     }
 
     /**

@@ -9,15 +9,22 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 class PermissionRoleEmployeeSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Chạy database seeds.
      */
     public function run(): void
     {
-        DB::table(table: 'permission_role_employees')->insert([
-            [
-                'permission_id' => 1,
+        // Tạo mảng dữ liệu để insert
+        $data = [];
+
+        // Tạo 68 bản ghi với permission_id từ 1-68 và role_employee_id = 1
+        for($i = 1; $i <= 73; $i++) {
+            $data[] = [
+                'permission_id' => $i,
                 'role_employee_id' => 1,
-            ],
-        ]);
+            ];
+        }
+
+        // Insert dữ liệu vào bảng permission_role_employees
+        DB::table('permission_role_employees')->insert($data);
     }
 }

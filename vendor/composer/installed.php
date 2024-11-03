@@ -3,7 +3,11 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
         'reference' => '6928f1b9f9077c48a6d75145d94f25acb59db158',
+=======
+        'reference' => '0165a16823e5016856f7ec3040b67cc95dd00861',
+>>>>>>> 8149c097f102051de0ad0c64e8f8170e34b9b0e7
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -382,7 +386,11 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
             'reference' => '6928f1b9f9077c48a6d75145d94f25acb59db158',
+=======
+            'reference' => '0165a16823e5016856f7ec3040b67cc95dd00861',
+>>>>>>> 8149c097f102051de0ad0c64e8f8170e34b9b0e7
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -609,6 +617,42 @@
             'install_path' => __DIR__ . '/../phar-io/version',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'php-flasher/flasher' => array(
+            'pretty_version' => 'v1.15.14',
+            'version' => '1.15.14.0',
+            'reference' => '33ae74e73f62814fff4e78e78f912d9b6ddf82d0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-flasher/flasher-laravel' => array(
+            'pretty_version' => 'v1.15.14',
+            'version' => '1.15.14.0',
+            'reference' => 'c2777483fd7074087c16f861ce2191a95088e7c6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher-laravel',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-flasher/flasher-toastr' => array(
+            'pretty_version' => 'v1.15.14',
+            'version' => '1.15.14.0',
+            'reference' => 'c25755ffa01b9bf3e3a10d883f9914c63c6aedc3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher-toastr',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-flasher/flasher-toastr-laravel' => array(
+            'pretty_version' => 'v1.15.14',
+            'version' => '1.15.14.0',
+            'reference' => 'fe24ad128ac4a42adb5f7b2cd54e349c1b0235c4',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher-toastr-laravel',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'phpoption/phpoption' => array(
             'pretty_version' => '1.9.3',
@@ -1349,6 +1393,15 @@
             'reference' => '11cb2199493b2f8a3b53e7f19068fc6aac760991',
             'type' => 'library',
             'install_path' => __DIR__ . '/../webmozart/assert',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'yoeunes/toastr' => array(
+            'pretty_version' => 'v2.3.5',
+            'version' => '2.3.5.0',
+            'reference' => '5c39d42b4c7b110572b7643bba1cd51b8af89b74',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../yoeunes/toastr',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

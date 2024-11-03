@@ -344,6 +344,10 @@
         });
     </script>
     @yield('scripts')
+
+      @if (session('authorization'))
+        {{ session('authorization') }}
+    @endif
 </body>
 
 </html>
