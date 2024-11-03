@@ -37,7 +37,24 @@
                             khiển</span>
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link text-danger menu-link" href="#sidebarEmployees" data-bs-toggle="collapse"
+                        role="button" aria-expanded="false" aria-controls="sidebarEmployees">
+                        <span data-key="t-layouts">Quản lý nhân sự</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarEmployees">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('employees.index') }}" class="nav-link text-danger"
+                                    data-key="t-horizontal">Danh sách nhân sự</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('employees.listPermissions') }}" class="nav-link text-danger"
+                                    data-key="t-horizontal">Quyền truy cập nhân sự</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link text-danger menu-link" href="#sidebarCategories" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarCategories">
@@ -158,20 +175,7 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link text-danger menu-link" href="#sidebarRoleEmployees" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarRoleEmployees">
-                        <span data-key="t-layouts">Quản lý nhân viên</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarRoleEmployees">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('employees.index') }}" class="nav-link text-danger"
-                                    data-key="t-horizontal">Danh sách nhân viên</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+
                 <li class="nav-item">
                     <a class="nav-link text-danger menu-link" href="#sidebarOrders" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarOrders">
@@ -230,7 +234,8 @@
                     <div class="collapse menu-dropdown" id="sidebarTrips">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('trips.index') }}" class="nav-link" data-key="t-horizontal">Danh sách chuyến đi</a>
+                                <a href="{{ route('trips.index') }}" class="nav-link" data-key="t-horizontal">Danh
+                                    sách chuyến đi</a>
                             </li>
                         </ul>
                     </div>

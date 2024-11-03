@@ -44,6 +44,10 @@
     <!-- Wrapper End -->
 
     @include('client.layouts.partials.js')
+    @if (session('authorization'))
+        {{ session('authorization') }}
+    @endif
+
 </body>
 
 </html>
