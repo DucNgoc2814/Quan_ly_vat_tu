@@ -53,6 +53,7 @@
                         @enderror
                     </div>
                 </div>
+
                 <div class="card" id="receiver-info">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Thông tin nhận hàng</h4>
@@ -79,7 +80,6 @@
                             <input type="text" class="form-control @error('number_phone') is-invalid @enderror"
                                 id="number_phone" value="{{ old('number_phone') }}"
                                 placeholder="Nhập số điện thoại người nhận" name="number_phone">
-                            {{-- {{ Auth::user()->number_phone }}e"> --}}
                             @error('number_phone')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -92,7 +92,6 @@
                             <label class="form-label" for="email">Email người nhận</label>
                             <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
                                 value="{{ old('email') }}" placeholder="Nhập email người nhận" name="email">
-                            {{-- {{ Auth::user()->email }} --}}
                             @error('email')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -114,7 +113,6 @@
 
                             <div class="location-dropdown p-3 border" id="location-dropdown">
                                 <div class="row">
-                                    <!-- Select Tỉnh/Thành phố -->
                                     <div class="col-md-4">
                                         <label for="provinces" class="form-label">Tỉnh/Thành phố</label>
                                         <select id="provinces" name="province" class="form-select">
@@ -122,8 +120,6 @@
                                         </select>
                                         <input type="hidden" id="province_name" name="province_name">
                                     </div>
-
-                                    <!-- Select Quận/Huyện -->
                                     <div class="col-md-4">
                                         <label for="districts" class="form-label">Quận/Huyện</label>
                                         <select id="districts" name="district" class="form-select" disabled>
@@ -131,8 +127,6 @@
                                         </select>
                                         <input type="hidden" id="district_name" name="district_name">
                                     </div>
-
-                                    <!-- Select Phường/Xã -->
                                     <div class="col-md-4">
                                         <label for="wards" class="form-label">Phường/Xã</label>
                                         <select id="wards" name="ward" class="form-select" disabled>
@@ -159,7 +153,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- end card -->
 
                 <!-- Modal for Address List -->
                 <div class="modal fade" id="addressListModal" tabindex="-1" aria-labelledby="addressListModalLabel"
@@ -570,11 +563,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                            <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                            <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                        ` : `
-                                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                        `}
+                                                                                <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                            ` : `
+                                                                                <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                            `}
                                 </div>
                             </div>
                             <hr>
@@ -611,7 +604,7 @@
     </script>
 
 
-    <script>
+    {{-- <script>
         function setDefaultAddress(locationId) {
             $.ajax({
                 url: "{{ route('setDefaultAddress') }}",
@@ -635,6 +628,63 @@
                     alert("Có lỗi xảy ra, vui lòng thử lại.");
                 }
             });
+        }
+    </script> --}}
+
+    <script>
+        function setDefaultAddress(locationId) {
+            $.ajax({
+                url: "{{ route('setDefaultAddress') }}",
+                type: "POST",
+                data: {
+                    location_id: locationId,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        $('.badge.bg-danger').remove();
+                        $('button[onclick="setDefaultAddress(' + locationId + ')"]').closest('.address-item')
+                            .find('strong').after('<span class="badge bg-danger ms-2">Mặc định</span>');
+
+                        // Cập nhật thông tin vào các ô input
+                        document.getElementById('customer_name').value = response.data.customer_name;
+                        document.getElementById('number_phone').value = response.data.number_phone;
+                        document.getElementById('email').value = response.data
+                            .email; // Giả sử email có trong response
+                        document.getElementById('address').value = response.data.address;
+
+                        // Cập nhật dropdown cho tỉnh, huyện, xã
+                        setSelectedProvince(response.data.province);
+                        setSelectedDistrict(response.data.district);
+                        setSelectedWard(response.data.ward);
+
+                        var modal = bootstrap.Modal.getInstance(document.getElementById('addressListModal'));
+                        modal.hide();
+                    } else {
+                        alert("Có lỗi xảy ra, vui lòng thử lại.");
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText); // In lỗi để debug
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
+                }
+            });
+        }
+
+        function setSelectedProvince(province) {
+            const provinceSelect = document.getElementById('provinces');
+            provinceSelect.value = province; // Thiết lập giá trị được chọn
+        }
+
+        function setSelectedDistrict(district) {
+            const districtSelect = document.getElementById('districts');
+            districtSelect.value = district; // Thiết lập giá trị được chọn
+        }
+
+        function setSelectedWard(ward) {
+            const wardSelect = document.getElementById('wards');
+            wardSelect.value = ward; // Thiết lập giá trị được chọn
         }
     </script>
 
