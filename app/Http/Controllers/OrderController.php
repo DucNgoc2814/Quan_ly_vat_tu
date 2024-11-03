@@ -97,6 +97,7 @@ class OrderController extends Controller
                     ->first();
 
                 if (!$existingLocation) {
+                    $locationCount = Location::where('customer_id', $order->customer_id)->count();
                     $location = new Location();
                     $location->customer_id = $order->customer_id;
                     $location->customer_name = $order->customer_name;
@@ -106,7 +107,7 @@ class OrderController extends Controller
                     $location->district = $order->district;
                     $location->ward = $order->ward;
                     $location->address = $order->address;
-                    $location->is_active = false;
+                    $location->is_active = $locationCount === 0 ? 1 : 0;
                     $location->save();
                 }
 
