@@ -16,7 +16,7 @@ class RoleEmployeeSeeder extends Seeder
         DB::table('role_employees')->insert([
             [
                 'id' => 1,
-                'name' => 'Nhân viên',
+                'name' => 'Tổng giám đốc',
                 'wage' => 50000,
             ],
             [

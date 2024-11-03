@@ -147,104 +147,108 @@
             });
         }
 
+        // Hàm xử lý yêu cầu hủy đơn hàng
+        function requestCancelOrder(orderSlug) {
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
+                text: "Hãy nhập lý do hủy đơn hàng",
+                input: 'textarea',
+                inputPlaceholder: 'Nhập lý do đơn hàng bị hủy...',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Gửi yêu cầu',
+                cancelButtonText: 'Thoát'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`{{ route('order.requestCancel', '') }}/${orderSlug}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                cancel_reason: result.value
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                fetch(`{{ route('order.updateStatus', '') }}/${orderSlug}`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                                    },
+                                    body: JSON.stringify({
+                                        status: 6
+                                    })
+                                }).then(() => {
+                                    Swal.fire('Đã gửi!', 'Yêu cầu hủy đơn hàng đã được gửi.', 'success')
+                                        .then(() => {
+                                            location.reload();
+                                        });
+                                });
+                            }
+                        });
+                }
+            });
+        }
+
+        // Hàm xử lý cập nhật trạng thái
         function confirmStatusChange(selectElement, orderSlug) {
             const newStatus = selectElement.value;
-            const form = selectElement.closest('form');
+
             if (newStatus == 5) {
-                Swal.fire({
-                    title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
-                    text: "Hãy nhập lý do hủy đơn hàng",
-                    input: 'textarea',
-                    inputPlaceholder: 'Nhập lý do đơn hàng bị hủy...',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Đồng ý',
-                    cancelButtonText: 'Thoát'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let optionDefaul = selectElement.querySelectorAll(`.optionDefaul`)
-                        selectElement.querySelectorAll(`.optionCheck`).forEach((element) => {
-                            element.style.display = 'none';
-                        });
-                        if (newStatus == 1) {
-                            optionDefaul[1].style.display = ''
-                            optionDefaul[4].style.display = ''
-                            optionDefaul[2].style.display = 'none'
-                            optionDefaul[3].style.display = 'none'
-                        } else if (newStatus == 2) {
-                            optionDefaul[1].style.display = 'none'
-                            optionDefaul[3].style.display = 'none'
-                            optionDefaul[2].style.display = ''
-                            optionDefaul[4].style.display = ''
-                        } else if (newStatus == 3) {
-                             optionDefaul[1].style.display = 'none'
-                            optionDefaul[4].style.display = 'none'
-                            optionDefaul[2].style.display = 'none'
-                            optionDefaul[3].style.display = ''
-                        } else {
-                            if (selectElement) {
-                                const spanElement = document.createElement('span');
-                                spanElement.className = 'badge bg-danger-subtle text-danger';
-                                spanElement.textContent = 'Hủy';
-                                selectElement.parentNode.replaceChild(spanElement, selectElement);
-                            }
-                        }
-                        const noteInput = document.createElement('input');
-                        noteInput.type = 'hidden';
-                        noteInput.name = 'note';
-                        noteInput.value = note;
-                        form.appendChild(noteInput);
-                        form.submit();
-                    } else {
-                        selectElement.value = selectElement.options[0].value;
-                    }
-                });
-            } else {
-                Swal.fire({
-                    title: 'Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?',
-                    icon: 'question',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Cập nhật',
-                    cancelButtonText: 'Thoát'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        let optionDefaul = selectElement.querySelectorAll(`.optionDefaul`)
-                        selectElement.querySelectorAll(`.optionCheck`).forEach((element) => {
-                            element.style.display = 'none';
-                        });
-                        if (newStatus == 1) {
-                            optionDefaul[1].style.display = ''
-                            optionDefaul[4].style.display = ''
-                            optionDefaul[2].style.display = 'none'
-                            optionDefaul[3].style.display = 'none'
-                        } else if (newStatus == 2) {
-                            optionDefaul[1].style.display = 'none'
-                            optionDefaul[3].style.display = 'none'
-                            optionDefaul[2].style.display = ''
-                            optionDefaul[4].style.display = ''
-                        } else if (newStatus == 3) {
-                             optionDefaul[1].style.display = 'none'
-                            optionDefaul[4].style.display = 'none'
-                            optionDefaul[2].style.display = 'none'
-                            optionDefaul[3].style.display = ''
-                        } else {
-                            if (selectElement) {
-                                const spanElement = document.createElement('span');
-                                spanElement.className = 'badge bg-success-subtle text-success';
-                                spanElement.textContent = 'Thành công';
-                                selectElement.parentNode.replaceChild(spanElement, selectElement);
-                            }
-                        }
-                        changeStatusOrder(orderSlug, newStatus, '');
-                    } else {
-                        selectElement.value = selectElement.options[0].value;
-                    }
-                });
+                requestCancelOrder(orderSlug);
+                selectElement.value = selectElement.options[0].value;
+                return;
             }
+
+            Swal.fire({
+                title: 'Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Cập nhật',
+                cancelButtonText: 'Thoát'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let optionDefaul = selectElement.querySelectorAll(`.optionDefaul`)
+                    selectElement.querySelectorAll(`.optionCheck`).forEach((element) => {
+                        element.style.display = 'none';
+                    });
+
+                    if (newStatus == 1) {
+                        optionDefaul[1].style.display = ''
+                        optionDefaul[4].style.display = ''
+                        optionDefaul[2].style.display = 'none'
+                        optionDefaul[3].style.display = 'none'
+                    } else if (newStatus == 2) {
+                        optionDefaul[1].style.display = 'none'
+                        optionDefaul[3].style.display = 'none'
+                        optionDefaul[2].style.display = ''
+                        optionDefaul[4].style.display = ''
+                    } else if (newStatus == 3) {
+                        optionDefaul[1].style.display = 'none'
+                        optionDefaul[4].style.display = 'none'
+                        optionDefaul[2].style.display = 'none'
+                        optionDefaul[3].style.display = ''
+                    } else {
+                        if (selectElement) {
+                            const spanElement = document.createElement('span');
+                            spanElement.className = 'badge bg-success-subtle text-success';
+                            spanElement.textContent = 'Thành công';
+                            selectElement.parentNode.replaceChild(spanElement, selectElement);
+                        }
+                    }
+                    changeStatusOrder(orderSlug, newStatus, '');
+                } else {
+                    selectElement.value = selectElement.options[0].value;
+                }
+            });
         }
     </script>
     <script>

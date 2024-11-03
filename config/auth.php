@@ -15,17 +15,21 @@ return [
 
     'defaults' => [
         'guard' => 'api',
-        'passwords' => 'customers',
+        'passwords' => ['customers', 'employees'],
     ],
 
     'guards' => [
-        'web' => [                    // Thêm guard web
+        'web' => [
             'driver' => 'session',
             'provider' => 'customers',
         ],
         'api' => [
             'driver' => 'jwt',
             'provider' => 'customers',
+        ],
+        'employee' => [
+            'driver' => 'jwt',
+            'provider' => 'employees',
         ],
     ],
     /*
@@ -69,7 +73,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Customer::class,
         ],
-
+        'employees' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Employee::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -98,6 +105,12 @@ return [
     'passwords' => [
         'customers' => [
             'provider' => 'customers',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'employees' => [
+            'provider' => 'employees',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
