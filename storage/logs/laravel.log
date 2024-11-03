@@ -1474,3 +1474,5 @@
 #49 D:\\laravel\\DATN\\Quan_ly_vat_tu\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #50 {main}
 "} 
+[2024-11-01 22:07:59] local.DEBUG: Số lượng tồn kho (stock) của variation 2 là: 200  
+[2024-11-01 22:07:59] local.DEBUG: Số lượng mua của variation 2 là: 20  

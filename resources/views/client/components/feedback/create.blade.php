@@ -12,22 +12,26 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="address-fname">
-                                        <input type="text" name="name" placeholder="Tên">
+                                        <label for="">Tên</label>
+                                        <input type="text" name="name" placeholder="Nhập tên">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="address-email">
-                                        <input type="email" name="email" placeholder="Email">
+                                        <label for="">Email</label>
+                                        <input type="email" name="email" placeholder="Nhập Email">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="address-web">
+                                        <label for="">Số điện thoại</label>
                                         <input type="text" name="number_" placeholder="Số điện thoại">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="address-textarea">
-                                        <textarea name="content" placeholder="Nội dung phản hồi"></textarea>
+
+                                        <textarea name="content" placeholder="Nhập nội dung phản hồi"></textarea>
                                     </div>
                                 </div>
                             </div>

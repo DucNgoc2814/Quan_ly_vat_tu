@@ -15,13 +15,14 @@ class FeedbackSeeder extends Seeder
     {
         $feedback = [
             [
+                'customer_id'=>'3',
                 'order_id'=>'3',
-                'name' => 'Nguyễn Văn D',
-                'email' => 'nguyenvand@example.com',
-                'number_phone' => '0123456789',
+                // 'name' => 'Nguyễn Văn D',
+                // 'email' => 'nguyenvand@example.com',
+                // 'number_phone' => '0123456789',
                 'content' => 'Dịch vụ rất tốt, tôi sẽ tiếp tục sử dụng.',
                 'is_active'=>'1',
-                'created_at' => now(),
+                
             ],
             
         ];
