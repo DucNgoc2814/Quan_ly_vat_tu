@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Customer;
+use App\Models\Location;
 use App\Models\Order_canceled;
 use App\Models\Order_detail;
 use App\Models\Order_status;
@@ -30,42 +31,6 @@ class OrderController extends Controller
 
     const PATH_VIEW = 'admin.components.orders.';
 
-    // public function index(Request $request)
-    // {
-    //     $query = Order::query();
-
-    //     if ($request->filled('search') && $request->filled('search_column')) {
-    //         $searchTerm = $request->input('search');
-    //         $searchColumn = $request->input('search_column');
-    //         $query->where($searchColumn, 'LIKE', "%{$searchTerm}%");
-    //     }
-
-    //     if ($request->filled('orderDate')) {
-    //         $date = $request->input('orderDate');
-    //         $query->whereDate('created_at', $date);
-    //     }
-
-    //     $query->orderBy('created_at', 'desc');
-
-    //     $data = $query->get();
-
-    //     $columns = [
-    //         'slug' => 'Mã đơn hàng',
-    //         'created_at' => 'Ngày đặt hàng',
-    //         'customer_name' => 'Tên người nhận',
-    //         'number_phone' => 'Số điện thoại người nhận',
-    //         'address' => 'Địa chỉ giao hàng',
-    //     ];
-
-    //     if ($data->isEmpty()) {
-    //         $message = 'Không có đơn hàng nào cho tiêu chí tìm kiếm.';
-    //         return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'message', 'columns'));
-    //     }
-
-    //     return view(self::PATH_VIEW . __FUNCTION__, compact('data', 'columns'));
-    // }
-
-
     public function index()
     {
         $data = Order::with(['payment', 'customer', 'orderStatus'])
@@ -80,8 +45,8 @@ class OrderController extends Controller
         $customers = Customer::get();
         $status = Order_status::pluck('description', 'id')->all();
         $variation = Variation::all();
-        // $variation = Variation::pluck('name', 'id')->all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation'));
+        $locations = Location::all();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation', 'locations'));
     }
 
     /**
@@ -110,12 +75,41 @@ class OrderController extends Controller
                     "customer_name" => $request->customer_name ?? $customers->name,
                     "email" => $request->email ?? $customers->email,
                     "number_phone" => $request->number_phone ?? $customers->number_phone,
+                    "province" => $request->province_name,
+                    "district" => $request->district_name,
+                    "ward" => $request->ward_name,
                     "address" => $request->address,
                     "total_amount" => $request->total_amount,
                     "paid_amount" => $request->paid_amount,
                 ];
 
                 $order = Order::query()->create($dataOrder);
+
+
+                $existingLocation = Location::where('customer_id', $order->customer_id)
+                    ->where('customer_name', $order->customer_name)
+                    ->where('email', $order->email)
+                    ->where('number_phone', $order->number_phone)
+                    ->where('province', $order->province)
+                    ->where('district', $order->district)
+                    ->where('ward', $order->ward)
+                    ->where('address', $order->address)
+                    ->first();
+
+                if (!$existingLocation) {
+                    $locationCount = Location::where('customer_id', $order->customer_id)->count();
+                    $location = new Location();
+                    $location->customer_id = $order->customer_id;
+                    $location->customer_name = $order->customer_name;
+                    $location->email = $order->email;
+                    $location->number_phone = $order->number_phone;
+                    $location->province = $order->province;
+                    $location->district = $order->district;
+                    $location->ward = $order->ward;
+                    $location->address = $order->address;
+                    $location->is_active = $locationCount === 0 ? 1 : 0;
+                    $location->save();
+                }
 
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationID) {
@@ -160,14 +154,6 @@ class OrderController extends Controller
         }
     }
 
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
@@ -190,6 +176,7 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, $slug)
     {
+        // dd($request->all());
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request, $slug) {
@@ -201,9 +188,6 @@ class OrderController extends Controller
                 $currentStatus = $order->status_id;
                 $newStatus = $request->status_id ?? $currentStatus;
 
-                // if (!$this->isValidStatusTransition($currentStatus, $newStatus)) {
-                //     throw new \Exception('Trạng thái không hợp lệ.');
-                // }
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
                     "customer_id" => $request->customer_id,
@@ -211,6 +195,9 @@ class OrderController extends Controller
                     "customer_name" => $request->customer_name ?? $order->name,
                     "email" => $request->email ?? $order->email,
                     "number_phone" => $request->number_phone ?? $order->number_phone,
+                    "province" => $request->province_name,
+                    "district" => $request->district_name,
+                    "ward" => $request->ward_name,
                     "address" => $request->address,
                     "total_amount" => $request->total_amount,
                     "paid_amount" => $request->paid_amount,
@@ -269,13 +256,18 @@ class OrderController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
+
+    public function requestCancel(Request $request, $slug)
     {
-        //
+        $order = Order::where('slug', $slug)->firstOrFail();
+        $order->cancel_reason = $request->cancel_reason;
+        // $order->status_id = 6;
+        $order->save();
+
+        return response()->json(['success' => true]);
     }
+
+    // Sửa lại phương thức updateStatus
     public function updateStatus(Request $request, $slug)
     {
         DB::transaction(function () use ($request, $slug) {
@@ -285,9 +277,15 @@ class OrderController extends Controller
 
             // Cập nhật trạng thái đơn hàng
             $order->status_id = $newStatus;
-            $order->save();
 
-            // Nếu trạng thái là hủy (5)
+
+            // Nếu chuyển sang trạng thái chờ xác nhận hủy
+            if ($newStatus == 6) {
+                $order->save();
+                return;
+            }
+
+            // Nếu xác nhận hủy đơn hàng
             if ($newStatus == 5 && $oldStatus != 5) {
                 // Hoàn lại số lượng sản phẩm vào kho
                 foreach ($order->orderDetails as $detail) {
@@ -299,13 +297,25 @@ class OrderController extends Controller
                 // Lưu ghi chú vào bảng order_canceleds
                 $canceledOrder = new Order_canceled();
                 $canceledOrder->order_id = $order->id;
-                $canceledOrder->note = $request->input('note');
+                $canceledOrder->note = $order->cancel_reason; // Sử dụng lý do từ yêu cầu hủy
                 $canceledOrder->save();
+
+                // Xóa lý do hủy sau khi đã xử lý
+                $order->cancel_reason = null;
             }
+            $order->save();
         });
 
         return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công!');
     }
 
+    public function getCustomerLocation($customerId)
+    {
+        $location = Location::where('customer_id', $customerId)
+            ->where('is_active', 1)
+            ->first();
+
+        return response()->json($location);
+    }
 
 }
