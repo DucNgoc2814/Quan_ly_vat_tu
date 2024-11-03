@@ -563,11 +563,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                                                <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                            ` : `
-                                                                                <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                            `}
+                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                    ` : `
+                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                    `}
                                 </div>
                             </div>
                             <hr>
@@ -687,7 +687,6 @@
             wardSelect.value = ward; // Thiết lập giá trị được chọn
         }
     </script>
-
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

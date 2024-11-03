@@ -60,11 +60,11 @@ class LocationController extends Controller
             'data' => [
                 'customer_name' => $location->customer_name,
                 'number_phone' => $location->number_phone,
-                'email' => $location->email, // Nếu có trường email
+                'email' => $location->email,
                 'address' => $location->address,
-                'province' => $location->province, // Giả sử bạn có trường này
-                'district' => $location->district, // Giả sử bạn có trường này
-                'ward' => $location->ward, // Giả sử bạn có trường này
+                'province' => $location->province,
+                'district' => $location->district,
+                'ward' => $location->ward,
             ]
         ]);
     }
