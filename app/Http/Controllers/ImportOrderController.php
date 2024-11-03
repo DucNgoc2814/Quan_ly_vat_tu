@@ -104,8 +104,8 @@ class ImportOrderController extends Controller
     {
         $importOrder = Import_order::where('slug', $slug)->firstOrFail();
 
-        // Cập nhật trạng thái về chờ hủy (tạm gọi là 1)
-        $importOrder->status = 1;
+        // Cập nhật trạng thái về chờ hủy
+        // $importOrder->status = 1;
         $importOrder->cancel_reason = $request->reason; // Lưu lý do hủy
         $importOrder->save();
 

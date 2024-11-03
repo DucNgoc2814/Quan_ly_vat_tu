@@ -1033,7 +1033,8 @@
                                             </div>
                                         </div>
                                         <p class="card-text text-muted">
-                                            Đơn hàng bán ra - {{ $request->slug }}, yêu cầu hủy - {{ $request->cancel_reason }}
+                                            Đơn hàng bán ra - {{ $request->slug }}, yêu cầu hủy -
+                                            {{ $request->cancel_reason }}
                                         </p>
                                         <div>
                                             <a href="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
@@ -1060,7 +1061,13 @@
                                 </div>
                             @endforeach
                         </div>
+
                         <div class="p-3 mt-2">
+                            <div id="orderCancelRequestsContainer">
+                                <!-- Nội dung yêu cầu hủy đơn hàng sẽ được thêm vào đây bằng JavaScript -->
+                            </div>
+                        </div>
+                        {{-- <div class="p-3 mt-2">
                             @foreach ($pendingNewOrders as $request)
                                 <div class="col mb-3">
                                     <div class="card card-body">
@@ -1085,7 +1092,7 @@
                                     </div>
                                 </div>
                             @endforeach
-                        </div>
+                        </div> --}}
 
                     </div>
                 </div> <!-- end card-->
@@ -1232,4 +1239,104 @@
 
         });
     </script>
+    <script>
+        function checkPendingCancelRequests() {
+            fetch("{{ route('importOrder.pendingCancelRequests') }}")
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        data.forEach(request => {
+                            Swal.fire({
+                                title: 'Yêu cầu hủy đơn hàng',
+                                text: `Đơn hàng ${request.slug} yêu cầu hủy: ${request.cancel_reason}`,
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'Xác nhận hủy',
+                                cancelButtonText: 'Bỏ qua'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    fetch("{{ route('importOrder.cancel', '') }}/" + request.slug, {
+                                            method: 'GET'
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                Swal.fire('Đã hủy', 'Đơn hàng đã bị hủy thành công',
+                                                    'success');
+                                            } else {
+                                                Swal.fire('Lỗi', 'Không thể hủy đơn hàng', 'error');
+                                            }
+                                        });
+                                }
+                            });
+                        });
+                    }
+                });
+        }
+
+        // Gọi hàm kiểm tra khi vào trang dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            checkPendingCancelRequests();
+        });
+    </script>
+
+
+    {{-- <script>
+        function fetchPendingCancelRequests() {
+            fetch("{{ route('importOrder.pendingCancelRequests') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('orderCancelRequestsContainer');
+                    container.innerHTML = ''; // Xóa nội dung cũ
+                    if (data.length > 0) {
+                        data.forEach(request => {
+                            const card = document.createElement('div');
+                            card.classList.add('col', 'mb-3');
+                            card.innerHTML = `
+                                <div class="card card-body">
+                                    <div class="d-flex mb-4 align-items-center">
+                                        <div class="flex-shrink-0">
+                                            <i class="ri-delete-bin-2-line text-danger fs-24"></i>
+                                        </div>
+                                        <div class="flex-grow-1 ms-2">
+                                            <h5 class="card-title mb-1">Yêu cầu hủy</h5>
+                                        </div>
+                                    </div>
+                                    <p class="card-text text-muted">
+                                        Đơn hàng bán ra - ${request.slug}, yêu cầu hủy - ${request.cancel_reason}
+                                    </p>
+                                    <div>
+                                        <a href="#" onclick="confirmCancel('${request.slug}')" class="btn btn-info btn-sm">Xác Nhận</a>
+                                        <a href="#" onclick="rejectCancel('${request.slug}')" class="btn btn-danger btn-sm">Từ Chối</a>
+                                        <form id="update-status-${request.slug}" action="{{ route('importOrder.updateOrderStatus', ['slug' => ':slug']) }}".replace(':slug', request.slug) method="POST" style="display: none;">
+                                            @csrf
+                                            <input type="hidden" name="status" value="5"> <!-- Trạng thái xác nhận hủy -->
+                                        </form>
+                                        <form id="reject-status-${request.slug}" action="{{ route('importOrder.updateOrderStatus', ['slug' => ':slug']) }}".replace(':slug', request.slug) method="POST" style="display: none;">
+                                            @csrf
+                                            <input type="hidden" name="status" value="1"> <!-- Trạng thái từ chối -->
+                                        </form>
+                                    </div>
+                                </div>
+                            `;
+                            container.appendChild(card);
+                        });
+                    }
+                });
+        }
+
+        function confirmCancel(slug) {
+            event.preventDefault();
+            document.getElementById(`update-status-${slug}`).submit();
+        }
+
+        function rejectCancel(slug) {
+            event.preventDefault();
+            document.getElementById(`reject-status-${slug}`).submit();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchPendingCancelRequests();
+        });
+    </script> --}}
 @endsection
