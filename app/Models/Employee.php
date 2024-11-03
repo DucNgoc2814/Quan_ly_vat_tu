@@ -4,15 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class Employee extends Model
+class Employee extends Authenticatable implements JWTSubject
+
 {
     use HasFactory;
 
     protected $fillable = [
         'role_id',
         'name',
-        'password',
         'email',
         'image',
         'number_phone',
@@ -20,6 +22,7 @@ class Employee extends Model
         'date',
         'description',
         'is_active',
+        'password',
     ];
 
     protected $cast = [
@@ -36,5 +39,20 @@ class Employee extends Model
 
     public function requests() {
         return $this->hasMany(Request::class);
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [
+            'name' => $this->name,
+            'role' => $this->role_id,
+            'id' => $this->id,
+            'is_employee' => true
+        ];
     }
 }

@@ -16,7 +16,6 @@
                         <li class="breadcrumb-item active">Thêm mới nhân viên</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
@@ -71,6 +70,22 @@
                             <input type="text" class="form-control  @error('email') is-invalid @enderror"
                                 placeholder="Nhập email" name="email" value="{{ old('email') }}">
                             @error('email')
+                                <span role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <!-- end card -->
+                  <!-- end card -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="product-title-input">Password</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                placeholder="Nhập mật khẩu đang nhập vào hệ thống" name="password" value="{{ old('name') }}">
+                            @error('password')
                                 <span role="alert">
                                     <span class="text-danger">{{ $message }}</span>
                                 </span>
@@ -210,5 +225,5 @@
             }
         }
     </script>
-   
+
 @endsection

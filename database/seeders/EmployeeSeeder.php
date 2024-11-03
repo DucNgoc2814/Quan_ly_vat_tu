@@ -18,7 +18,6 @@ class EmployeeSeeder extends Seeder
                 'id' => 1,
                 'role_id' => 1,
                 'name' => 'Nguyễn Văn A',
-                'password' => 'ABC12345',
                 'email' => 'nguyenvana45@example.com',
                 'image' => 'nguyenvana.jpg',
                 'number_phone' => '012345677',
@@ -26,12 +25,12 @@ class EmployeeSeeder extends Seeder
                 'date' => 20220101,
                 'description' => 'Nhân viên phát triển phần mềm.',
                 'is_active' => true,
+                'password' => bcrypt('123456789'),
             ],
             [
                 'id' => 2,
                 'role_id' => 2,
                 'name' => 'Trần Thị B',
-                'password' => 'ABC12345',
                 'email' => 'tranthib34@example.com',
                 'image' => 'tranthib.jpg',
                 'number_phone' => '012345671',
@@ -39,12 +38,12 @@ class EmployeeSeeder extends Seeder
                 'date' => 20220315,
                 'description' => 'Nhân viên kế toán.',
                 'is_active' => true,
+                'password' => bcrypt('123456789'),
             ],
             [
                 'id' => 3,
                 'role_id' => 4,
                 'name' => 'Phạm Văn C',
-                'password' => 'ABC12345',
                 'email' => 'phamvanc12@example.com',
                 'image' => null,
                 'number_phone' => '012345673',
@@ -52,9 +51,9 @@ class EmployeeSeeder extends Seeder
                 'date' => 20220120,
                 'description' => 'Nhân viên lái xe.',
                 'is_active' => false,
+                'password' => bcrypt('123456789'),
             ],
         ];
-
         foreach ($employees as $employee) {
             DB::table('employees')->insert(array_merge($employee, [
                 'created_at' => now(),

@@ -21,6 +21,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        // 'jwt.auth' => \App\Http\Middleware\CheckJWTAuth::class,
     ];
 
     /**
@@ -64,5 +65,12 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+    ];
+    protected $routeMiddleware = [
+        // 'jwt.auth' => \App\Http\Middleware\CheckJWTAuth::class,
+        // 'auth' => \App\Http\Middleware\Authenticate::class,
+        'checkCustomer' => \App\Http\Middleware\CheckCustomer::class,
+        'CheckEmployees' => \App\Http\Middleware\CheckEmployees::class,
+        'permission' => \App\Http\Middleware\CheckPermission::class,
     ];
 }
