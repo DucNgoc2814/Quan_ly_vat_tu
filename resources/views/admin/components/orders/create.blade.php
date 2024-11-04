@@ -603,91 +603,6 @@
         });
     </script>
 
-
-    {{-- <script>
-        function setDefaultAddress(locationId) {
-            $.ajax({
-                url: "{{ route('setDefaultAddress') }}",
-                type: "POST",
-                data: {
-                    location_id: locationId,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message);
-                        $('.badge.bg-danger').remove();
-                        $('button[onclick="setDefaultAddress(' + locationId + ')"]').closest('.address-item')
-                            .find('strong').after('<span class="badge bg-danger ms-2">Mặc định</span>');
-                    } else {
-                        alert("Có lỗi xảy ra, vui lòng thử lại.");
-                    }
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText); // In lỗi để debug
-                    alert("Có lỗi xảy ra, vui lòng thử lại.");
-                }
-            });
-        }
-    </script> --}}
-
-    <script>
-        function setDefaultAddress(locationId) {
-            $.ajax({
-                url: "{{ route('setDefaultAddress') }}",
-                type: "POST",
-                data: {
-                    location_id: locationId,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message);
-                        $('.badge.bg-danger').remove();
-                        $('button[onclick="setDefaultAddress(' + locationId + ')"]').closest('.address-item')
-                            .find('strong').after('<span class="badge bg-danger ms-2">Mặc định</span>');
-
-                        // Cập nhật thông tin vào các ô input
-                        document.getElementById('customer_name').value = response.data.customer_name;
-                        document.getElementById('number_phone').value = response.data.number_phone;
-                        document.getElementById('email').value = response.data
-                            .email; // Giả sử email có trong response
-                        document.getElementById('address').value = response.data.address;
-
-                        // Cập nhật dropdown cho tỉnh, huyện, xã
-                        setSelectedProvince(response.data.province);
-                        setSelectedDistrict(response.data.district);
-                        setSelectedWard(response.data.ward);
-
-                        var modal = bootstrap.Modal.getInstance(document.getElementById('addressListModal'));
-                        modal.hide();
-                    } else {
-                        alert("Có lỗi xảy ra, vui lòng thử lại.");
-                    }
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText); // In lỗi để debug
-                    alert("Có lỗi xảy ra, vui lòng thử lại.");
-                }
-            });
-        }
-
-        function setSelectedProvince(province) {
-            const provinceSelect = document.getElementById('provinces');
-            provinceSelect.value = province; // Thiết lập giá trị được chọn
-        }
-
-        function setSelectedDistrict(district) {
-            const districtSelect = document.getElementById('districts');
-            districtSelect.value = district; // Thiết lập giá trị được chọn
-        }
-
-        function setSelectedWard(ward) {
-            const wardSelect = document.getElementById('wards');
-            wardSelect.value = ward; // Thiết lập giá trị được chọn
-        }
-    </script>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const customerInput = document.getElementById('customer_id');
@@ -850,5 +765,89 @@
                     });
             });
         });
+    </script>
+
+        {{-- <script>
+        function setDefaultAddress(locationId) {
+            $.ajax({
+                url: "{{ route('setDefaultAddress') }}",
+                type: "POST",
+                data: {
+                    location_id: locationId,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        $('.badge.bg-danger').remove();
+                        $('button[onclick="setDefaultAddress(' + locationId + ')"]').closest('.address-item')
+                            .find('strong').after('<span class="badge bg-danger ms-2">Mặc định</span>');
+                    } else {
+                        alert("Có lỗi xảy ra, vui lòng thử lại.");
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText); // In lỗi để debug
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
+                }
+            });
+        }
+    </script> --}}
+
+    <script>
+        function setDefaultAddress(locationId) {
+            $.ajax({
+                url: "{{ route('setDefaultAddress') }}",
+                type: "POST",
+                data: {
+                    location_id: locationId,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        $('.badge.bg-danger').remove();
+                        $('button[onclick="setDefaultAddress(' + locationId + ')"]').closest('.address-item')
+                            .find('strong').after('<span class="badge bg-danger ms-2">Mặc định</span>');
+
+                        // Cập nhật thông tin vào các ô input
+                        document.getElementById('customer_name').value = response.data.customer_name;
+                        document.getElementById('number_phone').value = response.data.number_phone;
+                        document.getElementById('email').value = response.data
+                            .email; // Giả sử email có trong response
+                        document.getElementById('address').value = response.data.address;
+
+                        // Cập nhật dropdown cho tỉnh, huyện, xã
+                        setSelectedProvince(response.data.province);
+                        setSelectedDistrict(response.data.district);
+                        setSelectedWard(response.data.ward);
+
+                        var modal = bootstrap.Modal.getInstance(document.getElementById('addressListModal'));
+                        modal.hide();
+                    } else {
+                        alert("Có lỗi xảy ra, vui lòng thử lại.");
+                    }
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText); // In lỗi để debug
+                    alert("Có lỗi xảy ra, vui lòng thử lại.");
+                }
+            });
+        }
+
+        function setSelectedProvince(province) {
+            const provinceSelect = document.getElementById('provinces');
+            provinceSelect.value = province; // Thiết lập giá trị được chọn
+        }
+
+        function setSelectedDistrict(district) {
+            const districtSelect = document.getElementById('districts');
+            districtSelect.value = district; // Thiết lập giá trị được chọn
+        }
+
+        function setSelectedWard(ward) {
+            const wardSelect = document.getElementById('wards');
+            wardSelect.value = ward; // Thiết lập giá trị được chọn
+        }
     </script>
 @endsection
