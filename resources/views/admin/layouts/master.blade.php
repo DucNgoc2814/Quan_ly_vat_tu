@@ -74,7 +74,6 @@
 
         .variant-checkbox span {
             color: black;
-            /* Màu chữ mặc định là đen */
             font-weight: bold;
             padding: 5px 10px;
             /* Giữ padding cho span */
