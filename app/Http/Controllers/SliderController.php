@@ -26,7 +26,7 @@ class SliderController extends Controller
     public function create()
     {
         $title = "Thêm Slider";
-        return view('admin.components.sliders.create', compact('title'));
+        return view('admin.components.sliders.create');
     }
 
     /**
@@ -77,7 +77,6 @@ class SliderController extends Controller
     {
         $title = "Cập nhật slider";
         $sliders = Slider::findOrFail($id);
-        
         return view('admin.components.sliders.edit', compact('sliders','title'));
     }
 
@@ -90,13 +89,10 @@ class SliderController extends Controller
             // dd($request);
             $params = $request->post();
             $sliders = Slider::findOrFail($id);
-            //kiểm tra có ảnh mới không
             if ($request->hasFile('url')) {
-                // xóa ảnh cũ
                 if ($sliders->url && Storage::disk('public')->exists('uploads/sliders')) {
                     Storage::disk('public')->delete($sliders->url);
                 }
-                // lưu ảnh mới và cập nhật lại đường dẫn ảnh
                 $filpath = $request->file('url')->store('uploads/sliders', 'public');
                 $array = [
                     "url" => $filpath,
@@ -107,7 +103,6 @@ class SliderController extends Controller
 
                 ];
             } else {
-                // nếu không có file ảnh mới thì giữ nguyên ảnh cũ
                 $array = [
                     "url" => $sliders->url,
                     "description" => $request->description,

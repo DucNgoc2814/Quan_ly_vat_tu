@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\ChangeStatusController;
 use App\Http\Controllers\EmployeeController;
-use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -38,12 +37,3 @@ Route::get('/test', function () {
     echo "ok";
 })
     ->middleware('checkCustomer');
-// <+====================TINHNGUYEN====================+>
-Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
-Route::prefix('danh-gia')
-    ->as('feedback.')
-    ->group(function () {
-        Route::get('/them-moi', [FeedbackController::class, 'create'])->name('create');
-        Route::post('/them-moi', [FeedbackController::class, 'store'])->name('store');
-
-    });

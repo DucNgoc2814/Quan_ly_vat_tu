@@ -12,7 +12,7 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">CargoCars</li>
+                        <li class="breadcrumb-item active">{{$title}}</li>
                     </ol>
                 </div>
 
@@ -86,7 +86,7 @@
                                 @enderror
                             </div>
                             <div class="mt-3">
-                                <button class = "btn btn-success text ">Gửi</button>
+                                <button class = "btn btn-success text ">Submit</button>
                             </div>
                         </div>
                     </form>

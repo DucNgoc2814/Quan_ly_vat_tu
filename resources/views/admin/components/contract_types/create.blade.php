@@ -29,7 +29,7 @@
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
                                     <input type="text" class="form-control " id="searchProductList" name="search"
-                                        placeholder="Tìm kiếm">
+                                        placeholder="Tìm hợp đồng...">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
                             </div>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('contractType.store') }}" method="POST">
+                    <form action="{{ route('ContractTypes.store') }}" method="POST">
                         @csrf
                         <div class="row">
 
@@ -63,7 +63,7 @@
 
                         </div>
                         <div class="mt-3">
-                            <button class = "btn btn-success text ">Gửi</button>
+                            <button class = "btn btn-success text ">Submit</button>
                         </div>
                     </form>
                 </div>
