@@ -44,7 +44,13 @@ use App\Http\Controllers\UnitController;
 // } catch (\Exception $e) {
 //     return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
 // }
+
+
 Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
+
+// Route::get('/dashboard', function () {
+//     view('admin.dashboard');
+// });
 
 Route::prefix('employees')
     ->as('employees.')

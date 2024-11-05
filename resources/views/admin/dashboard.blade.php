@@ -1060,6 +1060,44 @@
                                     </div>
                                 </div>
                             @endforeach
+
+                            @foreach ($pendingNewOrders as $request)
+                                <div class="col mb-3">
+                                    <div class="card card-body">
+                                        <div class="d-flex mb-4 align-items-center">
+                                            <div class="flex-shrink-0">
+                                                <i class="ri-information-line text-primary fs-24"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-2">
+                                                <h5 class="card-title mb-1">Yêu cầu thêm mới đơn hàng nhập:
+                                                    {{ $request->importOrder->slug }}</h5>
+                                            </div>
+                                        </div>
+                                        <p class="card-text text-muted">
+                                            {{-- Có nhiều sản phẩm của 1 đơn thì phải hiện hết ra --}}
+                                            Sản phẩm:
+                                        <ul>
+                                            @foreach ($pendingNewOrders as $item)
+                                                <li>{{ $item->variation->name }} - Số lượng: {{ $item->quantity }}</li>
+                                            @endforeach
+                                        </ul>
+                                        </p>
+                                        <div>
+                                            <a href="{{ route('importOrder.confirmOrder', ['slug' => $request->importOrder->slug]) }}"
+                                                onclick="event.preventDefault(); document.getElementById('confirm-new-{{ $request->importOrder->slug }}').submit();"
+                                                class="btn btn-info btn-sm">Xác Nhận</a>
+                                            <form id="confirm-new-{{ $request->importOrder->slug }}"
+                                                action="{{ route('importOrder.confirmOrder', ['slug' => $request->importOrder->slug]) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+
+
                         </div>
 
                         <div class="p-3 mt-2">
@@ -1067,32 +1105,6 @@
                                 <!-- Nội dung yêu cầu hủy đơn hàng sẽ được thêm vào đây bằng JavaScript -->
                             </div>
                         </div>
-                        {{-- <div class="p-3 mt-2">
-                            @foreach ($pendingNewOrders as $request)
-                                <div class="col mb-3">
-                                    <div class="card card-body">
-                                        <div class="d-flex mb-4 align-items-center">
-                                            <div class="flex-shrink-0">
-                                                <i class="ri-add-line text-info fs-24"></i>
-                                            </div>
-                                            <div class="flex-grow-1 ms-2">
-                                                <h5 class="card-title mb-1">Yêu cầu thêm mới</h5>
-                                            </div>
-                                        </div>
-                                        <p class="card-text text-muted">
-                                            Sản phẩm: {{ $request->product }} - Số lượng: {{ $request->quantity }}
-                                        </p>
-                                        <div>
-                                            <button
-                                                onclick="confirmNewOrder('{{ $request->importOrder->slug }}', '{{ $request->product }}', '{{ $request->quantity }}')"
-                                                class="btn btn-info btn-sm">Xác Nhận</button>
-                                            <button onclick="rejectNewOrder('{{ $request->importOrder->slug }}')"
-                                                class="btn btn-danger btn-sm">Từ Chối</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div> --}}
 
                     </div>
                 </div> <!-- end card-->
@@ -1106,122 +1118,47 @@
     @parent
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-
-
-            function showPendingNewOrders() {
-                @foreach ($pendingNewOrders as $request)
-                    Swal.fire({
-                        title: 'Yêu cầu thêm mới',
-                        text: `Sản phẩm: {{ $request->product }} - Số lượng: {{ $request->quantity }}`,
-                        icon: 'info',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Xác nhận'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch("{{ route('importOrder.confirmOrder', ['slug' => $request->importOrder->slug]) }}", {
-                                    method: 'POST',
-                                    headers: {
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                    }
-                                }).then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        Swal.fire('Xác nhận thành công', data.message, 'success');
-                                        // Kiểm tra trạng thái đơn hàng mỗi 30 giây
-                                        const checkInterval = setInterval(function() {
-                                            fetch(
-                                                    "{{ route('importOrder.autoUpdateStatus', ['slug' => $request->importOrder->slug]) }}"
-                                                )
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    if (data.success) {
-                                                        clearInterval(checkInterval);
-                                                        Swal.fire('Giao hàng thành công',
-                                                            data.message, 'success');
-                                                    }
-                                                });
-                                        }, 30000); // 30 giây
-                                    } else {
-                                        Swal.fire('Lỗi', 'Không thể xác nhận yêu cầu', 'error');
-                                    }
-                                });
-                        }
-                    });
-                @endforeach
+            // Hàm để tạo danh sách sản phẩm
+            function generateProductList(request) {
+                let productList = '<ul>';
+                request.newOrderRequests.forEach(item => {
+                    productList += `<li>${item.variation.name} - Số lượng: ${item.quantity}</li>`;
+                });
+                productList += '</ul>';
+                return productList;
             }
 
-            // function confirmNewOrder(slug, product, quantity) {
-            //     Swal.fire({
-            //         title: 'Xác nhận yêu cầu thêm mới',
-            //         text: `Sản phẩm: ${product} - Số lượng: ${quantity}`,
-            //         icon: 'info',
-            //         showCancelButton: true,
-            //         confirmButtonColor: '#3085d6',
-            //         cancelButtonColor: '#d33',
-            //         confirmButtonText: 'Xác nhận'
-            //     }).then((result) => {
-            //         if (result.isConfirmed) {
-            //             fetch(`/importOrder/confirmOrder/${slug}`, {
-            //                     method: 'POST',
-            //                     headers: {
-            //                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //                     }
-            //                 })
-            //                 .then(response => response.json())
-            //                 .then(data => {
-            //                     if (data.success) {
-            //                         Swal.fire('Xác nhận thành công', data.message, 'success');
+            function confirmOrder(slug, importOrderId) {
+                const url = "{{ route('importOrder.confirmOrder', ['slug' => ':slug']) }}".replace(':slug', slug);
 
-            //                         // Kiểm tra trạng thái đơn hàng mỗi 30 giây
-            //                         const checkInterval = setInterval(function() {
-            //                             fetch(`/importOrder/autoUpdateStatus/${slug}`)
-            //                                 .then(response => response.json())
-            //                                 .then(data => {
-            //                                     if (data.success) {
-            //                                         clearInterval(checkInterval);
-            //                                         Swal.fire('Cập nhật thành công', data
-            //                                             .message, 'success');
-            //                                     }
-            //                                 });
-            //                         }, 30000); // 30 giây
-            //                     } else {
-            //                         Swal.fire('Lỗi', 'Không thể xác nhận yêu cầu', 'error');
-            //                     }
-            //                 });
-            //         }
-            //     });
-            // }
+                fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Ẩn thông báo yêu cầu
+                            document.getElementById('request-' + importOrderId).style.display = 'none';
 
-            // function rejectNewOrder(slug) {
-            //     Swal.fire({
-            //         title: 'Từ chối yêu cầu',
-            //         text: "Bạn có chắc chắn muốn từ chối yêu cầu này?",
-            //         icon: 'warning',
-            //         showCancelButton: true,
-            //         confirmButtonColor: '#d33',
-            //         cancelButtonColor: '#3085d6',
-            //         confirmButtonText: 'Từ chối'
-            //     }).then((result) => {
-            //         if (result.isConfirmed) {
-            //             fetch(`/importOrder/rejectOrder/${slug}`, {
-            //                     method: 'POST',
-            //                     headers: {
-            //                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            //                     }
-            //                 })
-            //                 .then(response => response.json())
-            //                 .then(data => {
-            //                     if (data.success) {
-            //                         Swal.fire('Đã từ chối yêu cầu', data.message, 'success');
-            //                     } else {
-            //                         Swal.fire('Lỗi', 'Không thể từ chối yêu cầu', 'error');
-            //                     }
-            //                 });
-            //         }
-            //     });
-            // }
+                            // Hiển thị thông báo thành công
+                            Swal.fire('Xác nhận thành công', data.message, 'success')
+                                .then(() => {
+                                    // Chuyển hướng về dashboard sau khi đóng thông báo
+                                    console.log(data.redirect); // In ra để kiểm tra đường dẫn
+                                    window.location.href = data.redirect; // Chuyển hướng đến URL dashboard
+                                });
+                        } else {
+                            Swal.fire('Lỗi', 'Không thể xác nhận yêu cầu', 'error');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        Swal.fire('Lỗi', 'Có lỗi xảy ra, vui lòng thử lại.', 'error');
+                    });
+            }
 
 
             function checkPendingRequests() {
@@ -1280,6 +1217,76 @@
         });
     </script>
 
+    {{-- // function confirmNewOrder(slug, product, quantity) {
+    //     Swal.fire({
+    //         title: 'Xác nhận yêu cầu thêm mới',
+    //         text: `Sản phẩm: ${product} - Số lượng: ${quantity}`,
+    //         icon: 'info',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: 'Xác nhận'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             fetch(`/importOrder/confirmOrder/${slug}`, {
+    //                     method: 'POST',
+    //                     headers: {
+    //                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    //                     }
+    //                 })
+    //                 .then(response => response.json())
+    //                 .then(data => {
+    //                     if (data.success) {
+    //                         Swal.fire('Xác nhận thành công', data.message, 'success');
+
+    //                         // Kiểm tra trạng thái đơn hàng mỗi 30 giây
+    //                         const checkInterval = setInterval(function() {
+    //                             fetch(`/importOrder/autoUpdateStatus/${slug}`)
+    //                                 .then(response => response.json())
+    //                                 .then(data => {
+    //                                     if (data.success) {
+    //                                         clearInterval(checkInterval);
+    //                                         Swal.fire('Cập nhật thành công', data
+    //                                             .message, 'success');
+    //                                     }
+    //                                 });
+    //                         }, 30000); // 30 giây
+    //                     } else {
+    //                         Swal.fire('Lỗi', 'Không thể xác nhận yêu cầu', 'error');
+    //                     }
+    //                 });
+    //         }
+    //     });
+    // }
+
+    // function rejectNewOrder(slug) {
+    //     Swal.fire({
+    //         title: 'Từ chối yêu cầu',
+    //         text: "Bạn có chắc chắn muốn từ chối yêu cầu này?",
+    //         icon: 'warning',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#d33',
+    //         cancelButtonColor: '#3085d6',
+    //         confirmButtonText: 'Từ chối'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+    //             fetch(`/importOrder/rejectOrder/${slug}`, {
+    //                     method: 'POST',
+    //                     headers: {
+    //                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
+    //                     }
+    //                 })
+    //                 .then(response => response.json())
+    //                 .then(data => {
+    //                     if (data.success) {
+    //                         Swal.fire('Đã từ chối yêu cầu', data.message, 'success');
+    //                     } else {
+    //                         Swal.fire('Lỗi', 'Không thể từ chối yêu cầu', 'error');
+    //                     }
+    //                 });
+    //         }
+    //     });
+    // } --}}
 
     {{-- <script>
         function fetchPendingCancelRequests() {

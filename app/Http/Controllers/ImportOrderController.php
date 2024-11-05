@@ -85,7 +85,7 @@ class ImportOrderController extends Controller
                         // Vẫn giữ lại chức năng tạo NewOrderRequest
                         NewOrderRequest::create([
                             'import_order_id' => $importOrder->id,
-                            'product' => $variationID,
+                            'variation_id' => $variationID,
                             'quantity' => $quantity,
                         ]);
                     }
@@ -138,7 +138,11 @@ class ImportOrderController extends Controller
         $importOrder->status = 2; // Đã xác nhận
         $importOrder->save();
 
-        return response()->json(['success' => true, 'message' => 'Đã xác nhận đơn hàng, chờ cập nhật số lượng']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xác nhận đơn hàng, chờ đơn hàng giao',
+            'redirect' => route('admin.dashboard')
+        ]);
     }
 
     // public function autoUpdateStatus($slug)
@@ -163,13 +167,16 @@ class ImportOrderController extends Controller
     // }
 
     public function dashboard()
-    {
-        $pendingNewOrders = NewOrderRequest::whereHas('importOrder', function ($query) {
+{
+    // Lấy các yêu cầu đơn hàng mới đang chờ xác nhận
+    $pendingNewOrders = NewOrderRequest::with(['importOrder', 'variation'])
+        ->whereHas('importOrder', function ($query) {
             $query->where('status', 1);
-        })->get();
+        })
+        ->get();
 
-        return view('admin.dashboard', compact('pendingNewOrders'));
-    }
+    return view('admin.dashboard', compact('pendingNewOrders'));
+}
 
     public function checkOrderStatus($slug)
     {
@@ -200,15 +207,6 @@ class ImportOrderController extends Controller
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false]);
-    }
-
-
-
-
-
-    public function show($slug)
-    {
-
     }
 
     /**
