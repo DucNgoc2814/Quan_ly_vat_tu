@@ -7,6 +7,7 @@ use App\Http\Controllers\SliderController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -32,3 +33,30 @@ Route::get('/doi-mat-khau', [LoginController::class, 'changepassword'])->name('c
 Route::post('/passwordchange', [LoginController::class, 'passwordchange'])->name('passwordchange');
 // <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
+
+Route::get('/test-log', function() {
+    $unit = \App\Models\Unit::create([
+        'name' => 'Test Unit ' . now(),
+        'description' => 'Test Description'
+    ]);
+    
+    return "Created unit: " . $unit->id;
+});
+
+Route::get('/test-unit-log', function() {
+    try {
+        Log::info('=== START TEST ===');
+        
+        $unit = \App\Models\Unit::create([
+            'name' => 'Test Unit ' . now()->format('H:i:s'),
+            'description' => 'Test Description'
+        ]);
+        
+        Log::info('Unit created successfully', ['id' => $unit->id]);
+        return "Created unit: " . $unit->id;
+        
+    } catch (\Exception $e) {
+        Log::error('Test error: ' . $e->getMessage());
+        return "Error: " . $e->getMessage();
+    }
+});
