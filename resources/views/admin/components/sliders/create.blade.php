@@ -12,10 +12,9 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">{{$title}}</li>
+                        <li class="breadcrumb-item active">Sliders</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
@@ -24,7 +23,6 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
@@ -43,8 +41,9 @@
                             <div class="col-lg-8">
                                 <label class="form-label">Hình ảnh</label>
                                 <input type="file" name="url" id="url"
-                                    class="from-control @error('url') is-invalid @enderror" onchange="showImage(event)" >
-                                <img src="" alt="" id="img_slider" style="width: 150px; display: none;"
+                                class="form-control @error('url') is-invalid @enderror"
+                                onchange="showImage(event)">
+                                <img src="" alt="Image preview" id="img_slider" style="width: 150px; display: none;"
                                     class="mt-3" value="{{ old('url') }}">
 
                                 @error('url')
@@ -76,40 +75,37 @@
                             <div class="col-lg-8">
                                 <label for="status" class="form-label">Trạng thái</label>
                                 <div class="mb-3 ms-1">
-                                    <input type="radio" name="status" value="1" class="me-1" id="firstRadio"
-                                        checked>
+                                    <input type="radio" name="status" value="1" class="me-1" id="firstRadio" checked>
                                     <label for="firstRadio" class="form-check-label text-success">Hiển Thị</label>
 
                                     <input class="me-1" type="radio" name="status" value="0" id="secondRadio">
                                     <label for="secondRadio" class="form-check-label text-danger">Ẩn</label>
                                 </div>
-
                             </div>
-
                         </div>
                         <div class="mt-3">
-                            <button class = "btn btn-success text ">Submit</button>
+                            <button class="btn btn-success text">Gửi</button>
                         </div>
                     </form>
                 </div>
             </div>
-
         </div><!--end col-->
     </div>
-@endsection
 
-@section('js')
     <script>
         function showImage(event) {
+            console.log('File selected:', event.target.files[0]); // Logging for debugging
             const img_slider = document.getElementById('img_slider');
             const file = event.target.files[0];
             const reader = new FileReader();
+
             reader.onload = function() {
                 img_slider.src = reader.result;
-                img_slider.style.display = 'block';
+                img_slider.style.display = 'block'; // Show the image once loaded
             }
+
             if (file) {
-                reader.readAsDataURL(file);
+                reader.readAsDataURL(file); // Load image as Data URL
             }
         }
     </script>

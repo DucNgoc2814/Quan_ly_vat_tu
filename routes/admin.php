@@ -45,6 +45,7 @@ use App\Http\Controllers\UnitController;
 //     return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
 // }
 Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
+Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
 
 Route::prefix('employees')
     ->as('employees.')
@@ -260,6 +261,22 @@ Route::prefix('don-hang-nhap')
         Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests')->middleware('permission:50');
         Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus')->middleware('permission:51');
         Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus')->middleware('permission:52');
+        Route::get('/danh-sach', [ImportOrderController::class, 'index'])->name('index');
+        Route::get('/them-moi', [ImportOrderController::class, 'create'])->name('create');
+        Route::post('/them-moi-don-nhap', [ImportOrderController::class, 'store'])->name('store');
+        Route::get('/sua-don-hang/{slug}', [ImportOrderController::class, 'edit'])->name('edit');
+        Route::put('/cap-nhat-don-hang/{slug}', [ImportOrderController::class, 'update'])->name('update');
+        Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail');
+
+        Route::post('/yeu-cau-huy/{slug}', [ImportOrderController::class, 'requestCancel'])->name('requestCancel');
+        Route::get('/pending-cancel-requests', [ImportOrderController::class, 'getPendingCancelRequests'])->name('pendingCancelRequests');
+        Route::get('/cancel/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel');
+        Route::post('/xac-nhan/{slug}', [ImportOrderController::class, 'confirmOrder'])->name(name: 'confirmOrder');
+        Route::get('/tu-dong-cap-nhat/{slug}', [ImportOrderController::class, 'autoUpdateStatus'])->name('autoUpdateStatus');
+        Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests');
+
+        Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus');
+        Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus');
     });
 
 Route::prefix('quan-ly-don-vi')

@@ -80,6 +80,10 @@
                                 <a href="{{ route('sliders.index') }}" class="nav-link text-danger"
                                     data-key="t-horizontal">Danh sách thanh trượt</a>
                             </li>
+                             <li class="nav-item">
+                                <a href="{{ route('sliders.create') }}" class="nav-link text-danger"
+                                    data-key="t-horizontal">Thêm thanh trượt</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -163,8 +167,8 @@
                                     data-key="t-horizontal">Danh sách xe</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('cargo_car_types.index') }}" class="nav-link text-danger"
-                                    data-key="t-horizontal">Danh sách loại xe</a>
+                                <a href="{{ route('CargoCars.create') }}" class="nav-link text-danger"
+                                    data-key="t-horizontal">Thêm xe</a>
                             </li>
 
                         </ul>
