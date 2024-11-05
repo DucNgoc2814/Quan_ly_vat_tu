@@ -7,7 +7,14 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách thanh trượt</h4>
+                <h4 class="mb-sm-0">Danh sách sliders</h4>
+
+                <div class="col-sm-auto">
+                    <div>
+                        <a href="{{ route('sliders.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                class="ri-add-line align-bottom me-1"></i>Thêm Sliders </a>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -15,29 +22,18 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
-                    <div class="row g-4">
-                        <div class="col-sm-auto">
-                            <div>
-                                <a href="{{ route('sliders.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm thanh trượt </a>
-                            </div>
-                        </div>
-                        <div class="col-sm">
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>
                                 <th data-ordering="false">Ảnh</th>
-                                <th data-ordering="false">Mô tả thanh trượt</th>
+                                <th data-ordering="false">Mô tả</th>
                                 <th data-ordering="false">Ngày bắt đầu</th>
                                 <th data-ordering="false">Ngày kết thúc</th>
                                 <th data-ordering="false">Hiển thị</th>
-                                <th>Hành động</th>
+
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -72,7 +68,7 @@
                                                 <li><a href="{{ route('sliders.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Sửa</a></li>
+                                                        Edit</a></li>
                                                 <li>
 
                                                     <form action="{{ route('sliders.destroy', $item->id) }}"

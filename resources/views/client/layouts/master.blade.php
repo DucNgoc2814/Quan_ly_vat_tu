@@ -18,7 +18,6 @@
     <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet">
 
     @include('client.layouts.partials.css')
-    @yield('css')
     <!-- modernizr js -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 </head>

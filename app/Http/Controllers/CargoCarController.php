@@ -14,7 +14,7 @@ class CargoCarController extends Controller
      */
     public function index()
     {
-        $title = "Danh sách xe chở hàng ";
+        $title = "Danh sách xe ";
         $cargo_car = Cargo_car::with('CargoCarType')->get();
         $loai_xe = Cargo_car_type::query()->get();
         return view('admin.components.cargo_cars.index', compact('title', 'cargo_car','loai_xe'));
@@ -47,7 +47,7 @@ class CargoCarController extends Controller
                 'is_active' => $request->is_active
             ];
             Cargo_car::create($data);
-            return redirect()->route('CargoCars.index')->with('success','Thêm xe trở hàng thành công');
+            return redirect()->route('CargoCars.index')->with('success','Thêm xe vận chuyển thành công');
 
         }
 
@@ -87,7 +87,7 @@ class CargoCarController extends Controller
             'is_active' => $request->is_active
         ];
         $cargo_car->update($data);
-        return redirect()->route('CargoCars.index')->with('success','Cập nhật xe chở hàng thành công');
+        return redirect()->route('CargoCars.index')->with('success','Cập nhật xe vận chuyển thành công');
 
        }
     }
@@ -99,7 +99,7 @@ class CargoCarController extends Controller
     {
         $cargo_car = Cargo_car::findOrFail($id);
         $cargo_car->delete();
-        return redirect()->route('CargoCars.index')->with('success','Xóa xe chở hàng thành công');
+        return redirect()->route('CargoCars.index')->with('success','Xóa xe vận chuyển thành công');
 
     }
 }
