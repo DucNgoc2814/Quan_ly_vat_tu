@@ -27,6 +27,7 @@
     <div class="wrapper homepage">
         <!-- Header Area Start -->
         <header>
+            @include('client.layouts.partials.success')
             <!-- Header Top Start -->
             @include('client.layouts.partials.header-top')
             <!-- Header Top End -->
@@ -42,6 +43,10 @@
     <!-- Wrapper End -->
 
     @include('client.layouts.partials.js')
+    @if (session('authorization'))
+        {{ session('authorization') }}
+    @endif
+
 </body>
 
 </html>

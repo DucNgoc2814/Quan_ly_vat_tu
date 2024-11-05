@@ -30,7 +30,7 @@
             <!-- Row End -->
             <div class="row">
                 <div class="col-sm-12">
-                    <form class="form-horizontal" action="{{ route('client.verifyOtp') }}" method="post">
+                    <form class="form-horizontal" action="{{ route('verifyOtp') }}" method="post">
                         @csrf
                         <fieldset>
                             <legend>Vui lòng nhập mã OTP đã được gửi đến email của bạn.</legend>
@@ -57,7 +57,7 @@
                                 {{-- <input type="checkbox" name="agree" value="1"> &nbsp; --}}
                                 <button type="submit" class="newsletter-btn" id="submitOTP">Xác thực</button>
                                 {{-- <input type="submit" value="Xác thực" class="newsletter-btn" id="submitOTP"> --}}
-                                <a href="{{ route('client.forgotPassword') }}">
+                                <a href="{{ route('forgotPassword') }}">
                                     <p class="newsletter-btn">Quay lại</p>
                                 </a>
                             </div>
@@ -65,11 +65,11 @@
                     </form>
                 </div>
                 <div class="container signin">
-                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('client.login') }}"
+                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('login') }}"
                             class="active ">Đăng Nhập</a>.</p>
                 </div>
                 <div class="container signin">
-                    <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('client.register') }}">Đăng ký</a>.</p>
+                    <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('register') }}">Đăng ký</a>.</p>
                 </div>
             </div>
             <!-- Row End -->

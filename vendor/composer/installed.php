@@ -3,7 +3,15 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
+<<<<<<< HEAD
         'reference' => '72a87e3ea8657f857a724f673954b8f317db054e',
+=======
+<<<<<<< HEAD
+        'reference' => '6928f1b9f9077c48a6d75145d94f25acb59db158',
+=======
+        'reference' => '0165a16823e5016856f7ec3040b67cc95dd00861',
+>>>>>>> 8149c097f102051de0ad0c64e8f8170e34b9b0e7
+>>>>>>> 90f22f72e88a607af0fc6e16e095eea86f50acbb
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -400,7 +408,15 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
+<<<<<<< HEAD
             'reference' => '72a87e3ea8657f857a724f673954b8f317db054e',
+=======
+<<<<<<< HEAD
+            'reference' => '6928f1b9f9077c48a6d75145d94f25acb59db158',
+=======
+            'reference' => '0165a16823e5016856f7ec3040b67cc95dd00861',
+>>>>>>> 8149c097f102051de0ad0c64e8f8170e34b9b0e7
+>>>>>>> 90f22f72e88a607af0fc6e16e095eea86f50acbb
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -457,6 +473,24 @@
             'reference' => '502e0fe3f0415d06d5db1f83a472f0f3b754bafe',
             'type' => 'library',
             'install_path' => __DIR__ . '/../laravel/tinker',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'lcobucci/clock' => array(
+            'pretty_version' => '2.3.0',
+            'version' => '2.3.0.0',
+            'reference' => 'c7aadcd6fd97ed9e199114269c0be3f335e38876',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../lcobucci/clock',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'lcobucci/jwt' => array(
+            'pretty_version' => '4.0.4',
+            'version' => '4.0.4.0',
+            'reference' => '55564265fddf810504110bd68ca311932324b0e9',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../lcobucci/jwt',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -646,12 +680,48 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+<<<<<<< HEAD
         'phpoffice/phpspreadsheet' => array(
             'pretty_version' => '1.29.2',
             'version' => '1.29.2.0',
             'reference' => '3a5a818d7d3e4b5bd2e56fb9de44dbded6eae07f',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpoffice/phpspreadsheet',
+=======
+        'php-flasher/flasher' => array(
+            'pretty_version' => 'v1.15.14',
+            'version' => '1.15.14.0',
+            'reference' => '33ae74e73f62814fff4e78e78f912d9b6ddf82d0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-flasher/flasher-laravel' => array(
+            'pretty_version' => 'v1.15.14',
+            'version' => '1.15.14.0',
+            'reference' => 'c2777483fd7074087c16f861ce2191a95088e7c6',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher-laravel',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-flasher/flasher-toastr' => array(
+            'pretty_version' => 'v1.15.14',
+            'version' => '1.15.14.0',
+            'reference' => 'c25755ffa01b9bf3e3a10d883f9914c63c6aedc3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher-toastr',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'php-flasher/flasher-toastr-laravel' => array(
+            'pretty_version' => 'v1.15.14',
+            'version' => '1.15.14.0',
+            'reference' => 'fe24ad128ac4a42adb5f7b2cd54e349c1b0235c4',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../php-flasher/flasher-toastr-laravel',
+>>>>>>> 90f22f72e88a607af0fc6e16e095eea86f50acbb
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -1061,6 +1131,15 @@
             'aliases' => array(),
             'dev_requirement' => true,
         ),
+        'stella-maris/clock' => array(
+            'pretty_version' => '0.1.7',
+            'version' => '0.1.7.0',
+            'reference' => 'fa23ce16019289a18bb3446fdecd45befcdd94f8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../stella-maris/clock',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/console' => array(
             'pretty_version' => 'v6.4.11',
             'version' => '6.4.11.0',
@@ -1352,6 +1431,15 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
+        'tymon/jwt-auth' => array(
+            'pretty_version' => '2.1.1',
+            'version' => '2.1.1.0',
+            'reference' => '51620ebd5b68bb3ce9e66ba86bda303ae5f10f7f',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../tymon/jwt-auth',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'vlucas/phpdotenv' => array(
             'pretty_version' => 'v5.6.1',
             'version' => '5.6.1.0',
@@ -1376,6 +1464,15 @@
             'reference' => '11cb2199493b2f8a3b53e7f19068fc6aac760991',
             'type' => 'library',
             'install_path' => __DIR__ . '/../webmozart/assert',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'yoeunes/toastr' => array(
+            'pretty_version' => 'v2.3.5',
+            'version' => '2.3.5.0',
+            'reference' => '5c39d42b4c7b110572b7643bba1cd51b8af89b74',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../yoeunes/toastr',
             'aliases' => array(),
             'dev_requirement' => false,
         ),

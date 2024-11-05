@@ -35,5 +35,5 @@ class Order_status extends Model
     {
         return $this->hasMany(Order::class);
     }
-
+    
 }

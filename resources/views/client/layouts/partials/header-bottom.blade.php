@@ -125,12 +125,42 @@
                                 </li>
                             </ul>
                         </li>
-                        <li><a href="compare.html"><i class="fa fa-user"></i></a>
-                            {{-- <i class="fa fa-cog"> --}}
+                        <li>
+                            <a href="compare.html">
+                                @if (Auth::check())
+                                    {{-- @if (Auth::user()->image)
+                                        <img src="{{ Storage::url($user->image) }}" alt="User image"
+                                            class="img-circle" style="width: 30px; height: 30px; border-radius: 50%;">
+                                    @else --}}
+                                    <i class="fa fa-user"></i>
+                                    {{-- @endif --}}
+                                @else
+                                    <i class="fa fa-user"></i>
+                                @endif
+                            </a>
                             <ul class="ht-dropdown">
-                                <li><a href="{{ route('login') }}">Đăng nhập</a></li>
-                                <li><a href="{{ route('register') }}">Đăng ký</a></li>
-                                <li><a href="account.html">Tài khoản</a></li>
+                                @if (Auth::check())
+                                    @if (Auth::user()->is_active == '4')
+                                        <li>
+                                            <a href="">Trang Admin</a>
+                                        </li>
+                                    @endif
+                                    <li><a href="{{ route('profile') }}">Tài khoản</a></li>
+                                    <li><a href="{{ route('password') }}">Đổi mật khẩu</a></li>
+                                    <li><a href="{{ route('profileUser') }}">Cập nhật</a></li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <li>
+                                            <a href="">
+                                                <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                            </a>
+                                        </li>
+                                    </form>
+                                @else
+                                    <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                    <li><a href="{{ route('register') }}">Đăng ký</a></li>
+                                    <li><a href="account.html">Tài khoản</a></li>
+                                @endif
                             </ul>
                         </li>
                     </ul>
