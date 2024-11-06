@@ -998,28 +998,6 @@
                             </h6>
                         </div>
 
-                        {{-- <div class="p-3 mt-2">
-                            <div class="col">
-                                <div class="card card-body">
-                                    <div class="d-flex mb-4 align-items-center">
-                                        <div class="flex-shrink-0">
-                                            đoạn hiện ảnh này bạn thay thế cho tôi bằng icon thành công hoặc icon xác nhận
-                                            <img src="assets/images/users/avatar-1.jpg" alt="" class="avatar-sm rounded-circle" />
-                                        </div>
-                                        <div class="flex-grow-1 ms-2">
-                                            <h5 class="card-title mb-1">Yêu cầu hủy hoặc Yêu cầu thêm mới</h5>
-                                            <p class="text-muted mb-0">Digital Marketing</p>
-                                        </div>
-                                    </div>
-                                    <p class="card-text text-muted">Nội dung hủy hoặc nội dung thêm mới ( phần text ở đoạn script kia)</p>
-                                    <h6 class="mb-1">$15,548</h6>
-                                    <a href="javascript:void(0)" class="btn btn-info btn-sm">Xác Nhận</a>
-                                    <a href="javascript:void(0)" class="btn btn-danger btn-sm">Từ chối</a>
-                                </div>
-                            </div>
-
-                        </div> --}}
-
                         <div class="p-3 mt-2">
                             @foreach ($orderCancelRequests as $request)
                                 <div class="col mb-3">
@@ -1029,11 +1007,11 @@
                                                 <i class="ri-delete-bin-2-line text-danger fs-24"></i>
                                             </div>
                                             <div class="flex-grow-1 ms-2">
-                                                <h5 class="card-title mb-1">Yêu cầu hủy</h5>
+                                                <h5 class="card-title mb-1">Yêu cầu hủy đơn hàng bán ra</h5>
                                             </div>
                                         </div>
                                         <p class="card-text text-muted">
-                                            Đơn hàng bán ra - {{ $request->slug }}, yêu cầu hủy -
+                                            Đơn hàng - {{ $request->slug }}, yêu cầu hủy -
                                             {{ $request->cancel_reason }}
                                         </p>
                                         <div>
@@ -1074,35 +1052,29 @@
                                             </div>
                                         </div>
                                         <p class="card-text text-muted">
-                                            {{-- Có nhiều sản phẩm của 1 đơn thì phải hiện hết ra --}}
                                             Sản phẩm:
                                         <ul>
-                                            @foreach ($pendingNewOrders as $item)
+                                            @foreach ($request->importOrder->newOrderRequests as $item)
                                                 <li>{{ $item->variation->name }} - Số lượng: {{ $item->quantity }}</li>
                                             @endforeach
                                         </ul>
                                         </p>
                                         <div>
-                                            <a href="{{ route('importOrder.confirmOrder', ['slug' => $request->importOrder->slug]) }}"
-                                                onclick="event.preventDefault(); document.getElementById('confirm-new-{{ $request->importOrder->slug }}').submit();"
-                                                class="btn btn-info btn-sm">Xác Nhận</a>
-                                            <form id="confirm-new-{{ $request->importOrder->slug }}"
-                                                action="{{ route('importOrder.confirmOrder', ['slug' => $request->importOrder->slug]) }}"
-                                                method="POST" style="display: none;">
-                                                @csrf
-                                            </form>
+                                            <button type="button" class="btn btn-info btn-sm"
+                                                onclick="confirmImportOrder('{{ $request->importOrder->slug }}')">
+                                                Xác Nhận
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                onclick="rejectImportOrder('{{ $request->importOrder->slug }}')">
+                                                Từ Chối
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             @endforeach
-
-
-
                         </div>
-
                         <div class="p-3 mt-2">
-                            <div id="orderCancelRequestsContainer">
-                                <!-- Nội dung yêu cầu hủy đơn hàng sẽ được thêm vào đây bằng JavaScript -->
+                            <div id="cancelRequestsContainer">
                             </div>
                         </div>
 
@@ -1117,49 +1089,53 @@
 @section('scripts')
     @parent
     <script>
+        function confirmImportOrder(slug) {
+            fetch("{{ route('importOrder.confirmOrder', ['slug' => ':slug']) }}".replace(':slug', slug), {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Thành công',
+                            text: data.message,
+                            icon: 'success'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
+                });
+        }
+
+        function rejectImportOrder(slug) {
+            fetch("{{ route('importOrder.rejectOrder', ['slug' => ':slug']) }}".replace(':slug', slug), {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Đã từ chối',
+                            text: data.message,
+                            icon: 'success'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
+                });
+        }
+    </script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Hàm để tạo danh sách sản phẩm
-            function generateProductList(request) {
-                let productList = '<ul>';
-                request.newOrderRequests.forEach(item => {
-                    productList += `<li>${item.variation.name} - Số lượng: ${item.quantity}</li>`;
-                });
-                productList += '</ul>';
-                return productList;
-            }
-
-            function confirmOrder(slug, importOrderId) {
-                const url = "{{ route('importOrder.confirmOrder', ['slug' => ':slug']) }}".replace(':slug', slug);
-
-                fetch(url, {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Ẩn thông báo yêu cầu
-                            document.getElementById('request-' + importOrderId).style.display = 'none';
-
-                            // Hiển thị thông báo thành công
-                            Swal.fire('Xác nhận thành công', data.message, 'success')
-                                .then(() => {
-                                    // Chuyển hướng về dashboard sau khi đóng thông báo
-                                    console.log(data.redirect); // In ra để kiểm tra đường dẫn
-                                    window.location.href = data.redirect; // Chuyển hướng đến URL dashboard
-                                });
-                        } else {
-                            Swal.fire('Lỗi', 'Không thể xác nhận yêu cầu', 'error');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        Swal.fire('Lỗi', 'Có lỗi xảy ra, vui lòng thử lại.', 'error');
-                    });
-            }
-
 
             function checkPendingRequests() {
                 // Kiểm tra nếu có yêu cầu hủy
@@ -1181,37 +1157,36 @@
             fetch("{{ route('importOrder.pendingCancelRequests') }}")
                 .then(response => response.json())
                 .then(data => {
+                    const container = document.getElementById('cancelRequestsContainer');
                     if (data.length > 0) {
                         data.forEach(request => {
-                            Swal.fire({
-                                title: 'Yêu cầu hủy đơn hàng',
-                                text: `Đơn hàng ${request.slug} yêu cầu hủy: ${request.cancel_reason}`,
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'Xác nhận hủy',
-                                cancelButtonText: 'Bỏ qua'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    fetch("{{ route('importOrder.cancel', '') }}/" + request.slug, {
-                                            method: 'GET'
-                                        })
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            if (data.success) {
-                                                Swal.fire('Đã hủy', 'Đơn hàng đã bị hủy thành công',
-                                                    'success');
-                                            } else {
-                                                Swal.fire('Lỗi', 'Không thể hủy đơn hàng', 'error');
-                                            }
-                                        });
-                                }
-                            });
+                            const requestElement = document.createElement('div');
+                            requestElement.className = 'col mb-3';
+                            requestElement.innerHTML = `
+                        <div class="card card-body">
+                            <div class="d-flex mb-4 align-items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="ri-delete-bin-2-line text-danger fs-24"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <h5 class="card-title mb-1">Yêu cầu hủy đơn hàng nhập vào</h5>
+                                </div>
+                            </div>
+                            <p class="card-text text-muted">
+                                Đơn hàng ${request.slug} yêu cầu hủy: ${request.cancel_reason}
+                            </p>
+                            <div>
+                                <button onclick="handleCancelConfirm('${request.slug}')" class="btn btn-info btn-sm">Xác nhận hủy</button>
+                                <button onclick="handleCancelReject('${request.slug}')" class="btn btn-danger btn-sm">Từ chối</button>
+                            </div>
+                        </div>
+                    `;
+                            container.appendChild(requestElement);
                         });
                     }
                 });
         }
 
-        // Gọi hàm kiểm tra khi vào trang dashboard
         document.addEventListener('DOMContentLoaded', function() {
             checkPendingCancelRequests();
         });

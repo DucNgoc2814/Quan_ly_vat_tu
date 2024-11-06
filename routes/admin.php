@@ -264,6 +264,8 @@ Route::prefix('don-hang-nhap')
         Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests')->middleware('permission:50');
         Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus')->middleware('permission:51');
         Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus')->middleware('permission:52');
+        Route::post('/reject/{slug}', [ImportOrderController::class, 'rejectOrder'])->name('rejectOrder');
+
     });
 
 Route::prefix('quan-ly-don-vi')

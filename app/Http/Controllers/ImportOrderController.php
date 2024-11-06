@@ -141,7 +141,18 @@ class ImportOrderController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Đã xác nhận đơn hàng, chờ đơn hàng giao',
-            'redirect' => route('admin.dashboard')
+        ]);
+    }
+
+    public function rejectOrder($slug)
+    {
+        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+        $importOrder->status = 6; // Trạng thái từ chối
+        $importOrder->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã từ chối đơn hàng',
         ]);
     }
 
@@ -167,16 +178,15 @@ class ImportOrderController extends Controller
     // }
 
     public function dashboard()
-{
-    // Lấy các yêu cầu đơn hàng mới đang chờ xác nhận
-    $pendingNewOrders = NewOrderRequest::with(['importOrder', 'variation'])
-        ->whereHas('importOrder', function ($query) {
-            $query->where('status', 1);
-        })
-        ->get();
+    {
+        $pendingNewOrders = NewOrderRequest::with(['importOrder', 'variation'])
+            ->whereHas('importOrder', function ($query) {
+                $query->where('status', 1);
+            })
+            ->get();
 
-    return view('admin.dashboard', compact('pendingNewOrders'));
-}
+        return view('admin.dashboard', compact('pendingNewOrders'));
+    }
 
     public function checkOrderStatus($slug)
     {
@@ -186,6 +196,9 @@ class ImportOrderController extends Controller
         }
         return response()->json(['status' => 'pending']);
     }
+
+
+
 
     public function updateOrderStatus($slug)
     {
