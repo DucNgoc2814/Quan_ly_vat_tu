@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ChangeStatusController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ListProductCategoryController;
 use App\Http\Controllers\Client\ShopController;
@@ -17,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
 Route::get('/', [LoginController::class, 'home'])->name('home');
 Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::post('/handleRegister', [LoginController::class, 'handleRegister'])->name('handleRegister');
@@ -35,6 +36,10 @@ Route::post('/passwordUser', [LoginController::class, 'passwordUser'])->name('pa
 Route::get('/thong-tin-tai-khoan', [LoginController::class, 'profile'])->name('profile');
 Route::get('/cap-nhat-tai-khoan', [LoginController::class, 'profileUser'])->name('profileUser');
 Route::post('/updateProfile', [LoginController::class, 'updateProfile'])->name('updateProfile');
+Route::get('/test', function () {
+    echo "ok";
+})
+    ->middleware('checkCustomer');
 // <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
 Route::get('/',  [HomeController::class, 'listHome'])->name('listHome');

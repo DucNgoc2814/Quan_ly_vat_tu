@@ -11,9 +11,8 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('new_order_requests', function (Blueprint $table) {
-            $table->id();
             $table->foreignId('import_order_id')->constrained('import_orders');
-            $table->string('product');
+            $table->foreignId('variation_id')->constrained('variations');
             $table->integer('quantity');
             $table->timestamps();
         });
