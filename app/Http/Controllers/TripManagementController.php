@@ -50,7 +50,7 @@ class TripManagementController extends Controller
             if (!$token = auth()->guard('employee')->attempt($credentials)) {
                 return redirect()->route('orderconfirm.login')->with('error', 'Thông tin đăng nhập không chính xác');
             }
-            Session::put('employee', $employee);
+            // Session::put('employee', $employee);
             Session::put('token', $token);
             return redirect()->route('orderconfirm.index')->with('success', 'Đăng nhập thành công');
         } catch (Exception $e) {
@@ -121,6 +121,7 @@ class TripManagementController extends Controller
                 $tripDetail->order->update(['status_id' => 4]);
             }
         }
+
         return view('admin.components.tripmanagement.detail', compact('data'));
     }
 
