@@ -563,11 +563,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                    ` : `
-                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                    `}
+                                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                                    ` : `
+                                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                                    `}
                                 </div>
                             </div>
                             <hr>
@@ -767,33 +767,6 @@
         });
     </script>
 
-        {{-- <script>
-        function setDefaultAddress(locationId) {
-            $.ajax({
-                url: "{{ route('setDefaultAddress') }}",
-                type: "POST",
-                data: {
-                    location_id: locationId,
-                    _token: "{{ csrf_token() }}"
-                },
-                success: function(response) {
-                    if (response.success) {
-                        alert(response.message);
-                        $('.badge.bg-danger').remove();
-                        $('button[onclick="setDefaultAddress(' + locationId + ')"]').closest('.address-item')
-                            .find('strong').after('<span class="badge bg-danger ms-2">Mặc định</span>');
-                    } else {
-                        alert("Có lỗi xảy ra, vui lòng thử lại.");
-                    }
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText); // In lỗi để debug
-                    alert("Có lỗi xảy ra, vui lòng thử lại.");
-                }
-            });
-        }
-    </script> --}}
-
     <script>
         function setDefaultAddress(locationId) {
             $.ajax({
@@ -805,49 +778,76 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        alert(response.message);
+                        // Cập nhật UI badges
                         $('.badge.bg-danger').remove();
                         $('button[onclick="setDefaultAddress(' + locationId + ')"]').closest('.address-item')
                             .find('strong').after('<span class="badge bg-danger ms-2">Mặc định</span>');
 
-                        // Cập nhật thông tin vào các ô input
-                        document.getElementById('customer_name').value = response.data.customer_name;
-                        document.getElementById('number_phone').value = response.data.number_phone;
-                        document.getElementById('email').value = response.data
-                            .email; // Giả sử email có trong response
-                        document.getElementById('address').value = response.data.address;
+                        // Gọi API để lấy thông tin chi tiết địa chỉ
+                        fetch(`/locations/getLocation/${locationId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                // Cập nhật thông tin người nhận
+                                document.getElementById('customer_name').value = data.customer_name;
+                                document.getElementById('number_phone').value = data.number_phone;
+                                document.getElementById('email').value = data.email;
+                                document.getElementById('address').value = data.address;
 
-                        // Cập nhật dropdown cho tỉnh, huyện, xã
-                        setSelectedProvince(response.data.province);
-                        setSelectedDistrict(response.data.district);
-                        setSelectedWard(response.data.ward);
+                                // Cập nhật địa chỉ
+                                document.getElementById('location-input').value =
+                                    `${data.province}, ${data.district}, ${data.ward}`;
 
-                        var modal = bootstrap.Modal.getInstance(document.getElementById('addressListModal'));
-                        modal.hide();
+                                // Cập nhật các trường ẩn
+                                document.getElementById('province_name').value = data.province;
+                                document.getElementById('district_name').value = data.district;
+                                document.getElementById('ward_name').value = data.ward;
+
+                                // Đóng modal
+                                const modal = bootstrap.Modal.getInstance(document.getElementById(
+                                    'addressListModal'));
+                                modal.hide();
+                            });
+
                     } else {
                         alert("Có lỗi xảy ra, vui lòng thử lại.");
                     }
                 },
                 error: function(xhr) {
-                    console.log(xhr.responseText); // In lỗi để debug
+                    console.log(xhr.responseText);
                     alert("Có lỗi xảy ra, vui lòng thử lại.");
                 }
             });
         }
 
-        function setSelectedProvince(province) {
-            const provinceSelect = document.getElementById('provinces');
-            provinceSelect.value = province; // Thiết lập giá trị được chọn
-        }
+    </script>
 
-        function setSelectedDistrict(district) {
-            const districtSelect = document.getElementById('districts');
-            districtSelect.value = district; // Thiết lập giá trị được chọn
-        }
+    <script>
+        function selectAddress(locationId) {
+            event.preventDefault();
 
-        function setSelectedWard(ward) {
-            const wardSelect = document.getElementById('wards');
-            wardSelect.value = ward; // Thiết lập giá trị được chọn
+            fetch(`/locations/getLocation/${locationId}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Cập nhật thông tin người nhận
+                    document.getElementById('customer_name').value = data.customer_name;
+                    document.getElementById('number_phone').value = data.number_phone;
+                    document.getElementById('email').value = data.email;
+                    document.getElementById('address').value = data.address;
+
+                    // Cập nhật địa chỉ
+                    document.getElementById('location-input').value =
+                        `${data.province}, ${data.district}, ${data.ward}`;
+
+                    // Cập nhật các trường ẩn
+                    document.getElementById('province_name').value = data.province;
+                    document.getElementById('district_name').value = data.district;
+                    document.getElementById('ward_name').value = data.ward;
+
+                    // Đóng modal
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addressListModal'));
+                    modal.hide();
+                })
+                .catch(error => console.error('Error:', error));
         }
     </script>
 @endsection

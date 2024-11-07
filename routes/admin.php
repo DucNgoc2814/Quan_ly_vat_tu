@@ -112,6 +112,7 @@ Route::get('/locations/{customer_id}', [LocationController::class, 'getLocations
 Route::post('/set-default-address', [LocationController::class, 'setDefaultAddress'])->name('setDefaultAddress');
 Route::get('/orders/customer-location/{customerId}', [OrderController::class, 'getCustomerLocation']);
 Route::delete('/locations/{id}', [LocationController::class, 'destroy']);
+Route::get('/locations/getLocation/{id}', [LocationController::class, 'getLocation']);
 
 
 
