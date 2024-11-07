@@ -44,7 +44,13 @@ use App\Http\Controllers\UnitController;
 // } catch (\Exception $e) {
 //     return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
 // }
+
+
 Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
+
+// Route::get('/dashboard', function () {
+//     view('admin.dashboard');
+// });
 
 Route::prefix('employees')
     ->as('employees.')
@@ -106,6 +112,7 @@ Route::get('/locations/{customer_id}', [LocationController::class, 'getLocations
 Route::post('/set-default-address', [LocationController::class, 'setDefaultAddress'])->name('setDefaultAddress');
 Route::get('/orders/customer-location/{customerId}', [OrderController::class, 'getCustomerLocation']);
 Route::delete('/locations/{id}', [LocationController::class, 'destroy']);
+Route::get('/locations/getLocation/{id}', [LocationController::class, 'getLocation']);
 
 
 
@@ -173,8 +180,6 @@ Route::prefix('quan-ly-ban-hang')
         Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus');
         Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail');
         Route::post('/yeu-cau-huy/{slug}', [OrderController::class, 'requestCancel'])->name('requestCancel');
-
-
     });
 Route::prefix('quan-ly-thanh-truot')
     ->as('sliders.')
@@ -260,6 +265,8 @@ Route::prefix('don-hang-nhap')
         Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests')->middleware('permission:50');
         Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus')->middleware('permission:51');
         Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus')->middleware('permission:52');
+        Route::post('/reject/{slug}', [ImportOrderController::class, 'rejectOrder'])->name('rejectOrder');
+
     });
 
 Route::prefix('quan-ly-don-vi')
