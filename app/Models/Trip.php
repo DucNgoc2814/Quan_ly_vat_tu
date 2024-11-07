@@ -31,4 +31,8 @@ class Trip extends Model
     public function request() {
         return $this->belongsTo(Request::class);
     }
+    // In the Employee model
+    // In Employee model
+
+
 }

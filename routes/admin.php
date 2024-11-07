@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\TripDetailController;
+use App\Http\Controllers\TripManagementController;
 use App\Http\Controllers\UnitController;
 // <+====================ROUTER MẪU====================+>
 // Route::prefix('duong-dan-mau')
@@ -53,6 +54,20 @@ Route::prefix('employees')
         Route::get('/404-not-found', [EmployeeController::class, 'notFound'])->name('notfound');
         Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
+
+
+    });
+Route::prefix('orderconfirm')
+    ->as('orderconfirm.')
+    ->group(function () {
+        Route::get('/404-not-found', [TripManagementController::class, 'notFound'])->name('notfound');
+        Route::get('/dang-nhap', [TripManagementController::class, 'login'])->name('login');
+        Route::post('/dang-nhap', [TripManagementController::class, 'loginPost'])->name('loginPost');
+        Route::get('/xan-nhan-don-hang', [TripManagementController::class, 'index'])->name('index');
+        Route::get('/chi-tiet/{id}', [TripManagementController::class, 'show'])->name('show');
+        Route::put('/chi-tiet/{id}', [TripManagementController::class, 'update'])->name('update');
+
+
     });
 Route::middleware('CheckEmployees')->group(
     function () {
@@ -367,3 +382,4 @@ Route::prefix('quan-ly-chuyen-xe')
     ->group(function () {
         Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index')->middleware('permission:73');
     });
+

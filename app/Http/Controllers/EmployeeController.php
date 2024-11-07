@@ -44,7 +44,9 @@ class EmployeeController extends Controller
             if (!$token = auth()->guard('employee')->attempt($credentials)) {
                 return redirect()->route('employees.login')->with('error', 'Thông tin đăng nhập không chính xác');
             }
+            Session::put('employee', $employee);
             Session::put('token', $token);
+
             return redirect('/dashboard');
         } catch (Exception $e) {
             return redirect()->route('employees.login')->with('error', 'Không thể đang nhập thử lại lần sau');

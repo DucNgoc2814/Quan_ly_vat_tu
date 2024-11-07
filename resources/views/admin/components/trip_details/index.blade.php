@@ -72,7 +72,7 @@
                                     <td>{{ $index->order->number_phone }}</td>
                                     <td>{{ $index->order->orderDetails->first()->variations->name }}</td>
                                     <td>{{ $index->order->orderDetails->first()->quantity }}</td>
-                                    <td>{{ $index->order->orderDetails->first()->price }}</td>
+                                    <td>{{ $index->order->total_amount }}</td>
                             </tr>
                                 @endif
                                 @endforeach

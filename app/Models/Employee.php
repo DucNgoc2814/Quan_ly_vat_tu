@@ -55,4 +55,6 @@ class Employee extends Authenticatable implements JWTSubject
             'is_employee' => true
         ];
     }
+
+
 }
