@@ -13,16 +13,16 @@ class CheckPermission
 {
     public function handle(Request $request, Closure $next, $permissionId)
     {
-        $token = Session::get('token');
-        $dataToken = JWTAuth::setToken($token)->getPayload();
-        $roleEmployee = $dataToken->get('role');
-        $permissionRoleEmployee = DB::table('permission_role_employees')
-            ->where('role_employee_id', $roleEmployee)
-            ->where('permission_id', $permissionId)
-            ->first();
-        if (!$permissionRoleEmployee) {
-            return back()->with('authorization', 'Bạn không có quyền truy cập chức năng này');
-        }
+        // $token = Session::get('token');
+        // $dataToken = JWTAuth::setToken($token)->getPayload();
+        // $roleEmployee = $dataToken->get('role');
+        // $permissionRoleEmployee = DB::table('permission_role_employees')
+        //     ->where('role_employee_id', $roleEmployee)
+        //     ->where('permission_id', $permissionId)
+        //     ->first();
+        // if (!$permissionRoleEmployee) {
+        //     return back()->with('authorization', 'Bạn không có quyền truy cập chức năng này');
+        // }
         return $next($request);
     }
 }

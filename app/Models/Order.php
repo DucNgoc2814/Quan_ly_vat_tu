@@ -17,6 +17,9 @@ class Order extends Model
         'customer_name',
         'email',
         'number_phone',
+        'province',
+        'district',
+        'ward',
         'address',
         'total_amount',
         'paid_amount',
@@ -52,7 +55,8 @@ class Order extends Model
         return $this->hasMany(Debt::class);
     }
 
-    public function orderCanceled() {
+    public function orderCanceled()
+    {
         return $this->hasOne(Order_canceled::class);
     }
 }

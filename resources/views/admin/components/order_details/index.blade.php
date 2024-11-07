@@ -155,7 +155,7 @@
                                         <div class="mb-3">
                                             <label for="address" class="form-label">Địa chỉ giao hàng </label>
                                             <input type="text" class="form-control" id="address"
-                                                value="{{ $data->first()->order->address }}" readonly>
+                                                value="{{ $data->first()->order->address }}, {{ $data->first()->order->ward }}, {{ $data->first()->order->district }}, {{ $data->first()->order->province }}" readonly>
                                         </div>
                                     </div>
                                 </div>
