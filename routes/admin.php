@@ -50,6 +50,7 @@ Route::prefix('employees')
         Route::get('/404-not-found', [EmployeeController::class, 'notFound'])->name('notfound');
         Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
+        Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
 Route::middleware('CheckEmployees')->group(
     function () {

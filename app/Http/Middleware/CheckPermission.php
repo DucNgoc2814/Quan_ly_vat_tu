@@ -1,3 +1,6 @@
+/**
+ * This is the start of the CheckPermission middleware class. The purpose of this middleware is to check if the current user has the necessary permissions to access a specific functionality in the application.
+ */
 <?php
 namespace App\Http\Middleware;
 use Closure;

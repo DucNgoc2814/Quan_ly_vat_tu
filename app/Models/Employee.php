@@ -52,7 +52,10 @@ class Employee extends Authenticatable implements JWTSubject
             'name' => $this->name,
             'role' => $this->role_id,
             'id' => $this->id,
-            'is_employee' => true
+            'is_employee' => true,
+            'name' => $this->name,
+            'namimage' => $this->namimage,
+            'description' => $this->description
         ];
     }
 }

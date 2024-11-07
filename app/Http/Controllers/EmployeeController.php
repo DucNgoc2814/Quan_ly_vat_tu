@@ -18,10 +18,14 @@ class EmployeeController extends Controller
     /**
      * Display a listing of the resource.
      */
-
     public function notFound()
     {
         return view('admin.404');
+    }
+    public function logOut()
+    {
+        Session::forget('token');
+        return redirect()->route('employees.login')->with('success', 'Đăng xuất thành công');
     }
     public function login()
     {
