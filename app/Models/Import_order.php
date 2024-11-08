@@ -30,5 +30,8 @@ class Import_order extends Model
     public function importOrderDetails(){
         return $this->hasMany(Import_order_detail::class);
     }
-
+    public function newOrderRequests()
+    {
+        return $this->hasMany(NewOrderRequest::class, 'import_order_id');
+    }
 }

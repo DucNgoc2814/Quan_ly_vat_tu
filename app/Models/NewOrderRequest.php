@@ -11,12 +11,16 @@ class NewOrderRequest extends Model
 
     protected $fillable = [
         'import_order_id',
-        'product',
+        'variation_id',
         'quantity',
     ];
 
     public function importOrder()
     {
         return $this->belongsTo(Import_order::class, 'import_order_id');
+    }
+    public function variation()
+    {
+        return $this->belongsTo(Variation::class, 'variation_id');
     }
 }
