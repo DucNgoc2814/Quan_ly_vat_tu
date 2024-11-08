@@ -13,11 +13,16 @@ class HomeController extends Controller
 {
     // const PATH_VIEW = '';
     public function listHome()
-    {
-        $categories = Category::get();
-        $brands = Brand::get();
-        $products = Product::with('variations')->orderBy('id', 'desc')->paginate(4); // Gọi 1 lần duy nhất
-        return view('index', compact('categories', 'brands', 'products'));
-    }
+{
+    $categories = Category::get();
+    $brands = Brand::get();
+    $products = Product::with('variations')
+        ->where('is_active', 1)
+        ->orderBy('id', 'desc')
+        ->paginate(4);
+
+    return view('index', compact('categories', 'brands', 'products'));
+}
+
     
 }
