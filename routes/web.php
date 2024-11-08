@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ChangeStatusController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\ListProductCategoryController;
+use App\Http\Controllers\Client\ShopController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 /*
@@ -37,3 +40,8 @@ Route::get('/test', function () {
     echo "ok";
 })
     ->middleware('checkCustomer');
+// <+====================TINHNGUYEN====================+>
+Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
+Route::get('/',  [HomeController::class, 'listHome'])->name('listHome');
+Route::get('/danh-sach-san-pham',  [ShopController::class, 'listProduct'])->name('listProduct');
+Route::get('/danh-sach-san-pham/{category}',  [ShopController::class, 'listProductWCategory'])->name('listProductWCategory');
