@@ -342,6 +342,7 @@ Route::prefix('danh-muc')
     });
 Route::prefix('xep-hang-khach-hang')
     ->as('customer_ranks.')
+    
     ->group(function () {
         Route::get('/danh-sach', [CustomerRankController::class, 'index'])->name('index')->middleware('permission:65');
         Route::get('/them-moi', [CustomerRankController::class, 'create'])->name('create')->middleware('permission:66');

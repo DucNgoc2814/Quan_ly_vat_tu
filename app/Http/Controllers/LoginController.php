@@ -73,7 +73,7 @@ class LoginController extends Controller
                 'decoded' => [
                     'username' => $payload->get('username'),
                     'id' => $payload->get('id'),
-                    'role' => $payload->get('role')
+                    'role' => $payload->get('role') 
                 ]
             ]);
         } catch (Exception $e) {
