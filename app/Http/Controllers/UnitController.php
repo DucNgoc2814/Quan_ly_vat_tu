@@ -33,13 +33,12 @@ class UnitController extends Controller
      */
     public function store(StoreUnitRequest $request)
     {
-        if($request->isMethod('POST')){
-            $data = [
-                'name'=> $request->name
-            ];
-            Unit::create($data);
-            return redirect()->route('units.index')->with('success','Thêm thành công. ');
-        }
+        $unit = Unit::create([
+            'name' => $request->name
+        ]);
+
+        return redirect()->route('units.index')
+            ->with('success', 'Thêm thành công.');
     }
 
     /**
@@ -65,16 +64,13 @@ class UnitController extends Controller
      */
     public function update(UpdateUnitRequest $request, string $id)
     {
-        //
-        if($request->isMethod('PUT')){
-            $unit = Unit::find($id);
-            $data = [
-                'name' => $request->name
-            ];
-            $unit->update($data);
-            return redirect()->route('units.index')->with('success','Sửa thành công. ');
-        }
+        $unit = Unit::findOrFail($id);
+        $unit->update([
+            'name' => $request->name
+        ]);
 
+        return redirect()->route('units.index')
+            ->with('success', 'Sửa thành công.');
     }
 
     /**
@@ -82,9 +78,15 @@ class UnitController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        $unit = Unit::find($id);
-        $unit->delete();
-        return redirect()->route('units.index')->with('success', 'Xóa đơn vị thành công. ');
+        $unit = Unit::findOrFail($id);
+        
+        try {
+            $unit->delete();
+            return redirect()->route('units.index')
+                ->with('success', 'Xóa đơn vị thành công.');
+        } catch (\Exception $e) {
+            return redirect()->route('units.index')
+                ->with('error', 'Không thể xóa đơn vị này.');
+        }
     }
 }

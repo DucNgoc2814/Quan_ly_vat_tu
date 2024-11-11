@@ -51,6 +51,7 @@ Route::prefix('employees')
         Route::get('/404-not-found', [EmployeeController::class, 'notFound'])->name('notfound');
         Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
+        Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
 Route::middleware('CheckEmployees')->group(
     function () {
@@ -96,16 +97,7 @@ Route::middleware('CheckEmployees')->group(
         Route::post('/set-default-address', [LocationController::class, 'setDefaultAddress'])->name('setDefaultAddress');
         Route::get('/orders/customer-location/{customerId}', [OrderController::class, 'getCustomerLocation']);
         Route::delete('/locations/{id}', [LocationController::class, 'destroy']);
-
-        Route::prefix('quan-ly-nhan-vien')
-            ->as('employees.')
-            ->group(function () {
-                Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('index');
-                Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('create');
-                Route::post('/them-moi', [EmployeeController::class, 'store'])->name('store');
-                Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
-                Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
-            });
+        Route::get('/locations/getLocation/{id}', [LocationController::class, 'getLocation']);
 
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')
@@ -244,8 +236,8 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests')->middleware('permission:50');
                 Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus')->middleware('permission:51');
                 Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus')->middleware('permission:52');
+                Route::post('/reject/{slug}', [ImportOrderController::class, 'rejectOrder'])->name('rejectOrder');
             });
-
 
         Route::prefix('quan-ly-don-vi')
             ->as('units.')
@@ -268,26 +260,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::put('/sua/{id}', [CargoCarTypeController::class, 'update'])->name('update');
                 Route::delete('/xoa/{id}', [CargoCarTypeController::class, 'destroy'])->name('destroy');
             });
-        Route::prefix('danh-muc')
-            ->as('category.')
-            ->group(function () {
-                Route::get('/danh-sach', [CategoryController::class, 'index'])->name('index');
-                Route::get('/them-moi', [CategoryController::class, 'create'])->name('create');
-                Route::post('/them-moi', [CategoryController::class, 'store'])->name('store');
-                Route::get('/sua/{id}', [CategoryController::class, 'edit'])->name('edit');
-                Route::put('/sua/{id}', [CategoryController::class, 'update'])->name('update');
-                Route::delete('/xoa/{id}', [CategoryController::class, 'destroy'])->name('destroy');
-            });
-        Route::prefix('xep-hang-khach-hang')
-            ->as('customer_ranks.')
-            ->group(function () {
-                Route::get('/danh-sach', [CustomerRankController::class, 'index'])->name('index');
-                Route::get('/them-moi', [CustomerRankController::class, 'create'])->name('create');
-                Route::post('/them-moi', [CustomerRankController::class, 'store'])->name('store');
-                Route::get('/sua/{id}', [CustomerRankController::class, 'edit'])->name('edit');
-                Route::put('/sua/{id}', [CustomerRankController::class, 'update'])->name('update');
-                Route::delete('/xoa/{id}', [CustomerRankController::class, 'destroy'])->name('destroy');
-            });
+
         Route::prefix('loai-xe')
             ->as('cargo_car_types.')
             ->group(function () {
