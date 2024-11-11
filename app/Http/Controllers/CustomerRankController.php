@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Customer_rank;
 use App\Http\Requests\StoreCustomer_rankRequest;
 use App\Http\Requests\UpdateCustomer_rankRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class CustomerRankController extends Controller
@@ -23,7 +24,7 @@ class CustomerRankController extends Controller
      */
     public function create()
     {
-        //
+        return view(self::PATH_VIEW . 'create', );
     }
 
     /**
@@ -31,6 +32,22 @@ class CustomerRankController extends Controller
      */
     public function store(StoreCustomer_rankRequest $request)
     {
+
+        $request->validate([
+            'name' => 'required|unique:customer_ranks,name',
+            'discount' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|min:1',
+        ]);
+        $data = [
+            'name' => $request->name,
+            'discount' => $request->discount,
+            'amount' => $request->amount,
+        ];
+        // dd($data);  
+        DB::table('customer_ranks')->insert($data);
+
+    return redirect()->route('customer_ranks.index')->with('success', 'Giảm giá đã được thêm thành công.');
+
         //
     }
 
@@ -45,24 +62,43 @@ class CustomerRankController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Customer_rank $customer_rank)
+    public function edit($id)
+
     {
-        //
+
+        $data = Customer_rank::findOrFail($id);
+        return view(self::PATH_VIEW . 'edit', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCustomer_rankRequest $request, Customer_rank $customer_rank)
+    public function update(StoreCustomer_rankRequest $request,$id)
     {
+        
+        $data = [
+            'name' => $request->name,
+            'discount' => $request->discount,
+            'amount' => $request->amount,
+        ];
+        DB::table('customer_ranks')
+        ->where('id', $id)
+        ->update($data);
+
+    return redirect()->route('customer_ranks.index')->with('success', 'Giảm giá đã được cập nhật thành công.');
+
         //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Customer_rank $customer_rank)
+    public function destroy($id)
     {
-        //
+        // DB::table('customer_ranks')
+        // ->where('id', $id)
+        // ->delete();
+        // return redirect()->route('customer_ranks.index')->with('success', 'Giảm giá đã được xóa thành công.');
+
     }
 }

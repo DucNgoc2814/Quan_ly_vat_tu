@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách loại xe</h4>
+                <h4 class="mb-sm-0">Danh sách loại xee</h4>
             </div>
 
         </div>
@@ -34,7 +34,7 @@
     <tr>
         <th data-ordering="false">ID</th>
         <th data-ordering="false">Tên</th>
-        <th data-ordering="false">Dung Tích</th>
+        <th data-ordering="false">Dung Tích.</th>
         <th>Hành động</th>
     </tr>
 </thead>
