@@ -12,7 +12,7 @@
                     <div class="col-sm-12">
                         <ul class="main-thumb-desc nav">
                             <li><a class="active" data-bs-toggle="tab" href="#dtail">Details</a></li>
-                            <li><a data-bs-toggle="tab" href="#review">Reviews 1</a></li>
+                            <li><a data-bs-toggle="tab" href="#review">Reviews </a></li>
                         </ul>
                         <!-- Product Thumbnail Tab Content Start -->
                         <div class="tab-content thumb-content border-default">
