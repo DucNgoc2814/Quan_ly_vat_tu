@@ -1,106 +1,11 @@
 @extends('client.layouts.master')
 
 @section('title')
-    Product Detail
+    Chi tiết sản phẩm
 @endsection
 
 @section('contents')
         <!-- Breadcrumb Start -->
-        <div class="breadcrumb-area ptb-60 ptb-sm-30">
-            <div class="container">
-                <div class="breadcrumb">
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="shop.html">Shop</a></li>
-                        <li class="active"><a href="product.html">Product</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- Container End -->
-        </div>
-        <!-- Breadcrumb End -->
-        <!-- Product Thumbnail Start -->
-        <div class="main-product-thumbnail pb-60">
-            <div class="container">
-                <div class="row">
-                    <!-- Main Thumbnail Image Start -->
-                    <div class="col-lg-5">
-                        <!-- Thumbnail Large Image start -->
-                        <div class="tab-content">
-                            <div id="thumb1" class="tab-pane active">
-                                <a data-fancybox="images" href="img/products/1.jpg"><img src="img/products/1.jpg" alt="product-view"></a>
-                            </div>
-                            <div id="thumb2" class="tab-pane">
-                                <a data-fancybox="images" href="img/products/2.jpg"><img src="img/products/2.jpg" alt="product-view"></a>
-                            </div>
-                            <div id="thumb3" class="tab-pane">
-                                <a data-fancybox="images" href="img/products/3.jpg"><img src="img/products/3.jpg" alt="product-view"></a>
-                            </div>
-                            <div id="thumb4" class="tab-pane">
-                                <a data-fancybox="images" href="img/products/4.jpg"><img src="img/products/4.jpg" alt="product-view"></a>
-                            </div>
-                        </div>
-                        <!-- Thumbnail Large Image End -->
-
-                        <!-- Thumbnail Image End -->
-                        <div class="product-thumbnail">
-                            <div class="thumb-menu nav">
-                                    <a class="active" data-bs-toggle="tab" href="#thumb1"> <img src="img/products/1.jpg" alt="product-thumbnail"></a>
-                                    <a data-bs-toggle="tab" href="#thumb2"> <img src="img/products/2.jpg" alt="product-thumbnail"></a>
-                                    <a data-bs-toggle="tab" href="#thumb3"> <img src="img/products/3.jpg" alt="product-thumbnail"></a>
-                                    <a data-bs-toggle="tab" href="#thumb4"> <img src="img/products/4.jpg" alt="product-thumbnail"></a>
-                            </div>
-                        </div>
-                        <!-- Thumbnail image end -->
-                    </div>
-                    <!-- Main Thumbnail Image End -->
-                    <!-- Thumbnail Description Start -->
-                    <div class="col-lg-7">
-                        <div class="thubnail-desc fix">
-                            <h3 class="product-header">Products Name Here</h3>
-                            <div class="rating-summary fix mtb-10">
-                                <div class="rating f-left">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
-                                </div>
-                                <div class="rating-feedback f-left">
-                                    <a href="#">(1 review)</a>
-                                    <a href="#">add to your review</a>
-                                </div>
-                            </div>
-                            <div class="pro-price mb-10">
-                                <p><span class="price">$30.00</span><del class="prev-price">-32.00</del></p>
-                            </div>
-                            <div class="pro-ref mb-15">
-                                <p><span class="in-stock">IN STOCK</span><span class="sku">50</span></p>
-                            </div>
-                            <div class="box-quantity">
-                                <form action="#">
-                                    <input class="number" id="numeric" type="number" min="1" value="1">
-                                    <a class="add-cart" href="cart.html">add to cart</a>
-                                </form>
-                            </div>
-                            <div class="product-link">
-                                <ul class="list-inline">
-                                    <li><a href="wishlist.html">Add to Wish List</a></li>
-                                    <li><a href="compare.html">Add to compare</a></li>
-                                    <li><a href="#">Email</a></li>
-                                </ul>
-                            </div>
-                            <p class="ptb-20">Everything you need for a trip to the gym will fit inside this surprisingly spacious Products Name Here. Stock it with a water bottle, change of clothes, pair of shoes, and even a few beauty products. Fits inside a locker and zips shut for security.</p>
-                        </div>
-                    </div>
-                    <!-- Thumbnail Description End -->
-                </div>
-                <!-- Row End -->
-            </div>
-            <!-- Container End -->
-        </div>
-        <!-- Product Thumbnail End -->
-        <!-- Product Thumbnail Description Start -->
         <div class="thumnail-desc pb-60">
             <div class="container">
                 <div class="row">
@@ -237,9 +142,9 @@
                     <div class="group-title">
                         <h2>related product</h2>
                     </div>
-                    <!-- Realted Product Activation Start -->
+                    <!-- Realted Product Activation Start -->                    
                     <div class="new-upsell-pro owl-carousel">
-                        <!-- Single Product Start -->
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -257,7 +162,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -271,8 +176,8 @@
                             <!-- Product Content End -->
                             <span class="sticker-new">-32%</span>
                         </div>
-                        <!-- Single Product End -->
-                        <!-- Single Product Start -->
+                        <!-- Single Product End -->  
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -290,7 +195,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -304,7 +209,7 @@
                             <!-- Product Content End -->
                         </div>
                         <!-- Single Product End -->
-                        <!-- Single Product Start -->
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -322,7 +227,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -337,7 +242,7 @@
                             <span class="sticker-new">-30%</span>
                         </div>
                         <!-- Single Product End -->
-                        <!-- Single Product Start -->
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -355,7 +260,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -369,7 +274,7 @@
                             <!-- Product Content End -->
                         </div>
                         <!-- Single Product End -->
-                        <!-- Single Product Start -->
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -387,7 +292,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -401,7 +306,7 @@
                             <!-- Product Content End -->
                             <span class="sticker-new">-32%</span>
                         </div>
-                        <!-- Single Product End -->
+                        <!-- Single Product End --> 
                     </div>
                     <!-- Realted Product Activation End -->
                 </div>
@@ -417,7 +322,7 @@
                     </div>
                     <!-- Upsell Product Activation Start -->
                     <div class="new-upsell-pro owl-carousel">
-                        <!-- Single Product Start -->
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -435,7 +340,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -449,8 +354,8 @@
                             <!-- Product Content End -->
                             <span class="sticker-new">-32%</span>
                         </div>
-                        <!-- Single Product End -->
-                        <!-- Single Product Start -->
+                        <!-- Single Product End -->  
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -468,7 +373,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -482,7 +387,7 @@
                             <!-- Product Content End -->
                         </div>
                         <!-- Single Product End -->
-                        <!-- Single Product Start -->
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -500,7 +405,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -515,7 +420,7 @@
                             <span class="sticker-new">-30%</span>
                         </div>
                         <!-- Single Product End -->
-                        <!-- Single Product Start -->
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -533,7 +438,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -547,7 +452,7 @@
                             <!-- Product Content End -->
                         </div>
                         <!-- Single Product End -->
-                        <!-- Single Product Start -->
+                        <!-- Single Product Start -->                    
                         <div class="single-product">
                             <!-- Product Image Start -->
                             <div class="pro-img">
@@ -565,7 +470,7 @@
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                </div>
+                                </div>                                
                                 <h4><a href="product.html">Products Name Here</a></h4>
                                 <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
                                 <div class="pro-actions">
@@ -579,7 +484,7 @@
                             <!-- Product Content End -->
                             <span class="sticker-new">-32%</span>
                         </div>
-                        <!-- Single Product End -->
+                        <!-- Single Product End --> 
                     </div>
                     <!-- Upsell Product Activation End -->
                 </div>
@@ -622,8 +527,7 @@
                         <a href="#"><img src="img/brand/5.png" alt="brand-image"></a>
                     </div>
                 </div>
-                <!-- Brand Banner End -->
+                <!-- Brand Banner End -->                
             </div>
         </div>
-        <!-- Brand Logo End -->
 @endsection
