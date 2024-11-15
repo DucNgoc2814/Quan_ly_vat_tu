@@ -70,7 +70,7 @@ class TripManagementController extends Controller
     }
 
 
-   
+
     public function create()
     {
         //
@@ -81,9 +81,7 @@ class TripManagementController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(string $id)
     {
         if (!Session::has('employee')) {
