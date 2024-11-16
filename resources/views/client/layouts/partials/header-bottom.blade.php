@@ -15,10 +15,9 @@
                 <div class="middle-menu pull-right">
                     <nav>
                         <ul class="middle-menu-list">
-                            <li><a href="{{ route('listHome') }}">home</a>
+                            <li><a href="{{ route('listHome') }}">Trang chủ</a>
                             </li>
-                            <li><a href="about.html">about us</a></li>
-                            <li><a href="{{ route('listProduct') }}">shop1<i class="fa fa-angle-down"></i></a>
+                            <li><a href="{{ route('listProduct') }}">Danh mục<i class="fa fa-angle-down"></i></a>
                                 <!-- Home Version Dropdown Start -->
                                 <ul class="ht-dropdown dropdown-style-two">
                                     @foreach ($category as $categorie)
@@ -29,26 +28,7 @@
                                 </ul>
                                 <!-- Home Version Dropdown End -->
                             </li>
-                            <li><a href="blog.html">Blog<i class="fa fa-angle-down"></i></a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul class="ht-dropdown dropdown-style-two">
-                                    <li><a href="blog.html">Blog Page</a></li>
-                                    <li><a href="blog-details.html">Blog Details Page</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
-                            </li>
-                            <li><a href="#">pages<i class="fa fa-angle-down"></i></a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul class="ht-dropdown dropdown-style-two">
-                                    <li><a href="login.html">Login Page</a></li>
-                                    <li><a href="register.html">Register Page</a></li>
-                                    <li><a href="404.html">404 Page</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password Page</a></li>
-                                    <li><a href="account.html">Account Page</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
-                            </li>
-                            <li><a href="contact.html">contact us</a></li>
+                            
                         </ul>
                     </nav>
                 </div>
@@ -144,71 +124,25 @@
                     </ul>
                 </div>
             </div>
-            <!--  Cartt Box  End-->
-            <!-- Mobile Menu Start -->
             <div class="col-sm-12 d-lg-none">
                 <div class="mobile-menu">
                     <nav>
                         <ul>
-                            <li><a href="index.html">home</a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul>
-                                    <li><a href="index.html">Home Version One</a></li>
-                                    <li><a href="index-2.html">Home Version Two</a></li>
-                                    <li><a href="index-3.html">Home Box Layout</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
+                            <li><a href="index.html">Trang chủ</a>
                             </li>
-                            <li><a href="shop.html">shop</a>
-                                <!-- Mobile Menu Dropdown Start -->
+                            <li><a href="shop.html">Danh mục</a>
                                 <ul>
-                                    <li><a href="product.html">Shop</a>
-                                        <ul>
-                                            <li><a href="shop.html">Product Category Name</a>
-                                                <!-- Start Three Step -->
-                                                <ul>
-                                                    <li><a href="shop.html">Product Category Name</a></li>
-                                                    <li><a href="shop.html">Product Category Name</a></li>
-                                                    <li><a href="shop.html">Product Category Name</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="shop.html">Product Category Name</a></li>
-                                            <li><a href="shop.html">Product Category Name</a></li>
-                                        </ul>
+                                    @foreach ($category as $categorie)
+                                    <li><a
+                                            href="{{ route('listProductWCategory', $categorie->sku) }}">{{ $categorie->name }}</a>
                                     </li>
-                                    <li><a href="product.html">product details Page</a></li>
-                                    <li><a href="compare.html">Compare Page</a></li>
-                                    <li><a href="cart.html">Cart Page</a></li>
-                                    <li><a href="checkout.html">Checkout Page</a></li>
-                                    <li><a href="wishlist.html">Wishlist Page</a></li>
+                                @endforeach
                                 </ul>
-                                <!-- Mobile Menu Dropdown End -->
                             </li>
-                            <li><a href="blog.html">Blog</a>
-                                <!-- Mobile Menu Dropdown Start -->
-                                <ul>
-                                    <li><a href="blog-details.html">Blog Details Page</a></li>
-                                </ul>
-                                <!-- Mobile Menu Dropdown End -->
-                            </li>
-                            <li><a href="#">pages</a>
-                                <!-- Mobile Menu Dropdown Start -->
-                                <ul>
-                                    <li><a href="login.html">login Page</a></li>
-                                    <li><a href="register.html">Register Page</a></li>
-                                    <li><a href="404.html">404 Page</a></li>
-                                </ul>
-                                <!-- Mobile Menu Dropdown End -->
-                            </li>
-                            <li><a href="about.html">about us</a></li>
-                            <li><a href="contact.html">contact us</a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
-            <!-- Mobile Menu  End -->
         </div>
-        <!-- Row End -->
     </div>
-    <!-- Container End -->
 </div>
