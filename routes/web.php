@@ -38,6 +38,13 @@ Route::post('/passwordUser', [LoginController::class, 'passwordUser'])->name('pa
 Route::get('/thong-tin-tai-khoan', [LoginController::class, 'profile'])->name('profile');
 Route::get('/cap-nhat-tai-khoan', [LoginController::class, 'profileUser'])->name('profileUser');
 Route::post('/updateProfile', [LoginController::class, 'updateProfile'])->name('updateProfile');
+
+
+
+
+Route::get('/lien-he',  [HomeController::class, 'contact'])->name('contact');
+
+
 Route::get('/test', function () {
     echo "ok";
 })

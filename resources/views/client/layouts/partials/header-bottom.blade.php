@@ -15,10 +15,9 @@
                 <div class="middle-menu pull-right">
                     <nav>
                         <ul class="middle-menu-list">
-                            <li><a href="{{ route('listHome') }}">home</a>
+                            <li><a href="{{ route('listHome') }}">Trang Chủ</a>
                             </li>
-                            <li><a href="about.html">about us</a></li>
-                            <li><a href="{{ route('listProduct') }}">shop1<i class="fa fa-angle-down"></i></a>
+                            <li><a href="{{ route('listProduct') }}">Cửa Hàng<i class="fa fa-angle-down"></i></a>
                                 <!-- Home Version Dropdown Start -->
                                 <ul class="ht-dropdown dropdown-style-two">
                                     @foreach ($category as $categorie)
@@ -29,26 +28,8 @@
                                 </ul>
                                 <!-- Home Version Dropdown End -->
                             </li>
-                            <li><a href="blog.html">Blog<i class="fa fa-angle-down"></i></a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul class="ht-dropdown dropdown-style-two">
-                                    <li><a href="blog.html">Blog Page</a></li>
-                                    <li><a href="blog-details.html">Blog Details Page</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
-                            </li>
-                            <li><a href="#">pages<i class="fa fa-angle-down"></i></a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul class="ht-dropdown dropdown-style-two">
-                                    <li><a href="login.html">Login Page</a></li>
-                                    <li><a href="register.html">Register Page</a></li>
-                                    <li><a href="404.html">404 Page</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password Page</a></li>
-                                    <li><a href="account.html">Account Page</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
-                            </li>
-                            <li><a href="contact.html">contact us</a></li>
+                            <li><a href="about.html">Giới thiệu</a></li>
+                            <li><a href="{{ route('contact') }}">Liên hệ với chúng tôi</a></li>
                         </ul>
                     </nav>
                 </div>

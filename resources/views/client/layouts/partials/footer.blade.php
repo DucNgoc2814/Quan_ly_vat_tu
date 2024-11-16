@@ -7,15 +7,15 @@
                     <div class="newsletter text-center">
                         <div class="main-news-desc">
                             <div class="news-desc">
-                                <h3>Sign Up For Newsletters</h3>
-                                <p>Get e-mail updates about our latest shop and special offers.</p>
+                                <h3>Đăng ký nhận bản tin</h3>
+                                <p>Nhận email cập nhật về cửa hàng mới nhất và các ưu đãi đặc biệt của chúng tôi.</p>
                             </div>
                         </div>
                         <div class="newsletter-box">
                             <form action="#">
-                                <input class="subscribe" placeholder="Enter your email address" name="email"
+                                <input class="subscribe" placeholder="Nhập địa chỉ email của bạn" name="email"
                                     id="subscribe" type="text">
-                                <button type="submit" class="submit">subscribe</button>
+                                <button type="submit" class="submit">Đăng ký</button>
                             </form>
                         </div>
                     </div>
@@ -25,12 +25,12 @@
                 <!-- Single Footer Start -->
                 <div class="col-lg-4  col-md-7 col-sm-6">
                     <div class="single-footer">
-                        <h3>Contact us</h3>
+                        <h3>Liên hệ với chúng tôi</h3>
                         <div class="footer-content">
                             <div class="loc-address">
-                                <span><i class="fa fa-map-marker"></i>Your address goes here.</span>
-                                <span><i class="fa fa-envelope-o"></i>Mail Us: demo@example.com</span>
-                                <span><i class="fa fa-phone"></i>Phone: 0123456789</span>
+                                <span><i class="fa fa-map-marker"></i>Địa chỉ của bạn sẽ được ghi ở đây.</span>
+                                <span><i class="fa fa-envelope-o"></i>Gửi thư cho chúng tôi: demo@example.com</span>
+                                <span><i class="fa fa-phone"></i>Điện thoại: 0123456789</span>
                             </div>
                             <div class="payment-mth"><a href="#"><img class="img"
                                         src="{{ asset('themes/client/jantrik/img/footer/1.png') }}"
@@ -42,15 +42,15 @@
                 <!-- Single Footer Start -->
                 <div class="col-lg-2  col-md-5 col-sm-6 footer-full">
                     <div class="single-footer">
-                        <h3 class="footer-title">Information</h3>
+                        <h3 class="footer-title">Thông tin</h3>
                         <div class="footer-content">
                             <ul class="footer-list">
-                                <li><a href="#">Site Map</a></li>
-                                <li><a href="#">Specials</a></li>
-                                <li><a href="#">Jobs</a></li>
-                                <li><a href="#">Delivery Information</a></li>
-                                <li><a href="#">Order History</a></li>
-                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Sơ đồ trang web</a></li>
+                                <li><a href="#">Khuyến mãi</a></li>
+                                <li><a href="#">Việc làm</a></li>
+                                <li><a href="#">Thông tin giao hàng</a></li>
+                                <li><a href="#">Lịch sử đơn hàng</a></li>
+                                <li><a href="#">Chính sách bảo mật</a></li>
                             </ul>
                         </div>
                     </div>
@@ -59,15 +59,15 @@
                 <!-- Single Footer Start -->
                 <div class="col-lg-2  col-md-4 col-md-4 col-sm-6 footer-full">
                     <div class="single-footer">
-                        <h3 class="footer-title">My Account</h3>
+                        <h3 class="footer-title">Tài khoản của tôi</h3>
                         <div class="footer-content">
                             <ul class="footer-list">
-                                <li><a href="account.html">My account</a></li>
-                                <li><a href="#">Checkout</a></li>
-                                <li><a href="#">Login</a></li>
-                                <li><a href="#">address</a></li>
-                                <li><a href="#">Order status</a></li>
-                                <li><a href="#">Site Map</a></li>
+                                <li><a href="account.html">Tài khoản của tôi</a></li>
+                                <li><a href="#">Thanh toán</a></li>
+                                <li><a href="#">Đăng nhập</a></li>
+                                <li><a href="#">Địa chỉ</a></li>
+                                <li><a href="#">Trạng thái đơn hàng</a></li>
+                                <li><a href="#">Sơ đồ trang web</a></li>
                             </ul>
                         </div>
                     </div>
@@ -76,15 +76,15 @@
                 <!-- Single Footer Start -->
                 <div class="col-lg-2 col-md-4 col-sm-6 footer-full">
                     <div class="single-footer">
-                        <h3 class="footer-title">customer service</h3>
+                        <h3 class="footer-title">dịch vụ</h3>
                         <div class="footer-content">
                             <ul class="footer-list">
-                                <li><a href="account.html">My account</a></li>
-                                <li><a href="#">New</a></li>
-                                <li><a href="#">Gift Cards</a></li>
-                                <li><a href="#">Return Policy</a></li>
-                                <li><a href="#">Your Orders</a></li>
-                                <li><a href="#">Subway</a></li>
+                                <li><a href="account.html">Tài khoản của tôi</a></li>
+                                <li><a href="#">Mới</a></li>
+                                <li><a href="#">Thẻ quà tặng</a></li>
+                                <li><a href="#">Chính sách trả hàng</a></li>
+                                <li><a href="#">Đơn hang của bạn</a></li>
+                                <li><a href="#">Tàu điện ngầm</a></li>
                             </ul>
                         </div>
                     </div>
@@ -93,15 +93,15 @@
                 <!-- Single Footer Start -->
                 <div class="col-lg-2 col-md-4 col-sm-6 footer-full">
                     <div class="single-footer">
-                        <h3 class="footer-title">Let Us Help You</h3>
+                        <h3 class="footer-title">chúng tôi</h3>
                         <div class="footer-content">
                             <ul class="footer-list">
-                                <li><a href="#">Your Account</a></li>
-                                <li><a href="#">Your Orders</a></li>
-                                <li><a href="#">Shipping</a></li>
+                                <li><a href="#">Tài khoản của bạn</a></li>
+                                <li><a href="#">Đơn hàng của bạn</a></li>
+                                <li><a href="#">Vận chuyển</a></li>
                                 <li><a href="#">Amazon Prime</a></li>
-                                <li><a href="#">Replacements</a></li>
-                                <li><a href="#">Manage </a></li>
+                                <li><a href="#">Thay thế</a></li>
+                                <li><a href="#">Quản lý </a></li>
                             </ul>
                         </div>
                     </div>
@@ -117,9 +117,9 @@
     <div class="footer-bottom off-white-bg2">
         <div class="container">
             <div class="footer-bottom-content">
-                <p class="copy-right-text">&copy; 2023 <strong> Jantrik </strong> Made with <i
-                        class="fa fa-heart text-danger"></i> by <a href="https://hasthemes.com/"
-                        target="_blank"><strong>HasThemes</strong></a></p>
+                <p class="copy-right-text">&copy; 2023 <strong> Jantrik </strong> được làm <i
+                        class="fa fa-heart text-danger"></i> bởi <a href="https://hasthemes.com/"
+                        target="_blank"><strong>nhóm dự án tốt nghiệp Gemo</strong></a></p>
                 <div class="footer-social-content">
                     <ul class="social-content-list">
                         <li><a href="#"><i class="fa fa-twitter"></i></a></li>
