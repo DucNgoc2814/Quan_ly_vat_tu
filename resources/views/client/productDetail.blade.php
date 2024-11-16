@@ -56,8 +56,10 @@
                             <h5 style="margin-bottom: 10px;">Giá: <span class="price"
                                     style="color: red; font-size: 20px">{{ number_format($product->price, 0, ',', '.') }}</span>
                             </h5>
-                            <p style="margin: 0;"><span class="in-stock">Số lượng tồn kho:</span><span class="sku"
-                                    id="stockCount">{{ $variations->sum('stock') }}</span></p>
+                            <p style="margin: 0;">
+                                <span class="in-stock">Số lượng tồn kho:</span>
+                                <span class="sku" id="stockCount">{{ $variations->sum('stock') }}</span>
+                            </p>
                         </div>
                         <div class="product-variants mb-15">
                             <label for="variants">Biến thể sản phẩm:</label>
@@ -75,10 +77,10 @@
                                                     @php
                                                         // Lấy số lượng tồn kho cho biến thể dựa trên attribute_value_id
                                                         $variationsWithValue = $variations->filter(function ($variation) use ($value) {
-                                                            return $variation->attributeValueVariations &&
-                                                                $variation->attributeValueVariations->contains('attribute_value_id', $value->id);
+                                                            return $variation->attributeValues &&
+                                                                $variation->attributeValues->contains('attribute_value_id', $value->id);
                                                         });
-
+                                                        
                                                         // Tính tổng số lượng tồn kho cho tất cả các biến thể có giá trị thuộc tính
                                                         $totalStock = $variationsWithValue->sum('stock');
                                                     @endphp
@@ -146,24 +148,24 @@
                 </div>
                 <!-- Related Product Activation Start -->
                 <div class="new-upsell-pro owl-carousel">
-                    <!-- Single Product Start -->
+                    @foreach ($relatedProducts as $relatedProduct)
                     <div class="single-product">
                         <div class="pro-img">
-                            <a href="product.html">
-                                <img class="primary-img" src="{{ asset('themes/client/jantrik/img/slider/5.jpg') }}"
-                                    alt="single-product">
-                                <img class="secondary-img" src="{{ asset('themes/client/jantrik/img/slider/5.jpg') }}"
-                                    alt="single-product">
+                            <a href="{{ route('productDetail', $relatedProduct->slug) }}">
+                                <img class="primary-img" src="{{ asset('storage/' . $relatedProduct->image) }}" alt="{{ $relatedProduct->name }}">
+                                <img class="secondary-img" src="{{ asset('storage/' . $relatedProduct->image) }}" alt="{{ $relatedProduct->name }}">
                             </a>
                         </div>
                         <div class="pro-content">
-                            <h4><a href="product.html">Products Name Here</a></h4>
-                            <p><span class="in-stock">Số lượng tồn kho:</span><span class="sku">50</span></p>
-                            <p><span class="price">$30.00</span></p>
-                            <a class="add-cart" href="cart.html" style="width: 150px">Xem sản phẩm</a>
+                            <h4><a href="{{ route('productDetail', $relatedProduct->slug) }}">{{ $relatedProduct->name }}</a></h4>
+                            <p><span class="in-stock">Số lượng tồn kho:</span><span class="sku">{{ $relatedProduct->stock }}</span></p>
+                            <p><span class="price">{{ number_format($relatedProduct->price, 0, ',', '.') }} VNĐ</span></p>
+                            <a class="add-cart" href="{{ route('productDetail', $relatedProduct->slug) }}" style="width: 150px">Xem sản phẩm</a>
                         </div>
                     </div>
+                    @endforeach
                 </div>
+                <!-- Related Product Activation End -->
             </div>
         </div>
     </div>
