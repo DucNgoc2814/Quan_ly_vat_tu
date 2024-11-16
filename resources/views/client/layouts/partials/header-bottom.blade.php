@@ -18,7 +18,7 @@
                             <li><a href="{{ route('listHome') }}">home</a>
                             </li>
                             <li><a href="about.html">about us</a></li>
-                            <li><a href="{{ route('listProduct') }}">shop1<i class="fa fa-angle-down"></i></a>
+                            <li><a href="{{ route('listProduct') }}">shop<i class="fa fa-angle-down"></i></a>
                                 <!-- Home Version Dropdown Start -->
                                 <ul class="ht-dropdown dropdown-style-two">
                                     @foreach ($category as $categorie)

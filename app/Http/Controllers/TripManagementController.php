@@ -90,6 +90,7 @@ class TripManagementController extends Controller
         $data = Trip_detail::whereHas('trip', function ($query) use ($id) {
             $query->where('id', $id);
         })->with(['order', 'trip'])->get();
+        // dd($data->first()->order);
         return view('admin.components.tripmanagement.detail', compact('data'));
     }
 
