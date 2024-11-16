@@ -45,13 +45,6 @@ use App\Http\Controllers\UnitController;
 //     return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
 // }
 
-
-Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
-
-// Route::get('/dashboard', function () {
-//     view('admin.dashboard');
-// });
-
 Route::prefix('employees')
     ->as('employees.')
     ->group(function () {
@@ -89,14 +82,6 @@ Route::middleware('CheckEmployees')->group(
                 Route::put('/cap-nhat/{id}', [SupplierController::class, 'update'])->name('update')->middleware('permission:13');
                 Route::delete('/an/{id}', [SupplierController::class, 'destroy'])->name('destroy')->middleware('permission:14');
             });
-        Route::get('/danh-sach', [SupplierController::class, 'index'])->name('index');
-        Route::get('/danh-sach-da-an', [SupplierController::class, 'listTrashSupplier'])->name('listTrashSupplier');
-        Route::get('/khoi-phuc/{id}', [SupplierController::class, 'restoreSupplier'])->name('restoreSupplier');
-        Route::get('/them-moi', [SupplierController::class, 'create'])->name('create');
-        Route::post('/them-moi', [SupplierController::class, 'store'])->name('store');
-        Route::get('/sua/{id}', [SupplierController::class, 'edit'])->name('edit');
-        Route::put('/cap-nhat/{id}', [SupplierController::class, 'update'])->name('update');
-        Route::delete('/an/{id}', [SupplierController::class, 'destroy'])->name('destroy');
 
         Route::prefix('quan-ly-tai-khoan')
             ->as('suppliers.')
@@ -113,20 +98,6 @@ Route::middleware('CheckEmployees')->group(
         Route::get('/orders/customer-location/{customerId}', [OrderController::class, 'getCustomerLocation']);
         Route::delete('/locations/{id}', [LocationController::class, 'destroy']);
         Route::get('/locations/getLocation/{id}', [LocationController::class, 'getLocation']);
-
-
-
-
-
-        Route::prefix('quan-ly-nhan-vien')
-            ->as('employees.')
-            ->group(function () {
-                Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('index');
-                Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('create');
-                Route::post('/them-moi', [EmployeeController::class, 'store'])->name('store');
-                Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit');
-                Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update');
-            });
 
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')
@@ -279,6 +250,46 @@ Route::middleware('CheckEmployees')->group(
                 Route::delete('/xoa/{id}', [UnitController::class, 'destroy'])->name('destroy')->middleware('permission:56');
             });
 
+Route::prefix(' ')
+    ->as('cargo_car_types.')
+    ->group(function () {
+        Route::get('/danh-sach', [CargoCarTypeController::class, 'index'])->name('index');
+        Route::get('/them-moi', [CargoCarTypeController::class, 'create'])->name('create');
+        Route::post('/store', [CargoCarTypeController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [CargoCarTypeController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [CargoCarTypeController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [CargoCarTypeController::class, 'destroy'])->name('destroy');
+    });
+Route::prefix('danh-muc')
+    ->as('category.')
+    ->group(function () {
+        Route::get('/danh-sach', [CategoryController::class, 'index'])->name('index');
+        Route::get('/them-moi', [CategoryController::class, 'create'])->name('create');
+        Route::post('/them-moi', [CategoryController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [CategoryController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [CategoryController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [CategoryController::class, 'destroy'])->name('destroy');
+    });
+Route::prefix('xep-hang-khach-hang')
+    ->as('customer_ranks.')
+    ->group(function () {
+        Route::get('/danh-sach', [CustomerRankController::class, 'index'])->name('index');
+        Route::get('/them-moi', [CustomerRankController::class, 'create'])->name('create');
+        Route::post('/them-moi', [CustomerRankController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [CustomerRankController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [CustomerRankController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [CustomerRankController::class, 'destroy'])->name('destroy');
+    });
+Route::prefix('quan-ly-chuyen-xe')
+    ->as('trips.')
+    ->group(function () {
+        Route::get('/danh-sach-chuyen-xe', [TripController::class, 'index'])->name('index');
+        Route::get('/them-moi', [TripController::class, 'create'])->name('create');
+        Route::post('/them-moi', [TripController::class, 'store'])->name('store');
+        Route::get('/sua/{id}', [TripController::class, 'edit'])->name('edit');
+        Route::put('/sua/{id}', [TripController::class, 'update'])->name('update');
+        Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy');
+    });
         Route::prefix('loai-xe')
             ->as('cargo_car_types.')
             ->group(function () {
@@ -288,42 +299,6 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/sua/{id}', [CargoCarTypeController::class, 'edit'])->name('edit');
                 Route::put('/sua/{id}', [CargoCarTypeController::class, 'update'])->name('update');
                 Route::delete('/xoa/{id}', [CargoCarTypeController::class, 'destroy'])->name('destroy');
-            });
-        Route::prefix('danh-muc')
-            ->as('category.')
-            ->group(function () {
-                Route::get('/danh-sach', [CategoryController::class, 'index'])->name('index');
-                Route::get('/them-moi', [CategoryController::class, 'create'])->name('create');
-                Route::post('/them-moi', [CategoryController::class, 'store'])->name('store');
-                Route::get('/sua/{id}', [CategoryController::class, 'edit'])->name('edit');
-                Route::put('/sua/{id}', [CategoryController::class, 'update'])->name('update');
-                Route::delete('/xoa/{id}', [CategoryController::class, 'destroy'])->name('destroy');
-            });
-        Route::prefix('xep-hang-khach-hang')
-            ->as('customer_ranks.')
-            ->group(function () {
-                Route::get('/danh-sach', [CustomerRankController::class, 'index'])->name('index');
-                Route::get('/them-moi', [CustomerRankController::class, 'create'])->name('create');
-                Route::post('/them-moi', [CustomerRankController::class, 'store'])->name('store');
-                Route::get('/sua/{id}', [CustomerRankController::class, 'edit'])->name('edit');
-                Route::put('/sua/{id}', [CustomerRankController::class, 'update'])->name('update');
-                Route::delete('/xoa/{id}', [CustomerRankController::class, 'destroy'])->name('destroy');
-            });
-        Route::prefix('quan-ly-chuyen-xe')
-            ->as('trips.')
-            ->group(function () {
-                Route::get('/danh-sach-chuyen-xe', [TripController::class, 'index'])->name('index');
-                Route::get('/them-moi', [TripController::class, 'create'])->name('create');
-                Route::post('/them-moi', [TripController::class, 'store'])->name('store');
-                Route::get('/sua/{id}', [TripController::class, 'edit'])->name('edit');
-                Route::put('/sua/{id}', [TripController::class, 'update'])->name('update');
-                Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy');
-            });
-
-        Route::prefix('quan-ly-chuyen-xe')
-            ->as('trips_details.')
-            ->group(function () {
-                Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index');
             });
 
         Route::prefix('loai-xe')
