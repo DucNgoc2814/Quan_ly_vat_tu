@@ -2169,8 +2169,6 @@
                 }
             ],
             "time": "2024-09-21T08:32:55+00:00"
-<<<<<<< HEAD
-=======
         },
         {
             "name": "maatwebsite/excel",
@@ -2436,7 +2434,6 @@
                 "source": "https://github.com/MarkBaker/PHPMatrix/tree/3.0.1"
             },
             "time": "2022-12-02T22:17:43+00:00"
->>>>>>> c82404de522c37af8627c582a5eb12d0c377f49c
         },
         {
             "name": "monolog/monolog",
@@ -7131,18 +7128,6 @@
         },
         {
             "name": "laravel/sail",
-<<<<<<< HEAD
-            "version": "v1.37.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/sail.git",
-                "reference": "5d385f2e698f0f774cdead82aff5d989fb95309b"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/5d385f2e698f0f774cdead82aff5d989fb95309b",
-                "reference": "5d385f2e698f0f774cdead82aff5d989fb95309b",
-=======
             "version": "v1.37.1",
             "source": {
                 "type": "git",
@@ -7153,7 +7138,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/sail/zipball/7efa151ea0d16f48233d6a6cd69f81270acc6e93",
                 "reference": "7efa151ea0d16f48233d6a6cd69f81270acc6e93",
->>>>>>> c82404de522c37af8627c582a5eb12d0c377f49c
                 "shasum": ""
             },
             "require": {
@@ -7203,11 +7187,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-<<<<<<< HEAD
-            "time": "2024-10-21T17:13:38+00:00"
-=======
             "time": "2024-10-29T20:18:14+00:00"
->>>>>>> c82404de522c37af8627c582a5eb12d0c377f49c
         },
         {
             "name": "mockery/mockery",

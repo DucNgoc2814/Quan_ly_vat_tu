@@ -3,19 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'reference' => '6159216c38418561389b38886f97a69774f7f9c5',
-=======
-<<<<<<< HEAD
-        'reference' => '6928f1b9f9077c48a6d75145d94f25acb59db158',
-=======
-        'reference' => '0165a16823e5016856f7ec3040b67cc95dd00861',
->>>>>>> 8149c097f102051de0ad0c64e8f8170e34b9b0e7
->>>>>>> 5727ed24758d881b22e68eab223d6b037f0f9bab
-=======
-        'reference' => '1aa19c263b166d73abf963f35dd734fcc54c1e34',
->>>>>>> c82404de522c37af8627c582a5eb12d0c377f49c
+        'reference' => '4a33249543e093e36a0b5456e5ac42952f10079c',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -412,20 +400,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-<<<<<<< HEAD
-<<<<<<< HEAD
-            'reference' => '6159216c38418561389b38886f97a69774f7f9c5',
-=======
-<<<<<<< HEAD
-            'reference' => '6928f1b9f9077c48a6d75145d94f25acb59db158',
-=======
-            'reference' => '0165a16823e5016856f7ec3040b67cc95dd00861',
->>>>>>> 8149c097f102051de0ad0c64e8f8170e34b9b0e7
->>>>>>> 5727ed24758d881b22e68eab223d6b037f0f9bab
-=======
-            'reference' => '1c9787e24864a5ae426c68c91e3f684a58b5831a',
-            'reference' => '1aa19c263b166d73abf963f35dd734fcc54c1e34',
->>>>>>> c82404de522c37af8627c582a5eb12d0c377f49c
+            'reference' => '4a33249543e093e36a0b5456e5ac42952f10079c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -450,15 +425,9 @@
             'dev_requirement' => false,
         ),
         'laravel/sail' => array(
-<<<<<<< HEAD
-            'pretty_version' => 'v1.37.0',
-            'version' => '1.37.0.0',
-            'reference' => '5d385f2e698f0f774cdead82aff5d989fb95309b',
-=======
             'pretty_version' => 'v1.37.1',
             'version' => '1.37.1.0',
             'reference' => '7efa151ea0d16f48233d6a6cd69f81270acc6e93',
->>>>>>> c82404de522c37af8627c582a5eb12d0c377f49c
             'type' => 'library',
             'install_path' => __DIR__ . '/../laravel/sail',
             'aliases' => array(),

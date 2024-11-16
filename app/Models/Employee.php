@@ -58,6 +58,7 @@ class Employee extends Authenticatable implements JWTSubject
             'description' => $this->description
         ];
     }
+
     protected static function booted()
     {
         static::created(function ($model) {
@@ -72,4 +73,5 @@ class Employee extends Authenticatable implements JWTSubject
             LogService::addLog('Xóa', $model);
         });
     }
+
 }
