@@ -4,7 +4,7 @@
             <!--  logo Start-->
             <div class="col-auto">
                 <div class="logo">
-                    <a href="index.html"><img src="{{ asset('themes/client/jantrik/img/logo/logo.png') }}"
+                    <a href="http://quan_ly_vat_tu.test"><img src="{{ asset('themes/client/jantrik/img/logo/logo.png') }}"
                             alt="logo-image"></a>
                 </div>
             </div>
