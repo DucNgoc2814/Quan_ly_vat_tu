@@ -8,6 +8,7 @@ use App\Models\Cargo_car;
 use App\Http\Requests\StoreTripRequest;
 use App\Http\Requests\UpdateTripRequest;
 use App\Models\Order;
+use App\Models\OrderStatusTime;
 use App\Models\Trip_detail;
 use Illuminate\Support\Facades\DB;
 
@@ -30,13 +31,17 @@ class TripController extends Controller
 
     public function create()
     {
-        $employes = Employee::where('role_id', 4)
-        ->whereNotExists(function ($query) {
-            $query->select(DB::raw(1))
-                  ->from('trips')
-                  ->whereColumn('trips.employee_id', 'employees.id');
+
+        $employes = Employee::query()
+        ->leftJoin('trips', function ($join) {
+            $join->on('employees.id', '=', 'trips.employee_id')
+                ->where('trips.status', '=', 1); // Trạng thái chuyến đi đang giao
         })
-        ->get();        $cargoCars = Cargo_car::where('is_active', 0)->with('cargoCarType')->get();
+        ->whereNull('trips.id') // Không có chuyến đi nào đang giao
+        ->select('employees.*') // Chỉ chọn các cột từ bảng employees
+        ->get();
+
+        $cargoCars = Cargo_car::where('is_active', 0)->with('cargoCarType')->get();
         $pendingOrders = Order::where('status_id', 2)->with('orderDetails')->get();
         return view(self::PATH_VIEW . 'create', compact('employes', 'cargoCars', 'pendingOrders'));
     }
@@ -64,17 +69,22 @@ class TripController extends Controller
                     'total_amount' => $order->total_amount,
                 ]);
 
-                // Update order status
+
+                OrderStatusTime::create([
+                    'order_id' => $order->id,
+                    'order_status_id' => 3,
+                    'time' => now()
+                ]);
                 $order->update(['status_id' => 3]);
+
                 $cargor_car->update(['is_active' => 1]);
-                
             }
 
             DB::commit();
             return redirect()->route('trips.index')->with('success', 'Thêm đơn vận chuyển thành công');
         } catch (\Exception $th) {
             // echo $th->getMessage();
-            
+
             DB::rollBack();
             return back()->with('error', 'Đã xảy ra lỗi: ' . $th->getMessage());
         }

@@ -92,7 +92,7 @@
                                                     <button type="submit" class="btn btn-success">Xác nhận</button>
                                                 </form>
                                             @else
-                                                <button type="button" class="btn btn-success" disabled>Đã xác nhận</button>
+                                                <button type="button" class="btn btn-info" disabled>Giao hàng thành công</button>
                                             @endif
                                         </td>
                                     </tr>
