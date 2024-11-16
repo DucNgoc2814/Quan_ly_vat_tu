@@ -20,9 +20,8 @@ class HomeController extends Controller
         ->where('is_active', 1)
         ->orderBy('id', 'desc')
         ->paginate(4);
-
     return view('index', compact('categories', 'brands', 'products'));
 }
 
-    
+
 }
