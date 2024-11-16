@@ -66,16 +66,9 @@ class LoginController extends Controller
                     'message' => 'Thông tin đăng nhập không chính xác'
                 ], 401);
             }
-            $payload = JWTAuth::setToken($token)->getPayload();
             Session::put('token', $token);
-            return response()->json([
-                'token' => $token,
-                'decoded' => [
-                    'username' => $payload->get('username'),
-                    'id' => $payload->get('id'),
-                    'role' => $payload->get('role') 
-                ]
-            ]);
+            // dd(JWTAuth::setToken(Session::get('token'))->getPayload()->get('name'));
+            return redirect()->route('home')->with('success', 'Đăng nhập thành công');
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Không thể tạo token'

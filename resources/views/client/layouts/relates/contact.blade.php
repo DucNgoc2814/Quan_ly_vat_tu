@@ -1,6 +1,6 @@
 @extends('client.layouts.master')
 @section('title')
-    Danh sách sản phẩm
+    Liên hệ
 @endsection
 @section('content')
     <div class="breadcrumb-area ptb-60 ptb-sm-30">
