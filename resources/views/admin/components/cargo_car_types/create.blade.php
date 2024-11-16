@@ -26,7 +26,7 @@
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
-                                <label class="form-label">Tên loại xe</label>
+                                <label class="form-label">Tên loại xee</label>
                                 <input type="text" name="name" placeholder="Nhập tên loại xe"
                                     class="form-control  value="{{ old('name') }}">
                                 @error('name')

@@ -512,3 +512,15 @@ $('.brand-banner').on('changed.owl.carousel initialized.owl.carousel', function 
      
     
 })(jQuery);
+
+function togglePassword(inputId) {
+    var x = document.getElementById(inputId);
+    var y = document.getElementById("toggle-" + inputId);
+    if (x.type === "password") {
+        x.type = "text";
+        y.className = "fa fa-eye-slash";
+    } else {
+        x.type = "password";
+        y.className = "fa fa-eye";
+    }
+}

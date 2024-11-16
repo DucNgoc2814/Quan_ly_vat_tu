@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Services\LogService;
 class Order extends Model
 {
     use HasFactory;
@@ -58,6 +58,20 @@ class Order extends Model
     public function orderCanceled()
     {
         return $this->hasOne(Order_canceled::class);
+    }
+    protected static function booted()
+    {
+        static::created(function ($model) {
+            $result = LogService::addLog('Tạo mới', $model);
+        });
+
+        static::updated(function ($model) {
+            LogService::addLog('Cập nhật', $model);
+        });
+
+        static::deleted(function ($model) {
+            LogService::addLog('Xóa', $model);
+        });
     }
     public function orderStatusTimes()
     {

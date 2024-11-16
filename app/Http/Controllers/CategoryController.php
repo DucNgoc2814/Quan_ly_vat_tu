@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    
     const PATH_VIEW = 'admin.components.Categories.';
 
     public function index()
@@ -25,8 +26,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::query()->pluck('sku', 'id');
-        return view(self::PATH_VIEW . 'create', compact('categories'));
+        return view(self::PATH_VIEW . 'create');
     }
 
     /**
@@ -34,10 +34,16 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        try {
+        $sku = $this->convertSku($request->name);
+            $request->validate([
+                'name' => 'required|unique:categories,name',
+                'image' => 'required',
+                'description' => 'required',
+            ]);
+
             $data = [
                 'name' => $request->name,
-                'sku' => $request->sku,
+                'sku' => $sku,
                 'image' => $request->image,
                 'description' => $request->description,
             ];
@@ -47,9 +53,7 @@ class CategoryController extends Controller
             }
             Category::query()->create($data);
             return redirect()->route('category.index');
-        } catch (\Throwable $th) {
-            dd($th->getMessage());
-        }
+       
     }
 
 
@@ -70,7 +74,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
         return view('admin.components.categories.edit', compact('category'));
     }
-    
+
 
     /**
      * Update the specified resource in storage.
@@ -78,15 +82,15 @@ class CategoryController extends Controller
     public function update(Request $request, $id)
     {
 
+        $sku = $this->convertSku($request->name);
 
         $data = [
             'name' => $request->name,
-            'sku' => $request->sku,
+            'sku' => $sku,
             'description' => $request->description,
         ];
         $request->validate([
-            'name' => 'required|string|',
-            'sku' => 'required|string|',
+            'name' => 'required|unique:categories,name',
             'image' => 'nullable|image|',
             'description' => 'nullable|string',
         ]);
@@ -98,28 +102,28 @@ class CategoryController extends Controller
         }
 
         DB::table('categories')
-              ->where('id', $id)
-              ->update($data);
-     
+            ->where('id', $id)
+            ->update($data);
+
         return redirect()->route('category.index')->with('success', 'Danh mục đã được cập nhật thành công.');
-
-
     }
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($id) {}
+
+
+
+    private function convertSku($string)
     {
-        $category = Category::findOrFail($id);
-
-        if ($category->products()->count() > 0) {
-            return redirect()->route('category.index')->with('error', 'Không thể xóa danh mục vì vẫn còn sản phẩm liên quan.');
-        }
-
-        $category->delete();
-
-        return redirect()->route('category.index')->with('success', 'Xóa danh mục thành công.');
+        $string = strtolower($string);        
+        $string = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
+        $string = preg_replace('/[^a-z0-9\s]+/', '', $string);
+        $string = preg_replace('/\s+/', '-', $string);
+        $string = trim($string, '-');
+        return $string;
     }
+    
 }

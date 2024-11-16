@@ -44,7 +44,7 @@ class BrandController extends Controller
                 'is_active' => isset($brand['is_active']) ? 1 : 0,
             ]);
             return redirect()
-                ->route('thuong-hieu.index')
+                ->route('brand.index')
                 ->with('success', 'Thao tác thành công!');
         } catch (Exception $exception) {
             dd($exception->getMessage());
@@ -83,7 +83,7 @@ class BrandController extends Controller
                 'is_active' => isset($data['is_active']) ? 1 : 0,
             ]);
             return redirect()
-                ->route('thuong-hieu.index')
+                ->route('brand.index')
                 ->with('success', 'Thao tác thành công!');
         } catch (Exception $exception) {
             return back()->with('error', $exception->getMessage());
