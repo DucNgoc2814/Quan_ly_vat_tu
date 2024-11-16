@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great
 |
+
 */
 Route::get('/',  [HomeController::class, 'listHome'])->name('home');
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
@@ -37,6 +38,18 @@ Route::post('/passwordUser', [LoginController::class, 'passwordUser'])->name('pa
 Route::get('/thong-tin-tai-khoan', [LoginController::class, 'profile'])->name('profile');
 Route::get('/cap-nhat-tai-khoan', [LoginController::class, 'profileUser'])->name('profileUser');
 Route::post('/updateProfile', [LoginController::class, 'updateProfile'])->name('updateProfile');
+
+
+
+
+Route::get('/lien-he',  [HomeController::class, 'contact'])->name('contact');
+
+
+Route::get('/test', function () {
+    echo "ok";
+})
+    ->middleware('checkCustomer');
+// <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
 Route::get('/danh-sach-san-pham',  [ShopController::class, 'listProduct'])->name('listProduct');
 Route::get('/danh-sach-san-pham/{category}',  [ShopController::class, 'listProductWCategory'])->name('listProductWCategory');

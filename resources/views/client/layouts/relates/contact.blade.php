@@ -1,74 +1,71 @@
 @extends('client.layouts.master')
-
 @section('title')
-    Quên mật khẩu
+    Liên hệ
 @endsection
-
 @section('content')
-    <!-- Breadcrumb Start -->
     <div class="breadcrumb-area ptb-60 ptb-sm-30">
         <div class="container">
             <div class="breadcrumb">
                 <ul>
                     <li><a href="index.html">Trang chủ</a></li>
-                    <li class="active"><a href="register.html">Quên mật khẩu</a></li>
+                    <li class="active"><a href="contact.html">Liên hệ</a></li>
                 </ul>
             </div>
         </div>
         <!-- Container End -->
     </div>
     <!-- Breadcrumb End -->
-    <!-- Register Account Start -->
-    <div class="register-account pb-60">
+    <!-- Contact Email Area Start -->
+    <div class="contact-email-area ptb-60">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    <div class="register-title">
-                        <h3 class="mb-10">Quên mật khẩu</h3>
-                    </div>
-                </div>
-            </div>
-            <!-- Row End -->
-            <div class="row">
-                <div class="col-sm-12">
-                    <form class="form-horizontal" action="{{ route('sendMaill') }}" method="post">
-                        @csrf
-                        <fieldset>
-                            <legend>Vui lòng điền vào mẫu này để lấy lại mật khẩu</legend>
-                            <div class="form-group">
-                                <label class="control-label" for="f-name"><span class="require">*</span>Email</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control mt-2"
-                                        placeholder="Nhập địa chỉ email của bạn vào đây..." name="email" id="email">
-                                    @error('email')
-                                        <label for="" class="text-danger">{{ $message }}</label>
-                                    @enderror
+                    <h3>Liên hệ với chúng tôi</h3>
+                    <p class="text-capitalize mb-40">Điều rất quan trọng là khách hàng phải chú ý đến quá trình hấp thụ.</p>
+                    <form id="contact-form" class="contact-form" action="https://htmldemo.net/jantrik/jantrik/mail.php"
+                        method="post">
+                        <div class="address-wrapper">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="address-fname">
+                                        <input type="text" name="name" placeholder="Tên">
+                                    </div>
                                 </div>
-                            </div> 
-                        </fieldset>
-                        <div class="buttons newsletter-input">
-                            {{-- <div class="pull-right">I have read and agree to the <a href="#" class="agree"><b>Privacy
-                                        Policy</b></a> --}}
-                            <div class="pull-left">
-                                {{-- <input type="checkbox" name="agree" value="1"> &nbsp; --}}
-                                <input type="submit" value="Lấy lại mật khẩu" class="newsletter-btn">
+                                <div class="col-md-6">
+                                    <div class="address-email">
+                                        <input type="email" name="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="address-web">
+                                        <input type="text" name="website" placeholder="Trang website">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="address-subject">
+                                        <input type="text" name="subject" placeholder="Chủ thể">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="address-textarea">
+                                        <textarea name="message" placeholder="Viết tin nhắn của bạn"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="form-message ml-15"></p>
+                        <div class="col-xs-12 footer-content mail-content">
+                            <div class="send-email">
+                                <input type="submit" value="Gửi" class="submit">
                             </div>
                         </div>
                     </form>
                 </div>
-                <div class="container signin">
-                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('login') }}"
-                            class="active ">Đăng Nhập</a>.</p>
-                </div>
-                <div class="container signin">
-                    <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('register') }}">Đăng ký</a>.</p>
-                </div>
             </div>
-            <!-- Row End -->
         </div>
-        <!-- Container End -->
     </div>
-    <!-- Register Account End -->
+    <!-- Breadcrumb End -->
     <!-- Brand Logo Start -->
     <div class="brand-area pb-60">
         <div class="container">
