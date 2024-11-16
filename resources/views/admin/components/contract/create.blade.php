@@ -46,6 +46,7 @@
                             <div class="col-lg-12 mt-3">
                                 <label class="form-label">Đơn hàng</label>
                                 <select name="order_id" id="order_id" class="form-select">
+                                    <option value="0">Chọn đơn hàng</option>
                                     @foreach ($orders as $id => $name)
                                         <option value="{{ $id }}">{{ $name }}</option>
                                     @endforeach
@@ -56,7 +57,8 @@
                             </div>
                             <div class="col-lg-12 mt-3">
                                 <label class="form-label">Loại hợp đồng</label>
-                                <select name="contract_type_id" id="" class="form-select">
+                                <select name="contract_type_id" id="contract_type_id" class="form-select">
+                                    <option value="0">-- Chọn loại hợp đồng --</option>
                                     @foreach ($types as $id => $name)
                                         <option value="{{ $id }}">{{ $name }}</option>
                                     @endforeach
@@ -90,5 +92,7 @@
         </div><!--end col-->
     </div>
 @endsection
+
+
 
 

@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\ChangeStatusController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\Client\HomeController;
+use App\Http\Controllers\Client\ListProductCategoryController;
+use App\Http\Controllers\Client\ShopController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Log;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,3 +41,37 @@ Route::get('/test', function () {
     echo "ok";
 })
     ->middleware('checkCustomer');
+// <+====================TINHNGUYEN====================+>
+Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
+Route::get('/',  [HomeController::class, 'listHome'])->name('listHome');
+Route::get('/danh-sach-san-pham',  [ShopController::class, 'listProduct'])->name('listProduct');
+Route::get('/danh-sach-san-pham/{category}',  [ShopController::class, 'listProductWCategory'])->name('listProductWCategory');
+// <+====================TINHNGUYEN====================+>
+Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
+
+Route::get('/test-log', function() {
+    $unit = \App\Models\Unit::create([
+        'name' => 'Test Unit ' . now(),
+        'description' => 'Test Description'
+    ]);
+    
+    return "Created unit: " . $unit->id;
+});
+
+Route::get('/test-unit-log', function() {
+    try {
+        Log::info('=== START TEST ===');
+        
+        $unit = \App\Models\Unit::create([
+            'name' => 'Test Unit ' . now()->format('H:i:s'),
+            'description' => 'Test Description'
+        ]);
+        
+        Log::info('Unit created successfully', ['id' => $unit->id]);
+        return "Created unit: " . $unit->id;
+        
+    } catch (\Exception $e) {
+        Log::error('Test error: ' . $e->getMessage());
+        return "Error: " . $e->getMessage();
+    }
+});

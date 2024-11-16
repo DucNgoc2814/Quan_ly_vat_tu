@@ -1,131 +1,59 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Thêm danh mục
 @endsection
 
 @section('content')
-    {{-- <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Thêm danh mục</h4>
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">danh mục</a></li>
-                        <li class="breadcrumb-item active">Thêm danh mục</li>
-                    </ol>
-                </div>
-
-            </div>
-        </div>
-    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-                        <div class="col-sm-auto">
-                            <div>
-                                <a href="{{ route('category.index') }}" class="btn btn-success" id="addproduct-btn">Danh
-                                    sách danh mục </a>
-                            </div>
+
+                        <div class="col-sm">
+                           
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('customer_ranks.store') }}" method="POST"  enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            <div class="col-lg-12">
-                                <label class="form-label">Tên danh mục</label>
-                                <input value="{{old('name')}}" type="text" name="name" placeholder="Nhập tên danh mục" class="form-control">
+                            <div class="col-lg-8">
+                                <label class="form-label">Cấp bậc </label>
+                                <input  type="text" name="name" placeholder="Nhập tên cấp bậc"value="{{old('name')}}" 
+                                    class="form-control"  >
                                 @error('name')
-                                    <p class="text-danger">{{ $message }}</p>
+                                    <p class="text-danger">{{$message}}</p>
                                 @enderror
                             </div>
-                            <div class="col-lg-12 mt-3">
-                                <label class="form-label">Mã Danh Mục</label>
-                                <select name="" id="" class="form-select">
-                                    @foreach ($categories as $id => $name)
-                                        <option value="{{ $id }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-lg-12 mt-3">
-                                <label class="form-label">image</label>
-                                <input value="{{old('image')}}" type="file" name="image" class="form-control">
-                                @error('image')
-                                    <p class="text-danger">{{ $message }}</p>
+                            <div class="col-lg-8">
+                                <label class="form-label">  Giảm giá</label>
+                                <input  type="text" name="discount" placeholder="Nhập giảm giá"value="{{old('discount')}}"
+                                    class="form-control"  >
+                                @error('discount')
+                                    <p class="text-danger">{{$message}} </p>
                                 @enderror
                             </div>
-                            <div class="col-lg-12 mt-3">
-                                <label class="form-label">Mô tả</label>
-                                <textarea type="text" name="description" placeholder="Nhập mô tả (không bắt buộc)" class="form-control" rows="3"></textarea>
-                                @error('description')
-                                    <p class="text-danger">{{ $message }}</p>
+                            <div class="col-lg-8">
+                                <label class="form-label">Số lượng.</label>
+                                <input  type="number" name="amount" placeholder="Nhập số lượng"value="{{old('amount')}}"
+                                    class="form-control"  >
+                                @error('amount')
+                                    <p class="text-danger">{{$message}}</p>
                                 @enderror
                             </div>
+
+                            
                         </div>
                         <div class="mt-3">
-                            <button class = "btn btn-success text">Thêm mới</button>
+                            <button type="submit" class = "btn btn-success text ">Thêm mới</button>
                         </div>
                     </form>
                 </div>
             </div>
-
         </div><!--end col-->
-    </div> --}}
-    <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        <div>
-            <a href="{{ route('category.index') }}" class="btn btn-success" id="addproduct-btn">Danh
-                sách danh mục </a>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <label class="form-label">Tên danh mục</label>
-                <input value="{{ old('name') }}" type="text" name="name" placeholder="Nhập tên danh mục"
-                    class="form-control">
-                @error('name')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="col-lg-12 mt-3">
-                <label class="form-label">Mã Danh Mục</label>
-                <select name="sku" id="" class="form-select">
-                    @foreach ($categories as $id => $name)
-                        <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>
-                            {{ $name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('category_id')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="col-lg-12 mt-3">
-                <label class="form-label">Image</label>
-                <input value="{{ old('image') }}" type="file" name="image" class="form-control">
-                @error('image')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="col-lg-12 mt-3">
-                <label class="form-label">Mô tả</label>
-                <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
-                @error('description')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-            </div>
-        </div>
-
-        <div class="mt-3">
-            <button type="submit" class="btn btn-success text">Thêm mới</button>
-        </div>
-    </form>
+    </div>
 @endsection
 
 @section('scripts-list')

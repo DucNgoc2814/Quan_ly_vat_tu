@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Services\LogService;
 class Trip extends Model
 {
     use HasFactory;
@@ -31,8 +31,18 @@ class Trip extends Model
     public function request() {
         return $this->belongsTo(Request::class);
     }
-    // In the Employee model
-    // In Employee model
+    protected static function booted()
+    {
+        static::created(function ($model) {
+            $result = LogService::addLog('Tạo mới', $model);
+        });
 
+        static::updated(function ($model) {
+            LogService::addLog('Cập nhật', $model);
+        });
 
+        static::deleted(function ($model) {
+            LogService::addLog('Xóa', $model);
+        });
+    }
 }
