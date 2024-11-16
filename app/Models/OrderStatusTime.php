@@ -8,7 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class OrderStatusTime extends Model
 {
     use HasFactory;
+
     protected $fillable = ['order_id', 'order_status_id', 'time'];
+    protected $dates = ['time'];
 
     public function order()
     {

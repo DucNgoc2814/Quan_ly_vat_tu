@@ -59,4 +59,11 @@ class Order extends Model
     {
         return $this->hasOne(Order_canceled::class);
     }
+    public function orderStatusTimes()
+    {
+        return $this->hasMany(OrderStatusTime::class);
+    }
+    public function tripDetail() {
+        return $this->hasOne(Trip_detail::class);
+    }
 }
