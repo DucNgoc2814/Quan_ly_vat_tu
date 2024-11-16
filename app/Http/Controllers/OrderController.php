@@ -82,7 +82,7 @@ class OrderController extends Controller
 
                 OrderStatusTime::create([
                     'order_id' => $order->id,
-                    'order_status_id' => 1, 
+                    'order_status_id' => 1,
                     'time' => now()
                 ]);
 

@@ -192,6 +192,7 @@
                         </p>
                         <p class="text-muted mb-0">Biển số :
                             {{ $data->first()->order->tripDetail->trip->cargoCar->license_plate ?? 'Chưa có xe giao' }}</p>
+                            
                     </div>
                 </div>
             </div>
