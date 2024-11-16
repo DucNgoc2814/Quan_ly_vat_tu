@@ -15,7 +15,7 @@
                 <div class="middle-menu pull-right">
                     <nav>
                         <ul class="middle-menu-list">
-                            <li><a href="{{ route('listHome') }}">home</a>
+                            <li><a href="{{ route('home') }}">home</a>
                             </li>
                             <li><a href="about.html">about us</a></li>
                             <li><a href="{{ route('listProduct') }}">shop1<i class="fa fa-angle-down"></i></a>

@@ -19,9 +19,8 @@ use Illuminate\Support\Facades\Log;
 | be assigned to the "web" middleware group. Make something great
 |
 */
-
+Route::get('/',  [HomeController::class, 'listHome'])->name('home');
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
-Route::get('/', [LoginController::class, 'home'])->name('home');
 Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::post('/handleRegister', [LoginController::class, 'handleRegister'])->name('handleRegister');
 Route::get('/dang-nhap', [LoginController::class, 'login'])->name('login');
@@ -38,16 +37,9 @@ Route::post('/passwordUser', [LoginController::class, 'passwordUser'])->name('pa
 Route::get('/thong-tin-tai-khoan', [LoginController::class, 'profile'])->name('profile');
 Route::get('/cap-nhat-tai-khoan', [LoginController::class, 'profileUser'])->name('profileUser');
 Route::post('/updateProfile', [LoginController::class, 'updateProfile'])->name('updateProfile');
-Route::get('/test', function () {
-    echo "ok";
-})
-    ->middleware('checkCustomer');
-// <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
-Route::get('/',  [HomeController::class, 'listHome'])->name('listHome');
 Route::get('/danh-sach-san-pham',  [ShopController::class, 'listProduct'])->name('listProduct');
 Route::get('/danh-sach-san-pham/{category}',  [ShopController::class, 'listProductWCategory'])->name('listProductWCategory');
-// <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
 
 Route::get('/test-log', function() {
@@ -55,22 +47,22 @@ Route::get('/test-log', function() {
         'name' => 'Test Unit ' . now(),
         'description' => 'Test Description'
     ]);
-    
+
     return "Created unit: " . $unit->id;
 });
 
 Route::get('/test-unit-log', function() {
     try {
         Log::info('=== START TEST ===');
-        
+
         $unit = \App\Models\Unit::create([
             'name' => 'Test Unit ' . now()->format('H:i:s'),
             'description' => 'Test Description'
         ]);
-        
+
         Log::info('Unit created successfully', ['id' => $unit->id]);
         return "Created unit: " . $unit->id;
-        
+
     } catch (\Exception $e) {
         Log::error('Test error: ' . $e->getMessage());
         return "Error: " . $e->getMessage();
