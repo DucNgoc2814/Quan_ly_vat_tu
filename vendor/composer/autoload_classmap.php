@@ -53,6 +53,7 @@ return array(
     'App\\Http\\Controllers\\SupplierController' => $baseDir . '/app/Http/Controllers/SupplierController.php',
     'App\\Http\\Controllers\\TripController' => $baseDir . '/app/Http/Controllers/TripController.php',
     'App\\Http\\Controllers\\TripDetailController' => $baseDir . '/app/Http/Controllers/TripDetailController.php',
+    'App\\Http\\Controllers\\TripManagementController' => $baseDir . '/app/Http/Controllers/TripManagementController.php',
     'App\\Http\\Controllers\\UnitController' => $baseDir . '/app/Http/Controllers/UnitController.php',
     'App\\Http\\Controllers\\VariationAttributeValueController' => $baseDir . '/app/Http/Controllers/VariationAttributeValueController.php',
     'App\\Http\\Controllers\\VariationController' => $baseDir . '/app/Http/Controllers/VariationController.php',

@@ -10,7 +10,7 @@
             <div class="container">
                 <div class="breadcrumb">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="http://quan_ly_vat_tu.test">Home</a></li>
                         <li><a href="shop.html">Shop</a></li>
                         <li class="active"><a href="product.html">Product</a></li>
                     </ul>

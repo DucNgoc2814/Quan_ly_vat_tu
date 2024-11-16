@@ -16,13 +16,12 @@ use Illuminate\Support\Facades\Log;
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| be assigned to the "web" middleware group. Make something great
 |
 
 */
-
+Route::get('/',  [HomeController::class, 'listHome'])->name('home');
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
-Route::get('/', [LoginController::class, 'home'])->name('home');
 Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::post('/handleRegister', [LoginController::class, 'handleRegister'])->name('handleRegister');
 Route::get('/dang-nhap', [LoginController::class, 'login'])->name('login');
@@ -52,10 +51,8 @@ Route::get('/test', function () {
     ->middleware('checkCustomer');
 // <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
-Route::get('/',  [HomeController::class, 'listHome'])->name('listHome');
 Route::get('/danh-sach-san-pham',  [ShopController::class, 'listProduct'])->name('listProduct');
 Route::get('/danh-sach-san-pham/{category}',  [ShopController::class, 'listProductWCategory'])->name('listProductWCategory');
-// <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
 
 Route::get('/test-log', function() {
@@ -63,22 +60,22 @@ Route::get('/test-log', function() {
         'name' => 'Test Unit ' . now(),
         'description' => 'Test Description'
     ]);
-    
+
     return "Created unit: " . $unit->id;
 });
 
 Route::get('/test-unit-log', function() {
     try {
         Log::info('=== START TEST ===');
-        
+
         $unit = \App\Models\Unit::create([
             'name' => 'Test Unit ' . now()->format('H:i:s'),
             'description' => 'Test Description'
         ]);
-        
+
         Log::info('Unit created successfully', ['id' => $unit->id]);
         return "Created unit: " . $unit->id;
-        
+
     } catch (\Exception $e) {
         Log::error('Test error: ' . $e->getMessage());
         return "Error: " . $e->getMessage();

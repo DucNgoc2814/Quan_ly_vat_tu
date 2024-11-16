@@ -4,7 +4,7 @@
             <!--  logo Start-->
             <div class="col-auto">
                 <div class="logo">
-                    <a href="index.html"><img src="{{ asset('themes/client/jantrik/img/logo/logo.png') }}"
+                    <a href="http://quan_ly_vat_tu.test"><img src="{{ asset('themes/client/jantrik/img/logo/logo.png') }}"
                             alt="logo-image"></a>
                 </div>
             </div>
@@ -15,7 +15,7 @@
                 <div class="middle-menu pull-right">
                     <nav>
                         <ul class="middle-menu-list">
-                            <li><a href="{{ route('listHome') }}">Trang Chủ</a>
+                            <li><a href="{{ route('home') }}">home</a>
                             </li>
                             <li><a href="{{ route('listProduct') }}">Cửa Hàng<i class="fa fa-angle-down"></i></a>
                                 <!-- Home Version Dropdown Start -->

@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\TripDetailController;
+use App\Http\Controllers\TripManagementController;
 use App\Http\Controllers\UnitController;
 // <+====================ROUTER MẪU====================+>
 // Route::prefix('duong-dan-mau')
@@ -34,6 +35,7 @@ use App\Http\Controllers\UnitController;
 //         Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
 //     });
 // <+====================ROUTE MẪU====================+>
+Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
 
 
 // employees
@@ -51,6 +53,20 @@ Route::prefix('employees')
         Route::get('/404-not-found', [EmployeeController::class, 'notFound'])->name('notfound');
         Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
+
+
+    });
+Route::prefix('orderconfirm')
+    ->as('orderconfirm.')
+    ->group(function () {
+        Route::get('/404-not-found', [TripManagementController::class, 'notFound'])->name('notfound');
+        Route::get('/dang-nhap', [TripManagementController::class, 'login'])->name('login');
+        Route::post('/dang-nhap', [TripManagementController::class, 'loginPost'])->name('loginPost');
+        Route::get('/xan-nhan-don-hang', [TripManagementController::class, 'index'])->name('index');
+        Route::get('/chi-tiet/{id}', [TripManagementController::class, 'show'])->name('show');
+        Route::put('/chi-tiet/{id}', [TripManagementController::class, 'update'])->name('update');
+
+
         Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
 Route::middleware('CheckEmployees')->group(
@@ -341,6 +357,53 @@ Route::middleware('CheckEmployees')->group(
                 Route::put('/sua/{id}', [TripController::class, 'update'])->name('update')->middleware('permission:71');
                 Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy')->middleware('permission:72');
             });
+
+Route::prefix('loai-xe')
+    ->as('cargo_car_types.')
+    ->group(function () {
+        Route::get('/danh-sach', [CargoCarTypeController::class, 'index'])->name('index')->middleware('permission:57');
+        Route::get('/them-moi', [CargoCarTypeController::class, 'create'])->name('create')->middleware('permission:58');
+        Route::post('/store', [CargoCarTypeController::class, 'store'])->name('store')->middleware('permission:58');
+        Route::get('/sua/{id}', [CargoCarTypeController::class, 'edit'])->name('edit')->middleware('permission:59');
+        Route::put('/sua/{id}', [CargoCarTypeController::class, 'update'])->name('update')->middleware('permission:59');
+        Route::delete('/xoa/{id}', [CargoCarTypeController::class, 'destroy'])->name('destroy')->middleware('permission:60');
+    });
+Route::prefix('danh-muc')
+    ->as('category.')
+    ->group(function () {
+        Route::get('/danh-sach', [CategoryController::class, 'index'])->name('index')->middleware('permission:61');
+        Route::get('/them-moi', [CategoryController::class, 'create'])->name('create')->middleware('permission:62');
+        Route::post('/them-moi', [CategoryController::class, 'store'])->name('store')->middleware('permission:62');
+        Route::get('/sua/{id}', [CategoryController::class, 'edit'])->name('edit')->middleware('permission:63');
+        Route::put('/sua/{id}', [CategoryController::class, 'update'])->name('update')->middleware('permission:63');
+        Route::delete('/xoa/{id}', [CategoryController::class, 'destroy'])->name('destroy')->middleware('permission:64');
+    });
+Route::prefix('xep-hang-khach-hang')
+    ->as('customer_ranks.')
+    ->group(function () {
+        Route::get('/danh-sach', [CustomerRankController::class, 'index'])->name('index')->middleware('permission:65');
+        Route::get('/them-moi', [CustomerRankController::class, 'create'])->name('create')->middleware('permission:66');
+        Route::post('/them-moi', [CustomerRankController::class, 'store'])->name('store')->middleware('permission:66');
+        Route::get('/sua/{id}', [CustomerRankController::class, 'edit'])->name('edit')->middleware('permission:67');
+        Route::put('/sua/{id}', [CustomerRankController::class, 'update'])->name('update')->middleware('permission:67');
+        Route::delete('/xoa/{id}', [CustomerRankController::class, 'destroy'])->name('destroy')->middleware('permission:68');
+    });
+Route::prefix('quan-ly-chuyen-xe')
+    ->as('trips.')
+    ->group(function () {
+        Route::get('/danh-sach-chuyen-xe', [TripController::class, 'index'])->name('index')->middleware('permission:69');
+        Route::get('/them-moi', [TripController::class, 'create'])->name('create')->middleware('permission:70');
+        Route::post('/them-moi', [TripController::class, 'store'])->name('store')->middleware('permission:70');
+        Route::get('/sua/{id}', [TripController::class, 'edit'])->name('edit')->middleware('permission:71');
+        Route::put('/sua/{id}', [TripController::class, 'update'])->name('update')->middleware('permission:71');
+        Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy')->middleware('permission:72');
+    });
+
+Route::prefix('quan-ly-chuyen-xe')
+    ->as('trips_details.')
+    ->group(function () {
+        Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index')->middleware('permission:73');
+    });
 
         Route::prefix('quan-ly-chuyen-xe')
             ->as('trips_details.')

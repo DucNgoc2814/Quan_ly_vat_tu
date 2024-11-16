@@ -18,8 +18,9 @@ class LoginController extends Controller
 {
     const PATH_VIEW = 'client.components.customer.';
 
-    public function home()
+    public function homeCustomer()
     {
+        dd("homeCustomer");
         return view('index');
     }
 
@@ -60,6 +61,7 @@ class LoginController extends Controller
             'email' => $request->email,
             'password' => $request->password,
         ];
+
         try {
             if (!$token = JWTAuth::attempt($credentials)) {
                 return response()->json([
@@ -67,8 +69,8 @@ class LoginController extends Controller
                 ], 401);
             }
             Session::put('token', $token);
-            // dd(JWTAuth::setToken(Session::get('token'))->getPayload()->get('name'));
-            return redirect()->route('home')->with('success', 'Đăng nhập thành công');
+            // dd(JWTAuth::setToken(Session::get('token'))->getPayload()->get('id'));
+            return redirect()->route('home');
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'Không thể tạo token'

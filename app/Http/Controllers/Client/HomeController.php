@@ -13,18 +13,15 @@ class HomeController extends Controller
 {
     // const PATH_VIEW = '';
     public function listHome()
-    {
-        $categories = Category::get();
-        $brands = Brand::get();
-        $products = Product::with('variations')
-            ->where('is_active', 1)
-            ->orderBy('id', 'desc')
-            ->paginate(4);
+{
+    $categories = Category::get();
+    $brands = Brand::get();
+    $products = Product::with('variations')
+        ->where('is_active', 1)
+        ->orderBy('id', 'desc')
+        ->paginate(4);
+    return view('index', compact('categories', 'brands', 'products'));
+}
 
-        return view('index', compact('categories', 'brands', 'products'));
-    }
 
-    public function contact(){
-        return view('client.layouts.relates.contact');
-    }
 }

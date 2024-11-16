@@ -672,6 +672,7 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'App\\Http\\Controllers\\SupplierController' => __DIR__ . '/../..' . '/app/Http/Controllers/SupplierController.php',
         'App\\Http\\Controllers\\TripController' => __DIR__ . '/../..' . '/app/Http/Controllers/TripController.php',
         'App\\Http\\Controllers\\TripDetailController' => __DIR__ . '/../..' . '/app/Http/Controllers/TripDetailController.php',
+        'App\\Http\\Controllers\\TripManagementController' => __DIR__ . '/../..' . '/app/Http/Controllers/TripManagementController.php',
         'App\\Http\\Controllers\\UnitController' => __DIR__ . '/../..' . '/app/Http/Controllers/UnitController.php',
         'App\\Http\\Controllers\\VariationAttributeValueController' => __DIR__ . '/../..' . '/app/Http/Controllers/VariationAttributeValueController.php',
         'App\\Http\\Controllers\\VariationController' => __DIR__ . '/../..' . '/app/Http/Controllers/VariationController.php',
