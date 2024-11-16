@@ -27,6 +27,14 @@
                             <div>
                                 <a href="{{ route('product.index') }}" class="btn btn-success" id="addproduct-btn">Danh sách
                                     sản phẩm</a>
+                                @if (session('errors'))
+                                    <ul>
+                                        @foreach (session('errors')->all() as $error)
+                                            <li class="text-danger">{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                @endif
+
                             </div>
                         </div>
                     </div>
@@ -37,28 +45,7 @@
                         <div class="row">
                             <div class="col-lg-8">
                                 <!-- Danh mục -->
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title mb-0">Danh mục</h5>
-                                        <select class="form-select mt-2" name="category_id">
-                                            <option value="" selected>Chọn danh mục</option>
-                                            @foreach ($categories as $key => $value)
-                                                <option value="{{ $key }}"
-                                                    {{ old('category_id') == $key ? 'selected' : '' }}>{{ $value }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        @if (session('errors') && !session('errors')->has('category_id'))
-                                            <span role="alert">
-                                                <span class="text-danger">{{ $message }}</span>
-                                            </span>
-                                        @else
-                                            <span role="alert">
-                                                <span class="text-danger err-category_id"></span>
-                                            </span>
-                                        @endif
-                                    </div>
-                                </div>
+
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="mb-3">
@@ -67,7 +54,7 @@
                                                 value="{{ old('name') }}" placeholder="Thêm sản phẩm" name="name">
                                             @if (session('errors') && !session('errors')->has('name'))
                                                 <span role="alert">
-                                                    <span class="text-danger">{{ $message }}</span>
+                                                    <span class="text-danger">{{ session('errors')->first('name') }}</span>
                                                 </span>
                                             @else
                                                 <span role="alert">
@@ -85,7 +72,7 @@
                                                 value="{{ old('price') }}" placeholder="Thêm giá sản phẩm" name="price">
                                             @if (session('errors') && !session('errors')->has('price'))
                                                 <span role="alert">
-                                                    <span class="text-danger">{{ $message }}</span>
+                                                    <span class="text-danger">{{ session('errors')->first('price') }}</span>
                                                 </span>
                                             @else
                                                 <span role="alert">
@@ -125,7 +112,29 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-0">Danh mục</h5>
+                                        <select class="form-select mt-2" name="category_id">
+                                            <option value="" selected>Chọn danh mục</option>
+                                            @foreach ($categories as $key => $value)
+                                                <option value="{{ $key }}"
+                                                    {{ old('category_id') == $key ? 'selected' : '' }}>{{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @if (session('errors') && !session('errors')->has('category_id'))
+                                            <span role="alert">
+                                                <span
+                                                    class="text-danger">{{ session('errors')->first('category_id') }}</span>
+                                            </span>
+                                        @else
+                                            <span role="alert">
+                                                <span class="text-danger err-category_id"></span>
+                                            </span>
+                                        @endif
+                                    </div>
+                                </div>
                                 <!-- Thương hiệu -->
                                 <div class="card">
                                     <div class="card-body">
@@ -141,7 +150,8 @@
 
                                         @if (session('errors') && !session('errors')->has('brand_id'))
                                             <span role="alert">
-                                                <span class="text-danger">{{ $message }}</span>
+                                                <span class="text-danger">{{ session('errors')->first('brand_id') }}</span>
+
                                             </span>
                                         @else
                                             <span role="alert">
@@ -167,7 +177,8 @@
                                         </select>
                                         @if (session('errors') && !session('errors')->has('unit_id'))
                                             <span role="alert">
-                                                <span class="text-danger">{{ $message }}</span>
+                                                <span class="text-danger">{{ session('errors')->first('unit_id') }}</span>
+
                                             </span>
                                         @else
                                             <span role="alert">
@@ -178,23 +189,7 @@
                                 </div>
 
                                 <!-- Loại biến thể -->
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title mb-0">Chọn loại biến thể:</h5>
-                                        <div class="mb-3 variant-checkbox-group mt-3">
-                                            @foreach ($attributesArray as $attribute)
-                                                <label class="variant-checkbox">
-                                                    <input type="checkbox" name="variant_types[]"
-                                                        value="{{ $attribute['id'] }}"
-                                                        {{ in_array($attribute['id'], old('variant_types', [])) ? 'checked' : '' }}>
-                                                    <span>{{ $attribute['name'] }}</span>
-                                                </label>
-                                            @endforeach
-                                        </div>
-                                        <button type="button" class="btn btn-success"
-                                            onclick="getSelectedValues()">Lưu</button>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class="col-lg-12">
                                 <div class="card">
@@ -232,30 +227,44 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            @error('product_images')
+                                            @if (session('errors') && !session('errors')->has('product_images'))
                                                 <span role="alert">
-                                                    <span class="text-danger">{{ $message }}</span>
+                                                    <span
+                                                        class="text-danger">{{ session('errors')->first('product_images') }}</span>
                                                 </span>
-                                            @enderror
+                                            @else
+                                                <span role="alert">
+                                                    <span class="text-danger err-product_images"></span>
+                                                </span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
-
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-0">Chọn loại biến thể:</h5>
+                                    <div class="mb-3 variant-checkbox-group mt-3">
+                                        @foreach ($attributesArray as $attribute)
+                                            <label class="variant-checkbox">
+                                                <input onchange="getSelectedValues(event)" type="checkbox"
+                                                    name="variant_types[]" value="{{ $attribute['id'] }}"
+                                                    {{ in_array($attribute['id'], old('variant_types', [])) ? 'checked' : '' }}>
+                                                <span>{{ $attribute['name'] }}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                    <span class="err-variant text-danger"></span>
+                                </div>
+                            </div>
                             <div class="col-lg-12">
                                 <div id="selected-variants" style="margin-top: 10px;"></div>
                             </div>
-
                             <div class="mt-3">
                                 <button class="btn btn-success text" id="btn-submit">Thêm mới</button>
-
                             </div>
                         </div>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -273,111 +282,70 @@
         const variant_types = document.getElementsByName('variant_types[]');
         const variants = document.getElementsByName('variants[]');
 
-description.addEventListener('input', () => {
-                        description.style = "border: 2px solid green;"
-})
-                category_id.addEventListener('change', () => {
-                    if (!category_id.value) {
-                        document.querySelector('.err-category_id').innerText =
-                            'Vui lòng chọn danh mục sản phẩm';
-                        category_id.style = "border: 2px solid red;"
-                        checkSubmit = false;
-                    } else {
-                        category_id.style = "border: 2px solid green;"
-                        document.querySelector('.err-category_id').innerText = '';
-                        checkSubmit = true;
-                    }
-                });
-                brand_id.addEventListener('change', () => {
-                    if (!brand_id.value) {
-                        document.querySelector('.err-brand_id').innerText =
-                            'Vui lòng chọn danh mục sản phẩm';
-                        brand_id.style = "border: 2px solid red;"
-                        checkSubmit = false;
-                    } else {
-                        brand_id.style = "border: 2px solid green;"
-                        document.querySelector('.err-brand_id').innerText = '';
-                        checkSubmit = true;
-                    }
-                });
-                unit_id.addEventListener('change', () => {
-                    if (!unit_id.value) {
-                        document.querySelector('.err-unit_id').innerText =
-                            'Vui lòng chọn danh mục sản phẩm';
-                        unit_id.style = "border: 2px solid red;"
-                        checkSubmit = false;
-                    } else {
-                        unit_id.style = "border: 2px solid green;"
-                        document.querySelector('.err-unit_id').innerText = '';
-                        checkSubmit = true;
-                    }
-                });
-                unit_id.addEventListener('change', () => {
-                    if (!unit_id.value) {
-                        document.querySelector('.err-unit_id').innerText =
-                            'Vui lòng chọn danh mục sản phẩm';
-                        unit_id.style = "border: 2px solid red;"
-                        checkSubmit = false;
-                    } else {
-                        unit_id.style = "border: 2px solid green;"
-                        document.querySelector('.err-unit_id').innerText = '';
-                        checkSubmit = true;
-                    }
-                });
-                price.addEventListener('input', () => {
-                    if (!price.value) {
-                        document.querySelector('.err-price').innerText = 'Vui lòng nhập giá sản phẩm';
-                        price.style = "border: 2px solid red;"
-                        checkSubmit = false;
-                    } else if (isNaN(price.value)) {
-                        document.querySelector('.err-price').innerText = 'Giá sản phẩm phải là số';
-                        price.style = "border: 2px solid red;"
-                        checkSubmit = false;
-                    } else if (parseFloat(price.value) < 0) {
-                        document.querySelector('.err-price').innerText =
-                            'Giá sản phẩm không được nhỏ hơn 0';
-                        price.style = "border: 2px solid red;"
-                        checkSubmit = false;
-                    } else {
-                        price.style = "border: 2px solid green;"
-                        document.querySelector('.err-price').innerText = '';
-                        checkSubmit = true;
-                    }
-                })
-                name.addEventListener('input', () => {
-                    if (!name.value) {
-                        document.querySelector('.err-name').innerText = 'Vui lòng nhập tên sản phẩm';
-                        name.style = "border: 2px solid red;"
-                        checkSubmit = false;
-                    } else if (name.value.length > 255) {
-                        document.querySelector('.err-name').innerText =
-                            'Tên sản phẩm không được vượt quá 255 ký tự';
-                        name.style = "border: 2px solid red;"
-                        checkSubmit = false;
-                    } else {
-                        name.style = "border: 2px solid green;"
-
-                        document.querySelector('.err-name').innerText = '';
-                        checkSubmit = true;
-                    }
-                })
-
-        document.getElementById("btn-submit").addEventListener('click', (e) => {
-            e.preventDefault();
-            let checkSubmit = true;
-            if (!name.value) {
-                document.querySelector('.err-name').innerText = 'Vui lòng nhập tên sản phẩm';
-                name.style = "border: 2px solid red;"
-                checkSubmit = false;
-            } else if (name.value.length > 255) {
-                document.querySelector('.err-name').innerText = 'Tên sản phẩm không được vượt quá 255 ký tự';
-                name.style = "border: 2px solid red;"
+        description.addEventListener('input', () => {
+            description.style = "border: 2px solid green;"
+        })
+        category_id.addEventListener('change', () => {
+            if (!category_id.value) {
+                document.querySelector('.err-category_id').innerText =
+                    'Vui lòng chọn danh mục sản phẩm';
+                category_id.style = "border: 2px solid red;"
                 checkSubmit = false;
             } else {
-                document.querySelector('.err-name').innerText = '';
+                category_id.style = "border: 2px solid green;"
+                document.querySelector('.err-category_id').innerText = '';
                 checkSubmit = true;
             }
-            // <+====================Thiếu====================+>
+        });
+        brand_id.addEventListener('change', () => {
+            if (!brand_id.value) {
+                document.querySelector('.err-brand_id').innerText =
+                    'Vui lòng chọn danh mục sản phẩm';
+                brand_id.style = "border: 2px solid red;"
+                checkSubmit = false;
+            } else {
+                brand_id.style = "border: 2px solid green;"
+                document.querySelector('.err-brand_id').innerText = '';
+                checkSubmit = true;
+            }
+        });
+        unit_id.addEventListener('change', () => {
+            if (!unit_id.value) {
+                document.querySelector('.err-unit_id').innerText =
+                    'Vui lòng chọn danh mục sản phẩm';
+                unit_id.style = "border: 2px solid red;"
+                checkSubmit = false;
+            } else {
+                unit_id.style = "border: 2px solid green;"
+                document.querySelector('.err-unit_id').innerText = '';
+                checkSubmit = true;
+            }
+        });
+        product_images[0].addEventListener('change', () => {
+            if (!product_images.value) {
+                document.querySelector('.err-product_images').innerText =
+                    'Vui lòng chọn ít nhất 1 ảnh sản phẩm';
+                product_images.style = "border: 2px solid red;"
+                checkSubmit = false;
+            } else {
+                product_images.style = "border: 2px solid green;"
+                document.querySelector('.err-product_images').innerText = '';
+                checkSubmit = true;
+            }
+        });
+        unit_id.addEventListener('change', () => {
+            if (!unit_id.value) {
+                document.querySelector('.err-unit_id').innerText =
+                    'Vui lòng chọn danh mục sản phẩm';
+                unit_id.style = "border: 2px solid red;"
+                checkSubmit = false;
+            } else {
+                unit_id.style = "border: 2px solid green;"
+                document.querySelector('.err-unit_id').innerText = '';
+                checkSubmit = true;
+            }
+        });
+        price.addEventListener('input', () => {
             if (!price.value) {
                 document.querySelector('.err-price').innerText = 'Vui lòng nhập giá sản phẩm';
                 price.style = "border: 2px solid red;"
@@ -387,51 +355,119 @@ description.addEventListener('input', () => {
                 price.style = "border: 2px solid red;"
                 checkSubmit = false;
             } else if (parseFloat(price.value) < 0) {
-                document.querySelector('.err-price').innerText = 'Giá sản phẩm không được nhỏ hơn 0';
+                document.querySelector('.err-price').innerText =
+                    'Giá sản phẩm không được nhỏ hơn 0';
                 price.style = "border: 2px solid red;"
                 checkSubmit = false;
             } else {
+                price.style = "border: 2px solid green;"
                 document.querySelector('.err-price').innerText = '';
                 checkSubmit = true;
+            }
+        })
+        name.addEventListener('input', () => {
+            if (!name.value) {
+                document.querySelector('.err-name').innerText = 'Vui lòng nhập tên sản phẩm';
+                name.style = "border: 2px solid red;"
+                checkSubmit = false;
+            } else if (name.value.length > 255) {
+                document.querySelector('.err-name').innerText =
+                    'Tên sản phẩm không được vượt quá 255 ký tự';
+                name.style = "border: 2px solid red;"
+                checkSubmit = false;
+            } else {
+                document.querySelector('.err-name').innerText = '';
+                name.style = "border: 2px solid green;";
+                checkSubmit = true;
+            }
+        })
+
+        document.getElementById("btn-submit").addEventListener('click', (e) => {
+            e.preventDefault();
+            if (!product_images[0].value) {
+                document.querySelector('.err-product_images').innerText =
+                    'Vui lòng chọn ít nhất 1 ảnh sản phẩm';
+                product_images[0].style = "border: 2px solid red;"
+                checkSubmit = false;
+            } else {
+                product_images[0].style = "border: 2px solid green;"
+                document.querySelector('.err-product_images').style.display = 'none';
+                checkSubmit = true;
+            }
+
+            if (!name.value) {
+                document.querySelector('.err-name').innerText = 'Vui lòng nhập tên sản phẩm';
+                name.style = "border: 2px solid red;"
+                checkSubmit_name = false;
+            } else if (name.value.length > 255) {
+                document.querySelector('.err-name').innerText = 'Tên sản phẩm không được vượt quá 255 ký tự';
+                name.style = "border: 2px solid red;"
+                checkSubmit_name = false;
+            } else {
+                checkSubmit_name = true;
+            }
+            // <+====================Thiếu====================+>
+            if (!price.value) {
+                document.querySelector('.err-price').innerText = 'Vui lòng nhập giá sản phẩm';
+                price.style = "border: 2px solid red;"
+                checkSubmit_price = false;
+            } else if (isNaN(price.value)) {
+                document.querySelector('.err-price').innerText = 'Giá sản phẩm phải là số';
+                price.style = "border: 2px solid red;"
+                checkSubmit_price = false;
+            } else if (parseFloat(price.value) < 0) {
+                document.querySelector('.err-price').innerText = 'Giá sản phẩm không được nhỏ hơn 0';
+                price.style = "border: 2px solid red;"
+                checkSubmit_price = false;
+            } else {
+                checkSubmit_price = true;
             }
             if (!brand_id.value) {
                 document.querySelector('.err-brand_id').innerText = 'Vui lòng chọn thương hiệu';
                 brand_id.style = "border: 2px solid red;"
-                checkSubmit = false;
+                checkSubmit_brand_id = false;
             } else {
-                document.querySelector('.err-brand_id').innerText = '';
-                checkSubmit = true;
+                checkSubmit_brand_id = true;
             }
             if (!category_id.value) {
                 document.querySelector('.err-category_id').innerText = 'Vui lòng chọn danh mục sản phẩm';
                 category_id.style = "border: 2px solid red;"
-                checkSubmit = false;
+                checkSubmit_category_id = false;
             } else {
-                document.querySelector('.err-category_id').innerText = '';
-                checkSubmit = true;
+                checkSubmit_category_id = true;
             }
             if (!unit_id.value) {
                 document.querySelector('.err-unit_id').innerText = 'Vui lòng chọn danh mục sản phẩm';
                 unit_id.style = "border: 2px solid red;"
-                checkSubmit = false;
+                checkSubmit_unit_id = false;
             } else {
-                document.querySelector('.err-unit_id').innerText = '';
-                checkSubmit = true;
+                checkSubmit_unit_id = true;
             }
-            if (checkSubmit) {
+            console.log('====================================');
+            console.log(checkSubmit_category_id, checkSubmit_unit_id, checkSubmit_brand_id, checkSubmit_price,
+                checkSubmit_name);
+            console.log('====================================');
+            if (checkSubmit_category_id && checkSubmit_unit_id && checkSubmit_brand_id && checkSubmit_price &&
+                checkSubmit_name) {
+
                 document.getElementById('btn-submit').form.submit();
             }
         });
 
-        function getSelectedValues() {
+        function getSelectedValues(e) {
             const selectedVariants = [];
             $('input[name="variant_types[]"]:checked').each(function() {
                 selectedVariants.push($(this).val());
             });
+            if (selectedVariants.length === 0) { alert('Bạn phải chọn ít nhất một loại biến thể.'); event.preventDefault(); // Ngăn hành động mặc định
+            event.target.checked = true;
+            return false;
+            }
             // Check the limit of variants
             if (selectedVariants.length > 2) {
                 alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
-                return false;
+                e.preventDefault();
+                return e.target.checked = false;
             }
 
             const variantValues = @json($attributesArray);
@@ -439,14 +475,11 @@ description.addEventListener('input', () => {
                 const attribute = variantValues.find(attr => attr.id == variant);
                 return attribute ? attribute.attribute_values : [];
             });
-
             const combinations = generateCombinations(selectedVariantValues);
             const resultDiv = $('#selected-variants');
             resultDiv.empty();
-
             combinations.forEach(combo => {
                 const id = combo.map(item => item.id).join('_');
-
                 const variantLabels = selectedVariants.map((type, index) => {
                     const variantValue = combo[index];
                     const variantName = variantValues.find(attr => attr.id == type).name;
@@ -460,7 +493,6 @@ description.addEventListener('input', () => {
                 </div>
             `;
                 }).join('');
-
                 const html = `
     <div class="col-lg-12">
         <div class="col-md-12" id="${id}_item">
@@ -470,7 +502,7 @@ description.addEventListener('input', () => {
                 <div class="col-md-3">
                     <div class="mb-2">
                         <label class="form-label">Giá chi tiết</label>
-                        <input type="number" class="form-control" name="variants[${id}][price]">
+                        <input type="number" class="form-control" name="variants[${id}][price]" value="0">
                     </div>
                 </div>
                 <div class="col-md-3">
