@@ -15,39 +15,17 @@
                 <div class="middle-menu pull-right">
                     <nav>
                         <ul class="middle-menu-list">
-                            <li><a href="index.html">home<i class="fa fa-angle-down"></i></a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul class="ht-dropdown home-dropdown">
-                                    <li><a href="index.html">Home Version One</a></li>
-                                    <li><a href="index-2.html">Home Version Two</a></li>
-                                    <li><a href="index-3.html">Home Box Layout</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
+                            <li><a href="{{ route('listHome') }}">home</a>
                             </li>
                             <li><a href="about.html">about us</a></li>
-                            <li><a href="shop.html">shop<i class="fa fa-angle-down"></i></a>
+                            <li><a href="{{ route('listProduct') }}">shop1<i class="fa fa-angle-down"></i></a>
                                 <!-- Home Version Dropdown Start -->
                                 <ul class="ht-dropdown dropdown-style-two">
-                                    <li><a href="shop.html">Shop</a>
-                                        <!-- Start Two Step -->
-                                        <ul class="ht-dropdown dropdown-style-two sub-menu">
-                                            <li><a href="shop.html">Product Category Name</a>
-                                                <!-- Start Three Step -->
-                                                <ul class="ht-dropdown dropdown-style-two sub-menu">
-                                                    <li><a href="shop.html">Product Category Name</a></li>
-                                                    <li><a href="shop.html">Product Category Name</a></li>
-                                                    <li><a href="shop.html">Product Category Name</a></li>
-                                                </ul>
-                                            </li>
-                                            <li><a href="shop.html">Product Category Name</a></li>
-                                            <li><a href="shop.html">Product Category Name</a></li>
-                                        </ul>
-                                    </li>
-                                    <li><a href="product.html">product details Page</a></li>
-                                    <li><a href="compare.html">Compare Page</a></li>
-                                    <li><a href="cart.html">Cart Page</a></li>
-                                    <li><a href="checkout.html">Checkout Page</a></li>
-                                    <li><a href="wishlist.html">Wishlist Page</a></li>
+                                    @foreach ($category as $categorie)
+                                        <li><a
+                                                href="{{ route('listProductWCategory', $categorie->sku) }}">{{ $categorie->name }}</a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                                 <!-- Home Version Dropdown End -->
                             </li>

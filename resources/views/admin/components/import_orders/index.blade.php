@@ -56,6 +56,8 @@
                                             <span class="badge bg-danger">Đã hủy</span>
                                         @elseif($item->status == 5)
                                             <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
+                                        @elseif($item->status == 6)
+                                            <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
                                         @endif
                                     </td>
                                     <td>{{ $item->created_at }}</td>
