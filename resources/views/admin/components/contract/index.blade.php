@@ -30,11 +30,12 @@
                         style="width:100%">
                         <thead>
                             <tr>
-                                <th data-ordering="false">ID</th>
-                                <th data-ordering="false">Tên hợp đồng</th>
-                                <th data-ordering="false">Mã đơn hàng</th>
-                                <th data-ordering="false">Loại hợp đồng</th>
-                                <th data-ordering="false">Mô tả</th>
+                                <th data-ordering="false">Mã hợp đồng</th>
+                                <th data-ordering="false">Tên người đại diện</th>
+                                <th data-ordering="false">Email</th>
+                                <th data-ordering="false">Số điện thoại</th>
+                                <th data-ordering="false">Tổng tiền</th>
+                                <th data-ordering="false">Ngày tạo</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Thao tác</th>
                             </tr>
@@ -42,14 +43,15 @@
                         <tbody>
                             @foreach ($contracts as $data)
                                 <tr>
-                                    <td>{{ $data->id }}</td>
-                                    <td>{{ $data->name }}</td>
-                                    <td>{{ $data->order->slug }}</td>
-                                    <td>{{ $data->contractType->name }}</td>
-                                    <td>{{ $data->note }}</td>
+                                    <td>{{ $data->contract_number }}</td>
+                                    <td>{{ $data->customer_name}}</td>
+                                    <td>{{ $data->customer_email }}</td>
+                                    <td>{{ $data->number_phone }}</td>
+                                    <td>{{ $data->total_amount }}</td>
+                                    <td>{{ $data->created_at}}</td>
                                     <td>{{ $data->contractStatus->name }}</td>
                                     <td>
-                                        <a href="{{ route('contract.edit', $data) }}"
+                                        <a href="{{ route('contract.edit', $data->contract_number) }}"
                                             class="dropdown-item edit-item-btn"><i
                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                             Sửa</a>
