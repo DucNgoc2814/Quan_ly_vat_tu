@@ -139,7 +139,7 @@
                                 <!-- Mobile Menu Dropdown Start -->
                                 <ul>
                                     <li><a href="product.html">Shop</a>
-                                    
+
                                         <ul>
                                             <li><a href="shop.html">Product Category Name</a>
                                                 <!-- Start Three Step -->
@@ -174,7 +174,7 @@
                                     <li><a href="login.html">login Page</a></li>
                                     <li><a href="register.html">Register Page</a></li>
                                     <li><a href="404.html">404 Page</a></li>
-                                    
+
                                 </ul>
                                 <!-- Mobile Menu Dropdown End -->
                             </li>

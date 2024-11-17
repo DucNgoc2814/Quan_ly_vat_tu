@@ -27,7 +27,7 @@ class StoreEmployeeRequest extends FormRequest
             'email' => 'required|email|unique:employees',
             'number_phone' => 'required|numeric|unique:employees',
             'image' => 'image|mimes:jpeg,png,jpg,gif',
-            'cccd' => 'required|unique:employees|min:12|max:12|numeric',
+            'cccd' => 'required|digits_between:12,12|numeric|:employees|numeric',
             'date' => 'required|date',
             'description' => 'required',
             'password' => 'required|string|min:6',

@@ -7,6 +7,7 @@ use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginAdminRequest;
 use App\Models\Order;
+use App\Models\OrderStatusTime;
 use App\Models\Role_employee;
 use App\Models\Trip;
 use App\Models\Trip_detail;
@@ -106,17 +107,48 @@ class TripManagementController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = Trip_detail::whereHas('trip', function ($query) use ($id) {
-            $query->where('id', $id);
-        })->with(['order', 'trip'])->get();
-        foreach ($data as $tripDetail) {
-            if ($tripDetail->order) {
-                $tripDetail->order->update(['status_id' => 4]);
+        $order = Order::find($id);
+        if ($order) {
+            OrderStatusTime::create([
+                'order_id' => $order->id,
+                'order_status_id' => 4,
+                'time' => now()
+            ]);
+            $order->update(['status_id' => 4]);
+
+            $tripDetail = Trip_detail::where('order_id', $order->id)->first();
+            if ($tripDetail) {
+                $trip = Trip::find($tripDetail->trip_id);
+                if ($trip) { // Check if the trip exists
+                    $uncompletedOrders = Trip_detail::where('trip_id', $trip->id)
+                        ->whereHas('order', function ($query) {
+                            $query->where('status_id', '!=', 4);
+                        })
+                        ->count();
+
+                    if ($uncompletedOrders === 0) {
+                        $updated = $trip->update(['status' => 2]);
+                        if ($updated) {
+                            // Update cargoCar is_active to 0
+                            $cargoCar = $trip->cargoCar; // Assuming a relationship exists in Trip model
+                            if ($cargoCar) {
+                                $cargoCar->update(['is_active' => 0]);
+                            }
+                        } else {
+                            return back()->with('error', 'Không thể cập nhật trạng thái chuyến đi');
+                        }
+                    }
+                } else {
+                    return back()->with('error', 'Không tìm thấy chuyến đi');
+                }
             }
         }
 
-        return view('admin.components.tripmanagement.detail', compact('data'));
+        return back()->with('success', 'Cập nhật trạng thái đơn hàng thành công');
     }
+
+
+
 
 
     /**
