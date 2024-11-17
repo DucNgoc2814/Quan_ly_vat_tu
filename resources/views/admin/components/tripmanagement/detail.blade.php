@@ -68,8 +68,6 @@
                                         <td>{{ $index->order->customer_name }}</td>
                                         <td>{{ $index->order->number_phone }}</td>
                                         <td>{{ $index->order->address }}</td>
-                                        {{-- <td>{{ $index->order->orderDetails->first()->variations->name }}</td> --}}
-                                        {{-- @dd($index->order->orderDetails) --}}
                                         <td>
                                             <ul class="list-unstyled mb-0">
                                                 @foreach ($index->order->orderDetails as $item)
@@ -80,7 +78,6 @@
 
                                             </ul>
                                         </td>
-                                        {{-- <td>{{ $index->order->orderDetails->first()->quantity }}</td> --}}
                                         <td>{{ $index->order->total_amount }}</td>
                                         <td>
                                             @if ($index->order->status_id != 4)

@@ -55,26 +55,34 @@
                         <table class="table table-nowrap table-striped-columns mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th scope="col">Code</th>
-                                    <th scope="col">Địa chỉ</th>
+                                    <th scope="col">Mã đơn hàng</th>
+                                    <th scope="col">Tên người nhân</th>
                                     <th scope="col">Số điện thoại</th>
-                                    <th scope="col">Tên sản phẩm</th>
-                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Địa chỉ</th>
+                                    <th scope="col">Sản phẩm</th>
                                     <th scope="col">Tổng tiền</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($data as $index)
-                                @if ($index->order->status_id == 3)
-                                <tr>
-                                    <td>{{ $index->order->slug }}</td>
-                                    <td>{{ $index->order->address }}</td>
-                                    <td>{{ $index->order->number_phone }}</td>
-                                    <td>{{ $index->order->orderDetails->first()->variations->name }}</td>
-                                    <td>{{ $index->order->orderDetails->first()->quantity }}</td>
-                                    <td>{{ $index->order->total_amount }}</td>
-                            </tr>
-                                @endif
+                                    <tr>
+                                        <td>{{ $index->order->slug }}</td>
+                                        <td>{{ $index->order->customer_name }}</td>
+                                        <td>{{ $index->order->number_phone }}</td>
+                                        <td>{{ $index->order->address }}</td>
+                                        <td>
+                                            <ul class="list-unstyled mb-0">
+                                                @foreach ($index->order->orderDetails as $item)
+                                                    <li class="mb-1">
+                                                        {{ $item->variations ? $item->variations->name : '' }}
+                                                    </li>
+                                                @endforeach
+
+                                            </ul>
+                                        </td>
+                                        <td>{{ $index->order->total_amount }}</td>
+
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
