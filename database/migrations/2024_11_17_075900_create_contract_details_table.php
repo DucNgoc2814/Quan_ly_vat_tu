@@ -11,13 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contracts', function (Blueprint $table) {
+        Schema::create('contract_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('contract_status_id')->constrained('contract_statuses')->default('1');
-            $table->string('contract_name', 255);
-            $table->string('customer_name', 255);
-            $table->string('customer_phone', 10);
-            $table->string('customer_email', 255);
+            $table->foreignId('contract_id')->constrained('contracts');
+            $table->foreignId('variation_id')->constrained('variations');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contracts');
+        Schema::dropIfExists('contract_details');
     }
 };

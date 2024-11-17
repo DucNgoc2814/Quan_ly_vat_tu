@@ -187,7 +187,8 @@
                                 name="payment_id" data-choices data-choices-search-false>
                                 <option value="">Chọn Phương Thức Thanh Toán</option>
                                 @foreach ($payments as $id => $name)
-                                    <option value="{{ $id }}">{{ $name }}</option>
+                                    <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
+                                        {{ $name }}</option>
                                 @endforeach
                             </select>
                             @error('payment_id')
@@ -280,10 +281,11 @@
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label class="form-label" for="paid_amount">Số tiền đã trả</label>
-                                    <input type="text"
-                                        class="form-control form-control-lg  @error('paid_amount') is-invalid @enderror"
+                                    <input type="number"
+                                        class="form-control form-control-lg @error('paid_amount') is-invalid @enderror"
                                         id="paid_amount" value="{{ old('paid_amount') }}"
-                                        placeholder="Nhập số tiền đã trả" name="paid_amount">
+                                        placeholder="Nhập số tiền đã trả" name="paid_amount"
+                                        step="any" min="0">
                                     @error('paid_amount')
                                         <span role="alert">
                                             <span class="text-danger">{{ $message }}</span>
@@ -563,11 +565,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                                    ` : `
-                                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                                    `}
+                                                                                                            <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                                            <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                                        ` : `
+                                                                                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                                        `}
                                 </div>
                             </div>
                             <hr>
@@ -818,7 +820,6 @@
                 }
             });
         }
-
     </script>
 
     <script>

@@ -43,7 +43,7 @@ class StoreOrderRequest extends FormRequest
                     }
                 },
             ],
-            'paid_amount' => 'required|numeric|min:0|lte:total_amount',
+            'paid_amount' => 'nullable|numeric|min:0|lte:total_amount',
         ];
     }
     public function messages()
@@ -78,7 +78,7 @@ class StoreOrderRequest extends FormRequest
             'product_quantity.*.numeric' => 'Số lượng sản phẩm phải là số.',
             'product_quantity.*.min' => 'Số lượng sản phẩm phải lớn hơn 0.',
 
-            'paid_amount.required' => 'Vui lòng nhập số tiền đã trả.',
+            // 'paid_amount.required' => 'Vui lòng nhập số tiền đã trả.',
             'paid_amount.numeric' => 'Số tiền đã trả phải là số.',
             'paid_amount.min' => 'Số tiền đã trả không được âm.',
             'paid_amount.lte' => 'Số tiền đã trả không được lớn hơn tổng giá trị đơn hàng.',
