@@ -22,13 +22,7 @@ class StoreContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'contract_number' => 'required|string|max:255|unique:contracts,contract_number',
-            'customer_name' => 'required|string|max:255',
-            'customer_email' => 'required|email|max:255',
-            'number_phone' => 'required|string|size:10',
-            'total_amount' => 'required|numeric|min:0',
-            'note' => 'nullable|string|max:1000',
-            'file' => 'required|file|mimes:pdf|max:2048',
+
         ];
     }
 

@@ -16,6 +16,7 @@ use App\Models\Variation;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+// use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Handles the CRUD operations for orders in the application.
@@ -82,7 +83,7 @@ class OrderController extends Controller
 
                 OrderStatusTime::create([
                     'order_id' => $order->id,
-                    'order_status_id' => 1, 
+                    'order_status_id' => 1,
                     'time' => now()
                 ]);
 
@@ -142,7 +143,7 @@ class OrderController extends Controller
                 } else {
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
-
+                // $this->exportOrderToWord($order, $request);
             });
 
             return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');

@@ -195,6 +195,19 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/danh-sach', [ContractController::class, 'index'])->name('index')->middleware('permission:28');
                 Route::get('/them-moi', [ContractController::class, 'create'])->name('create')->middleware('permission:29');
                 Route::post('/them-moi', [ContractController::class, 'store'])->name('store')->middleware('permission:29');
+                Route::get('/sua/{contract}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:30');
+                Route::put('/sua/{contract}', [ContractController::class, 'update'])->name('update')->middleware('permission:30');
+                Route::post('/gui-xac-nhan/{id}', [ContractController::class, 'sendToManager'])->name('sendToManager');
+                Route::post('/gui-xac-nhan-khach-hang/{id}', [ContractController::class, 'sendToCustomer'])->name('sendToCustomer');
+                Route::post('/confirm/{id}', [ContractController::class, 'confirmContract'])->name('confirm');
+                Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
+
+                // Route::get('/hop-dong/xac-nhan/{id}/{token}', [ContractController::class, 'customerApproveFromEmail'])->name('customerApprove');
+
+                Route::get('/hop-dong/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove');
+                Route::get('/hop-dong/tu-choi/{id}/{token}', [ContractController::class, 'customerRejectFromEmail'])->name('customerReject');
+
+
                 Route::get('/sua/{contract_number}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:30');
                 Route::put('/sua/{contract_number}', [ContractController::class, 'update'])->name('update')->middleware('permission:30');
             });
@@ -583,6 +596,11 @@ Route::middleware('CheckEmployees')->group(
                 Route::delete('/xoa/{id}', [TripController::class, 'destroy'])->name('destroy')->middleware('permission:72');
             });
 
+        Route::prefix('quan-ly-chuyen-xe')
+            ->as('trips_details.')
+            ->group(function () {
+                Route::get('/chi-tiet-chuyen-xe/{id}', [TripDetailController::class, 'index'])->name('index')->middleware('permission:73');
+            });
         Route::prefix('quan-ly-chuyen-xe')
             ->as('trips_details.')
             ->group(function () {
