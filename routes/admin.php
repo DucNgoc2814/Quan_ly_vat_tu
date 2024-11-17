@@ -292,16 +292,16 @@ Route::middleware('CheckEmployees')->group(
         Route::get('/logs', [LogController::class, 'index'])->name('logs.index');
 
         Route::prefix('quan-ly-ton-kho')
-        ->as('inventories.')
-        ->group(function () {
-            Route::get('/danh-sach', [InventoryController::class, 'index'])->name('index')->middleware('permission:73');
-            Route::get('export-variations', function () {
-                return Excel::download(new VariationsExport, 'variations.xlsx');
-            })->name('export');
-            Route::post('import-variations', [InventoryController::class, 'import'])->name('import');
-        });
+            ->as('inventories.')
+            ->group(function () {
+                Route::get('/danh-sach', [InventoryController::class, 'index'])->name('index')->middleware('permission:73');
+                Route::get('export-variations', function () {
+                    return Excel::download(new VariationsExport, 'variations.xlsx');
+                })->name('export');
+                Route::post('import-variations', [InventoryController::class, 'import'])->name('import');
+                Route::post('save', [InventoryController::class, 'save'])->name('save');
+                Route::get('get-detail/{id}', [InventoryController::class, 'getDetail'])->name('getDetail');
 
-
-
+            });
     }
 );

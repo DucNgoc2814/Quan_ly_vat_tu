@@ -102,6 +102,10 @@
                                 <a href="{{ route('brand.index') }}" class="nav-link text-danger"
                                     data-key="t-horizontal">Quản lý thương hiệu</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('inventories.index') }}" class="nav-link text-danger"
+                                    data-key="t-horizontal">Quản lý kho hàng</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -117,7 +121,7 @@
                 <li class="nav-item">
                     <a class="nav-link text-danger menu-link" href="#sidebarSuppliers" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarSuppliers">
-                        <span data-key="t-layouts">Quản lý tài khoản</span>
+                        <span data-key="t-layouts">Quản lý đối tác</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarSuppliers">
                         <ul class="nav nav-sm flex-column">
@@ -175,17 +179,17 @@
                 <li class="nav-item">
                     <a class="nav-link text-danger menu-link" href="#sidebarOrders" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarOrders">
-                        <span data-key="t-layouts">Quản lý đơn hàng</span>
+                        <span data-key="t-layouts">Quản lý xuất nhập</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarOrders">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="{{ route('order.index') }}" class="nav-link text-danger"
-                                    data-key="t-horizontal">Danh sách đơn bán</a>
+                                    data-key="t-horizontal">Đơn hàng</a>
                             </li>
                             <li class="nav-item">
                                 <a href="{{ route('importOrder.index') }}" class="nav-link text-danger"
-                                    data-key="t-horizontal">Danh sách đơn mua</a>
+                                    data-key="t-horizontal">Quản lý phiếu nhập hàng</a>
                             </li>
                         </ul>
                     </div>
@@ -225,7 +229,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarTrips">
-                        <span data-key="t-layouts">Quản lý chuyến đi</span>
+                        <span data-key="t-layouts">Quản lý vận chuyển</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarTrips">
                         <ul class="nav nav-sm flex-column">
@@ -241,7 +245,6 @@
                         aria-expanded="false" aria-controls="sidebarTrips">
                         <span data-key="t-layouts">Lịch sử thao tác</span>
                     </a>
-                    
                 </li>
 
             </ul>

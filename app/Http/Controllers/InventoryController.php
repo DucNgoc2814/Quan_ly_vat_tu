@@ -7,8 +7,10 @@ use App\Http\Requests\StoreInventoryRequest;
 use App\Http\Requests\UpdateInventoryRequest;
 use App\Models\Variation;
 use App\Imports\VariationsImport;
+use App\Models\InventoryDetail;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InventoryController extends Controller
 {
@@ -20,8 +22,8 @@ class InventoryController extends Controller
     public function index()
     {
         $variations = Variation::orderBy('id', 'desc')->get();
-        $a = Variation::with(['product.category', 'product.brand', 'product.unit'])->get();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('variations'));
+        $inventories = Inventory::orderBy('id', 'desc')->get();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('variations', 'inventories'));
     }
 
     public function import(Request $request)
@@ -72,6 +74,44 @@ class InventoryController extends Controller
             return redirect()->back()->with('error', 'Không có sản phẩm nào có sự khác biệt về số lượng.');
         }
 
+        // Lưu results vào session trước khi return view
+        session(['results' => $results]);
+
         return view('admin.components.inventories.difference', compact('results'));
+    }
+    public function save(Request $request)
+    {
+        try {
+            $result = DB::transaction(function () use ($request) {
+                // Create new inventory record
+                $inventory = Inventory::create([
+                    'name' => 'Kiểm kê #' . rand(1000, 9999) . ' - ' . now()->format('d/m/Y H:i:s')
+                ]);
+
+                // Get the results from session
+                $results = session('results');
+                // Create inventory details for each variation 
+                foreach ($results as $variation) {
+                    InventoryDetail::create([
+                        'inventory_id' => $inventory->id,
+                        'variation_id' => $variation['ma_bien_the'],
+                        'variation_name' => $variation['ten_bien_the'],
+                        'actual_quantity' => $variation['so_luong'],
+                        'system_quantity' => $variation['current_stock'],
+                        'deviation' => $variation['deviation']
+                    ]);
+                }
+            });
+
+            return redirect()->route('inventories.index')->with('success', 'Đã lưu thành công kiểm kê tồn kho');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi lưu kiểm kê: ' . $e->getMessage());
+        }
+    }
+    public function getDetail($id)
+    {
+        $inventory = Inventory::with('inventoryDetails.variation')->findOrFail($id);
+        return view('admin.components.inventories.detail', compact('inventory'));
     }
 }
