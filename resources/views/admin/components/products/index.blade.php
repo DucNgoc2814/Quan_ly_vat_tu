@@ -66,7 +66,6 @@
                                         </div>
                                     </td>
                                     <td>
-                                    
                                         <a href="{{ route('product.edit', $data->slug) }}" class="dropdown-item edit-item-btn"><i
                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                             Sửa</a>
