@@ -69,7 +69,7 @@
                                         <td>{{ $index->order->slug }}</td>
                                         <td>{{ $index->order->customer_name }}</td>
                                         <td>{{ $index->order->number_phone }}</td>
-                                        <td>{{ $index->order->address }}</td>
+                                        <td>{{ $index->order->province }},{{$index->order->district}},{{$index->order->ward}},{{$index->order->address}},</td>
                                         <td>
                                             <ul class="list-unstyled mb-0">
                                                 @foreach ($index->order->orderDetails as $item)
