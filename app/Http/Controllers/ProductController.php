@@ -101,6 +101,7 @@ class ProductController extends Controller
 
     public function edit($id)
     {
+        $listProduct = Product::pluck('name');
         $product = Product::with('variations')->findOrFail($id);
         $categories = Category::pluck('name', 'id');
         $units = Unit::pluck('name', 'id');
@@ -112,7 +113,7 @@ class ProductController extends Controller
             ->get();
         $attributesArray = Attribute::with('attributeValues')->get();
 
-        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray', 'listProduct'));
     }
 
     public function update(UpdateProductRequest $request, $id)

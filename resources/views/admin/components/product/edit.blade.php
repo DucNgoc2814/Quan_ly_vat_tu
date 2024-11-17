@@ -51,19 +51,31 @@
                                                     </option>
                                                 @endforeach
                                             </select>
-                                            @if ($errors->has('category_id'))
-                                                <div class="text-danger mt-1">{{ $errors->first('category_id') }}</div>
+                                            @if (session('errors') && !session('errors')->has('category_id'))
+                                                <span role="alert">
+                                                    <span
+                                                        class="text-danger">{{ session('errors')->first('category_id') }}</span>
+                                                </span>
+                                            @else
+                                                <span role="alert">
+                                                    <span class="text-danger err-category_id"></span>
+                                                </span>
                                             @endif
                                         </div>
-
                                         <!-- Tên sản phẩm -->
                                         <div class="mb-3">
                                             <label class="form-label" for="product-title-input">Tên sản phẩm</label>
                                             <input type="text" class="form-control" id="product-title-input"
                                                 value="{{ old('name', $product->name) }}" placeholder="Nhập tên sản phẩm"
                                                 name="name">
-                                            @if ($errors->has('name'))
-                                                <div class="text-danger mt-1">{{ $errors->first('name') }}</div>
+                                            @if (session('errors') && !session('errors')->has('name'))
+                                                <span role="alert">
+                                                    <span class="text-danger">{{ session('errors')->first('name') }}</span>
+                                                </span>
+                                            @else
+                                                <span role="alert">
+                                                    <span class="text-danger err-name"></span>
+                                                </span>
                                             @endif
                                         </div>
 
@@ -72,9 +84,15 @@
                                             <input type="text" class="form-control @error('price') is-invalid @enderror"
                                                 id="product-price-input" value="{{ old('price', $product->price) }}"
                                                 placeholder="Nhập giá sản phẩm" name="price">
-                                            @error('price')
-                                                <span class="invalid-feedback">{{ $message }}</span>
-                                            @enderror
+                                            @if (session('errors') && !session('errors')->has('price'))
+                                                <span role="alert">
+                                                    <span class="text-danger">{{ session('errors')->first('price') }}</span>
+                                                </span>
+                                            @else
+                                                <span role="alert">
+                                                    <span class="text-danger err-price"></span>
+                                                </span>
+                                            @endif
                                         </div>
 
                                         <div class="mb-3">
@@ -106,8 +124,16 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                @if ($errors->has('brand_id'))
-                                                    <div class="text-danger mt-1">{{ $errors->first('brand_id') }}</div>
+                                                @if (session('errors') && !session('errors')->has('brand_id'))
+                                                    <span role="alert">
+                                                        <span
+                                                            class="text-danger">{{ session('errors')->first('brand_id') }}</span>
+
+                                                    </span>
+                                                @else
+                                                    <span role="alert">
+                                                        <span class="text-danger err-brand_id"></span>
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
@@ -125,12 +151,19 @@
                                                         </option>
                                                     @endforeach
                                                 </select>
-                                                @if ($errors->has('unit_id'))
-                                                    <div class="text-danger mt-1">{{ $errors->first('unit_id') }}</div>
+                                                @if (session('errors') && !session('errors')->has('unit_id'))
+                                                    <span role="alert">
+                                                        <span
+                                                            class="text-danger">{{ session('errors')->first('unit_id') }}</span>
+
+                                                    </span>
+                                                @else
+                                                    <span role="alert">
+                                                        <span class="text-danger err-unit_id"></span>
+                                                    </span>
                                                 @endif
                                             </div>
                                         </div>
-
                                         <div class="col-lg-12">
                                             <div id="selected-variants" style="margin-top: 10px;"></div>
                                         </div>
@@ -239,9 +272,8 @@
                             <div class="col-lg-12">
                                 <div id="selected-variants" style="margin-top: 10px;"></div>
                             </div>
-
                             <div class="mt-3">
-                                <button class="btn btn-success">Cập nhật</button>
+                                <button class="btn btn-success btn-submit">Cập nhật</button>
                             </div>
                         </div>
                     </form>
@@ -251,6 +283,122 @@
     </div>
 
     <script>
+        // <+====================VALIDATE====================+>
+        const name = document.getElementById('product-title-input');
+        const price = document.getElementById('product-price-input');
+        const description = document.getElementsByName('description');
+        const category_id = document.getElementsByName('category_id')[0];
+        const brand_id = document.getElementsByName('brand_id')[0];
+        const unit_id = document.getElementsByName('unit_id')[0];
+        const product_images = document.getElementsByName('product_images[]');
+        const variants = document.getElementsByName('variants[]');
+        const listProduct = @json($listProduct);
+        const nameOld = name.value
+        let checkSubmit_category_id = true
+        let checkSubmit_unit_id = true
+        let checkSubmit_brand_id = true
+        let checkSubmit_price = true
+        let checkSubmit_name = true
+        let checkSubmit_product_images = true
+
+        name.addEventListener('input', () => {
+            let trungName = false;
+            listProduct.forEach((product) => {
+                if (product == name.value && name.value != nameOld) {
+                    return trungName = true;
+                }
+            });
+            if (trungName) {
+                document.querySelector('.err-name').innerText = 'Tên sản phẩm đã tồn tại';
+                name.style = "border: 2px solid red;"
+                checkSubmit_name = false
+
+            } else if (!name.value) {
+                document.querySelector('.err-name').innerText = 'Vui lòng nhập tên sản phẩm';
+                name.style = "border: 2px solid red;"
+                checkSubmit_name = false
+
+            } else if (name.value.length > 255) {
+                document.querySelector('.err-name').innerText =
+                    'Tên sản phẩm không được vượt quá 255 ký tự';
+                name.style = "border: 2px solid red;"
+                checkSubmit_name = false
+
+            } else {
+                document.querySelector('.err-name').innerText = '';
+                name.style = "border: 2px solid green;";
+            }
+        })
+        category_id.addEventListener('change', () => {
+            if (!category_id.value) {
+                document.querySelector('.err-category_id').innerText =
+                    'Vui lòng chọn danh mục sản phẩm';
+                category_id.style = "border: 2px solid red;"
+                 checkSubmit_category_id = false
+
+            } else {
+                category_id.style = "border: 2px solid green;"
+                document.querySelector('.err-category_id').innerText = '';
+
+            }
+        });
+        price.addEventListener('input', () => {
+            if (!price.value) {
+                document.querySelector('.err-price').innerText = 'Vui lòng nhập giá sản phẩm';
+                price.style = "border: 2px solid red;"
+                checkSubmit_price = false
+
+            } else if (isNaN(price.value)) {
+                document.querySelector('.err-price').innerText = 'Giá sản phẩm phải là số';
+                price.style = "border: 2px solid red;"
+                checkSubmit_price = false
+
+            } else if (parseFloat(price.value) < 0) {
+                document.querySelector('.err-price').innerText =
+                    'Giá sản phẩm không được nhỏ hơn 0';
+                price.style = "border: 2px solid red;"
+                checkSubmit_price = false
+
+            } else {
+                price.style = "border: 2px solid green;"
+                document.querySelector('.err-price').innerText = '';
+
+            }
+        })
+        brand_id.addEventListener('change', () => {
+            if (!brand_id.value) {
+                document.querySelector('.err-brand_id').innerText =
+                    'Vui lòng chọn danh mục sản phẩm';
+                brand_id.style = "border: 2px solid red;"
+                checkSubmit_brand_id = false
+
+            } else {
+                brand_id.style = "border: 2px solid green;"
+                document.querySelector('.err-brand_id').innerText = '';
+            }
+        });
+        unit_id.addEventListener('change', () => {
+            if (!unit_id.value) {
+                document.querySelector('.err-unit_id').innerText =
+                    'Vui lòng chọn danh mục sản phẩm';
+                unit_id.style = "border: 2px solid red;"
+                checkSubmit_unit_id = false
+
+            } else {
+                unit_id.style = "border: 2px solid green;"
+                document.querySelector('.err-unit_id').innerText = '';
+            }
+        });
+
+        document.getElementById("btn-submit").addEventListener('click', (e) => {
+            e.preventDefault();
+            if (checkSubmit_category_id && checkSubmit_unit_id && checkSubmit_brand_id && checkSubmit_price &&
+                checkSubmit_name ) {
+                document.getElementById('btn-submit').form.submit();
+            }
+        });
+        // <+====================VALIDATE====================+>
+
         let imageCount = 0;
 
         function displayImage(event, count) {

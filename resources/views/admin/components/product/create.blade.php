@@ -407,7 +407,6 @@
             } else {
                 checkSubmit_name = true;
             }
-            // <+====================Thiếu====================+>
             if (!price.value) {
                 document.querySelector('.err-price').innerText = 'Vui lòng nhập giá sản phẩm';
                 price.style = "border: 2px solid red;"
@@ -449,7 +448,6 @@
                 document.getElementById('btn-submit').form.submit();
             }
         });
-
         function getSelectedValues(e) {
             const selectedVariants = [];
             $('input[name="variant_types[]"]:checked').each(function() {
