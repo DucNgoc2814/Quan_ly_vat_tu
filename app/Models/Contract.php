@@ -10,26 +10,15 @@ class Contract extends Model
     use HasFactory;
     protected $fillable = [
         'contract_status_id',
-        'contract_type_id',
-        'order_id',
-        'name',
-        'file',
-        'note',
+        'contract_name',
+        'customer_name',
+        'customer_phone',
+        'customer_email',
     ];
 
     public function contractStatus()
     {
         return $this->belongsTo(Contract_status::class);
-    }
-
-    public function contractType()
-    {
-        return $this->belongsTo(Contract_type::class);
-    }
-
-    public function order()
-    {
-        return $this->belongsTo(Order::class, 'order_id');
     }
     protected static function booted()
     {

@@ -22,11 +22,7 @@ class StoreContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'order_id' => 'required|not_in:0|exists:orders,id',
-            'contract_type_id' => 'required|not_in:0|exists:contract_types,id',
-            'note' => 'nullable|string|max:1000',
-            'file' => 'required|file|mimes:pdf|max:2048',
+            
         ];
     }
 

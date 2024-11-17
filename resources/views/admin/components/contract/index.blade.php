@@ -32,9 +32,9 @@
                             <tr>
                                 <th data-ordering="false">ID</th>
                                 <th data-ordering="false">Tên hợp đồng</th>
-                                <th data-ordering="false">Mã đơn hàng</th>
-                                <th data-ordering="false">Loại hợp đồng</th>
-                                <th data-ordering="false">Mô tả</th>
+                                <th data-ordering="false">Bên B</th>
+                                <th data-ordering="false">Số điện thoại bên B</th>
+                                <th data-ordering="false">Email bên B</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Thao tác</th>
                             </tr>
@@ -43,10 +43,10 @@
                             @foreach ($contracts as $data)
                                 <tr>
                                     <td>{{ $data->id }}</td>
-                                    <td>{{ $data->name }}</td>
-                                    <td>{{ $data->order->slug }}</td>
-                                    <td>{{ $data->contractType->name }}</td>
-                                    <td>{{ $data->note }}</td>
+                                    <td>{{ $data->contract_name }}</td>
+                                    <td>{{ $data->customer_name }}</td>
+                                    <td>{{ $data->customer_phone }}</td>
+                                    <td>{{ $data->customer_email }}</td>
                                     <td>{{ $data->contractStatus->name }}</td>
                                     <td>
                                         <a href="{{ route('contract.edit', $data) }}"
