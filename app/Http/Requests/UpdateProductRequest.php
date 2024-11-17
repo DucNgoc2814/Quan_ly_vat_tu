@@ -40,7 +40,7 @@ class UpdateProductRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                'unique:products,name,' . $this->route('id')
+                // 'name,' . $this->route('id')
             ],
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
@@ -61,7 +61,7 @@ class UpdateProductRequest extends FormRequest
             'name.required' => 'Vui lòng nhập tên sản phẩm',
             'name.string' => 'Tên sản phẩm phải là chuỗi ký tự',
             'name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự',
-            'name.unique' => 'Tên sản phẩm đã tồn tại',
+            // 'name.unique' => 'Tên sản phẩm đã tồn tại',
             'price.required' => 'Vui lòng nhập giá sản phẩm',
             'price.numeric' => 'Giá sản phẩm phải là số',
             'price.min' => 'Giá sản phẩm không được nhỏ hơn 0',

@@ -46,6 +46,8 @@ Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])
 Route::get('/',  [HomeController::class, 'listHome'])->name('listHome');
 Route::get('/danh-sach-san-pham',  [ShopController::class, 'listProduct'])->name('listProduct');
 Route::get('/danh-sach-san-pham/{category}',  [ShopController::class, 'listProductWCategory'])->name('listProductWCategory');
+Route::get('/chi-tiet-san-pham/{id}',  [ShopController::class, 'detailProduct'])->name('detailProduct');
+
 // <+====================TINHNGUYEN====================+>
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
 

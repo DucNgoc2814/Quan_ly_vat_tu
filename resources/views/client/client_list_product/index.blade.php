@@ -195,7 +195,7 @@
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                 </div>
-                                                <h4><a href="product.html">Products Name Here</a></h4>
+                                                <h4><a href="{{route('detailProduct', $product->id)}}">Products Name Here</a></h4>
                                                 <p><span class="price">$68.00</span><del class="prev-price">$70.00</del>
                                                 </p>
                                                 <div class="pro-actions">
@@ -222,7 +222,7 @@
                                     <div class="single-product">
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
-                                            <a href="product.html">
+                                            <a href="{{route('detailProduct', $product->id)}}">
                                                 <img class="primary-img"
                                                     src="{{ asset('themes/client/jantrik/img/products/1.jpg') }}"
                                                     alt="single-product">
