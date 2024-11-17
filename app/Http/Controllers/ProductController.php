@@ -35,11 +35,12 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $listProduct =Product::pluck('name');
         $attributesArray = Attribute::with('attributeValues')->get()->toArray();
         $categories = Category::pluck('name', 'id');
         $brands =  Brand::pluck('name', 'id');
         $units =  Unit::pluck('name', 'id');
-        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units', 'attributesArray'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units', 'attributesArray', 'listProduct'));
     }
 
     /**
@@ -72,7 +73,7 @@ class ProductController extends Controller
                 // Tạo các biến thể
                 foreach ($request->variants as $variantData) {
                     $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
-                    
+
                     $variation = Variation::create([
                         'product_id' => $product->id,
                         'sku' => $this->generateUniqueSku(),
@@ -119,7 +120,7 @@ class ProductController extends Controller
         try {
             DB::transaction(function () use ($request, $id) {
                 $product = Product::findOrFail($id);
-                
+
                 // Lấy tên sản phẩm cũ để so sánh
                 $oldName = $product->name;
                 $newName = $request->name;

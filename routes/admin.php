@@ -218,7 +218,6 @@ Route::middleware('CheckEmployees')->group(
                 Route::put('/sua/{slug}', [ProductController::class, 'update'])->name('update')->middleware('permission:40');
             });
 
-
         Route::prefix('don-hang-nhap')
             ->as('importOrder.')
             ->group(function () {

@@ -39,7 +39,6 @@ class StoreProductRequest extends FormRequest
             'variants.*.stock' => 'required|integer|min:0',
         ];
     }
-
     /**
      * Custom validation error messages.
      */
