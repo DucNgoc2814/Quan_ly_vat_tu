@@ -269,8 +269,9 @@
             </div>
         </div>
     </div>
-
-    <script>
+<script>
+     console.log('Script loaded');
+        console.log(12);
         const name = document.getElementById('product-title-input');
         const price = document.getElementById('product-price-input');
         const description = document.getElementById('meta-description-input');
@@ -361,8 +362,7 @@
             if (trungName) {
                 document.querySelector('.err-name').innerText = 'Tên sản phẩm đã tồn tại';
                 name.style = "border: 2px solid red;"
-            }
-            else if (!name.value) {
+            } else if (!name.value) {
                 document.querySelector('.err-name').innerText = 'Vui lòng nhập tên sản phẩm';
                 name.style = "border: 2px solid red;"
             } else if (name.value.length > 255) {
@@ -374,13 +374,12 @@
                 name.style = "border: 2px solid green;";
             }
         })
-
         document.getElementById("btn-submit").addEventListener('click', (e) => {
             e.preventDefault();
             if (!product_images[0].value) {
                 document.querySelector('.err-product_images').innerText =
                     'Vui lòng chọn ít nhất 1 ảnh sản phẩm';
-               document.querySelector('.avatar-lg').style.border = "2px solid red";
+                document.querySelector('.avatar-lg').style.border = "2px solid red";
                 checkSubmit_product_images = false;
             } else {
                 product_images[0].style = "border: 2px solid green;"
@@ -465,8 +464,7 @@
                 e.preventDefault();
                 return e.target.checked = false;
             }
-
-            const variantValues = @json($attributesArray);
+              const variantValues = @json($attributesArray);
             const selectedVariantValues = selectedVariants.map(variant => {
                 const attribute = variantValues.find(attr => attr.id == variant);
                 return attribute ? attribute.attribute_values : [];
@@ -584,9 +582,6 @@
         // Kết nối sự kiện click với nút thêm ảnh
         document.getElementById('add-image-button').addEventListener('click', addImageInput);
 
-
-
-
         // Hàm để tạo tất cả các kết hợp từ mảng
         function generateCombinations(arrays) {
             // Kiểm tra xem có mảng nào trống không
@@ -606,5 +601,5 @@
                 []
             ]); // Bắt đầu với một mảng chứa một mảng rỗng
         }
-    </script>
+  </script>
 @endsection
