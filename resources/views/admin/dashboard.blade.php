@@ -8,6 +8,7 @@
     use App\Models\Order;
     $pendingCancelRequests = Import_order::where('status', 1)->whereNotNull('cancel_reason')->get();
     $orderCancelRequests = Order::whereNotNull('cancel_reason')->get();
+    $pendingContracts = App\Models\Contract::where('contract_status_id', 4)->get();
 @endphp
 @section('content')
     <div class="row">
@@ -1077,6 +1078,40 @@
                             <div id="cancelRequestsContainer">
                             </div>
                         </div>
+                        <div class="mt-2">
+                            @foreach ($pendingContracts as $contract)
+                                <div class="col mb-3">
+                                    <div class="card card-body">
+                                        <div class="d-flex mb-4 align-items-center">
+                                            <div class="flex-grow-1 ms-2">
+                                                <h5 class="card-title mb-1">Yêu cầu xác nhận hợp đồng:
+                                                    {{ $contract->contract_name }}</h5>
+                                                <p>Khách hàng: {{ $contract->customer_name }}</p>
+                                                <div class="mt-3">
+                                                    <a href="{{ Storage::url($contract->file) }}" target="_blank"
+                                                        class="btn btn-info btn-sm">Xem hợp đồng</a>
+
+                                                    <form action="{{ route('contract.confirm', $contract->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-success btn-sm">Xác
+                                                            nhận</button>
+                                                    </form>
+
+                                                    <form action="{{ route('contract.reject', $contract->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger btn-sm">Từ
+                                                            chối</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        </div>
 
                     </div>
                 </div> <!-- end card-->
@@ -1191,5 +1226,4 @@
             checkPendingCancelRequests();
         });
     </script>
-
 @endsection

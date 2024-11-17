@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contract_statuses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
+        Schema::table('contracts', function (Blueprint $table) {
+            $table->string('verification_token')->nullable();
         });
     }
 
@@ -22,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contract_statuses');
+        Schema::table('contracts', function (Blueprint $table) {
+            $table->dropColumn('verification_token');
+        });
     }
 };

@@ -22,25 +22,27 @@ class StoreContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'order_id' => 'required|not_in:0|exists:orders,id',
-            'contract_type_id' => 'required|not_in:0|exists:contract_types,id',
-            'note' => 'nullable|string|max:1000',
-            'file' => 'required|file|mimes:pdf|max:2048',
+
         ];
     }
 
     public function messages(): array
     {
         return [
-            'name.required' => 'Vui lòng nhập tên hợp đồng',
-            'name.max' => 'Tên hợp đồng không được vượt quá 255 ký tự',
-            'order_id.required' => 'Vui lòng chọn đơn hàng',
-            'order_id.not_in' => 'Vui lòng chọn đơn hàng',
-            'order_id.exists' => 'Đơn hàng không tồn tại trong hệ thống',
-            'contract_type_id.required' => 'Vui lòng chọn loại hợp đồng',
-            'contract_type_id.not_in' => 'Vui lòng chọn loại hợp đồng',
-            'contract_type_id.exists' => 'Loại hợp đồng không tồn tại trong hệ thống',
+            'contract_number.required' => 'Vui lòng nhập số hợp đồng',
+            'contract_number.max' => 'Số hợp đồng không được vượt quá 255 ký tự',
+            'contract_number.unique' => 'Số hợp đồng đã tồn tại, vui lòng nhập số khác.',
+            'customer_name.required' => 'Vui lòng nhập tên khách hàng',
+            'customer_name.max' => 'Tên khách hàng không được vượt quá 255 ký tự',
+            'customer_email.required' => 'Vui lòng nhập email khách hàng',
+            'customer_email.email' => 'Email khách hàng không đúng định dạng',
+            'customer_email.max' => 'Email khách hàng không được vượt quá 255 ký tự',
+            'number_phone.required' => 'Vui lòng nhập số điện thoại khách hàng',
+            'number_phone.string' => 'Số điện thoại khách hàng phải là chuỗi',
+            'number_phone.size' => 'Số điện thoại khách hàng phải có đúng 10 ký tự',
+            'total_amount.required' => 'Vui lòng nhập tổng số tiền hợp đồng',
+            'total_amount.numeric' => 'Tổng số tiền hợp đồng phải là số',
+            'total_amount.min' => 'Tổng số tiền hợp đồng phải lớn hơn 0',
             'note.max' => 'Mô tả không được vượt quá 1000 ký tự',
             'file.required' => 'Vui lòng tải lên file hợp đồng',
             'file.mimes' => 'File phải có định dạng PDF',
