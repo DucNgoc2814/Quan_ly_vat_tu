@@ -228,9 +228,9 @@
     $("#slider-range").slider({
         range: true,
         min: 0,
-        max: 100000,  // Thay đổi giá trị này tùy thuộc vào khoảng giá của sản phẩm của bạn
+        max: 1000000,  // Thay đổi giá trị này tùy thuộc vào khoảng giá của sản phẩm của bạn
         step: 10,
-        values: [100, 100000], // Giá trị ban đầu của thanh trượt
+        values: [100, 1000000], // Giá trị ban đầu của thanh trượt
         slide: function(event, ui) {
             // Cập nhật giá trị vào input khi thanh trượt thay đổi
             $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
