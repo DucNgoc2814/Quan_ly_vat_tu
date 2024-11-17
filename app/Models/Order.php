@@ -47,7 +47,7 @@ class Order extends Model
 
     public function contract()
     {
-        return $this->hasOne(Contract::class, 'order_id');
+        return $this->belongsToo(Contract::class, 'order_id');
     }
 
     public function debts()

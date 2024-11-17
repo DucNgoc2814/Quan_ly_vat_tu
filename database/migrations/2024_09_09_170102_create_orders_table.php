@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('ward', 255);
             $table->string('address', 255);
             $table->integer('total_amount');
-            $table->integer('paid_amount');
+            $table->integer('paid_amount')->nullable();
             $table->timestamps();
         });
     }

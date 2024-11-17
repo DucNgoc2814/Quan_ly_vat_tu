@@ -21,6 +21,7 @@ class StoreTripRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'cargo_car_id' => 'required|exists:cargo_cars,id',
             'employee_id' => 'required|exists:employees,id',

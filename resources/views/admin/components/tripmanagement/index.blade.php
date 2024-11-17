@@ -51,7 +51,7 @@
                                         @if ($trip->status == 1)
                                             <span style="color: green" class=" badge-soft-success">Đang vận chuyển</span>
                                         @else
-                                            <span style="color: red" class=" badge-soft-danger">Chờ xác nhận</span>
+                                            <span style="color: rgb(2, 80, 72)" class=" badge-soft-info">Hoàn thành</span>
                                         @endif
                                     </td>
                                     <td style="text-align: center">

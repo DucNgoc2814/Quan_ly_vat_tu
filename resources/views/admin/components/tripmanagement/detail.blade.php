@@ -52,11 +52,11 @@
                         <table class="table table-nowrap table-striped-columns mb-0">
                             <thead class="table-light">
                                 <tr>
-                                    <th scope="col">Code</th>
-                                    <th scope="col">Địa chỉ</th>
+                                    <th scope="col">Mã đơn hàng</th>
+                                    <th scope="col">Tên người nhân</th>
                                     <th scope="col">Số điện thoại</th>
-                                    <th scope="col">Tên sản phẩm</th>
-                                    <th scope="col">Số lượng</th>
+                                    <th scope="col">Địa chỉ</th>
+                                    <th scope="col">Sản phẩm</th>
                                     <th scope="col">Tổng tiền</th>
                                     <th scope="col">Xác nhận</th>
                                 </tr>
@@ -65,21 +65,31 @@
                                 @foreach ($data as $index)
                                     <tr>
                                         <td>{{ $index->order->slug }}</td>
-                                        <td>{{ $index->order->address }}</td>
+                                        <td>{{ $index->order->customer_name }}</td>
                                         <td>{{ $index->order->number_phone }}</td>
-                                        <td>{{ $index->order->orderDetails->first()->variations->name }}</td>
-                                        <td>{{ $index->order->orderDetails->first()->quantity }}</td>
+                                        <td>{{ $index->order->province }},{{$index->order->district}},{{$index->order->ward}},{{$index->order->address}},</td>
+                                        <td>
+                                            <ul class="list-unstyled mb-0">
+                                                @foreach ($index->order->orderDetails as $item)
+                                                    <li class="mb-1">
+                                                        {{ $item->variations ? $item->variations->name : '' }}
+                                                    </li>
+                                                @endforeach
+
+                                            </ul>
+                                        </td>
                                         <td>{{ $index->order->total_amount }}</td>
                                         <td>
                                             @if ($index->order->status_id != 4)
-                                                <form action="{{ route('orderconfirm.update', ['id' => $index->order]) }}" method="POST"
-                                                      onsubmit="return confirm('Bạn có chắc chắn xác nhận đơn hàng này?');">
+                                                <form action="{{ route('orderconfirm.update', ['id' => $index->order]) }}"
+                                                    method="POST"
+                                                    onsubmit="return confirm('Bạn có chắc chắn xác nhận đơn hàng này?');">
                                                     @csrf
                                                     @method('PUT')
                                                     <button type="submit" class="btn btn-success">Xác nhận</button>
                                                 </form>
                                             @else
-                                                <button type="button" class="btn btn-success" disabled>Đã xác nhận</button>
+                                                <button type="button" class="btn btn-info" disabled>Giao hàng thành công</button>
                                             @endif
                                         </td>
                                     </tr>

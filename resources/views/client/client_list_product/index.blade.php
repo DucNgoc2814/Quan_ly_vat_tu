@@ -188,83 +188,56 @@
 @endsection
 
 
-
 @section('scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Thêm jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- Thêm jQuery UI -->
-<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
-
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
 
     <script>
         $(document).ready(function() {
+            // Sorting logic
             $('#sortOrder').click(function(e) {
                 e.preventDefault();
-                var order = $(this).data('order');
-                if (order === 'asc') {
-                    $(this).data('order', 'desc');
-                    $(this).find('i').removeClass('fa-arrow-up').addClass('fa-arrow-down');
-                } else {
-                    $(this).data('order', 'asc');
-                    $(this).find('i').removeClass('fa-arrow-down').addClass('fa-arrow-up');
-                }
-                var products = $('#product-list .col-lg-4');
-                products.sort(function(a, b) {
-                    var priceA = parseFloat($(a).find('.price').text().replace('$', ''));
-                    var priceB = parseFloat($(b).find('.price').text().replace('$', ''));
+                let order = $(this).data('order');
+                $(this).data('order', order === 'asc' ? 'desc' : 'asc');
+                $(this).find('i').toggleClass('fa-arrow-up fa-arrow-down');
 
+                let products = $('#product-list .col-lg-4');
+                products.sort(function(a, b) {
+                    let priceA = parseFloat($(a).find('.price').text().replace('$', ''));
+                    let priceB = parseFloat($(b).find('.price').text().replace('$', ''));
                     return order === 'asc' ? priceA - priceB : priceB - priceA;
                 });
-                $('#product-list').html(products);
+                $('#product-list').html(products); // Append sorted products
             });
-        });
-    </script>
 
-<script>
-    $(document).ready(function() {
-    // Khởi tạo thanh trượt
-    $("#slider-range").slider({
-        range: true,
-        min: 0,
-        max: 100000,  // Thay đổi giá trị này tùy thuộc vào khoảng giá của sản phẩm của bạn
-        step: 10,
-        values: [100, 100000], // Giá trị ban đầu của thanh trượt
-        slide: function(event, ui) {
-            // Cập nhật giá trị vào input khi thanh trượt thay đổi
-            $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
-        }
-    });
+            // Price range slider setup
+            $("#slider-range").slider({
+                range: true,
+                min: 0,
+                max: 1000000,
+                step: 10,
+                values: [100, 1000000],
+                slide: function(event, ui) {
+                    $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                },
+                change: filterProducts // Apply filter when slider value changes
+            });
+            $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
 
-    // Cập nhật giá trị ban đầu cho input
-    $("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
+            // Initial display of products without hiding any
+            $(".col-lg-4").show();
 
-    // Lọc sản phẩm khi giá trị thanh trượt thay đổi
-    $("#slider-range").on("slidechange", function() {
-        filterProducts();
-    });
+            // Product filtering function based on price range
+            function filterProducts() {
+                let [minPrice, maxPrice] = $("#slider-range").slider("values");
 
-    // Lọc ngay từ đầu
-    filterProducts();
-
-    // Hàm lọc sản phẩm
-    function filterProducts() {
-        var priceRange = $("#amount").val();
-        var minPrice = parseInt(priceRange.split(' - ')[0].replace('$', ''));
-        var maxPrice = parseInt(priceRange.split(' - ')[1].replace('$', ''));
-
-        // Lặp qua các sản phẩm và ẩn những sản phẩm không nằm trong phạm vi giá
-        $(".single-product").each(function() {
-            var productPrice = parseInt($(this).find(".price").text().replace('$', ''));
-            if (productPrice >= minPrice && productPrice <= maxPrice) {
-                $(this).show(); // Hiển thị sản phẩm nếu giá trong phạm vi
-            } else {
-                $(this).hide(); // Ẩn sản phẩm nếu giá ngoài phạm vi
+                $("#product-list .col-lg-4").each(function() {
+                    let productPrice = parseFloat($(this).find(".price").text().replace('$', ''));
+                    // Toggle the entire col-lg-4 container based on price
+                    $(this).toggle(productPrice >= minPrice && productPrice <= maxPrice);
+                });
             }
         });
-    }
-});
-
-</script>
+    </script>
 @endsection

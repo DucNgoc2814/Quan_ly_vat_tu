@@ -12,6 +12,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ContractController extends Controller
@@ -238,28 +239,47 @@ class ContractController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Contract $contract)
+    public function edit(Contract $contract_number)
     {
-        dd($contract);
-        $data = Contract::firstOrFail($contract);
-        return view(self::PATH_VIEW . __FUNCTION__, compact('brand'));
+        $data = Contract::where('contract_number', $contract_number)->firstOrFail();
+        dd($data);
+        return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateContractRequest $request, Contract $brand)
+    public function update(UpdateContractRequest $request, Contract $contract)
     {
         $data = $request->validated();
+        $filePath = null;
+
         try {
-            $brand->update([
-                'name' => $data['name'],
-                'is_active' => isset($data['is_active']) ? 1 : 0,
+            if ($request->hasFile('file')) {
+                // Delete the old file if it exists
+                if ($contract->file && Storage::disk('public')->exists($contract->file)) {
+                    Storage::disk('public')->delete($contract->file);
+                }
+                // Store the new file
+                $filePath = $request->file('file')->store('contracts', 'public');
+            }
+
+            // Update contract with new data
+            $contract->update([
+                'contract_number' => $data['contract_number'],
+                'customer_name' => $data['customer_name'],
+                'customer_email' => $data['customer_email'],
+                'number_phone' => $data['number_phone'],
+                'total_amount' => $data['total_amount'],
+                'note' => $data['note'],
+                'file' => $filePath ? $filePath : $contract->file, // Use old file if no new file is uploaded
             ]);
+
             return redirect()
-                ->route('thuong-hieu.index')
-                ->with('success', 'Thao tác thành công!');
+                ->route('contract.index')
+                ->with('success', 'Cập nhật hợp đồng thành công!');
         } catch (Exception $exception) {
+            // Handle exception
             return back()->with('error', $exception->getMessage());
         }
     }

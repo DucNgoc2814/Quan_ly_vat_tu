@@ -120,26 +120,17 @@
                     </ul>
                 </div>
             </div>
-            <!--  Cartt Box  End-->
-            <!-- Mobile Menu Start -->
             <div class="col-sm-12 d-lg-none">
                 <div class="mobile-menu">
                     <nav>
                         <ul>
-                            <li><a href="index.html">home</a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul>
-                                    <li><a href="index.html">Home Version One</a></li>
-                                    <li><a href="index-2.html">Home Version Two</a></li>
-                                    <li><a href="index-3.html">Home Box Layout</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
+                            <li><a href="index.html">Trang chủ</a>
                             </li>
                             <li><a href="shop.html">shop</a>
                                 <!-- Mobile Menu Dropdown Start -->
                                 <ul>
                                     <li><a href="product.html">Shop</a>
-                                    
+
                                         <ul>
                                             <li><a href="shop.html">Product Category Name</a>
                                                 <!-- Start Three Step -->
@@ -174,19 +165,13 @@
                                     <li><a href="login.html">login Page</a></li>
                                     <li><a href="register.html">Register Page</a></li>
                                     <li><a href="404.html">404 Page</a></li>
-                                    
+
                                 </ul>
-                                <!-- Mobile Menu Dropdown End -->
                             </li>
-                            <li><a href="about.html">about us</a></li>
-                            <li><a href="contact.html">contact us</a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
-            <!-- Mobile Menu  End -->
         </div>
-        <!-- Row End -->
     </div>
-    <!-- Container End -->
 </div>

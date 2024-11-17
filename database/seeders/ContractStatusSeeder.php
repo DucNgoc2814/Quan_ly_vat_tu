@@ -26,7 +26,6 @@ class ContractStatusSeeder extends Seeder
             DB::table('contract_statuses')->insert([
                 'id' => $data[0],
                 'name' => $data[1],
-                'description' => $data[2],
             ]);
         }
     }
