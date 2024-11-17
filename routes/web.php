@@ -5,6 +5,7 @@ use App\Http\Controllers\ChangeStatusController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ListProductCategoryController;
+use App\Http\Controllers\Client\ProductDetailController;
 use App\Http\Controllers\Client\ShopController;
 use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
@@ -54,6 +55,7 @@ Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])
 Route::get('/danh-sach-san-pham',  [ShopController::class, 'listProduct'])->name('listProduct');
 Route::get('/danh-sach-san-pham/{category}',  [ShopController::class, 'listProductWCategory'])->name('listProductWCategory');
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
+Route::get('/chi-tiet-san-pham/{slug}', [ChangeStatusController::class, 'updateStatus'])->name('productDetail');
 
 Route::get('/test-log', function() {
     $unit = \App\Models\Unit::create([

@@ -32,41 +32,48 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('contract.update', $id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('contract.update', $contract->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
+                        @method('PUT')
                         <div class="row">
                             <div class="col-lg-12">
-                                <label class="form-label">Tên hợp đồng</label>
-                                <input type="text" name="name" placeholder="Nhập tên hợp đồng" class="form-control">
-                                @error('name')
+                                <label class="form-label">Mã hợp đồng</label>
+                                <input type="text" name="contract_number" placeholder="Nhập mã hợp đồng" class="form-control" value="{{ old('contract_number', $contract->contract_number) }}">
+                                @error('contract_number')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="col-lg-12 mt-3">
-                                <label class="form-label">Đơn hàng</label>
-                                <select name="order_id" id="order_id" class="form-select">
-                                    @foreach ($orders as $id => $name)
-                                        <option value="{{ $id }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('order_id')
+                                <label class="form-label">Tên người đại diện</label>
+                                <input type="text" name="customer_name" placeholder="Nhập tên người đại diện" class="form-control" value="{{ old('customer_name', $contract->customer_name) }}">
+                                @error('customer_name')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="col-lg-12 mt-3">
-                                <label class="form-label">Loại hợp đồng</label>
-                                <select name="contract_type_id" id="" class="form-select">
-                                    @foreach ($types as $id => $name)
-                                        <option value="{{ $id }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('contract_type_id')
+                            <div class="col-lg-4 mt-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="customer_email" placeholder="Nhập email" class="form-control" value="{{ old('customer_email', $contract->customer_email) }}">
+                                @error('customer_email')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="col-lg-4 mt-3">
+                                <label class="form-label">Số điện thoại</label>
+                                <input type="text" name="number_phone" placeholder="Nhập số điện thoại" class="form-control" value="{{ old('number_phone', $contract->number_phone) }}">
+                                @error('number_phone')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="col-lg-4 mt-3">
+                                <label class="form-label">Tổng tiền</label>
+                                <input type="number" name="total_amount" placeholder="Nhập tổng tiền" class="form-control" value="{{ old('total_amount', $contract->total_amount) }}" step="0.01">
+                                @error('total_amount')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class="col-lg-12 mt-3">
                                 <label class="form-label">Mô tả</label>
-                                <textarea type="text" name="note" placeholder="Nhập mô tả (không bắt buộc)" class="form-control" rows="3"></textarea>
+                                <textarea type="text" name="note" placeholder="Nhập mô tả (không bắt buộc)" class="form-control" rows="3">{{ old('note', $contract->note) }}</textarea>
                                 @error('note')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
@@ -80,7 +87,7 @@
                             </div>
                         </div>
                         <div class="mt-3">
-                            <button class = "btn btn-success text">Sửa mới</button>
+                            <button class="btn btn-success text">Sửa hợp đồng</button>
                         </div>
                     </form>
                 </div>

@@ -12,20 +12,20 @@ class LogService
     {
         try {
             Log::info('=== START LOGGING ===');
-            
+
             // Kiểm tra auth
             Log::info('Auth Check: ' . (auth()->check() ? 'Yes' : 'No'));
             if (auth()->check()) {
                 Log::info('User ID: ' . auth()->user()->employee_id);
                 Log::info('User Name: ' . auth()->user()->name);
             }
-            
+
             // Kiểm tra đường dẫn
             $directory = public_path('storage/logs');
             Log::info('Directory Path: ' . $directory);
             Log::info('Directory Exists: ' . (file_exists($directory) ? 'Yes' : 'No'));
             Log::info('Directory Writable: ' . (is_writable($directory) ? 'Yes' : 'No'));
-            
+
             if (!file_exists($directory)) {
                 mkdir($directory, 0777, true);
                 Log::info('Directory Created');
@@ -34,14 +34,14 @@ class LogService
             $filePath = $directory . '/activity_logs.xlsx';
             Log::info('File Path: ' . $filePath);
             Log::info('File Exists: ' . (file_exists($filePath) ? 'Yes' : 'No'));
-            
+
             $spreadsheet = null;
-            
+
             if (!file_exists($filePath)) {
                 Log::info('Creating new file...');
                 $spreadsheet = new Spreadsheet();
                 $sheet = $spreadsheet->getActiveSheet();
-                
+
                 $headers = ['Mã nhân viên', 'Tên nhân viên', 'Chức vụ', 'Hành động', 'Model', 'Mô tả', 'Thời gian'];
                 foreach ($headers as $col => $header) {
                     $cell = $sheet->setCellValue(chr(65 + $col) . '1', $header);
@@ -53,7 +53,7 @@ class LogService
                         ],
                     ]);
                 }
-                
+
                 // Auto-size columns
                 foreach (range('A', 'F') as $col) {
                     $sheet->getColumnDimension($col)->setAutoSize(true);
@@ -64,10 +64,10 @@ class LogService
             }
 
             $sheet = $spreadsheet->getActiveSheet();
-            
+
             // Thêm dữ liệu mới
             $newRow = $sheet->getHighestRow() + 1;
-            
+
             // Thêm fake data nếu không có thông tin user
             $fakeEmployeeData = [
                 'employee_id' => 'NV001',
@@ -96,8 +96,8 @@ class LogService
             $modelName = strtolower($modelName); // Chuyển thành chữ thường
 
             // Tạo mô tả chi tiết
-            $description = $action . ' ' . 
-                ($modelTypes[$modelName] ?? $modelName) . ': ' . 
+            $description = $action . ' ' .
+                ($modelTypes[$modelName] ?? $modelName) . ': ' .
                 ($model->name ?? $model->id ?? '');
 
             $data = [
@@ -132,7 +132,6 @@ class LogService
             }
 
             return true;
-
         } catch (\Exception $e) {
             Log::error('=== ERROR IN LOGGING ===');
             Log::error('Error Message: ' . $e->getMessage());
@@ -141,4 +140,8 @@ class LogService
             return false;
         }
     }
-} 
+    public static function getLogFilePath()
+    {
+        return public_path('storage/logs/activity_logs.xlsx'); // Đường dẫn đến file Excel
+    }
+}

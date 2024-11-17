@@ -35,7 +35,7 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarTrips">
-                        <span data-key="t-layouts">Quản lý chuyến đi</span>
+                        <span data-key="t-layouts">Chuyến đi</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarTrips">
                         <ul class="nav nav-sm flex-column">
