@@ -17,12 +17,7 @@
                         <ul class="middle-menu-list">
                             <li><a href="{{ route('home') }}">home</a>
                             </li>
-<<<<<<< HEAD
-                            <li><a href="about.html">about us</a></li>
-                            <li><a href="{{ route('listProduct') }}">shop<i class="fa fa-angle-down"></i></a>
-=======
                             <li><a href="{{ route('listProduct') }}">Cửa Hàng<i class="fa fa-angle-down"></i></a>
->>>>>>> b54f6b9699cc0f3f9003d0b595318bf4748f2a16
                                 <!-- Home Version Dropdown Start -->
                                 <ul class="ht-dropdown dropdown-style-two">
                                     @foreach ($category as $categorie)
@@ -144,7 +139,7 @@
                                 <!-- Mobile Menu Dropdown Start -->
                                 <ul>
                                     <li><a href="product.html">Shop</a>
-                                    
+
                                         <ul>
                                             <li><a href="shop.html">Product Category Name</a>
                                                 <!-- Start Three Step -->
@@ -179,7 +174,7 @@
                                     <li><a href="login.html">login Page</a></li>
                                     <li><a href="register.html">Register Page</a></li>
                                     <li><a href="404.html">404 Page</a></li>
-                                    
+
                                 </ul>
                                 <!-- Mobile Menu Dropdown End -->
                             </li>
