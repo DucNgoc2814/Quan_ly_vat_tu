@@ -14,6 +14,8 @@ class Contract extends Model
         'customer_name',
         'customer_phone',
         'customer_email',
+        'file',
+        'verification_token'
     ];
 
     public function contractStatus()

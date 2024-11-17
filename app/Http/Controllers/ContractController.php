@@ -11,6 +11,8 @@ use Exception;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\PhpWord;
 use PhpOffice\PhpWord\IOFactory;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class ContractController extends Controller
 {
@@ -47,16 +49,15 @@ class ContractController extends Controller
                 'customer_name' => $request->customer_name,
                 'customer_phone' => $request->customer_phone,
                 'customer_email' => $request->customer_email,
+                'file' => null
             ]);
 
             // 2. Lưu chi tiết các sản phẩm trong hợp đồng
-            // Kiểm tra nếu variation_id và quantity không phải là null và có dữ liệu
-            $variations = $request->variation_id ?? []; // Sử dụng toán tử ?? để tránh null
+            $variations = $request->variation_id ?? [];
             $quantities = $request->quantity ?? [];
 
             if (!empty($variations) && count($variations) > 0) {
                 foreach ($variations as $key => $variation_id) {
-                    // Kiểm tra giá trị của variation_id và quantity tại vị trí tương ứng
                     if ($variation_id != 0 && isset($quantities[$key]) && $quantities[$key] > 0) {
                         ContractDetail::create([
                             'contract_id' => $contract->id,
@@ -68,7 +69,10 @@ class ContractController extends Controller
             }
 
             // 3. Tạo file Word từ thông tin hợp đồng và chi tiết hợp đồng
-            $this->exportContractToWord($contract, $request);  // Đổi tên phương thức ở đây
+            $wordFile = $this->exportContractToWord($contract, $request);
+            $contract->update([
+                'file' => $wordFile
+            ]);
 
             // 4. Trở về trang danh sách hợp đồng
             return redirect()
@@ -117,15 +121,110 @@ class ContractController extends Controller
 
         // Lưu file Word mới
         $newFileName = 'Hopdong_' . $contract->id . '.docx';
-        $newFilePath = storage_path('app/public/' . $newFileName);
+        $newFilePath = storage_path('app/public/contracts/' . $newFileName);
 
         // Lưu file đã chỉnh sửa vào thư mục public
         $templateProcessor->saveAs($newFilePath);
 
         // Trả về file cho người dùng hoặc có thể tự động lưu vào thư mục
-        return response()->download($newFilePath)->deleteFileAfterSend(true);
+        return 'contracts/' . $newFileName;
     }
 
+    public function sendToManager($id)
+    {
+        try {
+            $contract = Contract::findOrFail($id);
+
+            // Cập nhật trạng thái hợp đồng thành "Đang chờ xác nhận" (giả sử là status_id = 2)
+            $contract->update([
+                'contract_status_id' => 4
+            ]);
+
+            return redirect()->back()->with('success', 'Đã gửi hợp đồng cho quản lý xác nhận');
+        } catch (Exception $e) {
+            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
+    }
+
+    public function confirmContract($id)
+    {
+        try {
+            $contract = Contract::findOrFail($id);
+            $contract->update([
+                'contract_status_id' => 2
+            ]);
+            return redirect()->back()->with('success', 'Đã xác nhận hợp đồng');
+        } catch (Exception $e) {
+            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
+    }
+    public function rejectContract($id)
+    {
+        try {
+            $contract = Contract::findOrFail($id);
+            $contract->update([
+                'contract_status_id' => 3
+            ]);
+            return redirect()->back()->with('success', 'Đã từ chối hợp đồng');
+        } catch (Exception $e) {
+            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
+    }
+    public function sendToCustomer($id)
+    {
+        $contract = Contract::findOrFail($id);
+        $fileName = 'Hopdong_' . $contract->id . '.docx';
+        $filePath = storage_path('app/public/contracts/' . $fileName);
+
+        // Tạo token ngẫu nhiên
+        $token = Str::random(60);
+
+        // Lưu token vào database
+        $contract->verification_token = $token;
+        $contract->save();
+
+        // Gửi email với file đính kèm và token
+        Mail::send('emails.contract', [
+            'contract' => $contract,
+            'token' => $token
+        ], function ($message) use ($contract, $filePath) {
+            $message->to($contract->customer_email)
+                ->subject('Hợp đồng của bạn')
+                ->attach($filePath);
+        });
+
+        // Cập nhật trạng thái hợp đồng
+        $contract->contract_status_id = 5;
+        $contract->save();
+
+        return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
+    }
+
+    public function customerApprove($id)
+    {
+        $contract = Contract::findOrFail($id);
+        $contract->contract_status_id = 6;
+        $contract->save();
+
+        return view('mobile-success', ['message' => 'Xác nhận hợp đồng thành công']);
+    }
+
+    // public function customerApproveFromEmail($id, $token)
+    // {
+    //     $contract = Contract::findOrFail($id);
+
+    //     // Kiểm tra token hợp lệ
+    //     if ($contract->verification_token !== $token) {
+    //         return redirect()->route('home')->with('error', 'Link xác nhận không hợp lệ');
+    //     }
+
+    //     // Cập nhật trạng thái thành đã xác nhận (7)
+    //     $contract->contract_status_id = 7;
+    //     $contract->verification_token = null; // Xóa token sau khi đã sử dụng
+    //     $contract->save();
+
+    //     return redirect()->route('home')->with('success', 'Xác nhận hợp đồng thành công');
+    // }
 
 
     /**

@@ -47,10 +47,30 @@
                                     <td>{{ $data->customer_name }}</td>
                                     <td>{{ $data->customer_phone }}</td>
                                     <td>{{ $data->customer_email }}</td>
-                                    <td>{{ $data->contractStatus->name }}</td>
                                     <td>
-                                        <a href="{{ route('contract.edit', $data) }}"
-                                            class="dropdown-item edit-item-btn"><i
+                                        @if ($data->contract_status_id == 1)
+                                            <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary btn-sm">
+                                                    Gửi quản lý
+                                                </button>
+                                            </form>
+                                        @elseif ($data->contract_status_id == 2)
+                                            <form action="{{ route('contract.sendToCustomer', $data->id) }}" method="POST"
+                                                style="display:inline;">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    Gửi cho khách hàng
+                                                </button>
+                                            </form>
+                                        @else
+                                            {{ $data->contractStatus->name }}
+                                        @endif
+                                    </td>
+
+                                    <td>
+                                        <a href="{{ route('contract.edit', $data) }}" class="dropdown-item edit-item-btn"><i
                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                             Sửa</a>
                                     </td>

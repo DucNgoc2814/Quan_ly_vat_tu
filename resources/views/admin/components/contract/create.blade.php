@@ -130,6 +130,7 @@
         </div><!--end col-->
     </div>
 @endsection
+
 @section('scripts')
     <script>
         function addProduct() {
@@ -138,42 +139,78 @@
             <div class="col-md-12" id="${id}_item">
                 <hr class="mb-2">
                 <div class="mb-2">
-                                        <label class="form-label" for="product-variant-input">Sản phẩm bên B
+
+                    <label class="form-label" for="product-variant-input">Sản phẩm bên B
+
                                             mua</label>
-                                        <select class="form-select @error('variation_id') is-invalid @enderror"
-                                            id="product-variant-input" name="variation_id[]" data-choices
+
+                                            <select class="form-select @error('variation_id') is-invalid @enderror"
+
+                                        id="product-variant-input" name="variation_id[]" data-choices
+
                                             data-choices-search-false onchange="updatePrice(this)">
+
                                             <option value="0">Chọn Sản Phẩm</option>
+
                                             @foreach ($variation as $variant)
-                                                <option value="{{ $variant->id }}"
+
+                                            <option value="{{ $variant->id }}"
+
                                                     data-price="{{ $variant->price_export }}"
+
                                                     data-stock="{{ $variant->stock }}">
+
                                                     {{ $variant->name }}</option>
-                                            @endforeach
-                                        </select>
+
+                                                    @endforeach
+
+                                            </select>
+
                                         @error('variation_id')
-                                            <span class="invalid-feedback" role="alert">
+
+                                        <span class="invalid-feedback" role="alert">
+
                                                 <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md">
-                                            <div class="mb-2">
-                                                <label class="form-label" for="quantity-input">Số lượng sản
-                                                    phẩm</label>
-                                                <input type="number"
-                                                    class="form-control  @error('quantity') is-invalid @enderror"
-                                                    id="quantity-input" name="quantity[]"
-                                                    value="{{ old('quantity[]') }}" placeholder="Nhập số lượng">
-                                                @error('quantity')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
-                                                @enderror
-                                            </div>
+
+                                                </span>
+
+                                            @enderror
+
                                         </div>
-                                    </div>
+
+                                    <div class="row">
+
+                                        <div class="col-md">
+
+                                            <div class="mb-2">
+
+                                                <label class="form-label" for="quantity-input">Số lượng sản
+
+                                                    phẩm</label>
+
+                                                    <input type="number"
+
+                                                class="form-control  @error('quantity') is-invalid @enderror"
+
+                                                    id="quantity-input" name="quantity[]"
+
+                                                    value="{{ old('quantity[]') }}" placeholder="Nhập số lượng">
+
+                                                    @error('quantity')
+
+                                                <span class="invalid-feedback" role="alert">
+
+                                                        <strong>{{ $message }}</strong>
+
+                                                        </span>
+
+                                                    @enderror
+
+                                                </div>
+
+                                            </div>
+
+                                        </div>
                 <div class="mb-2">
                     <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
                         <span class="bx bx-trash"></span> Xóa sản phẩm
