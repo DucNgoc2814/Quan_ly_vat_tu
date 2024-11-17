@@ -100,10 +100,7 @@
         </div><!--end col-->
     </div>
 
-    <!-- Button trigger modal -->
-
-
-    <!-- Modal -->
+    <!-- Modal lịch sử -->
     <div class="modal fade" id="historyModal" tabindex="-1">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -126,8 +123,7 @@
                                     <td>{{ $inventory->name }}</td>
                                     <td>{{ $inventory->created_at }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-info view-detail"
-                                            data-id="{{ $inventory->id }}">
+                                        <button class="btn btn-sm btn-info view-detail" data-id="{{ $inventory->id }}">
                                             <i class="ri-eye-line"></i> Xem
                                         </button>
                                     </td>
@@ -140,7 +136,7 @@
         </div>
     </div>
 
-    <!-- Modal hiển thị chi tiết -->
+    <!-- Modal chi tiết -->
     <div class="modal fade" id="detailModal" tabindex="-1">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -155,17 +151,23 @@
     </div>
 
     @push('scripts')
-        <script>
-            $(document).ready(function() {
-                $(document).on('click', '.view-detail', function() {
-                    var id = $(this).data('id');
-                    $.get("{{ route('inventories.getDetail', '') }}/" + id, function(data) {
-                        $('#detailContent').html(data);
-                        $('#detailModal').modal('show');
-                    });
-                });
+    <script>
+    $(document).ready(function() {
+        $(document).on('click', '.view-detail', function() {
+            console.log('Button clicked');
+            var id = $(this).data('id');
+            console.log('ID:', id);
+            
+            $.get('/quan-ly-ton-kho/get-detail/' + id, function(data) {
+                console.log('Data received:', data);
+                $('#detailContent').html(data);
+                $('#detailModal').modal('show');
+            }).fail(function(error) {
+                console.log('Ajax error:', error);
             });
-        </script>
+        });
+    });
+    </script>
     @endpush
     <script>
         $(document).ready(function() {

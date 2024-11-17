@@ -18,13 +18,23 @@ class InventoryController extends Controller
      * Display a listing of the resource.8
      */
     const PATH_VIEW = 'admin.components.inventories.';
-
     public function index()
     {
         $variations = Variation::orderBy('id', 'desc')->get();
-        $inventories = Inventory::orderBy('id', 'desc')->get();
+        $inventories = Inventory::orderBy('created_at', 'desc')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('variations', 'inventories'));
     }
+
+    public function getDetail($id)
+    {
+        try {
+            $inventory = InventoryDetail::where('inventory_id', $id)->get();
+            return view('admin.components.inventories.detail', compact('inventory'));
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    
 
     public function import(Request $request)
     {
@@ -109,9 +119,5 @@ class InventoryController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi lưu kiểm kê: ' . $e->getMessage());
         }
     }
-    public function getDetail($id)
-    {
-        $inventory = Inventory::with('inventoryDetails.variation')->findOrFail($id);
-        return view('admin.components.inventories.detail', compact('inventory'));
-    }
+
 }
