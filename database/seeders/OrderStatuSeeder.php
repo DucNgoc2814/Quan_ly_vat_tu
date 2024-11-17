@@ -15,7 +15,7 @@ class OrderStatuSeeder extends Seeder
     {
         $orderStatuses = [
             [
-                'name' => 'Chờ xử lý',
+                'name' => 'Tạo đơn hàng',
                 'description' => 'Đơn hàng đang được chờ xử lý',
             ],
             [

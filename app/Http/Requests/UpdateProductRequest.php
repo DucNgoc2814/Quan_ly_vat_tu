@@ -21,10 +21,13 @@ class UpdateProductRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules()
+    public function rules(): array
     {
+        // Lấy ID của sản phẩm từ slug
+        $productId = Product::where('slug', $this->route('slug'))->first()->id;
+
         // Lấy số lượng ảnh hiện tại
-        $currentImagesCount = Gallery::where('product_id', $this->route('id'))->count();
+        $currentImagesCount = Gallery::where('product_id', $productId)->count();
 
         // Lấy số lượng ảnh sẽ xóa
         $imagesToDelete = $this->input('images_to_delete', []);
@@ -40,7 +43,7 @@ class UpdateProductRequest extends FormRequest
                 'required',
                 'string',
                 'max:255',
-                // 'name,' . $this->route('id')
+                'unique:products,name,' . $productId,
             ],
             'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
@@ -51,7 +54,6 @@ class UpdateProductRequest extends FormRequest
             'product_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'images_to_delete.*' => 'nullable|exists:galleries,id',
             'variations.*.price_export' => 'required|numeric|min:0',
-            'variations.*.stock' => 'required|integer|min:0',
         ];
     }
 
@@ -75,12 +77,9 @@ class UpdateProductRequest extends FormRequest
             'product_images.*.image' => 'File phải là hình ảnh',
             'product_images.*.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg hoặc gif',
             'product_images.*.max' => 'Kích thước hình ảnh không được vượt quá 2MB',
-            'variations.*.price_export.required' => 'Vui lòng nhập giá cho biến thể',
-            'variations.*.price_export.numeric' => 'Giá biến thể phải là số',
-            'variations.*.price_export.min' => 'Giá biến thể không được nhỏ hơn 0',
-            'variations.*.stock.required' => 'Vui lòng nhập số lượng cho biến thể',
-            'variations.*.stock.integer' => 'Số lượng biến thể phải là số nguyên',
-            'variations.*.stock.min' => 'Số lượng biến thể không được nhỏ hơn 0',
+            'variations.*.price_export.required' => 'Vui lòng nhập giá',
+            'variations.*.price_export.numeric' => 'Giá phải là số',
+            'variations.*.price_export.min' => 'Giá không được nhỏ hơn 0',
         ];
     }
 
@@ -101,7 +100,6 @@ class UpdateProductRequest extends FormRequest
             'is_active' => 'Trạng thái hiển thị',
             'product_images.*' => 'Hình ảnh',
             'variations.*.price_export' => 'Giá biến thể',
-            'variations.*.stock' => 'Số lượng biến thể',
         ];
     }
 }

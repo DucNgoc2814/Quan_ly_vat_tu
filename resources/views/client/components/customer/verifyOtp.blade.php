@@ -18,6 +18,7 @@
     </div>
     <!-- Breadcrumb End -->
     <!-- Register Account Start -->
+    
     <div class="register-account pb-60">
         <div class="container">
             <div class="row">
@@ -49,6 +50,7 @@
                                     @enderror
                                 </div>
                             </div>
+                            
                         </fieldset>
                         <div class="buttons newsletter-input">
                             {{-- <div class="pull-right">I have read and agree to the <a href="#" class="agree"><b>Privacy
@@ -83,43 +85,43 @@
             <!-- Brand Banner Start -->
             <div class="brand-banner owl-carousel">
                 <div class="single-brand">
-                    <a href="#"><img class="img" src="{{ asset('themes/client/template/img/brand/1.png') }}"
+                    <a href="#"><img class="img" src="{{ asset('themes/client/jantrik/img/brand/1.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/2.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/3.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/3.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/4.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/4.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/5.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/5.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img class="img" src="{{ asset('themes/client/template/img/brand/1.png') }}"
+                    <a href="#"><img class="img" src="{{ asset('themes/client/jantrik/img/brand/1.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/2.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/3.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/3.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/4.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/4.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/5.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/5.png') }}"
                             alt="brand-image"></a>
                 </div>
             </div>

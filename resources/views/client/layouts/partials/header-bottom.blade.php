@@ -4,7 +4,7 @@
             <!--  logo Start-->
             <div class="col-auto">
                 <div class="logo">
-                    <a href="index.html"><img src="{{ asset('themes/client/jantrik/img/logo/logo.png') }}"
+                    <a href="http://quan_ly_vat_tu.test"><img src="{{ asset('themes/client/jantrik/img/logo/logo.png') }}"
                             alt="logo-image"></a>
                 </div>
             </div>
@@ -15,10 +15,9 @@
                 <div class="middle-menu pull-right">
                     <nav>
                         <ul class="middle-menu-list">
-                            <li><a href="{{ route('listHome') }}">home</a>
+                            <li><a href="{{ route('home') }}">home</a>
                             </li>
-                            <li><a href="about.html">about us</a></li>
-                            <li><a href="{{ route('listProduct') }}">shop1<i class="fa fa-angle-down"></i></a>
+                            <li><a href="{{ route('listProduct') }}">Cửa Hàng<i class="fa fa-angle-down"></i></a>
                                 <!-- Home Version Dropdown Start -->
                                 <ul class="ht-dropdown dropdown-style-two">
                                     @foreach ($category as $categorie)
@@ -29,26 +28,8 @@
                                 </ul>
                                 <!-- Home Version Dropdown End -->
                             </li>
-                            <li><a href="blog.html">Blog<i class="fa fa-angle-down"></i></a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul class="ht-dropdown dropdown-style-two">
-                                    <li><a href="blog.html">Blog Page</a></li>
-                                    <li><a href="blog-details.html">Blog Details Page</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
-                            </li>
-                            <li><a href="#">pages<i class="fa fa-angle-down"></i></a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul class="ht-dropdown dropdown-style-two">
-                                    <li><a href="login.html">Login Page</a></li>
-                                    <li><a href="register.html">Register Page</a></li>
-                                    <li><a href="404.html">404 Page</a></li>
-                                    <li><a href="forgot-password.html">Forgot Password Page</a></li>
-                                    <li><a href="account.html">Account Page</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
-                            </li>
-                            <li><a href="contact.html">contact us</a></li>
+                            <li><a href="about.html">Giới thiệu</a></li>
+                            <li><a href="{{ route('contact') }}">Liên hệ với chúng tôi</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -105,24 +86,19 @@
                         </li>
                         <li>
                             <a href="compare.html">
-                                @if (Auth::check())
+                                {{-- @if (Auth::check()) --}}
                                     {{-- @if (Auth::user()->image)
                                         <img src="{{ Storage::url($user->image) }}" alt="User image"
                                             class="img-circle" style="width: 30px; height: 30px; border-radius: 50%;">
                                     @else --}}
                                     <i class="fa fa-user"></i>
                                     {{-- @endif --}}
-                                @else
-                                    <i class="fa fa-user"></i>
-                                @endif
+                                {{-- @else --}}
+                                    {{-- <i class="fa fa-user"></i>
+                                @endif --}}
                             </a>
                             <ul class="ht-dropdown">
                                 @if (Auth::check())
-                                    @if (Auth::user()->is_active == '4')
-                                        <li>
-                                            <a href="">Trang Admin</a>
-                                        </li>
-                                    @endif
                                     <li><a href="{{ route('profile') }}">Tài khoản</a></li>
                                     <li><a href="{{ route('password') }}">Đổi mật khẩu</a></li>
                                     <li><a href="{{ route('profileUser') }}">Cập nhật</a></li>
@@ -144,25 +120,17 @@
                     </ul>
                 </div>
             </div>
-            <!--  Cartt Box  End-->
-            <!-- Mobile Menu Start -->
             <div class="col-sm-12 d-lg-none">
                 <div class="mobile-menu">
                     <nav>
                         <ul>
-                            <li><a href="index.html">home</a>
-                                <!-- Home Version Dropdown Start -->
-                                <ul>
-                                    <li><a href="index.html">Home Version One</a></li>
-                                    <li><a href="index-2.html">Home Version Two</a></li>
-                                    <li><a href="index-3.html">Home Box Layout</a></li>
-                                </ul>
-                                <!-- Home Version Dropdown End -->
+                            <li><a href="index.html">Trang chủ</a>
                             </li>
                             <li><a href="shop.html">shop</a>
                                 <!-- Mobile Menu Dropdown Start -->
                                 <ul>
                                     <li><a href="product.html">Shop</a>
+
                                         <ul>
                                             <li><a href="shop.html">Product Category Name</a>
                                                 <!-- Start Three Step -->
@@ -197,18 +165,13 @@
                                     <li><a href="login.html">login Page</a></li>
                                     <li><a href="register.html">Register Page</a></li>
                                     <li><a href="404.html">404 Page</a></li>
+
                                 </ul>
-                                <!-- Mobile Menu Dropdown End -->
                             </li>
-                            <li><a href="about.html">about us</a></li>
-                            <li><a href="contact.html">contact us</a></li>
                         </ul>
                     </nav>
                 </div>
             </div>
-            <!-- Mobile Menu  End -->
         </div>
-        <!-- Row End -->
     </div>
-    <!-- Container End -->
 </div>

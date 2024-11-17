@@ -33,29 +33,15 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('product.update', $product->id) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('product.update', $product->slug) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="row">
                             <div class="col-lg-8">
+
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="mb-3">
-                                            <label class="form-label">Danh mục</label>
-                                            <select class="form-select mt-2" name="category_id">
-                                                <option value="">Chọn danh mục</option>
-                                                @foreach ($categories as $key => $value)
-                                                    <option value="{{ $key }}"
-                                                        {{ old('category_id', $product->category_id) == $key ? 'selected' : '' }}>
-                                                        {{ $value }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            @if ($errors->has('category_id'))
-                                                <div class="text-danger mt-1">{{ $errors->first('category_id') }}</div>
-                                            @endif
-                                        </div>
-
                                         <!-- Tên sản phẩm -->
                                         <div class="mb-3">
                                             <label class="form-label" for="product-title-input">Tên sản phẩm</label>
@@ -66,7 +52,10 @@
                                                 <div class="text-danger mt-1">{{ $errors->first('name') }}</div>
                                             @endif
                                         </div>
-
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
                                         <div class="mb-3">
                                             <label class="form-label" for="product-price-input">Giá sản phẩm</label>
                                             <input type="text" class="form-control @error('price') is-invalid @enderror"
@@ -76,7 +65,47 @@
                                                 <span class="invalid-feedback">{{ $message }}</span>
                                             @enderror
                                         </div>
-
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <label class="form-label" for="product-image-main">Ảnh sản phẩm</label>
+                                            <div class="mt-3">
+                                                <div class="position-relative d-inline-block mb-4 me-4">
+                                                    <div class="position-absolute top-100 start-100 translate-middle">
+                                                        <label for="product-image-main" class="mb-0"
+                                                            data-bs-toggle="tooltip" data-bs-placement="right"
+                                                            title="Chọn ảnh sản phẩm">
+                                                            <div class="avatar-xs">
+                                                                <div
+                                                                    class="avatar-title bg-light border rounded-circle text-muted cursor-pointer">
+                                                                    <i class="ri-image-fill"></i>
+                                                                </div>
+                                                            </div>
+                                                        </label>
+                                                        <input class="form-control d-none" id="product-image-main"
+                                                            type="file" accept="image/png, image/gif, image/jpeg"
+                                                            name="image" onchange="displayMainImage(event)">
+                                                    </div>
+                                                    <div class="avatar-lg">
+                                                        <div class="avatar-title bg-light rounded">
+                                                            <img src="{{ asset('storage/' . $product->image) }}"
+                                                                id="product-img-main" class="avatar-md h-auto" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @error('image')
+                                                    <span role="alert">
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
                                         <div class="mb-3">
                                             <label class="form-label">Mô tả</label>
                                             <textarea class="form-control" name="description" rows="4">{{ old('description', $product->description) }}</textarea>
@@ -87,12 +116,35 @@
                             <div class="col-lg-4">
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" name="is_active" value="1"
+                                        <div class="card">
+                                            <div class="card-body d-flex justify-content-around">
+                                                <div class="form-check form-switch form-switch">
+                                                    <input class="form-check-input" type="checkbox" name="is_active" value="1"
                                                 {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
-                                            <label class="form-check-label">Hiển thị</label>
+                                                    <label class="form-check-label" for="is_active">Hiển thị</label>
+                                                </div>
+                                            </div>
                                         </div>
-
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Danh mục</label>
+                                                    <select class="form-select mt-2" name="category_id">
+                                                        <option value="">Chọn danh mục</option>
+                                                        @foreach ($categories as $key => $value)
+                                                            <option value="{{ $key }}"
+                                                                {{ old('category_id', $product->category_id) == $key ? 'selected' : '' }}>
+                                                                {{ $value }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @if ($errors->has('category_id'))
+                                                        <div class="text-danger mt-1">{{ $errors->first('category_id') }}
+                                                        </div>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!-- Thương hiệu -->
                                         <div class="card">
                                             <div class="card-body">
@@ -150,7 +202,7 @@
                                     <div class="card-body">
                                         <div class="mb-4">
                                             <div class="d-flex justify-content-lg-between">
-                                                <label class="form-label" for="product-images-input">Ảnh sản phẩm</label>
+                                                <label class="form-label" for="product-images-input">Bộ sưu tập ảnh sản phẩm</label>
                                                 <button type="button" class="btn btn-primary" id="add-image-button">
                                                     Thêm ảnh
                                                 </button>
@@ -194,41 +246,46 @@
                                             <div class="row mb-3">
                                                 <input type="hidden" name="variations[{{ $variation->id }}][id]"
                                                     value="{{ $variation->id }}">
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Giá trị biến thể</label>
-                                                    <input type="text" class="form-control"
-                                                        value="{{ $variation->attributeValues->pluck('value')->implode(', ') }}"
-                                                        readonly>
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <label class="form-label">SKU</label>
+                                                <div class="col-md-2">
+                                                    <label class="form-label">Mã</label>
                                                     <input type="text" class="form-control"
                                                         name="variations[{{ $variation->id }}][sku]"
-                                                        value="{{ $variation->sku }}" readonly>
+                                                        value="{{ $variation->sku }}" disabled>
                                                 </div>
 
                                                 <div class="col-md-3">
                                                     <label class="form-label">Tên biến thể</label>
                                                     <input type="text" class="form-control"
                                                         name="variations[{{ $variation->id }}][name]"
-                                                        value="{{ $variation->name }}" readonly>
+                                                        value="{{ $variation->name }}" disabled>
                                                 </div>
 
                                                 <div class="col-md-2">
-                                                    <label class="form-label">Giá</label>
-                                                    <input type="number" class="form-control"
-                                                        name="variations[{{ $variation->id }}][price_export]"
-                                                        value="{{ $variation->price_export }}">
-                                                </div>
-
-                                                <div class="col-md-1">
-                                                    <label class="form-label">Số lượng</label>
-                                                    <input type="number" class="form-control"
+                                                    <label class="form-label">Số lượng tồn kho</label>
+                                                    <input type="number" class="form-control @error('variations.' . $variation->id . '.stock') is-invalid @enderror"
                                                         name="variations[{{ $variation->id }}][stock]"
-                                                        value="{{ $variation->stock }}">
+                                                        value="{{ $variation->stock }}"  disabled>
                                                 </div>
 
+                                                <div class="col-md-2">
+                                                    <label class="form-label">Giá bán lẻ</label>
+                                                    <input type="number" class="form-control @error('variations.' . $variation->id . '.price_export') is-invalid @enderror"
+                                                        name="variations[{{ $variation->id }}][price_export]"
+                                                        value="{{ old('variations.' . $variation->id . '.price_export', $variation->price_export) }}">
+                                                    @error('variations.' . $variation->id . '.price_export')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <label class="form-label">Giá bán sỉ</label>
+                                                    <input type="number" class="form-control @error('variations.' . $variation->id . '.price_export') is-invalid @enderror"
+                                                        name="variations[{{ $variation->id }}][price_export]"
+                                                        value="{{ old('variations.' . $variation->id . '.price_export', $variation->price_export) }}">
+                                                    @error('variations.' . $variation->id . '.price_export')
+                                                        <div class="text-danger mt-1">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+ 
 
                                             </div>
                                         @endforeach
@@ -322,6 +379,16 @@
 
         document.getElementById('add-image-button').addEventListener('click', addImageInput);
 
-        // Các hàm JavaScript khác giữ nguyên
+        function displayMainImage(event) {
+            const output = document.getElementById('product-img-main'); // ID của ảnh sản phẩm
+            if (event.target.files.length > 0) { // Kiểm tra xem có file nào được chọn không
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    output.src = e.target.result; // Cập nhật src của ảnh với file mới
+                }
+                reader.readAsDataURL(file); // Đọc file dưới dạng URL
+            }
+        }
     </script>
 @endsection

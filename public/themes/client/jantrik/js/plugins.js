@@ -26,4 +26,4 @@ if ($('#notification').length) {
             $('#notification').remove();
     }, 2000);
 }
-// Place any jQuery/helper plugins in here.
+// Place any jQuery/helper plugins in here. 

@@ -23,6 +23,7 @@
 </head>
 
 <body>
+    
     <!-- Wrapper Start -->
     <div class="wrapper homepage">
         <!-- Header Area Start -->
@@ -50,3 +51,4 @@
 </body>
 
 </html>
+@yield('scripts')

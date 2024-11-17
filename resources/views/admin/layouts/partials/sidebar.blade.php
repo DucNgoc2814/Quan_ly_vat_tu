@@ -236,6 +236,13 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="{{ route('logs.index') }}"  role="button"
+                        aria-expanded="false" aria-controls="sidebarTrips">
+                        <span data-key="t-layouts">Lịch sử thao tác</span>
+                    </a>
+                    
+                </li>
 
             </ul>
         </div>
