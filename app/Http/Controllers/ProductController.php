@@ -95,7 +95,7 @@ class ProductController extends Controller
                 }
             });
             return redirect()
-                ->route('products.index')
+                ->route('product.index')
                 ->with('success', 'Thêm sản phẩm thành công');
         } catch (\Exception $e) {
             dd($e->getMessage());
@@ -199,7 +199,7 @@ class ProductController extends Controller
                 }
             });
 
-            return redirect()->route('products.index')->with('success', 'Cập nhật sản phẩm thành công');
+            return redirect()->route('product.index')->with('success', 'Cập nhật sản phẩm thành công');
         } catch (\Exception $e) {
             return redirect()->back()
                 ->withInput()

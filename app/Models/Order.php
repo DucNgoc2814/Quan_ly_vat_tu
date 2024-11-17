@@ -47,7 +47,7 @@ class Order extends Model
 
     public function contract()
     {
-        return $this->hasOne(Contract::class, 'order_id');
+        return $this->belongsToo(Contract::class, 'order_id');
     }
 
     public function debts()
@@ -72,5 +72,12 @@ class Order extends Model
         static::deleted(function ($model) {
             LogService::addLog('Xóa', $model);
         });
+    }
+    public function orderStatusTimes()
+    {
+        return $this->hasMany(OrderStatusTime::class);
+    }
+    public function tripDetail() {
+        return $this->hasOne(Trip_detail::class);
     }
 }

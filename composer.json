@@ -12,7 +12,6 @@
         "laravel/tinker": "^2.8",
         "maatwebsite/excel": "^3.1",
         "php-flasher/flasher-toastr-laravel": "^1.15",
-        "phpoffice/phpspreadsheet": "^1.29",
         "tymon/jwt-auth": "^2.1",
         "yoeunes/toastr": "^2.3"
     },
