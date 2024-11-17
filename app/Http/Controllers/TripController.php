@@ -29,22 +29,25 @@ class TripController extends Controller
      * Show the form for creating a new resource.
      */
 
-    public function create()
-    {
+     public function create()
+     {
+         $employes = Employee::query()
+             ->leftJoin('trips', function ($join) {
+                 $join->on('employees.id', '=', 'trips.employee_id')
+                     ->where('trips.status', '=', 1); // Trạng thái chuyến đi đang giao
+             })
+             ->whereNull('trips.id') // Không có chuyến đi nào đang giao
+             ->where('employees.role_id', '=', 4) // Điều kiện chỉ lấy nhân viên có role = 4 (lái xe)
+             ->where('employees.is_active', '=', 1) // Chỉ lấy nhân viên có is_active = 1
+             ->select('employees.*') // Chỉ chọn các cột từ bảng employees
+             ->get();
 
-        $employes = Employee::query()
-        ->leftJoin('trips', function ($join) {
-            $join->on('employees.id', '=', 'trips.employee_id')
-                ->where('trips.status', '=', 1); // Trạng thái chuyến đi đang giao
-        })
-        ->whereNull('trips.id') // Không có chuyến đi nào đang giao
-        ->select('employees.*') // Chỉ chọn các cột từ bảng employees
-        ->get();
+         $cargoCars = Cargo_car::where('is_active', 0)->with('cargoCarType')->get();
+         $pendingOrders = Order::where('status_id', 2)->with('orderDetails')->get();
 
-        $cargoCars = Cargo_car::where('is_active', 0)->with('cargoCarType')->get();
-        $pendingOrders = Order::where('status_id', 2)->with('orderDetails')->get();
-        return view(self::PATH_VIEW . 'create', compact('employes', 'cargoCars', 'pendingOrders'));
-    }
+         return view(self::PATH_VIEW . 'create', compact('employes', 'cargoCars', 'pendingOrders'));
+     }
+     
 
     /**
      * Store a newly created resource in storage.
