@@ -454,11 +454,10 @@
             });
             if (selectedVariants.length === 0) {
                 alert('Bạn phải chọn ít nhất một loại biến thể.');
-                event.preventDefault(); // Ngăn hành động mặc định
+                event.preventDefault();
                 event.target.checked = true;
                 return false;
             }
-            // Check the limit of variants
             if (selectedVariants.length > 2) {
                 alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
                 e.preventDefault();
