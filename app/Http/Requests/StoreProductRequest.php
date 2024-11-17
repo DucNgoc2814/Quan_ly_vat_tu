@@ -31,7 +31,7 @@ class StoreProductRequest extends FormRequest
             'description' => 'nullable|string',
             'is_active' => 'boolean',
             'product_images' => 'required',
-            'product_images.*' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'product_images.*' => 'required|image|mimes:jpeg,png,jpg,gif',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
 
@@ -75,7 +75,6 @@ class StoreProductRequest extends FormRequest
             'product_images.*.required' => 'Vui lòng chọn ảnh',
             'product_images.*.image' => 'File phải là hình ảnh',
             'product_images.*.mimes' => 'Ảnh phải có định dạng: jpeg, png, jpg hoặc gif',
-            'product_images.*.max' => 'Kích thước ảnh không được vượt quá 2MB',
             'variants.required' => 'Vui lòng thêm ít nhất một biến thể',
             'variants.array' => 'Dữ liệu biến thể không hợp lệ',
             'variants.min' => 'Vui lòng thêm ít nhất một biến thể',
