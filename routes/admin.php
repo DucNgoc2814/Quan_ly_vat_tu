@@ -169,7 +169,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
 
                 Route::get('/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove');
-                Route::get('/tu-choi/{id}/', [ContractController::class, 'customerReject'])->name('customerReject');
+                Route::get('/tu-choi/{id}', [ContractController::class, 'customerReject'])->name('customerReject');
 
 
                 Route::get('/sua/{contract_number}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:30');
@@ -319,7 +319,8 @@ Route::middleware('CheckEmployees')->group(
                 })->name('export');
                 Route::post('import-variations', [InventoryController::class, 'import'])->name('import');
                 Route::post('save', [InventoryController::class, 'save'])->name('save');
-                Route::get('get-detail/{id}', [InventoryController::class, 'getDetail'])->name('inventories.getDetail');
+                Route::get('get-detail/{id}', [InventoryController::class, 'getDetail'])->name('getDetail');
+                Route::get('lich-su-nhap-hang/{id}', [InventoryController::class, 'historyImport'])->name('historyImport');
             });
         Route::prefix('loai-bien-the')
             ->as('valueVariations.')

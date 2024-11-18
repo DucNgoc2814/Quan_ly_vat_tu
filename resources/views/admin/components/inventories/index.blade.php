@@ -2,14 +2,14 @@
 
 
 @section('title')
-    Quản lý tồn kho
+    Kho hàng
 @endsection
 @section('content')
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách biến thể</h4>
+                <h4 class="mb-sm-0">Kho hàng</h4>
             </div>
         </div>
     </div>
@@ -88,9 +88,12 @@
                                     @endphp
 
                                     <td>{{ number_format($price) }}</td>
-
                                     <td>{{ number_format($data->price_export) }}</td>
-                                    <td><a href="">Xem chi tiết</a></td>
+                                    <td>
+                                        <button class="btn btn-info btn-sm view-history" data-id="{{ $data->id }}">
+                                            <i class="ri-history-line"></i> Xem chi tiết
+                                        </button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -135,6 +138,32 @@
             </div>
         </div>
     </div>
+    <!-- Modal chi tiết lịch sử nhập hàng -->
+    <div class="modal fade" id="historyDetailModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lịch sử nhập hàng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn nhập</th>
+                                <th>Số lượng</th>
+                                <th>Giá nhập</th>
+                                <th>Nhà cung cấp</th>
+                                <th>Ngày nhập</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyContent">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal chi tiết -->
     <div class="modal fade" id="detailModal" tabindex="-1">
@@ -151,25 +180,46 @@
     </div>
 
     @push('scripts')
-    <script>
-    $(document).ready(function() {
-        $(document).on('click', '.view-detail', function() {
-            console.log('Button clicked');
-            var id = $(this).data('id');
-            console.log('ID:', id);
-            
-            $.get('/quan-ly-ton-kho/get-detail/' + id, function(data) {
-                console.log('Data received:', data);
-                $('#detailContent').html(data);
-                $('#detailModal').modal('show');
-            }).fail(function(error) {
-                console.log('Ajax error:', error);
+        <script>
+            $(document).ready(function() {
+                $(document).on('click', '.view-detail', function() {
+                    console.log('Button clicked');
+                    var id = $(this).data('id');
+                    console.log('ID:', id);
+
+                    $.get('/quan-ly-ton-kho/get-detail/' + id, function(data) {
+                        console.log('Data received:', data);
+                        $('#detailContent').html(data);
+                        $('#detailModal').modal('show');
+                    }).fail(function(error) {
+                        console.log('Ajax error:', error);
+                    });
+                });
             });
-        });
-    });
-    </script>
+        </script>
     @endpush
     <script>
+        $(document).ready(function() {
+            $('.view-history').click(function() {
+                let variationId = $(this).data('id');
+                $.get(`/quan-ly-ton-kho/lich-su-nhap-hang/${variationId}`, function(data) {
+                    let html = '';
+                    data.forEach(item => {
+                        html += `
+                <tr>
+                    <td>${item.import_order.slug}</td>
+                    <td>${item.quantity}</td>
+                    <td>${item.price}</td>
+                    <td>${item.import_order.supplier.name}</td>
+                    <td>${item.import_order.created_at}</td>
+                </tr>
+            `;
+                    });
+                    $('#historyContent').html(html);
+                    $('#historyDetailModal').modal('show');
+                });
+            });
+        });
         $(document).ready(function() {
             $('#import-btn').click(function(e) {
                 e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ a

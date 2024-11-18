@@ -79,7 +79,6 @@ class ContractController extends Controller
             return redirect()
                 ->route('contract.index')
                 ->with('success', 'Tạo hợp đồng thành công!');
-
         } catch (Exception $e) {
             return back()
                 ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
@@ -234,9 +233,6 @@ class ContractController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Contract $contract_number)
     {
         $data = Contract::where('contract_number', $contract_number)->firstOrFail();
