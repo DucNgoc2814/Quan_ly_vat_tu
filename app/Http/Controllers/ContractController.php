@@ -235,27 +235,7 @@ class ContractController extends Controller
         return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
     }
 
-    // public function customerApproveFromEmail($id, $token)
-    // {
-    //     $contract = Contract::findOrFail($id);
-
-    //     // Kiểm tra token hợp lệ
-    //     if ($contract->verification_token !== $token) {
-    //         return redirect()->route('home')->with('error', 'Link xác nhận không hợp lệ');
-    //     }
-
-    //     // Cập nhật trạng thái thành đã xác nhận (7)
-    //     $contract->contract_status_id = 7;
-    //     $contract->verification_token = null; // Xóa token sau khi đã sử dụng
-    //     $contract->save();
-
-    //     return redirect()->route('home')->with('success', 'Xác nhận hợp đồng thành công');
-    // }
-
-
-    /**
-     * Display the specified resource.
-     */
+    
     public function show(Contract $brand)
     {
         //

@@ -318,7 +318,8 @@ Route::middleware('CheckEmployees')->group(
                 })->name('export');
                 Route::post('import-variations', [InventoryController::class, 'import'])->name('import');
                 Route::post('save', [InventoryController::class, 'save'])->name('save');
-                Route::get('get-detail/{id}', [InventoryController::class, 'getDetail'])->name('inventories.getDetail');
+                Route::get('get-detail/{id}', [InventoryController::class, 'getDetail'])->name('getDetail');
+                Route::get('lich-su-nhap-hang/{id}', [InventoryController::class, 'historyImport'])->name('historyImport');
             });
         Route::prefix('loai-bien-the')
             ->as('valueVariations.')

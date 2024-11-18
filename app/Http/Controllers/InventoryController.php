@@ -7,6 +7,7 @@ use App\Http\Requests\StoreInventoryRequest;
 use App\Http\Requests\UpdateInventoryRequest;
 use App\Models\Variation;
 use App\Imports\VariationsImport;
+use App\Models\Import_order_detail;
 use App\Models\InventoryDetail;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
@@ -34,7 +35,23 @@ class InventoryController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function historyImport($id) 
+    {
+        try {
+            $historyImport = Import_order_detail::with(['importOrder', 'importOrder.supplier'])
+                ->where('variation_id', $id)
+                ->whereHas('importOrder', function($query) {
+                    $query->where('status', 3); // Chỉ lấy đơn đã hoàn thành
+                })
+                ->get();
     
+            return response()->json($historyImport);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
 
     public function import(Request $request)
     {
@@ -119,5 +136,4 @@ class InventoryController extends Controller
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi lưu kiểm kê: ' . $e->getMessage());
         }
     }
-
 }
