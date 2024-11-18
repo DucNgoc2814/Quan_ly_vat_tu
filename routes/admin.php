@@ -27,6 +27,7 @@ use App\Http\Controllers\TripManagementController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\LogController;
 use App\Exports\VariationsExport;
+use App\Http\Controllers\AttributeController;
 use Maatwebsite\Excel\Facades\Excel;
 // <+====================ROUTER MẪU====================+>
 // Route::prefix('duong-dan-mau')
@@ -318,8 +319,21 @@ Route::middleware('CheckEmployees')->group(
                 })->name('export');
                 Route::post('import-variations', [InventoryController::class, 'import'])->name('import');
                 Route::post('save', [InventoryController::class, 'save'])->name('save');
-                Route::get('get-detail/{id}', [InventoryController::class, 'getDetail'])->name('getDetail');
-
+                Route::get('get-detail/{id}', [InventoryController::class, 'getDetail'])->name('inventories.getDetail');
             });
-    }
+        Route::prefix('loai-bien-the')
+            ->as('valueVariations.')
+            ->group(function () {
+                Route::get('/danh-sach', [AttributeController::class, 'index'])->name('index');
+                Route::get('/them-moi', [AttributeController::class, 'create'])->name('create');
+                Route::post('/them-moi', [AttributeController::class, 'store'])->name('store');
+                Route::post('/them-moi-gia-tri', [AttributeController::class, 'storeValue'])->name('storeValue');
+                Route::get('/sua/{id}', [AttributeController::class, 'edit'])->name('edit');
+                Route::put('/sua/{id}', [AttributeController::class, 'update'])->name('update');
+            });
+
+            Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm');
+            Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject');
+            
+        }
 );
