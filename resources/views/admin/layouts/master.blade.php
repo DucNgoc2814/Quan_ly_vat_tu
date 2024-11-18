@@ -341,11 +341,13 @@
             });
         });
     </script>
+
     @yield('scripts')
 
-      @if (session('authorization'))
+    @if (session('authorization'))
         {{ session('authorization') }}
     @endif
+    @stack('scripts')
 </body>
 
 </html>

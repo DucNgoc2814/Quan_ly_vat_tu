@@ -341,12 +341,14 @@
             });
         });
     </script>
+
     <?php echo $__env->yieldContent('scripts'); ?>
 
-      <?php if(session('authorization')): ?>
+    <?php if(session('authorization')): ?>
         <?php echo e(session('authorization')); ?>
 
     <?php endif; ?>
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 
 </html>
