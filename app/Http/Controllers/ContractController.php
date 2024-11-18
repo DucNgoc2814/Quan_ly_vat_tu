@@ -228,6 +228,10 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      */
+
+    /**
+     * Display the specified resource.
+     */
     public function show(Contract $brand)
     {
         //
@@ -262,6 +266,7 @@ class ContractController extends Controller
                 'number_phone' => $data['number_phone'],
                 'total_amount' => $data['total_amount'],
                 'note' => $data['note'],
+                'file' => $filePath ? $filePath : $contract->file,
                 'file' => $filePath ? $filePath : $contract->file,
             ]);
 
