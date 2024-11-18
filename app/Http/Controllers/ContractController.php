@@ -206,7 +206,6 @@ class ContractController extends Controller
     {
         $contract = Contract::findOrFail($id)->where('verification_token', request('token'))
             ->firstOrFail();
-        ;
         if ($contract->contract_status_id == 6 || $contract->contract_status_id == 7) {
             return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
         }
