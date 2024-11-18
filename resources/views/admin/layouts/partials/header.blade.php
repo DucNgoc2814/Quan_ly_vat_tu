@@ -155,10 +155,7 @@
                             <div class="p-3">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h6 class="m-0 fs-16 fw-semibold text-white"> Notifications </h6>
-                                    </div>
-                                    <div class="col-auto dropdown-tabs">
-                                        <span class="badge bg-light-subtle text-body fs-13"> 4 New</span>
+                                        <h6 class="m-0 fs-16 fw-semibold text-white"> Thông báo </h6>
                                     </div>
                                 </div>
                             </div>
