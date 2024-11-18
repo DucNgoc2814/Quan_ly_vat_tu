@@ -161,13 +161,15 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/them-moi', [ContractController::class, 'store'])->name('store')->middleware('permission:29');
                 Route::get('/sua/{contract}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:30');
                 Route::put('/sua/{contract}', [ContractController::class, 'update'])->name('update')->middleware('permission:30');
+
+
                 Route::post('/gui-xac-nhan/{id}', [ContractController::class, 'sendToManager'])->name('sendToManager');
                 Route::post('/gui-xac-nhan-khach-hang/{id}', [ContractController::class, 'sendToCustomer'])->name('sendToCustomer');
                 Route::post('/confirm/{id}', [ContractController::class, 'confirmContract'])->name('confirm');
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
 
-                Route::get('/hop-dong/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove');
-                Route::get('/hop-dong/tu-choi/{id}/{token}', [ContractController::class, 'customerRejectFromEmail'])->name('customerReject');
+                Route::get('/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove');
+                Route::get('/tu-choi/{id}/', [ContractController::class, 'customerReject'])->name('customerReject');
 
 
                 Route::get('/sua/{contract_number}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:30');
@@ -332,6 +334,6 @@ Route::middleware('CheckEmployees')->group(
 
             Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm');
             Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject');
-            
+
         }
 );

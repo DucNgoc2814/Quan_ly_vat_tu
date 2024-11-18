@@ -184,21 +184,10 @@ class ContractController extends Controller
         $contract->verification_token = $token;
         $contract->save();
 
-        // Gửi email với file đính kèm và token
-
-        // Mail::send('emails.contract', [
-        //     'contract' => $contract,
-        //     'token' => $token
-        // ], function ($message) use ($contract, $filePath) {
-        //     $message->to($contract->customer_email)
-        //         ->subject('Hợp đồng của bạn')
-        //         ->attach($filePath);
-        // });
-
         Mail::send('emails.contract', [
             'contract' => $contract,
             'token' => $token,
-            'appUrl' => config('app.url') // Thêm app URL vào data
+            'appUrl' => config('app.url')
         ], function ($message) use ($contract, $filePath) {
             $message->to($contract->customer_email)
                 ->subject('Hợp đồng của bạn')
@@ -215,29 +204,26 @@ class ContractController extends Controller
     public function customerApprove($id)
     {
         $contract = Contract::findOrFail($id);
+        if ($contract->contract_status_id == 6 || $contract->contract_status_id == 7) {
+            return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
+        }
         $contract->contract_status_id = 6;
         $contract->save();
 
-        // return view('mobile-success', ['message' => 'Xác nhận hợp đồng thành công']);
-        return back()->with('success', 'Xác nhận hợp đồng thành công');
+        return view('emails.success', ['message' => 'Xác nhận hợp đồng thành công']);
     }
+    public function customerReject($id)
+    {
+        $contract = Contract::findOrFail($id);
+        if ($contract->contract_status_id == 6 || $contract->contract_status_id == 7) {
+            return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
 
-    // public function customerApproveFromEmail($id, $token)
-    // {
-    //     $contract = Contract::findOrFail($id);
+        }
+        $contract->contract_status_id = 7;
+        $contract->save();
 
-    //     // Kiểm tra token hợp lệ
-    //     if ($contract->verification_token !== $token) {
-    //         return redirect()->route('home')->with('error', 'Link xác nhận không hợp lệ');
-    //     }
-
-    //     // Cập nhật trạng thái thành đã xác nhận (7)
-    //     $contract->contract_status_id = 7;
-    //     $contract->verification_token = null; // Xóa token sau khi đã sử dụng
-    //     $contract->save();
-
-    //     return redirect()->route('home')->with('success', 'Xác nhận hợp đồng thành công');
-    // }
+        return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
+    }
 
 
     /**
