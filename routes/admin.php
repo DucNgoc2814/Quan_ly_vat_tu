@@ -168,8 +168,8 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/confirm/{id}', [ContractController::class, 'confirmContract'])->name('confirm');
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
 
-                Route::get('/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove');
-                Route::get('/tu-choi/{id}', [ContractController::class, 'customerReject'])->name('customerReject');
+                Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove');
+                Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject');
 
 
                 Route::get('/sua/{contract_number}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:30');

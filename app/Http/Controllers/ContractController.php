@@ -176,33 +176,37 @@ class ContractController extends Controller
         $fileName = 'Hopdong_' . $contract->id . '.docx';
         $filePath = storage_path('app/public/contracts/' . $fileName);
 
-        // Tạo token ngẫu nhiên
         $token = Str::random(60);
-
-        // Lưu token vào database
         $contract->verification_token = $token;
         $contract->save();
+
+        $baseUrl = config('app.url');
 
         Mail::send('emails.contract', [
             'contract' => $contract,
             'token' => $token,
-            'appUrl' => config('app.url')
-        ], function ($message) use ($contract, $filePath) {
+            'baseUrl' => $baseUrl
+        ], function ($message) use ($contract, $filePath, $baseUrl) {
             $message->to($contract->customer_email)
                 ->subject('Hợp đồng của bạn')
-                ->attach($filePath);
+                ->attach($filePath, [
+                    'as' => 'Hopdong_' . $contract->id . '.docx',
+                    'mime' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                ]);
         });
 
-        // Cập nhật trạng thái hợp đồng
         $contract->contract_status_id = 5;
         $contract->save();
 
         return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
     }
 
+
     public function customerApprove($id)
     {
-        $contract = Contract::findOrFail($id);
+        $contract = Contract::findOrFail($id)->where('verification_token', request('token'))
+            ->firstOrFail();
+        ;
         if ($contract->contract_status_id == 6 || $contract->contract_status_id == 7) {
             return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
         }
