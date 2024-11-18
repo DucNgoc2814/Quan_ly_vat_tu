@@ -9,13 +9,19 @@
         Xác nhận hợp đồng
     </a> --}}
 
-    <a href="{{ route('contract.customerApprove', ['id' => $contract->id]) }}"
+    {{-- <a href="{{ route('contract.customerApprove', ['id' => $contract->id]) }}"
         style="display: inline-block; padding: 10px 20px; background-color: #28a745; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px; margin-bottom: 10px;">
          Xác nhận hợp đồng
-     </a>
+     </a> --}}
+
+     <a href="{{ config('app.url') . route('contract.customerApprove', ['id' => $contract->id], false) }}"
+        style="display: inline-block; padding: 10px 20px; background-color: #93e7a7; color: white; text-decoration: none; border-radius: 5px; margin-right: 10px;">
+        Xác nhận hợp đồng
+    </a>
+
 
     <a href="{{ route('contract.customerReject', ['id' => $contract->id, 'token' => $token]) }}"
-       style="display: inline-block; padding: 10px 20px; background-color: #dc3545; color: white; text-decoration: none; border-radius: 5px;">
+       style="display: inline-block; padding: 10px 20px; background-color: #ec9099; color: white; text-decoration: none; border-radius: 5px;">
         Từ chối hợp đồng
     </a>
 </div>

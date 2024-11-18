@@ -185,9 +185,20 @@ class ContractController extends Controller
         $contract->save();
 
         // Gửi email với file đính kèm và token
+
+        // Mail::send('emails.contract', [
+        //     'contract' => $contract,
+        //     'token' => $token
+        // ], function ($message) use ($contract, $filePath) {
+        //     $message->to($contract->customer_email)
+        //         ->subject('Hợp đồng của bạn')
+        //         ->attach($filePath);
+        // });
+
         Mail::send('emails.contract', [
             'contract' => $contract,
-            'token' => $token
+            'token' => $token,
+            'appUrl' => config('app.url') // Thêm app URL vào data
         ], function ($message) use ($contract, $filePath) {
             $message->to($contract->customer_email)
                 ->subject('Hợp đồng của bạn')
@@ -207,7 +218,8 @@ class ContractController extends Controller
         $contract->contract_status_id = 6;
         $contract->save();
 
-        return view('mobile-success', ['message' => 'Xác nhận hợp đồng thành công']);
+        // return view('mobile-success', ['message' => 'Xác nhận hợp đồng thành công']);
+        return back()->with('success', 'Xác nhận hợp đồng thành công');
     }
 
     // public function customerApproveFromEmail($id, $token)
