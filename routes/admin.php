@@ -165,8 +165,6 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/confirm/{id}', [ContractController::class, 'confirmContract'])->name('confirm');
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
 
-                // Route::get('/hop-dong/xac-nhan/{id}/{token}', [ContractController::class, 'customerApproveFromEmail'])->name('customerApprove');
-
                 Route::get('/hop-dong/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove');
                 Route::get('/hop-dong/tu-choi/{id}/{token}', [ContractController::class, 'customerRejectFromEmail'])->name('customerReject');
 
