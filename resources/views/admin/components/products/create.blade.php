@@ -1,3 +1,4 @@
+
 @extends('admin.layouts.master')
 
 @section('title')
@@ -435,8 +436,8 @@
                 <div class="col-md-2">
                     <div class="mb-2">
                         <label class="form-label">Số lượng</label>
-                        <input type="number" class="form-control" name="variants[${id}][stock]" 
-                    min="0" placeholder="Nhập số lượng"> 
+                        <input type="number" class="form-control" name="variants[${id}][stock]"
+                    min="0" placeholder="Nhập số lượng">
                     </div>
                 </div>
                 <div class="col-md-1 d-flex align-items-center">

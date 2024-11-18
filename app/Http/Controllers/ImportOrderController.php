@@ -10,7 +10,10 @@ use App\Models\Import_order;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreImport_orderRequest;
 use App\Http\Requests\UpdateImport_orderRequest;
+use App\Models\Customer;
 use App\Models\NewOrderRequest;
+use App\Models\Order;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -184,8 +187,35 @@ class ImportOrderController extends Controller
                 $query->where('status', 1);
             })
             ->get();
+        // Đơn hàng bán
+        $totalRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
+        $totalRevenueLastMonth = Order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
+        $revenueDifference = $totalRevenueThisMonth - $totalRevenueLastMonth;
+        if ($totalRevenueLastMonth != 0) {
+            $growthRateRevenue = ($revenueDifference / $totalRevenueLastMonth) * 100;
+        } else {
+            $growthRateRevenue = 100;
+        }
+        // Khách hàng
+        $totalCustomersThisMonth = Customer::whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->count();
+        $totalCustomersLastMonth = Customer::whereMonth('created_at', Carbon::now()->subMonth()->month)->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
+        $customerDifference = $totalCustomersThisMonth - $totalCustomersLastMonth;
+        if ($totalCustomersLastMonth != 0) {
+            $growthRateCustomers = ($customerDifference / $totalCustomersLastMonth) * 100;
+        } else {
+            $growthRateCustomers = 100;
+        }
+        // Đơn hàng nhập
+        $totalRevenueImportThisMonth = Import_order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
+        $totalRevenueImportLastMonth = Import_order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
+        $revenueImportDifference = $totalRevenueImportThisMonth - $totalRevenueImportLastMonth;
+        if ($totalRevenueImportLastMonth != 0) {
+            $growthRateImportRevenue = ($revenueImportDifference / $totalRevenueImportLastMonth) * 100;
+        } else {
+            $growthRateImportRevenue = 100;
+        }
 
-        return view('admin.dashboard', compact('pendingNewOrders'));
+        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue'));
     }
 
     public function checkOrderStatus($slug)
@@ -315,5 +345,4 @@ class ImportOrderController extends Controller
     {
         //
     }
-
 }
