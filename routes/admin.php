@@ -326,10 +326,14 @@ Route::middleware('CheckEmployees')->group(
             ->group(function () {
                 Route::get('/danh-sach', [AttributeController::class, 'index'])->name('index');
                 Route::get('/them-moi', [AttributeController::class, 'create'])->name('create');
+                Route::post('/them-moi', [AttributeController::class, 'store'])->name('store');
                 Route::post('/them-moi-gia-tri', [AttributeController::class, 'storeValue'])->name('storeValue');
-                Route::get('/sua/{id}', [AttributeController::class, 'edit'])->name('edit') ;
-                Route::put('/sua/{id}', [AttributeController::class, 'update'])->name('update') ;
-                Route::delete('/xoa/{id}', [AttributeController::class, 'destroy'])->name('destroy') ;
+                Route::get('/sua/{id}', [AttributeController::class, 'edit'])->name('edit');
+                Route::put('/sua/{id}', [AttributeController::class, 'update'])->name('update');
             });
-    }
+
+            Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm');
+            Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject');
+            
+        }
 );

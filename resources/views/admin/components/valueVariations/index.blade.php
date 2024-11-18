@@ -44,9 +44,9 @@
                                                     class="badge bg-primary d-flex align-items-center justify-content-center">{{ $value->value }}</span>
                                             @endforeach
                                             <button class="btn btn-sm btn-success add-value" data-bs-toggle="modal"
-                                            data-bs-target="#addValueModal" data-id="{{ $item->id }}">
-                                            <i class="ri-add-line"></i>
-                                        </button>
+                                                data-bs-target="#addValueModal" data-id="{{ $item->id }}">
+                                                <i class="ri-add-line"></i>
+                                            </button>
                                         </div>
                                     </td>
                                     <td>
@@ -94,9 +94,6 @@
         });
 
         $('#saveValue').click(function() {
-            console.log('Attribute ID:', $('#attributeId').val()); // Kiểm tra giá trị Attribute ID
-            console.log('Value:', $('#valueName').val()); // Kiểm tra giá trị của value
-
             $.ajax({
                 url: '/loai-bien-the/them-moi-gia-tri',
                 type: 'POST',
@@ -106,15 +103,20 @@
                     value: $('#valueName').val()
                 },
                 success: function(response) {
-                    console.log('Response:', response); // Log kết quả từ server
                     if (response.success) {
-                        $('#addValueModal').modal('hide'); // Đóng modal
-                        location.reload(); // Reload lại trang
+                        $('#addValueModal').modal('hide');
+                        location.reload();
                     }
                 },
-                error: function(xhr, status, error) {
-                    console.error('Error:', error);
-                    console.error('Response:', xhr.responseText); // Log lỗi chi tiết
+                error: function(xhr) {
+                    if (xhr.status === 422) {
+                        let errors = xhr.responseJSON.errors;
+                        if (errors.value) {
+                            $('#valueName').addClass('is-invalid');
+                            $('#valueName').after('<div class="invalid-feedback">' + errors.value[0] +
+                                '</div>');
+                        }
+                    }
                 }
             });
         });

@@ -106,6 +106,10 @@
                                 <a href="<?php echo e(route('inventories.index')); ?>" class="nav-link text-danger"
                                     data-key="t-horizontal">Quản lý kho hàng</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('valueVariations.index')); ?>" class="nav-link text-danger"
+                                    data-key="t-horizontal">Quản lý loại biến thể</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
