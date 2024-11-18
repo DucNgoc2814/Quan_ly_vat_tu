@@ -9,10 +9,10 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($inventory->inventoryDetails as $detail)
+        @foreach($inventory as $detail)
         <tr>
-            <td>{{ $detail->variation->sku }}</td>
-            <td>{{ $detail->variation->name }}</td>
+            <td>{{ $detail->variation_id }}</td>
+            <td>{{ $detail->variation_name }}</td>
             <td>{{ $detail->actual_quantity }}</td>
             <td>{{ $detail->system_quantity }}</td>
             <td>{{ $detail->deviation }}</td>

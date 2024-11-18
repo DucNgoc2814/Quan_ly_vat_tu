@@ -63,44 +63,59 @@
 
                                     </div>
                                 @endforeach
-                                <tr class="border-top border-top-dashed">
-                                    <td colspan="3"></td>
-                                    <td colspan="2" class="fw-medium p-0">
-                                        <table class="table table-borderless mb-0">
-                                            <tbody>
-                                                <tr>
-                                                    <td>Tổng tiền :</td>
-                                                    <td class="text-end">
-                                                        {{ number_format($data->first()->order->total_amount) }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Giảm giá <span
-                                                            class="text-muted">({{ $data->first()->order->customer->customerRank->name }})</span>:
-                                                    </td>
-                                                    <td class="text-end">
-                                                        {{ $data->first()->order->customer->customerRank->discount }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Đã thanh toán :</td>
-                                                    <td class="text-end">
-                                                        {{ number_format($data->first()->order->paid_amount) }}</td>
-                                                </tr>
-                                                <tr class="border-top border-top-dashed">
-                                                    <th scope="row">Thanh toán (VND) :</th>
-                                                    <th class="text-end">
-                                                        {{ number_format(
-                                                            $data->first()->order->total_amount * (1 - $data->first()->order->customer->customerRank->discount / 100) -
-                                                                $data->first()->order->paid_amount,
-                                                            2,
-                                                        ) }}
-                                                    </th>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card col-5">
+                    <div class="card-header d-flex justify-content-between">
+                        <div class="d-sm-flex align-items-center">
+                            <h5 class="card-title flex-grow-1 mb-0">Hóa đơn</h5>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <a href="apps-invoices-details.html" class="btn btn-success btn-sm"><i
+                                    class="ri-download-2-fill align-middle me-1"></i>Xuất hóa đơn</a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="profile-timeline">
+                            <div class="accordion accordion-flush" id="accordionFlushExample">
+                                <table class="table table-borderless mb-0">
+                                    <tbody>
+                                        <tr>
+                                            <td>Tổng tiền :</td>
+                                            <td class="text-end">
+                                                {{ number_format($data->first()->order->total_amount) }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Giảm giá <span
+                                                    class="text-muted">({{ $data->first()->order->customer->customerRank->name }})</span>:
+                                            </td>
+                                            <td class="text-end">
+                                                {{ $data->first()->order->customer->customerRank->discount }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Đã thanh toán :</td>
+                                            <td class="text-end">
+                                                {{ number_format($data->first()->order->paid_amount) }}</td>
+                                        </tr>
+                                        <tr class="border-top border-top-dashed">
+                                            <th scope="row">Thanh toán (VND) :</th>
+                                            <th class="text-end">
+                                                {{ number_format(
+                                                    $data->first()->order->total_amount * (1 - $data->first()->order->customer->customerRank->discount / 100) -
+                                                        $data->first()->order->paid_amount,
+                                                    2,
+                                                ) }}
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -151,28 +166,6 @@
         </div>
         <!--end col-->
         <div class="col-xl-3">
-            <div class="card">
-                <div class="card-header">
-                    <div class="d-flex">
-                        <h5 class="card-title flex-grow-1 mb-0"><i
-                                class="mdi mdi-truck-fast-outline align-middle me-1 text-muted"></i> Xe giao hàng</h5>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="text-center">
-                        <lord-icon src="https://cdn.lordicon.com/uetqnvvg.json" trigger="loop"
-                            colors="primary:#405189,secondary:#0ab39c" style="width:80px;height:80px"></lord-icon>
-                        <h5 class="fs-16 mt-2">Vận tải Gemo</h5>
-                        <p class="text-muted mb-0">Xe giao hàng:
-                            {{ $data->first()->order->tripDetail->trip->cargoCar->cargoCarType->name ?? 'Chưa có xe giao' }}
-                        </p>
-                        <p class="text-muted mb-0">Biển số :
-                            {{ $data->first()->order->tripDetail->trip->cargoCar->license_plate ?? 'Chưa có xe giao' }}</p>
-
-                    </div>
-                </div>
-            </div>
-            <!--end card-->
 
             <div class="card">
                 <div class="card-header">

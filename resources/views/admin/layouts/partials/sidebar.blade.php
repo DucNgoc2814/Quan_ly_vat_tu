@@ -111,19 +111,13 @@
                                 <a href="{{ route('inventories.index') }}" class="nav-link "
                                     data-key="t-horizontal">Quản lý kho hàng</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('valueVariations.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Quản lý loại biến thể</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarFeedbacks" role="button"
-                        aria-expanded="false" aria-controls="sidebarFeedbacks">
-                        <i class="ri-feedback-fill"></i>
-                        <span data-key="t-layouts">Danh sách phản hồi</span>
-                    </a>
-
-                </li>
-
-                {{-- Quản lý nhà cung cấp --}}
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarSuppliers" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarSuppliers">
@@ -163,27 +157,6 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarCargoCarTypers" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarCargoCarTypers">
-                        <i class="ri-truck-fill"></i>
-                        <span data-key="t-layouts">Quản lý xe</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarCargoCarTypers">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('CargoCars.index') }}" class="nav-link "
-                                    data-key="t-horizontal">Danh sách xe</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('cargo_car_types.index') }}" class="nav-link "
-                                    data-key="t-horizontal">Danh sách loại xe</a>
-                            </li>
-
-                        </ul>
-                    </div>
-                </li>
-
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarOrders" data-bs-toggle="collapse"
@@ -222,6 +195,7 @@
                 </li>
 
                 <li class="nav-item">
+<<<<<<< HEAD
                     <a class="nav-link menu-link" href="#sidebarPaymentHistories"
                         data-bs-toggle="collapse" role="button" aria-expanded="false"
                         aria-controls="sidebarPaymentHistories">
@@ -238,6 +212,8 @@
                     </div>
                 </li>
                 <li class="nav-item">
+=======
+>>>>>>> 37a3526537cf239a42047be666d52bf6d53480c7
                     <a class="nav-link menu-link" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarTrips">
                         <i class="ri-treasure-map-fill"></i>
@@ -249,6 +225,14 @@
 
                                 <a href="{{ route('trips.index') }}" class="nav-link" data-key="t-horizontal">Danh
                                     sách chuyến đi</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('CargoCars.index') }}" class="nav-link "
+                                    data-key="t-horizontal">Danh sách xe</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('cargo_car_types.index') }}" class="nav-link "
+                                    data-key="t-horizontal">Danh sách loại xe</a>
                             </li>
                         </ul>
                     </div>

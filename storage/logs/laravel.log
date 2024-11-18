@@ -1502,3 +1502,245 @@
 [2024-11-18 06:12:52] local.INFO: File Save Attempted  
 [2024-11-18 06:12:52] local.INFO: File Exists After Save: Yes  
 [2024-11-18 06:12:52] local.INFO: File Size: 16044 bytes  
+[2024-11-18 06:20:02] local.INFO: === START LOGGING ===  
+[2024-11-18 06:20:02] local.INFO: Auth Check: No  
+[2024-11-18 06:20:02] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:20:02] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:20:02] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:20:02] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:20:02] local.INFO: File Exists: Yes  
+[2024-11-18 06:20:02] local.INFO: Loading existing file...  
+[2024-11-18 06:20:03] local.INFO: File Save Attempted  
+[2024-11-18 06:20:03] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:20:03] local.INFO: File Size: 16076 bytes  
+[2024-11-18 06:20:03] local.INFO: === START LOGGING ===  
+[2024-11-18 06:20:03] local.INFO: Auth Check: No  
+[2024-11-18 06:20:03] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:20:03] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:20:03] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:20:03] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:20:03] local.INFO: File Exists: Yes  
+[2024-11-18 06:20:03] local.INFO: Loading existing file...  
+[2024-11-18 06:20:03] local.INFO: File Save Attempted  
+[2024-11-18 06:20:03] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:20:03] local.INFO: File Size: 16099 bytes  
+[2024-11-18 06:20:05] local.INFO: === START LOGGING ===  
+[2024-11-18 06:20:05] local.INFO: Auth Check: No  
+[2024-11-18 06:20:05] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:20:05] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:20:05] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:20:05] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:20:05] local.INFO: File Exists: Yes  
+[2024-11-18 06:20:05] local.INFO: Loading existing file...  
+[2024-11-18 06:20:05] local.INFO: File Save Attempted  
+[2024-11-18 06:20:05] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:20:05] local.INFO: File Size: 16128 bytes  
+[2024-11-18 06:20:10] local.INFO: === START LOGGING ===  
+[2024-11-18 06:20:10] local.INFO: Auth Check: No  
+[2024-11-18 06:20:10] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:20:10] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:20:10] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:20:10] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:20:10] local.INFO: File Exists: Yes  
+[2024-11-18 06:20:10] local.INFO: Loading existing file...  
+[2024-11-18 06:20:10] local.INFO: File Save Attempted  
+[2024-11-18 06:20:10] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:20:10] local.INFO: File Size: 16155 bytes  
+[2024-11-18 06:20:17] local.INFO: === START LOGGING ===  
+[2024-11-18 06:20:17] local.INFO: Auth Check: No  
+[2024-11-18 06:20:17] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:20:17] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:20:17] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:20:17] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:20:17] local.INFO: File Exists: Yes  
+[2024-11-18 06:20:17] local.INFO: Loading existing file...  
+[2024-11-18 06:20:17] local.INFO: File Save Attempted  
+[2024-11-18 06:20:17] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:20:17] local.INFO: File Size: 16184 bytes  
+[2024-11-18 06:20:23] local.INFO: === START LOGGING ===  
+[2024-11-18 06:20:23] local.INFO: Auth Check: No  
+[2024-11-18 06:20:23] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:20:23] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:20:23] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:20:23] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:20:23] local.INFO: File Exists: Yes  
+[2024-11-18 06:20:23] local.INFO: Loading existing file...  
+[2024-11-18 06:20:23] local.INFO: File Save Attempted  
+[2024-11-18 06:20:23] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:20:23] local.INFO: File Size: 16214 bytes  
+[2024-11-18 06:21:25] local.INFO: === START LOGGING ===  
+[2024-11-18 06:21:25] local.INFO: Auth Check: No  
+[2024-11-18 06:21:25] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:21:25] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:21:25] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:21:25] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:21:25] local.INFO: File Exists: Yes  
+[2024-11-18 06:21:25] local.INFO: Loading existing file...  
+[2024-11-18 06:21:25] local.INFO: File Save Attempted  
+[2024-11-18 06:21:25] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:21:25] local.INFO: File Size: 16245 bytes  
+[2024-11-18 06:21:25] local.INFO: === START LOGGING ===  
+[2024-11-18 06:21:25] local.INFO: Auth Check: No  
+[2024-11-18 06:21:25] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:21:25] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:21:25] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:21:25] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:21:25] local.INFO: File Exists: Yes  
+[2024-11-18 06:21:25] local.INFO: Loading existing file...  
+[2024-11-18 06:21:25] local.INFO: File Save Attempted  
+[2024-11-18 06:21:25] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:21:25] local.INFO: File Size: 16268 bytes  
+[2024-11-18 06:21:26] local.INFO: === START LOGGING ===  
+[2024-11-18 06:21:26] local.INFO: Auth Check: No  
+[2024-11-18 06:21:26] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:21:26] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:21:26] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:21:26] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:21:26] local.INFO: File Exists: Yes  
+[2024-11-18 06:21:26] local.INFO: Loading existing file...  
+[2024-11-18 06:21:27] local.INFO: File Save Attempted  
+[2024-11-18 06:21:27] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:21:27] local.INFO: File Size: 16298 bytes  
+[2024-11-18 06:21:30] local.INFO: === START LOGGING ===  
+[2024-11-18 06:21:30] local.INFO: Auth Check: No  
+[2024-11-18 06:21:30] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:21:30] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:21:30] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:21:30] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:21:30] local.INFO: File Exists: Yes  
+[2024-11-18 06:21:30] local.INFO: Loading existing file...  
+[2024-11-18 06:21:30] local.INFO: File Save Attempted  
+[2024-11-18 06:21:30] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:21:30] local.INFO: File Size: 16326 bytes  
+[2024-11-18 06:21:34] local.INFO: === START LOGGING ===  
+[2024-11-18 06:21:34] local.INFO: Auth Check: No  
+[2024-11-18 06:21:34] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:21:34] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:21:34] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:21:34] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:21:34] local.INFO: File Exists: Yes  
+[2024-11-18 06:21:34] local.INFO: Loading existing file...  
+[2024-11-18 06:21:34] local.INFO: File Save Attempted  
+[2024-11-18 06:21:34] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:21:34] local.INFO: File Size: 16356 bytes  
+[2024-11-18 06:21:39] local.INFO: === START LOGGING ===  
+[2024-11-18 06:21:39] local.INFO: Auth Check: No  
+[2024-11-18 06:21:39] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:21:39] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:21:39] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:21:39] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:21:39] local.INFO: File Exists: Yes  
+[2024-11-18 06:21:39] local.INFO: Loading existing file...  
+[2024-11-18 06:21:39] local.INFO: File Save Attempted  
+[2024-11-18 06:21:39] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:21:39] local.INFO: File Size: 16385 bytes  
+[2024-11-18 06:21:50] local.INFO: === START LOGGING ===  
+[2024-11-18 06:21:50] local.INFO: Auth Check: No  
+[2024-11-18 06:21:50] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:21:50] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:21:50] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:21:50] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:21:50] local.INFO: File Exists: Yes  
+[2024-11-18 06:21:50] local.INFO: Loading existing file...  
+[2024-11-18 06:21:50] local.INFO: File Save Attempted  
+[2024-11-18 06:21:50] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:21:50] local.INFO: File Size: 16416 bytes  
+[2024-11-18 06:24:32] local.INFO: === START LOGGING ===  
+[2024-11-18 06:24:32] local.INFO: Auth Check: No  
+[2024-11-18 06:24:32] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:24:32] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:24:32] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:24:32] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:24:32] local.INFO: File Exists: Yes  
+[2024-11-18 06:24:32] local.INFO: Loading existing file...  
+[2024-11-18 06:24:32] local.INFO: File Save Attempted  
+[2024-11-18 06:24:32] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:24:32] local.INFO: File Size: 16444 bytes  
+[2024-11-18 06:24:32] local.INFO: === START LOGGING ===  
+[2024-11-18 06:24:32] local.INFO: Auth Check: No  
+[2024-11-18 06:24:32] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:24:32] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:24:32] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:24:32] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:24:32] local.INFO: File Exists: Yes  
+[2024-11-18 06:24:32] local.INFO: Loading existing file...  
+[2024-11-18 06:24:32] local.INFO: File Save Attempted  
+[2024-11-18 06:24:32] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:24:32] local.INFO: File Size: 16469 bytes  
+[2024-11-18 06:24:34] local.INFO: === START LOGGING ===  
+[2024-11-18 06:24:34] local.INFO: Auth Check: No  
+[2024-11-18 06:24:34] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:24:34] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:24:34] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:24:34] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:24:34] local.INFO: File Exists: Yes  
+[2024-11-18 06:24:34] local.INFO: Loading existing file...  
+[2024-11-18 06:24:34] local.INFO: File Save Attempted  
+[2024-11-18 06:24:34] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:24:34] local.INFO: File Size: 16497 bytes  
+[2024-11-18 06:24:37] local.INFO: === START LOGGING ===  
+[2024-11-18 06:24:37] local.INFO: Auth Check: No  
+[2024-11-18 06:24:37] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:24:37] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:24:37] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:24:37] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:24:37] local.INFO: File Exists: Yes  
+[2024-11-18 06:24:37] local.INFO: Loading existing file...  
+[2024-11-18 06:24:38] local.INFO: File Save Attempted  
+[2024-11-18 06:24:38] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:24:38] local.INFO: File Size: 16525 bytes  
+[2024-11-18 06:24:41] local.INFO: === START LOGGING ===  
+[2024-11-18 06:24:41] local.INFO: Auth Check: No  
+[2024-11-18 06:24:41] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:24:41] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:24:41] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:24:41] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:24:41] local.INFO: File Exists: Yes  
+[2024-11-18 06:24:41] local.INFO: Loading existing file...  
+[2024-11-18 06:24:42] local.INFO: File Save Attempted  
+[2024-11-18 06:24:42] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:24:42] local.INFO: File Size: 16555 bytes  
+[2024-11-18 06:24:49] local.INFO: === START LOGGING ===  
+[2024-11-18 06:24:49] local.INFO: Auth Check: No  
+[2024-11-18 06:24:49] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:24:49] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:24:49] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:24:49] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:24:49] local.INFO: File Exists: Yes  
+[2024-11-18 06:24:49] local.INFO: Loading existing file...  
+[2024-11-18 06:24:49] local.INFO: File Save Attempted  
+[2024-11-18 06:24:49] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:24:49] local.INFO: File Size: 16585 bytes  
+[2024-11-18 06:25:09] local.INFO: === START LOGGING ===  
+[2024-11-18 06:25:09] local.INFO: Auth Check: No  
+[2024-11-18 06:25:09] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:25:09] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:25:09] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:25:09] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:25:09] local.INFO: File Exists: Yes  
+[2024-11-18 06:25:09] local.INFO: Loading existing file...  
+[2024-11-18 06:25:10] local.INFO: File Save Attempted  
+[2024-11-18 06:25:10] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:25:10] local.INFO: File Size: 16612 bytes  
+[2024-11-18 06:27:17] local.INFO: === START LOGGING ===  
+[2024-11-18 06:27:17] local.INFO: Auth Check: No  
+[2024-11-18 06:27:17] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:27:17] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:27:17] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:27:17] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:27:17] local.INFO: File Exists: Yes  
+[2024-11-18 06:27:17] local.INFO: Loading existing file...  
+[2024-11-18 06:27:18] local.INFO: File Save Attempted  
+[2024-11-18 06:27:18] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:27:18] local.INFO: File Size: 16638 bytes  
+[2024-11-18 06:27:21] local.INFO: === START LOGGING ===  
+[2024-11-18 06:27:21] local.INFO: Auth Check: No  
+[2024-11-18 06:27:21] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-11-18 06:27:21] local.INFO: Directory Exists: Yes  
+[2024-11-18 06:27:21] local.INFO: Directory Writable: Yes  
+[2024-11-18 06:27:21] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-11-18 06:27:21] local.INFO: File Exists: Yes  
+[2024-11-18 06:27:21] local.INFO: Loading existing file...  
+[2024-11-18 06:27:21] local.INFO: File Save Attempted  
+[2024-11-18 06:27:21] local.INFO: File Exists After Save: Yes  
+[2024-11-18 06:27:21] local.INFO: File Size: 16667 bytes  
