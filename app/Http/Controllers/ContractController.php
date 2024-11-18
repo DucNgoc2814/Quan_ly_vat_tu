@@ -254,15 +254,11 @@ class ContractController extends Controller
 
         try {
             if ($request->hasFile('file')) {
-                // Delete the old file if it exists
                 if ($contract->file && Storage::disk('public')->exists($contract->file)) {
                     Storage::disk('public')->delete($contract->file);
                 }
-                // Store the new file
                 $filePath = $request->file('file')->store('contracts', 'public');
             }
-
-            // Update contract with new data
             $contract->update([
                 'contract_number' => $data['contract_number'],
                 'customer_name' => $data['customer_name'],
@@ -270,14 +266,13 @@ class ContractController extends Controller
                 'number_phone' => $data['number_phone'],
                 'total_amount' => $data['total_amount'],
                 'note' => $data['note'],
-                'file' => $filePath ? $filePath : $contract->file, // Use old file if no new file is uploaded
+                'file' => $filePath ? $filePath : $contract->file,
             ]);
 
             return redirect()
                 ->route('contract.index')
                 ->with('success', 'Cập nhật hợp đồng thành công!');
         } catch (Exception $exception) {
-            // Handle exception
             return back()->with('error', $exception->getMessage());
         }
     }
