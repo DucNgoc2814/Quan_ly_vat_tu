@@ -152,7 +152,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/sua/{sku}', [BrandController::class, 'edit'])->name('edit')->middleware('permission:27');
                 Route::put('/sua/{brand}', [BrandController::class, 'update'])->name('update')->middleware('permission:27');
             });
-        Route::prefix('hop-dong')
+            Route::prefix('hop-dong')
             ->as('contract.')
             ->group(function () {
                 Route::get('/danh-sach', [ContractController::class, 'index'])->name('index')->middleware('permission:28');
