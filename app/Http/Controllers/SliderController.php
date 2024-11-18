@@ -15,7 +15,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $title = " Danh sách Slider";
+        $title = "Danh sách Slider";
         $sliders = Slider::query()->get();
         return view('admin.components.sliders.index', compact('sliders', 'title'));
     }
@@ -26,7 +26,7 @@ class SliderController extends Controller
     public function create()
     {
         $title = "Thêm Slider";
-        return view('admin.components.sliders.create');
+        return view('admin.components.sliders.create',compact('title'));
     }
 
     /**

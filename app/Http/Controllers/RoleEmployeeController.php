@@ -32,7 +32,7 @@ class RoleEmployeeController extends Controller
             "wage"=>$request->wage,
         ];
         DB::table("role_employees")->insert($data);
-        return redirect()->route('listPermissions')->with('success', 'Thêm quyền thành công');
+        return redirect()->route('employees.quan-ly-nhan-vien.danh-sach-quyen-truy-cap')->with('success', 'Thêm quyền thành công');
     }
     /**
      * Store a newly created resource in storage.
