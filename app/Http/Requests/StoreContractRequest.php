@@ -22,31 +22,38 @@ class StoreContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-
+            'contract_name' => 'required|string|max:255',
+            'customer_name' => 'required|string|max:255',
+            'customer_phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:10',
+            'customer_email' => 'required|email|max:255',
+            'variation_id' => 'required|array',
+            'variation_id.*' => 'required|exists:variations,id',
+            'quantity' => 'required|array',
+            'quantity.*' => 'required|integer|min:1'
         ];
     }
 
     public function messages(): array
     {
         return [
-            'contract_number.required' => 'Vui lòng nhập số hợp đồng',
-            'contract_number.max' => 'Số hợp đồng không được vượt quá 255 ký tự',
-            'contract_number.unique' => 'Số hợp đồng đã tồn tại, vui lòng nhập số khác.',
+            'contract_name.required' => 'Vui lòng nhập tên hợp đồng',
+            'contract_name.max' => 'Tên hợp đồng không được vượt quá 255 ký tự',
             'customer_name.required' => 'Vui lòng nhập tên khách hàng',
             'customer_name.max' => 'Tên khách hàng không được vượt quá 255 ký tự',
-            'customer_email.required' => 'Vui lòng nhập email khách hàng',
-            'customer_email.email' => 'Email khách hàng không đúng định dạng',
-            'customer_email.max' => 'Email khách hàng không được vượt quá 255 ký tự',
-            'number_phone.required' => 'Vui lòng nhập số điện thoại khách hàng',
-            'number_phone.string' => 'Số điện thoại khách hàng phải là chuỗi',
-            'number_phone.size' => 'Số điện thoại khách hàng phải có đúng 10 ký tự',
-            'total_amount.required' => 'Vui lòng nhập tổng số tiền hợp đồng',
-            'total_amount.numeric' => 'Tổng số tiền hợp đồng phải là số',
-            'total_amount.min' => 'Tổng số tiền hợp đồng phải lớn hơn 0',
-            'note.max' => 'Mô tả không được vượt quá 1000 ký tự',
-            'file.required' => 'Vui lòng tải lên file hợp đồng',
-            'file.mimes' => 'File phải có định dạng PDF',
-            'file.max' => 'Kích thước file không được vượt quá 2MB',
+            'customer_phone.required' => 'Vui lòng nhập số điện thoại',
+            'customer_phone.regex' => 'Số điện thoại không hợp lệ',
+            'customer_phone.min' => 'Số điện thoại phải có ít nhất 10 số',
+            'customer_phone.max' => 'Số điện thoại không được vượt quá 11 số',
+            'customer_email.required' => 'Vui lòng nhập email',
+            'customer_email.email' => 'Email không đúng định dạng',
+            'customer_email.max' => 'Email không được vượt quá 255 ký tự',
+            'variation_id.required' => 'Vui lòng chọn sản phẩm',
+            'variation_id.*.required' => 'Vui lòng chọn sản phẩm',
+            'variation_id.*.exists' => 'Sản phẩm không tồn tại',
+            'quantity.required' => 'Vui lòng nhập số lượng',
+            'quantity.*.required' => 'Vui lòng nhập số lượng',
+            'quantity.*.integer' => 'Số lượng phải là số nguyên',
+            'quantity.*.min' => 'Số lượng phải lớn hơn 0'
         ];
     }
 }
