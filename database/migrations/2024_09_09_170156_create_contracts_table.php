@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('contract_status_id')->constrained('contract_statuses')->default('1');
-            $table->foreignId('contract_type_id')->constrained('contract_types');
-            $table->foreignId('order_id')->unique()->constrained('orders');
-            $table->string('name', 255);
-            $table->string('file', 255);
-            $table->text('note')->nullable();
+            $table->string('contract_name', 255);
+            $table->string('customer_name', 255);
+            $table->string('customer_phone', 10);
+            $table->string('customer_email', 255);
             $table->timestamps();
         });
     }

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\LogService;
+
 class Variation extends Model
 {
     use HasFactory;
@@ -34,7 +35,8 @@ class Variation extends Model
         return $this->hasMany(Order_detail::class);
     }
 
-    public function importOrderDetails(){
+    public function importOrderDetails()
+    {
         return $this->hasMany(Import_order_detail::class);
     }
 

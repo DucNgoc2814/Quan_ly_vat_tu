@@ -37,7 +37,7 @@
                                 <th data-ordering="false">Thương hiệu</th>
                                 <th data-ordering="false">Số lượng</th>
                                 <th data-ordering="false">Đơn vị</th>
-                                <th data-ordering="false">AVG nhập</th>
+                                <th data-ordering="false">Giá bán</th>
                                 <th data-ordering="false">Hiển thị</th>
                                 <th data-ordering="false">Thao tác</th>
                             </tr>
@@ -51,11 +51,7 @@
                                     <td>{{ $data->brand->name }}</td>
                                     <td>{{ $data->variations->sum('stock') }}</td>
                                     <td>{{ $data->unit->name }}</td>
-                                    <td>
-                                        @foreach ($data->variations as $variation)
-                                            {{ $variation->importOrderDetails->avg('price') > 0 ? $variation->importOrderDetails->avg('price') : 0 }}
-                                        @endforeach
-                                    </td>
+                                    <td>{{ number_format($data->price) }}</td>
                                     <td>
                                         <div class="form-check form-switch form-switch">
                                             @if ($data->is_active == 1)
@@ -70,7 +66,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <a href="{{ route('product.edit', $data->id) }}" class="dropdown-item edit-item-btn"><i
+                                        <a href="{{ route('product.edit', $data->slug) }}" class="dropdown-item edit-item-btn"><i
                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                             Sửa</a>
                                     </td>

@@ -10,11 +10,13 @@ use App\Models\Location;
 use App\Models\Order_canceled;
 use App\Models\Order_detail;
 use App\Models\Order_status;
+use App\Models\OrderStatusTime;
 use App\Models\Payment;
 use App\Models\Variation;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+// use PhpOffice\PhpWord\PhpWord;
 
 /**
  * Handles the CRUD operations for orders in the application.
@@ -49,12 +51,6 @@ class OrderController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation', 'locations'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-
-
-
     public function store(StoreOrderRequest $request)
     {
         // dd($request);
@@ -85,6 +81,11 @@ class OrderController extends Controller
 
                 $order = Order::query()->create($dataOrder);
 
+                OrderStatusTime::create([
+                    'order_id' => $order->id,
+                    'order_status_id' => 1,
+                    'time' => now()
+                ]);
 
                 $existingLocation = Location::where('customer_id', $order->customer_id)
                     ->where('customer_name', $order->customer_name)
@@ -142,7 +143,7 @@ class OrderController extends Controller
                 } else {
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
-
+                // $this->exportOrderToWord($order, $request);
             });
 
             return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
@@ -278,6 +279,12 @@ class OrderController extends Controller
             // Cập nhật trạng thái đơn hàng
             $order->status_id = $newStatus;
 
+            // Thêm mới: Lưu thời gian cập nhật trạng thái
+            OrderStatusTime::create([
+                'order_id' => $order->id,
+                'order_status_id' => $newStatus,
+                'time' => now()
+            ]);
 
             // Nếu chuyển sang trạng thái chờ xác nhận hủy
             if ($newStatus == 6) {

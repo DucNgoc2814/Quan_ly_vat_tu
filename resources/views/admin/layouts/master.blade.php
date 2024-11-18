@@ -74,7 +74,6 @@
 
         .variant-checkbox span {
             color: black;
-            /* Màu chữ mặc định là đen */
             font-weight: bold;
             padding: 5px 10px;
             /* Giữ padding cho span */
@@ -92,7 +91,6 @@
             /* Viền cũng đổi sang màu xanh đậm */
         }
 
-        /* Đảm bảo rằng không có padding giữa nền và viền */
         .variant-checkbox input:checked+span {
             padding: 5px 10px;
             /* Đảm bảo padding không thay đổi khi chọn */
@@ -343,11 +341,13 @@
             });
         });
     </script>
+
     @yield('scripts')
 
-      @if (session('authorization'))
+    @if (session('authorization'))
         {{ session('authorization') }}
     @endif
+    @stack('scripts')
 </body>
 
 </html>

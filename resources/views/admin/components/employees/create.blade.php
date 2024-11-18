@@ -119,9 +119,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
-                            <label class="form-label" for="product-title-input">CCCD/CMND</label>
+                            <label class="form-label" for="product-title-input">Căn cước công dân</label>
                             <input type="text" class="form-control  @error('cccd') is-invalid @enderror"
-                                placeholder="Nhập số điện thoại" name="cccd" value="{{ old('cccd') }}">
+                                placeholder="Nhập căn cước công dân" name="cccd" value="{{ old('cccd') }}">
                             @error('cccd')
                                 <span role="alert">
                                     <span class="text-danger">{{ $message }}</span>

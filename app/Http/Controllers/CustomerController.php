@@ -13,6 +13,7 @@ class CustomerController extends Controller
     const PATH_VIEW = 'admin.components.customer.';
 
     public function index()
+    
     {
         $customers = Customer::with('customerRank')->get();
         return view(self::PATH_VIEW . 'index', compact('customers'));
