@@ -215,11 +215,25 @@ class ContractController extends Controller
     public function customerApprove($id)
     {
         $contract = Contract::findOrFail($id);
+        if ($contract->contract_status_id == 6 || $contract->contract_status_id == 7) {
+            return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
+        }
         $contract->contract_status_id = 6;
         $contract->save();
 
-        // return view('mobile-success', ['message' => 'Xác nhận hợp đồng thành công']);
-        return back()->with('success', 'Xác nhận hợp đồng thành công');
+        return view('emails.success', ['message' => 'Xác nhận hợp đồng thành công']);
+    }
+    public function customerReject($id)
+    {
+        $contract = Contract::findOrFail($id);
+        if ($contract->contract_status_id == 6 || $contract->contract_status_id == 7) {
+            return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
+
+        }
+        $contract->contract_status_id = 7;
+        $contract->save();
+
+        return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
     }
 
     // public function customerApproveFromEmail($id, $token)

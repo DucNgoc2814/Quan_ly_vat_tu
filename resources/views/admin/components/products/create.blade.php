@@ -257,7 +257,7 @@
                                     <div class="card-body">
                                         <div class="mb-4">
                                             <div class="d-flex justify-content-lg-between">
-                                                <label class="form-label" for="product-images-input">Bộ sư tập ảnh sản
+                                                <label class="form-label" for="product-images-input">Bộ sưu tập ảnh sản
                                                     phẩm</label>
                                                 <!-- Nút để thêm ảnh -->
                                                 <button type="button" class="btn btn-primary" id="add-image-button">Thêm
@@ -570,8 +570,8 @@
                 <div class="col-md-2">
                     <div class="mb-2">
                         <label class="form-label">Số lượng</label>
-                        <input type="number" class="form-control" name="variants[${id}][stock]" 
-                    min="0" placeholder="Nhập số lượng"> 
+                        <input type="number" class="form-control" name="variants[${id}][stock]"
+                    min="0" placeholder="Nhập số lượng">
                     </div>
                 </div>
                 <div class="col-md-1 d-flex align-items-center">

@@ -23,6 +23,7 @@ class StoreContractRequest extends FormRequest
     {
         return [
 
+
         ];
     }
 

@@ -195,7 +195,6 @@
                 </li>
 
                 <li class="nav-item">
-<<<<<<< HEAD
                     <a class="nav-link menu-link" href="#sidebarPaymentHistories"
                         data-bs-toggle="collapse" role="button" aria-expanded="false"
                         aria-controls="sidebarPaymentHistories">
@@ -212,11 +211,9 @@
                     </div>
                 </li>
                 <li class="nav-item">
-=======
->>>>>>> 37a3526537cf239a42047be666d52bf6d53480c7
                     <a class="nav-link menu-link" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarTrips">
-                        <i class="ri-treasure-map-fill"></i>
+                        <i class="ri-truck-fill"></i>
                         <span data-key="t-layouts">Quản lý vận chuyển</span>
                     </a>
                     <div class="collapse menu-dropdown" id="sidebarTrips">
