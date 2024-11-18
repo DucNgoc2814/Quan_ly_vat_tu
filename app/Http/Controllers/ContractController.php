@@ -183,21 +183,10 @@ class ContractController extends Controller
         $contract->verification_token = $token;
         $contract->save();
 
-        // Gửi email với file đính kèm và token
-
-        // Mail::send('emails.contract', [
-        //     'contract' => $contract,
-        //     'token' => $token
-        // ], function ($message) use ($contract, $filePath) {
-        //     $message->to($contract->customer_email)
-        //         ->subject('Hợp đồng của bạn')
-        //         ->attach($filePath);
-        // });
-
         Mail::send('emails.contract', [
             'contract' => $contract,
             'token' => $token,
-            'appUrl' => config('app.url') // Thêm app URL vào data
+            'appUrl' => config('app.url')
         ], function ($message) use ($contract, $filePath) {
             $message->to($contract->customer_email)
                 ->subject('Hợp đồng của bạn')
@@ -235,7 +224,10 @@ class ContractController extends Controller
         return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
     }
 
-    
+
+    /**
+     * Display the specified resource.
+     */
     public function show(Contract $brand)
     {
         //
@@ -258,15 +250,11 @@ class ContractController extends Controller
 
         try {
             if ($request->hasFile('file')) {
-                // Delete the old file if it exists
                 if ($contract->file && Storage::disk('public')->exists($contract->file)) {
                     Storage::disk('public')->delete($contract->file);
                 }
-                // Store the new file
                 $filePath = $request->file('file')->store('contracts', 'public');
             }
-
-            // Update contract with new data
             $contract->update([
                 'contract_number' => $data['contract_number'],
                 'customer_name' => $data['customer_name'],
@@ -274,14 +262,13 @@ class ContractController extends Controller
                 'number_phone' => $data['number_phone'],
                 'total_amount' => $data['total_amount'],
                 'note' => $data['note'],
-                'file' => $filePath ? $filePath : $contract->file, // Use old file if no new file is uploaded
+                'file' => $filePath ? $filePath : $contract->file,
             ]);
 
             return redirect()
                 ->route('contract.index')
                 ->with('success', 'Cập nhật hợp đồng thành công!');
         } catch (Exception $exception) {
-            // Handle exception
             return back()->with('error', $exception->getMessage());
         }
     }
