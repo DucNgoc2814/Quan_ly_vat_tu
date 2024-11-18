@@ -52,3 +52,11 @@
 #13 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #14 {main}
 "} 
+[2024-11-18 10:14:40] local.ERROR: Command "serr" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"serr\" is not defined. at F:\\Workspace\\DATN\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Application.php:737)
+[stacktrace]
+#0 F:\\Workspace\\DATN\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find('serr')
+#1 F:\\Workspace\\DATN\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 F:\\Workspace\\DATN\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 F:\\Workspace\\DATN\\Quan_ly_vat_tu\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 {main}
+"} 
