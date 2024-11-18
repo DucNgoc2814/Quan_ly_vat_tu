@@ -1088,9 +1088,8 @@
                                                     {{ $contract->contract_name }}</h5>
                                                 <p>Khách hàng: {{ $contract->customer_name }}</p>
                                                 <div class="mt-3">
-                                                    <a href="{{ Storage::url($contract->file) }}" target="_blank"
+                                                    <a href="/storage/{{ $contract->file }}" target="_blank"
                                                         class="btn btn-info btn-sm">Xem hợp đồng</a>
-
                                                     <form action="{{ route('contract.confirm', $contract->id) }}"
                                                         method="POST" class="d-inline">
                                                         @csrf
