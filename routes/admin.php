@@ -63,7 +63,7 @@ Route::prefix('employees')
         Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
     });
-Route::prefix('orderconfirm')
+    Route::prefix('nhan-vien-lai-xe')
     ->as('orderconfirm.')
     ->group(function () {
         Route::get('/404-not-found', [TripManagementController::class, 'notFound'])->name('notfound');
@@ -337,4 +337,7 @@ Route::middleware('CheckEmployees')->group(
             Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject');
 
         }
+
+
+
 );
