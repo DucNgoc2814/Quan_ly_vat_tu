@@ -15,9 +15,10 @@
             <span class="logo-sm">
                 <img src="{{ asset('themes/admin/assets/assets/images/logo-sm.png') }}" alt="" height="22">
             </span>
-            <span class="logo-lg">
-                <img src="{{ asset('themes/admin/assets/images/logo-light.png') }}" alt="" height="17">
-            </span>
+            <a href="index.html" class="d-block">
+                <img src="{{ asset('themes/admin/assets/images/gemo.png') }}" alt="" height="150"
+                    style="top: 50%; left: 50%; transform: translate(0%, -10%);">
+            </a>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
             id="vertical-hover">
@@ -237,11 +238,11 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="{{ route('logs.index') }}"  role="button"
+                    <a class="nav-link menu-link" href="{{ route('logs.index') }}" role="button"
                         aria-expanded="false" aria-controls="sidebarTrips">
                         <span data-key="t-layouts">Lịch sử thao tác</span>
                     </a>
-                    
+
                 </li>
 
             </ul>
