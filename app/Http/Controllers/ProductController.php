@@ -35,11 +35,12 @@ class ProductController extends Controller
      */
     public function create()
     {
+        $listProduct =Product::pluck('name');
         $attributesArray = Attribute::with('attributeValues')->get()->toArray();
         $categories = Category::pluck('name', 'id');
         $brands =  Brand::pluck('name', 'id');
         $units =  Unit::pluck('name', 'id');
-        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units', 'attributesArray'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units', 'attributesArray', 'listProduct'));
     }
 
     /**
@@ -84,6 +85,11 @@ class ProductController extends Controller
                         $variation->attributeValues()->attach($variantData['attribute_value_ids']);
                     }
                 } else {
+
+                // Tạo các biến thể
+                foreach ($request->variants as $variantData) {
+                    $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
+
                     $variation = Variation::create([
                         'product_id' => $product->id,
                         'sku' => Str::upper($this->generateUniqueSku()),
@@ -109,6 +115,8 @@ class ProductController extends Controller
     public function edit($slug)
     {
         $product = Product::with('variations')->where('slug', $slug)->firstOrFail();
+        $listProduct = Product::pluck('name');
+        $product = Product::with('variations')->findOrFail($id);
         $categories = Category::pluck('name', 'id');
         $units = Unit::pluck('name', 'id');
         $brands = Brand::pluck('name', 'id');
@@ -119,7 +127,7 @@ class ProductController extends Controller
             ->get();
         $attributesArray = Attribute::with('attributeValues')->get();
 
-        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray', 'listProduct'));
     }
 
     public function update(UpdateProductRequest $request, $slug)
@@ -128,6 +136,10 @@ class ProductController extends Controller
             DB::transaction(function () use ($request, $slug) {
                 $product = Product::with('galleries', 'variations')->where('slug', $slug)->firstOrFail();
 
+            DB::transaction(function () use ($request, $id) {
+                $product = Product::findOrFail($id);
+
+                // Lấy tên sản phẩm cũ để so sánh
                 $oldName = $product->name;
                 $newName = $request->name;
 

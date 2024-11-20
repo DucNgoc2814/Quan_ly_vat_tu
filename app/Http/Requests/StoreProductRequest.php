@@ -49,7 +49,6 @@ class StoreProductRequest extends FormRequest
 
         return $rules;
     }
-
     /**
      * Custom validation error messages.
      */

@@ -32,9 +32,13 @@ class StoreOrderRequest extends FormRequest
             'variation_id.*' => 'exists:variations,id',
             'product_quantity' => 'required|array',
             'product_quantity.*' => [
-                'numeric',
+                'required',
+                'integer',
                 'min:1',
                 function ($attribute, $value, $fail) {
+                    if (!is_numeric($value)) {
+                        return;  // Skip stock validation if value is not numeric
+                    }
                     $index = explode('.', $attribute)[1];
                     $variationId = $this->input('variation_id')[$index];
                     $variation = \App\Models\Variation::find($variationId);
@@ -74,11 +78,11 @@ class StoreOrderRequest extends FormRequest
             'variation_id.*.exists' => 'Sản phẩm không tồn tại.',
 
             'product_quantity.required' => 'Vui lòng nhập số lượng cho mỗi sản phẩm.',
+            'product_quantity.*.required' => 'Vui lòng nhập số lượng sản phẩm.',
             'product_quantity.array' => 'Dữ liệu số lượng sản phẩm không hợp lệ.',
-            'product_quantity.*.numeric' => 'Số lượng sản phẩm phải là số.',
-            'product_quantity.*.min' => 'Số lượng sản phẩm phải lớn hơn 0.',
+            'product_quantity.*.integer' => 'Số lượng phải là số nguyên.',
+            'product_quantity.*.min' => 'Số lượng phải lớn hơn 0.',
 
-            // 'paid_amount.required' => 'Vui lòng nhập số tiền đã trả.',
             'paid_amount.numeric' => 'Số tiền đã trả phải là số.',
             'paid_amount.min' => 'Số tiền đã trả không được âm.',
             'paid_amount.lte' => 'Số tiền đã trả không được lớn hơn tổng giá trị đơn hàng.',
