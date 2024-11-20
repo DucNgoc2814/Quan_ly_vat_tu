@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\LogService;
+
 class Contract extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'employee_id',
         'contract_status_id',
-        'contract_name',
+        'contract_number',
         'customer_name',
         'customer_phone',
         'customer_email',
+        'total_amount',
         'file',
         'verification_token'
     ];
@@ -21,6 +24,14 @@ class Contract extends Model
     public function contractStatus()
     {
         return $this->belongsTo(Contract_status::class);
+    }
+    public function paymentHistories()
+    {
+        return $this->hasMany(Payment_history::class);
+    }
+    public function employee()
+    {
+        return $this->hasOne(Employee::class);
     }
     protected static function booted()
     {

@@ -45,7 +45,10 @@ class Employee extends Authenticatable implements JWTSubject
     {
         return $this->getKey();
     }
-
+    public function contract()
+    {
+        return $this->hasOne(contract::class);
+    }
     public function getJWTCustomClaims()
     {
         return [

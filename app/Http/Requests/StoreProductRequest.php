@@ -27,12 +27,12 @@ class StoreProductRequest extends FormRequest
             'unit_id' => 'required|exists:units,id',
             'brand_id' => 'required|exists:brands,id',
             'name' => 'required|string|max:255|unique:products,name',
-            'price' => 'required|numeric|min:0',
-            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:1|max:1000000000',
+            'description' => 'required|string',
             'is_active' => 'boolean',
             'product_images' => 'required',
             'product_images.*' => 'required|image|mimes:jpeg,png,jpg,gif',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
         ];
 
         // Kiểm tra nếu product_type là "1" (sản phẩm biến thể)
@@ -41,10 +41,10 @@ class StoreProductRequest extends FormRequest
             $rules['variants.*.attribute_value_ids'] = 'required|array';
             $rules['variants.*.attribute_value_values'] = 'required|array';
             $rules['variants.*.attribute_value_ids.*'] = 'exists:attribute_values,id';
-            $rules['variants.*.price'] = 'nullable|numeric|min:0';
-            $rules['variants.*.stock'] = 'required|integer|min:0';
+            $rules['variants.*.price'] = 'nullable|numeric|min:1|max:1000000000';
+            $rules['variants.*.stock'] = 'required|numeric|min:1|max:10000';
         } else {
-            $rules['quantity'] = 'required|integer|min:0';
+            $rules['quantity'] = 'required|numeric|min:1|max:10000';
         }
 
         return $rules;
@@ -94,6 +94,10 @@ class StoreProductRequest extends FormRequest
             'quantity.required' => 'Vui lòng nhập số lượng sản phẩm.',
             'quantity.integer' => 'Số lượng phải là một số nguyên.',
             'quantity.min' => 'Số lượng không được nhỏ hơn 0.',
+            'price.max' => 'Giá không được vượt quá 1,000,000,000 VNĐ',
+            'quantity.max' => 'Số lượng không được vượt quá 10,000',
+            'variants.*.price.max' => 'Giá biến thể không được vượt quá 1,000,000,000 VNĐ',
+            'variants.*.stock.max' => 'Số lượng biến thể không được vượt quá 10,000',
         ];
     }
 }

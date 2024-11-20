@@ -11,7 +11,7 @@
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn vị</a></li>
                         <li class="breadcrumb-item active">{{$title}}</li>
                     </ol>
                 </div>
@@ -29,7 +29,7 @@
                             <div class="d-flex justify-content-sm-end">
                                 <form class="search-box ms-2" method="GET" action="">
                                     <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm bài viết...">
+                                        placeholder="Tìm kiếm...">
                                     <i class="ri-search-line search-icon"></i>
                                 </form>
                             </div>
@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="mt-3">
-                            <button class = "btn btn-success text ">Submit</button>
+                            <button class = "btn btn-success text ">Cập nhật</button>
                         </div>
                     </form>
                 </div>

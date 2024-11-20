@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('feedbacks', function (Blueprint $table) {
+        Schema::create('payment_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
-            $table->string('email', 255);
-            $table->integer('number_phone');
-            $table->text('content');
-            $table->date('created_at');
+            $table->foreignId('contract_id')->constrained('contracts');
+            $table->string('name');
+            $table->integer('amount');
+            $table->string('document');
+            $table->timestamps();
         });
     }
 
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('feedbacks');
+        Schema::dropIfExists('payment_histories');
     }
 };
