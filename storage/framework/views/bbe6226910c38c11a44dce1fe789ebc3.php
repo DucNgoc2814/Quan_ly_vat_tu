@@ -4,21 +4,19 @@
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="<?php echo e(asset('themes/admin/assets/images/logo-dark.png')); ?>" alt="123" height="150" >
+                <img src="<?php echo e(asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png')); ?>" alt="" height="180">
             </span>
             <span class="logo-lg">
-                <img src="<?php echo e(asset('themes/admin/assets/images/logo-dark.png')); ?>" alt="1231" height="100%">
+                <img src="<?php echo e(asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png')); ?>" alt="" height="180">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="index.html" class="logo logo-light">
             <span class="logo-sm">
-                <img src="<?php echo e(asset('themes/admin/assets/images/logoweb.png')); ?>"
-                alt="" height="150" style="top: 50%; left: 50%; transform: translate(-30%, -30%);">
+                <img src="<?php echo e(asset('themes/admin/assets/assets/images/Gemo__1_-removebg-preview.png')); ?>" alt="" height="180">
             </span>
             <span class="logo-lg">
-                <img src="<?php echo e(asset('themes/admin/assets/images/logoweb.png')); ?>"
-                    alt="" height="150" style="top: 50%; left: 50%; transform: translate(-30%, -30%);">
+                <img src="<?php echo e(asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png')); ?>" alt="" height="180">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"

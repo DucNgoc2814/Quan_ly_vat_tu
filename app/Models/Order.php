@@ -13,6 +13,7 @@ class Order extends Model
         'payment_id',
         'customer_id',
         'status_id',
+        'contract_id',
         'slug',
         'customer_name',
         'email',
@@ -77,7 +78,8 @@ class Order extends Model
     {
         return $this->hasMany(OrderStatusTime::class);
     }
-    public function tripDetail() {
+    public function tripDetail()
+    {
         return $this->hasOne(Trip_detail::class);
     }
 }

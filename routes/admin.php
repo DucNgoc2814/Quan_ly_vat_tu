@@ -164,8 +164,8 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/confirm/{id}', [ContractController::class, 'confirmContract'])->name('confirm');
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
 
-                Route::get('/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove');
-                Route::get('/tu-choi/{id}', [ContractController::class, 'customerReject'])->name('customerReject');
+                Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove');
+                Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject');
 
                 Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove');
                 Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject');
@@ -177,6 +177,7 @@ Route::middleware('CheckEmployees')->group(
             ->as('order.')
             ->group(function () {
                 Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index');
+                Route::get('/them-don-hang-co-hop-dong/{contract_id}', [OrderController::class, 'createordercontract'])->name('createordercontract');
                 Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create');
                 Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store');
                 Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit');
@@ -331,7 +332,8 @@ Route::middleware('CheckEmployees')->group(
                 Route::put('/sua/{id}', [AttributeController::class, 'update'])->name('update');
             });
 
-        Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm');
-        Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject');
-    }
+            Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm');
+            Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject');
+
+        }
 );

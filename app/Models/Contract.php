@@ -18,8 +18,14 @@ class Contract extends Model
         'customer_email',
         'total_amount',
         'file',
+        'timestart',
+        'timeend',
         'verification_token'
     ];
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 
     public function contractStatus()
     {

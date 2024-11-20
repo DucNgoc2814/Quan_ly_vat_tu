@@ -499,8 +499,8 @@
                         </div>
                     </div>
                 </label>
-                <input class="form-control d-none" id="product-image-${imageCount-1}" 
-                    type="file" accept="image/png, image/gif, image/jpeg" 
+                <input class="form-control d-none" id="product-image-${imageCount-1}"
+                    type="file" accept="image/png, image/gif, image/jpeg"
                     name="product_images[]" onchange="displayImage(event, ${imageCount-1})">
             </div>
             <div class="avatar-lg">
@@ -508,7 +508,7 @@
                     <img src="" id="product-img-${imageCount-1}" class="avatar-md h-auto" />
                 </div>
             </div>
-            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0" 
+            <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0"
                 onclick="removeImageInput('image-container-${imageCount-1}')">
                 <i class="ri-delete-bin-line"></i>
             </button>

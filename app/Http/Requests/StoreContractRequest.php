@@ -22,7 +22,6 @@ class StoreContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'contract_name' => 'required|string|max:255',
             'customer_name' => 'required|string|max:255',
             'customer_phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:10',
             'customer_email' => 'required|email|max:255',
