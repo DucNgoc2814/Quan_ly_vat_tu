@@ -382,18 +382,6 @@
                 checkSubmit = true;
             }
         });
-        product_images[0].addEventListener('change', () => {
-            if (!product_images.value) {
-                document.querySelector('.err-product_images').innerText =
-                    'Vui lòng chọn ít nhất 1 ảnh sản phẩm';
-                product_images.style = "border: 2px solid red;"
-                checkSubmit = false;
-            } else {
-                product_images.style = "border: 2px solid green;"
-                document.querySelector('.err-product_images').innerText = '';
-                checkSubmit = true;
-            }
-        });
         unit_id.addEventListener('change', () => {
             if (!unit_id.value) {
                 document.querySelector('.err-unit_id').innerText =
@@ -570,8 +558,8 @@
                 <div class="col-md-2">
                     <div class="mb-2">
                         <label class="form-label">Số lượng</label>
-                        <input type="number" class="form-control" name="variants[${id}][stock]" 
-                    min="0" placeholder="Nhập số lượng"> 
+                        <input type="number" class="form-control" name="variants[${id}][stock]"
+                    min="0" placeholder="Nhập số lượng">
                     </div>
                 </div>
                 <div class="col-md-1 d-flex align-items-center">

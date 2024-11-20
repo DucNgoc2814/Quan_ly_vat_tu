@@ -179,6 +179,7 @@ Route::middleware('CheckEmployees')->group(
             ->as('order.')
             ->group(function () {
                 Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index');
+                Route::get('/them-don-hang-co-hop-dong/{contract_id}', [OrderController::class, 'createordercontract'])->name('createordercontract');
                 Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create');
                 Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store');
                 Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit');

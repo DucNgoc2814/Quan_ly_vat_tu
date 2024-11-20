@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('customer_name', 255);
             $table->string('customer_phone', 10);
             $table->string('customer_email', 255);
+            $table->datetime('timestart');
+            $table->datetime('timeend');
             $table->timestamps();
         });
     }

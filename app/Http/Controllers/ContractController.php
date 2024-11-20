@@ -42,14 +42,18 @@ class ContractController extends Controller
      */
     public function store(StoreContractRequest $request)
     {
+        // dd($request->all());
         try {
+            $contractNumber = 'HDB' . str_pad(random_int(0, 99999), 5, '0', STR_PAD_LEFT);
             // 1. Tạo hợp đồng mới với trạng thái mặc định là 1 (đang chờ)
             $contract = Contract::create([
                 'contract_status_id' => 1,
-                'contract_name' => $request->contract_name,
+                'contract_name' => $contractNumber,
                 'customer_name' => $request->customer_name,
                 'customer_phone' => $request->customer_phone,
                 'customer_email' => $request->customer_email,
+                "timestart" => $request->timestart,
+                "timeend" => $request->timeend,
                 'file' => null
             ]);
 
@@ -60,10 +64,12 @@ class ContractController extends Controller
             if (!empty($variations) && count($variations) > 0) {
                 foreach ($variations as $key => $variation_id) {
                     if ($variation_id != 0 && isset($quantities[$key]) && $quantities[$key] > 0) {
+                        $prices = $request->price ?? [];
                         ContractDetail::create([
                             'contract_id' => $contract->id,
                             'variation_id' => $variation_id,
-                            'quantity' => $quantities[$key]
+                            'quantity' => $quantities[$key],
+                            "price" => $prices[$key],
                         ]);
                     }
                 }
@@ -80,6 +86,7 @@ class ContractController extends Controller
                 ->route('contract.index')
                 ->with('success', 'Tạo hợp đồng thành công!');
         } catch (Exception $e) {
+            // dd($request->all());
             return back()
                 ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
@@ -88,47 +95,56 @@ class ContractController extends Controller
 
     public function exportContractToWord($contract, $request)
     {
-        // Đường dẫn đến file Word mẫu
-        $templatePath = storage_path('app/public/templates/hop-dong.docx'); // Giả sử file mẫu nằm trong thư mục storage
-
-        // Tạo đối tượng TemplateProcessor để tải file mẫu
+        $templatePath = storage_path('app/public/templates/hop-dong.docx');
         $templateProcessor = new TemplateProcessor($templatePath);
 
-        // Thay thế các placeholder trong template bằng dữ liệu hợp đồng
+        // Thay thế các thông tin cơ bản
         $templateProcessor->setValue('contract_name', $contract->contract_name);
         $templateProcessor->setValue('customer_name', $contract->customer_name);
         $templateProcessor->setValue('customer_phone', $contract->customer_phone);
         $templateProcessor->setValue('customer_email', $contract->customer_email);
 
-        // Kiểm tra và thêm thông tin chi tiết hợp đồng (sản phẩm)
-        $productsText = "";
+        // Chuẩn bị dữ liệu cho bảng
         $variations = $request->variation_id ?? [];
         $quantities = $request->quantity ?? [];
+        $prices = $request->price ?? [];
 
-        if (!empty($variations) && count($variations) > 0) {
-            foreach ($variations as $key => $variationID) {
-                if ($variationID != 0 && isset($quantities[$key])) {
-                    $variation = Variation::find($variationID);
-                    $productName = $variation->name ?? 'Null';
-                    $productQuantity = $quantities[$key];
-                    $productsText .= $productName . " | Quantity: " . $productQuantity . "\n";
-                }
+        $tableData = [];
+        $totalAmount = 0;
+
+        foreach ($variations as $key => $variationID) {
+            if ($variationID != 0 && isset($quantities[$key])) {
+                $variation = Variation::find($variationID);
+                $quantity = $quantities[$key];
+                $price = $prices[$key];
+                $subtotal = $quantity * $price;
+                $totalAmount += $subtotal;
+
+                $tableData[] = [
+                    'stt' => $key + 1,
+                    'product_name' => $variation->name ?? 'N/A',
+                    'quantity' => number_format($quantity),
+                    'price' => number_format($price) . ' VNĐ',
+                    'subtotal' => number_format($subtotal) . ' VNĐ'
+                ];
             }
         }
 
-        // Thay thế thông tin sản phẩm trong template
-        $templateProcessor->setValue('products', $productsText);
+        // Thêm dữ liệu vào bảng
+        $templateProcessor->cloneRowAndSetValues('stt', $tableData);
 
-        // Lưu file Word mới
+        // Thêm tổng tiền và thời gian
+        $templateProcessor->setValue('total_amount', number_format($totalAmount) . ' VNĐ');
+        $templateProcessor->setValue('timestart', date('d/m/Y', strtotime($contract->timestart)));
+        $templateProcessor->setValue('timeend', date('d/m/Y', strtotime($contract->timeend)));
+
         $newFileName = 'Hopdong_' . $contract->id . '.docx';
         $newFilePath = storage_path('app/public/contracts/' . $newFileName);
-
-        // Lưu file đã chỉnh sửa vào thư mục public
         $templateProcessor->saveAs($newFilePath);
 
-        // Trả về file cho người dùng hoặc có thể tự động lưu vào thư mục
         return 'contracts/' . $newFileName;
     }
+
 
     public function sendToManager($id)
     {
@@ -238,9 +254,7 @@ class ContractController extends Controller
 
     public function edit(Contract $contract_number)
     {
-        $data = Contract::where('contract_number', $contract_number)->firstOrFail();
-        dd($data);
-        return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
+
     }
 
     /**
@@ -248,32 +262,6 @@ class ContractController extends Controller
      */
     public function update(UpdateContractRequest $request, Contract $contract)
     {
-        $data = $request->validated();
-        $filePath = null;
-
-        try {
-            if ($request->hasFile('file')) {
-                if ($contract->file && Storage::disk('public')->exists($contract->file)) {
-                    Storage::disk('public')->delete($contract->file);
-                }
-                $filePath = $request->file('file')->store('contracts', 'public');
-            }
-            $contract->update([
-                'contract_number' => $data['contract_number'],
-                'customer_name' => $data['customer_name'],
-                'customer_email' => $data['customer_email'],
-                'number_phone' => $data['number_phone'],
-                'total_amount' => $data['total_amount'],
-                'note' => $data['note'],
-                'file' => $filePath ? $filePath : $contract->file,
-            ]);
-
-            return redirect()
-                ->route('contract.index')
-                ->with('success', 'Cập nhật hợp đồng thành công!');
-        } catch (Exception $exception) {
-            return back()->with('error', $exception->getMessage());
-        }
     }
 
 
