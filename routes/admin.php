@@ -171,6 +171,8 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove');
                 Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject');
 
+                Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove');
+                Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject');
 
                 Route::get('/sua/{contract_number}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:30');
                 Route::put('/sua/{contract_number}', [ContractController::class, 'update'])->name('update')->middleware('permission:30');

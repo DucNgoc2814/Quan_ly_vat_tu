@@ -91,8 +91,6 @@ class ContractController extends Controller
                 ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
-
-
     public function exportContractToWord($contract, $request)
     {
         $templatePath = storage_path('app/public/templates/hop-dong.docx');
@@ -198,6 +196,8 @@ class ContractController extends Controller
 
         $baseUrl = config('app.url');
 
+        $baseUrl = config('app.url');
+
         Mail::send('emails.contract', [
             'contract' => $contract,
             'token' => $token,
@@ -218,8 +218,11 @@ class ContractController extends Controller
     }
 
 
+
     public function customerApprove($id)
     {
+        $contract = Contract::findOrFail($id)->where('verification_token', request('token'))
+            ->firstOrFail();
         $contract = Contract::findOrFail($id)->where('verification_token', request('token'))
             ->firstOrFail();
         if ($contract->contract_status_id == 6 || $contract->contract_status_id == 7) {
@@ -235,7 +238,6 @@ class ContractController extends Controller
         $contract = Contract::findOrFail($id);
         if ($contract->contract_status_id == 6 || $contract->contract_status_id == 7) {
             return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
-
         }
         $contract->contract_status_id = 7;
         $contract->save();
@@ -243,6 +245,10 @@ class ContractController extends Controller
         return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
     }
 
+
+    /**
+     * Display the specified resource.
+     */
 
     /**
      * Display the specified resource.
@@ -262,6 +268,32 @@ class ContractController extends Controller
      */
     public function update(UpdateContractRequest $request, Contract $contract)
     {
+        $data = $request->validated();
+        $filePath = null;
+
+        try {
+            if ($request->hasFile('file')) {
+                if ($contract->file && Storage::disk('public')->exists($contract->file)) {
+                    Storage::disk('public')->delete($contract->file);
+                }
+                $filePath = $request->file('file')->store('contracts', 'public');
+            }
+            $contract->update([
+                'contract_number' => $data['contract_number'],
+                'customer_name' => $data['customer_name'],
+                'customer_email' => $data['customer_email'],
+                'number_phone' => $data['number_phone'],
+                'total_amount' => $data['total_amount'],
+                'note' => $data['note'],
+                'file' => $filePath ? $filePath : $contract->file,
+            ]);
+
+            return redirect()
+                ->route('contract.index')
+                ->with('success', 'Cập nhật hợp đồng thành công!');
+        } catch (Exception $exception) {
+            return back()->with('error', $exception->getMessage());
+        }
     }
 
 
