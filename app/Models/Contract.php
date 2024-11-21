@@ -42,4 +42,8 @@ class Contract extends Model
             LogService::addLog('Xóa', $model);
         });
     }
+    public function contractDetails()
+    {
+        return $this->hasMany(ContractDetail::class);
+    }
 }
