@@ -15,6 +15,7 @@ class Contract extends Model
         'customer_phone',
         'customer_email',
         'file',
+        'file_pdf',
         'timestart',
         'timeend',
         'verification_token'
