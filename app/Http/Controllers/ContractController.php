@@ -200,7 +200,17 @@ class ContractController extends Controller
             return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
+    public function sendToManagerPdf($id)
+    {
+        $contract = Contract::findOrFail($id);
+        session()->push('pending_contract_pdfs', [
+            'contract' => $contract,
+            'timestamp' => now()->timestamp
+        ]);
 
+        return redirect()->route('contract.index')
+            ->with('success', 'Đã gửi hợp đồng cho giám đốc thành công');
+    }
     public function confirmContract($id)
     {
         try {
@@ -262,10 +272,6 @@ class ContractController extends Controller
 
         return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
     }
-
-
-
-
     public function customerApprove($id)
     {
         $contract = Contract::findOrFail($id)->where('verification_token', request('token'))
@@ -290,6 +296,12 @@ class ContractController extends Controller
         $contract->save();
 
         return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
+    }
+    public function showPdf($id)
+    {
+        $contract = Contract::findOrFail($id);
+        $pdfPath = public_path("storage/contracts/Hopdong_{$id}.pdf");
+        return response()->file($pdfPath);
     }
 
 
