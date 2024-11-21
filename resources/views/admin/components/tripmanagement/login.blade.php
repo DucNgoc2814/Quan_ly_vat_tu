@@ -45,7 +45,7 @@
                                         <div class="position-relative h-100 d-flex flex-column">
                                             <div class="mb-4">
                                                 <a href="index.html" class="d-block">
-                                                    <img src="{{ asset('themes/admin/assets/images/gemo.png') }}"
+                                                    <img src="{{ asset('themes/admin/assets/images/gemo1.png') }}"
                                                         alt="" height="150" style="top: 50%; left: 50%; transform: translate(-30%, -30%);">
                                                 </a>
                                             </div>

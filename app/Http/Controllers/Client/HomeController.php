@@ -22,8 +22,14 @@ class HomeController extends Controller
             ->paginate(4);
         return view('index', compact('categories', 'brands', 'products'));
     }
+
     public function contact()
     {
         return view('client.layouts.relates.contact');
+    }
+
+    public function about()
+    {
+        return view('client.layouts.relates.about');
     }
 }

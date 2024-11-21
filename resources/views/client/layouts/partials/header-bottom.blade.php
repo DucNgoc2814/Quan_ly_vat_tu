@@ -15,7 +15,7 @@
                 <div class="middle-menu pull-right">
                     <nav>
                         <ul class="middle-menu-list">
-                            <li><a href="{{ route('home') }}">home</a>
+                            <li><a href="{{ route('home') }}">Trang chủ</a>
                             </li>
                             <li><a href="{{ route('listProduct') }}">Cửa Hàng<i class="fa fa-angle-down"></i></a>
                                 <!-- Home Version Dropdown Start -->
@@ -28,7 +28,7 @@
                                 </ul>
                                 <!-- Home Version Dropdown End -->
                             </li>
-                            <li><a href="about.html">Giới thiệu</a></li>
+                            <li><a href="{{ route('about') }}">Giới thiệu</a></li>
                             <li><a href="{{ route('contact') }}">Liên hệ với chúng tôi</a></li>
                         </ul>
                     </nav>
@@ -40,6 +40,37 @@
             <div class="col-auto">
                 <div class="cart-box text-end">
                     <ul>
+                        <li>
+                            <div class="user-icon-toggle">
+                                @if (Session::has('token'))
+                                    @if (Session::get('customer_image'))
+                                        <img src="{{ Storage::url(Session::get('customer_image')) }}" alt="User image"
+                                            class="img-circle" style="width: 30px; height: 30px; border-radius: 50%;">
+                                    @else
+                                        <i class="fa fa-user"></i>
+                                    @endif
+                                @else
+                                    <i class="fa fa-user"></i>
+                                @endif
+                            </div>
+                            <ul class="ht-dropdown">
+                                @if (Session::has('token'))
+                                    <li><a href="{{ route('profile') }}">Tài khoản</a></li>
+                                    <li><a href="{{ route('password') }}">Đổi mật khẩu</a></li>
+                                    <li><a href="{{ route('profileUser') }}">Cập nhật</a></li>
+                                    <form action="{{ route('logout') }}" method="POST">
+                                        @csrf
+                                        <li>
+                                            <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                        </li>
+                                    </form>
+                                @else
+                                    <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                    <li><a href="{{ route('register') }}">Đăng ký</a></li>
+                                    {{-- <li><a href="account.html">Tài khoản</a></li> --}}
+                                @endif
+                            </ul>
+                        </li>
                         <li><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
                         <li><a href="#"><i class="fa fa-shopping-basket"></i><span
                                     class="cart-counter">2</span></a>
@@ -84,39 +115,6 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <a href="compare.html">
-                                {{-- @if (Auth::check()) --}}
-                                    {{-- @if (Auth::user()->image)
-                                        <img src="{{ Storage::url($user->image) }}" alt="User image"
-                                            class="img-circle" style="width: 30px; height: 30px; border-radius: 50%;">
-                                    @else --}}
-                                    <i class="fa fa-user"></i>
-                                    {{-- @endif --}}
-                                {{-- @else --}}
-                                    {{-- <i class="fa fa-user"></i>
-                                @endif --}}
-                            </a>
-                            <ul class="ht-dropdown">
-                                @if (Auth::check())
-                                    <li><a href="{{ route('profile') }}">Tài khoản</a></li>
-                                    <li><a href="{{ route('password') }}">Đổi mật khẩu</a></li>
-                                    <li><a href="{{ route('profileUser') }}">Cập nhật</a></li>
-                                    <form action="{{ route('logout') }}" method="POST">
-                                        @csrf
-                                        <li>
-                                            <a href="">
-                                                <button type="submit" class="dropdown-item">Đăng xuất</button>
-                                            </a>
-                                        </li>
-                                    </form>
-                                @else
-                                    <li><a href="{{ route('login') }}">Đăng nhập</a></li>
-                                    <li><a href="{{ route('register') }}">Đăng ký</a></li>
-                                    <li><a href="account.html">Tài khoản</a></li>
-                                @endif
-                            </ul>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -124,13 +122,12 @@
                 <div class="mobile-menu">
                     <nav>
                         <ul>
-                            <li><a href="index.html">Trang chủ</a>
+                            <li><a href="{{ route('home') }}">Trang chủ</a>
                             </li>
-                            <li><a href="shop.html">shop</a>
+                            <li><a href="{{ route('listProduct') }}">Cửa Hàng</a>
                                 <!-- Mobile Menu Dropdown Start -->
                                 <ul>
-                                    <li><a href="product.html">Shop</a>
-
+                                    {{-- <li><a href="{{ route('listProduct') }}">Cửa Hàng</a>
                                         <ul>
                                             <li><a href="shop.html">Product Category Name</a>
                                                 <!-- Start Three Step -->
@@ -143,31 +140,22 @@
                                             <li><a href="shop.html">Product Category Name</a></li>
                                             <li><a href="shop.html">Product Category Name</a></li>
                                         </ul>
-                                    </li>
-                                    <li><a href="product.html">product details Page</a></li>
+                                    </li> --}}
+                                    {{-- <li><a href="product.html">product details Page</a></li>
                                     <li><a href="compare.html">Compare Page</a></li>
                                     <li><a href="cart.html">Cart Page</a></li>
                                     <li><a href="checkout.html">Checkout Page</a></li>
-                                    <li><a href="wishlist.html">Wishlist Page</a></li>
+                                    <li><a href="wishlist.html">Wishlist Page</a></li> --}}
+                                    @foreach ($category as $categorie)
+                                        <li><a
+                                                href="{{ route('listProductWCategory', $categorie->sku) }}">{{ $categorie->name }}</a>
+                                        </li>
+                                    @endforeach
                                 </ul>
                                 <!-- Mobile Menu Dropdown End -->
                             </li>
-                            <li><a href="blog.html">Blog</a>
-                                <!-- Mobile Menu Dropdown Start -->
-                                <ul>
-                                    <li><a href="blog-details.html">Blog Details Page</a></li>
-                                </ul>
-                                <!-- Mobile Menu Dropdown End -->
-                            </li>
-                            <li><a href="#">pages</a>
-                                <!-- Mobile Menu Dropdown Start -->
-                                <ul>
-                                    <li><a href="login.html">login Page</a></li>
-                                    <li><a href="register.html">Register Page</a></li>
-                                    <li><a href="404.html">404 Page</a></li>
-
-                                </ul>
-                            </li>
+                            <li><a href="{{ route('about') }}">Giới thiệu</a>
+                            <li><a href="{{ route('contact') }}">Liên hệ với chúng tôi</a>
                         </ul>
                     </nav>
                 </div>

@@ -117,3 +117,20 @@
 .slick-arrow.slick-hidden {
     display: none;
 }
+
+.user-icon-toggle {
+    display: inline-block;
+    line-height: normal;
+    font-size: 14px; 
+}
+
+.user-icon-toggle i {
+    padding: 10px;
+}
+
+.cart-box ul li {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+

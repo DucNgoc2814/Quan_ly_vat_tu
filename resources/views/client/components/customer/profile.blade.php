@@ -10,8 +10,8 @@
         <div class="container">
             <div class="breadcrumb">
                 <ul>
-                    <li><a href="index.html">Trang chủ</a></li>
-                    <li class="active"><a href="login.html">Thông tin tài khoản</a></li>
+                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
+                    <li class="active">Thông tin tài khoản</li>
                 </ul>
             </div>
         </div>
@@ -26,7 +26,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col-lg-3 col-md-6">
                             <div class="d-single-info">
-                                <p class="user-name">Xin chào <span>yourmail@info</span></p>
+                                <p class="user-name">Xin chào <span>{{ $user->name }}</span></p>
                                 <p>(not yourmail@info? <a href="#">Log Out</a>)</p>
                             </div>
                         </div>
@@ -109,76 +109,62 @@
                                 <p>Việt Nam</p>
                             </div>
                             <div id="account-details" class="tab-pane fade">
-                                <h3>Chi tiết tài khoản </h3>
-                                <form action="{{ route('updateProfile') }}" method="post" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="register-form login-form clearfix">
-                                        <div class="card mt-n5">
-                                            <div class="card-body p-3">
-                                                <div class="text-center">
-                                                    <div class="profile-user position-relative d-inline-block mx-auto mb-3">
+                                <h3>Chi tiết tài khoản</h3>
+                                <div class="register-form login-form clearfix">
+                                    <div class="card mt-n5">
+                                        <div class="card-body p-3">
+                                            <div class="text-center">
+                                                <div class="profile-user position-relative d-inline-block mx-auto mb-3">
+                                                    @if ($user->image)
                                                         <img src="{{ Storage::url($user->image) }}"
                                                             class="rounded-circle avatar-xl img-thumbnail user-profile-image"
                                                             alt="user-profile-image">
-                                                        <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                                            <input id="profile-img-file-input" type="file"
-                                                                class="profile-img-file-input" name="image">
-                                                            <label for="profile-img-file-input"
-                                                                class="profile-photo-edit avatar-xs">
-                                                                <span
-                                                                    class="avatar-title rounded-circle bg-light text-body">
-                                                                    <i class="ri-camera-fill"></i>
-                                                                </span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <h4 class="fs-16">{{ $user->name }}</h4>
+                                                    @else
+                                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-1.jpg') }}"
+                                                            class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                                                            alt="user-profile-image">
+                                                    @endif
                                                 </div>
+                                                <h4 class="fs-16">{{ Session::get('customer_name') }}</h4>
                                             </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="f-name" class="col-lg-3 col-md-4 col-form-label">Tên tài
-                                                khoản</label>
-                                            <div class="col-lg-6 col-md-8">
-                                                <input type="text" class="form-control" id="f-name" name="nameupdate"
-                                                    value="{{ $user->name }}">
-                                            </div>
-                                            @error('nameupdate')
-                                                <label for="" class="text-danger">{{ $message }}</label>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="email" class="col-lg-3 col-md-4 col-form-label">Địa chỉ
-                                                email</label>
-                                            <div class="col-lg-6 col-md-8">
-                                                <input type="text" class="form-control" id="email"
-                                                    value="{{ $user->email }}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputpassword" class="col-lg-3 col-md-4 col-form-label">Số điện
-                                                thoại</label>
-                                            <div class="col-lg-6 col-md-8">
-                                                <input type="text" class="form-control" id="number_phone"
-                                                    value="{{ $user->number_phone }}" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputpassword" class="col-lg-3 col-md-4 col-form-label">Tổng tiền
-                                                đã mua hàng</label>
-                                            <div class="col-lg-6 col-md-8">
-                                                <label for="inputpassword"
-                                                    class="col-lg-3 col-md-4 col-form-label">{{ $user->amount }}
-                                                    VNĐ</label>
-                                            </div>
-                                        </div>
-                                        <div class="register-box mt-40">
-                                            <button type="submit" class="return-customer-btn f-right">Cập nhật tài
-                                                khoản</button>
                                         </div>
                                     </div>
-                                </form>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-md-4">Tên tài khoản:</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            <span>{{ $user->name }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-md-4">Địa chỉ email:</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            <span>{{ $user->email }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-md-4">Số điện thoại:</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            <span>{{ $user->number_phone }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-md-4">Tổng tiền đã mua hàng:</label>
+                                        <div class="col-lg-6 col-md-8">
+                                            <span>{{ $user->amount }} VNĐ</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="register-box mt-40">
+                                        <a href="{{ route('profileUser') }}" class="return-customer-btn f-right">Cập nhật
+                                            tài khoản</a>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </div>
                 </div>

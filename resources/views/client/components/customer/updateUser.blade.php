@@ -10,8 +10,8 @@
         <div class="container">
             <div class="breadcrumb">
                 <ul>
-                    <li><a href="index.html">Trang chủ</a></li>
-                    <li class="active"><a href="login.html">Cập nhật tài khoản</a></li>
+                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
+                    <li class="active">Cập nhật tài khoản</li>
                 </ul>
             </div>
         </div>
@@ -62,10 +62,10 @@
                                         <label for="f-name" class="col-lg-3 col-md-4 col-form-label">Tên tài
                                             khoản</label>
                                         <div class="col-lg-6 col-md-8">
-                                            <input type="text" class="form-control" id="f-name" name="nameupdate"
+                                            <input type="text" class="form-control" id="f-name" name="name"
                                                 value="{{ $user->name }}">
                                         </div>
-                                        @error('nameupdate')
+                                        @error('name')
                                             <label for="" class="text-danger">{{ $message }}</label>
                                         @enderror
                                     </div>
@@ -111,8 +111,7 @@
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}"
-                            alt="brand-image"></a>
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}" alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
                     <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/3.png') }}"

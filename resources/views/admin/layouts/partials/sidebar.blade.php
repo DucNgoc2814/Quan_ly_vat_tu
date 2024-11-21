@@ -16,7 +16,7 @@
                 <img src="{{ asset('themes/admin/assets/assets/images/logo-sm.png') }}" alt="" height="22">
             </span>
             <a href="index.html" class="d-block">
-                <img src="{{ asset('themes/admin/assets/images/gemo.png') }}" alt="" height="150"
+                <img src="{{ asset('themes/admin/assets/images/gemo1.png') }}" alt="" height="150"
                     style="top: 50%; left: 50%; transform: translate(0%, -10%);">
             </a>
         </a>
