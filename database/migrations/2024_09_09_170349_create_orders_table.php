@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('payment_id')->constrained('payments');
-            $table->foreignId('customer_id')->constrained('customers');
+            $table->foreignId('payment_id')->nullable()->constrained('payments');
+            $table->foreignId('customer_id')->nullable()->constrained('customers');
             $table->foreignId('status_id')->constrained('order_statuses');
             $table->foreignId('contract_id')->nullable()->constrained('contracts');
             $table->string('slug', 255);
             $table->string('customer_name', 255);
             $table->string('email', 255);
             $table->string('number_phone', 11);
-            $table->string('province', 255);
-            $table->string('district', 255);
-            $table->string('ward', 255);
-            $table->string('address', 255);
+            $table->string('province', 255)->nullable();
+            $table->string('district', 255)->nullable();
+            $table->string('ward', 255)->nullable();
+            $table->string('address', 255)->nullable();
             $table->integer('total_amount');
             $table->integer('paid_amount')->nullable();
             $table->text('cancel_reason')->nullable();

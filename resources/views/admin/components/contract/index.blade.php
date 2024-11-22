@@ -53,7 +53,7 @@
                                                 style="display:inline;">
                                                 @csrf
                                                 <button type="submit" class="btn btn-primary btn-sm">
-                                                    Gửi giám đốc
+                                                    Gửi giám đốc xác nhận
                                                 </button>
                                             </form>
                                         @elseif ($data->contract_status_id == 2)
@@ -71,37 +71,45 @@
 
                                     <td class="d-flex flex-column gap-2">
                                         @if ($data->contract_status_id == 1)
-                                            <a href="{{ route('contract.index', $data) }}" class="btn btn-primary btn-sm">
-                                                <i class="ri-pencil-fill align-bottom me-2"></i>Sửa
+                                            <a href="#" class="btn btn-info btn-sm"
+                                                onclick="showPdf({{ $data->id }})">
+                                                <i class="ri-eye-fill align-bottom me-2"></i>Xem
                                             </a>
                                         @elseif ($data->contract_status_id == 3 || $data->contract_status_id == 7)
-                                            <a href="{{ route('contract.index', $data) }}" class="btn btn-warning btn-sm">
+                                            <a href="#" class="btn btn-warning btn-sm"
+                                                onclick="showWord({{ $data->id }})">
                                                 <i class="ri-pencil-fill align-bottom me-2"></i>Thay đổi
                                             </a>
-                                            <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST">
+                                            <form action="{{ route('contract.sendToManagerPdf', $data->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm w-100">
                                                     <i class="ri-send-plane-fill align-bottom me-2"></i>Gửi giám đốc
                                                 </button>
                                             </form>
                                         @elseif ($data->contract_status_id == 6)
-                                            <a href="{{ route('contract.index', $data) }}" class="btn btn-info btn-sm">
+                                            <a href="#" class="btn btn-info btn-sm"
+                                                onclick="showPdf({{ $data->id }})">
                                                 <i class="ri-eye-fill align-bottom me-2"></i>Xem
                                             </a>
-                                            <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST">
+                                            <form action="{{ route('contract.sendToManagerPdf', $data->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm w-100">
                                                     <i class="ri-send-plane-fill align-bottom me-2"></i>Gửi giám đốc
                                                 </button>
                                             </form>
-                                            <a href="{{ route('order.createordercontract', ['contract_id' => $data->id]) }}" class="btn btn-primary btn-sm">
+                                            <a href="{{ route('order.createordercontract', ['contract_id' => $data->id]) }}"
+                                                class="btn btn-primary btn-sm">
                                                 <i class="ri-add-fill align-bottom me-2"></i>Tạo đơn hàng
                                             </a>
                                         @else
-                                            <a href="{{ route('contract.index', $data) }}" class="btn btn-info btn-sm">
+                                            <a href="#" class="btn btn-info btn-sm"
+                                                onclick="showPdf({{ $data->id }})">
                                                 <i class="ri-eye-fill align-bottom me-2"></i>Xem
                                             </a>
-                                            <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST">
+                                            <form action="{{ route('contract.sendToManagerPdf', $data->id) }}"
+                                                method="POST">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm w-100">
                                                     <i class="ri-send-plane-fill align-bottom me-2"></i>Gửi giám đốc
@@ -119,3 +127,58 @@
     </div>
     {{ $contracts->links() }}
 @endsection
+
+<div class="modal fade" id="pdfModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xem hợp đồng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <embed id="pdfViewer" src="" type="application/pdf" width="100%" height="600px">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@push('scripts')
+    <script>
+        function showPdf(contractId) {
+            const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
+            document.getElementById('pdfViewer').src = pdfUrl;
+            new bootstrap.Modal(document.getElementById('pdfModal')).show();
+        }
+    </script>
+@endpush
+
+
+{{-- <div class="modal fade" id="wordModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Xem và chỉnh sửa hợp đồng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <iframe id="wordViewer" width="100%" height="600px" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+    <script>
+        function showWord(contractId) {
+            fetch(`{{ route('contract.showWord', '') }}/${contractId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const viewerUrl =
+                        `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(data.url)}`;
+                    document.getElementById('wordViewer').src = viewerUrl;
+                    new bootstrap.Modal(document.getElementById('wordModal')).show();
+                });
+        }
+    </script>
+@endpush --}}

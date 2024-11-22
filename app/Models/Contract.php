@@ -12,12 +12,14 @@ class Contract extends Model
     protected $fillable = [
         'employee_id',
         'contract_status_id',
+        'employee_id',
         'contract_number',
         'customer_name',
         'customer_phone',
         'customer_email',
         'total_amount',
         'file',
+        'file_pdf',
         'timestart',
         'timeend',
         'verification_token'
@@ -52,5 +54,9 @@ class Contract extends Model
         static::deleted(function ($model) {
             LogService::addLog('Xóa', $model);
         });
+    }
+    public function contractDetails()
+    {
+        return $this->hasMany(ContractDetail::class);
     }
 }

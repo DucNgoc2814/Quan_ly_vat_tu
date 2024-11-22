@@ -22,6 +22,9 @@ class ContractSeeder extends Seeder
             'customer_email' => 'nguyenvana@gmail.com',
             'total_amount' => 1000000,
             'file' => 'file.pdf',
+            'file_pdf' => 'file.pdf',
+            'timestart' => now(),
+            'timeend' => now(),
             'verification_token' => 'token123',
         ]);
     }
