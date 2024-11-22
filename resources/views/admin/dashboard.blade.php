@@ -22,7 +22,17 @@
     use App\Models\Order;
     $pendingCancelRequests = Import_order::where('status', 1)->whereNotNull('cancel_reason')->get();
     $orderCancelRequests = Order::whereNotNull('cancel_reason')->get();
+
     $pendingContracts = App\Models\Contract::where('contract_status_id', 4)->get();
+
+    $pendingContractPdfs = session('pending_contract_pdfs', []);
+    $currentTime = now()->timestamp;
+    $twoHours = 2 * 60 * 60;
+    $validContracts = array_filter($pendingContractPdfs, function ($item) use ($currentTime, $twoHours) {
+        return $currentTime - $item['timestamp'] < $twoHours;
+    });
+    session(['pending_contract_pdfs' => $validContracts]);
+
 @endphp
 @section('content')
     <div class="row">
@@ -173,7 +183,7 @@
                             </div><!-- end card body -->
                         </div><!-- end card -->
                     </div><!-- end col -->
-                     <div class="col-xl-3 col-md-6">
+                    <div class="col-xl-3 col-md-6">
                         <!-- card -->
                         <div class="card card-animate">
                             <div class="card-body">
@@ -1127,6 +1137,25 @@
                             @endforeach
 
                         </div>
+
+                        @foreach ($validContracts as $item)
+                            <div class="col mb-3">
+                                <div class="card card-body">
+                                    <div class="d-flex mb-4 align-items-center">
+                                        <div class="flex-grow-1 ms-2">
+                                            <h5 class="card-title mb-1">Hợp đồng: {{ $item['contract']->contract_name }}
+                                            </h5>
+                                            <div class="mt-3">
+                                                <a href="/storage/{{ $item['contract']->file_pdf }}" target="_blank"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="ri-eye-fill align-bottom me-2"></i>Xem hợp đồng
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
 
                     </div>
                 </div> <!-- end card-->

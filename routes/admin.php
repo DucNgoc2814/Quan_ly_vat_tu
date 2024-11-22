@@ -57,7 +57,7 @@ Route::prefix('employees')
         Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
         Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
-Route::prefix('orderconfirm')
+Route::prefix('nhan-vien-lai-xe')
     ->as('orderconfirm.')
     ->group(function () {
         Route::get('/404-not-found', [TripManagementController::class, 'notFound'])->name('notfound');
@@ -71,9 +71,7 @@ Route::prefix('orderconfirm')
 Route::middleware('CheckEmployees')->group(
     function () {
         Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard')->middleware('permission:1');
-        // Quản lý chức vụ
         Route::post('/them-chuc-vu', [RoleEmployeeController::class, 'create'])->name('addRole')->middleware('permission:2');
-        // PHÂN QUYỀN
         Route::post('/permissions/toggle', [PermissionRoleEmployeesController::class, 'permissionsToggle'])->name('permissionsToggle')->middleware('permission:3');
         Route::prefix('quan-ly-nhan-vien')
             ->as('employees.')

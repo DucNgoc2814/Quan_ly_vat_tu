@@ -27,17 +27,6 @@
                     <div class="card-body">
                         <div class="row mb-4">
                             <div class="col-lg-12">
-                                <label class="form-label">Tên hợp đồng</label>
-                                <input type="text" name="contract_name" value="{{ old('contract_name') }}"
-                                    class="form-control @error('contract_name') is-invalid @enderror"
-                                    placeholder="Nhập tên hợp đồng">
-                                @error('contract_name')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-                        <div class="row mb-4">
-                            <div class="col-lg-12">
                                 <label class="form-label">Đại diện bên B</label>
                                 <input type="text" name="customer_name" value="{{ old('customer_name') }}"
                                     class="form-control @error('customer_name') is-invalid @enderror"
@@ -124,7 +113,7 @@
                                 @endforeach
                             @else
                                 <div class="col-md-12 d-flex mt-4" id="product_default_item">
-                                    <div class="col-8 me-3">
+                                    <div class="col-md-12">
                                         <label class="form-label">Sản phẩm bên B mua</label>
                                         <select class="form-select @error('variation_id.0') is-invalid @enderror"
                                             name="variation_id[]" data-choices data-choices-search-false>
@@ -141,7 +130,9 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-3 me-3">
+                                </div>
+                                <div class="col-md-12 d-flex mt-4">
+                                    <div class="col-md-12">
                                         <label class="form-label">Số lượng sản phẩm</label>
                                         <input type="number"
                                             class="form-control @error('quantity.0') is-invalid @enderror"
@@ -150,14 +141,35 @@
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
-                                    <div class="col-1 d-flex align-items-end mb-3">
+                                </div>
+                                <div class="col-md-12 d-flex mt-4">
+                                    <div class="col-md-12">
+                                        <label class="form-label">Giá sản phẩm</label>
+                                        <input type="number" class="form-control @error('price') is-invalid @enderror"
+                                            name="price[]" placeholder="Nhập giá sản phẩm">
+                                        @error('price')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             @endif
                         </div>
                     </div>
                 </div>
-
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-md-12 d-flex">
+                            <div class="col-md-5 me-2">
+                                <label for="exampleInputdate" class="form-label">Ngày bắt đầu</label>
+                                <input type="date" class="form-control" name="timestart" id="exampleInputdate">
+                            </div>
+                            <div class="col-md-5 ">
+                                <label for="exampleInputdate" class="form-label">Ngày kết thúc</label>
+                                <input type="date" class="form-control" name="timeend" id="exampleInputdate">
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-body">
                         <button class="btn btn-success">Thêm mới</button>
@@ -209,30 +221,45 @@
         function addProduct() {
             let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
             let html = `
-            <div class="col-md-12 d-flex mt-4" id="${id}_item">
-                <div class="col-8 me-3">
-                    <label class="form-label">Sản phẩm bên B mua</label>
-                    <select class="form-select" name="variation_id[]" data-choices data-choices-search-false>
-                        <option value="0">Chọn Sản Phẩm</option>
-                        @foreach ($variation as $variant)
-                            <option value="{{ $variant->id }}"
-                                data-price="{{ $variant->price_export }}"
-                                data-stock="{{ $variant->stock }}">
-                                {{ $variant->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-                <div class="col-3 me-3">
-                    <label class="form-label">Số lượng sản phẩm</label>
-                    <input type="number" class="form-control" name="quantity[]" placeholder="Nhập số lượng">
-                </div>
-                <div class="col-1 d-flex align-items-end mb-3">
-                    <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
-                        <i class="ri-delete-bin-line"></i>
-                    </button>
-                </div>
-            </div>
+            <div class="row" id="${id}_item">
+    <div class="col-12 mt-4">
+        <label class="form-label">Sản phẩm bên B mua</label>
+        <select class="form-select" name="variation_id[]" data-choices data-choices-search-false>
+            <option value="0">Chọn Sản Phẩm</option>
+            @foreach ($variation as $variant)
+                <option value="{{ $variant->id }}"
+                    data-price="{{ $variant->price_export }}"
+                    data-stock="{{ $variant->stock }}">
+                    {{ $variant->name }}
+                </option>
+            @endforeach
+        </select>
+    </div>
+    <div class="col-12 mt-4">
+        <label class="form-label">Số lượng sản phẩm</label>
+        <input type="number"
+            class="form-control @error('quantity.0') is-invalid @enderror"
+            name="quantity[]" placeholder="Nhập số lượng">
+        @error('quantity.0')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="col-12 mt-4">
+        <label class="form-label">Giá sản phẩm</label>
+        <input type="number"
+            class="form-control @error('price') is-invalid @enderror"
+            name="price[]" placeholder="Nhập giá sản phẩm">
+        @error('price')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+    <div class="col-12 mt-4">
+        <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
+            <i class="ri-delete-bin-line"></i> Xóa
+        </button>
+    </div>
+</div>
+
         `;
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
             updateAvailableProducts();
@@ -247,4 +274,5 @@
             }
         }
     </script>
+
 @endsection

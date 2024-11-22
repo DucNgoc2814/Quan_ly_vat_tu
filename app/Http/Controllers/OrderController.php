@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Contract;
+use App\Models\ContractDetail;
 use App\Models\Customer;
 use App\Models\Location;
 use App\Models\Order_canceled;
@@ -66,6 +68,7 @@ class OrderController extends Controller
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
                     "customer_id" => $customer_id,
+                    "contract_id" => $request->contract_id,
                     "status_id" => 1,
                     "slug" => $slug,
                     "customer_name" => $request->customer_name ?? $customers->name,
@@ -84,7 +87,6 @@ class OrderController extends Controller
                 OrderStatusTime::create([
                     'order_id' => $order->id,
                     'order_status_id' => 1,
-                    'time' => now()
                 ]);
 
                 $existingLocation = Location::where('customer_id', $order->customer_id)
@@ -97,7 +99,7 @@ class OrderController extends Controller
                     ->where('address', $order->address)
                     ->first();
 
-                if (!$existingLocation) {
+                if (!$existingLocation && $order->province) {
                     $locationCount = Location::where('customer_id', $order->customer_id)->count();
                     $location = new Location();
                     $location->customer_id = $order->customer_id;
@@ -143,7 +145,6 @@ class OrderController extends Controller
                 } else {
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
-                // $this->exportOrderToWord($order, $request);
             });
 
             return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
@@ -153,6 +154,18 @@ class OrderController extends Controller
             dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
+    }
+
+
+    public function createordercontract($contract_id)
+    {
+        $contract = Contract::with('contractDetails.variation')->findOrFail($contract_id);
+        $customers = Customer::all();
+
+        return view(self::PATH_VIEW . __FUNCTION__, compact(
+            'contract',
+            'customers',
+        ));
     }
 
     /**
@@ -283,7 +296,6 @@ class OrderController extends Controller
             OrderStatusTime::create([
                 'order_id' => $order->id,
                 'order_status_id' => $newStatus,
-                'time' => now()
             ]);
 
             // Nếu chuyển sang trạng thái chờ xác nhận hủy

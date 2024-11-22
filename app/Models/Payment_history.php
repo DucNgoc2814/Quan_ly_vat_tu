@@ -10,14 +10,16 @@ class Payment_history extends Model
     use HasFactory;
 
     protected $fillable = [
-        'debt_id',
+        'contract_id',
+        'name',
         'amount',
-        'created_at'
+        'document',
     ];
 
     public $timestamps = false;
 
-    public function debt(){
-        return $this->belongsTo(Debt::class);
+    public function contract()
+    {
+        return $this->belongsTo(Contract::class);
     }
 }

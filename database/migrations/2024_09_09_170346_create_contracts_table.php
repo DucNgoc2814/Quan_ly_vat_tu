@@ -14,10 +14,17 @@ return new class extends Migration
         Schema::create('contracts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('contract_status_id')->constrained('contract_statuses')->default('1');
-            $table->string('contract_name', 255);
+            $table->foreignId('employee_id')->constrained('employees');
+            $table->string('contract_number', 255);
             $table->string('customer_name', 255);
             $table->string('customer_phone', 10);
             $table->string('customer_email', 255);
+            $table->integer('total_amount');
+            $table->string('file')->nullable();
+            $table->string('file_pdf')->nullable();
+            $table->datetime('timestart');
+            $table->datetime('timeend');
+            $table->string('verification_token')->nullable();
             $table->timestamps();
         });
     }

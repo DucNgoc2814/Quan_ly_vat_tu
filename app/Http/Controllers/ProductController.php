@@ -49,6 +49,11 @@ class ProductController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
+                if ($request->hasFile('image')) {
+                    $mainImagePath = Storage::put('products', $request->file('image'));
+                }
+                
+                // Create product with all required fields including image
                 $product = Product::create([
                     "category_id" => $request->category_id,
                     "unit_id" => $request->unit_id,
@@ -58,12 +63,8 @@ class ProductController extends Controller
                     "price" => $request->price,
                     "description" => $request->description,
                     "is_active" => $request->has('is_active'),
+                    "image" => $mainImagePath // Include image path in initial creation
                 ]);
-                if ($request->hasFile('image')) {
-                    $mainImagePath = Storage::put('products', $request->file('image'));
-                    $product->image = $mainImagePath;
-                    $product->save();
-                }
                 if ($request->hasFile('product_images')) {
                     foreach ($request->file('product_images') as $image) {
                         $path = Storage::put('galleries', $image);

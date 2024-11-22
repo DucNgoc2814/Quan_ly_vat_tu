@@ -87,23 +87,21 @@
                 <input value="{{ old('name') }}" type="text" name="name" placeholder="Nhập tên danh mục"
                     class="form-control">
                 @error('name')
-                    <p class="text-danger">Vui lòng nhập hợp lệ</p>
+                    <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>
             <div class="col-lg-12 mt-3">
                 <label class="form-label">Ảnh</label>
                 <input value="{{ old('image') }}" type="file" name="image" class="form-control">
                 @error('image')
-                    <p class="text-danger">Vui lòng nhập hợp lệ</p>
+                    <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>
 
             <div class="col-lg-12 mt-3">
                 <label class="form-label">Mô tả</label>
                 <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
-                @error('description')
-                    <p class="text-danger">Vui lòng nhập hợp lệ</p>
-                @enderror
+
             </div>
         </div>
 

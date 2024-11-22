@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('contract_id')->constrained('contracts');
             $table->foreignId('variation_id')->constrained('variations');
             $table->integer('quantity');
+            $table->integer('price');
             $table->timestamps();
         });
     }
