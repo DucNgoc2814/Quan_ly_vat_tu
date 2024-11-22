@@ -7,22 +7,22 @@
                     <a href="index.html" class="logo logo-dark">
                         <span class="logo-sm">
                             <img src="{{ asset('themes/admin/assets/images/logo-sm.png') }}" alt=""
-                                height="22">
+                                height="22px">
                         </span>
                         <span class="logo-lg">
                             <img src="{{ asset('themes/admin/assets/images/logo-dark.png') }}" alt=""
-                                height="17">
+                                height="107px">
                         </span>
                     </a>
 
                     <a href="index.html" class="logo logo-light">
                         <span class="logo-sm">
                             <img src="{{ asset('themes/admin/assets/images/logo-sm.png') }}" alt=""
-                                height="22">
+                                width="22px">
                         </span>
                         <span class="logo-lg">
                             <img src="{{ asset('themes/admin/assets/images/logo-light.png') }}" alt=""
-                                height="17">
+                                width="107px">
                         </span>
                     </a>
                 </div>
@@ -401,7 +401,7 @@
                         <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
                                 class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle">Lock screen</span></a>
-                        <a class="dropdown-item" href=""><i
+                        <a class="dropdown-item" href="{{ route('employees.logOut') }}"><i
                                 class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
