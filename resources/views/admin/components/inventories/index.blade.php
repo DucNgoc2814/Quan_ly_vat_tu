@@ -101,6 +101,7 @@
                 </div>
             </div>
         </div><!--end col-->
+        {{ $variations->links() }}
     </div>
 
     <!-- Modal lịch sử -->
@@ -178,6 +179,7 @@
             </div>
         </div>
     </div>
+
 
     @push('scripts')
         <script>

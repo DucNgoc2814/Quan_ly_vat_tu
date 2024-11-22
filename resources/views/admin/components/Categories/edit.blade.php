@@ -22,13 +22,13 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('category.update',$category->id) }}" method="POST"  enctype="multipart/form-data">
+                    <form action="{{ route('category.update', $category1->id) }}" method="POST"  enctype="multipart/form-data">
                         @csrf
                         @method("PUT")
                         <div class="row">
                             <div class="col-lg-8">
-                                <label class="form-label">Tên mã hàng.</label>
-                                <input value="{{ $category->name }}" type="text" name="name" placeholder="Nhập tên mã hàng"
+                                <label class="form-label">Tên danh mục</label>
+                                <input value="{{ $category1->name }}" type="text" name="name" placeholder="Nhập tên mã hàng"
                                     class="form-control"  >
                                 @error('name')
                                     <p class="text-danger">{{ $message }}</p>
@@ -36,7 +36,7 @@
                             </div>
                             <div style="margin-top: 10px">
                                <p> Ảnh cũ </p>
-                                <img src="{{ asset('storage/' . $category->image) }}" width="200px" height="200px" alt="">
+                                <img src="{{ asset('storage/' . $category1->image) }}" width="200px" height="200px" alt="">
                             </div>
 
 
@@ -51,7 +51,7 @@
                 
                             <div class="col-lg-12 mt-3">
                                 <label class="form-label">Mô tả</label>
-                                <textarea name="description" class="form-control" rows="3"> {{ $category->description }}</textarea>
+                                <textarea name="description" class="form-control" rows="3"> {{ $category1->description }}</textarea>
                                 @error('description')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror

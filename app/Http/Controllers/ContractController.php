@@ -46,16 +46,17 @@ class ContractController extends Controller
      */
     public function store(StoreContractRequest $request)
     {
-        // dd($request->all());
         try {
             $contractNumber = 'HDB' . str_pad(random_int(0, 99999), 5, '0', STR_PAD_LEFT);
             // 1. Tạo hợp đồng mới với trạng thái mặc định là 1 (đang chờ)
             $contract = Contract::create([
                 'contract_status_id' => 1,
-                'contract_name' => $contractNumber,
+                'employee_id' => '1',
+                'contract_number' => $contractNumber,
                 'customer_name' => $request->customer_name,
                 'customer_phone' => $request->customer_phone,
                 'customer_email' => $request->customer_email,
+                'total_amount' => 100000,
                 "timestart" => $request->timestart,
                 "timeend" => $request->timeend,
                 'file' => null
@@ -102,7 +103,7 @@ class ContractController extends Controller
         $templateProcessor = new TemplateProcessor($templatePath);
 
         // Replace basic information
-        $templateProcessor->setValue('contract_name', $contract->contract_name);
+        $templateProcessor->setValue('contract_number', $contract->contract_number);
         $templateProcessor->setValue('customer_name', $contract->customer_name);
         $templateProcessor->setValue('customer_phone', $contract->customer_phone);
         $templateProcessor->setValue('customer_email', $contract->customer_email);
@@ -140,6 +141,7 @@ class ContractController extends Controller
         $templateProcessor->setValue('total_amount', number_format($totalAmount) . ' VNĐ');
         $templateProcessor->setValue('timestart', date('d/m/Y', strtotime($contract->timestart)));
         $templateProcessor->setValue('timeend', date('d/m/Y', strtotime($contract->timeend)));
+        $templateProcessor->setValue('time', date('d/m/Y', strtotime($contract->created_at)));
 
         $docxFileName = 'Hopdong_' . $contract->id . '.docx';
         $docxFilePath = storage_path('app/public/contracts/' . $docxFileName);
