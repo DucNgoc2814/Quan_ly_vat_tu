@@ -26,7 +26,7 @@ class SliderController extends Controller
     public function create()
     {
         $title = "Thêm Slider";
-        return view('admin.components.sliders.create');
+        return view('admin.components.sliders.create', compact('title'));
     }
 
     /**
