@@ -21,7 +21,7 @@ class StoreProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        
+
         $rules = [
             'category_id' => 'required|exists:categories,id',
             'unit_id' => 'required|exists:units,id',
@@ -49,7 +49,6 @@ class StoreProductRequest extends FormRequest
 
         return $rules;
     }
-
     /**
      * Custom validation error messages.
      */

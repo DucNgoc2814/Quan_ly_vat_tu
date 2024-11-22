@@ -15,21 +15,8 @@ class InventorieSeeder extends Seeder
     {
         $inventories = [
             [
-                'product_id' => 1,
-                'stock' => 100,
-            ],
-            [
-                'product_id' => 2,
-                'stock' => 50,
-            ],
-            [
-                'product_id' => 3,
-                'stock' => 200,
-            ],
-            [
-                'product_id' => 4,
-                'stock' => 0,
-            ],
+                'name' => 1,
+            ]
         ];
 
         foreach ($inventories as $inventory) {

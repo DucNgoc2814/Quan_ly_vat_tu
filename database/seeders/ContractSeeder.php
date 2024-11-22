@@ -15,12 +15,12 @@ class ContractSeeder extends Seeder
     {
         DB::table("contracts")->insert([
             'contract_status_id' => 1,
-            'contract_number' => '1',
-            'customer_name' => '1',
-            'customer_email' => '1',
-            'total_amount' => '1',
-            'number_phone' => '1',
-            'file' =>  'a',
+            'contract_name' => 'HD123456',
+            'customer_name' => 'Khanh',
+            'customer_phone' => '0964583628',
+            'customer_email' => 'k@gmail.com',
+            'timestart' => '2024-11-20',
+            'timeend' => '2024-11-20',
         ]);
     }
 }

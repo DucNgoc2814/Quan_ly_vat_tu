@@ -260,14 +260,14 @@
                                                         value="{{ $variation->name }}" disabled>
                                                 </div>
 
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <label class="form-label">Số lượng tồn kho</label>
                                                     <input type="number" class="form-control @error('variations.' . $variation->id . '.stock') is-invalid @enderror"
                                                         name="variations[{{ $variation->id }}][stock]"
                                                         value="{{ $variation->stock }}"  disabled>
                                                 </div>
 
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <label class="form-label">Giá bán lẻ</label>
                                                     <input type="number" class="form-control @error('variations.' . $variation->id . '.price_export') is-invalid @enderror"
                                                         name="variations[{{ $variation->id }}][price_export]"
@@ -276,17 +276,6 @@
                                                         <div class="text-danger mt-1">{{ $message }}</div>
                                                     @enderror
                                                 </div>
-                                                <div class="col-md-2">
-                                                    <label class="form-label">Giá bán sỉ</label>
-                                                    <input type="number" class="form-control @error('variations.' . $variation->id . '.price_export') is-invalid @enderror"
-                                                        name="variations[{{ $variation->id }}][price_export]"
-                                                        value="{{ old('variations.' . $variation->id . '.price_export', $variation->price_export) }}">
-                                                    @error('variations.' . $variation->id . '.price_export')
-                                                        <div class="text-danger mt-1">{{ $message }}</div>
-                                                    @enderror
-                                                </div>
- 
-
                                             </div>
                                         @endforeach
                                     </div>
@@ -392,3 +381,4 @@
         }
     </script>
 @endsection
+

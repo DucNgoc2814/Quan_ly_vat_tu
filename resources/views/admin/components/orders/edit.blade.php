@@ -343,16 +343,21 @@
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label class="form-label" for="paid_amount">Số tiền đã trả</label>
-                                    <input type="text"
-                                        class="form-control form-control-lg @error('paid_amount') is-invalid @enderror"
-                                        id="paid_amount" value="{{ $order->paid_amount }}"
-                                        placeholder="Nhập số tiền đã trả" name="paid_amount">
+                                    <input type="number"
+                                           class="form-control form-control-lg @error('paid_amount') is-invalid @enderror"
+                                           id="paid_amount"
+                                           value="{{ old('paid_amount', $order->paid_amount) }}"
+                                           placeholder="Nhập số tiền đã trả"
+                                           name="paid_amount"
+                                           step="any" min="0">
                                     @error('paid_amount')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
+
+
                             </div>
                         </div>
                     </div>

@@ -187,7 +187,8 @@
                                 name="payment_id" data-choices data-choices-search-false>
                                 <option value="">Chọn Phương Thức Thanh Toán</option>
                                 @foreach ($payments as $id => $name)
-                                    <option value="{{ $id }}">{{ $name }}</option>
+                                    <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
+                                        {{ $name }}</option>
                                 @endforeach
                             </select>
                             @error('payment_id')
@@ -227,31 +228,33 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    <div class="mb-2">
-                                        <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                                        <input type="number" class="form-control" id="product-price-input"
-                                            name="product_price[]" readonly>
-                                    </div>
                                     <div class="row">
-                                        <div class="col-md-6">
+                                        <div class="col-4">
+                                            <div class="mb-2">
+                                                <label class="form-label" for="product-price-input">Giá sản phẩm</label>
+                                                <input type="number" class="form-control" id="product-price-input"
+                                                    name="product_price[]" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label" for="product-quantity-input">Số lượng sản
                                                     phẩm</label>
                                                 <input type="number"
-                                                    class="form-control  @error('product_quantity') is-invalid @enderror"
-                                                    id="product-quantity-input" name="product_quantity[]"
-                                                    value="{{ old('product_quantity[]') }}" placeholder="Nhập số lượng">
-                                                @error('product_quantity')
-                                                    <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
-                                                    </span>
+                                                    class="form-control @error('product_quantity.0') is-invalid @enderror"
+                                                    name="product_quantity[]" value="{{ old('product_quantity.0') }}"
+                                                    placeholder="Nhập số lượng">
+                                                @error('product_quantity.0')
+                                                    <div class="invalid-feedback d-block">
+                                                        {{ $message }}
+                                                    </div>
                                                 @enderror
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
+                                        <div class="col-4">
                                             <div class="mb-2">
-                                                <label class="form-label" for="product-stock-input">Số lượng sản
-                                                    phẩm có trong kho</label>
+                                                <label class="form-label" for="product-stock-input">Số lượng trong
+                                                    kho</label>
                                                 <input type="number" class="form-control" id="product-stock-input"
                                                     name="stock" readonly>
                                             </div>
@@ -280,10 +283,11 @@
                             <div class="col-md-6">
                                 <div class="mb-2">
                                     <label class="form-label" for="paid_amount">Số tiền đã trả</label>
-                                    <input type="text"
-                                        class="form-control form-control-lg  @error('paid_amount') is-invalid @enderror"
+                                    <input type="number"
+                                        class="form-control form-control-lg @error('paid_amount') is-invalid @enderror"
                                         id="paid_amount" value="{{ old('paid_amount') }}"
-                                        placeholder="Nhập số tiền đã trả" name="paid_amount">
+                                        placeholder="Nhập số tiền đã trả" name="paid_amount" step="any"
+                                        min="0">
                                     @error('paid_amount')
                                         <span role="alert">
                                             <span class="text-danger">{{ $message }}</span>
@@ -316,56 +320,54 @@
         function addProduct() {
             let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
             let html = `
-            <div class="col-md-12" id="${id}_item">
-                <hr class="mb-2">
+    <div class="col-md-12" id="${id}_item">
+        <hr class="mb-2">
+        <div class="mb-2">
+            <label class="form-label" for="product-variant-input">Sản phẩm</label>
+            <select class="form-select" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
+                <option value="0">Chọn Sản Phẩm</option>
+                @foreach ($variation as $variant)
+                    <option value="{{ $variant->id }}" data-price="{{ $variant->price_export }}" data-stock="{{ $variant->stock }}">
+                        {{ $variant->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-4">
                 <div class="mb-2">
-                    <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                    <select class="form-select @error('variation_id') is-invalid @enderror" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
-                        <option value="0">Chọn Sản Phẩm</option>
-                        @foreach ($variation as $variant)
-                            <option value="{{ $variant->id }}" data-price="{{ $variant->price_export }}" data-stock="{{ $variant->stock }}">
-                                {{ $variant->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('variation_id')
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
-                    @enderror
-                </div>
-                <div class="mb-2">
-                    <label class="form-label" for="product-price-input">Giá sản phẩm</label>
+                    <label class="form-label">Giá sản phẩm</label>
                     <input type="number" class="form-control" name="product_price[]" readonly>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-2">
-                            <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
-                            <input type="number" class="form-control  @error('product_quantity') is-invalid @enderror" name="product_quantity[]" placeholder="Nhập số lượng" min="1" value="1">
-                            @error('product_quantity')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="mb-2">
-                            <label class="form-label" for="product-stock-input">Số lượng sản phẩm có trong kho</label>
-                            <input type="number" class="form-control" name="stock" readonly>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="col-4">
                 <div class="mb-2">
-                    <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
-                        <span class="bx bx-trash"></span> Xóa sản phẩm
-                    </button>
+                    <label class="form-label">Số lượng sản phẩm</label>
+                    <input type="number"
+                        class="form-control @error('product_quantity.*') is-invalid @enderror"
+                        name="product_quantity[]"
+                        placeholder="Nhập số lượng">
+                    <div class="invalid-feedback d-block product-quantity-error"></div>
                 </div>
             </div>
-            `;
+            <div class="col-4">
+                <div class="mb-2">
+                    <label class="form-label">Số lượng trong kho</label>
+                    <input type="number" class="form-control" name="stock" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="mb-2">
+            <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
+                <span class="bx bx-trash"></span> Xóa sản phẩm
+            </button>
+        </div>
+    </div>`;
+
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
-            addInputListeners(); // Thêm sự kiện lắng nghe cho sản phẩm mới
+            addInputListeners();
         }
+
         // Hàm để tính tổng giá trị đơn hàng
         function calculateTotal() {
             let total = 0;
@@ -380,6 +382,47 @@
             // Gán giá trị đã định dạng vào ô input
             document.getElementById('total_amount').value = formattedTotal;
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get old values
+            const oldVariationIds = @json(old('variation_id', []));
+            const oldQuantities = @json(old('product_quantity', []));
+            const oldPrices = @json(old('product_price', []));
+
+            // If there are old values, set them
+            if (oldVariationIds.length > 0) {
+                // Set values for default item first
+                const defaultSelect = document.querySelector('#product_default_item [name="variation_id[]"]');
+                const defaultPrice = document.querySelector('#product_default_item [name="product_price[]"]');
+                const defaultQuantity = document.querySelector('#product_default_item [name="product_quantity[]"]');
+
+                if (defaultSelect) defaultSelect.value = oldVariationIds[0];
+                if (defaultPrice) defaultPrice.value = oldPrices[0];
+                if (defaultQuantity) defaultQuantity.value = oldQuantities[0];
+
+                // Add additional items if there were more than one
+                for (let i = 1; i < oldVariationIds.length; i++) {
+                    addProduct();
+                }
+
+                // Set values for additional items
+                document.querySelectorAll('[name="variation_id[]"]').forEach((select, index) => {
+                    if (index === 0) return; // Skip default item
+                    select.value = oldVariationIds[index];
+                    const priceInput = select.closest('.col-md-12').querySelector(
+                        '[name="product_price[]"]');
+                    const quantityInput = select.closest('.col-md-12').querySelector(
+                        '[name="product_quantity[]"]');
+
+                    if (priceInput) priceInput.value = oldPrices[index];
+                    if (quantityInput) quantityInput.value = oldQuantities[index];
+                });
+
+                // Recalculate total
+                calculateTotal();
+            }
+        });
+
         // Hàm để cập nhật giá khi chọn sản phẩm
         function updatePrice(selectElement) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
@@ -563,11 +606,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                                    ` : `
-                                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                                    `}
+                                                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                                                    ` : `
+                                                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                                                    `}
                                 </div>
                             </div>
                             <hr>
@@ -818,7 +861,6 @@
                 }
             });
         }
-
     </script>
 
     <script>

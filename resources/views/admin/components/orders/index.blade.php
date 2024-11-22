@@ -52,7 +52,7 @@
                                         <td>{{ number_format($order->total_amount) }}</td>
                                         <td>{{ number_format($order->paid_amount) }}</td>
                                         <td>
-                                            <span class="badge bg-info-subtle text-info">{{ $order->payment->name }}</span>
+                                            <span class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng có chứng từ'}}</span>
                                         </td>
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
@@ -116,7 +116,6 @@
                                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                                 Cập nhật</a></li>
                                                     @endif
-                                                    {{-- edit --}}
                                                 </ul>
                                             </div>
                                         </td>

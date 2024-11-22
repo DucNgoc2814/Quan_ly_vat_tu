@@ -10,22 +10,24 @@ class Contract extends Model
     use HasFactory;
     protected $fillable = [
         'contract_status_id',
-        'contract_number',
+        'contract_name',
         'customer_name',
+        'customer_phone',
         'customer_email',
-        'total_amount',
-        'number_phone',
-        'file'
+        'file',
+        'file_pdf',
+        'timestart',
+        'timeend',
+        'verification_token'
     ];
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 
     public function contractStatus()
     {
         return $this->belongsTo(Contract_status::class);
-    }
-
-    public function order()
-    {
-        return $this->hasMany(Order::class, 'order_id');
     }
     protected static function booted()
     {
@@ -40,5 +42,9 @@ class Contract extends Model
         static::deleted(function ($model) {
             LogService::addLog('Xóa', $model);
         });
+    }
+    public function contractDetails()
+    {
+        return $this->hasMany(ContractDetail::class);
     }
 }

@@ -22,10 +22,10 @@ class StoreSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255',
-          'email' => 'required|email|unique:suppliers,email',
+            'name' => 'required|max:100|min:3',
+            'email' => 'required|email|unique:suppliers,email',
             'number_phone' => 'required|regex:/^0[1-9]{1}[0-9]{8}$/|numeric|unique:suppliers,number_phone',
-            'address' => 'required',
+            'address' => 'required|min:3|max:100',
 
         ];
     }
@@ -34,6 +34,8 @@ class StoreSupplierRequest extends FormRequest
     {
         return [
             'name.required' => 'Không được bỏ trống !',
+            'name.min' => 'Nhập tối thiểu 3 kí tự !',
+            'name.max' => 'Vượt quá 100 kí tự !',
             'email.required' => 'Không được bỏ trống !',
             'email.email' => 'Không đúng định dạng !',
             'email.unique' => 'Không được trung email nhà cung cấp !',
@@ -42,6 +44,8 @@ class StoreSupplierRequest extends FormRequest
             'number_phone.unique' => 'Không được trùng số điện thoại !',
             'number_phone.numeric' => 'Số điện thoại không đúng định dạng bắt buộc phải là số !',
             'address.required' => 'Không được bỏ trống !',
+            'address.min' => 'Nhập tối thiểu 3 kí tự !',
+            'address.max' => 'Vượt quá 100 kí tự !',
         ];
     }
 }
