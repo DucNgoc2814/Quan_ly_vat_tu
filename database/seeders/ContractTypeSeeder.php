@@ -17,3 +17,4 @@ class ContractTypeSeeder extends Seeder
         ]);
     }
 }
+

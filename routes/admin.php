@@ -63,7 +63,7 @@ Route::prefix('employees')
         Route::get('/dang-nhap', [EmployeeController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
     });
-    Route::prefix('nhan-vien-lai-xe')
+Route::prefix('nhan-vien-lai-xe')
     ->as('orderconfirm.')
     ->group(function () {
         Route::get('/404-not-found', [TripManagementController::class, 'notFound'])->name('notfound');
@@ -72,16 +72,12 @@ Route::prefix('employees')
         Route::get('/xan-nhan-don-hang', [TripManagementController::class, 'index'])->name('index');
         Route::get('/chi-tiet/{id}', [TripManagementController::class, 'show'])->name('show');
         Route::put('/chi-tiet/{id}', [TripManagementController::class, 'update'])->name('update');
-
-
         Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
 Route::middleware('CheckEmployees')->group(
     function () {
         Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard')->middleware('permission:1');
-        // Quản lý chức vụ
         Route::post('/them-chuc-vu', [RoleEmployeeController::class, 'create'])->name('addRole')->middleware('permission:2');
-        // PHÂN QUYỀN
         Route::post('/permissions/toggle', [PermissionRoleEmployeesController::class, 'permissionsToggle'])->name('permissionsToggle')->middleware('permission:3');
         Route::prefix('quan-ly-nhan-vien')
             ->as('employees.')
@@ -345,7 +341,4 @@ Route::middleware('CheckEmployees')->group(
             Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject');
 
         }
-
-
-
 );

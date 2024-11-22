@@ -36,7 +36,7 @@
                                             <div class="text-center">
                                                 <div class="profile-user position-relative d-inline-block mx-auto mb-3">
                                                     @if ($user->image)
-                                                        <img src="{{ Storage::url($user->image) }}"
+                                                        <img src="{{ asset('storage/' . ($user->image)) }}"
                                                             class="rounded-circle avatar-xl img-thumbnail user-profile-image"
                                                             alt="user-profile-image">
                                                     @else

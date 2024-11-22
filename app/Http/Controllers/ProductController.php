@@ -35,12 +35,11 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $listProduct =Product::pluck('name');
         $attributesArray = Attribute::with('attributeValues')->get()->toArray();
         $categories = Category::pluck('name', 'id');
         $brands =  Brand::pluck('name', 'id');
         $units =  Unit::pluck('name', 'id');
-        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units', 'attributesArray', 'listProduct'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('categories', 'brands', 'units', 'attributesArray'));
     }
 
     /**
@@ -50,6 +49,11 @@ class ProductController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
+                if ($request->hasFile('image')) {
+                    $mainImagePath = Storage::put('products', $request->file('image'));
+                }
+                
+                // Create product with all required fields including image
                 $product = Product::create([
                     "category_id" => $request->category_id,
                     "unit_id" => $request->unit_id,
@@ -59,12 +63,8 @@ class ProductController extends Controller
                     "price" => $request->price,
                     "description" => $request->description,
                     "is_active" => $request->has('is_active'),
+                    "image" => $mainImagePath // Include image path in initial creation
                 ]);
-                if ($request->hasFile('image')) {
-                    $mainImagePath = Storage::put('products', $request->file('image'));
-                    $product->image = $mainImagePath;
-                    $product->save();
-                }
                 if ($request->hasFile('product_images')) {
                     foreach ($request->file('product_images') as $image) {
                         $path = Storage::put('galleries', $image);
@@ -85,11 +85,6 @@ class ProductController extends Controller
                         $variation->attributeValues()->attach($variantData['attribute_value_ids']);
                     }
                 } else {
-
-                // Tạo các biến thể
-                foreach ($request->variants as $variantData) {
-                    $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
-
                     $variation = Variation::create([
                         'product_id' => $product->id,
                         'sku' => Str::upper($this->generateUniqueSku()),
@@ -115,8 +110,6 @@ class ProductController extends Controller
     public function edit($slug)
     {
         $product = Product::with('variations')->where('slug', $slug)->firstOrFail();
-        $listProduct = Product::pluck('name');
-        $product = Product::with('variations')->findOrFail($id);
         $categories = Category::pluck('name', 'id');
         $units = Unit::pluck('name', 'id');
         $brands = Brand::pluck('name', 'id');
@@ -127,7 +120,7 @@ class ProductController extends Controller
             ->get();
         $attributesArray = Attribute::with('attributeValues')->get();
 
-        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray', 'listProduct'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray'));
     }
 
     public function update(UpdateProductRequest $request, $slug)
@@ -136,10 +129,6 @@ class ProductController extends Controller
             DB::transaction(function () use ($request, $slug) {
                 $product = Product::with('galleries', 'variations')->where('slug', $slug)->firstOrFail();
 
-            DB::transaction(function () use ($request, $id) {
-                $product = Product::findOrFail($id);
-
-                // Lấy tên sản phẩm cũ để so sánh
                 $oldName = $product->name;
                 $newName = $request->name;
 

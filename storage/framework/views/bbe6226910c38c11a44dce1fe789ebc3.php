@@ -4,19 +4,19 @@
         <!-- Dark Logo-->
         <a href="index.html" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="<?php echo e(asset('themes/admin/assets/images/logo-sm.png')); ?>" alt="" height="22">
+                <img src="<?php echo e(asset('themes/admin/assets/images/a-removebg-preview (1).png')); ?>" alt="" height="180">
             </span>
             <span class="logo-lg">
-                <img src="<?php echo e(asset('themes/admin/assets/images/logo-dark.png')); ?>" alt="" height="17">
+                <img src="<?php echo e(asset('themes/admin/assets/images/a-removebg-preview (1).png')); ?>" alt="" height="180">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="index.html" class="logo logo-light">
             <span class="logo-sm">
-                <img src="<?php echo e(asset('themes/admin/assets/assets/images/logo-sm.png')); ?>" alt="" height="22">
+                <img src="<?php echo e(asset('themes/admin/assets/assets/images/a-removebg-preview (1).png')); ?>" alt="" height="180">
             </span>
             <span class="logo-lg">
-                <img src="<?php echo e(asset('themes/admin/assets/images/logo-light.png')); ?>" alt="" height="17">
+                <img src="<?php echo e(asset('themes/admin/assets/images/a-removebg-preview (1).png')); ?>" alt="" height="180">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -72,21 +72,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarSliders" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarSliders">
-                        <i class="ri-slideshow-3-fill"></i>
-                        <span data-key="t-layouts">Quản lý thanh trượt</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarSliders">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('sliders.index')); ?>" class="nav-link "
-                                    data-key="t-horizontal">Danh sách thanh trượt</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarGalleries" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarGalleries">
@@ -178,21 +164,7 @@
                     </div>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarDebts" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarDebts">
-                        <i class="ri-hand-coin-fill"></i>
-                        <span data-key="t-layouts">Quản lý công nợ</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarDebts">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" class="nav-link "
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarTrips" data-bs-toggle="collapse" role="button"

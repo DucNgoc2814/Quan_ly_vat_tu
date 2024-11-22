@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 255)->unique();
             $table->string('sku', 255);
             $table->string('image', 255);
-            $table->text('description');
+            $table->text('description')->nullable();
         });
     }
 

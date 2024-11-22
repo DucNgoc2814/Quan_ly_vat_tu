@@ -44,7 +44,7 @@
                             <div class="user-icon-toggle">
                                 @if (Session::has('token'))
                                     @if (Session::get('customer_image'))
-                                        <img src="{{ Storage::url(Session::get('customer_image')) }}" alt="User image"
+                                        <img src="{{ asset('storage/' . (Session::get('customer_image'))) }}" alt="User image"
                                             class="img-circle" style="width: 30px; height: 30px; border-radius: 50%;">
                                     @else
                                         <i class="fa fa-user" style="font-size: 30px;"></i>

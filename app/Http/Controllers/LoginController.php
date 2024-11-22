@@ -20,7 +20,6 @@ class LoginController extends Controller
 
     public function homeCustomer()
     {
-        // dd("homeCustomer");
         return view('index');
     }
 
@@ -183,17 +182,17 @@ class LoginController extends Controller
         try {
             $customer = Customer::find(Session::get('customer_id'));
 
-            // Verify old password
+            // Xác minh mật khẩu cũ
             if (!Hash::check($request->old_password, $customer->password)) {
                 return back()->withErrors(['old_password' => 'Mật khẩu hiện tại không chính xác']);
             }
 
-            // Update password
+            // Cập nhật mật khẩu
             $customer->update([
                 'password' => Hash::make($request->new_password)
             ]);
 
-            // Get new token after password change
+            // Nhận mã thông báo mới sau khi thay đổi mật khẩu
             $credentials = [
                 'email' => $customer->email,
                 'password' => $request->new_password
@@ -201,7 +200,7 @@ class LoginController extends Controller
 
             $token = JWTAuth::attempt($credentials);
 
-            // Update session with new token
+            // Cập nhật phiên với mã thông báo mới
             Session::put('token', $token);
 
             return redirect()->route('home')->with('success', 'Đổi mật khẩu thành công');

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->string('address', 255)->nullable();
             $table->integer('total_amount');
             $table->integer('paid_amount')->nullable();
+            $table->text('cancel_reason')->nullable();
             $table->timestamps();
         });
     }
