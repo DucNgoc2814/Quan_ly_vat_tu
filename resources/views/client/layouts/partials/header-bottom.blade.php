@@ -47,10 +47,10 @@
                                         <img src="{{ Storage::url(Session::get('customer_image')) }}" alt="User image"
                                             class="img-circle" style="width: 30px; height: 30px; border-radius: 50%;">
                                     @else
-                                        <i class="fa fa-user"></i>
+                                        <i class="fa fa-user" style="font-size: 30px;"></i>
                                     @endif
                                 @else
-                                    <i class="fa fa-user"></i>
+                                    <i class="fa fa-user" style="font-size: 30px;"></i>
                                 @endif
                             </div>
                             <ul class="ht-dropdown">
