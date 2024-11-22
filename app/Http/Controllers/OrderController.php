@@ -87,7 +87,6 @@ class OrderController extends Controller
                 OrderStatusTime::create([
                     'order_id' => $order->id,
                     'order_status_id' => 1,
-                    'time' => now()
                 ]);
 
                 $existingLocation = Location::where('customer_id', $order->customer_id)
@@ -297,7 +296,6 @@ class OrderController extends Controller
             OrderStatusTime::create([
                 'order_id' => $order->id,
                 'order_status_id' => $newStatus,
-                'time' => now()
             ]);
 
             // Nếu chuyển sang trạng thái chờ xác nhận hủy
