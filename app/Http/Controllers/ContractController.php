@@ -304,6 +304,14 @@ class ContractController extends Controller
         return response()->file($pdfPath);
     }
 
+    // public function showWord($id)
+    // {
+    //     $contract = Contract::findOrFail($id);
+    //     $wordUrl = Storage::url("contracts/Hopdong_{$id}.docx");
+    //     $fullUrl = asset($wordUrl);
+    //     return response()->json(['url' => $fullUrl]);
+    // }
+
 
     /**
      * Display the specified resource.

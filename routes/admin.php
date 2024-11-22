@@ -180,6 +180,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf');
                 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('sendToManagerPdf');
 
+                Route::get('/xem-word/{id}', [ContractController::class, 'showWord'])->name('showWord');
             });
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')
