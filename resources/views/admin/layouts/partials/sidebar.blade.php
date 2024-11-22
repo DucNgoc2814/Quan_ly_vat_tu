@@ -4,10 +4,10 @@
         <!-- Dark Logo-->
         <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ asset('themes/admin/assets/images/a-removebg-preview (1).png') }}" alt="" height="180">
+                <img src="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}" alt="" height="180">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('themes/admin/assets/images/a-removebg-preview (1).png') }}" alt="" height="180">
+                <img src="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}" alt="" height="180">
             </span>
         </a>
         <!-- Light Logo-->

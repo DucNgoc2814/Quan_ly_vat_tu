@@ -4,8 +4,8 @@
             <!--  logo Start-->
             <div class="col-auto">
                 <div class="logo">
-                    <a href="http://quan_ly_vat_tu.test"><img src="{{ asset('themes/client/jantrik/img/logo/logo.png') }}"
-                            alt="logo-image"></a>
+                    <a href="http://quan_ly_vat_tu.test"><img src="{{ asset('themes/admin/assets/images/gemo1.png') }}"
+                            alt="logo-image" height="100"></a>
                 </div>
             </div>
             <!--  logo End -->
