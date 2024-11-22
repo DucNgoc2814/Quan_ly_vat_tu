@@ -12,12 +12,12 @@
         </a>
         <!-- Light Logo-->
         <a href="index.html" class="logo logo-light">
-            <span class="logo-sm">
-                <img src="{{ asset('themes/admin/assets/assets/images/a-removebg-preview (1).png') }}" alt="" height="180">
-            </span>
-            <span class="logo-lg">
-                <img src="{{ asset('themes/admin/assets/images/a-removebg-preview (1).png') }}" alt="" height="180">
-            </span>
+            {{-- <span class="logo-sm">
+                <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt="" height="180">
+            </span> --}}
+            <a href="das" class="d-block">
+                <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt="" height="150">
+            </a>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
             id="vertical-hover">
