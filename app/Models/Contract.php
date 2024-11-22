@@ -15,6 +15,7 @@ class Contract extends Model
         'customer_phone',
         'customer_email',
         'file',
+        'file_pdf',
         'timestart',
         'timeend',
         'verification_token'
@@ -41,5 +42,9 @@ class Contract extends Model
         static::deleted(function ($model) {
             LogService::addLog('Xóa', $model);
         });
+    }
+    public function contractDetails()
+    {
+        return $this->hasMany(ContractDetail::class);
     }
 }

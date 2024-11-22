@@ -176,6 +176,11 @@ Route::middleware('CheckEmployees')->group(
 
                 Route::get('/sua/{contract_number}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:30');
                 Route::put('/sua/{contract_number}', [ContractController::class, 'update'])->name('update')->middleware('permission:30');
+
+                Route::get('/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf');
+                Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('sendToManagerPdf');
+
+                Route::get('/xem-word/{id}', [ContractController::class, 'showWord'])->name('showWord');
             });
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')

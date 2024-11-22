@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Models\Contract;
+use App\Models\ContractDetail;
 use App\Models\Customer;
 use App\Models\Location;
 use App\Models\Order_canceled;
@@ -99,7 +100,7 @@ class OrderController extends Controller
                     ->where('address', $order->address)
                     ->first();
 
-                if (!$existingLocation) {
+                if (!$existingLocation && $order->province) {
                     $locationCount = Location::where('customer_id', $order->customer_id)->count();
                     $location = new Location();
                     $location->customer_id = $order->customer_id;
@@ -159,13 +160,13 @@ class OrderController extends Controller
 
     public function createordercontract($contract_id)
     {
-        $contract = Contract::findOrFail($contract_id);
-        $payments = Payment::pluck('name', 'id')->all();
-        $customers = Customer::get();
-        $variation = Variation::all();
-        $locations = Location::all();
+        $contract = Contract::with('contractDetails.variation')->findOrFail($contract_id);
+        $customers = Customer::all();
 
-        return view(self::PATH_VIEW . __FUNCTION__, compact('contract', 'payments', 'customers', 'variation', 'locations'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact(
+            'contract',
+            'customers',
+        ));
     }
 
     /**
