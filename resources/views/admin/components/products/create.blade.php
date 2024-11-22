@@ -622,7 +622,7 @@
 
                     function validateVariantQuantities(event) {
                         const quantityInputs = document.querySelectorAll('input[name$="[stock]"]');
-                        const priceInputs = document.querySelectorAll('input[name$="[price]"]');
+                        // const priceInputs = document.querySelectorAll('input[name$="[price]"]');
                         const mainPrice = document.getElementById('product-price-input');
                         const productName = document.getElementById('product-title-input');
                         const description = document.getElementById('meta-description-input');
@@ -737,17 +737,17 @@
                         });
 
                         // Validate variant prices
-                        priceInputs.forEach(input => {
-                            const value = input.value.trim();
-                            if (value === '' || isNaN(value) || Number(value) <= 0 || Number(value) > 10000) {
-                                isValid = false;
-                                input.classList.add('is-invalid');
-                                addErrorMessage(input, 'Số lượng phải từ 1 đến 10,000');
-                            } else {
-                                input.classList.remove('is-invalid');
-                                removeErrorMessage(input);
-                            }
-                        });
+                        // priceInputs.forEach(input => {
+                        //     const value = input.value.trim();
+                        //     if (value === '' || isNaN(value) || Number(value) <= 0 || Number(value) > 10000) {
+                        //         isValid = false;
+                        //         input.classList.add('is-invalid');
+                        //         addErrorMessage(input, 'Số lượng phải từ 1 đến 10,000');
+                        //     } else {
+                        //         input.classList.remove('is-invalid');
+                        //         removeErrorMessage(input);
+                        //     }
+                        // });
 
                         if (!isValid) {
                             event.preventDefault();
