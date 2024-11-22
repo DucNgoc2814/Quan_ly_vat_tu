@@ -8,18 +8,17 @@ class CheckCustomer
 {
     public function handle($request, Closure $next)
     {
-        echo 123;
-        // try {
-        //     $token = Session::get('token');
-        //     $dataToken = JWTAuth::setToken($token)->getPayload();
-        //     if (!$token || $dataToken->get('role') != "customer") {
-        //         return redirect()->route('login')->with('authorization', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
-        //     } else{
-        //         return $next($request);
-        //     }
-        // } catch (Exception $e) {
-        //     Session::forget('token');
-        //     return redirect()->route('login')->with('authorization', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
-        // }
+        try {
+            $token = Session::get('token');
+            $dataToken = JWTAuth::setToken($token)->getPayload();
+            if (!$token || $dataToken->get('role') != "customer") {
+                return redirect()->route('login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
+            } else{
+                return $next($request);
+            }
+        } catch (Exception $e) {
+            Session::forget('token');
+            return redirect()->route('login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
+        }
     }
 }

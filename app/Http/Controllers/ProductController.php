@@ -176,7 +176,6 @@ class ProductController extends Controller
                     $product->image = $mainImagePath;
                     $product->save();
                 }
-
                 // Xử lý thêm ảnh mới
                 if ($request->hasFile('product_images')) {
                     foreach ($request->file('product_images') as $image) {
@@ -186,7 +185,6 @@ class ProductController extends Controller
                         }
                     }
                 }
-
                 // Xử lý cập nhật biến thể
                 if ($request->has('variations')) {
                     foreach ($request->variations as $variationId => $data) {
