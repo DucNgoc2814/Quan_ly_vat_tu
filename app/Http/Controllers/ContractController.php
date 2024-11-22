@@ -14,6 +14,10 @@ use PhpOffice\PhpWord\IOFactory;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Dompdf\Options;
+use Dompdf\Dompdf;
+use PhpOffice\PhpWord\Settings;
+use PhpOffice\PhpWord\Writer\HTML;
 
 class ContractController extends Controller
 {
@@ -42,16 +46,17 @@ class ContractController extends Controller
      */
     public function store(StoreContractRequest $request)
     {
-        // dd($request->all());
         try {
             $contractNumber = 'HDB' . str_pad(random_int(0, 99999), 5, '0', STR_PAD_LEFT);
             // 1. Tạo hợp đồng mới với trạng thái mặc định là 1 (đang chờ)
             $contract = Contract::create([
                 'contract_status_id' => 1,
-                'contract_name' => $contractNumber,
+                'employee_id' => '1',
+                'contract_number' => $contractNumber,
                 'customer_name' => $request->customer_name,
                 'customer_phone' => $request->customer_phone,
                 'customer_email' => $request->customer_email,
+                'total_amount' => 100000,
                 "timestart" => $request->timestart,
                 "timeend" => $request->timeend,
                 'file' => null
@@ -76,9 +81,10 @@ class ContractController extends Controller
             }
 
             // 3. Tạo file Word từ thông tin hợp đồng và chi tiết hợp đồng
-            $wordFile = $this->exportContractToWord($contract, $request);
+            $files = $this->exportContractToWord($contract, $request);
             $contract->update([
-                'file' => $wordFile
+                'file' => $files['docx'],
+                'file_pdf' => $files['pdf']
             ]);
 
             // 4. Trở về trang danh sách hợp đồng
@@ -96,13 +102,13 @@ class ContractController extends Controller
         $templatePath = storage_path('app/public/templates/hop-dong.docx');
         $templateProcessor = new TemplateProcessor($templatePath);
 
-        // Thay thế các thông tin cơ bản
-        $templateProcessor->setValue('contract_name', $contract->contract_name);
+        // Replace basic information
+        $templateProcessor->setValue('contract_number', $contract->contract_number);
         $templateProcessor->setValue('customer_name', $contract->customer_name);
         $templateProcessor->setValue('customer_phone', $contract->customer_phone);
         $templateProcessor->setValue('customer_email', $contract->customer_email);
 
-        // Chuẩn bị dữ liệu cho bảng
+        // Prepare table data
         $variations = $request->variation_id ?? [];
         $quantities = $request->quantity ?? [];
         $prices = $request->price ?? [];
@@ -128,20 +134,57 @@ class ContractController extends Controller
             }
         }
 
-        // Thêm dữ liệu vào bảng
+        // Add data to table
         $templateProcessor->cloneRowAndSetValues('stt', $tableData);
 
-        // Thêm tổng tiền và thời gian
+        // Add total amount and time
         $templateProcessor->setValue('total_amount', number_format($totalAmount) . ' VNĐ');
         $templateProcessor->setValue('timestart', date('d/m/Y', strtotime($contract->timestart)));
         $templateProcessor->setValue('timeend', date('d/m/Y', strtotime($contract->timeend)));
+        $templateProcessor->setValue('time', date('d/m/Y', strtotime($contract->created_at)));
 
-        $newFileName = 'Hopdong_' . $contract->id . '.docx';
-        $newFilePath = storage_path('app/public/contracts/' . $newFileName);
-        $templateProcessor->saveAs($newFilePath);
+        $docxFileName = 'Hopdong_' . $contract->id . '.docx';
+        $docxFilePath = storage_path('app/public/contracts/' . $docxFileName);
+        $templateProcessor->saveAs($docxFilePath);
 
-        return 'contracts/' . $newFileName;
+        // Configure DomPDF with Vietnamese font support
+        $domPdfPath = base_path('vendor/dompdf/dompdf');
+        Settings::setPdfRendererPath($domPdfPath);
+        Settings::setPdfRendererName('DomPDF');
+
+        $options = new Options();
+        $options->set('defaultFont', 'DejaVu Sans');
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+
+        // Thêm style để sử dụng font DejaVu Sans
+        $html = '<style>
+            body { font-family: "DejaVu Sans", sans-serif; }
+            * { font-family: "DejaVu Sans", sans-serif !important; }
+        </style>';
+        $html .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
+
+        // Load file docx và chuyển sang HTML
+        $phpWord = IOFactory::load($docxFilePath);
+        $htmlWriter = new HTML($phpWord);
+        $html .= $htmlWriter->getContent();
+
+        $dompdf->loadHtml($html, 'UTF-8');
+        $dompdf->render();
+
+        $pdfFileName = 'Hopdong_' . $contract->id . '.pdf';
+        $pdfFilePath = storage_path('app/public/contracts/' . $pdfFileName);
+        file_put_contents($pdfFilePath, $dompdf->output());
+
+        return [
+            'docx' => 'contracts/' . $docxFileName,
+            'pdf' => 'contracts/' . $pdfFileName
+        ];
     }
+
 
 
     public function sendToManager($id)
@@ -159,7 +202,17 @@ class ContractController extends Controller
             return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
+    public function sendToManagerPdf($id)
+    {
+        $contract = Contract::findOrFail($id);
+        session()->push('pending_contract_pdfs', [
+            'contract' => $contract,
+            'timestamp' => now()->timestamp
+        ]);
 
+        return redirect()->route('contract.index')
+            ->with('success', 'Đã gửi hợp đồng cho giám đốc thành công');
+    }
     public function confirmContract($id)
     {
         try {
@@ -187,8 +240,11 @@ class ContractController extends Controller
     public function sendToCustomer($id)
     {
         $contract = Contract::findOrFail($id);
-        $fileName = 'Hopdong_' . $contract->id . '.docx';
-        $filePath = storage_path('app/public/contracts/' . $fileName);
+        $pdfFileName = 'Hopdong_' . $contract->id . '.pdf';
+        $wordFileName = 'Hopdong_' . $contract->id . '.docx';
+
+        $pdfFilePath = storage_path('app/public/contracts/' . $pdfFileName);
+        $wordFilePath = storage_path('app/public/contracts/' . $wordFileName);
 
         $token = Str::random(60);
         $contract->verification_token = $token;
@@ -196,16 +252,18 @@ class ContractController extends Controller
 
         $baseUrl = config('app.url');
 
-        $baseUrl = config('app.url');
-
         Mail::send('emails.contract', [
             'contract' => $contract,
             'token' => $token,
             'baseUrl' => $baseUrl
-        ], function ($message) use ($contract, $filePath, $baseUrl) {
+        ], function ($message) use ($contract, $pdfFilePath, $wordFilePath) {
             $message->to($contract->customer_email)
                 ->subject('Hợp đồng của bạn')
-                ->attach($filePath, [
+                ->attach($pdfFilePath, [
+                    'as' => 'Hopdong_' . $contract->id . '.pdf',
+                    'mime' => 'application/pdf'
+                ])
+                ->attach($wordFilePath, [
                     'as' => 'Hopdong_' . $contract->id . '.docx',
                     'mime' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
                 ]);
@@ -216,9 +274,6 @@ class ContractController extends Controller
 
         return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
     }
-
-
-
     public function customerApprove($id)
     {
         $contract = Contract::findOrFail($id)->where('verification_token', request('token'))
@@ -244,6 +299,20 @@ class ContractController extends Controller
 
         return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
     }
+    public function showPdf($id)
+    {
+        $contract = Contract::findOrFail($id);
+        $pdfPath = public_path("storage/contracts/Hopdong_{$id}.pdf");
+        return response()->file($pdfPath);
+    }
+
+    // public function showWord($id)
+    // {
+    //     $contract = Contract::findOrFail($id);
+    //     $wordUrl = Storage::url("contracts/Hopdong_{$id}.docx");
+    //     $fullUrl = asset($wordUrl);
+    //     return response()->json(['url' => $fullUrl]);
+    // }
 
 
     /**

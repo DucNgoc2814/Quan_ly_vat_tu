@@ -22,19 +22,16 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string',
-            'sku' => 'required|string',
+            'name' => 'required|unique:categories,name',
             'image' => 'required|Image',
-            'description' => 'required|string',
         ];
     }
     public function messages()
     {
         return [
-            'name.required' => 'Không dược bỏ trống',
-            'sku.required' => 'Không dược bỏ trống',
-            'image.required' => 'Không được bỏ trống',
-            'description.required' => 'Không dược bỏ trống',
+            'name.required' => 'Tên không dược bỏ trống',
+            'name.unique' => 'Tên danh mục đã tồn tại',
+            'image.required' => 'Ảnh không được bỏ trống',
         ];
     }
 }

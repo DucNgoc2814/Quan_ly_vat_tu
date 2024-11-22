@@ -238,11 +238,11 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
-                                                <label class="form-label" for="product-quantity-input">Số lượng sản phẩm</label>
-                                                <input type="number" 
-                                                    class="form-control @error('product_quantity.0') is-invalid @enderror" 
-                                                    name="product_quantity[]" 
-                                                    value="{{ old('product_quantity.0') }}" 
+                                                <label class="form-label" for="product-quantity-input">Số lượng sản
+                                                    phẩm</label>
+                                                <input type="number"
+                                                    class="form-control @error('product_quantity.0') is-invalid @enderror"
+                                                    name="product_quantity[]" value="{{ old('product_quantity.0') }}"
                                                     placeholder="Nhập số lượng">
                                                 @error('product_quantity.0')
                                                     <div class="invalid-feedback d-block">
@@ -318,8 +318,8 @@
     <script>
         // Hàm để thêm sản phẩm mới
         function addProduct() {
-    let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
-    let html = `
+            let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
+            let html = `
     <div class="col-md-12" id="${id}_item">
         <hr class="mb-2">
         <div class="mb-2">
@@ -343,9 +343,9 @@
             <div class="col-4">
                 <div class="mb-2">
                     <label class="form-label">Số lượng sản phẩm</label>
-                    <input type="number" 
-                        class="form-control @error('product_quantity.*') is-invalid @enderror" 
-                        name="product_quantity[]" 
+                    <input type="number"
+                        class="form-control @error('product_quantity.*') is-invalid @enderror"
+                        name="product_quantity[]"
                         placeholder="Nhập số lượng">
                     <div class="invalid-feedback d-block product-quantity-error"></div>
                 </div>
@@ -363,10 +363,10 @@
             </button>
         </div>
     </div>`;
-    
-    document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
-    addInputListeners();
-}
+
+            document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
+            addInputListeners();
+        }
 
         // Hàm để tính tổng giá trị đơn hàng
         function calculateTotal() {
@@ -606,11 +606,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                                                                                    <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                                                    <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                                                ` : `
-                                                                                                                    <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                                                `}
+                                                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                                                    ` : `
+                                                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                                                    `}
                                 </div>
                             </div>
                             <hr>

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
@@ -12,8 +11,8 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    
-    const PATH_VIEW = 'admin.components.Categories.';
+
+    const PATH_VIEW = 'admin.components.categories.';
 
     public function index()
     {
@@ -26,34 +25,27 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view(self::PATH_VIEW . 'create');
+        return view(self::PATH_VIEW . __FUNCTION__);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
         $sku = $this->convertSku($request->name);
-            $request->validate([
-                'name' => 'required|unique:categories,name',
-                'image' => 'required',
-                'description' => 'required',
-            ]);
-
-            $data = [
-                'name' => $request->name,
-                'sku' => $sku,
-                'image' => $request->image,
-                'description' => $request->description,
-            ];
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('images', 'public');
-                $data['image'] = $imagePath;
-            }
-            Category::query()->create($data);
-            return redirect()->route('category.index');
-       
+        $data = [
+            'name' => $request->name,
+            'sku' => $sku,
+            'image' => $request->image,
+            'description' => $request->description,
+        ];
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $data['image'] = $imagePath;
+        }
+        Category::query()->create($data);
+        return redirect()->route('category.index');
     }
 
 
@@ -71,29 +63,22 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findOrFail($id);
-        return view('admin.components.categories.edit', compact('category'));
+        $category1 = Category::findOrFail($id);
+        return view(self::PATH_VIEW . __FUNCTION__,compact('category1'));
     }
 
 
-    /**
+    /** 
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
-
         $sku = $this->convertSku($request->name);
-
         $data = [
             'name' => $request->name,
             'sku' => $sku,
             'description' => $request->description,
         ];
-        $request->validate([
-            'name' => 'required|unique:categories,name',
-            'image' => 'nullable|image|',
-            'description' => 'nullable|string',
-        ]);
 
         $category = Category::findOrFail($id);
         if ($request->hasFile('image')) {
@@ -118,12 +103,11 @@ class CategoryController extends Controller
 
     private function convertSku($string)
     {
-        $string = strtolower($string);        
+        $string = strtolower($string);
         $string = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
         $string = preg_replace('/[^a-z0-9\s]+/', '', $string);
         $string = preg_replace('/\s+/', '-', $string);
         $string = trim($string, '-');
         return $string;
     }
-    
 }
