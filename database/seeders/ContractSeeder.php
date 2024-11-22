@@ -19,6 +19,8 @@ class ContractSeeder extends Seeder
             'customer_name' => 'Khanh',
             'customer_phone' => '0964583628',
             'customer_email' => 'k@gmail.com',
+            'timestart' => '2024-11-20',
+            'timeend' => '2024-11-20',
         ]);
     }
 }

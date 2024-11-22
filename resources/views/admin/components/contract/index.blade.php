@@ -53,7 +53,7 @@
                                                 style="display:inline;">
                                                 @csrf
                                                 <button type="submit" class="btn btn-primary btn-sm">
-                                                    Gửi quản lý
+                                                    Gửi giám đốc
                                                 </button>
                                             </form>
                                         @elseif ($data->contract_status_id == 2)
@@ -69,10 +69,45 @@
                                         @endif
                                     </td>
 
-                                    <td>
-                                        <a href="{{ route('contract.edit', $data) }}" class="dropdown-item edit-item-btn"><i
-                                                class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                            Sửa</a>
+                                    <td class="d-flex flex-column gap-2">
+                                        @if ($data->contract_status_id == 1)
+                                            <a href="{{ route('contract.index', $data) }}" class="btn btn-primary btn-sm">
+                                                <i class="ri-pencil-fill align-bottom me-2"></i>Sửa
+                                            </a>
+                                        @elseif ($data->contract_status_id == 3 || $data->contract_status_id == 7)
+                                            <a href="{{ route('contract.index', $data) }}" class="btn btn-warning btn-sm">
+                                                <i class="ri-pencil-fill align-bottom me-2"></i>Thay đổi
+                                            </a>
+                                            <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success btn-sm w-100">
+                                                    <i class="ri-send-plane-fill align-bottom me-2"></i>Gửi giám đốc
+                                                </button>
+                                            </form>
+                                        @elseif ($data->contract_status_id == 6)
+                                            <a href="{{ route('contract.index', $data) }}" class="btn btn-info btn-sm">
+                                                <i class="ri-eye-fill align-bottom me-2"></i>Xem
+                                            </a>
+                                            <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success btn-sm w-100">
+                                                    <i class="ri-send-plane-fill align-bottom me-2"></i>Gửi giám đốc
+                                                </button>
+                                            </form>
+                                            <a href="{{ route('order.createordercontract', ['contract_id' => $data->id]) }}" class="btn btn-primary btn-sm">
+                                                <i class="ri-add-fill align-bottom me-2"></i>Tạo đơn hàng
+                                            </a>
+                                        @else
+                                            <a href="{{ route('contract.index', $data) }}" class="btn btn-info btn-sm">
+                                                <i class="ri-eye-fill align-bottom me-2"></i>Xem
+                                            </a>
+                                            <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST">
+                                                @csrf
+                                                <button type="submit" class="btn btn-success btn-sm w-100">
+                                                    <i class="ri-send-plane-fill align-bottom me-2"></i>Gửi giám đốc
+                                                </button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

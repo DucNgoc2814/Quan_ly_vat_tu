@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Contract;
 use App\Models\Customer;
 use App\Models\Location;
 use App\Models\Order_canceled;
@@ -66,6 +67,7 @@ class OrderController extends Controller
                 $dataOrder = [
                     "payment_id" => $request->payment_id,
                     "customer_id" => $customer_id,
+                    "contract_id" => $request->contract_id,
                     "status_id" => 1,
                     "slug" => $slug,
                     "customer_name" => $request->customer_name ?? $customers->name,
@@ -143,7 +145,6 @@ class OrderController extends Controller
                 } else {
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
-                // $this->exportOrderToWord($order, $request);
             });
 
             return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
@@ -153,6 +154,18 @@ class OrderController extends Controller
             dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
+    }
+
+
+    public function createordercontract($contract_id)
+    {
+        $contract = Contract::findOrFail($contract_id);
+        $payments = Payment::pluck('name', 'id')->all();
+        $customers = Customer::get();
+        $variation = Variation::all();
+        $locations = Location::all();
+
+        return view(self::PATH_VIEW . __FUNCTION__, compact('contract', 'payments', 'customers', 'variation', 'locations'));
     }
 
     /**
