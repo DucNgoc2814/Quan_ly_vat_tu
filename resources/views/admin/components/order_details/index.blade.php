@@ -54,7 +54,7 @@
                                                             {{ $statusTime->orderStatus->name }}
                                                         </h6>
                                                         <p class="text-muted">
-                                                            {{ $statusTime->time }}
+                                                            {{ $statusTime->created_at }}
                                                         </p>
                                                     </div>
                                                 </div>

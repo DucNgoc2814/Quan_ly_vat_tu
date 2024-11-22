@@ -28,7 +28,6 @@
                                 <th data-ordering="false">Ảnh khách hàng</th>
                                 <th data-ordering="false">Số điện thoại</th>
                                 <th data-ordering="false">Email</th>
-                                <th data-ordering="false">Mật khẩu</th>
                                 <th data-ordering="false">Tích lũy</th>
                                 <th data-ordering="false">Hiển thị</th>
                                 <th>Action</th>
@@ -43,7 +42,6 @@
                                     </td>
                                     <td>{{ $customer->number_phone }}</td>
                                     <td>{{ $customer->email }}</td>
-                                    <td>{{ $customer->password }}</td>
                                     <td>{{ $customer->amount }}</td>
                                     <td>
                                         <div class="form-check form-switch form-switch">
