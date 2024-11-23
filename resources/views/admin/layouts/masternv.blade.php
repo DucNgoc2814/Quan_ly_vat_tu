@@ -79,6 +79,7 @@
             /* Giữ padding cho span */
             border-radius: 5px;
             /* Bo góc cho span */
+
         }
 
         /* Khi checkbox được chọn */
