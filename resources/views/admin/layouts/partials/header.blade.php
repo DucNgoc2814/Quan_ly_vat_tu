@@ -6,23 +6,19 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="index.html" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt=""
-                                height="22">
+                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt=""
-                                height="17">
+                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="17">
                         </span>
                     </a>
 
                     <a href="index.html" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt=""
-                                height="22">
+                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt=""
-                                height="17">
+                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="17">
                         </span>
                     </a>
                 </div>
@@ -366,11 +362,12 @@
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
                             <img class="rounded-circle header-profile-user"
-                                src="{{ asset('themes/admin/assets/images/users/avatar-1.jpg') }}"
+                                src="{{ asset('storage/' . (Session::get('employee')->image ?? 'themes/admin/assets/pro/default-user.jpg')) }}"
                                 alt="Header Avatar">
+
                             <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Anna
-                                    Adame</span>
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
+                                    {{ Session::get('employee')->name }}</span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
                             </span>
                         </span>

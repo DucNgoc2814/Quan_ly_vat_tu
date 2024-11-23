@@ -63,6 +63,7 @@ Route::prefix('nhan-vien-lai-xe')
         Route::get('/404-not-found', [TripManagementController::class, 'notFound'])->name('notfound');
         Route::get('/dang-nhap', [TripManagementController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [TripManagementController::class, 'loginPost'])->name('loginPost');
+        Route::get('/dashboard-nv', [TripManagementController::class, 'dashboard'])->name('dashboard');
         Route::get('/xan-nhan-don-hang', [TripManagementController::class, 'index'])->name('index');
         Route::get('/chi-tiet/{id}', [TripManagementController::class, 'show'])->name('show');
         Route::put('/chi-tiet/{id}', [TripManagementController::class, 'update'])->name('update');

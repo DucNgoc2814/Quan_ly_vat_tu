@@ -59,12 +59,14 @@ class TripManagementController extends Controller
         }
     }
 
+
     public function index()
     {
         if (!Session::has('employee')) {
             return redirect()->route('orderconfirm.login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
         }
         $employee = Session::get('employee');
+        // dd($employee);
         $trips = Trip::where('employee_id', $employee->id)->get();
 
         return view('admin.components.tripmanagement.index', compact('employee', 'trips'));
@@ -149,6 +151,9 @@ class TripManagementController extends Controller
 
 
 
+    public function dashboard(){
+        return view('admin.dashboardnv');
+    }
 
 
     /**
