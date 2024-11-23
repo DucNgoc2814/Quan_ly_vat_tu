@@ -112,7 +112,6 @@ class TripManagementController extends Controller
             OrderStatusTime::create([
                 'order_id' => $order->id,
                 'order_status_id' => 4,
-                'time' => now()
             ]);
             $order->update(['status_id' => 4]);
 

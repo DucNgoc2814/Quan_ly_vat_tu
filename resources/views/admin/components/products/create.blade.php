@@ -56,21 +56,6 @@
 
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                                            <input type="text" class="form-control" id="product-price-input"
-                                                value="{{ old('price') }}" placeholder="Thêm giá sản phẩm" name="price">
-                                            @error('price')
-                                                <span role="alert">
-                                                    <span class="text-danger">{{ $message }}</span>
-                                                </span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="card">
-                                    <div class="card-body">
                                         <div class="mb-4">
                                             <div>
                                                 <label class="form-label">Ảnh sản phẩm</label>
@@ -113,9 +98,9 @@
                                     <div class="card-body">
                                         <div class="mb-4">
                                             <div>
-                                                <label class="form-label" for="meta-description-input">Mô tả</label>
-                                                <textarea class="form-control" id="meta-description-input" placeholder="Nhập nội dung" rows="8"
-                                                    name="description">{{ old('description') }}</textarea>
+                                                <label class="form-label" for="product-description">Mô Tả Sản
+                                                    Phẩm</label>
+                                                <textarea name="description" id="product-description" class="form-control" placeholder="Nhập nội dung" rows="8">{{ old('description') }}</textarea>
                                                 @error('description')
                                                     <span role="alert">
                                                         <span class="text-danger">{{ $message }}</span>
@@ -209,19 +194,6 @@
                                                 phẩm biến thể</option>
                                         </select>
                                         @error('product_type')
-                                            <span role="alert">
-                                                <span class="text-danger">{{ $message }}</span>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="card" id="quantity-section" style="display: none;">
-                                    <div class="card-body">
-                                        <h5 class="card-title mb-0">Nhập số lượng:</h5>
-                                        <input type="number" class="form-control mt-2" name="quantity"
-                                            placeholder="Nhập số lượng" min="0" value="{{ old('quantity') }}">
-                                        @error('quantity')
                                             <span role="alert">
                                                 <span class="text-danger">{{ $message }}</span>
                                             </span>
@@ -330,27 +302,6 @@
                                                                 </div>
                                                             </div>
                                                         @endforeach
-                                                        <div class="col-md-3">
-                                                            <div class="mb-2">
-                                                                <label class="form-label">Giá chi tiết</label>
-                                                                <input type="number" class="form-control"
-                                                                    name="variants[{{ $id }}][price]"
-                                                                    value=""
-                                                                    placeholder="Giá như trên nếu không nhập">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-2">
-                                                            <div class="mb-2">
-                                                                <label class="form-label">Số lượng</label>
-                                                                <input type="number" class="form-control"
-                                                                    name="variants[{{ $id }}][stock]"
-                                                                    value="" min="0"
-                                                                    placeholder="Nhập số lượng">
-                                                                @error('variants.' . $id . '.stock')
-                                                                    <div class="invalid-feedback">{{ $message }}</div>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
                                                         <div class="col-md-1 d-flex align-items-center">
                                                             <button type="button" class="btn btn-danger"
                                                                 onclick="removeVariant('{{ $id }}')">
@@ -366,51 +317,51 @@
                             </div>
                             <div class="mt-3">
                                 <button class="btn btn-success text" id="btn-submit" ">Thêm mới</button>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <style>
-                    .is-invalid {
-                        border-color: #dc3545;
-                    }
-                </style>
-                <script>
-                    function getSelectedValues(e) {
-                        const selectedVariants = [];
-                        $('input[name="variant_types[]"]:checked').each(function() {
-                            selectedVariants.push($(this).val());
-                        });
-                        if (selectedVariants.length === 0) {
-                            alert('Bạn phải chọn ít nhất một loại biến thể.');
-                            event.preventDefault(); // Ngăn hành động mặc định
-                            event.target.checked = true;
-                            return false;
-                        }
-                        // Check the limit of variants
-                        if (selectedVariants.length > 2) {
-                            alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
-                            e.preventDefault();
-                            return e.target.checked = false;
-                        }
+                                    <style>
+                                        .is-invalid {
+                                            border-color: #dc3545;
+                                        }
+                                    </style>
+                                    <script>
+                                        function getSelectedValues(e) {
+                                            const selectedVariants = [];
+                                            $('input[name="variant_types[]"]:checked').each(function() {
+                                                selectedVariants.push($(this).val());
+                                            });
+                                            if (selectedVariants.length === 0) {
+                                                alert('Bạn phải chọn ít nhất một loại biến thể.');
+                                                event.preventDefault(); // Ngăn hành động mặc định
+                                                event.target.checked = true;
+                                                return false;
+                                            }
+                                            // Check the limit of variants
+                                            if (selectedVariants.length > 2) {
+                                                alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
+                                                e.preventDefault();
+                                                return e.target.checked = false;
+                                            }
 
-                        const variantValues = @json($attributesArray);
-                        const selectedVariantValues = selectedVariants.map(variant => {
-                            const attribute = variantValues.find(attr => attr.id == variant);
-                            return attribute ? attribute.attribute_values : [];
-                        });
-                        const combinations = generateCombinations(selectedVariantValues);
-                        const resultDiv = $('#selected-variants');
-                        resultDiv.empty();
-                        combinations.forEach(combo => {
-                            const id = combo.map(item => item.id).join('_');
-                            const variantLabels = selectedVariants.map((type, index) => {
-                                const variantValue = combo[index];
-                                const variantName = variantValues.find(attr => attr.id == type).name;
-                                return `
+                                            const variantValues = @json($attributesArray);
+                                            const selectedVariantValues = selectedVariants.map(variant => {
+                                                const attribute = variantValues.find(attr => attr.id == variant);
+                                                return attribute ? attribute.attribute_values : [];
+                                            });
+                                            const combinations = generateCombinations(selectedVariantValues);
+                                            const resultDiv = $('#selected-variants');
+                                            resultDiv.empty();
+                                            combinations.forEach(combo => {
+                                                const id = combo.map(item => item.id).join('_');
+                                                const variantLabels = selectedVariants.map((type, index) => {
+                                                    const variantValue = combo[index];
+                                                    const variantName = variantValues.find(attr => attr.id == type).name;
+                                                    return `
                 <div class="col-md-3">
                     <div class="mb-2">
                         <label class="form-label">${variantName}</label>
@@ -419,26 +370,14 @@
                     </div>
                 </div>
             `;
-                            }).join('');
-                            const html = `
+                                                }).join('');
+                                                const html = `
     <div class="col-lg-12">
         <div class="col-md-12" id="${id}_item">
             <hr class="mb-2">
             <div class="row">
                 ${variantLabels}
-                <div class="col-md-3">
-                    <div class="mb-2">
-                        <label class="form-label">Giá chi tiết</label>
-                        <input type="number" class="form-control" name="variants[${id}][price]" placeholder="Giá như trên nếu không nhập">
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="mb-2">
-                        <label class="form-label">Số lượng</label>
-                        <input type="number" class="form-control" name="variants[${id}][stock]"
-                    min="0" placeholder="Nhập số lượng">
-                    </div>
-                </div>
+                
                 <div class="col-md-1 d-flex align-items-center">
                     <button type="button" class="btn btn-danger" onclick="removeVariant('${id}')">
                         <i class="ri-delete-bin-5-line"></i>
@@ -448,48 +387,48 @@
         </div>
     </div>
 `;
-                            resultDiv.append(html);
-                        });
-                    }
+                                                resultDiv.append(html);
+                                            });
+                                        }
 
-                    function removeVariant(id) {
-                        const variantItems = document.querySelectorAll('[id$="_item"]'); // Lấy tất cả các biến thể
-                        if (variantItems.length <= 1) {
-                            alert('Bạn không thể xóa biến thể cuối cùng.'); // Thông báo nếu chỉ còn một biến thể
-                            return; // Ngăn không cho xóa
-                        }
+                                        function removeVariant(id) {
+                                            const variantItems = document.querySelectorAll('[id$="_item"]'); // Lấy tất cả các biến thể
+                                            if (variantItems.length <= 1) {
+                                                alert('Bạn không thể xóa biến thể cuối cùng.'); // Thông báo nếu chỉ còn một biến thể
+                                                return; // Ngăn không cho xóa
+                                            }
 
-                        const variantItem = document.getElementById(id + '_item');
-                        if (variantItem) {
-                            variantItem.remove(); // Xóa biến thể khỏi DOM
-                        }
-                    }
+                                            const variantItem = document.getElementById(id + '_item');
+                                            if (variantItem) {
+                                                variantItem.remove(); // Xóa biến thể khỏi DOM
+                                            }
+                                        }
 
-                    let imageCount = {{ old('image_count', 1) }};
+                                        let imageCount = {{ old('image_count', 1) }};
 
 
-                    // Hm hiển thị ảnh xem trước
-                    function displayImage(event, count) {
-                        event.preventDefault(); // Ngăn chặn sự kiện mặc định gây cuộn trang
-                        var output = document.getElementById('product-img-' + count);
-                        if (event.target.files.length > 0) { // Kiểm tra xem có file nào được chọn không
-                            output.src = URL.createObjectURL(event.target.files[0]);
-                            output.onload = function() {
-                                URL.revokeObjectURL(output.src); // Giải phóng bộ nhớ
-                                // Đặt kích thước mặc định cho ảnh
-                                output.style.width = '50px'; // Kích thước chiều rộng
-                                output.style.height = '50px'; // Kích thước chiều cao
-                                output.style.objectFit = 'cover'; // Đảm bảo ảnh không bị méo
-                            }
-                        }
-                    }
+                                        // Hm hiển thị ảnh xem trước
+                                        function displayImage(event, count) {
+                                            event.preventDefault(); // Ngăn chặn sự kiện mặc định gây cuộn trang
+                                            var output = document.getElementById('product-img-' + count);
+                                            if (event.target.files.length > 0) { // Kiểm tra xem có file nào được chọn không
+                                                output.src = URL.createObjectURL(event.target.files[0]);
+                                                output.onload = function() {
+                                                    URL.revokeObjectURL(output.src); // Giải phóng bộ nhớ
+                                                    // Đặt kích thước mặc định cho ảnh
+                                                    output.style.width = '50px'; // Kích thước chiều rộng
+                                                    output.style.height = '50px'; // Kích thước chiều cao
+                                                    output.style.objectFit = 'cover'; // Đảm bảo ảnh không bị méo
+                                                }
+                                            }
+                                        }
 
-                    // Hàm thêm input ảnh mới
-                    function addImageInput() {
-                        imageCount++;
-                        document.getElementById('image_count').value = imageCount;
+                                        // Hàm thêm input ảnh mới
+                                        function addImageInput() {
+                                            imageCount++;
+                                            document.getElementById('image_count').value = imageCount;
 
-                        const html = `
+                                            const html = `
         <div class="position-relative d-inline-block mb-4 me-4" id="image-container-${imageCount-1}">
             <div class="position-absolute top-100 start-100 translate-middle">
                 <label for="product-image-${imageCount-1}" class="mb-0" data-bs-toggle="tooltip" data-bs-placement="right" title="Chọn ảnh">
@@ -514,263 +453,120 @@
             </button>
         </div>
     `;
-                        document.getElementById('image-inputs').insertAdjacentHTML('beforeend', html);
-                    }
-                    // Kết nối sự kiện click với nút thêm ảnh
-                    document.getElementById('add-image-button').addEventListener('click', addImageInput);
-                    // Kết nối sự kiện click với nút thêm ảnh
-                    document.getElementById('add-image-button').addEventListener('click', addImageInput);
+                                            document.getElementById('image-inputs').insertAdjacentHTML('beforeend', html);
+                                        }
+                                        document.getElementById('add-image-button').addEventListener('click', addImageInput);
 
+                                        function generateCombinations(arrays) {
+                                            if (arrays.some(array => array.length === 0)) {
+                                                return []; // Trả về mảng rỗng nếu có mảng trống
+                                            }
 
+                                            return arrays.reduce((accumulator, current) => {
+                                                const combinations = [];
+                                                accumulator.forEach(accItem => {
+                                                    current.forEach(curItem => {
+                                                        combinations.push([...accItem, curItem]);
+                                                    });
+                                                });
+                                                return combinations;
+                                            }, [
+                                                []
+                                            ]); // Bắt đầu với một mảng chứa một mảng rỗng
+                                        }
 
+                                        function displayMainImage(event) {
+                                            const output = document.getElementById('product-img-main');
+                                            if (event.target.files.length > 0) {
+                                                output.src = URL.createObjectURL(event.target.files[0]);
+                                                output.style.width = '50px';
+                                                output.style.height = '50px';
+                                                output.style.objectFit = 'cover';
+                                            }
+                                        }
 
-                    // Hàm để tạo tất cả các kết hợp từ mảng
-                    function generateCombinations(arrays) {
-                        // Kiểm tra xem có mảng nào trống không
-                        if (arrays.some(array => array.length === 0)) {
-                            return []; // Trả về mảng rỗng nếu có mảng trống
-                        }
+                                        function toggleVariantOptions() {
+                                            const productType = document.getElementById('product_type').value;
+                                            const variantSection = document.getElementById('variant-section');
+                                            const quantitySection = document.getElementById('quantity-section');
 
-                        return arrays.reduce((accumulator, current) => {
-                            const combinations = [];
-                            accumulator.forEach(accItem => {
-                                current.forEach(curItem => {
-                                    combinations.push([...accItem, curItem]);
-                                });
-                            });
-                            return combinations;
-                        }, [
-                            []
-                        ]); // Bắt đầu với một mảng chứa một mảng rỗng
-                    }
+                                            if (productType === '1') {
+                                                variantSection.style.display = 'block'; // Hiện phần chọn biến thể
+                                                quantitySection.style.display = 'none'; // Ẩn phần nhập số lượng
+                                            } else {
+                                                variantSection.style.display = 'none'; // Ẩn phần chọn biến thể
+                                                quantitySection.style.display = 'block'; // Hiện phần nhập số lượng
 
-                    function displayMainImage(event) {
-                        const output = document.getElementById('product-img-main');
-                        if (event.target.files.length > 0) {
-                            output.src = URL.createObjectURL(event.target.files[0]);
-                            output.style.width = '50px';
-                            output.style.height = '50px';
-                            output.style.objectFit = 'cover';
-                        }
-                    }
+                                                // Xóa tất cả các biến thể nếu chọn sản phẩm thường
+                                                const variantItems = document.querySelectorAll('[id$="_item"]'); // Lấy tất cả các biến thể
+                                                variantItems.forEach(item => item.remove()); // Xóa từng biến thể
+                                            }
+                                        }
 
-                    function toggleVariantOptions() {
-                        const productType = document.getElementById('product_type').value;
-                        const variantSection = document.getElementById('variant-section');
-                        const quantitySection = document.getElementById('quantity-section');
+                                        function removeImageInput(containerId) {
+                                            document.getElementById(containerId).remove();
+                                            imageCount -= 1;
+                                        }
+                                        // Gọi hàm để thiết lập trạng thái ban đầu
+                                        document.addEventListener('DOMContentLoaded', toggleVariantOptions);
 
-                        if (productType === '1') {
-                            variantSection.style.display = 'block'; // Hiện phần chọn biến thể
-                            quantitySection.style.display = 'none'; // Ẩn phần nhập số lượng
-                        } else {
-                            variantSection.style.display = 'none'; // Ẩn phần chọn biến thể
-                            quantitySection.style.display = 'block'; // Hiện phần nhập số lượng
+                                        document.addEventListener('DOMContentLoaded', function() {
+                                            // Set initial product type
+                                            const savedProductType = '{{ old('product_type', '0') }}';
+                                            if (savedProductType === '1') {
+                                                toggleVariantOptions();
+                                                const savedVariantTypes = @json(old('variant_types', []));
+                                                savedVariantTypes.forEach(type => {
+                                                    document.querySelector(`input[name="variant_types[]"][value="${type}"]`).checked = true;
+                                                });
+                                                if (savedVariantTypes.length > 0) {
+                                                    getSelectedValues({
+                                                        target: document.querySelector('input[name="variant_types[]"]:checked')
+                                                    });
+                                                }
+                                            }
+                                        });
 
-                            // Xóa tất cả các biến thể nếu chọn sản phẩm thường
-                            const variantItems = document.querySelectorAll('[id$="_item"]'); // Lấy tất cả các biến thể
-                            variantItems.forEach(item => item.remove()); // Xóa từng biến thể
-                        }
-                    }
+                                        function toggleVariantOptions() {
+                                            const productType = document.getElementById('product_type').value;
+                                            const variantSection = document.getElementById('variant-section');
+                                            const quantitySection = document.getElementById('quantity-section');
 
-                    function removeImageInput(containerId) {
-                        document.getElementById(containerId).remove();
-                        imageCount -= 1;
-                    }
-                    // Gọi hàm để thiết lập trạng thái ban đầu
-                    document.addEventListener('DOMContentLoaded', toggleVariantOptions);
+                                            if (productType === '1') {
+                                                variantSection.style.display = 'block';
+                                                quantitySection.style.display = 'none';
+                                            } else {
+                                                variantSection.style.display = 'none';
+                                                quantitySection.style.display = 'block';
+                                                const selectedVariants = document.getElementById('selected-variants');
+                                                if (selectedVariants) {
+                                                    selectedVariants.innerHTML = '';
+                                                }
+                                            }
+                                        }
 
-                    document.addEventListener('DOMContentLoaded', function() {
-                        // Set initial product type
-                        const savedProductType = '{{ old('product_type', '0') }}';
-                        if (savedProductType === '1') {
-                            toggleVariantOptions();
+                                        function addErrorMessage(element, message) {
+                                            const existingError = element.nextElementSibling?.classList.contains('text-danger');
+                                            if (!existingError) {
+                                                const errorDiv = document.createElement('span');
+                                                errorDiv.className = 'text-danger';
+                                                errorDiv.style.fontSize = '12px';
+                                                errorDiv.textContent = message;
+                                                element.insertAdjacentElement('afterend', errorDiv);
+                                            }
+                                        }
 
-                            // Re-check previously selected variant types
-                            const savedVariantTypes = @json(old('variant_types', []));
-                            savedVariantTypes.forEach(type => {
-                                document.querySelector(`input[name="variant_types[]"][value="${type}"]`).checked = true;
-                            });
+                                        function removeErrorMessage(element) {
+                                            const errorMessage = element.nextElementSibling;
+                                            if (errorMessage?.classList.contains('text-danger')) {
+                                                errorMessage.remove();
+                                            }
+                                        }
 
-                            // Trigger variant generation
-                            if (savedVariantTypes.length > 0) {
-                                getSelectedValues({
-                                    target: document.querySelector('input[name="variant_types[]"]:checked')
-                                });
-                            }
-                        }
-                    });
-
-                    function toggleVariantOptions() {
-                        const productType = document.getElementById('product_type').value;
-                        const variantSection = document.getElementById('variant-section');
-                        const quantitySection = document.getElementById('quantity-section');
-
-                        if (productType === '1') {
-                            variantSection.style.display = 'block';
-                            quantitySection.style.display = 'none';
-                        } else {
-                            variantSection.style.display = 'none';
-                            quantitySection.style.display = 'block';
-
-                            // Clear variants when switching to regular product
-                            const selectedVariants = document.getElementById('selected-variants');
-                            if (selectedVariants) {
-                                selectedVariants.innerHTML = '';
-                            }
-                        }
-                    }
-
-                    function validateVariantQuantities(event) {
-                        const quantityInputs = document.querySelectorAll('input[name$="[stock]"]');
-                        const priceInputs = document.querySelectorAll('input[name$="[price]"]');
-                        const mainPrice = document.getElementById('product-price-input');
-                        const productName = document.getElementById('product-title-input');
-                        const description = document.getElementById('meta-description-input');
-                        const category = document.querySelector('select[name="category_id"]');
-                        const brand = document.querySelector('select[name="brand_id"]');
-                        const unit = document.querySelector('select[name="unit_id"]');
-                        const mainImage = document.getElementById('product-image-main');
-                        const galleryImages = document.querySelectorAll('input[name="product_images[]"]');
-                        let isValid = true;
-
-                        // Validate main image
-                        if (!mainImage.files || mainImage.files.length === 0) {
-                            isValid = false;
-                            mainImage.classList.add('is-invalid');
-                            const mainImageContainer = mainImage.closest('.position-relative');
-                            addErrorMessage(mainImageContainer, 'Vui lòng chọn ảnh chính cho sản phẩm');
-                        } else {
-                            mainImage.classList.remove('is-invalid');
-                            const mainImageContainer = mainImage.closest('.position-relative');
-                            removeErrorMessage(mainImageContainer);
-                        }
-
-                        // Validate gallery images
-                        let hasValidGalleryImage = false;
-                        galleryImages.forEach(input => {
-                            if (input.files && input.files.length > 0) {
-                                hasValidGalleryImage = true;
-                            }
-                        });
-
-                        if (!hasValidGalleryImage) {
-                            isValid = false;
-                            const galleryContainer = document.getElementById('image-inputs');
-                            addErrorMessage(galleryContainer, 'Vui lòng chọn ít nhất một ảnh cho bộ sưu tập');
-                        } else {
-                            const galleryContainer = document.getElementById('image-inputs');
-                            removeErrorMessage(galleryContainer);
-                        }
-
-                        // Validate product name
-                        if (!productName.value.trim()) {
-                            isValid = false;
-                            productName.classList.add('is-invalid');
-                            addErrorMessage(productName, 'Vui lòng nhập tên sản phẩm');
-                        } else {
-                            productName.classList.remove('is-invalid');
-                            removeErrorMessage(productName);
-                        }
-
-                        // Validate category
-                        if (!category.value) {
-                            isValid = false;
-                            category.classList.add('is-invalid');
-                            addErrorMessage(category, 'Vui lòng chọn danh mục');
-                        } else {
-                            category.classList.remove('is-invalid');
-                            removeErrorMessage(category);
-                        }
-
-                        // Validate brand
-                        if (!brand.value) {
-                            isValid = false;
-                            brand.classList.add('is-invalid');
-                            addErrorMessage(brand, 'Vui lòng chọn thương hiệu');
-                        } else {
-                            brand.classList.remove('is-invalid');
-                            removeErrorMessage(brand);
-                        }
-
-                        // Validate unit
-                        if (!unit.value) {
-                            isValid = false;
-                            unit.classList.add('is-invalid');
-                            addErrorMessage(unit, 'Vui lòng chọn đơn vị');
-                        } else {
-                            unit.classList.remove('is-invalid');
-                            removeErrorMessage(unit);
-                        }
-
-                        // Validate main price
-                        if (!mainPrice.value.trim() || isNaN(mainPrice.value) || Number(mainPrice.value) <= 0 || Number(mainPrice
-                            .value) > 1000000000) {
-                            isValid = false;
-                            mainPrice.classList.add('is-invalid');
-                            addErrorMessage(mainPrice, 'Giá phải từ 1 đến 1,000,000,000 VNĐ');
-                        } else {
-                            mainPrice.classList.remove('is-invalid');
-                            removeErrorMessage(mainPrice);
-                        }
-
-                        // Validate description
-                        if (!description.value.trim()) {
-                            isValid = false;
-                            description.classList.add('is-invalid');
-                            addErrorMessage(description, 'Vui lòng nhập mô tả sản phẩm');
-                        } else {
-                            description.classList.remove('is-invalid');
-                            removeErrorMessage(description);
-                        }
-
-                        // Validate variant quantities
-                        quantityInputs.forEach(input => {
-                            const value = input.value.trim();
-                            if (value === '' || isNaN(value) || Number(value) <= 0) {
-                                isValid = false;
-                                input.classList.add('is-invalid');
-                                addErrorMessage(input, 'Vui lòng nhập số lượng hợp lệ (lớn hơn 0)');
-                            } else {
-                                input.classList.remove('is-invalid');
-                                removeErrorMessage(input);
-                            }
-                        });
-
-                        // Validate variant prices
-                        priceInputs.forEach(input => {
-                            const value = input.value.trim();
-                            if (value === '' || isNaN(value) || Number(value) <= 0 || Number(value) > 10000) {
-                                isValid = false;
-                                input.classList.add('is-invalid');
-                                addErrorMessage(input, 'Số lượng phải từ 1 đến 10,000');
-                            } else {
-                                input.classList.remove('is-invalid');
-                                removeErrorMessage(input);
-                            }
-                        });
-
-                        if (!isValid) {
-                            event.preventDefault();
-                        }
-                    }
-
-
-                    function addErrorMessage(element, message) {
-                        const existingError = element.nextElementSibling?.classList.contains('text-danger');
-                        if (!existingError) {
-                            const errorDiv = document.createElement('span');
-                            errorDiv.className = 'text-danger';
-                            errorDiv.style.fontSize = '12px';
-                            errorDiv.textContent = message;
-                            element.insertAdjacentElement('afterend', errorDiv);
-                        }
-                    }
-
-                    function removeErrorMessage(element) {
-                        const errorMessage = element.nextElementSibling;
-                        if (errorMessage?.classList.contains('text-danger')) {
-                            errorMessage.remove();
-                        }
-                    }
-                </script>
+                                        ClassicEditor
+                                            .create(document.querySelector('#product-description'))
+                                            .catch(error => {
+                                                console.error(error);
+                                            });
+                                    </script>
 @endsection

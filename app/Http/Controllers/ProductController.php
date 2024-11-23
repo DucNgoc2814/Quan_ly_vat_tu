@@ -26,7 +26,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::query()->with('category', 'brand', 'unit', 'variations.importOrderDetails')->get();
+        $products = Product::query()->with('category', 'brand', 'unit', 'variations.importOrderDetails')->paginate(15);
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 
@@ -52,7 +52,7 @@ class ProductController extends Controller
                 if ($request->hasFile('image')) {
                     $mainImagePath = Storage::put('products', $request->file('image'));
                 }
-                
+
                 // Create product with all required fields including image
                 $product = Product::create([
                     "category_id" => $request->category_id,
@@ -60,7 +60,6 @@ class ProductController extends Controller
                     "brand_id" => $request->brand_id,
                     "slug" => Str::slug($request->name) . '-' . Str::random(5),
                     "name" => $request->name,
-                    "price" => $request->price,
                     "description" => $request->description,
                     "is_active" => $request->has('is_active'),
                     "image" => $mainImagePath // Include image path in initial creation
@@ -71,28 +70,15 @@ class ProductController extends Controller
                         $product->galleries()->create(['url' => $path]);
                     }
                 }
-                if ($request->product_type == 1) {
-                    foreach ($request->variants as $variantData) {
-                        $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
-                        $variation = Variation::create([
-                            'product_id' => $product->id,
-                            'sku' => Str::upper($this->generateUniqueSku()),
-                            'name' => $variantName,
-                            'stock' => $variantData['stock'],
-                            'price_export' => $variantData['price'] ?: $request->price,
-                            'is_active' => true,
-                        ]);
-                        $variation->attributeValues()->attach($variantData['attribute_value_ids']);
-                    }
-                } else {
+                foreach ($request->variants as $index => $variantData) {
+                    $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
                     $variation = Variation::create([
                         'product_id' => $product->id,
-                        'sku' => Str::upper($this->generateUniqueSku()),
-                        'name' => $request->name,
-                        'stock' => $request->quantity,
-                        'price_export' => $request->price,
+                        'sku' => Str::upper($this->generateUniqueSku($index)),
+                        'name' => $variantName,
                         'is_active' => true,
                     ]);
+                    $variation->attributeValues()->attach($variantData['attribute_value_ids']);
                 }
             });
             return redirect()
@@ -214,14 +200,12 @@ class ProductController extends Controller
         //
     }
 
-    public function generateUniqueSku()
+    public function generateUniqueSku($index)
     {
-        $sku = Str::random(8); // Bạn có thể thay đổi độ dài tùy theo yêu cầu
-
-        while (Variation::where('sku', $sku)->exists()) {
-            $sku = Str::random(8); // Tạo lại mã nếu đã tồn tại
-        }
-
+        $productType = 'SP';
+        $date = now()->format('dmY'); // Sử dụng Carbon để lấy ngày tháng năm
+        $randomNumber = str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT);
+        $sku = $productType . $date . $randomNumber . $index;
         return $sku; // Trả về mã SKU duy nhất
     }
 }

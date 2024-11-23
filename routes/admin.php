@@ -302,3 +302,6 @@ Route::middleware('CheckEmployees')->group(
         Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject')->middleware('permission:144');
     }
 );
+Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf');
+Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf');
+
