@@ -1384,38 +1384,38 @@ $jscomp.polyfill(
         });
         return k[0];
     }
-    function Ob(a) {
-        var b = a.sPaginationType,
-            c = u.ext.pager[b],
-            d = "function" === typeof c,
-            e = function (f) {
-                ja(f);
-            };
-        b = l("<div/>").addClass(a.oClasses.sPaging + b)[0];
-        var h = a.aanFeatures;
-        d || c.fnInit(a, b, e);
-        h.p ||
-            ((b.id = a.sTableId + "_paginate"),
-            a.aoDrawCallback.push({
-                fn: function (f) {
-                    if (d) {
-                        var g = f._iDisplayStart,
-                            k = f._iDisplayLength,
-                            m = f.fnRecordsDisplay(),
-                            n = -1 === k;
-                        g = n ? 0 : Math.ceil(g / k);
-                        k = n ? 1 : Math.ceil(m / k);
-                        m = c(g, k);
-                        var p;
-                        n = 0;
-                        for (p = h.p.length; n < p; n++)
-                            gb(f, "pageButton")(f, h.p[n], n, m, g, k);
-                    } else c.fnUpdate(f, e);
-                },
-                sName: "pagination",
-            }));
-        return b;
-    }
+    // function Ob(a) {
+    //     var b = a.sPaginationType,
+    //         c = u.ext.pager[b],
+    //         d = "function" === typeof c,
+    //         e = function (f) {
+    //             ja(f);
+    //         };
+    //     b = l("<div/>").addClass(a.oClasses.sPaging + b)[0];
+    //     var h = a.aanFeatures;
+    //     d || c.fnInit(a, b, e);
+    //     h.p ||
+    //         ((b.id = a.sTableId + "_paginate"),
+    //         a.aoDrawCallback.push({
+    //             fn: function (f) {
+    //                 if (d) {
+    //                     var g = f._iDisplayStart,
+    //                         k = f._iDisplayLength,
+    //                         m = f.fnRecordsDisplay(),
+    //                         n = -1 === k;
+    //                     g = n ? 0 : Math.ceil(g / k);
+    //                     k = n ? 1 : Math.ceil(m / k);
+    //                     m = c(g, k);
+    //                     var p;
+    //                     n = 0;
+    //                     for (p = h.p.length; n < p; n++)
+    //                         gb(f, "pageButton")(f, h.p[n], n, m, g, k);
+    //                 } else c.fnUpdate(f, e);
+    //             },
+    //             sName: "pagination",
+    //         }));
+    //     return b;
+    // }
     function Ra(a, b, c) {
         var d = a._iDisplayStart,
             e = a._iDisplayLength,

@@ -43,7 +43,7 @@
                             @foreach ($contracts as $data)
                                 <tr>
                                     <td>{{ $data->id }}</td>
-                                    <td>{{ $data->contract_name }}</td>
+                                    <td>{{ $data->contract_number }}</td>
                                     <td>{{ $data->customer_name }}</td>
                                     <td>{{ $data->customer_phone }}</td>
                                     <td>{{ $data->customer_email }}</td>
