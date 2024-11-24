@@ -48,6 +48,7 @@ class EmployeeController extends Controller
             if (!$token = auth()->guard('employee')->attempt($credentials)) {
                 return redirect()->route('employees.login')->with('error', 'Thông tin đăng nhập không chính xác');
             }
+            Session::put('employee', $employee);
             Session::put('token', $token);
             return redirect('/dashboard');
         } catch (Exception $e) {
@@ -68,7 +69,9 @@ class EmployeeController extends Controller
             })->get();
 
         $role_empoly = Role_employee::query()->get();
-        return view('admin.components.employees.index', compact('data', 'role_empoly'));
+        $employee = Session::get('employee');
+
+        return view('admin.components.employees.index', compact('data', 'role_empoly','employee'));
     }
 
     /**

@@ -192,6 +192,9 @@ Route::middleware('CheckEmployees')->group(
             ->as('customer.')
             ->group(function () {
                 Route::get('/danh-sach', [CustomerController::class, 'index'])->name('index')->middleware('permission:78');
+                Route::get('/them-moi', [CustomerController::class, 'create'])->name('create');
+                Route::post('/them-moi', [CustomerController::class, 'store'])->name('store');
+
             });
         Route::prefix('san-pham')
             ->as('product.')
