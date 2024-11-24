@@ -22,10 +22,11 @@ class StoreSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:100|min:3',
+            'name' => 'required|string|min:3|max:100|regex:/^[a-zA-Z\s]+$/|unique:suppliers,name',
             'email' => 'required|email|unique:suppliers,email',
             'number_phone' => 'required|regex:/^0[1-9]{1}[0-9]{8}$/|numeric|unique:suppliers,number_phone',
-            'address' => 'required|min:3|max:100',
+          'address' => 'required|min:3|max:100|regex:/^[a-zA-Z0-9\s,.-]+$/',
+
 
         ];
     }
@@ -34,6 +35,8 @@ class StoreSupplierRequest extends FormRequest
     {
         return [
             'name.required' => 'Không được bỏ trống !',
+            'name.unique' => 'Không được trùng tên nhà cung cấp !',
+            'name.regex' => 'Vui lòng nhập chuỗi kí tự !',
             'name.min' => 'Nhập tối thiểu 3 kí tự !',
             'name.max' => 'Vượt quá 100 kí tự !',
             'email.required' => 'Không được bỏ trống !',
@@ -46,6 +49,7 @@ class StoreSupplierRequest extends FormRequest
             'address.required' => 'Không được bỏ trống !',
             'address.min' => 'Nhập tối thiểu 3 kí tự !',
             'address.max' => 'Vượt quá 100 kí tự !',
+            'address.regex' => 'Nhập đúng định dạng!',
         ];
     }
 }

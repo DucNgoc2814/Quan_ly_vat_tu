@@ -32,10 +32,7 @@
                             <tr>
                                 <th data-ordering="false">Chức vụ</th>
                                 <th data-ordering="false">Họ Tên</th>
-                                {{-- <th data-ordering="false">Ảnh</th> --}}
-                                {{-- <th data-ordering="false">CCCD</th> --}}
                                 <th data-ordering="false">Số điện thoại</th>
-                                {{-- <th data-ordering="false">Ngày sinh</th> --}}
                                 <th data-ordering="false">Mô tả</th>
                                 <th data-ordering="false">Hoạt động</th>
                                 <th data-ordering="false">Thao tác</th>
@@ -47,23 +44,9 @@
                                 <tr>
                                     <td>{{ $item->roleEmployee->name }}</td>
                                     <td>{{ $item->name }}</td>
-                                    {{-- <td>
-                                        <img style="border-radius: 4px" width="150px" height="160px"
-                                            src="{{ $item->image ? \Storage::url($item->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
-                                            alt="">
-                                    </td> --}}
-
-                                    {{-- <td>{{ $item->cccd }}</td> --}}
                                     <td>{{ $item->number_phone }}</td>
-                                    {{-- <td>{{ $item->date }}</td> --}}
                                     <td>{{ $item->description }}</td>
                                     <td>
-                                        {{-- <div class="col-lg-6 form-check form-switch form-switch ms-3 mt-3">
-                                            <input class="form-check-input" type="checkbox" name="is_active" id="is_active"
-                                                value="1" {{ $item->is_active == 1 ? 'checked' : '' }}
-                                                onclick="updateStatus(this, '{{ $item->id }}')">
-                                        </div> --}}
-
                                         <div class="col-lg-6 form-check form-switch form-switch ms-3 mt-3">
 
                                             @if ($item->is_active == 1)
@@ -91,7 +74,6 @@
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Thông tin chi tiết</a>
                                                 </li>
-                                                {{-- <li> --}}
                                             </ul>
                                         </div>
                                     </td>
