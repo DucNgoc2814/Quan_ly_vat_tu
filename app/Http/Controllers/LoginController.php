@@ -20,7 +20,6 @@ class LoginController extends Controller
 
     public function homeCustomer()
     {
-        dd("homeCustomer");
         return view('index');
     }
 
@@ -63,27 +62,55 @@ class LoginController extends Controller
         ];
 
         try {
+            // Xác thực và tạo token
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json([
-                    'message' => 'Thông tin đăng nhập không chính xác'
-                ], 401);
+                return back()->withErrors(['email' => 'Thông tin đăng nhập không chính xác']);
             }
-            Session::put('token', $token);
-            // dd(JWTAuth::setToken(Session::get('token'))->getPayload()->get('id'));
-            return redirect()->route('home');
+
+            // Lấy thông tin user và lưu vào session
+            $customer = Auth::user();
+            Session::put([
+                'token' => $token,
+                'customer' => $customer,
+                'customer_id' => $customer->id,
+                'customer_name' => $customer->name,
+                'customer_email' => $customer->email,
+                'customer_image' => $customer->image
+            ]);
+
+            return redirect()->route('home')->with('success', 'Đăng nhập thành công');
         } catch (Exception $e) {
-            return response()->json([
-                'message' => 'Không thể tạo token'
-            ], 500);
+            return back()->withErrors(['email' => 'Hệ thống đang gặp sự cố, vui lòng thử lại sau']);
         }
     }
+
     public function logout(Request $request)
     {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        return redirect()->route('home')->with('success', 'Đăng xuất thành công');
+        try {
+            // Vô hiệu hóa token hiện tại
+            $token = Session::get('token');
+            if ($token) {
+                JWTAuth::setToken($token)->invalidate();
+            }
+
+            // Xóa toàn bộ session
+            Session::forget(['token', 'customer', 'customer_id', 'customer_name', 'customer_email', 'customer_image']);
+            Session::flush();
+
+            // Đăng xuất user
+            Auth::logout();
+
+            // Tạo mới session token
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('home')->with('success', 'Đăng xuất thành công');
+        } catch (Exception $e) {
+            return redirect()->route('home')->with('success', 'Đăng xuất thành công');
+        }
     }
+
+
     /**
      * Update the specified resource in storage.
      */
@@ -153,15 +180,28 @@ class LoginController extends Controller
     public function passwordUser(StoreLoginRequest $request)
     {
         try {
-            $authUser  = Auth::user();
-            $customer = Customer::find($authUser->id);
-            // Lấy instance mới có thể write
+            $customer = Customer::find(Session::get('customer_id'));
+
+            // Xác minh mật khẩu cũ
             if (!Hash::check($request->old_password, $customer->password)) {
                 return back()->withErrors(['old_password' => 'Mật khẩu hiện tại không chính xác']);
             }
 
-            $customer->password = Hash::make($request->new_password);
-            $customer->save();
+            // Cập nhật mật khẩu
+            $customer->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+
+            // Nhận mã thông báo mới sau khi thay đổi mật khẩu
+            $credentials = [
+                'email' => $customer->email,
+                'password' => $request->new_password
+            ];
+
+            $token = JWTAuth::attempt($credentials);
+
+            // Cập nhật phiên với mã thông báo mới
+            Session::put('token', $token);
 
             return redirect()->route('home')->with('success', 'Đổi mật khẩu thành công');
         } catch (Exception $e) {
@@ -169,24 +209,29 @@ class LoginController extends Controller
         }
     }
 
+
     public function profile()
     {
-        $user = Auth::user();
+        $user = Customer::find(Session::get('customer_id'));
         return view(self::PATH_VIEW . 'profile', compact('user'));
     }
 
+
     public function profileUser()
     {
-        $user = Auth::user();
+        $user = Customer::find(Session::get('customer_id'));
         return view(self::PATH_VIEW . 'updateUser', compact('user'));
     }
+
+
 
     public function updateProfile(StoreLoginRequest $request)
     {
         try {
-            $user = Auth::user();
+            $user = Customer::find(Session::get('customer_id')); // Get user from session ID
+
             $data = [
-                'name' => $request->nameupdate,
+                'name' => $request->name,
             ];
 
             if ($request->hasFile('image')) {
@@ -194,8 +239,16 @@ class LoginController extends Controller
                     Storage::delete($user->image);
                 }
                 $data['image'] = Storage::put('customers', $request->file('image'));
+                Session::put('customer_image', $data['image']);
             }
-            Customer::where('id', $user->id)->update($data);
+
+            // Update customer record
+            $user->update($data);
+
+            // Update session data
+            Session::put('customer_name', $data['name']);
+            Session::put('customer', $user->fresh());
+
             return redirect()->route('profileUser')->with('success', 'Cập nhật thông tin thành công');
         } catch (Exception $e) {
             return back()->withErrors(['error' => 'Có lỗi xảy ra: ' . $e->getMessage()]);

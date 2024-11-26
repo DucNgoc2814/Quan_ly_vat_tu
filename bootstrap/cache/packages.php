@@ -104,15 +104,4 @@
       0 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
     ),
   ),
-  'yoeunes/toastr' => 
-  array (
-    'aliases' => 
-    array (
-      'Toastr' => 'Yoeunes\\Toastr\\Facades\\Toastr',
-    ),
-    'providers' => 
-    array (
-      0 => 'Yoeunes\\Toastr\\ToastrServiceProvider',
-    ),
-  ),
 );

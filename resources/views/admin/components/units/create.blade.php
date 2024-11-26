@@ -22,7 +22,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
+                {{-- <div class="card-header border-0">
                     <div class="row g-4">
 
                         <div class="col-sm">
@@ -35,7 +35,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <form action="{{ route('units.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf

@@ -524,3 +524,12 @@ function togglePassword(inputId) {
         y.className = "fa fa-eye";
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const userIconToggle = document.querySelector('.user-icon-toggle');
+    const dropdownMenu = document.querySelector('.ht-dropdown');
+
+    userIconToggle.addEventListener('click', function() {
+        dropdownMenu.classList.toggle('show');
+    });
+});

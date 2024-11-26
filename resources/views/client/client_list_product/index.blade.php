@@ -69,7 +69,7 @@
                         </div>
                         <div class="main-toolbar-sorter f-right">
                             <div class="toolbar-sorter">
-                                <label>Price</label>
+                                <label>Giá</label>
                                 <span>
                                     <a href="#" id="sortOrder" data-order="desc"><i class="fa fa-arrow-down"></i></a>
                                 </span>
