@@ -34,9 +34,10 @@
                             @method('PUT')
                             <div class="profile-user position-relative d-inline-block mx-auto mb-3">
                                 <img id="preview"
-                                    src="{{ $datae->image ? \Storage::url($datae->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
-                                    class="rounded-circle avatar-xl img-thumbnail user-profile-image"
-                                    alt="user-profile-image">
+                                src="{{ $datae->image ? \Storage::url($datae->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
+                                class="rounded-circle avatar-xl img-thumbnail user-profile-image"
+                                alt="image">
+
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                     <input id="profile-img-file-input" type="file" name="image"
                                         class="profile-img-file-input" onchange="previewImage(event)">

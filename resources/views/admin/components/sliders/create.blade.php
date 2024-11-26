@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
+    Thêm slider
 @endsection
 
 @section('content')

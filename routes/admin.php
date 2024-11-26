@@ -49,7 +49,7 @@ use Maatwebsite\Excel\Facades\Excel;
 //     return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
 // }
 // Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
-Route::prefix('employees')
+Route::prefix('trang-quan-tri')
     ->as('employees.')
     ->group(function () {
         Route::get('/404-not-found', [EmployeeController::class, 'notFound'])->name('notfound');
@@ -57,17 +57,21 @@ Route::prefix('employees')
         Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
         Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
-Route::prefix('nhan-vien-lai-xe')
-    ->as('orderconfirm.')
+    Route::prefix('nhan-vien-lai-xe')
+    ->as('orderconfirm.') // Apply route name prefix
     ->group(function () {
         Route::get('/404-not-found', [TripManagementController::class, 'notFound'])->name('notfound');
         Route::get('/dang-nhap', [TripManagementController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [TripManagementController::class, 'loginPost'])->name('loginPost');
+        Route::get('/dashboard-nv', [TripManagementController::class, 'dashboard'])->name('dashboard');
         Route::get('/xan-nhan-don-hang', [TripManagementController::class, 'index'])->name('index');
-        Route::get('/chi-tiet/{id}', [TripManagementController::class, 'show'])->name('show');
+        Route::get('/chi-tiet/{id}', [TripManagementController::class, 'show'])
+            ->middleware('checkOwnership')
+            ->name('show');
         Route::put('/chi-tiet/{id}', [TripManagementController::class, 'update'])->name('update');
         Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
+
 Route::middleware('CheckEmployees')->group(
     function () {
         Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard')->middleware('permission:1');
@@ -138,7 +142,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/sua/{sku}', [BrandController::class, 'edit'])->name('edit')->middleware('permission:43');
                 Route::put('/sua/{brand}', [BrandController::class, 'update'])->name('update')->middleware('permission:44');
             });
-        Route::prefix('hop-dong')
+            Route::prefix('hop-dong')
             ->as('contract.')
             ->group(function () {
                 Route::get('/danh-sach', [ContractController::class, 'index'])->name('index')->middleware('permission:45');
@@ -191,6 +195,9 @@ Route::middleware('CheckEmployees')->group(
             ->as('customer.')
             ->group(function () {
                 Route::get('/danh-sach', [CustomerController::class, 'index'])->name('index')->middleware('permission:78');
+                Route::get('/them-moi', [CustomerController::class, 'create'])->name('create');
+                Route::post('/them-moi', [CustomerController::class, 'store'])->name('store');
+
             });
         Route::prefix('san-pham')
             ->as('product.')
