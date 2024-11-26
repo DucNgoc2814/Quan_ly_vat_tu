@@ -81,8 +81,7 @@
                             <div class="col-lg-8">
                                 <label for="status" class="form-label">Trạng thái</label>
                                 <div class="mb-3 ms-1">
-                                    <input type="radio" name="status" value="1" class="me-1" id="firstRadio"
-                                        checked>
+                                    
                                     <input type="radio" name="status" value="1" class="me-1" id="firstRadio"
                                         checked>
                                     <label for="firstRadio" class="form-check-label text-success">Hiển Thị</label>
@@ -106,9 +105,8 @@
 
         </div><!--end col-->
     </div>
-@endsection
 
-@section('js')
+
     <script>
         console.log('File selected:', event.target.files[0]); // Logging for debugging
         function showImage(event) {

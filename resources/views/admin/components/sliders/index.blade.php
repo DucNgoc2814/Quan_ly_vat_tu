@@ -29,12 +29,9 @@
                             <tr>
                                 <th data-ordering="false">Ảnh</th>
                                 <th data-ordering="false">Mô tả</th>
-                                <th data-ordering="false">Mô tả</th>
                                 <th data-ordering="false">Ngày bắt đầu</th>
                                 <th data-ordering="false">Ngày kết thúc</th>
                                 <th data-ordering="false">Hiển thị</th>
-
-                                <th>Action</th>
 
                                 <th>Action</th>
                             </tr>
@@ -71,7 +68,7 @@
                                                 <li><a href="{{ route('sliders.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Edit</a></li>
+                                                        Sửa</a></li>
                                                 <li>
 
                                                     <form action="{{ route('sliders.destroy', $item->id) }}"
