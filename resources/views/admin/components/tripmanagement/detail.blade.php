@@ -26,10 +26,10 @@
                 <div class="card-body p-3">
                     <div class="text-center">
                         <div class="profile-user position-relative d-inline-block mx-auto mb-3">
-                            <img src="{{ asset('themes/admin/assets/images/users/avatar-1.jpg') }}"
+                            <img src="{{ asset('storage/' . (Session::get('employee')->image ?? 'themes/admin/assets/images/users/avatar-1.jpg')) }}"
                                 class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
                             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
-                                <input id="profile-img-file-input" type="file" class="profile-img-file-input">
+                                {{-- <input id="profile-img-file-input" type="file" class="profile-img-file-input"> --}}
                                 <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
                                     <span class="avatar-title rounded-circle bg-light text-body">
                                         <i class="ri-camera-fill"></i>
@@ -37,7 +37,10 @@
                                 </label>
                             </div>
                         </div>
+
                     </div>
+                   <div class="text-center">NVC: <strong>{{ Session::get('employee')->name }}</strong></div>
+
                 </div>
             </div>
             <!--end card-->
@@ -67,7 +70,7 @@
                                         <td>{{ $index->order->slug }}</td>
                                         <td>{{ $index->order->customer_name }}</td>
                                         <td>{{ $index->order->number_phone }}</td>
-                                        <td>{{ $index->order->province }},{{$index->order->district}},{{$index->order->ward}},{{$index->order->address}},</td>
+                                        <td>{{ $index->order->province }}, <br>{{$index->order->district}}, <br>{{$index->order->ward}}, <br>{{$index->order->address}}</td>
                                         <td>
                                             <ul class="list-unstyled mb-0">
                                                 @foreach ($index->order->orderDetails as $item)

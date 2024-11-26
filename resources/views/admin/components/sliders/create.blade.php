@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
+    Thêm slider
 @endsection
 
 @section('content')
@@ -12,9 +13,10 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">Sliders</li>
+                        <li class="breadcrumb-item active">{{$title}}</li>
                     </ol>
                 </div>
+
 
             </div>
         </div>
@@ -24,6 +26,7 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
+
 
                         <div class="col-sm">
                             <div class="d-flex justify-content-sm-end">
@@ -80,39 +83,44 @@
                                 <div class="mb-3 ms-1">
                                     <input type="radio" name="status" value="1" class="me-1" id="firstRadio"
                                         checked>
+                                    <input type="radio" name="status" value="1" class="me-1" id="firstRadio"
+                                        checked>
                                     <label for="firstRadio" class="form-check-label text-success">Hiển Thị</label>
 
                                     <input class="me-1" type="radio" name="status" value="0" id="secondRadio">
                                     <label for="secondRadio" class="form-check-label text-danger">Ẩn</label>
                                 </div>
 
+
                             </div>
+
 
                         </div>
                         <div class="mt-3">
-                            <button class="btn btn-success text">Submit</button>
+                            <button class = "btn btn-success text ">Submit</button>
                         </div>
                     </form>
                 </div>
             </div>
 
+
         </div><!--end col-->
     </div>
+@endsection
 
+@section('js')
     <script>
         console.log('File selected:', event.target.files[0]); // Logging for debugging
         function showImage(event) {
             const img_slider = document.getElementById('img_slider');
             const file = event.target.files[0];
             const reader = new FileReader();
-
             reader.onload = function() {
                 img_slider.src = reader.result;
-                img_slider.style.display = 'block'; // Show the image once loaded
+                img_slider.style.display = 'block';
             }
-
             if (file) {
-                reader.readAsDataURL(file); // Load image as Data URL
+                reader.readAsDataURL(file);
             }
         }
     </script>

@@ -16,8 +16,11 @@ return new class extends Migration
             $table->foreignId('category_id')->constrained('categories');
             $table->foreignId('unit_id')->constrained('units');
             $table->foreignId('brand_id')->constrained('brands');
+            $table->foreignId('brand_id')->constrained('brands');
             $table->string('slug', 255);
             $table->string('name', 255)->unique();
+            $table->string('image', 255);
+            $table->text('description');
             $table->string('image', 255);
             $table->integer('price');
             $table->text('description');

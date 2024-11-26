@@ -16,3 +16,13 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('contract-notifications', function ($user) {
+    return $user->role_id === 1;
+});
+
+
+Broadcast::channel('chat', function ($user) {
+    // return in_array($user->role_id, [1, 2, 3]);
+    return true;
+});

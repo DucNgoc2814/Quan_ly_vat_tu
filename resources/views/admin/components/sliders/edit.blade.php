@@ -13,6 +13,7 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
                         <li class="breadcrumb-item active">{{$title}}</li>
+                        <li class="breadcrumb-item active">{{$title}}</li>
                     </ol>
                 </div>
 
@@ -45,6 +46,7 @@
                                 <label class="form-label">Hình ảnh</label>
                                 <input type="file" name="url" id="url"
                                     class="from-control @error('url') is-invalid @enderror" onchange="showImage(event)">
+                                <img src="" alt="" id="img_slider" style="width: 150px; display: none;"
                                 <img src="" alt="" id="img_slider" style="width: 150px; display: none;"
                                     class="mt-3">
 
@@ -94,6 +96,7 @@
                         </div>
                         <div class="mt-3">
                             <button class = "btn btn-success text ">Submit</button>
+                            <button class = "btn btn-success text ">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -103,6 +106,7 @@
     </div>
 
 
+@section('js')
     <script>
         function showImage(event) {
             const img_slider = document.getElementById('img_slider');
@@ -111,8 +115,10 @@
             reader.onload = function() {
                 img_slider.src = reader.result;
                 img_slider.style.display = 'block';
+                img_slider.style.display = 'block';
             }
             if (file) {
+                reader.readAsDataURL(file);
                 reader.readAsDataURL(file);
             }
         }

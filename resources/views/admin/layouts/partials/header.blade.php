@@ -6,23 +6,19 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="index.html" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt=""
-                                height="22">
+                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt=""
-                                height="17">
+                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="17">
                         </span>
                     </a>
 
                     <a href="index.html" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt=""
-                                height="22">
+                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt=""
-                                height="17">
+                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="17">
                         </span>
                     </a>
                 </div>
@@ -131,7 +127,6 @@
                 </form>
             </div>
             <div class="d-flex align-items-center">
-
                 <div class="ms-1 header-item d-none d-sm-flex">
                     <button type="button"
                         class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
@@ -360,17 +355,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="dropdown">
+                    <button class="btn" type="button" id="chat-icon">
+                        <i class="ri-message-3-line fs-22"></i>
+                    </button>
+                </div>
 
                 <div class="dropdown ms-sm-3 header-item topbar-user">
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
                             <img class="rounded-circle header-profile-user"
-                                src="{{ asset('themes/admin/assets/images/users/avatar-1.jpg') }}"
+                                src="{{ asset('storage/' . (Session::get('employee')->image ?? 'themes/admin/assets/pro/default-user.jpg')) }}"
                                 alt="Header Avatar">
+
                             <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">Anna
-                                    Adame</span>
+                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
+                                    {{ Session::get('employee')->name }}</span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
                             </span>
                         </span>
@@ -406,6 +407,26 @@
                                 class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
                 </div>
+
+            </div>
+        </div>
+    </div>
+    <div id="chat-box" class="chat-box-wrapper" style="display: none;">
+        <div class="chat-box">
+            <div class="chat-header">
+                <h5 class="mb-0">Chat Box GEMO</h5>
+                <button class="btn-close" id="close-chat"></button>
+            </div>
+            <div class="chat-body" id="chat-messages">
+                <!-- Messages here -->
+            </div>
+            <div class="chat-footer">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="chat-input" placeholder="Nhập tin nhắn...">
+                    <button class="btn btn-primary" type="button" id="send-chat">
+                        <i class="ri-send-plane-line"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -424,6 +445,87 @@
             }
 
             showLowStockNotifications();
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const employee_id = "{{ Session::get('employee_id') }}";
+            const token = "{{ Session::get('token') }}";
+            if (token) {
+                axios.defaults.headers.common = {
+                    'Authorization': 'Bearer ' + token,
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json'
+                };
+            }
+
+            const chatIcon = document.getElementById('chat-icon');
+            const chatBox = document.getElementById('chat-box');
+            const closeChat = document.getElementById('close-chat');
+            const chatInput = document.getElementById('chat-input');
+            const sendChat = document.getElementById('send-chat');
+            const chatMessages = document.getElementById('chat-messages');
+            const currentUserId = "{{ auth()->id() }}";
+
+            chatIcon.addEventListener('click', function() {
+                chatBox.style.display = chatBox.style.display === 'none' ? 'block' : 'none';
+                loadMessages();
+            });
+
+            closeChat.addEventListener('click', function() {
+                chatBox.style.display = 'none';
+            });
+
+            sendChat.addEventListener('click', sendMessage);
+
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+
+                axios.post('/chat/messages', {
+                        message: message
+                    })
+                    .then(response => {
+                        chatInput.value = '';
+                        console.log('Success:', response.data);
+                    })
+                    .catch(error => {
+                        console.log('Error details:', error.response?.data);
+                    });
+            }
+
+
+            function loadMessages() {
+                axios.get('/chat/messages')
+                    .then(response => {
+                        displayMessages(response.data);
+                    });
+            }
+
+            function displayMessages(messages) {
+                chatMessages.innerHTML = messages.map(msg => {
+                    const messageClass = msg.employee_id == currentUserId ? 'sent' : 'received';
+                    return `
+                    <div class="message ${messageClass}">
+                        <strong>${msg.employee.name}:</strong> ${msg.message}
+                    </div>
+                `;
+                }).join('');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+
+            window.Echo.channel('chat')
+                .listen('NewMessage', (e) => {
+                    const messageClass = e.message.employee_id == currentUserId ? 'sent' : 'received';
+                    const newMessage = `
+                    <div class="message ${messageClass}">
+                        <strong>${e.message.employee.name}:</strong> ${e.message.message}
+                    </div>
+                `;
+                    chatMessages.innerHTML += newMessage;
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                });
         });
     </script>
 @endsection

@@ -15,8 +15,9 @@ class Variation extends Model
         'sku',
         'name',
         'stock',
-        'price_export',
-        'description',
+        'retail_price',
+        'avgImportPrice',
+        'latestImportPrice',
         'is_active',
     ];
 
