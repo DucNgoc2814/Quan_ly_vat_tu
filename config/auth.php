@@ -14,10 +14,24 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'customers',
+        'guard' => 'api',
+        'passwords' => ['customers', 'employees'],
     ],
 
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'customers',
+        ],
+        'api' => [
+            'driver' => 'jwt',
+            'provider' => 'customers',
+        ],
+        'employee' => [
+            'driver' => 'jwt',
+            'provider' => 'employees',
+        ],
+    ],
     /*
     |--------------------------------------------------------------------------
     | Authentication Guards
@@ -35,12 +49,7 @@ return [
     |
     */
 
-    'guards' => [
-        'web' => [
-            'driver' => 'session',
-            'provider' => 'customers',
-        ],
-    ],
+
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +73,10 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Customer::class,
         ],
-
+        'employees' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Employee::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -93,6 +105,12 @@ return [
     'passwords' => [
         'customers' => [
             'provider' => 'customers',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'employees' => [
+            'provider' => 'employees',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

@@ -43,21 +43,23 @@
                                     <td>{{ $data->cargoCar->cargoCarType->name }}</td>
                                     <td>{{ $data->cargoCar->license_plate }}</td>
 
-                                    <td>{{ $data->employee->name }} - SĐT: 
-                                    {{ $data->employee->number_phone }}</td>
+                                    <td>{{ $data->employee->name }} - SĐT:
+                                        {{ $data->employee->number_phone }}</td>
                                     <td>
                                         @if ($data->status == 1)
                                             <span style="color: green" class=" badge-soft-success">Đang vận chuyển</span>
-                                        @else
-                                            <span style="color: red" class=" badge-soft-danger">Chờ xác nhận</span>
+                                        @elseif($data->status == 2)
+                                            <span style="color: rgb(2, 80, 72)" class=" badge-soft-info">Hoàn thành</span>
                                         @endif
+
                                     </td>
                                     <td style="text-align: center">
-                                        <a href="{{ route('trips_details.index', ['id' => $data->id]) }}" class="btn btn-secondary">
+                                        <a href="{{ route('trips_details.index', ['id' => $data->id]) }}"
+                                            class="btn btn-secondary">
                                             Chi tiết
                                         </a>
                                     </td>
-                                    
+
                                 </tr>
                             @endforeach
 

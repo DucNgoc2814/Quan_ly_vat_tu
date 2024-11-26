@@ -42,7 +42,29 @@ class UpdateOrderRequest extends FormRequest
             //         }
             //     },
             // ],
-            // 'paid_amount' => 'required|numeric|min:0|lte:total_amount',
+            // 'paid_amount' => 'nullable|numeric|min:0|lte:total_amount',
+            'customer_id' => 'required|exists:customers,id',
+            'customer_name' => 'required|string|max:255',
+            'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers',
+            'email' => 'required|email|max:255',
+            'address' => 'required|string|max:255',
+            'payment_id' => 'required|exists:payments,id',
+            'variation_id' => 'required|array',
+            'variation_id.*' => 'exists:variations,id',
+            'product_quantity' => 'required|array',
+            'product_quantity.*' => [
+                'numeric',
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    $index = explode('.', $attribute)[1];
+                    $variationId = $this->input('variation_id')[$index];
+                    $variation = \App\Models\Variation::find($variationId);
+                    if ($variation && $value > $variation->stock) {
+                        $fail("Số lượng sản phẩm không được lớn hơn số lượng có trong kho ({$variation->stock}).");
+                    }
+                },
+            ],
+            'paid_amount' => 'nullable|numeric|min:0|lte:total_amount',
         ];
     }
 
@@ -87,5 +109,4 @@ class UpdateOrderRequest extends FormRequest
             'paid_amount.lte' => 'Số tiền đã trả không được lớn hơn tổng giá trị đơn hàng.',
         ];
     }
-
 }

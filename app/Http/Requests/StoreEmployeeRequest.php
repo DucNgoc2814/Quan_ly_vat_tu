@@ -23,39 +23,45 @@ class StoreEmployeeRequest extends FormRequest
     {
         return [
             'role_id' => 'required',
-            'name' => 'required|String',
+            'name' => [
+                'required',
+                'string',
+                'regex:/^[\p{L}\s\-]+$/u',
+                'min:10',
+                'max:30',
+            ],
             'email' => 'required|email|unique:employees',
-            'number_phone' => 'required|numeric|unique:employees',
+            'number_phone' => ['required', 'regex:/^(0[1-9][0-9]{8})$/', 'unique:employees,number_phone'],
             'image' => 'image|mimes:jpeg,png,jpg,gif',
-            'cccd' => 'required|unique:employees|min:12|numeric',
-            'date' => 'required|date',
-            'description' => 'required',
-
-
+            'cccd' => 'required|regex:/^[0-9]{12}$/|unique:employees,cccd',
+            'date' => 'required|date|before_or_equal:' . now()->subYears(16)->toDateString() . '|after_or_equal:' . now()->subYears(55)->toDateString(),
+            'password' => 'required|string|min:6',
         ];
     }
     public function messages(): array
     {
         return [
+            'password.required' => "Vui lòng nhập mật khẩu",
+            'password.min' => "Vui lòng nhập mật khẩu lớn hơn 6 ký tự",
             'role_id.required' => 'Vui lòng chọn vị trí',
             'name.required' => 'Vui lòng nhập tên',
-            'email.required' => 'Vui lòng nhập email', 
+            'name.min' => 'Tên không hợp lệ',
+            'name.max' => 'Tên không hợp lệ',
+            'name.regex' => 'Vui lòng nhập tên hợp lệ',
+            'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Email không hợp lệ !',
             'number_phone.unique' => 'Không được trùng số điện thoại',
+            'number_phone.regex' => 'Số điện thoại không hợp lệ',
             'number_phone.required' => 'Không được bỏ trống số điện thoại ',
-            'number_phone.numeric' => 'Số điện thoại phải là số',
             'cccd.unique' => 'Căn cước công dân đã tồn tại',
-            'cccd.min' => 'Căn cước công dân không hợp lệ',
-           
-            'cccd.numeric' => 'Căn cước công dân không hợp lệ',
+            'cccd.regex' => 'Căn cước công dân không hợp lệ',
             'email.unique' => 'Email không được trùng',
-            // 'image.required' => 'Vui lòng chọn hình ảnh',
             'image.image' => 'Hình ảnh không hợp lệ',
             'cccd.required' => 'Vui lòng nhập căn cước công dân',
+            'cccd.digits_between' => 'Căn cước công dân không hợp lệ',
             'date.required' => 'Vui lòng chọn ngày sinh',
-            'description.required' => 'Vui lòng nhập mô tả',
-
-
+            'date.before_or_equal' => 'Chưa đủ tuổi đi làm',
+            'date.after_or_equal' => 'Đã quá tuổi đi làm',
         ];
     }
 }

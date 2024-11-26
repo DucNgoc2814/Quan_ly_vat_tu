@@ -54,6 +54,10 @@
                                             <span class="badge bg-success">Giao hàng thành công</span>
                                         @elseif($item->status == 4)
                                             <span class="badge bg-danger">Đã hủy</span>
+                                        @elseif($item->status == 5)
+                                            <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
+                                        @elseif($item->status == 6)
+                                            <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
                                         @endif
                                     </td>
                                     <td>{{ $item->created_at }}</td>
@@ -102,7 +106,7 @@
 
 @section('scripts')
     @parent
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const lowStockProducts = @json($lowStockProducts);
 
@@ -129,15 +133,30 @@
                 }
             }
 
-            // Show alerts immediately when the page loads
             showLowStockAlerts();
 
-            // Set up an interval to show alerts every 5 minutes
             setInterval(showLowStockAlerts, 5 * 60 * 1000);
         });
-    </script>
+    </script> --}}
+
     <script>
-        // Kiểm tra nếu có thông báo thành công từ controller
+        document.addEventListener('DOMContentLoaded', function() {
+            const lowStockProducts = @json($lowStockProducts);
+
+            function updateNotificationBadge() {
+                const notificationBadge = document.querySelector('.cartitem-badge');
+                if (notificationBadge) {
+                    notificationBadge.textContent = lowStockProducts.length;
+                }
+            }
+
+            // Cập nhật số lượng thông báo mỗi 5 phút
+            updateNotificationBadge();
+            setInterval(updateNotificationBadge, 5 * 60 * 1000);
+        });
+    </script>
+
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             @if (session('success'))
                 Swal.fire({
@@ -191,20 +210,6 @@
                 }
             });
         }
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // SweetAlert khi tạo đơn hàng thành công
-            @if (session('success'))
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Thành công!',
-                    text: "{!! session('success') !!}",
-                    confirmButtonText: 'OK'
-                });
-            @endif
-        });
     </script>
 
     <script>

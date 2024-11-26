@@ -21,6 +21,7 @@ class StoreTripRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
             'cargo_car_id' => 'required|exists:cargo_cars,id',
             'employee_id' => 'required|exists:employees,id',
@@ -35,7 +36,7 @@ class StoreTripRequest extends FormRequest
             'cargo_car_id.required' => 'Vui lòng chọn phương tiện vận chuyển.',
             'employee_id.required' => 'Vui lòng chọn tài xế.',
             'order_id.required' => 'Vui lòng chọn ít nhất một đơn hàng.',
-            'order_id.array' => 'Danh sách đơn hàng không hợp lệ.',
+            'order_id.array' => 'Danh sách đơn hàng này không hợp lệ.',
         ];
     }
 }

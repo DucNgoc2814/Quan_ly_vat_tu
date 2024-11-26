@@ -1,9 +1,39 @@
 @extends('admin.layouts.master')
+@php
+    if (!function_exists('formatCurrency')) {
+        /**
+         * Định dạng số thành tiền Việt Nam (VND)
+         *
+         * @param float $number
+         * @return string
+         */
+        function formatCurrency($number)
+        {
+            return number_format($number, 0, ',', '.');
+        }
+    }
 
+@endphp
 @section('title')
     Dashboard
 @endsection
+@php
+    use App\Models\Import_order;
+    use App\Models\Order;
+    $pendingCancelRequests = Import_order::where('status', 1)->whereNotNull('cancel_reason')->get();
+    $orderCancelRequests = Order::whereNotNull('cancel_reason')->get();
 
+    $pendingContracts = App\Models\Contract::where('contract_status_id', 4)->get();
+
+    $pendingContractPdfs = session('pending_contract_pdfs', []);
+    $currentTime = now()->timestamp;
+    $twoHours = 2 * 60 * 60;
+    $validContracts = array_filter($pendingContractPdfs, function ($item) use ($currentTime, $twoHours) {
+        return $currentTime - $item['timestamp'] < $twoHours;
+    });
+    session(['pending_contract_pdfs' => $validContracts]);
+
+@endphp
 @section('content')
     <div class="row">
         <div class="col">
@@ -13,9 +43,8 @@
                     <div class="col-12">
                         <div class="d-flex align-items-lg-center flex-lg-row flex-column">
                             <div class="flex-grow-1">
-                                <h4 class="fs-16 mb-1">Good Morning, Anna!</h4>
-                                <p class="text-muted mb-0">Here's what's happening with your store
-                                    today.</p>
+                                <h4 class="fs-16 mb-1">Xin chào!</h4>
+                                <p class="text-muted mb-0">Chào mừng đến với thống kê trong tháng này của Gemo</p>
                             </div>
                             <div class="mt-3 mt-lg-0">
                                 <form action="javascript:void(0);">
@@ -34,17 +63,11 @@
                                         </div>
                                         <!--end col-->
                                         <div class="col-auto">
-                                            <button type="button" class="btn btn-soft-success"><i
-                                                    class="ri-add-circle-line align-middle me-1"></i>
-                                                Add Product</button>
-                                        </div>
-                                        <!--end col-->
-                                        <div class="col-auto">
                                             <button type="button"
-                                                class="btn btn-soft-info btn-icon waves-effect waves-light layout-rightside-btn"><i
-                                                    class="ri-pulse-line"></i></button>
+                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn"><i
+                                                    class="ri-notification-2-line align-middle me-1"></i>
+                                                Thông Báo Xác Nhận</button>
                                         </div>
-                                        <!--end col-->
                                     </div>
                                     <!--end row-->
                                 </form>
@@ -63,22 +86,22 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1 overflow-hidden">
                                         <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                            Total Earnings</p>
+                                            Doanh thu</p>
                                     </div>
                                     <div class="flex-shrink-0">
-                                        <h5 class="text-success fs-14 mb-0">
-                                            <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                                            +16.24 %
+                                        <h5
+                                            class="text-success fs-14 mb-0  {{ $growthRateRevenue < 0 ? 'text-danger' : '' }} ">
+                                            <i
+                                                class="ri-arrow-right-{{ $growthRateRevenue < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
+                                            {{ $growthRateRevenue }} %
                                         </h5>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
-                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value"
-                                                data-target="559.25">0</span>k
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ formatCurrency($totalRevenueThisMonth - $totalRevenueImportThisMonth) }} đ
                                         </h4>
-                                        <a href="" class="text-decoration-underline">View net
-                                            earnings</a>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
                                         <span class="avatar-title bg-success-subtle rounded fs-3">
@@ -90,6 +113,9 @@
                         </div><!-- end card -->
                     </div><!-- end col -->
 
+
+
+
                     <div class="col-xl-3 col-md-6">
                         <!-- card -->
                         <div class="card card-animate">
@@ -97,22 +123,23 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1 overflow-hidden">
                                         <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                            Orders</p>
+                                            Đơn hàng nhập</p>
                                     </div>
                                     <div class="flex-shrink-0">
-                                        <h5 class="text-danger fs-14 mb-0">
-                                            <i class="ri-arrow-right-down-line fs-13 align-middle"></i>
-                                            -3.57 %
+                                        <h5
+                                            class="text-success fs-14 mb-0  {{ $growthRateImportRevenue < 0 ? 'text-danger' : '' }} ">
+                                            <i
+                                                class="ri-arrow-right-{{ $growthRateImportRevenue < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
+                                            {{ $growthRateImportRevenue }} %
                                         </h5>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
-                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                data-target="36894">0</span>
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ formatCurrency($totalRevenueImportThisMonth) }} đ
                                         </h4>
-                                        <a href="" class="text-decoration-underline">View all
-                                            orders</a>
+
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
                                         <span class="avatar-title bg-info-subtle rounded fs-3">
@@ -123,7 +150,6 @@
                             </div><!-- end card body -->
                         </div><!-- end card -->
                     </div><!-- end col -->
-
                     <div class="col-xl-3 col-md-6">
                         <!-- card -->
                         <div class="card card-animate">
@@ -131,33 +157,32 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1 overflow-hidden">
                                         <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                            Customers</p>
+                                            Đơn hàng bán</p>
                                     </div>
                                     <div class="flex-shrink-0">
-                                        <h5 class="text-success fs-14 mb-0">
-                                            <i class="ri-arrow-right-up-line fs-13 align-middle"></i>
-                                            +29.08 %
+                                        <h5
+                                            class="text-success fs-14 mb-0  {{ $growthRateRevenue < 0 ? 'text-danger' : '' }} ">
+                                            <i
+                                                class="ri-arrow-right-{{ $growthRateRevenue < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
+                                            {{ $growthRateRevenue }} %
                                         </h5>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
-                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4"><span class="counter-value"
-                                                data-target="183.35">0</span>M
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ formatCurrency($totalRevenueThisMonth) }} đ
                                         </h4>
-                                        <a href="" class="text-decoration-underline">See
-                                            details</a>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-warning-subtle rounded fs-3">
-                                            <i class="bx bx-user-circle text-warning"></i>
+                                        <span class="avatar-title bg-primary-subtle rounded fs-3">
+                                            <i class="bx bx-wallet text-primary"></i>
                                         </span>
                                     </div>
                                 </div>
                             </div><!-- end card body -->
                         </div><!-- end card -->
                     </div><!-- end col -->
-
                     <div class="col-xl-3 col-md-6">
                         <!-- card -->
                         <div class="card card-animate">
@@ -165,25 +190,26 @@
                                 <div class="d-flex align-items-center">
                                     <div class="flex-grow-1 overflow-hidden">
                                         <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                            My Balance</p>
+                                            Khách hàng</p>
                                     </div>
                                     <div class="flex-shrink-0">
-                                        <h5 class="text-muted fs-14 mb-0">
-                                            +0.00 %
+                                        <h5
+                                            class="text-success fs-14 mb-0  {{ $growthRateCustomers < 0 ? 'text-danger' : '' }} ">
+                                            <i
+                                                class="ri-arrow-right-{{ $growthRateCustomers < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
+                                            {{ $growthRateCustomers }} %
                                         </h5>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-end justify-content-between mt-4">
                                     <div>
-                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">$<span class="counter-value"
-                                                data-target="165.89">0</span>k
+                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                            {{ formatCurrency($totalCustomersThisMonth) }}
                                         </h4>
-                                        <a href="" class="text-decoration-underline">Withdraw
-                                            money</a>
                                     </div>
                                     <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-primary-subtle rounded fs-3">
-                                            <i class="bx bx-wallet text-primary"></i>
+                                        <span class="avatar-title bg-warning-subtle rounded fs-3">
+                                            <i class="bx bx-user-circle text-warning"></i>
                                         </span>
                                     </div>
                                 </div>
@@ -820,7 +846,7 @@
                                         Report
                                     </button>
                                 </div>
-                            </div><!-- end card header -->
+                            </div>
 
                             <div class="card-body">
                                 <div class="table-responsive table-card">
@@ -995,487 +1021,141 @@
                 <div class="card h-100 rounded-0">
                     <div class="card-body p-0">
                         <div class="p-3">
-                            <h6 class="text-muted mb-0 text-uppercase fw-semibold">Recent Activity
+                            <h6 class="text-muted mb-0 text-uppercase fw-semibold">Yêu Cầu Xác Nhận
                             </h6>
-                        </div>
-                        <div data-simplebar style="max-height: 410px;" class="p-3 pt-0">
-                            <div class="acitivity-timeline acitivity-main">
-                                <div class="acitivity-item d-flex">
-                                    <div class="flex-shrink-0 avatar-xs acitivity-avatar">
-                                        <div class="avatar-title bg-success-subtle text-success rounded-circle">
-                                            <i class="ri-shopping-cart-2-line"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1 lh-base">Purchase by James Price</h6>
-                                        <p class="text-muted mb-1">Product noise evolve smartwatch
-                                        </p>
-                                        <small class="mb-0 text-muted">02:14 PM Today</small>
-                                    </div>
-                                </div>
-                                <div class="acitivity-item py-3 d-flex">
-                                    <div class="flex-shrink-0 avatar-xs acitivity-avatar">
-                                        <div class="avatar-title bg-danger-subtle text-danger rounded-circle">
-                                            <i class="ri-stack-fill"></i>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1 lh-base">Added new <span class="fw-semibold">style
-                                                collection</span></h6>
-                                        <p class="text-muted mb-1">By Nesta Technologies</p>
-                                        <div class="d-inline-flex gap-2 border border-dashed p-2 mb-2">
-                                            <a href="apps-ecommerce-product-details.html" class="bg-light rounded p-1">
-                                                <img src="{{ asset('themes/admin/assets/images/products/img-8.png') }}"
-                                                    alt="" class="img-fluid d-block" />
-                                            </a>
-                                            <a href="apps-ecommerce-product-details.html" class="bg-light rounded p-1">
-                                                <img src="{{ asset('themes/admin/assets/images/products/img-2.png') }}"
-                                                    alt="" class="img-fluid d-block" />
-                                            </a>
-                                            <a href="apps-ecommerce-product-details.html" class="bg-light rounded p-1">
-                                                <img src="{{ asset('themes/admin/assets/images/products/img-10.png') }}"
-                                                    alt="" class="img-fluid d-block" />
-                                            </a>
-                                        </div>
-                                        <p class="mb-0 text-muted"><small>9:47 PM Yesterday</small>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="acitivity-item py-3 d-flex">
-                                    <div class="flex-shrink-0">
-                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-2.jpg') }}"
-                                            alt="" class="avatar-xs rounded-circle acitivity-avatar">
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1 lh-base">Natasha Carey have liked the products
-                                        </h6>
-                                        <p class="text-muted mb-1">Allow users to like products in
-                                            your WooCommerce store.</p>
-                                        <small class="mb-0 text-muted">25 Dec, 2021</small>
-                                    </div>
-                                </div>
-                                <div class="acitivity-item py-3 d-flex">
-                                    <div class="flex-shrink-0">
-                                        <div class="avatar-xs acitivity-avatar">
-                                            <div class="avatar-title rounded-circle bg-secondary">
-                                                <i class="mdi mdi-sale fs-14"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1 lh-base">Today offers by <a
-                                                href="apps-ecommerce-seller-details.html" class="link-secondary">Digitech
-                                                Galaxy</a></h6>
-                                        <p class="text-muted mb-2">Offer is valid on orders of Rs.500
-                                            Or above for selected products only.</p>
-                                        <small class="mb-0 text-muted">12 Dec, 2021</small>
-                                    </div>
-                                </div>
-                                <div class="acitivity-item py-3 d-flex">
-                                    <div class="flex-shrink-0">
-                                        <div class="avatar-xs acitivity-avatar">
-                                            <div class="avatar-title rounded-circle bg-danger-subtle text-danger">
-                                                <i class="ri-bookmark-fill"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1 lh-base">Favorite Product</h6>
-                                        <p class="text-muted mb-2">Esther James have Favorite product.
-                                        </p>
-                                        <small class="mb-0 text-muted">25 Nov, 2021</small>
-                                    </div>
-                                </div>
-                                <div class="acitivity-item py-3 d-flex">
-                                    <div class="flex-shrink-0">
-                                        <div class="avatar-xs acitivity-avatar">
-                                            <div class="avatar-title rounded-circle bg-secondary">
-                                                <i class="mdi mdi-sale fs-14"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1 lh-base">Flash sale starting <span
-                                                class="text-primary">Tomorrow.</span></h6>
-                                        <p class="text-muted mb-0">Flash sale by <a href="javascript:void(0);"
-                                                class="link-secondary fw-medium">Zoetic Fashion</a>
-                                        </p>
-                                        <small class="mb-0 text-muted">22 Oct, 2021</small>
-                                    </div>
-                                </div>
-                                <div class="acitivity-item py-3 d-flex">
-                                    <div class="flex-shrink-0">
-                                        <div class="avatar-xs acitivity-avatar">
-                                            <div class="avatar-title rounded-circle bg-info-subtle text-info">
-                                                <i class="ri-line-chart-line"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1 lh-base">Monthly sales report</h6>
-                                        <p class="text-muted mb-2"><span class="text-danger">2 days
-                                                left</span> notification to submit the monthly sales
-                                            report. <a href="javascript:void(0);"
-                                                class="link-warning text-decoration-underline">Reports
-                                                Builder</a></p>
-                                        <small class="mb-0 text-muted">15 Oct</small>
-                                    </div>
-                                </div>
-                                <div class="acitivity-item d-flex">
-                                    <div class="flex-shrink-0">
-                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-3.jpg') }}"
-                                            alt="" class="avatar-xs rounded-circle acitivity-avatar" />
-                                    </div>
-                                    <div class="flex-grow-1 ms-3">
-                                        <h6 class="mb-1 lh-base">Frank Hook Commented</h6>
-                                        <p class="text-muted mb-2 fst-italic">" A product that has
-                                            reviews is more likable to be sold than a product. "</p>
-                                        <small class="mb-0 text-muted">26 Aug, 2021</small>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
 
                         <div class="p-3 mt-2">
-                            <h6 class="text-muted mb-3 text-uppercase fw-semibold">Top 10 Categories
-                            </h6>
+                            @foreach ($orderCancelRequests as $request)
+                                <div class="col mb-3">
+                                    <div class="card card-body">
+                                        <div class="d-flex mb-4 align-items-center">
+                                            <div class="flex-shrink-0">
+                                                <i class="ri-delete-bin-2-line text-danger fs-24"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-2">
+                                                <h5 class="card-title mb-1">Yêu cầu hủy đơn hàng bán ra</h5>
+                                            </div>
+                                        </div>
+                                        <p class="card-text text-muted">
+                                            Đơn hàng - {{ $request->slug }}, yêu cầu hủy -
+                                            {{ $request->cancel_reason }}
+                                        </p>
+                                        <div>
+                                            <a href="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
+                                                onclick="event.preventDefault(); document.getElementById('update-status-{{ $request->slug }}').submit();"
+                                                class="btn btn-info btn-sm">Xác Nhận</a>
+                                            <a href="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
+                                                onclick="event.preventDefault(); document.getElementById('reject-status-{{ $request->slug }}').submit();"
+                                                class="btn btn-danger btn-sm">Từ Chối</a>
+                                            <form id="update-status-{{ $request->slug }}"
+                                                action="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                @method('POST')
+                                                <input type="hidden" name="status" value="5">
+                                            </form>
+                                            <form id="reject-status-{{ $request->slug }}"
+                                                action="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
+                                                method="POST" style="display: none;">
+                                                @csrf
+                                                <input type="hidden" name="status" value="1">
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
 
-                            <ol class="ps-3 text-muted">
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Mobile & Accessories <span
-                                            class="float-end">(10,294)</span></a>
-                                </li>
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Desktop <span
-                                            class="float-end">(6,256)</span></a>
-                                </li>
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Electronics <span
-                                            class="float-end">(3,479)</span></a>
-                                </li>
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Home & Furniture <span
-                                            class="float-end">(2,275)</span></a>
-                                </li>
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Grocery <span
-                                            class="float-end">(1,950)</span></a>
-                                </li>
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Fashion <span
-                                            class="float-end">(1,582)</span></a>
-                                </li>
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Appliances <span
-                                            class="float-end">(1,037)</span></a>
-                                </li>
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Beauty, Toys & More <span
-                                            class="float-end">(924)</span></a>
-                                </li>
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Food & Drinks <span
-                                            class="float-end">(701)</span></a>
-                                </li>
-                                <li class="py-1">
-                                    <a href="#" class="text-muted">Toys & Games <span
-                                            class="float-end">(239)</span></a>
-                                </li>
-                            </ol>
-                            <div class="mt-3 text-center">
-                                <a href="javascript:void(0);" class="text-muted text-decoration-underline">View all
-                                    Categories</a>
+                            @foreach ($pendingNewOrders as $request)
+                                <div class="col mb-3">
+                                    <div class="card card-body">
+                                        <div class="d-flex mb-4 align-items-center">
+                                            <div class="flex-shrink-0">
+                                                <i class="ri-information-line text-primary fs-24"></i>
+                                            </div>
+                                            <div class="flex-grow-1 ms-2">
+                                                <h5 class="card-title mb-1">Yêu cầu thêm mới đơn hàng nhập:
+                                                    {{ $request->importOrder->slug }}</h5>
+                                            </div>
+                                        </div>
+                                        <p class="card-text text-muted">
+                                            Sản phẩm:
+                                        <ul>
+                                            @foreach ($request->importOrder->newOrderRequests as $item)
+                                                <li>{{ $item->variation->name }} - Số lượng: {{ $item->quantity }}</li>
+                                            @endforeach
+                                        </ul>
+                                        </p>
+                                        <div>
+                                            <button type="button" class="btn btn-info btn-sm"
+                                                onclick="confirmImportOrder('{{ $request->importOrder->slug }}')">
+                                                Xác Nhận
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-sm"
+                                                onclick="rejectImportOrder('{{ $request->importOrder->slug }}')">
+                                                Từ Chối
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                        <div class="p-3 mt-2">
+                            <div id="cancelRequestsContainer">
                             </div>
                         </div>
-                        <div class="p-3">
-                            <h6 class="text-muted mb-3 text-uppercase fw-semibold">Products Reviews
-                            </h6>
-                            <!-- Swiper -->
-                            <div class="swiper vertical-swiper" style="height: 250px;">
-                                <div class="swiper-wrapper">
-                                    <div class="swiper-slide">
-                                        <div class="card border border-dashed shadow-none">
-                                            <div class="card-body">
-                                                <div class="d-flex">
-                                                    <div class="flex-shrink-0 avatar-sm">
-                                                        <div class="avatar-title bg-light rounded">
-                                                            <img src="{{ asset('themes/admin/assets/images/companies/img-1.png') }}"
-                                                                alt="" height="30">
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <div>
-                                                            <p class="text-muted mb-1 fst-italic text-truncate-two-lines">
-                                                                " Great product and looks great, lots of
-                                                                features. "</p>
-                                                            <div class="fs-11 align-middle text-warning">
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-end mb-0 text-muted">
-                                                            - by <cite title="Source Title">Force
-                                                                Medicines</cite>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card border border-dashed shadow-none">
-                                            <div class="card-body">
-                                                <div class="d-flex">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-3.jpg') }}"
-                                                            alt="" class="avatar-sm rounded">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <div>
-                                                            <p class="text-muted mb-1 fst-italic text-truncate-two-lines">
-                                                                " Amazing template, very easy to
-                                                                understand and manipulate. "</p>
-                                                            <div class="fs-11 align-middle text-warning">
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-half-fill"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-end mb-0 text-muted">
-                                                            - by <cite title="Source Title">Henry
-                                                                Baird</cite>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card border border-dashed shadow-none">
-                                            <div class="card-body">
-                                                <div class="d-flex">
-                                                    <div class="flex-shrink-0 avatar-sm">
-                                                        <div class="avatar-title bg-light rounded">
-                                                            <img src="{{ asset('themes/admin/assets/images/companies/img-8.png') }}"
-                                                                alt="" height="30">
-                                                        </div>
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <div>
-                                                            <p class="text-muted mb-1 fst-italic text-truncate-two-lines">
-                                                                "Very beautiful product and Very helpful
-                                                                customer service."</p>
-                                                            <div class="fs-11 align-middle text-warning">
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-line"></i>
-                                                                <i class="ri-star-line"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-end mb-0 text-muted">
-                                                            - by <cite title="Source Title">Zoetic
-                                                                Fashion</cite>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-slide">
-                                        <div class="card border border-dashed shadow-none">
-                                            <div class="card-body">
-                                                <div class="d-flex">
-                                                    <div class="flex-shrink-0">
-                                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-2.jpg') }}"
-                                                            alt="" class="avatar-sm rounded">
-                                                    </div>
-                                                    <div class="flex-grow-1 ms-3">
-                                                        <div>
-                                                            <p class="text-muted mb-1 fst-italic text-truncate-two-lines">
-                                                                " The product is very beautiful. I like
-                                                                it. "</p>
-                                                            <div class="fs-11 align-middle text-warning">
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-fill"></i>
-                                                                <i class="ri-star-half-fill"></i>
-                                                                <i class="ri-star-line"></i>
-                                                            </div>
-                                                        </div>
-                                                        <div class="text-end mb-0 text-muted">
-                                                            - by <cite title="Source Title">Nancy
-                                                                Martino</cite>
-                                                        </div>
-                                                    </div>
+                        <div class="mt-2">
+                            @foreach ($pendingContracts as $contract)
+                                <div class="col mb-3">
+                                    <div class="card card-body">
+                                        <div class="d-flex mb-4 align-items-center">
+                                            <div class="flex-grow-1 ms-2">
+                                                <h5 class="card-title mb-1">Yêu cầu xác nhận hợp đồng:
+                                                    {{ $contract->contract_name }}</h5>
+                                                <p>Khách hàng: {{ $contract->customer_name }}</p>
+                                                <div class="mt-3">
+                                                    <a href="/storage/{{ $contract->file }}" target="_blank"
+                                                        class="btn btn-info btn-sm">Xem hợp đồng</a>
+                                                    <form action="{{ route('contract.confirm', $contract->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-success btn-sm">Xác
+                                                            nhận</button>
+                                                    </form>
+
+                                                    <form action="{{ route('contract.reject', $contract->id) }}"
+                                                        method="POST" class="d-inline">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger btn-sm">Từ
+                                                            chối</button>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
+
                         </div>
 
-                        <div class="p-3">
-                            <h6 class="text-muted mb-3 text-uppercase fw-semibold">Customer Reviews
-                            </h6>
-                            <div class="bg-light px-3 py-2 rounded-2 mb-2">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                                        <div class="fs-16 align-middle text-warning">
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-fill"></i>
-                                            <i class="ri-star-half-fill"></i>
+                        @foreach ($validContracts as $item)
+                            <div class="col mb-3">
+                                <div class="card card-body">
+                                    <div class="d-flex mb-4 align-items-center">
+                                        <div class="flex-grow-1 ms-2">
+                                            <h5 class="card-title mb-1">Hợp đồng: {{ $item['contract']->contract_name }}
+                                            </h5>
+                                            <div class="mt-3">
+                                                <a href="/storage/{{ $item['contract']->file_pdf }}" target="_blank"
+                                                    class="btn btn-info btn-sm">
+                                                    <i class="ri-eye-fill align-bottom me-2"></i>Xem hợp đồng
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <h6 class="mb-0">4.5 out of 5</h6>
                                     </div>
                                 </div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-muted">Total <span class="fw-medium">5.50k</span>
-                                    reviews</div>
-                            </div>
-
-                            <div class="mt-3">
-                                <div class="row align-items-center g-2">
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0">5 star</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="p-1">
-                                            <div class="progress animated-progress progress-sm">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: 50.16%" aria-valuenow="50.16" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0 text-muted">2758</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end row -->
-
-                                <div class="row align-items-center g-2">
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0">4 star</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="p-1">
-                                            <div class="progress animated-progress progress-sm">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: 29.32%" aria-valuenow="29.32" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0 text-muted">1063</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end row -->
-
-                                <div class="row align-items-center g-2">
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0">3 star</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="p-1">
-                                            <div class="progress animated-progress progress-sm">
-                                                <div class="progress-bar bg-warning" role="progressbar"
-                                                    style="width: 18.12%" aria-valuenow="18.12" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0 text-muted">997</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end row -->
-
-                                <div class="row align-items-center g-2">
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0">2 star</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="p-1">
-                                            <div class="progress animated-progress progress-sm">
-                                                <div class="progress-bar bg-success" role="progressbar"
-                                                    style="width: 4.98%" aria-valuenow="4.98" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0 text-muted">227</h6>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- end row -->
-
-                                <div class="row align-items-center g-2">
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0">1 star</h6>
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="p-1">
-                                            <div class="progress animated-progress progress-sm">
-                                                <div class="progress-bar bg-danger" role="progressbar"
-                                                    style="width: 7.42%" aria-valuenow="7.42" aria-valuemin="0"
-                                                    aria-valuemax="100"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="p-1">
-                                            <h6 class="mb-0 text-muted">408</h6>
-                                        </div>
-                                    </div>
-                                </div><!-- end row -->
-                            </div>
-                        </div>
-
-                        <div class="card sidebar-alert bg-light border-0 text-center mx-4 mb-0 mt-3">
-                            <div class="card-body">
-                                <img src="{{ asset('themes/admin/assets/images/giftbox.png') }}" alt="">
-                                <div class="mt-4">
-                                    <h5>Invite New Seller</h5>
-                                    <p class="text-muted lh-base">Refer a new seller to us and earn
-                                        $100 per refer.</p>
-                                    <button type="button" class="btn btn-primary btn-label rounded-pill"><i
-                                            class="ri-mail-fill label-icon align-middle rounded-pill fs-16 me-2"></i>
-                                        Invite Now</button>
-                                </div>
-                            </div>
-                        </div>
+                        @endforeach
 
                     </div>
                 </div> <!-- end card-->
@@ -1485,76 +1165,56 @@
     </div>
 @endsection
 
-@php
-    use App\Models\Import_order;
-    $pendingCancelRequests = Import_order::where('status', 1)->whereNotNull('cancel_reason')->get();
-@endphp
-
 @section('scripts')
     @parent
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            function showPendingCancelRequests() {
-                @foreach ($pendingCancelRequests as $request)
-                    Swal.fire({
-                        title: 'Yêu cầu hủy đơn hàng',
-                        text: `Đơn hàng - {{ $request->slug }}, yêu cầu hủy - {{ $request->cancel_reason }}`,
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Xác nhận hủy'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.href =
-                                "{{ route('importOrder.cancel', ['slug' => $request->slug]) }}";
-                        }
-                    });
-                @endforeach
-            }
+        function confirmImportOrder(slug) {
+            fetch("{{ route('importOrder.confirmOrder', ['slug' => ':slug']) }}".replace(':slug', slug), {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Thành công',
+                            text: data.message,
+                            icon: 'success'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
+                });
+        }
 
-            function showPendingNewOrders() {
-                @foreach ($pendingNewOrders as $request)
-                    Swal.fire({
-                        title: 'Yêu cầu thêm mới',
-                        text: `Sản phẩm: {{ $request->product }} - Số lượng: {{ $request->quantity }}`,
-                        icon: 'info',
-                        showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
-                        confirmButtonText: 'Xác nhận'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            fetch("{{ route('importOrder.confirmOrder', ['slug' => $request->importOrder->slug]) }}", {
-                                    method: 'POST',
-                                    headers: {
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                    }
-                                }).then(response => response.json())
-                                .then(data => {
-                                    if (data.success) {
-                                        Swal.fire('Xác nhận thành công', data.message, 'success');
-                                        // Kiểm tra trạng thái đơn hàng mỗi 30 giây
-                                        const checkInterval = setInterval(function() {
-                                            fetch(
-                                                    "{{ route('importOrder.autoUpdateStatus', ['slug' => $request->importOrder->slug]) }}")
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    if (data.success) {
-                                                        clearInterval(checkInterval);
-                                                        Swal.fire('Giao hàng thành công',
-                                                            data.message, 'success');
-                                                    }
-                                                });
-                                        }, 30000); // 30 giây
-                                    } else {
-                                        Swal.fire('Lỗi', 'Không thể xác nhận yêu cầu', 'error');
-                                    }
-                                });
-                        }
-                    });
-                @endforeach
-            }
+        function rejectImportOrder(slug) {
+            fetch("{{ route('importOrder.rejectOrder', ['slug' => ':slug']) }}".replace(':slug', slug), {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Đã từ chối',
+                            text: data.message,
+                            icon: 'success'
+                        }).then(() => {
+                            window.location.reload();
+                        });
+                    }
+                });
+        }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hàm để tạo danh sách sản phẩm
 
             function checkPendingRequests() {
                 // Kiểm tra nếu có yêu cầu hủy
@@ -1569,16 +1229,45 @@
             // Hiển thị yêu cầu thêm mới hoặc hủy ngay khi trang dashboard load
             checkPendingRequests();
 
-            // Kiểm tra yêu cầu hủy mới mỗi phút
-            setInterval(function() {
-                fetch("{{ route('importOrder.pendingCancelRequests') }}")
-                    .then(response => response.json())
-                    .then(requests => {
-                        if (requests.length > 0) {
-                            showPendingCancelRequests();
-                        }
-                    });
-            }, 60000);
+        });
+    </script>
+    <script>
+        function checkPendingCancelRequests() {
+            fetch("{{ route('importOrder.pendingCancelRequests') }}")
+                .then(response => response.json())
+                .then(data => {
+                    const container = document.getElementById('cancelRequestsContainer');
+                    if (data.length > 0) {
+                        data.forEach(request => {
+                            const requestElement = document.createElement('div');
+                            requestElement.className = 'col mb-3';
+                            requestElement.innerHTML = `
+                        <div class="card card-body">
+                            <div class="d-flex mb-4 align-items-center">
+                                <div class="flex-shrink-0">
+                                    <i class="ri-delete-bin-2-line text-danger fs-24"></i>
+                                </div>
+                                <div class="flex-grow-1 ms-2">
+                                    <h5 class="card-title mb-1">Yêu cầu hủy đơn hàng nhập vào</h5>
+                                </div>
+                            </div>
+                            <p class="card-text text-muted">
+                                Đơn hàng ${request.slug} yêu cầu hủy: ${request.cancel_reason}
+                            </p>
+                            <div>
+                                <button onclick="handleCancelConfirm('${request.slug}')" class="btn btn-info btn-sm">Xác nhận hủy</button>
+                                <button onclick="handleCancelReject('${request.slug}')" class="btn btn-danger btn-sm">Từ chối</button>
+                            </div>
+                        </div>
+                    `;
+                            container.appendChild(requestElement);
+                        });
+                    }
+                });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            checkPendingCancelRequests();
         });
     </script>
 @endsection

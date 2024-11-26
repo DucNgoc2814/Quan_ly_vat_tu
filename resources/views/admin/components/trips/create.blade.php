@@ -154,8 +154,10 @@
 
 
 @section('scripts')
+
     <script>
         function addOder(button) {
+
             const row = button.closest('tr');
             const orderInfo = {
                 id: row.dataset.orderId, // Thêm dòng này
@@ -189,7 +191,8 @@
                     showOrderIdsError('Vui lòng chọn ít nhất một đơn hàng.');
                     event.preventDefault();
                 }
-            }); //
+            });
+            //
             const tbody = selectedOrdersDiv.querySelector('tbody');
             const newRow = document.createElement('tr');
             newRow.innerHTML = `
@@ -207,6 +210,7 @@
             selectedOrdersDiv.style.display = 'block';
 
             // Ẩn chỉ dòng này trong bảng gốc
+
             row.style.display = 'none';
 
             calculateTotal();
@@ -252,7 +256,7 @@
                 event.preventDefault();
             }
         });
-        //
+        //tong tien trong form
         function calculateTotal() {
             let total = 0;
             const selectedOrders = document.querySelectorAll('#selected_orders tbody tr');

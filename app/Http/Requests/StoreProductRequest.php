@@ -21,14 +21,83 @@ class StoreProductRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+
+        $rules = [
             'category_id' => 'required|exists:categories,id',
             'unit_id' => 'required|exists:units,id',
-            'brand_id' => 'nullable|exists:brands,id',
-            'name' => 'required|string|max:255|unique:products',
-            'price' => 'required|integer',
-            'description' => 'nullable|string',
-            'is_active' => 'boolean'
+            'brand_id' => 'required|exists:brands,id',
+            'name' => 'required|string|max:255|unique:products,name',
+            'price' => 'required|numeric|min:1|max:1000000000',
+            'description' => 'required|string',
+            'is_active' => 'boolean',
+            'product_images' => 'required',
+            'product_images.*' => 'required|image|mimes:jpeg,png,jpg,gif',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
+        ];
+
+        // Kiểm tra nếu product_type là "1" (sản phẩm biến thể)
+        if (request()->product_type === '1') {
+            $rules['variants'] = 'required|array|min:1';
+            $rules['variants.*.attribute_value_ids'] = 'required|array';
+            $rules['variants.*.attribute_value_values'] = 'required|array';
+            $rules['variants.*.attribute_value_ids.*'] = 'exists:attribute_values,id';
+            $rules['variants.*.price'] = 'nullable|numeric|min:1|max:1000000000';
+            $rules['variants.*.stock'] = 'required|numeric|min:1|max:10000';
+        } else {
+            $rules['quantity'] = 'required|numeric|min:1|max:10000';
+        }
+
+        return $rules;
+    }
+
+    /**
+     * Custom validation error messages.
+     */
+    public function messages(): array
+    {
+        return [
+            'category_id.required' => 'Vui lòng chọn danh mục sản phẩm',
+            'category_id.exists' => 'Danh mục không tồn tại',
+            'unit_id.required' => 'Vui lòng chọn đơn vị tính',
+            'unit_id.exists' => 'Đơn vị tính không tồn tại',
+            'brand_id.required' => 'Vui lòng chọn thương hiệu',
+            'brand_id.exists' => 'Thương hiệu không tồn tại',
+            'name.required' => 'Vui lòng nhập tên sản phẩm',
+            'name.string' => 'Tên sản phẩm phải là chuỗi ký tự',
+            'name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự',
+            'name.unique' => 'Tên sản phẩm đã tồn tại',
+            'price.required' => 'Vui lòng nhập giá sản phẩm',
+            'price.numeric' => 'Giá sản phẩm phải là số',
+            'price.min' => 'Giá sản phẩm không được nhỏ hơn 0',
+            'product_images.required' => 'Vui lòng chọn ít nhất một ảnh',
+            'product_images.array' => 'Dữ liệu ảnh không hợp lệ',
+            'product_images.min' => 'Vui lòng chọn ít nhất một ảnh',
+            'product_images.*.required' => 'Vui lòng chọn ảnh',
+            'product_images.*.image' => 'File phải là hình ảnh',
+            'product_images.*.mimes' => 'Ảnh phải có định dạng: jpeg, png, jpg hoặc gif',
+            'variants.required' => 'Vui lòng thêm ít nhất một biến thể',
+            'variants.array' => 'Dữ liệu biến thể không hợp lệ',
+            'variants.min' => 'Vui lòng thêm ít nhất một biến thể',
+            'variants.*.attribute_value_ids.required' => 'Vui lòng chọn giá trị thuộc tính',
+            'variants.*.attribute_value_ids.array' => 'Dữ liệu giá trị thuộc tính không hợp lệ',
+            'variants.*.attribute_value_values.required' => 'Vui lòng chọn giá trị thuộc tính',
+            'variants.*.attribute_value_values.array' => 'Dữ liệu giá trị thuộc tính không hợp lệ',
+            'variants.*.price.numeric' => 'Giá biến thể phải là số',
+            'variants.*.price.min' => 'Giá biến thể không được nhỏ hơn 0',
+            'variants.*.stock.required' => 'Vui lòng nhập số lượng tồn kho',
+            'variants.*.stock.integer' => 'Số lượng tồn kho phải là số nguyên',
+            'variants.*.stock.min' => 'Số lượng tồn kho không được nhỏ hơn 0',
+            'image.required' => 'Vui lòng chọn ảnh đại diện',
+            'image.image' => 'Tệp tải lên phải là hình ảnh',
+            'image.mimes' => 'Ảnh phải có định dạng: jpeg, png, jpg hoặc gif',
+            'image.max' => 'Kích thước ảnh không được vượt quá 2MB',
+            'quantity.required' => 'Vui lòng nhập số lượng sản phẩm.',
+            'quantity.integer' => 'Số lượng phải là một số nguyên.',
+            'quantity.min' => 'Số lượng không được nhỏ hơn 0.',
+            'price.max' => 'Giá không được vượt quá 1,000,000,000 VNĐ',
+            'quantity.max' => 'Số lượng không được vượt quá 10,000',
+            'variants.*.price.max' => 'Giá biến thể không được vượt quá 1,000,000,000 VNĐ',
+            'variants.*.stock.max' => 'Số lượng biến thể không được vượt quá 10,000',
         ];
     }
 }

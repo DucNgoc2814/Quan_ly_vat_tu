@@ -4,8 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Services\LogService;
+class Employee extends Authenticatable implements JWTSubject
 
-class Employee extends Model
 {
     use HasFactory;
 
@@ -19,6 +22,7 @@ class Employee extends Model
         'date',
         'description',
         'is_active',
+        'password',
     ];
 
     protected $cast = [
@@ -36,4 +40,41 @@ class Employee extends Model
     public function requests() {
         return $this->hasMany(Request::class);
     }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    public function contract()
+    {
+        return $this->belongsTo(contract::class);
+    }
+    public function getJWTCustomClaims()
+    {
+        return [
+            'name' => $this->name,
+            'role' => $this->role_id,
+            'id' => $this->id,
+            'is_employee' => true,
+            'name' => $this->name,
+            'namimage' => $this->namimage,
+            'description' => $this->description
+        ];
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($model) {
+            $result = LogService::addLog('Tạo mới', $model);
+        });
+
+        static::updated(function ($model) {
+            LogService::addLog('Cập nhật', $model);
+        });
+
+        static::deleted(function ($model) {
+            LogService::addLog('Xóa', $model);
+        });
+    }
+
 }

@@ -40,7 +40,7 @@
                                 <label class="form-label">Tên danh mục</label>
                                 <input value="{{old('name')}}" type="text" name="name" placeholder="Nhập tên danh mục" class="form-control">
                                 @error('name')
-                                    <p class="text-danger">{{ $message }}</p>
+                                    <p class="text-danger">Vui lòng nhập hợp lệ</p>
                                 @enderror
                             </div>
                             <div class="col-lg-12 mt-3">
@@ -55,14 +55,14 @@
                                 <label class="form-label">image</label>
                                 <input value="{{old('image')}}" type="file" name="image" class="form-control">
                                 @error('image')
-                                    <p class="text-danger">{{ $message }}</p>
+                                    <p class="text-danger">Vui lòng nhập hợp lệ</p>
                                 @enderror
                             </div>
                             <div class="col-lg-12 mt-3">
                                 <label class="form-label">Mô tả</label>
                                 <textarea type="text" name="description" placeholder="Nhập mô tả (không bắt buộc)" class="form-control" rows="3"></textarea>
                                 @error('description')
-                                    <p class="text-danger">{{ $message }}</p>
+                                    <p class="text-danger">Vui lòng nhập hợp lệ</p>
                                 @enderror
                             </div>
                         </div>
@@ -90,23 +90,8 @@
                     <p class="text-danger">{{ $message }}</p>
                 @enderror
             </div>
-
             <div class="col-lg-12 mt-3">
-                <label class="form-label">Mã Danh Mục</label>
-                <select name="sku" id="" class="form-select">
-                    @foreach ($categories as $id => $name)
-                        <option value="{{ $id }}" {{ old('category_id') == $id ? 'selected' : '' }}>
-                            {{ $name }}
-                        </option>
-                    @endforeach
-                </select>
-                @error('category_id')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-            </div>
-
-            <div class="col-lg-12 mt-3">
-                <label class="form-label">Image</label>
+                <label class="form-label">Ảnh</label>
                 <input value="{{ old('image') }}" type="file" name="image" class="form-control">
                 @error('image')
                     <p class="text-danger">{{ $message }}</p>
@@ -116,9 +101,7 @@
             <div class="col-lg-12 mt-3">
                 <label class="form-label">Mô tả</label>
                 <textarea name="description" class="form-control" rows="3">{{ old('description') }}</textarea>
-                @error('description')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
+
             </div>
         </div>
 

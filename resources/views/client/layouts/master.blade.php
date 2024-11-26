@@ -18,16 +18,17 @@
     <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet">
 
     @include('client.layouts.partials.css')
-    @yield('css')
     <!-- modernizr js -->
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 
 <body>
+    
     <!-- Wrapper Start -->
     <div class="wrapper homepage">
         <!-- Header Area Start -->
         <header>
+            @include('client.layouts.partials.success')
             <!-- Header Top Start -->
             @include('client.layouts.partials.header-top')
             <!-- Header Top End -->
@@ -43,6 +44,11 @@
     <!-- Wrapper End -->
 
     @include('client.layouts.partials.js')
+    @if (session('authorization'))
+        {{ session('authorization') }}
+    @endif
+
 </body>
 
 </html>
+@yield('scripts')

@@ -16,7 +16,6 @@
                         <li class="breadcrumb-item active">Thêm mới nhân viên</li>
                     </ol>
                 </div>
-
             </div>
         </div>
     </div>
@@ -79,6 +78,22 @@
                     </div>
                 </div>
                 <!-- end card -->
+                  <!-- end card -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="product-title-input">Password</label>
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                placeholder="Nhập mật khẩu đang nhập vào hệ thống" name="password" value="{{ old('name') }}">
+                            @error('password')
+                                <span role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+                <!-- end card -->
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
@@ -104,9 +119,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
-                            <label class="form-label" for="product-title-input">CCCD/CMND</label>
+                            <label class="form-label" for="product-title-input">Căn cước công dân</label>
                             <input type="text" class="form-control  @error('cccd') is-invalid @enderror"
-                                placeholder="Nhập số điện thoại" name="cccd" value="{{ old('cccd') }}">
+                                placeholder="Nhập căn cước công dân" name="cccd" value="{{ old('cccd') }}">
                             @error('cccd')
                                 <span role="alert">
                                     <span class="text-danger">{{ $message }}</span>
@@ -210,5 +225,5 @@
             }
         }
     </script>
-   
+
 @endsection

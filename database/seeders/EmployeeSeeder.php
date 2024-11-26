@@ -25,6 +25,7 @@ class EmployeeSeeder extends Seeder
                 'date' => 20220101,
                 'description' => 'Nhân viên phát triển phần mềm.',
                 'is_active' => true,
+                'password' => bcrypt('123456789'),
             ],
             [
                 'id' => 2,
@@ -37,6 +38,7 @@ class EmployeeSeeder extends Seeder
                 'date' => 20220315,
                 'description' => 'Nhân viên kế toán.',
                 'is_active' => true,
+                'password' => bcrypt('123456789'),
             ],
             [
                 'id' => 3,
@@ -49,9 +51,9 @@ class EmployeeSeeder extends Seeder
                 'date' => 20220120,
                 'description' => 'Nhân viên lái xe.',
                 'is_active' => false,
+                'password' => bcrypt('123456789'),
             ],
         ];
-
         foreach ($employees as $employee) {
             DB::table('employees')->insert(array_merge($employee, [
                 'created_at' => now(),

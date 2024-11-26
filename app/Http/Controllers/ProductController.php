@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Attribute;
+use App\Models\Gallery;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -21,7 +22,7 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    const PATH_VIEW = 'admin.components.product.';
+    const PATH_VIEW = 'admin.components.products.';
 
     public function index()
     {
@@ -46,74 +47,163 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        dd($request->attribute_value_id);
         try {
             DB::transaction(function () use ($request) {
-                $slug = Str::slug($request['name']);
-                $data = [
+                if ($request->hasFile('image')) {
+                    $mainImagePath = Storage::put('products', $request->file('image'));
+                }
+                
+                // Create product with all required fields including image
+                $product = Product::create([
                     "category_id" => $request->category_id,
                     "unit_id" => $request->unit_id,
                     "brand_id" => $request->brand_id,
-                    "slug" => $slug,
+                    "slug" => Str::slug($request->name) . '-' . Str::random(5),
                     "name" => $request->name,
                     "price" => $request->price,
                     "description" => $request->description,
-                    "is_active" => $request->has('is_active') ? 1 : 0,
-                ];
-                $product = Product::query()->create($data);
-
+                    "is_active" => $request->has('is_active'),
+                    "image" => $mainImagePath // Include image path in initial creation
+                ]);
                 if ($request->hasFile('product_images')) {
                     foreach ($request->file('product_images') as $image) {
                         $path = Storage::put('galleries', $image);
                         $product->galleries()->create(['url' => $path]);
                     }
                 }
-
-                $variantPrices = $request->variant_prices;
-                $variantStocks = $request->variant_stocks;
-                $selectedVariants = $request->variant_types;
-
-                // Iterate over each combination of variants
-                foreach ($variantPrices as $index => $price) {
-                    $stock = $variantStocks[$index];
-
-                    // Assuming you have a ProductVariant model and relationship
-                    $product->variants()->create([
-                        'variant_types' => json_encode($selectedVariants[$index]), // store variant types as JSON
-                        'price' => $price,
-                        'stock' => $stock,
+                if ($request->product_type == 1) {
+                    foreach ($request->variants as $variantData) {
+                        $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
+                        $variation = Variation::create([
+                            'product_id' => $product->id,
+                            'sku' => Str::upper($this->generateUniqueSku()),
+                            'name' => $variantName,
+                            'stock' => $variantData['stock'],
+                            'price_export' => $variantData['price'] ?: $request->price,
+                            'is_active' => true,
+                        ]);
+                        $variation->attributeValues()->attach($variantData['attribute_value_ids']);
+                    }
+                } else {
+                    $variation = Variation::create([
+                        'product_id' => $product->id,
+                        'sku' => Str::upper($this->generateUniqueSku()),
+                        'name' => $request->name,
+                        'stock' => $request->quantity,
+                        'price_export' => $request->price,
+                        'is_active' => true,
                     ]);
                 }
-            }, 3);
-            return redirect()->route('product.index')->with('success', 'Thêm sản phẩm thành công');;
-        } catch (\Throwable $th) {
-            dd($th->getMessage());
-            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $th->getMessage());
+            });
+            return redirect()
+                ->route('product.index')
+                ->with('success', 'Thêm sản phẩm thành công');
+        } catch (\Exception $e) {
+            dd($e->getMessage());
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
+    public function edit($slug)
     {
-        //
+        $product = Product::with('variations')->where('slug', $slug)->firstOrFail();
+        $categories = Category::pluck('name', 'id');
+        $units = Unit::pluck('name', 'id');
+        $brands = Brand::pluck('name', 'id');
+        $attributes = Attribute::whereHas('attributeValues.variations', function ($query) use ($product) {
+            $query->where('product_id', $product->id);
+        })
+            ->with('attributeValues.variations')
+            ->get();
+        $attributesArray = Attribute::with('attributeValues')->get();
+
+        return view(self::PATH_VIEW . __FUNCTION__, compact('product', 'categories', 'units', 'brands', 'attributes', 'attributesArray'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Product $product)
+    public function update(UpdateProductRequest $request, $slug)
     {
-        //
-    }
+        try {
+            DB::transaction(function () use ($request, $slug) {
+                $product = Product::with('galleries', 'variations')->where('slug', $slug)->firstOrFail();
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateProductRequest $request, Product $product)
-    {
-        //
+                $oldName = $product->name;
+                $newName = $request->name;
+
+                // Cập nhật thông tin sản phẩm
+                $product->update([
+                    'name' => $newName,
+                    'price' => $request->price,
+                    'category_id' => $request->category_id,
+                    'brand_id' => $request->brand_id,
+                    'unit_id' => $request->unit_id,
+                    'description' => $request->description,
+                    'is_active' => $request->has('is_active'),
+                    'slug' => Str::slug($newName)
+                ]);
+
+                // Nếu tên sản phẩm thay đổi, cập nhật tên biến thể
+                if ($oldName !== $newName) {
+                    foreach ($product->variations as $variation) {
+                        $newVariationName = str_replace($oldName, $newName, $variation->name);
+                        $variation->update(['name' => $newVariationName]);
+                    }
+                }
+
+                // Xử lý xóa ảnh
+                $imagesToDelete = array_filter($request->input('images_to_delete', []));
+                if (!empty($imagesToDelete)) {
+                    foreach ($imagesToDelete as $galleryId) {
+                        $gallery = Gallery::find($galleryId);
+                        if ($gallery) {
+                            if (Storage::exists($gallery->url)) {
+                                Storage::delete($gallery->url);
+                            }
+                            $gallery->delete();
+                        }
+                    }
+                }
+
+                // Xử lý cập nhật ảnh sản phẩm chính
+                if ($request->hasFile('image')) {
+                    // Xóa ảnh cũ nếu có
+                    if (Storage::exists($product->image)) {
+                        Storage::delete($product->image);
+                    }
+                    $mainImagePath = Storage::put('products', $request->file('image'));
+                    $product->image = $mainImagePath;
+                    $product->save();
+                }
+                // Xử lý thêm ảnh mới
+                if ($request->hasFile('product_images')) {
+                    foreach ($request->file('product_images') as $image) {
+                        if ($image->isValid()) {
+                            $path = Storage::put('galleries', $image);
+                            $product->galleries()->create(['url' => $path]);
+                        }
+                    }
+                }
+                // Xử lý cập nhật biến thể
+                if ($request->has('variations')) {
+                    foreach ($request->variations as $variationId => $data) {
+                        $variation = Variation::find($variationId);
+                        if ($variation) {
+                            $variation->update([
+                                'price_export' => $data['price_export'],
+                            ]);
+                        }
+                    }
+                }
+            });
+
+            return redirect()->route('product.index')->with('success', 'Cập nhật sản phẩm thành công');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Lỗi cập nhật sản phẩm: ' . $e->getMessage());
+        }
     }
 
     /**
@@ -122,5 +212,16 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function generateUniqueSku()
+    {
+        $sku = Str::random(8); // Bạn có thể thay đổi độ dài tùy theo yêu cầu
+
+        while (Variation::where('sku', $sku)->exists()) {
+            $sku = Str::random(8); // Tạo lại mã nếu đã tồn tại
+        }
+
+        return $sku; // Trả về mã SKU duy nhất
     }
 }

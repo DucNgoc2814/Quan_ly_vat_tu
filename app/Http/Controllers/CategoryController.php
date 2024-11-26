@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Order;
 use Illuminate\Support\Facades\DB;
@@ -12,7 +11,8 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    const PATH_VIEW = 'admin.components.Categories.';
+
+    const PATH_VIEW = 'admin.components.categories.';
 
     public function index()
     {
@@ -25,31 +25,27 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $categories = Category::query()->pluck('sku', 'id');
-        return view(self::PATH_VIEW . 'create', compact('categories'));
+        return view(self::PATH_VIEW . __FUNCTION__);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreCategoryRequest $request)
     {
-        try {
-            $data = [
-                'name' => $request->name,
-                'sku' => $request->sku,
-                'image' => $request->image,
-                'description' => $request->description,
-            ];
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('images', 'public');
-                $data['image'] = $imagePath;
-            }
-            Category::query()->create($data);
-            return redirect()->route('category.index');
-        } catch (\Throwable $th) {
-            dd($th->getMessage());
+        $sku = $this->convertSku($request->name);
+        $data = [
+            'name' => $request->name,
+            'sku' => $sku,
+            'image' => $request->image,
+            'description' => $request->description,
+        ];
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $data['image'] = $imagePath;
         }
+        Category::query()->create($data);
+        return redirect()->route('category.index');
     }
 
 
@@ -67,29 +63,22 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
-        $category = Category::findOrFail($id);
-        return view('admin.components.categories.edit', compact('category'));
+        $category1 = Category::findOrFail($id);
+        return view(self::PATH_VIEW . __FUNCTION__,compact('category1'));
     }
-    
 
-    /**
+
+    /** 
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCategoryRequest $request, $id)
     {
-
-
+        $sku = $this->convertSku($request->name);
         $data = [
             'name' => $request->name,
-            'sku' => $request->sku,
+            'sku' => $sku,
             'description' => $request->description,
         ];
-        $request->validate([
-            'name' => 'required|string|',
-            'sku' => 'required|string|',
-            'image' => 'nullable|image|',
-            'description' => 'nullable|string',
-        ]);
 
         $category = Category::findOrFail($id);
         if ($request->hasFile('image')) {
@@ -98,28 +87,27 @@ class CategoryController extends Controller
         }
 
         DB::table('categories')
-              ->where('id', $id)
-              ->update($data);
-     
+            ->where('id', $id)
+            ->update($data);
+
         return redirect()->route('category.index')->with('success', 'Danh mục đã được cập nhật thành công.');
-
-
     }
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy($id) {}
+
+
+
+    private function convertSku($string)
     {
-        $category = Category::findOrFail($id);
-
-        if ($category->products()->count() > 0) {
-            return redirect()->route('category.index')->with('error', 'Không thể xóa danh mục vì vẫn còn sản phẩm liên quan.');
-        }
-
-        $category->delete();
-
-        return redirect()->route('category.index')->with('success', 'Xóa danh mục thành công.');
+        $string = strtolower($string);
+        $string = iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $string);
+        $string = preg_replace('/[^a-z0-9\s]+/', '', $string);
+        $string = preg_replace('/\s+/', '-', $string);
+        $string = trim($string, '-');
+        return $string;
     }
 }

@@ -10,10 +10,14 @@ use App\Models\Import_order;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreImport_orderRequest;
 use App\Http\Requests\UpdateImport_orderRequest;
+use App\Models\Customer;
 use App\Models\NewOrderRequest;
+use App\Models\Order;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ImportOrderController extends Controller
 {
@@ -84,7 +88,7 @@ class ImportOrderController extends Controller
                         // Vẫn giữ lại chức năng tạo NewOrderRequest
                         NewOrderRequest::create([
                             'import_order_id' => $importOrder->id,
-                            'product' => $variationID,
+                            'variation_id' => $variationID,
                             'quantity' => $quantity,
                         ]);
                     }
@@ -104,8 +108,8 @@ class ImportOrderController extends Controller
     {
         $importOrder = Import_order::where('slug', $slug)->firstOrFail();
 
-        // Cập nhật trạng thái về chờ hủy (tạm gọi là 1)
-        $importOrder->status = 1;
+        // Cập nhật trạng thái về chờ hủy
+        // $importOrder->status = 1;
         $importOrder->cancel_reason = $request->reason; // Lưu lý do hủy
         $importOrder->save();
 
@@ -137,7 +141,22 @@ class ImportOrderController extends Controller
         $importOrder->status = 2; // Đã xác nhận
         $importOrder->save();
 
-        return response()->json(['success' => true, 'message' => 'Đã xác nhận đơn hàng, chờ cập nhật số lượng']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xác nhận đơn hàng, chờ đơn hàng giao',
+        ]);
+    }
+
+    public function rejectOrder($slug)
+    {
+        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+        $importOrder->status = 6; // Trạng thái từ chối
+        $importOrder->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã từ chối đơn hàng',
+        ]);
     }
 
     // public function autoUpdateStatus($slug)
@@ -163,11 +182,40 @@ class ImportOrderController extends Controller
 
     public function dashboard()
     {
-        $pendingNewOrders = NewOrderRequest::whereHas('importOrder', function ($query) {
-            $query->where('status', 1);
-        })->get();
+        $pendingNewOrders = NewOrderRequest::with(['importOrder', 'variation'])
+            ->whereHas('importOrder', function ($query) {
+                $query->where('status', 1);
+            })
+            ->get();
+        // Đơn hàng bán
+        $totalRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
+        $totalRevenueLastMonth = Order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
+        $revenueDifference = $totalRevenueThisMonth - $totalRevenueLastMonth;
+        if ($totalRevenueLastMonth != 0) {
+            $growthRateRevenue = ($revenueDifference / $totalRevenueLastMonth) * 100;
+        } else {
+            $growthRateRevenue = 100;
+        }
+        // Khách hàng
+        $totalCustomersThisMonth = Customer::whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->count();
+        $totalCustomersLastMonth = Customer::whereMonth('created_at', Carbon::now()->subMonth()->month)->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
+        $customerDifference = $totalCustomersThisMonth - $totalCustomersLastMonth;
+        if ($totalCustomersLastMonth != 0) {
+            $growthRateCustomers = ($customerDifference / $totalCustomersLastMonth) * 100;
+        } else {
+            $growthRateCustomers = 100;
+        }
+        // Đơn hàng nhập
+        $totalRevenueImportThisMonth = Import_order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
+        $totalRevenueImportLastMonth = Import_order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
+        $revenueImportDifference = $totalRevenueImportThisMonth - $totalRevenueImportLastMonth;
+        if ($totalRevenueImportLastMonth != 0) {
+            $growthRateImportRevenue = ($revenueImportDifference / $totalRevenueImportLastMonth) * 100;
+        } else {
+            $growthRateImportRevenue = 100;
+        }
 
-        return view('admin.dashboard', compact('pendingNewOrders'));
+        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue'));
     }
 
     public function checkOrderStatus($slug)
@@ -178,6 +226,9 @@ class ImportOrderController extends Controller
         }
         return response()->json(['status' => 'pending']);
     }
+
+
+
 
     public function updateOrderStatus($slug)
     {
@@ -199,15 +250,6 @@ class ImportOrderController extends Controller
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false]);
-    }
-
-
-
-
-
-    public function show($slug)
-    {
-
     }
 
     /**
@@ -303,5 +345,4 @@ class ImportOrderController extends Controller
     {
         //
     }
-
 }

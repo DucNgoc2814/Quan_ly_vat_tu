@@ -37,13 +37,17 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('contractType.update', $contract_types->id) }}" method="POST" >
+                    <form action="{{ route('ContractTypes.update', $contract_types->id) }}" method="POST" >
                         @method('PUT')
                          @csrf
                         <div class="row">
+<<<<<<< HEAD
                             
                             <div class="col-lg-10">
+=======
 
+                            <div class="col-lg-6">
+>>>>>>> d00d26c9043d623fc3c421010be953b3c1e5899f
                                 <label class="form-label">Tên loại hợp đồng</label>
                                 <input type="text" name="name" placeholder="Nhập tên loại hợp đồng"
                                 class="form-control @error('name') is-invalid @enderror "   value="{{$contract_types->name}}">
@@ -59,7 +63,13 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
+<<<<<<< HEAD
+                          
+=======
 
+
+
+>>>>>>> d00d26c9043d623fc3c421010be953b3c1e5899f
                         </div>
                         <div class="mt-3">
                             <button class = "btn btn-success text ">Submit</button>

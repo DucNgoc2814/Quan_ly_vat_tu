@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use App\Services\LogService;
 class Order extends Model
 {
     use HasFactory;
@@ -13,10 +13,14 @@ class Order extends Model
         'payment_id',
         'customer_id',
         'status_id',
+        'contract_id',
         'slug',
         'customer_name',
         'email',
         'number_phone',
+        'province',
+        'district',
+        'ward',
         'address',
         'total_amount',
         'paid_amount',
@@ -44,7 +48,7 @@ class Order extends Model
 
     public function contract()
     {
-        return $this->hasOne(Contract::class, 'order_id');
+        return $this->belongsToo(Contract::class, 'order_id');
     }
 
     public function debts()
@@ -52,7 +56,30 @@ class Order extends Model
         return $this->hasMany(Debt::class);
     }
 
-    public function orderCanceled() {
+    public function orderCanceled()
+    {
         return $this->hasOne(Order_canceled::class);
+    }
+    protected static function booted()
+    {
+        static::created(function ($model) {
+            $result = LogService::addLog('Tạo mới', $model);
+        });
+
+        static::updated(function ($model) {
+            LogService::addLog('Cập nhật', $model);
+        });
+
+        static::deleted(function ($model) {
+            LogService::addLog('Xóa', $model);
+        });
+    }
+    public function orderStatusTimes()
+    {
+        return $this->hasMany(OrderStatusTime::class);
+    }
+    public function tripDetail()
+    {
+        return $this->hasOne(Trip_detail::class);
     }
 }

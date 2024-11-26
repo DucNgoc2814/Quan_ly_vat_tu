@@ -30,7 +30,7 @@
                             <p class="mtb-10"><strong>Đăng ký</strong></p>
                             <p>Bằng cách tạo tài khoản, bạn sẽ có thể mua sắm nhanh hơn, cập nhật trạng thái đơn hàng và
                                 theo dõi các đơn hàng bạn đã thực hiện trước đó.</p>
-                            <a class="customer-btn" href="{{ route('client.register') }}">TIẾP TỤC</a>
+                            <a class="customer-btn" href="{{ route('register') }}">TIẾP TỤC</a>
                         </div>
                     </div>
                 </div>
@@ -41,10 +41,10 @@
                         <div class="return-customer">
                             <h3 class="mb-10">KHÁCH HÀNG TRỞ LẠI</h3>
                             <p class="mb-10"><strong>Tôi là khách hàng quay lại</strong></p>
-                            <form action="{{ route('client.handleLogin') }}" method="post">
+                            <form action="{{ route('handleLogin') }}" method="post">
                                 @csrf
                                 <div class="form-group">
-                                    <label class="control-label mb-2">Nhập địa chỉ email của bạn vào đây...</label>
+                                    <label class="control-label mb-2">Email</label>
                                     <input type="text" name="email" placeholder="Nhập địa chỉ email của bạn vào đây..."
                                         id="input-email" class="form-control" value="{{ old('email') }}">
                                     @error('email')
@@ -53,13 +53,22 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="control-label mb-2">Mật khẩu</label>
-                                    <input type="password" name="password" placeholder="Mật khẩu" id="input-password"
-                                        class="form-control" value="{{ old('password') }}">
-                                        @error('password')
-                                        <span class="text-danger">{{ $message }}</span>
+                                    <div class="input-group mt-2">
+                                        <input type="password" class="form-control"
+                                            placeholder="Nhập mật khẩu cũ của bạn vào đây..." name="password"
+                                            id="old-password">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text h-100 rounded-0"
+                                                onclick="togglePassword('old-password')">
+                                                <i class="fa fa-eye" id="toggle-old-password"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    @error('password')
+                                        <label for="" class="text-danger">{{ $message }}</label>
                                     @enderror
                                 </div>
-                                <p class="lost-password"><a href="{{ route('client.forgotPassword') }}">Quên mật khẩu?</a></p>
+                                <p class="lost-password"><a href="{{ route('forgotPassword') }}">Quên mật khẩu?</a></p>
                                 <input type="submit" value="ĐĂNG NHẬP" class="return-customer-btn">
                             </form>
                         </div>
@@ -78,43 +87,43 @@
             <!-- Brand Banner Start -->
             <div class="brand-banner owl-carousel">
                 <div class="single-brand">
-                    <a href="#"><img class="img" src="{{ asset('themes/client/template/img/brand/1.png') }}"
+                    <a href="#"><img class="img" src="{{ asset('themes/client/jantrik/img/brand/1.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/2.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/3.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/3.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/4.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/4.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/5.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/5.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img class="img" src="{{ asset('themes/client/template/img/brand/1.png') }}"
+                    <a href="#"><img class="img" src="{{ asset('themes/client/jantrik/img/brand/1.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/2.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/3.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/3.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/4.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/4.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/5.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/5.png') }}"
                             alt="brand-image"></a>
                 </div>
             </div>

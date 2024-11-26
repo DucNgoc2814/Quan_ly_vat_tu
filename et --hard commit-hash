@@ -1,0 +1,300 @@
+[33mcommit 483a5318036523139046c72d0b0c57384fc78f12[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mkhanh[m[33m, [m[1;31morigin/khanh[m[33m)[m
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Sat Oct 12 00:34:00 2024 +0700
+
+    khanhcheckstatusorder
+
+[33mcommit 063d7004a3531a1a3d63839f03760e230c91f574[m
+Merge: 1bae01d 3d5eae5
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Wed Oct 9 23:27:24 2024 +0700
+
+    Merge pull request #57 from DucNgoc2814/khanh
+    
+    Khanhupdateclient
+
+[33mcommit 3d5eae5850e3cf3f37c39e272f87e960e22f532f[m
+Merge: 4e112b5 1bae01d
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Wed Oct 9 23:26:49 2024 +0700
+
+    khanhupdate_client
+
+[33mcommit 1bae01d178d2f55d37bb02c726a858be4b5a3b71[m
+Merge: d5809bd 4035397
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Wed Oct 9 23:06:53 2024 +0700
+
+    Merge pull request #58 from DucNgoc2814/ngoc
+    
+    Ngoc-Product
+
+[33mcommit 40353970ce14d3273252620480e865229554970f[m
+Merge: 25a25a6 d5809bd
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Wed Oct 9 23:06:38 2024 +0700
+
+    update
+
+[33mcommit 4e112b506743fa878bf3924d1b233b843e01c0d1[m
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Wed Oct 9 23:00:51 2024 +0700
+
+    khanhupdateclient
+
+[33mcommit 4ea703de3954ac122b730e2420a136d5b8780c56[m
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Wed Oct 9 22:50:20 2024 +0700
+
+    khanhcodeclient
+
+[33mcommit d5809bd3adbaf5dc51e6446a8895752a77b98d28[m
+Merge: c29ca5a 0b3f754
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Wed Oct 9 22:47:49 2024 +0700
+
+    Merge pull request #56 from DucNgoc2814/tinh
+    
+    Tinh update status orders
+
+[33mcommit 0b3f754395b81841090aedfee978038bf6f86834[m
+Merge: aff8e4c c29ca5a
+Author: nguyenquoctinh <nguyentinh140321@gmail.com>
+Date:   Wed Oct 9 22:47:22 2024 +0700
+
+    Tinh Update
+
+[33mcommit 0f55b3d9aa9500505affcfd07c8ee7e483eb17b9[m
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Wed Oct 9 22:42:33 2024 +0700
+
+    khanhupdateclient
+
+[33mcommit aff8e4cc4780634a50c33ddda36fef7a63bd1008[m
+Author: nguyenquoctinh <nguyentinh140321@gmail.com>
+Date:   Wed Oct 9 20:57:16 2024 +0700
+
+    Tinh update status orders
+
+[33mcommit 25a25a638c49481765b155ee57d800b6c7ff2bdc[m
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Wed Oct 9 01:53:36 2024 +0700
+
+    update
+
+[33mcommit 2d03186bc7c79cc87a7e2b74410570cffce72c35[m
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Tue Oct 8 23:23:19 2024 +0700
+
+    khanhtestbug
+
+[33mcommit 6942eada32cf96e79fb982bb1b1dadb9b34a8a32[m
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Tue Oct 8 23:19:45 2024 +0700
+
+    khanhtestbug
+
+[33mcommit c29ca5a7158fd1bb5ed4c2b54c384b1dccc244a6[m
+Merge: 2b8450f 1c33888
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Tue Oct 8 22:35:20 2024 +0700
+
+    Merge pull request #55 from DucNgoc2814/quan
+    
+    Quan-update-theme-client
+
+[33mcommit 1c3388850bd2e130f0dc2d8f49a94096adb6d35a[m
+Author: quan <dqdev204@gmail.com>
+Date:   Tue Oct 8 21:08:58 2024 +0700
+
+    update_theme_quan
+
+[33mcommit 32dcce112e303b4b79c20c19308a5b16dae37e17[m
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Mon Oct 7 22:52:18 2024 +0700
+
+    update
+
+[33mcommit 0971ec3777261f518657a1c1cfb9e0b441f8090f[m
+Merge: 118233d 2b8450f
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Mon Oct 7 22:48:09 2024 +0700
+
+    khanhendcode_import_orders
+
+[33mcommit 591d440ae24ad2c240249b711e60fabf8e184c55[m
+Author: quan <dqdev204@gmail.com>
+Date:   Mon Oct 7 21:03:17 2024 +0700
+
+    edit_code_q
+
+[33mcommit cd17df5ac96ad11b7a35bce22eaee1174ee81717[m
+Author: quan <dqdev204@gmail.com>
+Date:   Sun Oct 6 22:17:06 2024 +0700
+
+    edit_code_quan
+
+[33mcommit c16b058e8b7d87a1a7df9889a2047fb778e83782[m
+Merge: 79610f8 2b8450f
+Author: quan <dqdev204@gmail.com>
+Date:   Sat Oct 5 22:27:46 2024 +0700
+
+    update_code
+
+[33mcommit 2bce78045ade03cb22a552664321511b420dc89b[m
+Merge: 5468e52 2b8450f
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Sat Oct 5 00:20:30 2024 +0700
+
+    update
+
+[33mcommit 5468e52131193ac61b2739750a1ce0173d589fd9[m
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Fri Oct 4 23:57:01 2024 +0700
+
+    update
+
+[33mcommit 118233d977bb66f04d22a48dccf8135c1106b214[m
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Fri Oct 4 23:55:17 2024 +0700
+
+    khanhpullcode
+
+[33mcommit 2b8450fbe24ac3ab20e19f4ae6ecc5f741fe68fc[m
+Merge: 12eb85c 43a17e0
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Fri Oct 4 23:17:43 2024 +0700
+
+    Merge pull request #54 from DucNgoc2814/tinh
+    
+    Tinh - change status with ajax
+
+[33mcommit 43a17e053a90d27ca80bdd7c10436c0eb66a9c09[m
+Merge: 19492a4 12eb85c
+Author: nguyenquoctinh <nguyentinh140321@gmail.com>
+Date:   Fri Oct 4 23:17:13 2024 +0700
+
+    fix bug
+
+[33mcommit 19492a40de34d0dabf528620e344e5c67635b442[m
+Author: nguyenquoctinh <nguyentinh140321@gmail.com>
+Date:   Fri Oct 4 23:12:45 2024 +0700
+
+    Tinh update 2
+
+[33mcommit 3857c24daa23a738e818e36d913bedb4efd59fe4[m
+Author: nguyenquoctinh <nguyentinh140321@gmail.com>
+Date:   Fri Oct 4 23:04:09 2024 +0700
+
+    Tinh update Web
+
+[33mcommit b12e4b2e8fcecca9d699a9d53f5770724e777c10[m
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Fri Oct 4 23:01:11 2024 +0700
+
+    update
+
+[33mcommit 6f76660b238f955bfdcce6b268b964b1664ad896[m
+Author: nguyenquoctinh <nguyentinh140321@gmail.com>
+Date:   Fri Oct 4 22:59:08 2024 +0700
+
+    Tinh fix config
+
+[33mcommit 79610f83bba8ccf2357d395df41ab177752555bd[m
+Author: quan <dqdev204@gmail.com>
+Date:   Fri Oct 4 20:24:07 2024 +0700
+
+    update_is_active_employees_quan
+
+[33mcommit 12eb85c311f3e51a0bf7025164056e4fb05a4a24[m
+Merge: 2dd149c 4ab5ccf
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Fri Oct 4 19:25:09 2024 +0700
+
+    Merge pull request #52 from DucNgoc2814/quan
+    
+    quan-edit-view-employ
+
+[33mcommit 5263eb54d0662ce9fffa7864ef0c2d1b2ffc52d0[m
+Author: nguyenquoctinh <nguyentinh140321@gmail.com>
+Date:   Fri Oct 4 17:39:21 2024 +0700
+
+    change status with AJAX
+
+[33mcommit 495eca53c317fad2f0fb2787d44aa3e885d73837[m
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Thu Oct 3 23:51:28 2024 +0700
+
+    update
+
+[33mcommit 4ab5ccf30822deffcdceff60d8206afad16b1850[m
+Author: quan <dqdev204@gmail.com>
+Date:   Thu Oct 3 21:24:16 2024 +0700
+
+    quan_update_view_employ
+
+[33mcommit ae3a5c55007e157e2ff4b14e4adb335cb6ca5c80[m
+Author: quan <dqdev204@gmail.com>
+Date:   Thu Oct 3 00:34:42 2024 +0700
+
+    update_suppliers_quan
+
+[33mcommit db214d1556494ad8bb6b2767ec2497772b402b18[m
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Thu Oct 3 00:20:04 2024 +0700
+
+    khanhpullcode
+
+[33mcommit c59b45c18fb25752058f01c726cccdffdc659b1b[m
+Merge: 847e7ef 2dd149c
+Author: quan <dqdev204@gmail.com>
+Date:   Thu Oct 3 00:04:51 2024 +0700
+
+    quan_pull
+
+[33mcommit 2dd149c929f8d8f4732a19c29ff6b3e4f8d60db9[m
+Merge: af2391b 42b09e4
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Thu Oct 3 00:01:28 2024 +0700
+
+    Merge pull request #51 from DucNgoc2814/ngoc
+    
+    Ngoc-fix_sidbar
+
+[33mcommit 42b09e4fb936f3b8c843750ba425efd5f8788ee0[m
+Merge: 07aff21 af2391b
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Thu Oct 3 00:00:44 2024 +0700
+
+    fix sidbar
+
+[33mcommit 07aff217e39c2e9e905117e1f2cdeae98e644a0d[m
+Merge: 2d3a4f0 21c21c3
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Wed Oct 2 23:07:02 2024 +0700
+
+    update
+
+[33mcommit af2391b7e6922446cfdcc1d3f632d3270b6a94d2[m
+Merge: 21c21c3 fd84b64
+Author: DucNgoc2814 <phungducngoc28@gmail.com>
+Date:   Wed Oct 2 23:06:35 2024 +0700
+
+    Merge pull request #50 from DucNgoc2814/khanh
+    
+    Khanh_Quan_Quang_Import_orders
+
+[33mcommit fd84b6410d5b2f0d37879ee808f2c2b297519970[m
+Merge: 965582c 21c21c3
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Wed Oct 2 23:05:40 2024 +0700
+
+    khanh_quan_quang_import_orders
+
+[33mcommit 965582c00751457a43a826f005819b96d15d455e[m
+Author: NguyennQuoccKhanhh <quockhanhh129@gmail.com>
+Date:   Wed Oct 2 22:56:24 2024 +0700
+
+    khanh_quan_quanh_importorder
+
+[33mcommit 2

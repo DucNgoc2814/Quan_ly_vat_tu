@@ -31,7 +31,7 @@
             <!-- Row End -->
             <div class="row">
                 <div class="col-sm-12">
-                    <form class="form-horizontal" action="{{ route('client.passwordchange') }}" method="post">
+                    <form class="form-horizontal" action="{{ route('passwordchange') }}" method="post">
                         @csrf
                         <fieldset>
                             <legend>Vui lòng điền vào mẫu này để đổi mật khẩu.</legend>
@@ -66,11 +66,11 @@
                     </form>
                 </div>
                 <div class="container signin">
-                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('client.login') }}"
+                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('login') }}"
                             class="active ">Đăng Nhập</a>.</p>
                 </div>
                 <div class="container signin">
-                    <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('client.register') }}">Đăng ký</a>.</p>
+                    <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('register') }}">Đăng ký</a>.</p>
                 </div>
             </div>
             <!-- Row End -->
@@ -84,43 +84,43 @@
             <!-- Brand Banner Start -->
             <div class="brand-banner owl-carousel">
                 <div class="single-brand">
-                    <a href="#"><img class="img" src="{{ asset('themes/client/template/img/brand/1.png') }}"
+                    <a href="#"><img class="img" src="{{ asset('themes/client/jantrik/img/brand/1.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/2.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/3.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/3.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/4.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/4.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/5.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/5.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img class="img" src="{{ asset('themes/client/template/img/brand/1.png') }}"
+                    <a href="#"><img class="img" src="{{ asset('themes/client/jantrik/img/brand/1.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/2.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/3.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/3.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/4.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/4.png') }}"
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/template/img/brand/5.png') }}"
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/5.png') }}"
                             alt="brand-image"></a>
                 </div>
             </div>

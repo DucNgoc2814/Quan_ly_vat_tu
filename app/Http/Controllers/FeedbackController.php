@@ -21,8 +21,7 @@ class FeedbackController extends Controller
      */
     public function create()
     {
-        
-        return view('client/components/feedback/create');
+        //
     }
 
     /**
@@ -30,20 +29,7 @@ class FeedbackController extends Controller
      */
     public function store(StoreFeedbackRequest $request)
     {
-        if ($request->isMethod('post')) {
-            $data = [
-                'name' => $request->name,
-                'email' => $request->email,
-                'number_phone' => $request->number_phone,
-                'content' => $request->content,
-                'created_at' => $request->created_at,
-            
-            ];
-    
-            Feedback::create($data);
-            return redirect()->route('client.home')->with('success','Gửi phản hồi thành công');
-        }
-
+        //
     }
 
     /**

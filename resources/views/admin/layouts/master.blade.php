@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App favicon -->
     <link rel="shortcut icon" href="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}">
 
@@ -73,7 +74,6 @@
 
         .variant-checkbox span {
             color: black;
-            /* Màu chữ mặc định là đen */
             font-weight: bold;
             padding: 5px 10px;
             /* Giữ padding cho span */
@@ -91,12 +91,111 @@
             /* Viền cũng đổi sang màu xanh đậm */
         }
 
-        /* Đảm bảo rằng không có padding giữa nền và viền */
         .variant-checkbox input:checked+span {
             padding: 5px 10px;
             /* Đảm bảo padding không thay đổi khi chọn */
             border-radius: 5px;
             /* Bo góc giữ nguyên */
+        }
+
+
+
+        .location-select-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .location-dropdown {
+            display: none;
+            position: absolute;
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+
+        .location-dropdown.active {
+            display: block;
+        }
+
+        .location-dropdown .row>div {
+            padding-right: 10px;
+            padding-left: 10px;
+        }
+
+        .location-dropdown select {
+            margin-bottom: 10px;
+        }
+
+        /* Input field with icons inside */
+        .input-with-icons {
+            width: 100%;
+            position: relative;
+        }
+
+        /* Styling for the icons inside the input */
+        .input-with-icons input {
+            width: 100%;
+            padding-right: 40px;
+            /* Add padding to make space for the icons */
+        }
+
+        /* Icon container inside the input */
+        .input-with-icons .icon-container {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        /* Adjust icon size */
+        .input-with-icons .ri-search-line,
+        .input-with-icons .ri-arrow-down-s-line {
+            font-size: 18px;
+            color: #6c757d;
+        }
+
+        /* Initially hide search icon */
+        .ri-search-line {
+            display: none;
+        }
+
+        /* Show search icon when input is focused */
+        .input-with-icons.focused .ri-search-line {
+            display: block;
+        }
+
+        /* Always show the dropdown arrow */
+        .ri-arrow-down-s-line {
+            cursor: pointer;
+        }
+
+
+
+        .customer-list-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .customer-item {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .customer-item:hover {
+            background-color: #f8f9fa;
         }
     </style>
     <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
@@ -192,18 +291,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="assets/js/pages/datatables.init.js"></script>
-
-    <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.print.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.2.2/js/buttons.html5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="assets/js/pages/datatables.init.js"></script>
     <script>
         new DataTable('#myTable')
     </script>
@@ -212,7 +299,7 @@
     <script>
         function changeStatus(nameTable, id, is_active) {
             $.ajax({
-                url: '{{ route('client.updateStatus') }}',
+                url: '{{ route('updateStatus') }}',
                 type: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
@@ -231,7 +318,36 @@
             });
         }
     </script>
+    <script>
+        $(document).ready(function() {
+            $('.div-datalist').hide();
+            $('#customer_id').on('input', function() {
+                $('.div-datalist').show();
+                var value = $(this).val().toLowerCase();
+                $('#customer_list .li-datalist').each(function() {
+                    if ($(this).text().toLowerCase().indexOf(value) > -1) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            });
+
+            $('.div-datalist').on('click', '.li-datalist', function() {
+                var selectedText = $(this).find('.dataCustom').text();
+                $('#customer_id').val(selectedText);
+                $('#customer_list .li-datalist').hide();
+                $('.div-datalist').hide();
+            });
+        });
+    </script>
+
     @yield('scripts')
+
+    @if (session('authorization'))
+        {{ session('authorization') }}
+    @endif
+    @stack('scripts')
 </body>
 
 </html>
