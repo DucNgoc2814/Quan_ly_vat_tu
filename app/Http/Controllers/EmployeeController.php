@@ -48,6 +48,7 @@ class EmployeeController extends Controller
             if (!$token = auth()->guard('employee')->attempt($credentials)) {
                 return redirect()->route('employees.login')->with('error', 'Thông tin đăng nhập không chính xác');
             }
+            Session::put('employee', $employee);
             Session::put('token', $token);
             session([
                 'employee_id' => $employee->id,
@@ -61,28 +62,28 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-        $search = $request->get("search");
-        $data = Employee::select('employees.*')
-            ->when($search, function ($query, $search) {
-                return $query->where('name', 'like', "%{$search}%")
-                    ->orwhere('email', 'like', "%{$search}%")
-                    ->orwhere('name', 'like', "%{$search}%")
-                    ->orwhere('cccd', 'like', "%{$search}%")
-                    ->orwhere('number_phone', 'like', "%{$search}%");
-            })->get();
 
+        $data = Employee::all();
         $role_empoly = Role_employee::query()->get();
-        return view('admin.components.employees.index', compact('data', 'role_empoly'));
+        $employee = Session::get('employee');
+        return view('admin.components.employees.index', compact('data', 'role_empoly', 'employee'));
     }
+
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        $data = Role_employee::query()->get();
+        $existingRole = Employee::where('role_id', 1)->exists();
+        if ($existingRole) {
+            $data = Role_employee::where('id', '!=', 1)->get();
+        } else {
+            $data = Role_employee::all();
+        }
         return view('admin.components.employees.create', compact('data'));
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -105,20 +106,24 @@ class EmployeeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Employee $employee, String $id)
-    {
-
-    }
+    public function show(Employee $employee, String $id) {}
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(String $id)
     {
+
         $datae = Employee::findOrFail($id);
-        $data = Role_employee::query()->get();
-        return view('admin.components.employees.edit', compact('datae', 'data'));
+        $isCEO = $datae->role_id == 1;
+        if ($isCEO) {
+            $data = Role_employee::query()->get();
+        } else {
+            $data = Role_employee::where('id', '!=', 1)->get();
+        }
+        return view('admin.components.employees.edit', compact('datae', 'data', 'isCEO'));
     }
+
 
     /**
      * Update the specified resource in storage.

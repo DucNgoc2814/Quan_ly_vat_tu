@@ -17,7 +17,7 @@ class OrderSeeder extends Seeder
             [
                 'id' => 1,
                 'payment_id' => 1,
-                'customer_id' => 1,
+                'customer_id' => 5,
                 'status_id' => 1,
                 'slug' => 'order-001',
                 'customer_name' => 'Nguyễn Văn A',

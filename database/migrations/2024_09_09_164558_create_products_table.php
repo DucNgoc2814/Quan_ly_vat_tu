@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('slug', 255);
             $table->string('name', 255)->unique();
             $table->string('image', 255);
-            $table->integer('price');
             $table->text('description');
             $table->boolean('is_active')->default(true);
             $table->timestamps();

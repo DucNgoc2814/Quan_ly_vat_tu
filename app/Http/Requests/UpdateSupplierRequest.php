@@ -22,11 +22,12 @@ class UpdateSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|max:255',
-            'email' => 'required|email|unique:suppliers,email,' . $this->route('id'),
-            'number_phone' => 'required|numeric|unique:suppliers,number_phone,' . $this->route('id'),
-            'address' => 'required',
 
+
+            'name' => 'required|string|min:3|max:100|regex:/^[a-zA-Z\s]+$/|unique:suppliers,name,' . $this->route('id'),
+            'email' => 'required|email|unique:suppliers,email,' . $this->route('id'),
+            'number_phone' => 'required|regex:/^0[1-9]{1}[0-9]{8}$/|unique:suppliers,number_phone,' . $this->route('id'),
+            'address' => 'required|min:3|max:100|regex:/^[a-zA-Z0-9\s,.-]+$/',
         ];
     }
 
@@ -34,6 +35,10 @@ class UpdateSupplierRequest extends FormRequest
     {
         return [
             'name.required' => 'Không được bỏ trống !',
+            'name.unique' => 'Không được trùng tên nhà cung cấp !',
+            'name.regex' => 'Vui lòng nhập chuỗi kí tự !',
+            'name.min' => 'Nhập tối thiểu 3 kí tự !',
+            'name.max' => 'Vượt quá 100 kí tự !',
             'email.required' => 'Không được bỏ trống !',
             'email.email' => 'Không đúng định dạng !',
             'email.unique' => 'Không được trung email nhà cung cấp !',
@@ -41,6 +46,8 @@ class UpdateSupplierRequest extends FormRequest
             'number_phone.unique' => 'Không được trùng số điện thoại !',
             'number_phone.numeric' => 'Số điện thoại không đúng định dạng bắt buộc phải là số !',
             'address.required' => 'Không được bỏ trống !',
+            'address.regex' => 'Nhập đúng định dạng!',
+
         ];
     }
 }

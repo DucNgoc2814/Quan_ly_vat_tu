@@ -29,6 +29,7 @@ class StoreContractRequest extends FormRequest
             'variation_id.*' => 'required|exists:variations,id',
             'quantity' => 'required|array',
             'quantity.*' => 'required|integer|min:1'
+
         ];
     }
 
