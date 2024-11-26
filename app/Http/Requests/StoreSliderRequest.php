@@ -39,7 +39,7 @@ class StoreSliderRequest extends FormRequest
             'date_start.after_or_equal' => 'Ngày bắt đầu phải là hôm nay hoặc ngày trong tương lai.',
             'date_start.before_or_equal' => 'Ngày bắt đầu phải trước hoặc bằng ngày kết thúc.',
             'date_end.required' => 'Vui lòng nhập ngày kết thúc.',
-            'date_end.after_or_equal' => 'Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.',
+            'date_end.after_or_equal' => 'Ngày kết thúc phải sau hoặc  bằng ngày bắt đầu.',
             'status.required'=> 'Vui lòng chọn trạng thái.',
             'status.in'=> 'Trạng thái phải là "Hiển thị" hoặc "Ẩn".',
 
