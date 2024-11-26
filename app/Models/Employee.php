@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Services\LogService;
 class Employee extends Authenticatable implements JWTSubject
-
 {
     use HasFactory;
 
@@ -29,15 +28,18 @@ class Employee extends Authenticatable implements JWTSubject
         'is_active' => 'boolean',
     ];
 
-    public function roleEmployee() {
-        return $this->belongsTo(Role_employee::class,'role_id');
+    public function roleEmployee()
+    {
+        return $this->belongsTo(Role_employee::class, 'role_id');
     }
 
-    public function trips() {
+    public function trips()
+    {
         return $this->hasMany(Trip::class);
     }
 
-    public function requests() {
+    public function requests()
+    {
         return $this->hasMany(Request::class);
     }
 
@@ -49,6 +51,11 @@ class Employee extends Authenticatable implements JWTSubject
     {
         return $this->belongsTo(contract::class);
     }
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function getJWTCustomClaims()
     {
         return [
@@ -56,7 +63,6 @@ class Employee extends Authenticatable implements JWTSubject
             'role' => $this->role_id,
             'id' => $this->id,
             'is_employee' => true,
-            'name' => $this->name,
             'namimage' => $this->namimage,
             'description' => $this->description
         ];

@@ -13,6 +13,7 @@ use App\Http\Controllers\ImportOrderController;
 use App\Http\Controllers\ImportOrderDetailController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\LocationController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\PermissionRoleEmployeesController;
@@ -153,13 +154,18 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/gui-xac-nhan/{id}', [ContractController::class, 'sendToManager'])->name('sendToManager')->middleware('permission:50');
                 Route::post('/gui-xac-nhan-khach-hang/{id}', [ContractController::class, 'sendToCustomer'])->name('sendToCustomer')->middleware('permission:51');
                 Route::post('/confirm/{id}', [ContractController::class, 'confirmContract'])->name('confirm')->middleware('permission:52');
-                Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject')->middleware('permission:53');
+                Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
                 Route::get('/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove')->middleware('permission:54');
                 Route::get('/tu-choi/{id}', [ContractController::class, 'customerReject'])->name('customerReject')->middleware('permission:55');
                 Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove')->middleware('permission:56');
                 Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject')->middleware('permission:57');
                 Route::get('/sua/{contract_number}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:58');
                 Route::put('/sua/{contract_number}', [ContractController::class, 'update'])->name('update')->middleware('permission:59');
+                Route::get('/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf');
+                Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('sendToManagerPdf');
+                Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
+                Route::get('/status-history/{id}', [ContractController::class, 'getStatusHistory'])->name('status-history');
+
             });
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')
@@ -172,6 +178,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus')->middleware('permission:65');
                 Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail')->middleware('permission:66');
                 Route::post('/yeu-cau-huy/{slug}', [OrderController::class, 'requestCancel'])->name('requestCancel')->middleware('permission:67');
+                Route::get('/them-don-hang-co-hop-dong/{contract_id}', [OrderController::class, 'createordercontract'])->name('createordercontract');
             });
         Route::prefix('quan-ly-xe')
             ->as('CargoCars.')
@@ -307,6 +314,16 @@ Route::middleware('CheckEmployees')->group(
             });
         Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm')->middleware('permission:143');
         Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject')->middleware('permission:144');
+
+        Route::prefix('chat')
+            ->middleware('CheckEmployees')
+            ->group(function () {
+                Route::get('/messages', [MessageController::class, 'getMessages'])->name('messages');
+                Route::post('/messages', [MessageController::class, 'sendMessage'])->name('send');
+            });
+
+
+
     }
 );
 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf');

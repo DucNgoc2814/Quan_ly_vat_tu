@@ -22,7 +22,8 @@ class Contract extends Model
         'file_pdf',
         'timestart',
         'timeend',
-        'verification_token'
+        'verification_token',
+        'reject_reason',
     ];
     public function orders()
     {
