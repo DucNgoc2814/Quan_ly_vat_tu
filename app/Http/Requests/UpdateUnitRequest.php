@@ -23,13 +23,14 @@ class UpdateUnitRequest extends FormRequest
     {
         return [
             //
-            'name' => "required|string|max:55"
+            'name' => 'required|string|max:55|unique:units,name,'.$this->route('id')
         ];
     }
     public function messages(): array
     {
         return[
             'name.required' => "Tên đơn vị không được bỏ trống. ",
+            'name.unique' => "Tên đơn vị đã tồn tại. ",
             'name.string' => "Tên đơn vị phải là chuỗi ký tự. ",
             'name.max' => "Tên đơn vị phải nhỏ hơn 55 ký tự. ",
 

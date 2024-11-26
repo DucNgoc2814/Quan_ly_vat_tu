@@ -471,7 +471,8 @@
                 e.classList.remove("active")
             }), document.getElementById("notification-actions").style.display = ""
         })
-    }), document.getElementById("removeNotificationModal").addEventListener("show.bs.modal", function (e) {
+    }),
+     document.getElementById("removeNotificationModal").addEventListener("show.bs.modal", function (e) {
         document.getElementById("delete-notification").addEventListener("click", function () {
             Array.from(document.querySelectorAll(".notification-item")).forEach(function (e) {
                 e.classList.contains("active") && e.remove()

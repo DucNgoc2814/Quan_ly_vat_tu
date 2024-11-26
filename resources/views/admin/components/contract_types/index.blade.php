@@ -21,21 +21,6 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-<<<<<<< HEAD
-                <div class="card-header border-0">
-                    <div class="row g-4">
-                        <div class="col-sm ">
-                            <input type="date" class="form-control w-25" id="exampleInputdate">
-                        </div>
-                            <div class="d-flex justify-content-sm-end  search-box ">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm bài viết..." >
-                                    <i class="ri-search-line search-icon"></i>
-                        </div>
-                    </div>
-                </div>
-=======
->>>>>>> 0211da7dac110b8a8a89da6a85f55edf896f08db
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">

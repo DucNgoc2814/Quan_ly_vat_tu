@@ -18,6 +18,9 @@ use Dompdf\Options;
 use Dompdf\Dompdf;
 use PhpOffice\PhpWord\Settings;
 use PhpOffice\PhpWord\Writer\HTML;
+use Illuminate\Http\Request;
+use App\Events\ContractRejected;
+use App\Events\ContractSentToCustomer;
 
 class ContractController extends Controller
 {
@@ -46,16 +49,17 @@ class ContractController extends Controller
      */
     public function store(StoreContractRequest $request)
     {
-        // dd($request->all());
         try {
             $contractNumber = 'HDB' . str_pad(random_int(0, 99999), 5, '0', STR_PAD_LEFT);
             // 1. Tạo hợp đồng mới với trạng thái mặc định là 1 (đang chờ)
             $contract = Contract::create([
                 'contract_status_id' => 1,
-                'contract_name' => $contractNumber,
+                'employee_id' => '1',
+                'contract_number' => $contractNumber,
                 'customer_name' => $request->customer_name,
                 'customer_phone' => $request->customer_phone,
                 'customer_email' => $request->customer_email,
+                'total_amount' => 100000,
                 "timestart" => $request->timestart,
                 "timeend" => $request->timeend,
                 'file' => null
@@ -102,7 +106,7 @@ class ContractController extends Controller
         $templateProcessor = new TemplateProcessor($templatePath);
 
         // Replace basic information
-        $templateProcessor->setValue('contract_name', $contract->contract_name);
+        $templateProcessor->setValue('contract_number', $contract->contract_number);
         $templateProcessor->setValue('customer_name', $contract->customer_name);
         $templateProcessor->setValue('customer_phone', $contract->customer_phone);
         $templateProcessor->setValue('customer_email', $contract->customer_email);
@@ -140,6 +144,7 @@ class ContractController extends Controller
         $templateProcessor->setValue('total_amount', number_format($totalAmount) . ' VNĐ');
         $templateProcessor->setValue('timestart', date('d/m/Y', strtotime($contract->timestart)));
         $templateProcessor->setValue('timeend', date('d/m/Y', strtotime($contract->timeend)));
+        $templateProcessor->setValue('time', date('d/m/Y', strtotime($contract->created_at)));
 
         $docxFileName = 'Hopdong_' . $contract->id . '.docx';
         $docxFilePath = storage_path('app/public/contracts/' . $docxFileName);
@@ -223,18 +228,19 @@ class ContractController extends Controller
             return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
-    public function rejectContract($id)
+    public function rejectContract(Request $request, $id)
     {
-        try {
-            $contract = Contract::findOrFail($id);
-            $contract->update([
-                'contract_status_id' => 3
-            ]);
-            return redirect()->back()->with('success', 'Đã từ chối hợp đồng');
-        } catch (Exception $e) {
-            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
-        }
+        $contract = Contract::find($id);
+        $contract->contract_status_id = 3;
+        $contract->reject_reason = $request->reason;
+        $contract->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Hợp đồng không được xác nhận'
+        ]);
     }
+
     public function sendToCustomer($id)
     {
         $contract = Contract::findOrFail($id);
@@ -270,6 +276,7 @@ class ContractController extends Controller
         $contract->contract_status_id = 5;
         $contract->save();
 
+        event(new ContractSentToCustomer($contract));
         return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
     }
     public function customerApprove($id)

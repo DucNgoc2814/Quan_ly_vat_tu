@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contract_types', function (Blueprint $table) {
+        Schema::create('payment_histories', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 255);
+            $table->foreignId('contract_id')->constrained('contracts');
+            $table->string('name');
+            $table->integer('amount');
+            $table->string('document');
+            $table->timestamps();
         });
     }
 
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contract_types');
+        Schema::dropIfExists('payment_histories');
     }
 };
