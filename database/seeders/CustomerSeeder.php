@@ -16,7 +16,7 @@ class CustomerSeeder extends Seeder
         //\
         DB::table(table: 'customers')->insert([
             [
-                'id' => 1,
+                'id' => 5,
                 'customer_rank_id' => 1,
                 'name' => 'Nguyen Van A',
                 'email' => 'nguyenvana3@gmail.com',

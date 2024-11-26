@@ -1113,7 +1113,7 @@
                                         <div class="d-flex mb-4 align-items-center">
                                             <div class="flex-grow-1 ms-2">
                                                 <h5 class="card-title mb-1">Yêu cầu xác nhận hợp đồng:
-                                                    {{ $contract->contract_name }}</h5>
+                                                    {{ $contract->contract_number }}</h5>
                                                 <p>Khách hàng: {{ $contract->customer_name }}</p>
                                                 <div class="mt-3">
                                                     <a href="/storage/{{ $contract->file }}" target="_blank"
@@ -1125,12 +1125,8 @@
                                                             nhận</button>
                                                     </form>
 
-                                                    <form action="{{ route('contract.reject', $contract->id) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-danger btn-sm">Từ
-                                                            chối</button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="showRejectModal({{ $contract->id }})">Từ chối</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1145,7 +1141,7 @@
                                 <div class="card card-body">
                                     <div class="d-flex mb-4 align-items-center">
                                         <div class="flex-grow-1 ms-2">
-                                            <h5 class="card-title mb-1">Hợp đồng: {{ $item['contract']->contract_name }}
+                                            <h5 class="card-title mb-1">Hợp đồng: {{ $item['contract']->contract_number }}
                                             </h5>
                                             <div class="mt-3">
                                                 <a href="/storage/{{ $item['contract']->file_pdf }}" target="_blank"
@@ -1166,6 +1162,27 @@
         </div> <!-- end col -->
     </div>
 @endsection
+
+
+<div class="modal fade" id="rejectReasonModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Lý do từ chối hợp đồng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <textarea id="rejectReason" class="form-control" rows="3" placeholder="Nhập lý do từ chối..."></textarea>
+                <input type="hidden" id="contractId">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="submitRejectReason()">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section('scripts')
     @parent
@@ -1222,9 +1239,6 @@
                 // Kiểm tra nếu có yêu cầu hủy
                 if (@json($pendingCancelRequests).length > 0) {
                     showPendingCancelRequests();
-                } else {
-                    // Nếu không có yêu cầu hủy thì hiển thị yêu cầu thêm mới
-                    showPendingNewOrders();
                 }
             }
 
@@ -1272,4 +1286,33 @@
             checkPendingCancelRequests();
         });
     </script>
+
+    <script>
+        function showRejectModal(contractId) {
+            $('#contractId').val(contractId);
+            $('#rejectReasonModal').modal('show');
+        }
+
+        function submitRejectReason() {
+            const contractId = $('#contractId').val();
+            const reason = $('#rejectReason').val();
+
+            $.ajax({
+                url: "{{ route('contract.reject', '') }}/" + contractId,
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    reason: reason
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#rejectReasonModal').modal('hide');
+                        window.location.reload();
+                    }
+                }
+            });
+        }
+    </script>
 @endsection
+
+

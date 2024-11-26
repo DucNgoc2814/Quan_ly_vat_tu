@@ -47,7 +47,7 @@ class TripController extends Controller
 
          return view(self::PATH_VIEW . 'create', compact('employes', 'cargoCars', 'pendingOrders'));
      }
-     
+
 
     /**
      * Store a newly created resource in storage.

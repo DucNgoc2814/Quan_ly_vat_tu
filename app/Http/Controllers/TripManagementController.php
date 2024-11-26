@@ -48,16 +48,20 @@ class TripManagementController extends Controller
             if (!$employee->is_active) {
                 return redirect()->route('orderconfirm.login')->with('error', 'Tài khoản đã bị vô hiệu hóa');
             }
-            if (!$token = auth()->guard('employee')->attempt($credentials)) {
+            // Kiểm tra thông tin đăng nhập
+            if (!password_verify($request->password, $employee->password)) {
                 return redirect()->route('orderconfirm.login')->with('error', 'Thông tin đăng nhập không chính xác');
             }
+
+            // Lưu thông tin người dùng vào session
             Session::put('employee', $employee);
-            Session::put('token', $token);
+
             return redirect()->route('orderconfirm.index')->with('success', 'Đăng nhập thành công');
         } catch (Exception $e) {
             return redirect()->route('orderconfirm.login')->with('error', 'Không thể đăng nhập, thử lại lần sau');
         }
     }
+
 
     public function index()
     {
@@ -65,6 +69,7 @@ class TripManagementController extends Controller
             return redirect()->route('orderconfirm.login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
         }
         $employee = Session::get('employee');
+        // dd($employee);
         $trips = Trip::where('employee_id', $employee->id)->get();
 
         return view('admin.components.tripmanagement.index', compact('employee', 'trips'));
@@ -93,6 +98,7 @@ class TripManagementController extends Controller
         })->with(['order', 'trip'])->get();
         return view('admin.components.tripmanagement.detail', compact('data'));
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -149,6 +155,10 @@ class TripManagementController extends Controller
 
 
 
+    public function dashboard()
+    {
+        return view('admin.dashboardnv');
+    }
 
 
     /**

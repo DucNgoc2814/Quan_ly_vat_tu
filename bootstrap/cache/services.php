@@ -26,6 +26,7 @@
     22 => 'Laravel\\Sail\\SailServiceProvider',
     23 => 'Laravel\\Sanctum\\SanctumServiceProvider',
     24 => 'Laravel\\Tinker\\TinkerServiceProvider',
+<<<<<<< HEAD
     25 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     26 => 'Carbon\\Laravel\\ServiceProvider',
     27 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
@@ -39,6 +40,24 @@
     35 => 'App\\Providers\\AuthServiceProvider',
     36 => 'App\\Providers\\EventServiceProvider',
     37 => 'App\\Providers\\RouteServiceProvider',
+=======
+    25 => 'Laravel\\Ui\\UiServiceProvider',
+    26 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    27 => 'Carbon\\Laravel\\ServiceProvider',
+    28 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    29 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    30 => 'Flasher\\Laravel\\FlasherServiceProvider',
+    31 => 'Flasher\\Toastr\\Laravel\\FlasherToastrServiceProvider',
+    32 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+    33 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
+    34 => 'Yoeunes\\Toastr\\ToastrServiceProvider',
+    35 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
+    36 => 'App\\Providers\\AppServiceProvider',
+    37 => 'App\\Providers\\AuthServiceProvider',
+    38 => 'App\\Providers\\BroadcastServiceProvider',
+    39 => 'App\\Providers\\EventServiceProvider',
+    40 => 'App\\Providers\\RouteServiceProvider',
+>>>>>>> b351db8406a1aa9733682203191910fdd03d6e29
   ),
   'eager' => 
   array (
@@ -53,6 +72,7 @@
     8 => 'Illuminate\\Session\\SessionServiceProvider',
     9 => 'Illuminate\\View\\ViewServiceProvider',
     10 => 'Laravel\\Sanctum\\SanctumServiceProvider',
+<<<<<<< HEAD
     11 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
     12 => 'Carbon\\Laravel\\ServiceProvider',
     13 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
@@ -66,6 +86,24 @@
     21 => 'App\\Providers\\AuthServiceProvider',
     22 => 'App\\Providers\\EventServiceProvider',
     23 => 'App\\Providers\\RouteServiceProvider',
+=======
+    11 => 'Laravel\\Ui\\UiServiceProvider',
+    12 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    13 => 'Carbon\\Laravel\\ServiceProvider',
+    14 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    15 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    16 => 'Flasher\\Laravel\\FlasherServiceProvider',
+    17 => 'Flasher\\Toastr\\Laravel\\FlasherToastrServiceProvider',
+    18 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+    19 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
+    20 => 'Yoeunes\\Toastr\\ToastrServiceProvider',
+    21 => 'Tymon\\JWTAuth\\Providers\\LaravelServiceProvider',
+    22 => 'App\\Providers\\AppServiceProvider',
+    23 => 'App\\Providers\\AuthServiceProvider',
+    24 => 'App\\Providers\\BroadcastServiceProvider',
+    25 => 'App\\Providers\\EventServiceProvider',
+    26 => 'App\\Providers\\RouteServiceProvider',
+>>>>>>> b351db8406a1aa9733682203191910fdd03d6e29
   ),
   'deferred' => 
   array (
