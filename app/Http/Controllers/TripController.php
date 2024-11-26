@@ -47,7 +47,7 @@ class TripController extends Controller
 
          return view(self::PATH_VIEW . 'create', compact('employes', 'cargoCars', 'pendingOrders'));
      }
-     
+
 
     /**
      * Store a newly created resource in storage.
@@ -76,6 +76,7 @@ class TripController extends Controller
                 OrderStatusTime::create([
                     'order_id' => $order->id,
                     'order_status_id' => 3,
+                    // 'time' => now()
                 ]);
                 $order->update(['status_id' => 3]);
 

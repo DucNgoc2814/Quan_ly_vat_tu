@@ -16,6 +16,10 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
+                        <div>
+                            <a href="{{ route('customer.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                    class="ri-add-line align-bottom me-1"></i>Thêm mới tài khoản</a>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
