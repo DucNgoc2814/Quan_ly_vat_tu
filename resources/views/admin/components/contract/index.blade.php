@@ -218,31 +218,3 @@
     </script>
 @endpush
 
-{{-- <div class="modal fade" id="wordModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Xem và chỉnh sửa hợp đồng</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <iframe id="wordViewer" width="100%" height="600px" frameborder="0"></iframe>
-            </div>
-        </div>
-    </div>
-</div>
-
-@push('scripts')
-    <script>
-        function showWord(contractId) {
-            fetch(`{{ route('contract.showWord', '') }}/${contractId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const viewerUrl =
-                        `https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(data.url)}`;
-                    document.getElementById('wordViewer').src = viewerUrl;
-                    new bootstrap.Modal(document.getElementById('wordModal')).show();
-                });
-        }
-    </script>
-@endpush --}}
