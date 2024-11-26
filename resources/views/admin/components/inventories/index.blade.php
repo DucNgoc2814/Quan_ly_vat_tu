@@ -70,25 +70,10 @@
                                     <td>{{ $data->stock }}</td>
                                     <td>{{ $data->product->unit->name }}</td>
                                     <td>
-                                        {{ number_format(
-                                            $data->importOrderDetails()->whereHas('importOrder', function ($query) {
-                                                    $query->where('status', 3); // Lọc theo `status` trong bảng `importOrder`
-                                                })->latest('id')->avg('price') ?? 0,
-                                        ) }}
+                                        {{ number_format($data->avgImportPrice) }}
                                     </td>
-                                    @php
-                                        $latestDetail = $data
-                                            ->importOrderDetails()
-                                            ->whereHas('importOrder', function ($query) {
-                                                $query->where('status', 3);
-                                            })
-                                            ->latest('id')
-                                            ->first();
-                                        $price = $latestDetail ? $latestDetail->price : 0;
-                                    @endphp
-
-                                    <td>{{ number_format($price) }}</td>
-                                    <td>{{ number_format($data->price_export) }}</td>
+                                    <td>{{ number_format($data->latestImportPrice) }}</td>
+                                    <td>{{ number_format($data->retail_price) }}</td>
                                     <td>
                                         <button class="btn btn-info btn-sm view-history" data-id="{{ $data->id }}">
                                             <i class="ri-history-line"></i> Xem chi tiết
@@ -101,7 +86,6 @@
                 </div>
             </div>
         </div><!--end col-->
-        {{ $variations->links() }}
     </div>
 
     <!-- Modal lịch sử -->
