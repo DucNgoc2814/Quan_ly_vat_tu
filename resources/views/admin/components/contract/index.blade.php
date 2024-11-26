@@ -133,6 +133,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Xem hợp đồng</h5>
+                <button type="button" class="btn btn-primary ms-2" id="showStatusBtn">Chi tiết trạng thái</button>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -141,6 +142,7 @@
         </div>
     </div>
 </div>
+
 
 
 @push('scripts')
@@ -153,6 +155,68 @@
     </script>
 @endpush
 
+
+
+<div class="modal fade" id="statusHistoryModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Lịch sử trạng thái hợp đồng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Trạng thái</th>
+                                <th>Thời gian</th>
+                            </tr>
+                        </thead>
+                        <tbody id="statusHistoryContent">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+    <script>
+        let currentContractId;
+
+        function showPdf(contractId) {
+            currentContractId = contractId;
+            const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
+            document.getElementById('pdfViewer').src = pdfUrl;
+            new bootstrap.Modal(document.getElementById('pdfModal')).show();
+        }
+
+        document.getElementById('showStatusBtn').addEventListener('click', function() {
+            showStatusHistory(currentContractId);
+        });
+
+        function showStatusHistory(contractId) {
+            fetch(`/hop-dong/status-history/${contractId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('statusHistoryContent');
+                    tbody.innerHTML = '';
+                    data.forEach(item => {
+                        const row = `
+                            <tr>
+                                <td>${item.contract_status.name}</td>
+                                <td>${new Date(item.created_at).toLocaleString('vi-VN')}</td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += row;
+                    });
+                    new bootstrap.Modal(document.getElementById('statusHistoryModal')).show();
+                });
+        }
+    </script>
+@endpush
 
 {{-- <div class="modal fade" id="wordModal" tabindex="-1">
     <div class="modal-dialog modal-xl">

@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Writer\HTML;
 use Illuminate\Http\Request;
 use App\Events\ContractRejected;
 use App\Events\ContractSentToCustomer;
+use App\Models\Contract_status_time;
 
 class ContractController extends Controller
 {
@@ -63,6 +64,10 @@ class ContractController extends Controller
                 "timestart" => $request->timestart,
                 "timeend" => $request->timeend,
                 'file' => null
+            ]);
+            Contract_status_time::create([
+                'contract_id' => $contract->id,
+                'contract_status_id' => 1
             ]);
 
             // 2. Lưu chi tiết các sản phẩm trong hợp đồng
@@ -194,9 +199,11 @@ class ContractController extends Controller
     {
         try {
             $contract = Contract::findOrFail($id);
-
-            // Cập nhật trạng thái hợp đồng thành "Đang chờ xác nhận" (giả sử là status_id = 2)
             $contract->update([
+                'contract_status_id' => 4
+            ]);
+            Contract_status_time::create([
+                'contract_id' => $contract->id,
                 'contract_status_id' => 4
             ]);
 
@@ -223,6 +230,10 @@ class ContractController extends Controller
             $contract->update([
                 'contract_status_id' => 2
             ]);
+            Contract_status_time::create([
+                'contract_id' => $contract->id,
+                'contract_status_id' => 2
+            ]);
             return redirect()->back()->with('success', 'Đã xác nhận hợp đồng');
         } catch (Exception $e) {
             return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
@@ -232,6 +243,10 @@ class ContractController extends Controller
     {
         $contract = Contract::find($id);
         $contract->contract_status_id = 3;
+        Contract_status_time::create([
+            'contract_id' => $contract->id,
+            'contract_status_id' => 3
+        ]);
         $contract->reject_reason = $request->reason;
         $contract->save();
 
@@ -274,6 +289,10 @@ class ContractController extends Controller
         });
 
         $contract->contract_status_id = 5;
+        Contract_status_time::create([
+            'contract_id' => $contract->id,
+            'contract_status_id' => 5
+        ]);
         $contract->save();
 
         event(new ContractSentToCustomer($contract));
@@ -289,6 +308,10 @@ class ContractController extends Controller
             return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
         }
         $contract->contract_status_id = 6;
+        Contract_status_time::create([
+            'contract_id' => $contract->id,
+            'contract_status_id' => 6
+        ]);
         $contract->save();
 
         return view('emails.success', ['message' => 'Xác nhận hợp đồng thành công']);
@@ -300,6 +323,10 @@ class ContractController extends Controller
             return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
         }
         $contract->contract_status_id = 7;
+        Contract_status_time::create([
+            'contract_id' => $contract->id,
+            'contract_status_id' => 7
+        ]);
         $contract->save();
 
         return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
@@ -310,6 +337,17 @@ class ContractController extends Controller
         $pdfPath = public_path("storage/contracts/Hopdong_{$id}.pdf");
         return response()->file($pdfPath);
     }
+
+    public function getStatusHistory($id)
+    {
+        $statusHistory = Contract_status_time::with('contractStatus')
+            ->where('contract_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return response()->json($statusHistory);
+    }
+
 
     // public function showWord($id)
     // {

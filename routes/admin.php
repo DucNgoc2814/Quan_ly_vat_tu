@@ -160,6 +160,8 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf');
                 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('sendToManagerPdf');
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
+                Route::get('/status-history/{id}', [ContractController::class, 'getStatusHistory'])->name('status-history');
+
             });
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')
@@ -307,7 +309,7 @@ Route::middleware('CheckEmployees')->group(
         Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject')->middleware('permission:144');
 
         Route::prefix('chat')
-            ->middleware('CheckEmployees') 
+            ->middleware('CheckEmployees')
             ->group(function () {
                 Route::get('/messages', [MessageController::class, 'getMessages'])->name('messages');
                 Route::post('/messages', [MessageController::class, 'sendMessage'])->name('send');
