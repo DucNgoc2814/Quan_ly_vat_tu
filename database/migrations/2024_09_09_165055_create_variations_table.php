@@ -16,9 +16,11 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained('products');
             $table->string('sku', 255);
             $table->string('name', 255);
-            $table->integer('stock');
-            $table->integer('price_export');
-            $table->boolean('is_active')->default(true);
+            $table->integer('stock')->default(0);
+            $table->integer('retail_price')->default(0);
+            $table->integer('avgImportPrice')->default(0);
+            $table->integer('latestImportPrice')->default(0);
+            $table->boolean('is_active');
         });
     }
 

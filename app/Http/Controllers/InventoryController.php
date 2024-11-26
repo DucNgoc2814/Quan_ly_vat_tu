@@ -21,7 +21,7 @@ class InventoryController extends Controller
     const PATH_VIEW = 'admin.components.inventories.';
     public function index()
     {
-        $variations = Variation::orderBy('id', 'desc')->paginate(5);
+        $variations = Variation::orderBy('id', 'desc')->paginate(10);
         $inventories = Inventory::orderBy('created_at', 'desc')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('variations', 'inventories'));
     }
