@@ -73,7 +73,7 @@
                         </div>
                     </li>
                 <?php endif; ?>
-               
+
                 <?php if(in_array(33, $employees) ||
                         in_array(34, $employees) ||
                         in_array(35, $employees) ||
@@ -157,12 +157,12 @@
                                     <a href="<?php echo e(route('brand.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Thương hiệu</a>
                                 </li>
-                              
+
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('valueVariations.index')); ?>" class="nav-link"
                                         data-key="t-horizontal">Loại biến thể</a>
                                 </li>
-                          
+
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('inventories.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Kho hàng</a>
