@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('brand_id')->constrained('brands');
             $table->string('slug', 255);
             $table->string('name', 255)->unique();
-            $table->string('image', 255);
             $table->text('description');
+            $table->string('image', 255);
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

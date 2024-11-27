@@ -23,7 +23,7 @@ class StoreUnitRequest extends FormRequest
     {
         return [
             //
-            'name' => "required|string|max:55|unique:units,name"
+            'name' => "required|string|regex:/^[a-zA-Z\s]+$/|max:55|unique:units,name"
         ];
     }
     public function messages(): array
@@ -31,6 +31,7 @@ class StoreUnitRequest extends FormRequest
         return[
             'name.required' => "Tên đơn vị không được bỏ trống. ",
             'name.string' => "Tên đơn vị phải là chuỗi ký tự. ",
+            'name.regex' => "Tên đơn vị không được chứa ký tự đặc biệt hoặc số.",
             'name.max' => "Tên đơn vị phải nhỏ hơn 55 ký tự. ",
             'name.unique' => "Tên đơn vị đã tồn tại. ",
 

@@ -24,7 +24,7 @@ class UpdateCargo_carRequest extends FormRequest
         return [
             'cargo_car_type_id' => 'required|exists:cargo_car_types,id',
             'license_plate' => 'required|string|max:20',
-            'is_active'=> 'required|in:0,1',
+           
         ];
     }
 
@@ -35,8 +35,7 @@ class UpdateCargo_carRequest extends FormRequest
             'license_plate.required' => " Biển số xe không được bỏ trống",
             'license_plate.string' => "Biển số xe phải là kiểu chuỗi",
             'license_plate.max' => "Biển số xe không được quá 20 ký tự",
-            'is_active.required'=> "vui lòng chọn trạng thái",
-            'is_active.in'=> "Trạng thái không hợp lệ",
+          
 
 
         ];

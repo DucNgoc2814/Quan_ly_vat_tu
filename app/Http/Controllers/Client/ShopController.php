@@ -29,4 +29,8 @@ class ShopController extends Controller
         $products = Product::where("category_id", $category_id[0])->get();
         return view(self::PATH_VIEW . 'index', compact('categories', 'brands', 'products'));;
     }
+    public function detailProduct($id){
+        $productDetail = Product::findOrFail($id);
+        return view(self::PATH_VIEW .'product_detail', compact('productDetail'));
+    }
 }

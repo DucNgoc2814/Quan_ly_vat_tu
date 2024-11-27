@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách sliders</h4>
+                <h4 class="mb-sm-0">{{$title}}</h4>
 
                 <div class="col-sm-auto">
                     <div>
@@ -68,7 +68,7 @@
                                                 <li><a href="{{ route('sliders.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Edit</a></li>
+                                                        Sửa</a></li>
                                                 <li>
 
                                                     <form action="{{ route('sliders.destroy', $item->id) }}"

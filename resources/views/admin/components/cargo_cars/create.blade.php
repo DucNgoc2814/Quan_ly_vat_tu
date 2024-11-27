@@ -68,23 +68,7 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            <div class="col-lg-8">
-                                <label for="status" class="form-label">Trạng thái</label>
-                                <select name="is_active" id="is_active"
-                                class="form-control @error('is_active') is-invalid @enderror">
-                                <option value="">--Chọn trạng thái--</option>
-                                    <option value="1" class="text-success">
-                                       Đang vận chuyển
-                                    </option>
-                                    <option value="0" class="text-danger">
-                                       Chờ xác nhận
-                                    </option>
-                                </select>
-
-                                @error('is_active')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
+                            
                             <div class="mt-3">
                                 <button class = "btn btn-success text ">Submit</button>
                             </div>
