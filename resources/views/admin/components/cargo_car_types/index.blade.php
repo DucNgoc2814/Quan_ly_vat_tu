@@ -33,7 +33,7 @@
 <thead>
     <tr>
         <th data-ordering="false">ID</th>
-        <th data-ordering="false">Tên</th>
+        <th data-ordering="false">Tên.</th>
         <th data-ordering="false">Dung Tích.</th>
         <th>Hành động</th>
     </tr>
