@@ -10,8 +10,8 @@
         <div class="container">
             <div class="breadcrumb">
                 <ul>
-                    <li><a href="index.html">Trang chủ</a></li>
-                    <li class="active"><a href="register.html">Đổi mật khẩu</a></li>
+                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
+                    <li class="active">Đổi mật khẩu</li>
                 </ul>
             </div>
         </div>
@@ -39,19 +39,36 @@
                                 <label class="control-label" for="f-name"><span class="require">*</span>Mật khẩu
                                     mới</label>
                                 <div class="col-sm-10">
-                                    <input type="hidden" name="email" value="{{ session('email') }}">
-                                    <input type="password" class="form-control mt-2" placeholder="Mật khẩu mới"
-                                        name="password" id="password">
+                                    <div class="input-group mt-2">
+                                        <input type="hidden" name="email" value="{{ session('email') }}">
+                                        <input type="password" class="form-control" placeholder="Mật khẩu mới"
+                                            name="password" id="old-password">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text h-100 rounded-0"
+                                                onclick="togglePassword('old-password')">
+                                                <i class="fa fa-eye" id="toggle-old-password"></i>
+                                            </span>
+                                        </div>
+                                    </div>
                                     @error('password')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label" for="f-name"><span class="require">*</span>Nhập lại mật khẩu mới</label>
+                                <label class="control-label" for="f-name"><span class="require">*</span>Nhập lại mật khẩu
+                                    mới</label>
                                 <div class="col-sm-10">
-                                    <input type="password" class="form-control mt-2" placeholder="Nhập lại mật khẩu mới"
-                                        name="password_confirmation" id="password_confirmation">
+                                    <div class="input-group mt-2">
+                                        <input type="password" class="form-control" placeholder="Nhập lại mật khẩu mới"
+                                            name="password_confirmation" id="new-password">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text h-100 rounded-0"
+                                                onclick="togglePassword('new-password')">
+                                                <i class="fa fa-eye" id="toggle-new-password"></i>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </fieldset>
@@ -66,8 +83,8 @@
                     </form>
                 </div>
                 <div class="container signin">
-                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('login') }}"
-                            class="active ">Đăng Nhập</a>.</p>
+                    <p class="mt-3">Nếu bạn đã có tài khoản hãy: <a href="{{ route('login') }}" class="active ">Đăng
+                            Nhập</a>.</p>
                 </div>
                 <div class="container signin">
                     <p>Nếu bạn chưa có tài khoản hãy: <a href="{{ route('register') }}">Đăng ký</a>.</p>
@@ -88,20 +105,16 @@
                             alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}"
-                            alt="brand-image"></a>
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/2.png') }}" alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/3.png') }}"
-                            alt="brand-image"></a>
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/3.png') }}" alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/4.png') }}"
-                            alt="brand-image"></a>
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/4.png') }}" alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
-                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/5.png') }}"
-                            alt="brand-image"></a>
+                    <a href="#"><img src="{{ asset('themes/client/jantrik/img/brand/5.png') }}" alt="brand-image"></a>
                 </div>
                 <div class="single-brand">
                     <a href="#"><img class="img" src="{{ asset('themes/client/jantrik/img/brand/1.png') }}"

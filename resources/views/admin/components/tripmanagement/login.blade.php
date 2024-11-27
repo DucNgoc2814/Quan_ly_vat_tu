@@ -7,7 +7,7 @@
 <head>
 
     <meta charset="utf-8" />
-    <title>Đăng Nhập | Velzon - Trang Quản Trị</title>
+    <title>Đăng Nhập | Gemo - Trang Quản Trị</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Giao Diện Quản Trị Đa Năng Cao Cấp" name="description" />
     <meta content="Themesbrand" name="author" />
@@ -45,8 +45,8 @@
                                         <div class="position-relative h-100 d-flex flex-column">
                                             <div class="mb-4">
                                                 <a href="index.html" class="d-block">
-                                                    <img src="{{ asset('themes/admin/assets/images/logo-light.png') }}"
-                                                        alt="" height="18">
+                                                    <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}"
+                                                        alt="" height="150" style="top: 50%; left: 50%; transform: translate(-30%, -30%);">
                                                 </a>
                                             </div>
                                             <div class="mt-auto">
@@ -96,7 +96,7 @@
                                     <div class="p-lg-5 p-4">
                                         <div>
                                             <h5 class="text-primary">Chào Mừng Trở Lại!</h5>
-                                            <p class="text-muted">Đăng nhập để tiếp tục vào Velzon.</p>
+                                            <p class="text-muted">Đăng nhập để tiếp tục vào Gemo.</p>
                                             @if (session('error'))
                                                 <div class="alert alert-danger">
                                                     {{ session('error') }}
@@ -203,8 +203,8 @@
                             <p class="mb-0">&copy;
                                 <script>
                                     document.write(new Date().getFullYear())
-                                </script> Velzon. Được tạo với <i class="mdi mdi-heart text-danger"></i>
-                                bởi Themesbrand
+                                </script> Gemo. Được tạo với <i class="mdi mdi-heart text-danger"></i>
+                                bởi nhóm dự án tốt nghiệp Gemo.
                             </p>
                         </div>
                     </div>

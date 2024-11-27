@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
+                {{-- <div class="card-header border-0">
                     <div class="row g-4">
 
                         <div class="col-sm">
@@ -20,13 +20,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="card-body">
                     <form action="{{ route('cargo_car_types.store') }}" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-lg-8">
-                                <label class="form-label">Tên loại xee</label>
+                                <label class="form-label">Tên loại xe</label>
                                 <input type="text" name="name" placeholder="Nhập tên loại xe"
                                     class="form-control  value="{{ old('name') }}">
                                 @error('name')
@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="mt-3">
-                            <button type="submit" class = "btn btn-success text ">Submit</button>
+                            <button type="submit" class = "btn btn-success text ">Thêm mới</button>
                         </div>
                     </form>
                 </div>

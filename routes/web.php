@@ -44,6 +44,7 @@ Route::post('/updateProfile', [LoginController::class, 'updateProfile'])->name('
 
 
 Route::get('/lien-he',  [HomeController::class, 'contact'])->name('contact');
+Route::get('/gioi-thieu',  [HomeController::class, 'about'])->name('about');
 
 
 Route::get('/test', function () {
