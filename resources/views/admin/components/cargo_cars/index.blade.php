@@ -31,7 +31,6 @@
                                 <th data-ordering="false">Loại xe vận chuyển</th>
                                 <th data-ordering="false">Biển số xe</th>
                                 <th data-ordering="false">Trạng thái</th>
-                                <th data-ordering="false">Hành động</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -50,22 +49,6 @@
                                         @else
                                             <span style="color: red" class=" badge-soft-danger">Chờ xác nhận</span>
                                         @endif
-                                    </td>
-
-                                    <td>
-                                        <div class="dropdown d-inline-block">
-                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-fill align-middle"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-
-                                                <li><a href="{{ route('CargoCars.edit', $item->id) }}"
-                                                        class="dropdown-item edit-item-btn"><i
-                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Edit</a></li>
-                                            </ul>
-                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
