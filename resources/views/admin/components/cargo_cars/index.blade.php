@@ -28,7 +28,7 @@
 
                         <thead>
                             <tr>
-                                <th data-ordering="false">Loại xe vận chuyển</th>
+                                <th data-ordering="false">Loại xe vận chuyển. </th>
                                 <th data-ordering="false">Biển số xe</th>
                                 <th data-ordering="false">Trạng thái</th>
                             </tr>
