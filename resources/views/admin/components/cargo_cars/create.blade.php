@@ -70,7 +70,7 @@
                             </div>
                             
                             <div class="mt-3">
-                                <button class = "btn btn-success text ">Submit.</button>
+                                <button class = "btn btn-success text ">Submit</button>
                             </div>
                         </div>
                     </form>
