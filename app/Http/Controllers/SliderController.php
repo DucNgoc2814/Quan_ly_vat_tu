@@ -77,7 +77,7 @@ class SliderController extends Controller
     {
         $title = "Cập nhật slider";
         $sliders = Slider::findOrFail($id);
-        return view('admin.components.sliders.edit', compact('sliders','title'));
+        return view('admin.components.sliders.edit', compact('sliders', 'title'));
     }
 
     /**
@@ -88,7 +88,6 @@ class SliderController extends Controller
         if ($request->isMethod('PUT')) {
             $params = $request->post();
             $slider = Slider::findOrFail($id);
-
             if ($request->hasFile('url')) {
                 if ($slider->url && Storage::disk('public')->exists('uploads/sliders')) {
                     Storage::disk('public')->delete($slider->url);
@@ -97,7 +96,6 @@ class SliderController extends Controller
             } else {
                 $filepath = $slider->url;
             }
-
             $array = [
                 "url" => $filepath,
                 "description" => $request->description,
@@ -124,7 +122,6 @@ class SliderController extends Controller
                 Storage::disk('public')->delete($slider->url);
             }
             return back()->with('delete', 'Xóa slider thành công!');
-
         } else {
             return back()->with('error', 'slider không tồn tại!');
         }

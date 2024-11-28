@@ -24,6 +24,7 @@ class StoreSliderRequest extends FormRequest
         return [
             //
             'url' => 'required|image|mimes:jpg,png,gif|max:2048',
+            'description' => 'nullable|string|regex:/^(?=.*[a-zA-Z]).*$/',
             'date_start' => 'required|date|after_or_equal:today',
             'date_end' => 'required|date|after_or_equal:date_start',
             'status' => 'required|in:1,0',
@@ -35,6 +36,8 @@ class StoreSliderRequest extends FormRequest
             'url.image' => 'File định dạng  Ảnh không đúng. ',
             'url.mimes' => 'Ảnh phải có định dạng là jpg, png, gif. ',
             'url.max' => 'Ảnh không được có dung lượng lớn hơn 2MB. ',
+            'description.string' => 'Mô tả phải là một chuỗi.',
+            'description.regex' => 'Mô tả không được chỉ chứa số.',
             'date_start.required' => 'Vui lòng nhập ngày bắt đầu.',
             'date_start.after_or_equal' => 'Ngày bắt đầu phải là hôm nay hoặc ngày trong tương lai.',
             'date_end.required' => 'Vui lòng nhập ngày kết thúc.',
