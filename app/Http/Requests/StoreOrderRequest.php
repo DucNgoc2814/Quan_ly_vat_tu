@@ -21,6 +21,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function rules(): array
     {
+        dd($this->all());
         return [
             'customer_id' => 'required|exists:customers,id',
             'customer_name' => 'required|string|max:255',

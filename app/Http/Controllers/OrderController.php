@@ -55,7 +55,6 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-        // dd($request);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
 
@@ -337,4 +336,75 @@ class OrderController extends Controller
         return response()->json($location);
     }
 
+
+    public function storeContract(StoreOrderRequest $request)
+    {
+
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        try {
+
+            DB::transaction(function () use ($request) {
+                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
+                $timestamp = now()->format('His');
+                $slug = 'DHB' . $randomChars . $timestamp;
+                $dataOrder = [
+                    "contract_id" => $request->contract_id,
+                    "status_id" => 1,
+                    "slug" => $slug,
+                    "customer_name" => $request->customer_name,
+                    "email" => $request->email,
+                    "number_phone" => $request->number_phone,
+                    "province" => $request->province_name,
+                    "district" => $request->district_name,
+                    "ward" => $request->ward_name,
+                    "address" => $request->address,
+                    "total_amount" => $request->total_amount,
+                ];
+
+                $order = Order::query()->create($dataOrder);
+
+                OrderStatusTime::create([
+                    'order_id' => $order->id,
+                    'order_status_id' => 1,
+                ]);
+
+                if (is_array($request->variation_id) && count($request->variation_id) > 0) {
+                    foreach ($request->variation_id as $key => $variationID) {
+
+                        // Tìm variation theo ID
+                        $variation = Variation::findOrFail($variationID);
+                        $orderQuantity = $request->product_quantity[$key];
+
+                        // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
+                        logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
+                        logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
+
+                        // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
+                        if ($orderQuantity > $variation->stock) {
+                            throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
+                        }
+
+                        // Tạo chi tiết đơn hàng
+                        Order_detail::query()->create([
+                            'order_id' => $order->id,
+                            'variation_id' => $variationID,
+                            'quantity' => $orderQuantity,
+                            'price' => $request->product_price[$key],
+                        ]);
+
+                        // Giảm số lượng hàng tồn kho
+                        $variation->stock -= $orderQuantity;
+                        $variation->save();
+                    }
+                } else {
+                    throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
+                }
+            });
+
+            return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
+        } catch (\Throwable $th) {
+            dd($th->getMessage());
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
+        }
+    }
 }

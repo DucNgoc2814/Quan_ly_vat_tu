@@ -50,8 +50,14 @@ class ContractController extends Controller
      */
     public function store(StoreContractRequest $request)
     {
+        // dd($request->all());
+
         try {
             $contractNumber = 'HDB' . str_pad(random_int(0, 99999), 5, '0', STR_PAD_LEFT);
+            $total = 0;
+            for ($i = 0; $i < count($request->quantity); $i++) {
+                $total += $request->quantity[$i] * $request->price[$i]; // Tính tổng
+            }
             // 1. Tạo hợp đồng mới với trạng thái mặc định là 1 (đang chờ)
             $contract = Contract::create([
                 'contract_status_id' => 1,
@@ -60,7 +66,7 @@ class ContractController extends Controller
                 'customer_name' => $request->customer_name,
                 'customer_phone' => $request->customer_phone,
                 'customer_email' => $request->customer_email,
-                'total_amount' => 100000,
+                'total_amount' => $total,
                 "timestart" => $request->timestart,
                 "timeend" => $request->timeend,
                 'file' => null
@@ -365,9 +371,10 @@ class ContractController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Contract $brand)
+    public function show($id)
     {
-        //
+        $contract = Contract::with('contractDetails')->findOrFail($id);
+        return view('admin.components.contract.detail', compact('contract'));
     }
 
     public function edit(Contract $contract_number)

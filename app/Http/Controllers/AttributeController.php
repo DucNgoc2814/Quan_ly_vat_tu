@@ -15,6 +15,7 @@ class AttributeController extends Controller
      * Display a listing of the resource.
      */
     const PATH_VIEW = 'admin.components.valueVariations.';
+
     public function index()
     {
         $attribute = Attribute::all();
@@ -38,7 +39,9 @@ class AttributeController extends Controller
             'value' => [
                 'required',
                 'string',
-                'max:255',
+                'min:3',
+                'max:55',
+                'regex:/^(?![0-9]+$).*/',
                 Rule::unique('attribute_values', 'value')->where(function ($query) use ($request) {
                     return $query->where('attribute_id', $request->attribute_id);
                 })
@@ -47,20 +50,22 @@ class AttributeController extends Controller
         ], [
             'value.required' => 'Giá trị biến thể không được để trống',
             'value.unique' => 'Giá trị này đã tồn tại trong loại biến thể này',
-            'value.max' => 'Giá trị không được vượt quá 255 ký tự'
+            'value.min' => 'Giá trị biến thể phải có ít nhất 3 ký tự',
+            'value.max' => 'Giá trị không được vượt quá 55 ký tự',
+            'value.regex' => 'Giá trị biến thể không được chỉ chứa số',
         ]);
-    
+
         $value = Attribute_value::create([
             'attribute_id' => $request->attribute_id,
             'value' => $request->value
         ]);
-    
+
         return response()->json([
             'success' => true,
             'message' => 'Thêm giá trị thành công'
         ]);
     }
-    
+
 
 
 
@@ -86,27 +91,51 @@ class AttributeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Attribute $attribute)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Attribute $attribute)
+    public function edit(String $attribute)
     {
-        //
+
+        $attribute = Attribute::with('attributeValues')->findOrFail($attribute);
+        return view(self::PATH_VIEW . 'edit', compact('attribute'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateAttributeRequest $request, Attribute $attribute)
+    public function update(UpdateAttributeRequest $request, $id)
     {
-        //
+        // Tìm loại biến thể theo ID
+        $attribute = Attribute::findOrFail($id);
+
+        // Cập nhật tên loại biến thể
+        $attribute->update([
+            'name' => $request->name,
+        ]);
+
+        // Lấy các giá trị hiện có
+        $existingValues = $attribute->attributeValues()->pluck('id')->toArray();
+
+        // Tạo mảng để lưu trữ các giá trị mới
+        $newValues = $request->values;
+
+        // Cập nhật hoặc thêm các giá trị mới
+        foreach ($newValues as $key => $value) {
+            // Nếu giá trị đã tồn tại, cập nhật
+            if (isset($existingValues[$key])) {
+                $attributeValue = Attribute_value::find($existingValues[$key]);
+                $attributeValue->update(['value' => $value]);
+            } else {
+                // Nếu không, thêm giá trị mới
+                Attribute_value::create([
+                    'attribute_id' => $attribute->id, // Đảm bảo rằng attribute_id được thiết lập
+                    'value' => $value
+                ]);
+            }
+        }
+
+        return redirect()->route('valueVariations.index')
+            ->with('success', 'Cập nhật loại biến thể thành công');
     }
 
     /**

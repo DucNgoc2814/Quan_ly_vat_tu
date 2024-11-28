@@ -144,7 +144,6 @@ class ProductController extends Controller
                 // Cập nhật thông tin sản phẩm
                 $product->update([
                     'name' => $newName,
-                    'price' => $request->price,
                     'category_id' => $request->category_id,
                     'brand_id' => $request->brand_id,
                     'unit_id' => $request->unit_id,
@@ -191,17 +190,6 @@ class ProductController extends Controller
                         if ($image->isValid()) {
                             $path = Storage::put('galleries', $image);
                             $product->galleries()->create(['url' => $path]);
-                        }
-                    }
-                }
-                // Xử lý cập nhật biến thể
-                if ($request->has('variations')) {
-                    foreach ($request->variations as $variationId => $data) {
-                        $variation = Variation::find($variationId);
-                        if ($variation) {
-                            $variation->update([
-                                'price_export' => $data['price_export'],
-                            ]);
                         }
                     }
                 }

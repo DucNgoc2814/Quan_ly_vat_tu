@@ -86,36 +86,30 @@ class SliderController extends Controller
     public function update(UpdateSliderRequest $request, string $id)
     {
         if ($request->isMethod('PUT')) {
-            // dd($request);
             $params = $request->post();
-            $sliders = Slider::findOrFail($id);
+            $slider = Slider::findOrFail($id);
+
             if ($request->hasFile('url')) {
-                if ($sliders->url && Storage::disk('public')->exists('uploads/sliders')) {
-                    Storage::disk('public')->delete($sliders->url);
+                if ($slider->url && Storage::disk('public')->exists('uploads/sliders')) {
+                    Storage::disk('public')->delete($slider->url);
                 }
-                $filpath = $request->file('url')->store('uploads/sliders', 'public');
-                $array = [
-                    "url" => $filpath,
-                    "description" => $request->description,
-                    "date_start" => $request->date_start,
-                    "date_end" => $request->date_end,
-                    "status" => $params['status']
-
-                ];
+                $filepath = $request->file('url')->store('uploads/sliders', 'public');
             } else {
-                $array = [
-                    "url" => $sliders->url,
-                    "description" => $request->description,
-                    "date_start" => $request->date_start,
-                    "date_end" => $request->date_end,
-                    "status" => $params['status'],
-
-                ];
+                $filepath = $slider->url;
             }
-            $sliders->update($array);
-            return redirect()->route('sliders.index')->with('msg', 'Thêm slider  thành công');
-        }
 
+            $array = [
+                "url" => $filepath,
+                "description" => $request->description,
+                "date_start" => $request->date_start,
+                "date_end" => $request->date_end,
+                "status" => $params['status'],
+            ];
+
+            $slider->update($array);
+
+            return redirect()->route('sliders.index')->with('msg', 'Cập nhật slider thành công');
+        }
     }
 
     /**

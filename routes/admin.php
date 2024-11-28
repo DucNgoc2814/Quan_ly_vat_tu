@@ -165,6 +165,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('sendToManagerPdf');
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
                 Route::get('/status-history/{id}', [ContractController::class, 'getStatusHistory'])->name('status-history');
+                Route::get('/chi-tiet-hop-dong/{id}', [ContractController::class, 'show'])->name('show');
 
             });
         Route::prefix('quan-ly-ban-hang')
@@ -173,6 +174,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index')->middleware('permission:60');
                 Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create')->middleware('permission:61');
                 Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store')->middleware('permission:62');
+                Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract');
                 Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit')->middleware('permission:63');
                 Route::put('/cap-nhat-don-hang/{slug}', [OrderController::class, 'update'])->name('update')->middleware('permission:64');
                 Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus')->middleware('permission:65');
