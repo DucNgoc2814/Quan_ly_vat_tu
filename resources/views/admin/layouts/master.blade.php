@@ -411,6 +411,39 @@
             });
         });
     </script>
+    <script>
+        console.log('Echo configuration:', {
+            key: '{{ config('broadcasting.connections.pusher.key') }}',
+            cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}'
+        });
+        window.Echo.channel('contract-notifications')
+            .listen('ContractSentToCustomer', (e) => {
+                console.log('Received event:', e);
+                console.log('Contract data:', e.contract);
+                Swal.fire({
+                    title: 'Thông báo mới',
+                    text: 'Hợp đồng đã được gửi cho khách hàng',
+                    icon: 'info'
+                });
+            });
+    </script>
+<script>
+    @auth
+        const userRoleId = {{ auth()->user()->role_id }};
+        window.Echo.channel('contract-created')
+            .listen('NewContractCreated', (e) => {
+                if(userRoleId === 1) {
+                    Swal.fire({
+                        title: 'Thông báo mới',
+                        text: `Hợp đồng: ${e.contract.contract_number} đã được tạo`,
+                        icon: 'info'
+                    });
+                }
+            });
+    @endauth
+</script>
+
+
 
     @yield('scripts')
 

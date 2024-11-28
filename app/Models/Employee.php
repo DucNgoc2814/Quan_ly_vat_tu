@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -9,6 +10,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Services\LogService;
 class Employee extends Authenticatable implements JWTSubject
 {
+    use InteractsWithSockets;
     use HasFactory;
 
     protected $fillable = [

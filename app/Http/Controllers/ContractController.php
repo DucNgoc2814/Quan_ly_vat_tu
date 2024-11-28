@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewContractCreated;
 use App\Models\Contract;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
@@ -22,6 +23,8 @@ use Illuminate\Http\Request;
 use App\Events\ContractRejected;
 use App\Events\ContractSentToCustomer;
 use App\Models\Contract_status_time;
+use Illuminate\Support\Facades\Log;
+
 
 class ContractController extends Controller
 {
@@ -95,7 +98,8 @@ class ContractController extends Controller
                 'file_pdf' => $files['pdf']
             ]);
 
-            // 4. Trở về trang danh sách hợp đồng
+
+            event(new NewContractCreated($contract));
             return redirect()
                 ->route('contract.index')
                 ->with('success', 'Tạo hợp đồng thành công!');
@@ -295,7 +299,9 @@ class ContractController extends Controller
         ]);
         $contract->save();
 
+        Log::info('Broadcasting contract event', ['contract' => $contract]);
         event(new ContractSentToCustomer($contract));
+        Log::info('Contract event sent');
         return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
     }
     public function customerApprove($id)
