@@ -13,6 +13,8 @@ use App\Http\Requests\UpdateImport_orderRequest;
 use App\Models\Customer;
 use App\Models\NewOrderRequest;
 use App\Models\Order;
+use App\Models\Order_detail;
+use App\Models\Product;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -241,10 +243,20 @@ class ImportOrderController extends Controller
             Order::where('status_id', 5)->count(),
         ];
         $latestOrders = DB::table('orders')
-            ->orderBy('created_at', 'desc')
+        ->join('customers', 'orders.customer_id', '=', 'customers.id')
+            ->orderBy('orders.created_at', 'desc')
             ->take(10)
             ->get();
-        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues', 'latestOrders'));
+        $productsWithTotalQuantity = DB::table('variations')
+    ->select('variations.name as variation_name', 'variations.sku as  variation_sku', 'variations.stock as  variation_stock', 'products.name as product_name', 'products.image', DB::raw('SUM(order_details.quantity) as total_quantity'))
+    ->join('order_details', 'variations.id', '=', 'order_details.variation_id')
+    ->join('products', 'products.id', '=', 'variations.product_id')
+    ->groupBy('variations.name', 'products.name', 'products.image', 'variations.sku', 'variations.stock')
+    ->orderByRaw('SUM(order_details.quantity) DESC')
+    ->limit(10)
+    ->get();
+
+        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues', 'latestOrders', 'productsWithTotalQuantity'));
     }
 
     public function checkOrderStatus($slug)
