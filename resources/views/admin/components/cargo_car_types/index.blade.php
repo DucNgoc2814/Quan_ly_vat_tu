@@ -35,7 +35,6 @@
         <th data-ordering="false">ID</th>
         <th data-ordering="false">Tên.</th>
         <th data-ordering="false">Dung Tích.</th>
-        <th>Hành động</th>
     </tr>
 </thead>
 <tbody>
@@ -50,26 +49,6 @@
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="ri-more-fill align-middle"></i>
                     </button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a href="#!" class="dropdown-item"><i
-                                    class="ri-eye-fill align-bottom me-2 text-muted"></i> View.</a>
-                        </li>
-                        <li><a href="cargo_car_types.edit" class="dropdown-item edit-item-btn"><i
-                                    class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                Sửa</a></li>
-                        <li>
-
-                            <form action="{{ route('cargo_car_types.destroy', ['id'=>1]) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-                                <button class="dropdown-item remove-list" type="submit"
-                                    onclick="return confirm('Bạn có chắc chắn muốn xóa xe này không?')">
-                                    <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                    Xóa
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
                 </div>
             </td>
         </tr>
