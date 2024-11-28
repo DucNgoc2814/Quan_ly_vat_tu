@@ -34,15 +34,15 @@ class TripController extends Controller
          $employes = Employee::query()
              ->leftJoin('trips', function ($join) {
                  $join->on('employees.id', '=', 'trips.employee_id')
-                     ->where('trips.status', '=', 1); // Trạng thái chuyến đi đang giao
+                     ->where('trips.status', '=', 1);
              })
-             ->whereNull('trips.id') // Không có chuyến đi nào đang giao
-             ->where('employees.role_id', '=', 4) // Điều kiện chỉ lấy nhân viên có role = 4 (lái xe)
-             ->where('employees.is_active', '=', 1) // Chỉ lấy nhân viên có is_active = 1
-             ->select('employees.*') // Chỉ chọn các cột từ bảng employees
+             ->whereNull('trips.id')
+             ->where('employees.role_id', '=', 4)
+             ->where('employees.is_active', '=', 1)
+             ->select('employees.*')
              ->get();
 
-         $cargoCars = Cargo_car::where('is_active', 0)->with('cargoCarType')->get();
+         $cargoCars = Cargo_car::where('role', 0)->with('cargoCarType')->get();
          $pendingOrders = Order::where('status_id', 2)->with('orderDetails')->get();
 
          return view(self::PATH_VIEW . 'create', compact('employes', 'cargoCars', 'pendingOrders'));
@@ -80,7 +80,7 @@ class TripController extends Controller
                 ]);
                 $order->update(['status_id' => 3]);
 
-                $cargor_car->update(['is_active' => 1]);
+                $cargor_car->update(['role' => 1]);
             }
 
             DB::commit();

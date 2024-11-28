@@ -40,4 +40,5 @@ class StoreCategoryRequest extends FormRequest
             'image.image' => 'Tệp tải lên phải là hình ảnh',
         ];
     }
+    
 }

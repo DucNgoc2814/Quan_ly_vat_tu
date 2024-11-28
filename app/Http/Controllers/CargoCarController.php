@@ -44,7 +44,6 @@ class CargoCarController extends Controller
             $data = [
                 'cargo_car_type_id' => $request->cargo_car_type_id,
                 'license_plate' => $request->license_plate,
-                'is_active' => $request->is_active
             ];
             Cargo_car::create($data);
             return redirect()->route('CargoCars.index')->with('success','Thêm xe vận chuyển thành công');
@@ -67,11 +66,6 @@ class CargoCarController extends Controller
      */
     public function edit(string $id)
     {
-        $title = "Cập nhập xe ";
-        $loai_xe = Cargo_car_type::query()->get();
-        $cargo_car = Cargo_car::findOrFail($id);
-        // dd($cargo_car->cargo_car_type_id);
-        return view('admin.components.cargo_cars.edit',compact('title','loai_xe', 'cargo_car'));
     }
 
     /**
@@ -79,17 +73,7 @@ class CargoCarController extends Controller
      */
     public function update(UpdateCargo_carRequest $request, string $id)
      {
-       if($request->isMethod('PUT')){
-        $cargo_car = Cargo_car::find($id);
-        $data = [
-            'cargo_car_type_id' => $request->cargo_car_type_id,
-            'license_plate' => $request->license_plate,
-            'is_active' => $request->is_active
-        ];
-        $cargo_car->update($data);
-        return redirect()->route('CargoCars.index')->with('success','Cập nhật xe vận chuyển thành công');
-
-       }
+      
     }
 
     /**
@@ -97,9 +81,7 @@ class CargoCarController extends Controller
      */
     public function destroy(string $id)
     {
-        $cargo_car = Cargo_car::findOrFail($id);
-        $cargo_car->delete();
-        return redirect()->route('CargoCars.index')->with('success','Xóa xe vận chuyển thành công');
+        
 
     }
 }
