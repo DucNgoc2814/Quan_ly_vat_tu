@@ -18,7 +18,7 @@ class Cargo_car extends Model
     protected $cast = [
         'is_active' => 'boolean',
     ];
-    
+
     public $timestamps = false;
 
     public function cargoCarType()

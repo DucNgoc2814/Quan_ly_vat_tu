@@ -50,7 +50,7 @@ class EmployeeSeeder extends Seeder
                 'cccd' => 135792468,
                 'date' => 20220120,
                 'description' => 'Nhân viên lái xe.',
-                'is_active' => false,
+                'is_active' => true,
                 'password' => bcrypt('123456789'),
             ],
         ];

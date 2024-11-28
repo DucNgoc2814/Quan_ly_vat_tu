@@ -30,26 +30,7 @@ use App\Http\Controllers\LogController;
 use App\Exports\VariationsExport;
 use App\Http\Controllers\AttributeController;
 use Maatwebsite\Excel\Facades\Excel;
-// <+====================ROUTER MẪU====================+>
-// Route::prefix('duong-dan-mau')
-//     ->as('sampleRoute.')
-//     ->group(function () {
-//         Route::get('/danh-sach', [BrandController::class, 'index'])->name('index');
-//         Route::get('/them-moi', [BrandController::class, 'create'])->name('create');
-//         Route::post('/them-moi', [BrandController::class, 'store'])->name('store');
-//         Route::get('/sua/{}', [BrandController::class, 'edit'])->name('edit');
-//         Route::put('/cap-nhat/{}', [BrandController::class, 'update'])->name('update');
-//     });
-// <+====================ROUTE MẪU====================+>
-// employees
-// try {
-//     $token = Session('token');
-//     $dataToken = JWTAuth::setToken($token)->getPayload();
-//     dd($dataToken);
-// } catch (\Exception $e) {
-//     return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
-// }
-// Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard');
+
 Route::prefix('trang-quan-tri')
     ->as('employees.')
     ->group(function () {

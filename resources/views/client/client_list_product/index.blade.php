@@ -69,7 +69,7 @@
                         </div>
                         <div class="main-toolbar-sorter f-right">
                             <div class="toolbar-sorter">
-                                <label>Price</label>
+                                <label>Giá</label>
                                 <span>
                                     <a href="#" id="sortOrder" data-order="desc"><i class="fa fa-arrow-down"></i></a>
                                 </span>
@@ -127,7 +127,7 @@
                                 @foreach ($products as $product)
                                     <div class="single-product">
                                         <div class="pro-img">
-                                            <a href="product.html">
+                                            <a href="{{route('detailProduct', $product->id)}}">
                                                 <img class="primary-img"
                                                     src="{{ asset('themes/client/jantrik/img/products/1.jpg') }}"
                                                     alt="single-product">
