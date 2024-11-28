@@ -82,7 +82,9 @@
                                     @endphp
                                     <tr>
                                         <td><input type="checkbox" id="variation-{{ $data->id }}"
-                                                name="selected_variations[]" value="{{ $data->id }}" data-sku="{{ $data->sku }}" data-name="{{ $data->name }}" data-current-price="{{ number_format($data->retail_price) }}">
+                                                name="selected_variations[]" value="{{ $data->id }}"
+                                                data-sku="{{ $data->sku }}" data-name="{{ $data->name }}"
+                                                data-current-price="{{ number_format($data->retail_price) }}">
                                         </td>
                                         <td>{{ $data->sku }}</td>
                                         <td>{{ $data->name }}</td>
@@ -281,7 +283,7 @@
                     <td>${item.quantity}</td>
                     <td>${item.price}</td>
                     <td>${item.import_order.supplier.name}</td>
-                    <td>${item.import_order.created_at}</td>
+                    <td>${new Date(item.import_order.created_at).toLocaleString()}</td>               
                 </tr>
             `;
                         });
@@ -301,7 +303,7 @@
             });
             document.getElementById('selectAllVariation').onclick = function() {
                 var checkboxes = document.querySelectorAll(
-                'input[type="checkbox"][id^="variation-"]'); // Chọn checkbox theo ID
+                    'input[type="checkbox"][id^="variation-"]'); // Chọn checkbox theo ID
                 for (var checkbox of checkboxes) {
                     checkbox.checked = this.checked; // Đặt trạng thái checkbox theo trạng thái của selectAll
                 }
@@ -324,7 +326,8 @@
                         var variationId = checkbox.value;
                         var sku = checkbox.getAttribute('data-sku'); // Lấy SKU từ thuộc tính data
                         var name = checkbox.getAttribute('data-name'); // Lấy tên từ thuộc tính data
-                        var currentPrice = checkbox.getAttribute('data-current-price'); // Lấy giá hiện tại từ thuộc tính data
+                        var currentPrice = checkbox.getAttribute(
+                            'data-current-price'); // Lấy giá hiện tại từ thuộc tính data
                         var priceField = `
                             <div class="mb-3">
                                 <label for="wholesale_price_${variationId}" class="form-label">Giá sỉ cho sản phẩm: ${sku} - ${name}:</label>
