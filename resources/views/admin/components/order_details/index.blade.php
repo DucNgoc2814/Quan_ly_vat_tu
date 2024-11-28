@@ -91,10 +91,10 @@
                                         </tr>
                                         <tr>
                                             <td>Giảm giá <span
-                                                    class="text-muted">({{ $data->first()->order->customer->customerRank->name }})</span>:
+                                                    class="text-muted">({{ $data->first()->order->customer->customerRank->name ?? 'Không có thông tin' }})</span>:
                                             </td>
                                             <td class="text-end">
-                                                {{ $data->first()->order->customer->customerRank->discount }}</td>
+                                                {{ $data->first()->order->customer->customerRank->discount ?? 'Không có thông tin' }}</td>
                                         </tr>
                                         <tr>
                                             <td>Đã thanh toán :</td>
@@ -105,7 +105,7 @@
                                             <th scope="row">Thanh toán (VND) :</th>
                                             <th class="text-end">
                                                 {{ number_format(
-                                                    $data->first()->order->total_amount * (1 - $data->first()->order->customer->customerRank->discount / 100) -
+                                                    $data->first()->order->total_amount * (1 - $data->first()->order->customer->customerRank->discount ?? 0 / 100) -
                                                         $data->first()->order->paid_amount,
                                                     2,
                                                 ) }}

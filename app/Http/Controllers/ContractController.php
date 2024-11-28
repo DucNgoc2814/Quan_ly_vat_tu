@@ -88,6 +88,7 @@ class ContractController extends Controller
                             'contract_id' => $contract->id,
                             'variation_id' => $variation_id,
                             'quantity' => $quantities[$key],
+                            'remaining_quantity' => $quantities[$key],
                             "price" => $prices[$key],
                         ]);
                     }
@@ -374,7 +375,10 @@ class ContractController extends Controller
     public function show($id)
     {
         $contract = Contract::with('contractDetails')->findOrFail($id);
-        return view('admin.components.contract.detail', compact('contract'));
+        $totalPaid = $contract->orders()->where('status_id', 4)->sum('total_amount'); // Giả sử status_id = 1 là thành công
+        $percentagePaid = $totalPaid / $contract->total_amount * 100; // Tính tỷ lệ phần trăm
+    
+        return view('admin.components.contract.detail', compact('contract', 'totalPaid'));
     }
 
     public function edit(Contract $contract_number)

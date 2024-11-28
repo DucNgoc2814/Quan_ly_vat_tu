@@ -339,26 +339,40 @@ class OrderController extends Controller
 
     public function storeContract(StoreOrderRequest $request)
     {
-
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
-
             DB::transaction(function () use ($request) {
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
                 $timestamp = now()->format('His');
                 $slug = 'DHB' . $randomChars . $timestamp;
+                $contract = Contract::findOrFail($request->contract_id);
+                $prices = [];
+                // Duyệt qua từng contractDetail để lấy giá
+                foreach ($contract->contractDetails as $detail) {
+                    $prices[] = $detail->price; // Lưu giá vào mảng
+                }
+                $totalAmount = 0;
+                if (count($prices) === count($request->product_quantity)) {
+                    for ($i = 0; $i < count($prices); $i++) {
+                        $totalAmount += $prices[$i] * $request->product_quantity[$i]; // Tính tổng tiền
+                    }
+                } else {
+                    // Xử lý trường hợp mảng không cùng độ dài
+                    throw new Exception("Mảng giá và số lượng không khớp.");
+                }
                 $dataOrder = [
                     "contract_id" => $request->contract_id,
                     "status_id" => 1,
                     "slug" => $slug,
                     "customer_name" => $request->customer_name,
-                    "email" => $request->email,
+                    "email" => $contract->customer_email,
                     "number_phone" => $request->number_phone,
                     "province" => $request->province_name,
                     "district" => $request->district_name,
                     "ward" => $request->ward_name,
                     "address" => $request->address,
-                    "total_amount" => $request->total_amount,
+                    "total_amount" => $totalAmount,
+                    "paid_amount" => 0,
                 ];
 
                 $order = Order::query()->create($dataOrder);
@@ -369,32 +383,37 @@ class OrderController extends Controller
                 ]);
 
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
-                    foreach ($request->variation_id as $key => $variationID) {
+                    if (count($request->variation_id) === count($request->product_quantity)) {
+                        for ($i = 0; $i < count($prices); $i++) {
+                            if ($request->product_quantity[$i] > 0 && $request->product_quantity[$i] != null) {
+                                $variation = Variation::findOrFail($request->variation_id[$i]);
+                                $orderQuantity = $request->product_quantity[$i];
+                                
+                                // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
+                                // logger("Số lượng tồn kho (stock) của variation $request->variation_id[$i] là: " . $variation->stock);
+                                // logger("Số lượng mua của variation $request->variation_id[$i] là: " . $orderQuantity);
 
-                        // Tìm variation theo ID
-                        $variation = Variation::findOrFail($variationID);
-                        $orderQuantity = $request->product_quantity[$key];
+                                // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
+                                // if ($orderQuantity > $variation->stock) {
+                                //     throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
+                                // }
+                                
+                                // Tạo chi tiết đơn hàng
+                                Order_detail::query()->create([
+                                    'order_id' => $order->id,
+                                    'variation_id' => $request->variation_id[$i],
+                                    'quantity' => $orderQuantity,
+                                    'price' => $prices[$i],
+                                ]);
 
-                        // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
-                        logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
-                        logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
-
-                        // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
-                        if ($orderQuantity > $variation->stock) {
-                            throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
+                                // Giảm số lượng hàng tồn kho
+                                $variation->stock -= $orderQuantity;
+                                $variation->save();
+                            }
                         }
-
-                        // Tạo chi tiết đơn hàng
-                        Order_detail::query()->create([
-                            'order_id' => $order->id,
-                            'variation_id' => $variationID,
-                            'quantity' => $orderQuantity,
-                            'price' => $request->product_price[$key],
-                        ]);
-
-                        // Giảm số lượng hàng tồn kho
-                        $variation->stock -= $orderQuantity;
-                        $variation->save();
+                    } else {
+                        // Xử lý trường hợp mảng không cùng độ dài
+                        throw new Exception("Mảng giá và số lượng không khớp.");
                     }
                 } else {
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');

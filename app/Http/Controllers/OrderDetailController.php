@@ -12,6 +12,7 @@ class OrderDetailController extends Controller
      * Display a listing of the resource.
      */
     const PATH_VIEW = 'admin.components.order_details.';
+
     public function index($slug)
     {
         $data = Order_detail::whereHas('order', function ($query) use ($slug) {

@@ -48,8 +48,8 @@
                             <p><strong>Số điện thoại:</strong> <span
                                     class="text-muted">{{ $contract->customer_phone }}</span></p>
                             <p><strong>Email:</strong> <span class="text-muted">{{ $contract->customer_email }}</span></p>
-                            <p><strong>Tổng giá trị:</strong> <span
-                                    class="text-muted">{{ number_format($contract->total_amount) }} VNĐ</span></p>
+                            <p><strong>Thanh toán:</strong> <span
+                                    class="text-muted">{{ number_format($totalPaid) }}/ {{ number_format($contract->total_amount) }} VNĐ</span></p>
 
                         </div>
 
@@ -109,49 +109,13 @@
                             <tbody>
                                 @foreach ($contract->orders as $order)
                                     <tr>
-                                        <td>{{ $order->slug }}</td>
+                                        <td><a href="{{ route('order.indexDetail', $order->slug) }}">{{ $order->slug }}</a></td>
                                         <td>{{ number_format($order->total_amount) }}</td>
                                         <td class="text-center">
-                                            @if ($order->status_id < 4)
-                                                <form action="{{ route('order.updateStatus', $order->slug) }}"
-                                                    method="POST" class="{{ $order->slug }} d-inline status-update-form"
-                                                    data-order-slug="{{ $order->slug }}">
-                                                    @csrf
-                                                    <select name="status" class="form-select form-select-sm "
-                                                        id="statusSelect-{{ $order->slug }}"
-                                                        onchange="confirmStatusChange(this, '{{ $order->slug }}')">
-                                                        <option class="optionCheck" value="{{ $order->status_id }}"
-                                                            selected>
-                                                            {{ $order->orderStatus->name }}</option>
-                                                        @if ($order->status_id == 1)
-                                                            <option class="optionCheck" value="2">Xác Nhận</option>
-
-                                                            <option class="optionCheck" value="5">Hủy</option>
-                                                        @elseif ($order->status_id == 2)
-                                                            <option class="optionCheck" value="3">Đang giao</option>
-                                                            <option class="optionCheck" value="5">Hủy</option>
-                                                        @elseif ($order->status_id == 3)
-                                                            <option class="optionCheck" value="4">Thành công</option>
-                                                        @endif
-                                                        <option class="optionDefaul" style="display: none" value="1">
-                                                            Chờ xử lý</option>
-                                                        <option class="optionDefaul" style="display: none" value="2">
-                                                            Xác Nhận</option>
-                                                        <option class="optionDefaul" style="display: none" value="3">
-                                                            Đang giao</option>
-                                                        <option class="optionDefaul" style="display: none" value="4">
-                                                            Thành công</option>
-                                                        <option class="optionDefaul" style="display: none" value="5">
-                                                            Hủy</option>
-                                                    </select>
-                                                </form>
-                                            @else
                                                 <span
                                                     class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">
                                                     {{ $order->orderStatus->name }}
                                                 </span>
-                                            @endif
-
                                         </td>
                                     </tr>
                                 @endforeach
@@ -349,7 +313,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('order.storeContract') }}">
+                <form method="POST" action="{{ route('order.storeContract', ['contract_id' => $contract->id]) }}">
                     @csrf
                     <div class="mb-3">
                         <label for="recipientName" class="form-label">Tên người nhận</label>
@@ -416,10 +380,11 @@
                             <thead>
                                 <tr>
                                     <th>Chọn</th>
-                                    <th>Mã biến thể</th>
-                                    <th>Tên biến thể</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
                                     <th>Số lượng đã đặt</th>
-                                    <th>Số lượng</th>
+                                    <th>Số lượng cần thêm</th>
+                                    <th>Số lượng cần mua</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -432,10 +397,12 @@
                                         <td>{{ $item->variation->sku }}</td>
                                         <td>{{ $item->variation->name }}</td>
                                         <td>{{ $item->quantity }}</td>
+                                        <td>{{ $item->remaining_quantity }}</td>
                                         <td>
+                                            <input type="hidden" name="variation_id[]" value="{{ $item->variation_id }}">
                                             <input type="number" class="form-control quantity-input"
-                                                id="quantity_{{ $item->id }}" min="0" value="0"
-                                                style="display: none;" name="product_quantity[]">
+                                                id="quantity_{{ $item->id }}" min="0"
+                                                style="width: 100px; height: 30px; display: none;" name="product_quantity[]">
                                             @error('product_quantity')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
