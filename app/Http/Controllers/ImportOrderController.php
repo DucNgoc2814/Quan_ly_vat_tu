@@ -214,8 +214,25 @@ class ImportOrderController extends Controller
         } else {
             $growthRateImportRevenue = 100;
         }
+        // Thống kê
+        $startDate = Carbon::now()->subMonths(11)->startOfMonth();
+        $endDate = Carbon::now()->endOfMonth();
 
-        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue'));
+        for ($date = $startDate; $date <= $endDate; $date->addMonth()) {
+            $ordersCountn = Import_order::whereYear('created_at', $date->year)
+                ->whereMonth('created_at', $date->month)
+                ->count();
+            $ordersPerMonthN[] = $ordersCountn;
+            $ordersCountx = Order::whereYear('created_at', $date->year)
+                ->whereMonth('created_at', $date->month)
+                ->count();
+            $ordersPerMonthX[] = $ordersCountx;
+            $totalAmout = Order::whereYear('created_at', $date->year)
+                ->whereMonth('created_at', $date->month)
+                ->sum('total_amount');
+            $totalAmoutx[] = $totalAmout/1000000;
+        }
+        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx'));
     }
 
     public function checkOrderStatus($slug)
