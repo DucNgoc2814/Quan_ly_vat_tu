@@ -6,6 +6,7 @@
 
 @section('content')
     <!-- start page title -->
+
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
@@ -17,10 +18,14 @@
                     </ol>
                 </div>
             </div>
+            <div>
+                <a href="{{ route('employees.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                        class="ri-arrow-left-line align-bottom me-1"></i>Trang danh sách</a>
+            </div>
         </div>
-    </div>
-    <!-- end page title -->
 
+        <!-- end page title -->
+    </div>
     <form method="POST" action="{{ route('employees.store') }}" enctype="multipart/form-data">
         @csrf
 
@@ -78,13 +83,14 @@
                     </div>
                 </div>
                 <!-- end card -->
-                  <!-- end card -->
+                <!-- end card -->
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Password</label>
                             <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                placeholder="Nhập mật khẩu đang nhập vào hệ thống" name="password" value="{{ old('name') }}">
+                                placeholder="Nhập mật khẩu đang nhập vào hệ thống" name="password"
+                                value="{{ old('name') }}">
                             @error('password')
                                 <span role="alert">
                                     <span class="text-danger">{{ $message }}</span>
@@ -178,7 +184,8 @@
                         <div class="mb-3">
                             <div class="col-lg-6 form-check form-switch form-switch ms-3 mt-3">
                                 <label class="form-label">Hiển thị</label>
-                                <input class="form-check-input" type="checkbox" name="is_active" value="1" id="is_active">
+                                <input class="form-check-input" type="checkbox" name="is_active" value="1"
+                                    id="is_active">
                             </div>
                         </div>
                     </div>
@@ -225,5 +232,4 @@
             }
         }
     </script>
-
 @endsection
