@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('retail_price')->default(0);
             $table->integer('avgImportPrice')->default(0);
             $table->integer('latestImportPrice')->default(0);
-            $table->boolean('is_active');
+            $table->boolean('is_active')->default(0);
         });
     }
 

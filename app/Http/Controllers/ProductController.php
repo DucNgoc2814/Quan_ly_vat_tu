@@ -26,7 +26,11 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::query()->with('category', 'brand', 'unit', 'variations.importOrderDetails')->paginate(15);
+        $products = Product::query()
+            ->with('category', 'brand', 'unit', 'variations.importOrderDetails')
+            ->get();
+
+
         return view(self::PATH_VIEW . __FUNCTION__, compact('products'));
     }
 
@@ -64,21 +68,40 @@ class ProductController extends Controller
                     "is_active" => $request->has('is_active'),
                     "image" => $mainImagePath // Include image path in initial creation
                 ]);
+
+                // Xử lý ảnh sản phẩm phụ
                 if ($request->hasFile('product_images')) {
+                    $galleries = [];
                     foreach ($request->file('product_images') as $image) {
                         $path = Storage::put('galleries', $image);
-                        $product->galleries()->create(['url' => $path]);
+                        $galleries[] = ['url' => $path, 'product_id' => $product->id];
                     }
+                    // Bulk insert galleries
+                    Gallery::insert($galleries);
                 }
+
+                // Tạo biến thể
+                $variations = [];
                 foreach ($request->variants as $index => $variantData) {
                     $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
-                    $variation = Variation::create([
+                    $variations[] = [
                         'product_id' => $product->id,
                         'sku' => Str::upper($this->generateUniqueSku($index)),
                         'name' => $variantName,
-                        'is_active' => true,
-                    ]);
-                    $variation->attributeValues()->attach($variantData['attribute_value_ids']);
+                        'is_active' => false,
+                    ];
+                }
+                // Bulk insert variations
+                Variation::insert($variations);
+
+                // Gán giá trị thuộc tính cho biến thể
+                foreach ($request->variants as $index => $variantData) {
+                    $variation = Variation::where('sku', Str::upper($this->generateUniqueSku($index)))
+                        ->where('product_id', $product->id)
+                        ->first();
+                    if ($variation) {
+                        $variation->attributeValues()->attach($variantData['attribute_value_ids']);
+                    }
                 }
             });
             return redirect()
@@ -203,9 +226,9 @@ class ProductController extends Controller
     public function generateUniqueSku($index)
     {
         $productType = 'SP';
-        $date = now()->format('dmY'); // Sử dụng Carbon để lấy ngày tháng năm
+        $date = now()->format('my'); // Sử dụng Carbon để lấy ngày tháng năm
         $randomNumber = str_pad(rand(0, 99999), 5, '0', STR_PAD_LEFT);
-        $sku = $productType . $date . $randomNumber . $index;
+        $sku = $productType . $date . $randomNumber;
         return $sku; // Trả về mã SKU duy nhất
     }
 }

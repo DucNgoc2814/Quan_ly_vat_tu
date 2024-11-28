@@ -18,10 +18,8 @@ class VariationsExport implements FromCollection, WithHeadings
                     'Tên Biến thể' => $variation->name,
                     'Danh mục' => $variation->product->category->name ?? 'N/A',
                     'Thương hiệu' => $variation->product->brand->name ?? 'N/A',
-                    'Số lượng' => $variation->stock,
+                    'Số lượng' => $variation->stock ?? 0,
                     'ĐVT' => $variation->product->unit->name ?? 'N/A',
-                    'Giá nhập' => number_format(100000),
-                    'Giá bán' => number_format($variation->price_export),
                 ];
             });
     }
@@ -35,8 +33,6 @@ class VariationsExport implements FromCollection, WithHeadings
             'Thương hiệu',
             'Số lượng',
             'ĐVT',
-            'Giá nhập',
-            'Giá bán',
         ];
     }
 }

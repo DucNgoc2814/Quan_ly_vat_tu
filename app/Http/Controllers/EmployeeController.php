@@ -50,6 +50,10 @@ class EmployeeController extends Controller
             }
             Session::put('employee', $employee);
             Session::put('token', $token);
+            session([
+                'employee_id' => $employee->id,
+                'token' => $token
+            ]);
             return redirect('/dashboard');
         } catch (Exception $e) {
             return redirect()->route('employees.login')->with('error', 'Không thể đang nhập thử lại lần sau');

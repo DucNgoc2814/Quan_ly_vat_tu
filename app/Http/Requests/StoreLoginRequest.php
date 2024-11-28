@@ -42,7 +42,7 @@ class StoreLoginRequest extends FormRequest
             ];
         } elseif (request()->isMethod('post') && request()->route()->getName() == 'updateProfile') {
             return [
-                'nameupdate' => 'required',
+                'name' => 'required',
             ];
         }
         return [

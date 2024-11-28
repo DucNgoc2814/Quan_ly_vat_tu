@@ -24,10 +24,10 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body mb-2">
-                        <label class="form-label" for="contract_name">Mã hợp đồng</label>
+                        <label class="form-label" for="contract_number">Mã hợp đồng</label>
                         <div class="position-relative">
-                            <input type="text" name="contract_name" class="form-control"
-                                value="{{ $contract->contract_name }}" readonly>
+                            <input type="text" name="contract_number" class="form-control"
+                                value="{{ $contract->contract_number }}" readonly>
                         </div>
                     </div>
                 </div>

@@ -1,2 +1,2 @@
 import './bootstrap';
-alert(123)
+import './contract-notifications';

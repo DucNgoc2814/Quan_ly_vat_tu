@@ -182,41 +182,68 @@ class ImportOrderController extends Controller
 
     public function dashboard()
     {
-        $pendingNewOrders = NewOrderRequest::with(['importOrder', 'variation'])
-            ->whereHas('importOrder', function ($query) {
-                $query->where('status', 1);
-            })
-            ->get();
-        // Đơn hàng bán
-        $totalRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
-        $totalRevenueLastMonth = Order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
-        $revenueDifference = $totalRevenueThisMonth - $totalRevenueLastMonth;
-        if ($totalRevenueLastMonth != 0) {
-            $growthRateRevenue = ($revenueDifference / $totalRevenueLastMonth) * 100;
-        } else {
-            $growthRateRevenue = 100;
-        }
-        // Khách hàng
-        $totalCustomersThisMonth = Customer::whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->count();
-        $totalCustomersLastMonth = Customer::whereMonth('created_at', Carbon::now()->subMonth()->month)->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
-        $customerDifference = $totalCustomersThisMonth - $totalCustomersLastMonth;
-        if ($totalCustomersLastMonth != 0) {
-            $growthRateCustomers = ($customerDifference / $totalCustomersLastMonth) * 100;
-        } else {
-            $growthRateCustomers = 100;
-        }
-        // Đơn hàng nhập
-        $totalRevenueImportThisMonth = Import_order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
-        $totalRevenueImportLastMonth = Import_order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
-        $revenueImportDifference = $totalRevenueImportThisMonth - $totalRevenueImportLastMonth;
-        if ($totalRevenueImportLastMonth != 0) {
-            $growthRateImportRevenue = ($revenueImportDifference / $totalRevenueImportLastMonth) * 100;
-        } else {
-            $growthRateImportRevenue = 100;
-        }
+        try {
+            $token = Session('token');
+            $dataToken = JWTAuth::setToken($token)->getPayload();
 
-        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue'));
+            // Lấy role_id từ payload của token
+            $role_id = $dataToken['role'];
+
+            if ($role_id == 1) {
+                // Logic cho admin - hiển thị dashboard.blade.php
+                $pendingNewOrders = NewOrderRequest::with(['importOrder', 'variation'])
+                    ->whereHas('importOrder', function ($query) {
+                        $query->where('status', 1);
+                    })
+                    ->get();
+
+                $totalRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)
+                    ->whereYear('updated_at', Carbon::now()->year)
+                    ->sum('total_amount');
+                $totalRevenueLastMonth = Order::whereMonth('updated_at', Carbon::now()->subMonth()->month)
+                    ->whereYear('updated_at', Carbon::now()->subMonth()->year)
+                    ->sum('total_amount');
+                $revenueDifference = $totalRevenueThisMonth - $totalRevenueLastMonth;
+                $growthRateRevenue = $totalRevenueLastMonth != 0 ? ($revenueDifference / $totalRevenueLastMonth) * 100 : 100;
+
+                $totalCustomersThisMonth = Customer::whereMonth('created_at', Carbon::now()->month)
+                    ->whereYear('created_at', Carbon::now()->year)
+                    ->count();
+                $totalCustomersLastMonth = Customer::whereMonth('created_at', Carbon::now()->subMonth()->month)
+                    ->whereYear('created_at', Carbon::now()->subMonth()->year)
+                    ->count();
+                $customerDifference = $totalCustomersThisMonth - $totalCustomersLastMonth;
+                $growthRateCustomers = $totalCustomersLastMonth != 0 ? ($customerDifference / $totalCustomersLastMonth) * 100 : 100;
+
+                $totalRevenueImportThisMonth = Import_order::whereMonth('updated_at', Carbon::now()->month)
+                    ->whereYear('updated_at', Carbon::now()->year)
+                    ->sum('total_amount');
+                $totalRevenueImportLastMonth = Import_order::whereMonth('updated_at', Carbon::now()->subMonth()->month)
+                    ->whereYear('updated_at', Carbon::now()->subMonth()->year)
+                    ->sum('total_amount');
+                $revenueImportDifference = $totalRevenueImportThisMonth - $totalRevenueImportLastMonth;
+                $growthRateImportRevenue = $totalRevenueImportLastMonth != 0 ? ($revenueImportDifference / $totalRevenueImportLastMonth) * 100 : 100;
+
+                return view('admin.dashboard', compact(
+                    'pendingNewOrders',
+                    'totalRevenueThisMonth',
+                    'growthRateRevenue',
+                    'totalCustomersThisMonth',
+                    'growthRateCustomers',
+                    'totalRevenueImportThisMonth',
+                    'growthRateImportRevenue'
+                ));
+            } else {
+                // Các role khác sẽ vào dashboard-analytics
+                return view('admin.dashboard-analytics');
+            }
+        } catch (\Exception $e) {
+            return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
+        }
     }
+
+
+
 
     public function checkOrderStatus($slug)
     {
@@ -234,19 +261,25 @@ class ImportOrderController extends Controller
     {
         $importOrder = Import_order::where('slug', $slug)->first();
         if ($importOrder) {
-            $importOrder->status = 3; // Giao hàng thành công
+            $importOrder->status = 3;
             $importOrder->save();
-
-            // Cập nhật số lượng stock
             $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
             foreach ($importOrderDetails as $detail) {
                 $variation = Variation::find($detail->variation_id);
                 if ($variation) {
                     $variation->stock += $detail->quantity;
+                    $latestImportPrice = $detail->price;
+                    if ($variation->avgImportPrice === 0) {
+                        $variation->avgImportPrice = $latestImportPrice;
+                    } else {
+                        $totalQuantity = $variation->stock;
+                        $totalCost = ($variation->avgImportPrice * ($totalQuantity - $detail->quantity)) + ($latestImportPrice * $detail->quantity);
+                        $variation->avgImportPrice = $totalCost / $totalQuantity;
+                    }
+                    $variation->latestImportPrice = $latestImportPrice;
                     $variation->save();
                 }
             }
-
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false]);
