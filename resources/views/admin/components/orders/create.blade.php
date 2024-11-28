@@ -217,7 +217,7 @@
                                             <option value="0">Chọn Sản Phẩm</option>
                                             @foreach ($variation as $variant)
                                                 <option value="{{ $variant->id }}"
-                                                    data-price="{{ $variant->price_export }}"
+                                                    data-price="{{ $variant->retail_price }}"
                                                     data-stock="{{ $variant->stock }}">
                                                     {{ $variant->name }}</option>
                                             @endforeach
@@ -233,7 +233,7 @@
                                             <div class="mb-2">
                                                 <label class="form-label" for="product-price-input">Giá sản phẩm</label>
                                                 <input type="number" class="form-control" id="product-price-input"
-                                                    name="product_price[]" readonly>
+                                                    name="product_price[]" value="{{ old('product_price') }}" readonly>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -243,7 +243,7 @@
                                                 <input type="number"
                                                     class="form-control @error('product_quantity.0') is-invalid @enderror"
                                                     name="product_quantity[]" value="{{ old('product_quantity.0') }}"
-                                                    placeholder="Nhập số lượng">
+                                                    placeholder="Nhập số lượng" onchange="calculateTotal()">
                                                 @error('product_quantity.0')
                                                     <div class="invalid-feedback d-block">
                                                         {{ $message }}
@@ -253,10 +253,8 @@
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
-                                                <label class="form-label" for="product-stock-input">Số lượng trong
-                                                    kho</label>
-                                                <input type="number" class="form-control" id="product-stock-input"
-                                                    name="stock" readonly>
+                                                <label class="form-label">Số lượng trong kho</label>
+                                                <input type="number" class="form-control" name="stock" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -337,7 +335,7 @@
             <div class="col-4">
                 <div class="mb-2">
                     <label class="form-label">Giá sản phẩm</label>
-                    <input type="number" class="form-control" name="product_price[]" readonly>
+                    <input type="number" class="form-control" name="product_price[]">
                 </div>
             </div>
             <div class="col-4">
@@ -428,16 +426,16 @@
             const selectedOption = selectElement.options[selectElement.selectedIndex];
             const price = selectedOption.getAttribute('data-price');
             const stock = selectedOption.getAttribute('data-stock');
-            const priceInput = selectElement.closest('.mb-2').nextElementSibling.querySelector(
-                'input[name="product_price[]"]');
+            const priceInput = selectElement.closest('.mb-2').querySelector('input[name="product_price[]"]');
             const stockInput = selectElement.closest('.col-md-12').querySelector('input[name="stock"]');
+            
             if (priceInput) {
-                priceInput.value = price;
+                priceInput.value = price; // Cập nhật giá sản phẩm
             }
             if (stockInput) {
-                stockInput.value = stock;
+                stockInput.value = stock; // Cập nhật số lượng tồn kho
             }
-            calculateTotal();
+            calculateTotal(); // Tính tổng giá trị đơn hàng
         }
         // Hàm để thêm sự kiện lắng nghe cho input
         function addInputListeners() {
@@ -606,11 +604,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                                                    ` : `
-                                                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                                                    `}
+                                                                                                                                    <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                                                                    <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                                                                ` : `
+                                                                                                                                    <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                                                                `}
                                 </div>
                             </div>
                             <hr>

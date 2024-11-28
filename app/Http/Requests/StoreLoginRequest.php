@@ -42,11 +42,13 @@ class StoreLoginRequest extends FormRequest
             ];
         } elseif (request()->isMethod('post') && request()->route()->getName() == 'updateProfile') {
             return [
-                'name' => 'required',
+                'name' => 'required|string|regex:/^(?=.*[a-zA-Z]).*$/|max:255',
+                'email' => 'required|string|email|max:255|unique:customers',
+                'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers',
             ];
         }
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|regex:/^(?=.*[a-zA-Z]).*$/|max:255',
             'email' => 'required|string|email|max:255|unique:customers',
             'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers',
             'password' => 'required|string|min:6|confirmed',
@@ -57,18 +59,16 @@ class StoreLoginRequest extends FormRequest
     {
         return [
             'name.required' => 'Vui lòng nhập tên tài khoản',
-            'nameupdate.required' => 'Vui lòng nhập tên tài khoản',
+            'name.regex' => 'Tên tài khoản không được chỉ chứa mỗi số.',
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Email không hợp lệ',
             'email.unique' => 'Email đã được sử dụng',
             'number_phone.required' => 'Vui lòng nhập điện thoại',
-            'number_phone.number_phone' => 'Số điện thoại không hợp lệ',
-            'number_phone.unique' => 'Số điện thoại đã được sử dụng',
             'number_phone.regex' => 'Số điện thoại phải bắt đầu bằng số 0 và có 10 hoặc 11 chữ số',
+            'number_phone.unique' => 'Số điện thoại đã được sử dụng',
             'password.required' => 'Vui lòng nhập mật khẩu',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự',
             'password.confirmed' => 'Xác nhận mật khẩu không khớp',
-            //
             'old_password.required' => 'Vui lòng nhập mật khẩu hiện tại',
             'new_password.required' => 'Vui lòng nhập mật khẩu mới',
             'new_password.min' => 'Mật khẩu mới phải có ít nhất 6 ký tự',

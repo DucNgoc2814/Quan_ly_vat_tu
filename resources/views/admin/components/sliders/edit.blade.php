@@ -44,7 +44,6 @@
                         <div class="row">
                             <div class="col-lg-8">
                                 <label class="form-label">Hình ảnh</label>
-                               
                                 <input type="file" name="url" id="url"
                                     class="from-control @error('url') is-invalid @enderror" onchange="showImage(event)"><br>
                                 <img src="{{ asset('storage/' . $sliders->url) }}" alt="" id="img_slider" style="width: 150px;"

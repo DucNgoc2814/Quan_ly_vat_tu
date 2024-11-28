@@ -45,6 +45,9 @@ class Variation extends Model
     {
         return $this->belongsToMany(Attribute_value::class);
     }
+
+
+
     protected static function booted()
     {
         static::created(function ($model) {

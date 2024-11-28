@@ -41,48 +41,99 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="col-sm-auto">
+                            <button class="btn btn-warning btn-sm" id="editSelected">Sửa giá sỉ</button>
+                        </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
-                        style="width:100%">
-                        <thead>
-                            <tr>
-                                <th data-ordering="false">Mã biến thể</th>
-                                <th data-ordering="false">Tên Biến thể</th>
-                                <th data-ordering="false">Danh mục</th>
-                                <th data-ordering="false">Nhãn hiệu</th>
-                                <th data-ordering="false">SL</th>
-                                <th data-ordering="false">ĐVT</th>
-                                <th data-ordering="false">GNTB</th>
-                                <th data-ordering="false">GNGN</th>
-                                <th data-ordering="false">Giá bán</th>
-                                <th data-ordering="false">Lịch sử nhập</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($variations as $data)
+                    <form id="bulkEditForm" method="POST" action="{{ route('inventories.bulkUpdate') }}">
+                        @csrf
+                        <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                            style="width:100%">
+                            <thead>
                                 <tr>
-                                    <td>{{ $data->sku }}</td>
-                                    <td>{{ $data->name }}</td>
-                                    <td>{{ $data->product->category->name }}</td>
-                                    <td>{{ $data->product->brand->name }}</td>
-                                    <td>{{ $data->stock }}</td>
-                                    <td>{{ $data->product->unit->name }}</td>
-                                    <td>
-                                        {{ number_format($data->avgImportPrice) }}
-                                    </td>
-                                    <td>{{ number_format($data->latestImportPrice) }}</td>
-                                    <td>{{ number_format($data->retail_price) }}</td>
-                                    <td>
-                                        <button class="btn btn-info btn-sm view-history" data-id="{{ $data->id }}">
-                                            <i class="ri-history-line"></i> Xem chi tiết
-                                        </button>
-                                    </td>
+                                    <th><input type="checkbox" id="selectAllVariation"></th>
+                                    <th>Mã biến thể</th>
+                                    <th>Tên Biến thể</th>
+                                    <th>Danh mục</th>
+                                    <th>SL</th>
+                                    <th>ĐVT</th>
+                                    <th>GNTB</th>
+                                    <th>GNGN</th>
+                                    <th>Giá sỉ</th>
+                                    <th>LS nhập</th>
+                                    <th>Hiển thị</th>
                                 </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach ($variations as $data)
+                                    @php
+                                        $secondLatestPrice = $data
+                                            ->importOrderDetails()
+                                            ->whereHas('importOrder', function ($query) {
+                                                $query->where('status', 3);
+                                            })
+                                            ->orderBy('id', 'desc')
+                                            ->skip(1)
+                                            ->take(1)
+                                            ->pluck('price')
+                                            ->first();
+                                    @endphp
+                                    <tr>
+                                        <td><input type="checkbox" id="variation-{{ $data->id }}"
+                                                name="selected_variations[]" value="{{ $data->id }}"
+                                                data-sku="{{ $data->sku }}" data-name="{{ $data->name }}"
+                                                data-current-price="{{ number_format($data->retail_price) }}">
+                                        </td>
+                                        <td>{{ $data->sku }}</td>
+                                        <td>{{ $data->name }}</td>
+                                        <td>{{ $data->product->category->name }}</td>
+                                        {{-- <td>{{ $data->product->brand->name }}</td> --}}
+                                        <td>{{ $data->stock }}</td>
+                                        <td>{{ $data->product->unit->name }}</td>
+                                        <td>
+                                            {{ number_format($data->avgImportPrice) }}
+                                        </td>
+                                        <td>
+                                            @if ($secondLatestPrice !== null)
+                                                @if ($data->latestImportPrice > $secondLatestPrice)
+                                                    <span style="color: green;">&#8593;
+                                                        {{ number_format($data->latestImportPrice) }}</span>
+                                                @else
+                                                    <span style="color: red;">&#8595;
+                                                        {{ number_format($data->latestImportPrice) }}</span>
+                                                @endif
+                                            @else
+                                                <span>{{ number_format($data->latestImportPrice) }}</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ number_format($data->retail_price) }}</td>
+                                        <td>
+                                            <a href="javascript:void(0);" class="btn btn-info btn-sm view-history"
+                                                data-id="{{ $data->id }}">
+                                                <i class="ri-history-line"></i> Xem
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div class="form-check form-switch form-switch">
+                                                @if ($data->is_active == 1)
+                                                    <input onchange="changeStatus('variations', {{ $data->id }},0)"
+                                                        class="form-check-input" type="checkbox" name="is_active"
+                                                        value="1" id="is_active" checked>
+                                                @else
+                                                    <input onchange="changeStatus('variations', {{ $data->id }},1)"
+                                                        class="form-check-input" type="checkbox" name="is_active"
+                                                        value="0" id="is_active">
+                                                @endif
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
                 </div>
             </div>
         </div><!--end col-->
@@ -164,57 +215,135 @@
         </div>
     </div>
 
+    <!-- Modal sửa giá sỉ -->
+    <div class="modal fade" id="editPriceModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Sửa giá sỉ cho các sản phẩm đã chọn</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="bulkEditForm" method="POST" action="{{ route('inventories.bulkUpdate') }}">
+                        @csrf
+                        <div id="priceFields"></div>
+                        <input type="hidden" name="selected_variations" id="selected_variations">
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     @push('scripts')
         <script>
-            $(document).ready(function() {
+            function bindViewDetail() {
                 $(document).on('click', '.view-detail', function() {
-                    console.log('Button clicked');
                     var id = $(this).data('id');
-                    console.log('ID:', id);
 
                     $.get('/quan-ly-ton-kho/get-detail/' + id, function(data) {
-                        console.log('Data received:', data);
                         $('#detailContent').html(data);
                         $('#detailModal').modal('show');
                     }).fail(function(error) {
                         console.log('Ajax error:', error);
                     });
                 });
-            });
-        </script>
-    @endpush
-    <script>
-        $(document).ready(function() {
-            $('.view-history').click(function() {
-                let variationId = $(this).data('id');
-                $.get(`/quan-ly-ton-kho/lich-su-nhap-hang/${variationId}`, function(data) {
-                    let html = '';
-                    data.forEach(item => {
-                        html += `
+            }
+
+            $(document).ready(function() {
+                bindViewDetail();
+
+                $(document).on('click', '.pagination a', function(e) {
+                    e.preventDefault();
+                    var url = $(this).attr('href');
+
+                    if (url === "#" || url === "") {
+                        console.log('Invalid URL:', url);
+                        return;
+                    }
+
+                    console.log('Navigating to:', url);
+
+                    $.get(url, function(data) {
+                        $('#myTable tbody').html(data);
+                        bindViewDetail();
+                    }).fail(function() {
+                        console.log('Error loading data');
+                    });
+                });
+
+                $(document).on('click', '.view-history', function() {
+                    let variationId = $(this).data('id');
+                    $.get(`/quan-ly-ton-kho/lich-su-nhap-hang/${variationId}`, function(data) {
+                        let html = '';
+                        data.forEach(item => {
+                            html += `
                 <tr>
                     <td>${item.import_order.slug}</td>
                     <td>${item.quantity}</td>
                     <td>${item.price}</td>
                     <td>${item.import_order.supplier.name}</td>
-                    <td>${item.import_order.created_at}</td>
+                    <td>${new Date(item.import_order.created_at).toLocaleString()}</td>               
                 </tr>
             `;
+                        });
+                        $('#historyContent').html(html);
+                        $('#historyDetailModal').modal('show');
                     });
-                    $('#historyContent').html(html);
-                    $('#historyDetailModal').modal('show');
+                });
+
+                $('#import-btn').click(function(e) {
+                    e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ a
+                    $('#file-input').click(); // Mở hộp thoại chọn file
+                });
+
+                $('#file-input').change(function() {
+                    $('#import-form').submit(); // Gửi form khi file được chọn
                 });
             });
-        });
-        $(document).ready(function() {
-            $('#import-btn').click(function(e) {
-                e.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ a
-                $('#file-input').click(); // Mở hộp thoại chọn file
-            });
+            document.getElementById('selectAllVariation').onclick = function() {
+                var checkboxes = document.querySelectorAll(
+                    'input[type="checkbox"][id^="variation-"]'); // Chọn checkbox theo ID
+                for (var checkbox of checkboxes) {
+                    checkbox.checked = this.checked; // Đặt trạng thái checkbox theo trạng thái của selectAll
+                }
+            };
 
-            $('#file-input').change(function() {
-                $('#import-form').submit(); // Gửi form khi file được chọn
-            });
-        });
-    </script>
+            document.getElementById('editSelected').onclick = function() {
+                var selected = document.querySelectorAll('input[name="selected_variations[]"]:checked');
+                if (selected.length === 0) {
+                    alert('Vui lòng chọn ít nhất một sản phẩm để sửa.');
+                } else {
+                    // Lưu ID sản phẩm đã chọn vào hidden input
+                    var selectedIds = Array.from(selected).map(checkbox => checkbox.value);
+                    document.getElementById('selected_variations').value = selectedIds.join(',');
+
+                    // Xóa các trường nhập giá cũ
+                    document.getElementById('priceFields').innerHTML = '';
+
+                    // Tạo các trường nhập giá cho từng sản phẩm đã chọn
+                    selected.forEach(function(checkbox) {
+                        var variationId = checkbox.value;
+                        var sku = checkbox.getAttribute('data-sku'); // Lấy SKU từ thuộc tính data
+                        var name = checkbox.getAttribute('data-name'); // Lấy tên từ thuộc tính data
+                        var currentPrice = checkbox.getAttribute(
+                            'data-current-price'); // Lấy giá hiện tại từ thuộc tính data
+                        var priceField = `
+                            <div class="mb-3">
+                                <label for="wholesale_price_${variationId}" class="form-label">Giá sỉ cho sản phẩm: ${sku} - ${name}:</label>
+                                <div>
+                                    <strong>Giá hiện tại: ${currentPrice}</strong>
+                                </div>
+                                <input type="text" class="form-control" id="wholesale_price_${variationId}" name="wholesale_price[${variationId}]" placeholder="Nhập giá sỉ mới">
+                            </div>
+                        `;
+                        document.getElementById('priceFields').insertAdjacentHTML('beforeend', priceField);
+                    });
+
+                    // Hiển thị modal
+                    $('#editPriceModal').modal('show');
+                }
+            };
+        </script>
+    @endpush
 @endsection

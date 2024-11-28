@@ -22,16 +22,22 @@ class StoreCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:categories,name',
-            'image' => 'required|Image',
+            'name' => 'required|string|min:3|max:100|unique:categories,name|regex:/^(?![0-9]+$).*/',
+            'image' => 'required|image',
         ];
     }
+
     public function messages()
     {
         return [
-            'name.required'=>'Tên không được bỏ trống',
-            'name.unique'=>'Tên danh mục đã tồn tại',
-            'image.required'=>'Ảnh không được bỏ trống',
+            'name.required' => 'Tên không được bỏ trống',
+            'name.string' => 'Tên danh mục phải là chuỗi ký tự',
+            'name.min' => 'Tên danh mục phải có ít nhất 3 ký tự',
+            'name.max' => 'Tên danh mục không được vượt quá 100 ký tự',
+            'name.unique' => 'Tên danh mục đã tồn tại',
+            'name.regex' => 'Tên danh mục không được chỉ chứa số',
+            'image.required' => 'Ảnh không được bỏ trống',
+            'image.image' => 'Tệp tải lên phải là hình ảnh',
         ];
     }
     

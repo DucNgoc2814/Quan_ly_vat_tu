@@ -134,8 +134,7 @@
                                 <div class="col-md-12 d-flex mt-4">
                                     <div class="col-md-12">
                                         <label class="form-label">Số lượng sản phẩm</label>
-                                        <input type="number"
-                                            class="form-control @error('quantity.0') is-invalid @enderror"
+                                        <input type="number" class="form-control @error('quantity.0') is-invalid @enderror"
                                             name="quantity[]" placeholder="Nhập số lượng">
                                         @error('quantity.0')
                                             <div class="invalid-feedback">{{ $message }}</div>
@@ -161,11 +160,17 @@
                         <div class="col-md-12 d-flex">
                             <div class="col-md-5 me-2">
                                 <label for="exampleInputdate" class="form-label">Ngày bắt đầu</label>
-                                <input type="date" class="form-control" name="timestart" id="exampleInputdate">
+                                <input type="date" class="form-control" name="timestart" id="exampleInputdate" value="{{ old('timestart') }}">
+                                @error('timestart')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div class="col-md-5 ">
                                 <label for="exampleInputdate" class="form-label">Ngày kết thúc</label>
-                                <input type="date" class="form-control" name="timeend" id="exampleInputdate">
+                                <input type="date" class="form-control" name="timeend" id="exampleInputdate" value="{{ old('timeend') }}">
+                                @error('timeend')
+                                    <p class="text-danger">{{ $message }}</p>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -274,5 +279,4 @@
             }
         }
     </script>
-
 @endsection

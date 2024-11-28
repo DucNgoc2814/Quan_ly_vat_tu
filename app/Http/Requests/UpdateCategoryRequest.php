@@ -22,14 +22,19 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:categories,name,'.$this->route('id'),
+            'name' => 'required|string|min:3|max:100|unique:categories,name,' . $this->route('id') . '|regex:/^(?![0-9]+$).*/',
         ];
     }
+
     public function messages()
     {
         return [
-            'name.required' => 'Tên không dược bỏ trống',
+            'name.required' => 'Tên không được bỏ trống',
+            'name.string' => 'Tên danh mục phải là chuỗi ký tự',
+            'name.min' => 'Tên danh mục phải có ít nhất 3 ký tự',
+            'name.max' => 'Tên danh mục không được vượt quá 100 ký tự',
             'name.unique' => 'Tên danh mục đã tồn tại',
+            'name.regex' => 'Tên danh mục không được chỉ chứa số',
         ];
     }
 }

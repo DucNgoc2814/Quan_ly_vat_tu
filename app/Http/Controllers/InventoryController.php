@@ -21,7 +21,9 @@ class InventoryController extends Controller
     const PATH_VIEW = 'admin.components.inventories.';
     public function index()
     {
-        $variations = Variation::orderBy('id', 'desc')->get();
+        $variations = Variation::with('importOrderDetails') // Lấy thông tin đơn hàng nhập
+        ->orderBy('id', 'desc')
+        ->get();
         $inventories = Inventory::orderBy('created_at', 'desc')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('variations', 'inventories'));
     }
@@ -34,6 +36,21 @@ class InventoryController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+    public function bulkUpdate(Request $request)
+    {
+        $wholesalePrices = $request->input('wholesale_price', []);
+        
+        foreach ($wholesalePrices as $key => $value) {
+            $variation = Variation::find($key);
+            if ($variation && isset($variation)) {
+                $retailPrice = (int) $value;
+                $variation->retail_price = $retailPrice;
+                $variation->save();
+            }
+        }
+
+        return redirect()->route('inventories.index')->with('success', 'Cập nhật thành công!');
     }
 
     public function historyImport($id) 
@@ -112,7 +129,7 @@ class InventoryController extends Controller
             $result = DB::transaction(function () use ($request) {
                 // Create new inventory record
                 $inventory = Inventory::create([
-                    'name' => 'Kiểm kê #' . rand(1000, 9999) . ' - ' . now()->format('d/m/Y H:i:s')
+                    'name' => 'Kiểm kê #' . rand(1000000, 999999)
                 ]);
 
                 // Get the results from session

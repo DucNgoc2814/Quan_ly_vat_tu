@@ -56,19 +56,6 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="product-price-input">Giá sản phẩm</label>
-                                            <input type="text" class="form-control @error('price') is-invalid @enderror"
-                                                id="product-price-input" value="{{ old('price', $product->price) }}"
-                                                placeholder="Nhập giá sản phẩm" name="price">
-                                            @error('price')
-                                                <span class="invalid-feedback">{{ $message }}</span>
-                                            @enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-body">
                                         <div class="mb-4">
                                             <label class="form-label" for="product-image-main">Ảnh sản phẩm</label>
                                             <div class="mt-3">
@@ -109,6 +96,11 @@
                                         <div class="mb-3">
                                             <label class="form-label">Mô tả</label>
                                             <textarea class="form-control" name="description" rows="4">{{ old('description', $product->description) }}</textarea>
+                                            @error('description')
+                                                <span role="alert">
+                                                    <span class="text-danger">{{ $message }}</span>
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
@@ -119,8 +111,9 @@
                                         <div class="card">
                                             <div class="card-body d-flex justify-content-around">
                                                 <div class="form-check form-switch form-switch">
-                                                    <input class="form-check-input" type="checkbox" name="is_active" value="1"
-                                                {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
+                                                    <input class="form-check-input" type="checkbox" name="is_active"
+                                                        value="1"
+                                                        {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
                                                     <label class="form-check-label" for="is_active">Hiển thị</label>
                                                 </div>
                                             </div>
@@ -202,7 +195,8 @@
                                     <div class="card-body">
                                         <div class="mb-4">
                                             <div class="d-flex justify-content-lg-between">
-                                                <label class="form-label" for="product-images-input">Bộ sưu tập ảnh sản phẩm</label>
+                                                <label class="form-label" for="product-images-input">Bộ sưu tập ảnh sản
+                                                    phẩm</label>
                                                 <button type="button" class="btn btn-primary" id="add-image-button">
                                                     Thêm ảnh
                                                 </button>
@@ -258,23 +252,6 @@
                                                     <input type="text" class="form-control"
                                                         name="variations[{{ $variation->id }}][name]"
                                                         value="{{ $variation->name }}" disabled>
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Số lượng tồn kho</label>
-                                                    <input type="number" class="form-control @error('variations.' . $variation->id . '.stock') is-invalid @enderror"
-                                                        name="variations[{{ $variation->id }}][stock]"
-                                                        value="{{ $variation->stock }}"  disabled>
-                                                </div>
-
-                                                <div class="col-md-3">
-                                                    <label class="form-label">Giá bán lẻ</label>
-                                                    <input type="number" class="form-control @error('variations.' . $variation->id . '.price_export') is-invalid @enderror"
-                                                        name="variations[{{ $variation->id }}][price_export]"
-                                                        value="{{ old('variations.' . $variation->id . '.price_export', $variation->price_export) }}">
-                                                    @error('variations.' . $variation->id . '.price_export')
-                                                        <div class="text-danger mt-1">{{ $message }}</div>
-                                                    @enderror
                                                 </div>
                                             </div>
                                         @endforeach
@@ -381,4 +358,3 @@
         }
     </script>
 @endsection
-

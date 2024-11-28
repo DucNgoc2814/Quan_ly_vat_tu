@@ -2,7 +2,7 @@
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
-        <a href="index.html" class="logo logo-dark">
+        <a href="<?php echo e(route('admin.dashboard')); ?>" class="logo logo-dark">
             <span class="logo-sm">
                 <img src="<?php echo e(asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png')); ?>" alt=""
                     height="180">
@@ -13,15 +13,10 @@
             </span>
         </a>
         <!-- Light Logo-->
-        <a href="index.html" class="logo logo-light">
-            <span class="logo-sm">
-                <img src="<?php echo e(asset('themes/admin/assets/assets/images/Gemo__1_-removebg-preview.png')); ?>" alt=""
-                    height="180">
-            </span>
-            <span class="logo-lg">
-                <img src="<?php echo e(asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png')); ?>" alt=""
-                    height="180">
-            </span>
+        <a href="<?php echo e(route('admin.dashboard')); ?>" class="logo logo-light">
+            <a href="<?php echo e(route('admin.dashboard')); ?>" class="d-block">
+                <img src="<?php echo e(asset('themes/admin/assets/images/gemo2.png')); ?>" alt="" height="150">
+            </a>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
             id="vertical-hover">
@@ -73,7 +68,7 @@
                         </div>
                     </li>
                 <?php endif; ?>
-               
+
                 <?php if(in_array(33, $employees) ||
                         in_array(34, $employees) ||
                         in_array(35, $employees) ||
@@ -157,12 +152,12 @@
                                     <a href="<?php echo e(route('brand.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Thương hiệu</a>
                                 </li>
-                              
+
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('valueVariations.index')); ?>" class="nav-link"
                                         data-key="t-horizontal">Loại biến thể</a>
                                 </li>
-                          
+
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('inventories.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Kho hàng</a>

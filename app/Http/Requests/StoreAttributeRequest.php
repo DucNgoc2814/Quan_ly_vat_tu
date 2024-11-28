@@ -14,9 +14,9 @@ class StoreAttributeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:attributes,name',
+            'name' => 'required|string|min:3|max:55|unique:attributes,name|regex:/^(?![0-9]+$).*/',
             'values' => 'required|array',
-            'values.*' => 'required|string|max:255',
+            'values.*' => 'required|string|min:3|max:55|unique:attributes,name|regex:/^(?![0-9]+$).*/',
         ];
     }
 
@@ -25,10 +25,15 @@ class StoreAttributeRequest extends FormRequest
         return [
             'name.required' => 'Tên loại biến thể không được để trống',
             'name.unique' => 'Tên loại biến thể đã tồn tại',
-            'name.max' => 'Tên loại biến thể không được vượt quá 255 ký tự',
+            'name.min' => 'Tên loại biến thể phải có ít nhất 3 ký tự',
+            'name.max' => 'Tên loại biến thể không được vượt quá 55 ký tự',
+            'name.regex' => 'Tên loại biến thể không được chỉ chứa số',
             'values.required' => 'Giá trị biến thể không được để trống',
             'values.*.required' => 'Giá trị biến thể không được để trống',
-            'values.*.max' => 'Giá trị biến thể không được vượt quá 255 ký tự'
+            'values.*.min' => 'Giá trị biến thể có ít nhất 3 ký tự',
+            'values.*.max' => 'Giá trị biến thể không được vượt quá 55 ký tự',
+            'values.*.regex' => 'Giá trị biến thể không được chỉ chứa số',
+
         ];
     }
 }

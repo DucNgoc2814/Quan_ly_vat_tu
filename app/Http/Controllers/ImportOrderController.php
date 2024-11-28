@@ -275,19 +275,25 @@ class ImportOrderController extends Controller
     {
         $importOrder = Import_order::where('slug', $slug)->first();
         if ($importOrder) {
-            $importOrder->status = 3; // Giao hàng thành công
+            $importOrder->status = 3;
             $importOrder->save();
-
-            // Cập nhật số lượng stock
             $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
             foreach ($importOrderDetails as $detail) {
                 $variation = Variation::find($detail->variation_id);
                 if ($variation) {
                     $variation->stock += $detail->quantity;
+                    $latestImportPrice = $detail->price;
+                    if ($variation->avgImportPrice === 0) {
+                        $variation->avgImportPrice = $latestImportPrice;
+                    } else {
+                        $totalQuantity = $variation->stock;
+                        $totalCost = ($variation->avgImportPrice * ($totalQuantity - $detail->quantity)) + ($latestImportPrice * $detail->quantity);
+                        $variation->avgImportPrice = $totalCost / $totalQuantity;
+                    }
+                    $variation->latestImportPrice = $latestImportPrice;
                     $variation->save();
                 }
             }
-
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false]);
