@@ -296,7 +296,7 @@
                 <div class="col-xl-8 w-100">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
-                            <h4 class="card-title mb-0 flex-grow-1">Recent Orders</h4>
+                            <h4 class="card-title mb-0 flex-grow-1">Đơn hàng gần đây</h4>
                             <div class="flex-shrink-0">
 
                             </div>
@@ -307,156 +307,56 @@
                                 <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
                                     <thead class="text-muted table-light">
                                         <tr>
-                                            <th scope="col">Order ID</th>
-                                            <th scope="col">Customer</th>
-                                            <th scope="col">Product</th>
-                                            <th scope="col">Amount</th>
-                                            <th scope="col">Vendor</th>
-                                            <th scope="col">Status</th>
-                                            <th scope="col">Rating</th>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">Mã đơn</th>
+                                            <th scope="col">Người mua</th>
+                                            <th scope="col">Số điện thoại</th>
+                                            <th scope="col">Tổng tiền</th>
+                                            <th scope="col">Đã trả</th>
+                                            <th scope="col">Trạng thái</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>
-                                                <a href="apps-ecommerce-order-details.html"
-                                                    class="fw-medium link-primary">#VZ2112</a>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 me-2">
-                                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-1.jpg') }}"
-                                                            alt="" class="avatar-xs rounded-circle" />
+                                        @php
+                                            $stt = 0;
+                                        @endphp
+                                        @foreach ($latestOrders as $latestOrder)
+                                            <tr>
+                                                <td>
+                                                    <a href="apps-ecommerce-order-details.html"
+                                                        class="fw-medium link-primary">{{ $stt += 1 }}</a>
+                                                </td>
+                                                <td>
+                                                    <span class="text-success">{{ $latestOrder->slug   }}</span>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div class="flex-shrink-0 me-2">
+                                                            <img src="{{ asset('themes/admin/assets/images/users/avatar-1.jpg') }}"
+                                                                alt="" class="avatar-xs rounded-circle" />
+                                                        </div>
+                                                        <div class="flex-grow-1">{{ $latestOrder->customer_name   }}</div>
                                                     </div>
-                                                    <div class="flex-grow-1">Alex Smith</div>
-                                                </div>
-                                            </td>
-                                            <td>Clothes</td>
-                                            <td>
-                                                <span class="text-success">$109.00</span>
-                                            </td>
-                                            <td>Zoetic Fashion</td>
-                                            <td>
-                                                <span class="badge bg-success-subtle text-success">Paid</span>
-                                            </td>
-                                            <td>
-                                                <h5 class="fs-14 fw-medium mb-0">5.0<span
-                                                        class="text-muted fs-11 ms-1">(61
-                                                        votes)</span></h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td>
-                                                <a href="apps-ecommerce-order-details.html"
-                                                    class="fw-medium link-primary">#VZ2111</a>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 me-2">
-                                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-2.jpg') }}"
-                                                            alt="" class="avatar-xs rounded-circle" />
-                                                    </div>
-                                                    <div class="flex-grow-1">Jansh Brown</div>
-                                                </div>
-                                            </td>
-                                            <td>Kitchen Storage</td>
-                                            <td>
-                                                <span class="text-success">$149.00</span>
-                                            </td>
-                                            <td>Micro Design</td>
-                                            <td>
-                                                <span class="badge bg-warning-subtle text-warning">Pending</span>
-                                            </td>
-                                            <td>
-                                                <h5 class="fs-14 fw-medium mb-0">4.5<span
-                                                        class="text-muted fs-11 ms-1">(61
-                                                        votes)</span></h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td>
-                                                <a href="apps-ecommerce-order-details.html"
-                                                    class="fw-medium link-primary">#VZ2109</a>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 me-2">
-                                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-3.jpg') }}"
-                                                            alt="" class="avatar-xs rounded-circle" />
-                                                    </div>
-                                                    <div class="flex-grow-1">Ayaan Bowen</div>
-                                                </div>
-                                            </td>
-                                            <td>Bike Accessories</td>
-                                            <td>
-                                                <span class="text-success">$215.00</span>
-                                            </td>
-                                            <td>Nesta Technologies</td>
-                                            <td>
-                                                <span class="badge bg-success-subtle text-success">Paid</span>
-                                            </td>
-                                            <td>
-                                                <h5 class="fs-14 fw-medium mb-0">4.9<span
-                                                        class="text-muted fs-11 ms-1">(89
-                                                        votes)</span></h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td>
-                                                <a href="apps-ecommerce-order-details.html"
-                                                    class="fw-medium link-primary">#VZ2108</a>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 me-2">
-                                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-4.jpg') }}"
-                                                            alt="" class="avatar-xs rounded-circle" />
-                                                    </div>
-                                                    <div class="flex-grow-1">Prezy Mark</div>
-                                                </div>
-                                            </td>
-                                            <td>Furniture</td>
-                                            <td>
-                                                <span class="text-success">$199.00</span>
-                                            </td>
-                                            <td>Syntyce Solutions</td>
-                                            <td>
-                                                <span class="badge bg-danger-subtle text-danger">Unpaid</span>
-                                            </td>
-                                            <td>
-                                                <h5 class="fs-14 fw-medium mb-0">4.3<span
-                                                        class="text-muted fs-11 ms-1">(47
-                                                        votes)</span></h5>
-                                            </td>
-                                        </tr><!-- end tr -->
-                                        <tr>
-                                            <td>
-                                                <a href="apps-ecommerce-order-details.html"
-                                                    class="fw-medium link-primary">#VZ2107</a>
-                                            </td>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="flex-shrink-0 me-2">
-                                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-6.jpg') }}"
-                                                            alt="" class="avatar-xs rounded-circle" />
-                                                    </div>
-                                                    <div class="flex-grow-1">Vihan Hudda</div>
-                                                </div>
-                                            </td>
-                                            <td>Bags and Wallets</td>
-                                            <td>
-                                                <span class="text-success">$330.00</span>
-                                            </td>
-                                            <td>iTest Factory</td>
-                                            <td>
-                                                <span class="badge bg-success-subtle text-success">Paid</span>
-                                            </td>
-                                            <td>
-                                                <h5 class="fs-14 fw-medium mb-0">4.7<span
-                                                        class="text-muted fs-11 ms-1">(161
-                                                        votes)</span></h5>
-                                            </td>
-                                        </tr><!-- end tr -->
+                                                </td>
+                                                <td>{{ $latestOrder->number_phone   }}</td>
+
+                                                <td>{{ $latestOrder->total_amount   }}</td>
+                                                <td>{{ $latestOrder->paid_amount   }}</td>
+                                                <td>
+                                                    @if ($latestOrder->status_id == 1)
+                                                    <span class="badge bg-warning-subtle text-warning">Chờ xử lý</span>
+                                                    @elseif ($latestOrder->status_id == 2)
+                                                    <span class="badge bg-primary-subtle text-primary">Đã xác nhận</span>
+                                                    @elseif ($latestOrder->status_id == 3)
+                                                    <span class="badge bg-info-subtle text-info">Đang giao</span>
+                                                    @elseif ($latestOrder->status_id == 4)
+                                                    <span class="badge bg-success-subtle text-success">Thành công</span>
+                                                    @elseif ($latestOrder->status_id ==5)
+                                                    <span class="badge bg-danger-subtle text-danger">Đã hủy</span>
+                                                    @endif
+                                                </td>
+                                            </tr><!-- end tr -->
+                                        @endforeach
                                     </tbody><!-- end tbody -->
                                 </table><!-- end table -->
                             </div>
@@ -1265,17 +1165,17 @@
             }
         }
         var today = new Date();
-var currentMonth = today.getMonth();
-var months = [
-    'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
-    'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
-];
- var ordersPerMonthN = @json($ordersPerMonthN);
- var ordersPerMonthX = @json($ordersPerMonthX);
- var totalAmoutx = @json($totalAmoutx);
- var statusValues = @json($statusValues);
- console.log(statusValues)
-var reorderedMonths = months.slice(currentMonth).concat(months.slice(0, currentMonth));
+        var currentMonth = today.getMonth();
+        var months = [
+            'Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6',
+            'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'
+        ];
+        var ordersPerMonthN = @json($ordersPerMonthN);
+        var ordersPerMonthX = @json($ordersPerMonthX);
+        var totalAmoutx = @json($totalAmoutx);
+        var statusValues = @json($statusValues);
+        console.log(statusValues)
+        var reorderedMonths = months.slice(currentMonth).concat(months.slice(0, currentMonth));
         var options,
             chart,
             linechartcustomerColors = getChartColorsArray('customer_impression_charts'),
@@ -1296,7 +1196,7 @@ var reorderedMonths = months.slice(currentMonth).concat(months.slice(0, currentM
                             {
                                 name: 'Doanh thu',
                                 type: 'line',
-                                data:totalAmoutx
+                                data: totalAmoutx
                             }
                         ],
                         chart: {
@@ -1381,7 +1281,7 @@ var reorderedMonths = months.slice(currentMonth).concat(months.slice(0, currentM
                                 {
                                     formatter: function(e) {
                                         return void 0 !== e ?
-                                              e.toFixed(2) :
+                                            e.toFixed(2) :
                                             e
                                     }
                                 },

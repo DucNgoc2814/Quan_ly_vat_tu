@@ -240,7 +240,11 @@ class ImportOrderController extends Controller
             Order::where('status_id', 4)->count(),
             Order::where('status_id', 5)->count(),
         ];
-        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues'));
+        $latestOrders = DB::table('orders')
+            ->orderBy('created_at', 'desc')
+            ->take(10)
+            ->get();
+        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues', 'latestOrders'));
     }
 
     public function checkOrderStatus($slug)
