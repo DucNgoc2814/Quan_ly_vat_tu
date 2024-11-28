@@ -48,7 +48,7 @@ class Order extends Model
 
     public function contract()
     {
-        return $this->belongsToo(Contract::class, 'order_id');
+        return $this->belongsTo(Contract::class, 'order_id');
     }
 
     public function debts()

@@ -21,34 +21,39 @@ class StoreOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            // 'customer_id' => 'required|exists:customers,id',
-            // 'customer_name' => 'required|string|max:255',
-            // 'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers,number_phone,' . $this->customer_id,
-            // 'email' => 'required|email|max:255',
-            // 'address' => 'required|string|max:255',
-            // 'payment_id' => 'required|exists:payments,id',
-            // 'variation_id' => 'required|array',
-            // 'variation_id.*' => 'exists:variations,id',
-            // 'product_quantity' => 'required|array',
-            // 'product_quantity.*' => [
-            //     'required',
-            //     'integer',
-            //     'min:1',
-            //     function ($attribute, $value, $fail) {
-            //         if (!is_numeric($value)) {
-            //             return;
-            //         }
-            //         $index = explode('.', $attribute)[1];
-            //         $variationId = $this->input('variation_id')[$index];
-            //         $variation = \App\Models\Variation::find($variationId);
-            //         if ($variation && $value > $variation->stock) {
-            //             $fail("Số lượng sản phẩm không được lớn hơn số lượng có trong kho ({$variation->stock}).");
-            //         }
-            //     },
-            // ],
-            // 'paid_amount' => 'nullable|numeric|min:0|lte:total_amount',
+        $rules =  [
+            'customer_name' => 'required|string|max:255',
+            'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers,number_phone,' . $this->customer_id,
+            'address' => 'required|string|max:255',
+            'variation_id' => 'required|array',
+            'variation_id.*' => 'exists:variations,id',
+            'product_quantity' => 'required|array',
+            'paid_amount' => 'nullable|numeric|min:0|lte:total_amount',
         ];
+        if ($this->is('order.store')) {
+            $rules['email'] = 'required|email|max:255';
+            $rules['customer_id'] = 'required|exists:customers,id';
+            $rules['payment_id'] = 'required|exists:payments,id';
+            $rules['product_quantity.*'] = [
+                'required',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) {
+                    if (!is_numeric($value)) {
+                        return;
+                    }
+                    $index = explode('.', $attribute)[1];
+                    $variationId = $this->input('variation_id')[$index];
+                    $variation = \App\Models\Variation::find($variationId);
+                    if ($variation && $value > $variation->stock) {
+                        $fail("Số lượng sản phẩm không được lớn hơn số lượng có trong kho ({$variation->stock}).");
+                    }
+                },
+            ];
+        } else {
+            $rules['contract_id'] = 'required|exists:contracts,id';
+        }
+        return $rules;
     }
     public function messages()
     {

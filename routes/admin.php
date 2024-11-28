@@ -29,6 +29,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\LogController;
 use App\Exports\VariationsExport;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\PaymentHistoryController;
 use Maatwebsite\Excel\Facades\Excel;
 Route::prefix('trang-quan-tri')
     ->as('employees.')
@@ -294,6 +295,15 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/them-moi-gia-tri', [AttributeController::class, 'storeValue'])->name('storeValue')->middleware('permission:140');
                 Route::get('/sua/{id}', [AttributeController::class, 'edit'])->name('edit')->middleware('permission:141');
                 Route::put('/sua/{id}', [AttributeController::class, 'update'])->name('update')->middleware('permission:142');
+            });
+        Route::prefix('lich-su-chuyen-tien')
+            ->as('payment.')
+            ->group(function () {
+                Route::get('/danh-sach', [PaymentHistoryController::class, 'index'])->name('index');
+                Route::get('/them-moi', [PaymentHistoryController::class, 'create'])->name('create');
+                Route::post('/them-moi', [PaymentHistoryController::class, 'store'])->name('store');
+                Route::get('/sua/{id}', [PaymentHistoryController::class, 'edit'])->name('edit');
+                Route::put('/sua/{id}', [PaymentHistoryController::class, 'update'])->name('update');
             });
         Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm')->middleware('permission:143');
         Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject')->middleware('permission:144');

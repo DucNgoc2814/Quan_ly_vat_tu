@@ -10,10 +10,12 @@ class Payment_history extends Model
     use HasFactory;
 
     protected $fillable = [
-        'contract_id',
-        'name',
+        'note',
         'amount',
         'document',
+        'transaction_type',
+        'related_id',
+        'role',
     ];
 
     public $timestamps = false;

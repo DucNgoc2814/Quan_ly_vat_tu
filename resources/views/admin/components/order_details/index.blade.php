@@ -63,7 +63,7 @@
 
                                     </div>
                                 @endforeach
-                                
+
                             </div>
                         </div>
 
@@ -91,10 +91,11 @@
                                         </tr>
                                         <tr>
                                             <td>Giảm giá <span
-                                                    class="text-muted">({{ $data->first()->order->customer->customerRank->name ?? 'Không có thông tin' }})</span>:
+                                                    class="text-muted">({{ $data->first()->order->customer->customerRank->name ?? 'Đơn hàng hợp đồng' }})</span>:
                                             </td>
                                             <td class="text-end">
-                                                {{ $data->first()->order->customer->customerRank->discount ?? 'Không có thông tin' }}</td>
+                                                {{ $data->first()->order->customer->customerRank->discount ?? 'Đơn hàng hợp đồng' }}
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Đã thanh toán :</td>
@@ -104,11 +105,15 @@
                                         <tr class="border-top border-top-dashed">
                                             <th scope="row">Thanh toán (VND) :</th>
                                             <th class="text-end">
-                                                {{ number_format(
-                                                    $data->first()->order->total_amount * (1 - $data->first()->order->customer->customerRank->discount ?? 0 / 100) -
-                                                        $data->first()->order->paid_amount,
-                                                    2,
-                                                ) }}
+                                                @if (isset($data->first()->order->customer->customerRank->discount))
+                                                    {{ number_format(
+                                                        $data->first()->order->total_amount * (1 - $data->first()->order->customer->customerRank->discount / 100) -
+                                                            $data->first()->order->paid_amount,
+                                                        2,
+                                                    ) }}
+                                                @else
+                                                    0
+                                                @endif
                                             </th>
                                         </tr>
                                     </tbody>
@@ -245,16 +250,17 @@
                                     <img src="assets/images/users/avatar-3.jpg" alt="" class="avatar-sm rounded">
                                 </div>
                                 <div class="flex-grow-1 ms-3">
-                                    <h6 class="fs-14 mb-1">{{ $data->first()->order->customer->name }}</h6>
+                                    <h6 class="fs-14 mb-1">
+                                        {{ $data->first()->order->customer->name ?? 'Đơn hàng hợp đồng' }}</h6>
                                     <p class="text-muted mb-0">Người đặt</p>
                                 </div>
                             </div>
                         </li>
                         <li><i
-                                class="ri-mail-line me-2 align-middle text-muted fs-16"></i>{{ $data->first()->order->customer->email }}
+                                class="ri-mail-line me-2 align-middle text-muted fs-16"></i>{{ $data->first()->order->customer->email ?? 'Đơn hàng hợp đồng' }}
                         </li>
                         <li><i
-                                class="ri-phone-line me-2 align-middle text-muted fs-16"></i>{{ $data->first()->order->customer->number_phone }}
+                                class="ri-phone-line me-2 align-middle text-muted fs-16"></i>{{ $data->first()->order->customer->number_phone ?? 'Đơn hàng hợp đồng' }}
                         </li>
                     </ul>
                 </div>

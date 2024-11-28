@@ -305,11 +305,24 @@ class OrderController extends Controller
 
             // Nếu xác nhận hủy đơn hàng
             if ($newStatus == 5 && $oldStatus != 5) {
-                // Hoàn lại số lượng sản phẩm vào kho
+                // Hoàn lại số lượng sản phẩm vào kho và remaining_quantity trong contract_details
                 foreach ($order->orderDetails as $detail) {
+                    // Hoàn lại stock cho variation
                     $variation = Variation::findOrFail($detail->variation_id);
                     $variation->stock += $detail->quantity;
                     $variation->save();
+
+                    // Hoàn lại remaining_quantity cho contract_detail
+                    if ($order->contract_id) {
+                        $contractDetail = ContractDetail::where('contract_id', $order->contract_id)
+                            ->where('variation_id', $detail->variation_id)
+                            ->first();
+
+                        if ($contractDetail) {
+                            $contractDetail->remaining_quantity += $detail->quantity;
+                            $contractDetail->save();
+                        }
+                    }
                 }
 
                 // Lưu ghi chú vào bảng order_canceleds
@@ -388,16 +401,7 @@ class OrderController extends Controller
                             if ($request->product_quantity[$i] > 0 && $request->product_quantity[$i] != null) {
                                 $variation = Variation::findOrFail($request->variation_id[$i]);
                                 $orderQuantity = $request->product_quantity[$i];
-                                
-                                // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
-                                // logger("Số lượng tồn kho (stock) của variation $request->variation_id[$i] là: " . $variation->stock);
-                                // logger("Số lượng mua của variation $request->variation_id[$i] là: " . $orderQuantity);
 
-                                // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
-                                // if ($orderQuantity > $variation->stock) {
-                                //     throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
-                                // }
-                                
                                 // Tạo chi tiết đơn hàng
                                 Order_detail::query()->create([
                                     'order_id' => $order->id,
@@ -406,13 +410,25 @@ class OrderController extends Controller
                                     'price' => $prices[$i],
                                 ]);
 
+                                // Cập nhật remaining_quantity trong contract_details
+                                $contractDetail = ContractDetail::where('contract_id', $request->contract_id)
+                                    ->where('variation_id', $request->variation_id[$i])
+                                    ->first();
+                                if ($contractDetail) {
+                                    // Kiểm tra nếu số lượng đặt không vượt quá remaining_quantity
+                                    if ($orderQuantity > $contractDetail->remaining_quantity) {
+                                        throw new Exception('Số lượng đặt hàng vượt quá số lượng còn lại trong hợp đồng.');
+                                    }
+                                    $contractDetail->remaining_quantity -= $orderQuantity;
+                                    $contractDetail->save();
+                                }
+
                                 // Giảm số lượng hàng tồn kho
                                 $variation->stock -= $orderQuantity;
                                 $variation->save();
                             }
                         }
                     } else {
-                        // Xử lý trường hợp mảng không cùng độ dài
                         throw new Exception("Mảng giá và số lượng không khớp.");
                     }
                 } else {
@@ -422,7 +438,6 @@ class OrderController extends Controller
 
             return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
         } catch (\Throwable $th) {
-            dd($th->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
     }
