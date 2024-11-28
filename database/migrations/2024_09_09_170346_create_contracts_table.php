@@ -25,7 +25,6 @@ return new class extends Migration
             $table->datetime('timestart');
             $table->datetime('timeend');
             $table->string('verification_token')->nullable();
-            $table->text('reject_reason')->nullable();
             $table->timestamps();
         });
     }

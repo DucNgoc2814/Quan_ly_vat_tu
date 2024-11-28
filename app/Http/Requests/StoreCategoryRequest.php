@@ -29,9 +29,10 @@ class StoreCategoryRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Tên không dược bỏ trống',
-            'name.unique' => 'Tên danh mục đã tồn tại',
-            'image.required' => 'Ảnh không được bỏ trống',
+            'name.required'=>'Tên không được bỏ trống',
+            'name.unique'=>'Tên danh mục đã tồn tại',
+            'image.required'=>'Ảnh không được bỏ trống',
         ];
     }
+    
 }

@@ -10,8 +10,8 @@
         <div class="container">
             <div class="breadcrumb">
                 <ul>
-                    <li><a href="index.html">Trang chủ</a></li>
-                    <li class="active"><a href="register.html">Quên mật khẩu</a></li>
+                    <li><a href="{{ route('home') }}">Trang chủ</a></li>
+                    <li class="active">Quên mật khẩu</li>
                 </ul>
             </div>
         </div>
