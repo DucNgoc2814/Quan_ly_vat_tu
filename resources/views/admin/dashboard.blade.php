@@ -279,21 +279,8 @@
                         <!-- card123 -->
                         <div class="card card-height-100">
                             <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Store Visits by Source</h4>
+                                <h4 class="card-title mb-0 flex-grow-1">Tỉ lệ chuyển đổi</h4>
                                 <div class="flex-shrink-0">
-                                    <div class="dropdown card-header-dropdown">
-                                        <a class="text-reset dropdown-btn" href="#" data-bs-toggle="dropdown"
-                                            aria-haspopup="true" aria-expanded="false">
-                                            <span class="text-muted">Report<i
-                                                    class="mdi mdi-chevron-down ms-1"></i></span>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <a class="dropdown-item" href="#">Download
-                                                Report</a>
-                                            <a class="dropdown-item" href="#">Export</a>
-                                            <a class="dropdown-item" href="#">Import</a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div><!-- end card header -->
                             <div class="card-body">
@@ -1286,6 +1273,8 @@ var months = [
  var ordersPerMonthN = @json($ordersPerMonthN);
  var ordersPerMonthX = @json($ordersPerMonthX);
  var totalAmoutx = @json($totalAmoutx);
+ var statusValues = @json($statusValues);
+ console.log(statusValues)
 var reorderedMonths = months.slice(currentMonth).concat(months.slice(0, currentMonth));
         var options,
             chart,
@@ -1414,8 +1403,8 @@ var reorderedMonths = months.slice(currentMonth).concat(months.slice(0, currentM
             worldemapmarkers =
             (chartDonutBasicColors &&
                 ((options = {
-                        series: [44, 55, 41, 17, 15],
-                        labels: ['Direct', 'Social', 'Email', 'Other', 'Referrals'],
+                        series: statusValues,
+                        labels: ['Trong quá trình', 'Thành công', 'Hủy'],
                         chart: {
                             height: 333,
                             type: 'donut'

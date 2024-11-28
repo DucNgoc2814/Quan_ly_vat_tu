@@ -232,7 +232,15 @@ class ImportOrderController extends Controller
                 ->sum('total_amount');
             $totalAmoutx[] = $totalAmout/1000000;
         }
-        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx'));
+
+        $statusValues = [
+            Order::where('status_id', '!=', 4)
+                ->where('status_id', '!=', 5)
+                ->count(),
+            Order::where('status_id', 4)->count(),
+            Order::where('status_id', 5)->count(),
+        ];
+        return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues'));
     }
 
     public function checkOrderStatus($slug)
