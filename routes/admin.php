@@ -30,7 +30,6 @@ use App\Http\Controllers\LogController;
 use App\Exports\VariationsExport;
 use App\Http\Controllers\AttributeController;
 use Maatwebsite\Excel\Facades\Excel;
-
 Route::prefix('trang-quan-tri')
     ->as('employees.')
     ->group(function () {
