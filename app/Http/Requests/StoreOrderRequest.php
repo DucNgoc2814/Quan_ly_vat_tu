@@ -30,8 +30,8 @@ class StoreOrderRequest extends FormRequest
             'product_quantity' => 'required|array',
             'paid_amount' => 'nullable|numeric|min:0|lte:total_amount',
         ];
-        if ($this->is('order.store')) {
-            $rules['email'] = 'required|email|max:255';
+        if ($this->routeIs('order.store')) {
+            $rules['email'] = 'email|max:255';
             $rules['customer_id'] = 'required|exists:customers,id';
             $rules['payment_id'] = 'required|exists:payments,id';
             $rules['product_quantity.*'] = [

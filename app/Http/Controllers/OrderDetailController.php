@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Order_detail;
 use App\Http\Requests\StoreOrder_detailRequest;
 use App\Http\Requests\UpdateOrder_detailRequest;
+use App\Models\Payment;
+use App\Models\Payment_history;
 
 class OrderDetailController extends Controller
 {
@@ -18,7 +20,9 @@ class OrderDetailController extends Controller
         $data = Order_detail::whereHas('order', function ($query) use ($slug) {
             $query->where('slug', $slug);
         })->with(['order', 'variations'])->get();
-        return view(self::PATH_VIEW . __FUNCTION__, data: compact('data'));
+        $payments = Payment::pluck('name', 'id');
+        $paymentHistories = Payment_history::where('related_id', $data->first()->order_id)->where('transaction_type', 'sale')->get();
+        return view(self::PATH_VIEW . __FUNCTION__, data: compact('data', 'paymentHistories', 'payments'));
     }
 
     /**

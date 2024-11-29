@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use App\Events\ContractRejected;
 use App\Events\ContractSentToCustomer;
 use App\Models\Contract_status_time;
+use App\Models\Payment;
 use App\Models\Payment_history;
 
 class ContractController extends Controller
@@ -378,8 +379,9 @@ class ContractController extends Controller
         $contract = Contract::with('contractDetails')->findOrFail($id);
         $totalPaid = $contract->orders()->where('status_id', 4)->sum('total_amount'); // Giả sử status_id = 1 là thành công
         $percentagePaid = $totalPaid / $contract->total_amount * 100; // Tính tỷ lệ phần trăm
+        $payments = Payment::pluck('name', 'id');
         $paymentHistories = Payment_history::where('related_id', $id)->where('transaction_type', 'contract')->get();
-        return view('admin.components.contract.detail', compact('contract', 'totalPaid', 'paymentHistories'));
+        return view('admin.components.contract.detail', compact('contract', 'totalPaid', 'paymentHistories', 'payments'));
     }
 
     public function edit(Contract $contract_number)

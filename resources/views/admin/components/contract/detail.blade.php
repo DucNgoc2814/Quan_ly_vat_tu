@@ -141,6 +141,7 @@
                     <tr>
                         <th>Nội dung</th>
                         <th>Số tiền</th>
+                        <th>PTTT</th>
                         <th>Ngày chuyển</th>
                         <th>Chứng từ</th>
                         <th>Trạng thái</th>
@@ -151,6 +152,7 @@
                         <tr>
                             <td>{{ $payment->note }}</td>
                             <td>{{ number_format($payment->amount) }} VNĐ</td>
+                            <td>{{ $payment->payment->name }}</td>
                             <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
                             <td>
                                 @if ($payment->document)
@@ -158,10 +160,9 @@
                                         $extension = pathinfo($payment->document, PATHINFO_EXTENSION);
                                         $documentUrl = url('storage/' . $payment->document);
                                     @endphp
-                                    <button type="button" 
-                                            class="btn btn-sm btn-info" 
-                                            onclick="showDocument('{{ $documentUrl }}', '{{ $extension }}')"
-                                            title="Xem chứng từ">
+                                    <button type="button" class="btn btn-sm btn-info"
+                                        onclick="showDocument('{{ $documentUrl }}', '{{ $extension }}')"
+                                        title="Xem chứng từ">
                                         <i class="ri-file-text-line"></i> Xem chứng từ
                                     </button>
                                 @else
@@ -169,9 +170,9 @@
                                 @endif
                             </td>
                             <td>
-                                @if ($payment->role == 1)
+                                @if ($payment->status == 1)
                                     <span class="badge bg-success-subtle text-success">
-                                        Đã thanh toán
+                                        Đã xác nhận
                                     </span>
                                 @else
                                     <span class="badge bg-danger-subtle text-danger">
@@ -622,9 +623,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('payment.store', ['contract_id' => $contract->id]) }}"
+                <form method="POST"
+                    action="{{ route('payment.store', ['related_id' => $contract->id, 'transaction_type' => 'contract']) }}"
                     id="paymentForm" enctype="multipart/form-data">
                     @csrf
+
+                    <div class="mb-3">
+                        <label class="form-label" for="payment_id">Phương thức thanh toán</label>
+                        <select class="form-select" id="paymentId" name="payment_id">
+                            <option value="">Chọn Phương Thức Thanh Toán</option>
+                            @foreach ($payments as $id => $name)
+                                <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
+                                    {{ $name }}</option>
+                            @endforeach
+                        </select>
+                        <span class="invalid-feedback" id="paymentError" style="display: none;"></span>
+                    </div>
                     <div class="mb-3">
                         <label for="amount" class="form-label">Số tiền</label>
                         <input type="number" class="form-control" id="amount" name="amount" required>
@@ -666,7 +680,7 @@
             const amount = document.getElementById('amount').value.trim();
             const paymentDate = document.getElementById('payment_date').value.trim();
             const note = document.getElementById('note').value.trim();
-
+            const paymentId = document.getElementById('paymentId').value.trim();
             let isValid = true;
 
             // Reset error messages
@@ -693,6 +707,12 @@
                 isValid = false;
             }
 
+            if (paymentId == '') {
+                document.getElementById('paymentError').innerText = 'Vui lòng chọn phương thức thanh toán';
+                document.getElementById('paymentError').style.display = 'block';
+                isValid = false;
+            }
+
             if (isValid) {
                 document.getElementById('paymentForm').submit();
             }
@@ -700,87 +720,25 @@
     </script>
 @endpush
 
-<!-- Modal hiển thị ảnh chứng từ -->
-<div class="modal fade" id="documentModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Chứng từ thanh toán</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img id="documentImage" src="" alt="Chứng từ" style="max-width: 100%; height: auto;">
-                <iframe id="documentPdf" src="" style="width: 100%; height: 500px; display: none;"></iframe>
-            </div>
-        </div>
-    </div>
-</div>
-
 @push('scripts')
-<script>
-    function showDocument(url, fileType) {
-        console.log('Loading document:', {
-            url: url,
-            fileType: fileType
-        });
-        
-        const modal = new bootstrap.Modal(document.getElementById('documentModal'));
-        const imageElement = document.getElementById('documentImage');
-        const pdfElement = document.getElementById('documentPdf');
+    <script>
+        function showDocument(url, fileType) {
+            // Ngăn chặn sự kiện click lan tỏa
+            event.stopPropagation();
 
-        // Reset display
-        imageElement.style.display = 'none';
-        pdfElement.style.display = 'none';
-
-        // Kiểm tra loại file và hiển thị tương ứng
-        if (['jpg', 'jpeg', 'png'].includes(fileType.toLowerCase())) {
-            // Thêm event listener trước khi set src
-            imageElement.onload = function() {
-                console.log('Image loaded successfully');
-            };
-            
-            imageElement.onerror = function(e) {
-                console.error('Error loading image:', {
-                    src: this.src,
-                    error: e
-                });
-            };
-
-            imageElement.src = url;
-            imageElement.style.display = 'block';
-        } else if (fileType.toLowerCase() === 'pdf') {
-            pdfElement.src = url;
-            pdfElement.style.display = 'block';
+            // Nếu là file ảnh
+            Swal.fire({
+                imageUrl: url,
+                imageWidth: 500,
+                imageHeight: 'auto',
+                imageAlt: 'Chứng từ thanh toán',
+                showCloseButton: true,
+                showConfirmButton: false,
+                width: '40%',
+                customClass: {
+                    image: 'img-fluid'
+                }
+            });
         }
-
-        modal.show();
-    }
-</script>
+    </script>
 @endpush
-
-<style>
-    #documentImage {
-        transition: transform 0.3s ease;
-        cursor: zoom-in;
-        max-width: 100%;
-        height: auto;
-        display: block;
-        margin: 0 auto;
-    }
-
-    #documentImage.zoomed {
-        transform: scale(1.5);
-        cursor: zoom-out;
-    }
-
-    .modal-body {
-        overflow: auto;
-        max-height: 80vh;
-        padding: 20px;
-    }
-
-    #documentModal .modal-dialog {
-        max-width: 80%;
-        margin: 30px auto;
-    }
-</style>

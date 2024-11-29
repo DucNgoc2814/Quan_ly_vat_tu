@@ -300,10 +300,8 @@ Route::middleware('CheckEmployees')->group(
             ->as('payment.')
             ->group(function () {
                 Route::get('/danh-sach', [PaymentHistoryController::class, 'index'])->name('index');
-                Route::get('/them-moi', [PaymentHistoryController::class, 'create'])->name('create');
                 Route::post('/them-moi', [PaymentHistoryController::class, 'store'])->name('store');
-                Route::get('/sua/{id}', [PaymentHistoryController::class, 'edit'])->name('edit');
-                Route::put('/sua/{id}', [PaymentHistoryController::class, 'update'])->name('update');
+                Route::post('/xac-nhan/{id}', [PaymentHistoryController::class, 'confirm'])->name('confirm');
             });
         Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm')->middleware('permission:143');
         Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject')->middleware('permission:144');

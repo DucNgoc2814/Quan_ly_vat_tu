@@ -16,6 +16,7 @@ class PaymentHistorySeeder extends Seeder
         $paymentHistories = [
             [
                 'id' => 1,
+                'payment_id' => 1,
                 'transaction_type' => 'contract',
                 'related_id' => 1,
                 'note' => 'Tiền cọc hợp đồng 25%',

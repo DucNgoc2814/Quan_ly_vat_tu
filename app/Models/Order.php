@@ -82,4 +82,10 @@ class Order extends Model
     {
         return $this->hasOne(Trip_detail::class);
     }
+
+    public function paymentHistories()
+    {
+        return $this->hasMany(Payment_history::class, 'related_id')
+        ->where('transaction_type', Payment_history::TYPE_SALE);
+    }
 }

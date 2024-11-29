@@ -48,4 +48,10 @@ class Import_order extends Model
             LogService::addLog('Xóa', $model);
         });
     }
+
+    public function paymentHistories()
+    {
+        return $this->hasMany(Payment_history::class, 'related_id')
+        ->where('transaction_type', Payment_history::TYPE_PURCHASE);
+    }
 }
