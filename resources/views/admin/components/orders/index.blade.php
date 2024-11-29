@@ -46,7 +46,7 @@
                                 @foreach ($data as $order)
                                     <tr>
                                         <td>{{ $order->slug }}</td>
-                                        <td>{{ $order->customer->name }}</td>
+                                        <td>{{ $order->customer->name ?? 'Đơn hợp đồng'  }}</td>
                                         <td>{{ $order->customer_name }}</td>
                                         <td>{{ $order->number_phone }}</td>
                                         <td>{{ number_format($order->total_amount) }}</td>

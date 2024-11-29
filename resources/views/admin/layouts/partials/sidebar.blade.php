@@ -4,12 +4,10 @@
         <!-- Dark Logo-->
         <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}" alt=""
-                    height="180">
+                <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt="" height="180">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}" alt=""
-                    height="180">
+                <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt="" height="180">
             </span>
         </a>
         <!-- Light Logo-->
@@ -145,8 +143,8 @@
                                         data-key="t-horizontal">Danh mục sản phẩm</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('units.index') }}" class="nav-link "
-                                        data-key="t-horizontal">Đơn vị tính</a>
+                                    <a href="{{ route('units.index') }}" class="nav-link " data-key="t-horizontal">Đơn
+                                        vị tính</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ route('brand.index') }}" class="nav-link "
@@ -335,6 +333,30 @@
                         </a>
                     </li>
                 @endif
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebartk" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebartk">
+                        <i class="ri-treasure-map-fill"></i>
+                        <span data-key="t-layouts">Thống kê</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebartk">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+
+                                <a href="{{ route('payment.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Thu chi</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('CargoCars.index') }}" class="nav-link "
+                                    data-key="t-horizontal">Danh sách xe</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('cargo_car_types.index') }}" class="nav-link "
+                                    data-key="t-horizontal">Danh sách loại xe</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
         <!-- Sidebar -->

@@ -48,8 +48,8 @@
                             <p><strong>Số điện thoại:</strong> <span
                                     class="text-muted">{{ $contract->customer_phone }}</span></p>
                             <p><strong>Email:</strong> <span class="text-muted">{{ $contract->customer_email }}</span></p>
-                            <p><strong>Tổng giá trị:</strong> <span
-                                    class="text-muted">{{ number_format($contract->total_amount) }} VNĐ</span></p>
+                            <p><strong>Thanh toán:</strong> <span class="text-muted">{{ number_format($totalPaid) }}/
+                                    {{ number_format($contract->total_amount) }} VNĐ</span></p>
 
                         </div>
 
@@ -90,103 +90,100 @@
         <div class="card mt-4">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="my-3 d-flex justify-content-between align-items-center">
-                            <h5>Danh sách đơn hàng</h5>
-                            <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#createOrderModal">Tạo
-                                đơn hàng</button>
-                        </div>
-                        <table id=""
-                            class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14"
-                            style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Mã đơn hàng</th>
-                                    <th>Tổng số tiền</th>
-                                    <th>Trạng thái</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($contract->orders as $order)
-                                    <tr>
-                                        <td>{{ $order->slug }}</td>
-                                        <td>{{ number_format($order->total_amount) }}</td>
-                                        <td class="text-center">
-                                            @if ($order->status_id < 4)
-                                                <form action="{{ route('order.updateStatus', $order->slug) }}"
-                                                    method="POST" class="{{ $order->slug }} d-inline status-update-form"
-                                                    data-order-slug="{{ $order->slug }}">
-                                                    @csrf
-                                                    <select name="status" class="form-select form-select-sm "
-                                                        id="statusSelect-{{ $order->slug }}"
-                                                        onchange="confirmStatusChange(this, '{{ $order->slug }}')">
-                                                        <option class="optionCheck" value="{{ $order->status_id }}"
-                                                            selected>
-                                                            {{ $order->orderStatus->name }}</option>
-                                                        @if ($order->status_id == 1)
-                                                            <option class="optionCheck" value="2">Xác Nhận</option>
-
-                                                            <option class="optionCheck" value="5">Hủy</option>
-                                                        @elseif ($order->status_id == 2)
-                                                            <option class="optionCheck" value="3">Đang giao</option>
-                                                            <option class="optionCheck" value="5">Hủy</option>
-                                                        @elseif ($order->status_id == 3)
-                                                            <option class="optionCheck" value="4">Thành công</option>
-                                                        @endif
-                                                        <option class="optionDefaul" style="display: none" value="1">
-                                                            Chờ xử lý</option>
-                                                        <option class="optionDefaul" style="display: none" value="2">
-                                                            Xác Nhận</option>
-                                                        <option class="optionDefaul" style="display: none" value="3">
-                                                            Đang giao</option>
-                                                        <option class="optionDefaul" style="display: none" value="4">
-                                                            Thành công</option>
-                                                        <option class="optionDefaul" style="display: none" value="5">
-                                                            Hủy</option>
-                                                    </select>
-                                                </form>
-                                            @else
-                                                <span
-                                                    class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">
-                                                    {{ $order->orderStatus->name }}
-                                                </span>
-                                            @endif
-
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="my-3 d-flex justify-content-between align-items-center">
+                        <h5>Danh sách đơn hàng</h5>
+                        <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createOrderModal">Tạo
+                            đơn hàng</button>
                     </div>
-                    <div class="col-md-6">
-                        <div class="my-3 d-flex justify-content-between align-items-center">
-                            <h5>Lịch sử chuyển tiền</h5>
-                            <button class="btn btn-sm btn-success" onclick="createPaymentHistory({{ $contract->id }})">Tạo
-                                lịch sử chuyển tiền</button>
-                        </div>
-                        <table id=""
-                            class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14"
-                            style="width:100%">
-                            <thead>
+                    <table id="" class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14"
+                        style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn hàng</th>
+                                <th>Tổng số tiền</th>
+                                <th>Người nhận</th>
+                                <th>Số điện thoại</th>
+                                <th>Ngày đặt</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($contract->orders as $order)
                                 <tr>
-                                    <th>Nội dung</th>
-                                    <th>Tổng số tiền</th>
-                                    <th>Ngày chuyển</th>
+                                    <td><a href="{{ route('order.indexDetail', $order->slug) }}">{{ $order->slug }}</a>
+                                    </td>
+                                    <td>{{ number_format($order->total_amount) }}</td>
+                                    <td>{{ $order->customer_name }}</td>
+                                    <td>{{ $order->number_phone }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($order->created_at)->format('H:i:s d/m/Y') }}</td>
+                                    <td class="text-center">
+                                        <span
+                                            class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">
+                                            {{ $order->orderStatus->name }}
+                                        </span>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($contract->orders as $order)
-                                    <tr>
-                                        <td>{{ $order->order_number }}</td>
-                                        <td>{{ number_format($order->total_amount, 2) }} VNĐ</td>
-                                        <td>{{ number_format($order->total_amount, 2) }} VNĐ</td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
+        </div>
+        <div class="col-lg-12 mt-4 card">
+            <div class="my-3 d-flex justify-content-between align-items-center">
+                <h5>Lịch sử chuyển tiền</h5>
+                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
+                    Tạo lịch sử chuyển tiền
+                </button>
+            </div>
+            <table class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Nội dung</th>
+                        <th>Số tiền</th>
+                        <th>PTTT</th>
+                        <th>Ngày chuyển</th>
+                        <th>Chứng từ</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($paymentHistories as $payment)
+                        <tr>
+                            <td>{{ $payment->note }}</td>
+                            <td>{{ number_format($payment->amount) }} VNĐ</td>
+                            <td>{{ $payment->payment->name }}</td>
+                            <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
+                            <td>
+                                @if ($payment->document)
+                                    @php
+                                        $extension = pathinfo($payment->document, PATHINFO_EXTENSION);
+                                        $documentUrl = url('storage/' . $payment->document);
+                                    @endphp
+                                    <button type="button" class="btn btn-sm btn-info"
+                                        onclick="showDocument('{{ $documentUrl }}', '{{ $extension }}')"
+                                        title="Xem chứng từ">
+                                        <i class="ri-file-text-line"></i> Xem chứng từ
+                                    </button>
+                                @else
+                                    <span class="text-muted">Không có</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if ($payment->status == 1)
+                                    <span class="badge bg-success-subtle text-success">
+                                        Đã xác nhận
+                                    </span>
+                                @else
+                                    <span class="badge bg-danger-subtle text-danger">
+                                        Chờ xác nhận
+                                    </span>
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div><!--end col-->
     </div>
@@ -209,15 +206,6 @@
 
 
 
-@push('scripts')
-    <script>
-        function showPdf(contractId) {
-            const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
-            document.getElementById('pdfViewer').src = pdfUrl;
-            new bootstrap.Modal(document.getElementById('pdfModal')).show();
-        }
-    </script>
-@endpush
 
 
 
@@ -246,100 +234,6 @@
     </div>
 </div>
 
-@push('scripts')
-    <script>
-        let currentContractId;
-
-        function showPdf(contractId) {
-            currentContractId = contractId;
-            const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
-            document.getElementById('pdfViewer').src = pdfUrl;
-            new bootstrap.Modal(document.getElementById('pdfModal')).show();
-        }
-
-        document.getElementById('showStatusBtn').addEventListener('click', function() {
-            showStatusHistory(currentContractId);
-        });
-
-        function showStatusHistory(contractId) {
-            fetch(`/hop-dong/status-history/${contractId}`)
-                .then(response => response.json())
-                .then(data => {
-                    const tbody = document.getElementById('statusHistoryContent');
-                    tbody.innerHTML = '';
-                    data.forEach(item => {
-                        const row = `
-                            <tr>
-                                <td>${item.contract_status.name}</td>
-                                <td>${new Date(item.created_at).toLocaleString('vi-VN')}</td>
-                            </tr>
-                        `;
-                        tbody.innerHTML += row;
-                    });
-                    new bootstrap.Modal(document.getElementById('statusHistoryModal')).show();
-                });
-        }
-
-        function toggleQuantityInput(checkbox) {
-            const quantityInput = document.getElementById('quantity_' + checkbox.dataset.id);
-            if (checkbox.checked) {
-                quantityInput.style.display = 'block'; // Hiển thị ô nhập số lượng
-            } else {
-                quantityInput.style.display = 'none'; // Ẩn ô nhập số lượng
-                quantityInput.value = 0; // Đặt lại giá trị về 0
-            }
-        }
-
-        document.getElementById('submitOrder').addEventListener('click', function() {
-            const recipientName = document.getElementById('recipientName').value;
-            const recipientPhone = document.getElementById('recipientPhone').value;
-            const province = document.getElementById('province').value;
-
-            // Thu thập sản phẩm và số lượng
-            const products = [];
-            document.querySelectorAll('.product-checkbox:checked').forEach(checkbox => {
-                const quantity = document.getElementById('quantity_' + checkbox.dataset.id).value;
-                if (quantity > 0) {
-                    products.push({
-                        id: checkbox.dataset.id,
-                        quantity: quantity
-                    });
-                }
-            });
-
-            const orderData = {
-                recipient_name: recipientName,
-                recipient_phone: recipientPhone,
-                province: province,
-                products: products,
-                contract_id: {{ $contract->id }} // ID hợp đồng
-            };
-
-            // Gọi API để tạo đơn hàng
-            fetch('/api/orders', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Thêm CSRF token nếu cần
-                    },
-                    body: JSON.stringify(orderData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Đơn hàng đã được tạo thành công!');
-                        $('#createOrderModal').modal('hide');
-                    } else {
-                        alert('Có lỗi xảy ra: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
-    </script>
-@endpush
-
 <!-- Modal for Creating Order -->
 <div class="modal fade" id="createOrderModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
@@ -349,15 +243,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('order.storeContract') }}">
+                <form method="POST" action="{{ route('order.storeContract', ['contract_id' => $contract->id]) }}">
                     @csrf
                     <div class="mb-3">
                         <label for="recipientName" class="form-label">Tên người nhận</label>
                         <input type="text" class="form-control" id="recipientName" name="customer_name">
+                        <span class="invalid-feedback" id="recipientNameError" style="display: none;"></span>
                     </div>
                     <div class="mb-3">
                         <label for="recipientPhone" class="form-label">Số điện thoại người nhận</label>
                         <input type="text" class="form-control" id="recipientPhone" name="number_phone">
+                        <span class="invalid-feedback" id="recipientPhoneError" style="display: none;"></span>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="">Địa chỉ người nhận</label>
@@ -404,11 +300,8 @@
                         <input type="text" class="form-control @error('address') is-invalid @enderror"
                             id="address" value="{{ old('address') }}" placeholder="NHập địa chỉ cụ thể"
                             name="address">
-                        @error('address')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
+                        <span class="invalid-feedback" id="addressError" style="display: none;"></span>
+
                     </div>
                     <div class="mb-3">
                         <label for="productSelect" class="form-label">Chọn sản phẩm</label>
@@ -416,10 +309,11 @@
                             <thead>
                                 <tr>
                                     <th>Chọn</th>
-                                    <th>Mã biến thể</th>
-                                    <th>Tên biến thể</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
                                     <th>Số lượng đã đặt</th>
-                                    <th>Số lượng</th>
+                                    <th>Số lượng cần thêm</th>
+                                    <th>Số lượng cần mua</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -432,10 +326,14 @@
                                         <td>{{ $item->variation->sku }}</td>
                                         <td>{{ $item->variation->name }}</td>
                                         <td>{{ $item->quantity }}</td>
+                                        <td>{{ $item->remaining_quantity }}</td>
                                         <td>
+                                            <input type="hidden" name="variation_id[]"
+                                                value="{{ $item->variation_id }}">
                                             <input type="number" class="form-control quantity-input"
-                                                id="quantity_{{ $item->id }}" min="0" value="0"
-                                                style="display: none;" name="product_quantity[]">
+                                                id="quantity_{{ $item->id }}" min="0"
+                                                style="width: 100px; height: 30px; display: none;"
+                                                name="product_quantity[]">
                                             @error('product_quantity')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -449,7 +347,7 @@
                     </div>
                     <div class="modal-footer">
                         <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</a>
-                        <button type="submit" class="btn btn-primary">Tạo đơn hàng</button>
+                        <button type="submit" class="btn btn-primary" id="submitOrder">Tạo đơn hàng</button>
                     </div>
                 </form>
             </div>
@@ -578,3 +476,269 @@
     // Call loadProvinces when page loads
     document.addEventListener('DOMContentLoaded', loadProvinces);
 </script>
+
+
+@push('scripts')
+    <script>
+        function showPdf(contractId) {
+            const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
+            document.getElementById('pdfViewer').src = pdfUrl;
+            new bootstrap.Modal(document.getElementById('pdfModal')).show();
+        }
+    </script>
+@endpush
+
+@push('scripts')
+    <script>
+        let currentContractId;
+
+        function showPdf(contractId) {
+            currentContractId = contractId;
+            const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
+            document.getElementById('pdfViewer').src = pdfUrl;
+            new bootstrap.Modal(document.getElementById('pdfModal')).show();
+        }
+
+        document.getElementById('showStatusBtn').addEventListener('click', function() {
+            showStatusHistory(currentContractId);
+        });
+
+        function showStatusHistory(contractId) {
+            fetch(`/hop-dong/status-history/${contractId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('statusHistoryContent');
+                    tbody.innerHTML = '';
+                    data.forEach(item => {
+                        const row = `
+                            <tr>
+                                <td>${item.contract_status.name}</td>
+                                <td>${new Date(item.created_at).toLocaleString('vi-VN')}</td>
+                            </tr>
+                        `;
+                        tbody.innerHTML += row;
+                    });
+                    new bootstrap.Modal(document.getElementById('statusHistoryModal')).show();
+                });
+        }
+
+        function toggleQuantityInput(checkbox) {
+            const quantityInput = document.getElementById('quantity_' + checkbox.dataset.id);
+            if (checkbox.checked) {
+                quantityInput.style.display = 'block'; // Hiển thị ô nhập số lượng
+            } else {
+                quantityInput.style.display = 'none'; // Ẩn ô nhập số lượng
+                quantityInput.value = 0; // Đặt lại giá trị về 0
+            }
+        }
+
+        document.getElementById('submitOrder').addEventListener('click', function(event) {
+            event.preventDefault(); // Ngăn chặn gửi form ngay lập tức
+
+            // Lấy giá trị từ các trường input
+            const recipientName = document.getElementById('recipientName').value.trim();
+            const recipientPhone = document.getElementById('recipientPhone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const province = document.getElementById('provinces').value;
+            const district = document.getElementById('districts').value;
+            const ward = document.getElementById('wards').value;
+            const phoneRegex = /^(0[0-9]{9,10})$/;
+
+            let isValid = true;
+
+            // Reset tất cả thông báo lỗi
+            const errorElements = document.querySelectorAll('.invalid-feedback');
+            errorElements.forEach(element => {
+                element.style.display = 'none';
+            });
+
+            // Validate tên người nhận
+            if (!recipientName) {
+                document.getElementById('recipientNameError').innerText = 'Vui lòng nhập tên người nhận.';
+                document.getElementById('recipientNameError').style.display = 'block';
+                document.getElementById('recipientName').classList.add('is-invalid');
+                isValid = false;
+            }
+
+            // Validate số điện thoại
+            if (!recipientPhone || !phoneRegex.test(recipientPhone)) {
+                document.getElementById('recipientPhoneError').innerText = 'Số điện thoại không hợp lệ.';
+                document.getElementById('recipientPhoneError').style.display = 'block';
+                document.getElementById('recipientPhone').classList.add('is-invalid');
+                isValid = false;
+            }
+
+            // Validate địa chỉ
+            if (!address) {
+                document.getElementById('addressError').innerText = 'Vui lòng nhập địa chỉ.';
+                document.getElementById('addressError').style.display = 'block';
+                document.getElementById('address').classList.add('is-invalid');
+                isValid = false;
+            }
+
+            // Validate sản phẩm
+            const productQuantities = document.querySelectorAll('.quantity-input');
+            let hasSelectedProduct = false;
+            let hasInvalidQuantity = false;
+
+            productQuantities.forEach(input => {
+                if (input.style.display === 'block') {
+                    hasSelectedProduct = true;
+                    if (input.value <= 0) {
+                        hasInvalidQuantity = true;
+                    }
+                }
+            });
+
+            if (!hasSelectedProduct) {
+                // Tạo một thông báo lỗi mới cho sản phẩm
+                const productError = document.createElement('div');
+                productError.className = 'alert alert-danger mt-2';
+                productError.innerText = 'Vui lòng chọn ít nhất một sản phẩm.';
+                document.querySelector('.table').parentNode.appendChild(productError);
+                isValid = false;
+            } else if (hasInvalidQuantity) {
+                // Tạo một thông báo lỗi mới cho số lượng
+                const quantityError = document.createElement('div');
+                quantityError.className = 'alert alert-danger mt-2';
+                quantityError.innerText = 'Vui lòng nhập số lượng hợp lệ cho sản phẩm đã chọn.';
+                document.querySelector('.table').parentNode.appendChild(quantityError);
+                isValid = false;
+            }
+
+            // Nếu tất cả các trường hợp đều hợp lệ, gửi form
+            if (isValid) {
+                document.querySelector('form').submit();
+            }
+        });
+    </script>
+@endpush
+
+<!-- Modal for Creating Payment History -->
+<div class="modal fade" id="createPaymentModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tạo lịch sử chuyển tiền</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST"
+                    action="{{ route('payment.store', ['related_id' => $contract->id, 'transaction_type' => 'contract']) }}"
+                    id="paymentForm" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="mb-3">
+                        <label class="form-label" for="payment_id">Phương thức thanh toán</label>
+                        <select class="form-select" id="paymentId" name="payment_id">
+                            <option value="">Chọn Phương Thức Thanh Toán</option>
+                            @foreach ($payments as $id => $name)
+                                <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
+                                    {{ $name }}</option>
+                            @endforeach
+                        </select>
+                        <span class="invalid-feedback" id="paymentError" style="display: none;"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="amount" class="form-label">Số tiền</label>
+                        <input type="number" class="form-control" id="amount" name="amount" required>
+                        <span class="invalid-feedback" id="amountError" style="display: none;"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="payment_date" class="form-label">Ngày chuyển</label>
+                        <input type="date" class="form-control" id="payment_date" name="payment_date" required>
+                        <span class="invalid-feedback" id="dateError" style="display: none;"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="note" class="form-label">Nội dung</label>
+                        <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
+                        <span class="invalid-feedback" id="noteError" style="display: none;"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label for="document" class="form-label">Chứng từ</label>
+                        <input type="file" class="form-control" id="document" name="document"
+                            accept=".pdf,.jpg,.jpeg,.png">
+                        <span class="invalid-feedback" id="documentError" style="display: none;"></span>
+                        <small class="text-muted">Chấp nhận file: PDF, JPG, JPEG, PNG</small>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        <button type="submit" class="btn btn-primary" id="submitPayment">Lưu</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@push('scripts')
+    <script>
+        document.getElementById('submitPayment').addEventListener('click', function(event) {
+            event.preventDefault();
+
+            // Lấy giá trị từ form
+            const amount = document.getElementById('amount').value.trim();
+            const paymentDate = document.getElementById('payment_date').value.trim();
+            const note = document.getElementById('note').value.trim();
+            const paymentId = document.getElementById('paymentId').value.trim();
+            let isValid = true;
+
+            // Reset error messages
+            document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
+
+            // Validate amount
+            if (!amount || amount <= 0) {
+                document.getElementById('amountError').innerText = 'Vui lòng nhập số tiền hợp lệ';
+                document.getElementById('amountError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate date
+            if (!paymentDate) {
+                document.getElementById('dateError').innerText = 'Vui lòng chọn ngày chuyển tiền';
+                document.getElementById('dateError').style.display = 'block';
+                isValid = false;
+            }
+
+            // Validate note
+            if (!note) {
+                document.getElementById('noteError').innerText = 'Vui lòng nhập nội dung chuyển tiền';
+                document.getElementById('noteError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (paymentId == '') {
+                document.getElementById('paymentError').innerText = 'Vui lòng chọn phương thức thanh toán';
+                document.getElementById('paymentError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (isValid) {
+                document.getElementById('paymentForm').submit();
+            }
+        });
+    </script>
+@endpush
+
+@push('scripts')
+    <script>
+        function showDocument(url, fileType) {
+            // Ngăn chặn sự kiện click lan tỏa
+            event.stopPropagation();
+
+            // Nếu là file ảnh
+            Swal.fire({
+                imageUrl: url,
+                imageWidth: 500,
+                imageHeight: 'auto',
+                imageAlt: 'Chứng từ thanh toán',
+                showCloseButton: true,
+                showConfirmButton: false,
+                width: '40%',
+                customClass: {
+                    image: 'img-fluid'
+                }
+            });
+        }
+    </script>
+@endpush

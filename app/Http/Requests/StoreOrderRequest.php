@@ -21,18 +21,20 @@ class StoreOrderRequest extends FormRequest
      */
     public function rules(): array
     {
-        dd($this->all());
-        return [
-            'customer_id' => 'required|exists:customers,id',
+        $rules =  [
             'customer_name' => 'required|string|max:255',
             'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers,number_phone,' . $this->customer_id,
-            'email' => 'required|email|max:255',
             'address' => 'required|string|max:255',
-            'payment_id' => 'required|exists:payments,id',
             'variation_id' => 'required|array',
             'variation_id.*' => 'exists:variations,id',
             'product_quantity' => 'required|array',
-            'product_quantity.*' => [
+            'paid_amount' => 'nullable|numeric|min:0|lte:total_amount',
+        ];
+        if ($this->routeIs('order.store')) {
+            $rules['email'] = 'email|max:255';
+            $rules['customer_id'] = 'required|exists:customers,id';
+            $rules['payment_id'] = 'required|exists:payments,id';
+            $rules['product_quantity.*'] = [
                 'required',
                 'integer',
                 'min:1',
@@ -47,9 +49,11 @@ class StoreOrderRequest extends FormRequest
                         $fail("Số lượng sản phẩm không được lớn hơn số lượng có trong kho ({$variation->stock}).");
                     }
                 },
-            ],
-            'paid_amount' => 'nullable|numeric|min:0|lte:total_amount',
-        ];
+            ];
+        } else {
+            $rules['contract_id'] = 'required|exists:contracts,id';
+        }
+        return $rules;
     }
     public function messages()
     {

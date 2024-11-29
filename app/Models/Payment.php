@@ -24,6 +24,12 @@ class Payment extends Model
     {
         return $this->hasMany(Import_order::class);
     }
+
+    public function paymentHistories()
+    {
+        return $this->hasMany(Payment_history::class);
+    }
+
     protected static function booted()
     {
         static::created(function ($model) {

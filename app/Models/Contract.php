@@ -36,7 +36,8 @@ class Contract extends Model
     }
     public function paymentHistories()
     {
-        return $this->hasMany(Payment_history::class);
+        return $this->hasMany(Payment_history::class, 'related_id')
+        ->where('transaction_type', Payment_history::TYPE_CONTRACT);
     }
     public function employee()
     {
@@ -60,4 +61,5 @@ class Contract extends Model
     {
         return $this->hasMany(ContractDetail::class);
     }
+
 }
