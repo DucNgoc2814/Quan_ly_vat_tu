@@ -42,6 +42,7 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
         '320163ac6b93aebe3dc25b60a0533d56' => __DIR__ . '/..' . '/spatie/laravel-ignition/src/helpers.php',
+        '101b35f72e0ccb1b5ef72aa86bba3ef9' => __DIR__ . '/..' . '/yoeunes/toastr/src/helpers.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -56,6 +57,10 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'Z' => 
         array (
             'ZipStream\\' => 10,
+        ),
+        'Y' => 
+        array (
+            'Yoeunes\\Toastr\\' => 15,
         ),
         'W' => 
         array (
@@ -229,6 +234,10 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'ZipStream\\' => 
         array (
             0 => __DIR__ . '/..' . '/maennchen/zipstream-php/src',
+        ),
+        'Yoeunes\\Toastr\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/yoeunes/toastr/src',
         ),
         'Whoops\\' => 
         array (
@@ -693,6 +702,8 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
     public static $classMap = array (
         'App\\Console\\Commands\\CreateLogExcel' => __DIR__ . '/../..' . '/app/Console/Commands/CreateLogExcel.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
+        'App\\Events\\ContractSentToCustomer' => __DIR__ . '/../..' . '/app/Events/ContractSentToCustomer.php',
+        'App\\Events\\NewMessage' => __DIR__ . '/../..' . '/app/Events/NewMessage.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Exports\\ActivityLogExport' => __DIR__ . '/../..' . '/app/Exports/ActivityLogExport.php',
         'App\\Exports\\VariationsExport' => __DIR__ . '/../..' . '/app/Exports/VariationsExport.php',
@@ -724,6 +735,7 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'App\\Http\\Controllers\\LocationController' => __DIR__ . '/../..' . '/app/Http/Controllers/LocationController.php',
         'App\\Http\\Controllers\\LogController' => __DIR__ . '/../..' . '/app/Http/Controllers/LogController.php',
         'App\\Http\\Controllers\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/LoginController.php',
+        'App\\Http\\Controllers\\MessageController' => __DIR__ . '/../..' . '/app/Http/Controllers/MessageController.php',
         'App\\Http\\Controllers\\NewOrderRequestController' => __DIR__ . '/../..' . '/app/Http/Controllers/NewOrderRequestController.php',
         'App\\Http\\Controllers\\OrderCanceledController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrderCanceledController.php',
         'App\\Http\\Controllers\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrderController.php',
@@ -750,6 +762,7 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'App\\Http\\Middleware\\CheckCustomer' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckCustomer.php',
         'App\\Http\\Middleware\\CheckEmployees' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckEmployees.php',
         'App\\Http\\Middleware\\CheckPermission' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckPermission.php',
+        'App\\Http\\Middleware\\CheckUserOwnership' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckUserOwnership.php',
         'App\\Http\\Middleware\\EncryptCookies' => __DIR__ . '/../..' . '/app/Http/Middleware/EncryptCookies.php',
         'App\\Http\\Middleware\\PreventRequestsDuringMaintenance' => __DIR__ . '/../..' . '/app/Http/Middleware/PreventRequestsDuringMaintenance.php',
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
@@ -850,6 +863,7 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'App\\Models\\Contract' => __DIR__ . '/../..' . '/app/Models/Contract.php',
         'App\\Models\\ContractDetail' => __DIR__ . '/../..' . '/app/Models/ContractDetail.php',
         'App\\Models\\Contract_status' => __DIR__ . '/../..' . '/app/Models/Contract_status.php',
+        'App\\Models\\Contract_status_time' => __DIR__ . '/../..' . '/app/Models/Contract_status_time.php',
         'App\\Models\\Contract_type' => __DIR__ . '/../..' . '/app/Models/Contract_type.php',
         'App\\Models\\Customer' => __DIR__ . '/../..' . '/app/Models/Customer.php',
         'App\\Models\\Customer_rank' => __DIR__ . '/../..' . '/app/Models/Customer_rank.php',
@@ -863,6 +877,7 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'App\\Models\\Inventory' => __DIR__ . '/../..' . '/app/Models/Inventory.php',
         'App\\Models\\InventoryDetail' => __DIR__ . '/../..' . '/app/Models/InventoryDetail.php',
         'App\\Models\\Location' => __DIR__ . '/../..' . '/app/Models/Location.php',
+        'App\\Models\\Message' => __DIR__ . '/../..' . '/app/Models/Message.php',
         'App\\Models\\NewOrderRequest' => __DIR__ . '/../..' . '/app/Models/NewOrderRequest.php',
         'App\\Models\\Order' => __DIR__ . '/../..' . '/app/Models/Order.php',
         'App\\Models\\OrderStatusTime' => __DIR__ . '/../..' . '/app/Models/OrderStatusTime.php',
@@ -5851,8 +5866,6 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'PHPUnit\\Util\\Filesystem' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Filesystem.php',
         'PHPUnit\\Util\\Filter' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Filter.php',
         'PHPUnit\\Util\\GlobalState' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/GlobalState.php',
-        'PHPUnit\\Util\\Http\\Downloader' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Http/Downloader.php',
-        'PHPUnit\\Util\\Http\\PhpDownloader' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Http/PhpDownloader.php',
         'PHPUnit\\Util\\InvalidDirectoryException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Exception/InvalidDirectoryException.php',
         'PHPUnit\\Util\\InvalidJsonException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Exception/InvalidJsonException.php',
         'PHPUnit\\Util\\InvalidVersionOperatorException' => __DIR__ . '/..' . '/phpunit/phpunit/src/Util/Exception/InvalidVersionOperatorException.php',
@@ -6798,14 +6811,12 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'PhpParser\\JsonDecoder' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/JsonDecoder.php',
         'PhpParser\\Lexer' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer.php',
         'PhpParser\\Lexer\\Emulative' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/Emulative.php',
-        'PhpParser\\Lexer\\TokenEmulator\\AsymmetricVisibilityTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/AsymmetricVisibilityTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\AttributeEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/AttributeEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\EnumTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/EnumTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ExplicitOctalEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ExplicitOctalEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\KeywordEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/KeywordEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\MatchTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/MatchTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\NullsafeTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/NullsafeTokenEmulator.php',
-        'PhpParser\\Lexer\\TokenEmulator\\PropertyTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/PropertyTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReadonlyFunctionTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReadonlyFunctionTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReadonlyTokenEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReadonlyTokenEmulator.php',
         'PhpParser\\Lexer\\TokenEmulator\\ReverseEmulator' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Lexer/TokenEmulator/ReverseEmulator.php',
@@ -6939,7 +6950,6 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'PhpParser\\Node\\Name\\Relative' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Name/Relative.php',
         'PhpParser\\Node\\NullableType' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/NullableType.php',
         'PhpParser\\Node\\Param' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Param.php',
-        'PhpParser\\Node\\PropertyHook' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/PropertyHook.php',
         'PhpParser\\Node\\PropertyItem' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/PropertyItem.php',
         'PhpParser\\Node\\Scalar' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar.php',
         'PhpParser\\Node\\Scalar\\Float_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/Float_.php',
@@ -6953,7 +6963,6 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'PhpParser\\Node\\Scalar\\MagicConst\\Line' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Line.php',
         'PhpParser\\Node\\Scalar\\MagicConst\\Method' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Method.php',
         'PhpParser\\Node\\Scalar\\MagicConst\\Namespace_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Namespace_.php',
-        'PhpParser\\Node\\Scalar\\MagicConst\\Property' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Property.php',
         'PhpParser\\Node\\Scalar\\MagicConst\\Trait_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/MagicConst/Trait_.php',
         'PhpParser\\Node\\Scalar\\String_' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/Scalar/String_.php',
         'PhpParser\\Node\\StaticVar' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Node/StaticVar.php',
@@ -9018,6 +9027,12 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'Whoops\\Util\\Misc' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/Misc.php',
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
+        'Yoeunes\\Toastr\\Facades\\Toastr' => __DIR__ . '/..' . '/yoeunes/toastr/src/Facades/Toastr.php',
+        'Yoeunes\\Toastr\\Toastr' => __DIR__ . '/..' . '/yoeunes/toastr/src/Toastr.php',
+        'Yoeunes\\Toastr\\ToastrBuilder' => __DIR__ . '/..' . '/yoeunes/toastr/src/ToastrBuilder.php',
+        'Yoeunes\\Toastr\\ToastrFactory' => __DIR__ . '/..' . '/yoeunes/toastr/src/ToastrFactory.php',
+        'Yoeunes\\Toastr\\ToastrPlugin' => __DIR__ . '/..' . '/yoeunes/toastr/src/ToastrPlugin.php',
+        'Yoeunes\\Toastr\\ToastrServiceProvider' => __DIR__ . '/..' . '/yoeunes/toastr/src/ToastrServiceProvider.php',
         'ZipStream\\CentralDirectoryFileHeader' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/CentralDirectoryFileHeader.php',
         'ZipStream\\CompressionMethod' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/CompressionMethod.php',
         'ZipStream\\DataDescriptor' => __DIR__ . '/..' . '/maennchen/zipstream-php/src/DataDescriptor.php',
