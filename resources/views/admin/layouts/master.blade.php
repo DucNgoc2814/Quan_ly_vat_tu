@@ -418,8 +418,6 @@
         });
         window.Echo.channel('contract-notifications')
             .listen('ContractSentToCustomer', (e) => {
-                console.log('Received event:', e);
-                console.log('Contract data:', e.contract);
                 Swal.fire({
                     title: 'Thông báo mới',
                     text: 'Hợp đồng đã được gửi cho khách hàng',
@@ -427,12 +425,15 @@
                 });
             });
     </script>
-<script>
-    @auth
+    <script>
+        @auth
         const userRoleId = {{ auth()->user()->role_id }};
+        console.log('Current user role:', userRoleId);
+
         window.Echo.channel('contract-created')
             .listen('NewContractCreated', (e) => {
-                if(userRoleId === 1) {
+                console.log('Event received:', e);
+                if (userRoleId === 1) {
                     Swal.fire({
                         title: 'Thông báo mới',
                         text: `Hợp đồng: ${e.contract.contract_number} đã được tạo`,
@@ -440,8 +441,8 @@
                     });
                 }
             });
-    @endauth
-</script>
+        @endauth
+    </script>
 
 
 

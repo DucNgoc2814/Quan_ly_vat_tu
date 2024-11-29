@@ -55,7 +55,6 @@ class ContractController extends Controller
     {
         try {
             $contractNumber = 'HDB' . str_pad(random_int(0, 99999), 5, '0', STR_PAD_LEFT);
-            // 1. Tạo hợp đồng mới với trạng thái mặc định là 1 (đang chờ)
             $contract = Contract::create([
                 'contract_status_id' => 1,
                 'employee_id' => '1',
@@ -73,7 +72,6 @@ class ContractController extends Controller
                 'contract_status_id' => 1
             ]);
 
-            // 2. Lưu chi tiết các sản phẩm trong hợp đồng
             $variations = $request->variation_id ?? [];
             $quantities = $request->quantity ?? [];
 
@@ -91,7 +89,6 @@ class ContractController extends Controller
                 }
             }
 
-            // 3. Tạo file Word từ thông tin hợp đồng và chi tiết hợp đồng
             $files = $this->exportContractToWord($contract, $request);
             $contract->update([
                 'file' => $files['docx'],
@@ -99,7 +96,11 @@ class ContractController extends Controller
             ]);
 
 
+            // broadcast(new NewContractCreated($contract));
+
             event(new NewContractCreated($contract));
+            // broadcast(new NewContractCreated($contract))->toOthers();
+            // Log::info('lllllllllllllllllllll', ['contract' => $contract]);
             return redirect()
                 ->route('contract.index')
                 ->with('success', 'Tạo hợp đồng thành công!');
@@ -113,14 +114,10 @@ class ContractController extends Controller
     {
         $templatePath = storage_path('app/public/templates/hop-dong.docx');
         $templateProcessor = new TemplateProcessor($templatePath);
-
-        // Replace basic information
         $templateProcessor->setValue('contract_number', $contract->contract_number);
         $templateProcessor->setValue('customer_name', $contract->customer_name);
         $templateProcessor->setValue('customer_phone', $contract->customer_phone);
         $templateProcessor->setValue('customer_email', $contract->customer_email);
-
-        // Prepare table data
         $variations = $request->variation_id ?? [];
         $quantities = $request->quantity ?? [];
         $prices = $request->price ?? [];
@@ -146,10 +143,7 @@ class ContractController extends Controller
             }
         }
 
-        // Add data to table
         $templateProcessor->cloneRowAndSetValues('stt', $tableData);
-
-        // Add total amount and time
         $templateProcessor->setValue('total_amount', number_format($totalAmount) . ' VNĐ');
         $templateProcessor->setValue('timestart', date('d/m/Y', strtotime($contract->timestart)));
         $templateProcessor->setValue('timeend', date('d/m/Y', strtotime($contract->timeend)));
@@ -158,8 +152,6 @@ class ContractController extends Controller
         $docxFileName = 'Hopdong_' . $contract->id . '.docx';
         $docxFilePath = storage_path('app/public/contracts/' . $docxFileName);
         $templateProcessor->saveAs($docxFilePath);
-
-        // Configure DomPDF with Vietnamese font support
         $domPdfPath = base_path('vendor/dompdf/dompdf');
         Settings::setPdfRendererPath($domPdfPath);
         Settings::setPdfRendererName('DomPDF');
@@ -172,14 +164,12 @@ class ContractController extends Controller
 
         $dompdf = new Dompdf($options);
 
-        // Thêm style để sử dụng font DejaVu Sans
         $html = '<style>
             body { font-family: "DejaVu Sans", sans-serif; }
             * { font-family: "DejaVu Sans", sans-serif !important; }
         </style>';
         $html .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
 
-        // Load file docx và chuyển sang HTML
         $phpWord = IOFactory::load($docxFilePath);
         $htmlWriter = new HTML($phpWord);
         $html .= $htmlWriter->getContent();

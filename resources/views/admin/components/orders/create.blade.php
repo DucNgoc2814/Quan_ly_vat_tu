@@ -217,7 +217,7 @@
                                             <option value="0">Chọn Sản Phẩm</option>
                                             @foreach ($variation as $variant)
                                                 <option value="{{ $variant->id }}"
-                                                    data-price="{{ $variant->price_export }}"
+                                                    data-price="{{ $variant->retail_price }}"
                                                     data-stock="{{ $variant->stock }}">
                                                     {{ $variant->name }}</option>
                                             @endforeach
@@ -316,7 +316,6 @@
 @endsection
 @section('scripts')
     <script>
-        // Hàm để thêm sản phẩm mới
         function addProduct() {
             let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
             let html = `
@@ -327,7 +326,7 @@
             <select class="form-select" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
                 <option value="0">Chọn Sản Phẩm</option>
                 @foreach ($variation as $variant)
-                    <option value="{{ $variant->id }}" data-price="{{ $variant->price_export }}" data-stock="{{ $variant->stock }}">
+                    <option value="{{ $variant->id }}" data-price="{{ $variant->retail_price }}" data-stock="{{ $variant->stock }}">
                         {{ $variant->name }}
                     </option>
                 @endforeach

@@ -10,33 +10,22 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewContractCreated
+class NewContractCreated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $contract;
-    /**
-     * Create a new event instance.
-     */
     public function __construct($contract)
     {
         $this->contract = $contract;
     }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
-     */
-    public function broadcastOn(): array
+    public function broadcastOn(): Channel
     {
-        return [
-            new Channel('contract-created'),
-        ];
+        return  new Channel('contract-created');
     }
-    public function broadcastWith()
-    {
-        return [
-            'contract' => $this->contract
-        ];
-    }
+    // public function broadcastWith()
+    // {
+    //     return [
+    //         'contract' => $this->contract
+    //     ];
+    // }
 }

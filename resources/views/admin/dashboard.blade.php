@@ -327,31 +327,34 @@
                                                         class="fw-medium link-primary">{{ $stt += 1 }}</a>
                                                 </td>
                                                 <td>
-                                                    <span class="text-success">{{ $latestOrder->slug   }}</span>
+                                                    <span class="text-success">{{ $latestOrder->slug }}</span>
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
                                                         <div class="flex-shrink-0 me-2">
-                                                           <img src="{{ asset('themes/admin/assets/images/users/' . $latestOrder->image) }}" alt="" class="avatar-xs rounded-circle" />
+                                                            <img src="{{ asset('themes/admin/assets/images/users/' . $latestOrder->image) }}"
+                                                                alt="" class="avatar-xs rounded-circle" />
                                                         </div>
-                                                        <div class="flex-grow-1">{{ $latestOrder->customer_name   }}</div>
+                                                        <div class="flex-grow-1">{{ $latestOrder->customer_name }}</div>
                                                     </div>
                                                 </td>
-                                                <td>{{ $latestOrder->number_phone   }}</td>
+                                                <td>{{ $latestOrder->number_phone }}</td>
 
-                                                <td>{{ $latestOrder->total_amount   }}</td>
-                                                <td>{{ $latestOrder->paid_amount   }}</td>
+                                                <td>{{ $latestOrder->total_amount }}</td>
+                                                <td>{{ $latestOrder->paid_amount }}</td>
                                                 <td>
                                                     @if ($latestOrder->status_id == 1)
-                                                    <span class="badge bg-warning-subtle text-warning">Chờ xử lý</span>
+                                                        <span class="badge bg-warning-subtle text-warning">Chờ xử lý</span>
                                                     @elseif ($latestOrder->status_id == 2)
-                                                    <span class="badge bg-primary-subtle text-primary">Đã xác nhận</span>
+                                                        <span class="badge bg-primary-subtle text-primary">Đã xác
+                                                            nhận</span>
                                                     @elseif ($latestOrder->status_id == 3)
-                                                    <span class="badge bg-info-subtle text-info">Đang giao</span>
+                                                        <span class="badge bg-info-subtle text-info">Đang giao</span>
                                                     @elseif ($latestOrder->status_id == 4)
-                                                    <span class="badge bg-success-subtle text-success">Thành công</span>
-                                                    @elseif ($latestOrder->status_id ==5)
-                                                    <span class="badge bg-danger-subtle text-danger">Đã hủy</span>
+                                                        <span class="badge bg-success-subtle text-success">Thành
+                                                            công</span>
+                                                    @elseif ($latestOrder->status_id == 5)
+                                                        <span class="badge bg-danger-subtle text-danger">Đã hủy</span>
                                                     @endif
                                                 </td>
                                             </tr><!-- end tr -->
@@ -380,32 +383,36 @@
                                             <th>Trong kho</th>
                                         </tr>
                                         <tbody>
-                                        @foreach ($productsWithTotalQuantity as $value)
-                                            <tr>
-                                                 <td>
-                                                    <h5 class="fs-14 my-1 fw-normal">{{ $value->variation_sku }}</h5>
-                                                </td>
-                                                <td>
-                                                    <div class="d-flex align-items-center">
-                                                        <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                 <img src="{{ asset('themes/admin/assets/images/products/' . $value->image) }}">
+                                            @foreach ($productsWithTotalQuantity as $value)
+                                                <tr>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1 fw-normal">{{ $value->variation_sku }}</h5>
+                                                    </td>
+                                                    <td>
+                                                        <div class="d-flex align-items-center">
+                                                            <div class="avatar-sm bg-light rounded p-1 me-2">
+                                                                <img
+                                                                    src="{{ asset('themes/admin/assets/images/products/' . $value->image) }}">
+                                                            </div>
+                                                            <div>
+                                                                <h5 class="fs-14 my-1"><a
+                                                                        href="apps-ecommerce-product-details.html"
+                                                                        class="text-reset">{{ $value->product_name }}</a>
+                                                                </h5>
+                                                                <span
+                                                                    class="text-muted">{{ $value->variation_name }}</span>
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                            <h5 class="fs-14 my-1"><a
-                                                                    href="apps-ecommerce-product-details.html"
-                                                                    class="text-reset">{{ $value->product_name  }}</a></h5>
-                                                            <span class="text-muted">{{ $value->variation_name  }}</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <h5 class="fs-14 my-1 fw-normal">{{ $value->total_quantity }}</h5>
-                                                </td>
-                                                <td>
-                                                    <h5 class="fs-14 my-1 fw-normal">{{ $value->variation_stock }}</h5>
-                                                </td>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1 fw-normal">{{ $value->total_quantity }}</h5>
+                                                    </td>
+                                                    <td>
+                                                        <h5 class="fs-14 my-1 fw-normal">{{ $value->variation_stock }}
+                                                        </h5>
+                                                    </td>
 
-                                            </tr>
+                                                </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
@@ -468,7 +475,7 @@
                             </h6>
                         </div>
 
-                        <div class="p-3 mt-2">
+                        <div class="p-3">
                             @foreach ($orderCancelRequests as $request)
                                 <div class="col mb-3">
                                     <div class="card card-body">
@@ -543,11 +550,11 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="p-3 mt-2">
+                        <div class="p-3">
                             <div id="cancelRequestsContainer">
                             </div>
                         </div>
-                        <div class="mt-2">
+                        <div class="p-3">
                             @foreach ($pendingContracts as $contract)
                                 <div class="col mb-3">
                                     <div class="card card-body">
@@ -753,7 +760,9 @@
                 }
             });
         }
-        // <+====================POSEIDON====================+>
+    </script>
+    <script>
+                // <+====================POSEIDON====================+>
         function getChartColorsArray(e) {
             if (null !== document.getElementById(e)) {
                 var t = document.getElementById(e).getAttribute('data-colors')
@@ -1013,18 +1022,19 @@
                     disableOnInteraction: !1
                 }
             }),
-            layoutRightSideBtn = document.querySelector('.layout-rightside-btn')
-        layoutRightSideBtn &&
+            layoutRightSideBtn = document.querySelector('.layout-rightside-btn');
+        if (layoutRightSideBtn) {
             (Array.from(document.querySelectorAll('.layout-rightside-btn')).forEach(
-                    function(e) {
-                        var t = document.querySelector('.layout-rightside-col')
-                        e.addEventListener('click', function() {
-                            t.classList.contains('d-block') ?
-                                (t.classList.remove('d-block'), t.classList.add('d-none')) :
-                                (t.classList.remove('d-none'), t.classList.add('d-block'))
-                        })
-                    }
-                ),
+                function(e) {
+                    var t = document.querySelector('.layout-rightside-col')
+                    e.addEventListener('click', function() {
+                        t.classList.contains('d-block') ?
+                            (t.classList.remove('d-block'), t.classList.add('d-none')) :
+                            (t.classList.remove('d-none'), t.classList.add('d-block'))
+                    })
+                }),
+            )
+        }
                 window.addEventListener('resize', function() {
                     var e = document.querySelector('.layout-rightside-col')
                     e &&
