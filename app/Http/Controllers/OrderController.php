@@ -55,7 +55,6 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-        // dd($request);
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
 
@@ -306,11 +305,24 @@ class OrderController extends Controller
 
             // Nếu xác nhận hủy đơn hàng
             if ($newStatus == 5 && $oldStatus != 5) {
-                // Hoàn lại số lượng sản phẩm vào kho
+                // Hoàn lại số lượng sản phẩm vào kho và remaining_quantity trong contract_details
                 foreach ($order->orderDetails as $detail) {
+                    // Hoàn lại stock cho variation
                     $variation = Variation::findOrFail($detail->variation_id);
                     $variation->stock += $detail->quantity;
                     $variation->save();
+
+                    // Hoàn lại remaining_quantity cho contract_detail
+                    if ($order->contract_id) {
+                        $contractDetail = ContractDetail::where('contract_id', $order->contract_id)
+                            ->where('variation_id', $detail->variation_id)
+                            ->first();
+
+                        if ($contractDetail) {
+                            $contractDetail->remaining_quantity += $detail->quantity;
+                            $contractDetail->save();
+                        }
+                    }
                 }
 
                 // Lưu ghi chú vào bảng order_canceleds
@@ -337,4 +349,96 @@ class OrderController extends Controller
         return response()->json($location);
     }
 
+
+    public function storeContract(StoreOrderRequest $request)
+    {
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        try {
+            DB::transaction(function () use ($request) {
+                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
+                $timestamp = now()->format('His');
+                $slug = 'DHB' . $randomChars . $timestamp;
+                $contract = Contract::findOrFail($request->contract_id);
+                $prices = [];
+                // Duyệt qua từng contractDetail để lấy giá
+                foreach ($contract->contractDetails as $detail) {
+                    $prices[] = $detail->price; // Lưu giá vào mảng
+                }
+                $totalAmount = 0;
+                if (count($prices) === count($request->product_quantity)) {
+                    for ($i = 0; $i < count($prices); $i++) {
+                        $totalAmount += $prices[$i] * $request->product_quantity[$i]; // Tính tổng tiền
+                    }
+                } else {
+                    // Xử lý trường hợp mảng không cùng độ dài
+                    throw new Exception("Mảng giá và số lượng không khớp.");
+                }
+                $dataOrder = [
+                    "contract_id" => $request->contract_id,
+                    "status_id" => 1,
+                    "slug" => $slug,
+                    "customer_name" => $request->customer_name,
+                    "email" => $contract->customer_email,
+                    "number_phone" => $request->number_phone,
+                    "province" => $request->province_name,
+                    "district" => $request->district_name,
+                    "ward" => $request->ward_name,
+                    "address" => $request->address,
+                    "total_amount" => $totalAmount,
+                    "paid_amount" => 0,
+                ];
+
+                $order = Order::query()->create($dataOrder);
+
+                OrderStatusTime::create([
+                    'order_id' => $order->id,
+                    'order_status_id' => 1,
+                ]);
+
+                if (is_array($request->variation_id) && count($request->variation_id) > 0) {
+                    if (count($request->variation_id) === count($request->product_quantity)) {
+                        for ($i = 0; $i < count($prices); $i++) {
+                            if ($request->product_quantity[$i] > 0 && $request->product_quantity[$i] != null) {
+                                $variation = Variation::findOrFail($request->variation_id[$i]);
+                                $orderQuantity = $request->product_quantity[$i];
+
+                                // Tạo chi tiết đơn hàng
+                                Order_detail::query()->create([
+                                    'order_id' => $order->id,
+                                    'variation_id' => $request->variation_id[$i],
+                                    'quantity' => $orderQuantity,
+                                    'price' => $prices[$i],
+                                ]);
+
+                                // Cập nhật remaining_quantity trong contract_details
+                                $contractDetail = ContractDetail::where('contract_id', $request->contract_id)
+                                    ->where('variation_id', $request->variation_id[$i])
+                                    ->first();
+                                if ($contractDetail) {
+                                    // Kiểm tra nếu số lượng đặt không vượt quá remaining_quantity
+                                    if ($orderQuantity > $contractDetail->remaining_quantity) {
+                                        throw new Exception('Số lượng đặt hàng vượt quá số lượng còn lại trong hợp đồng.');
+                                    }
+                                    $contractDetail->remaining_quantity -= $orderQuantity;
+                                    $contractDetail->save();
+                                }
+
+                                // Giảm số lượng hàng tồn kho
+                                $variation->stock -= $orderQuantity;
+                                $variation->save();
+                            }
+                        }
+                    } else {
+                        throw new Exception("Mảng giá và số lượng không khớp.");
+                    }
+                } else {
+                    throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
+                }
+            });
+
+            return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
+        }
+    }
 }

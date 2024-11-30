@@ -23,8 +23,8 @@ class StoreCargo_carRequest extends FormRequest
     {
         return [
             'cargo_car_type_id' => 'required|exists:cargo_car_types,id',
-            'license_plate' => 'required|string|max:20|unique:cargo_cars,license_plate',
-            'is_active'=> 'required|in:0,1',
+            'license_plate' => 'required|string|between:9,10|unique:cargo_cars,license_plate|regex:/^[A-Z0-9]+$/',
+          
         ];
     }
 
@@ -34,11 +34,9 @@ class StoreCargo_carRequest extends FormRequest
             'cargo_car_type_id.exits' => "Loại xe vận chuyển không tồn tại.",
             'license_plate.required' => " Biển số xe không được bỏ trống",
             'license_plate.string' => "Biển số xe phải là kiểu chuỗi",
-            'license_plate.max' => "Biển số xe không được quá 20 ký tự",
+            'license_plate.between' => "Biển số xe phải có từ 9 đến 10 ký tự.",
             'license_plate.unique' => "Biển số xe đã tồn tại",
-            'is_active.required'=> "vui lòng chọn trạng thái",
-            'is_active.in'=> "Trạng thái không hợp lệ",
-
+            'license_plate.regex' => "Biển số xe chỉ được chứa chữ cái và số.",
 
         ];
     }

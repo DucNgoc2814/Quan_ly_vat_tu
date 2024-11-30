@@ -41,6 +41,21 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/laravel-echo@1.15.3/dist/echo.iife.js"></script>
+
+    <!-- Config Echo -->
+    <script>
+        window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: '<?php echo e(config('broadcasting.connections.pusher.key')); ?>',
+            cluster: '<?php echo e(config('broadcasting.connections.pusher.options.cluster')); ?>',
+            forceTLS: true,
+            encrypted: true
+        });
+    </script>
+
     <style>
         .form-control-sm {
             width: 250px !important;
@@ -198,8 +213,61 @@
             background-color: #f8f9fa;
         }
     </style>
+    <style>
+        .chat-box-wrapper {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 350px;
+            z-index: 9999;
+        }
+
+        .chat-box {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .chat-body {
+            height: 300px;
+            overflow-y: auto;
+            padding: 15px;
+        }
+
+        .chat-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+
+        .sent {
+            background: #007bff;
+            color: white;
+            margin-left: auto;
+        }
+
+        .received {
+            background: #f1f1f1;
+        }
+    </style>
     <script src="<?php echo e(asset('themes/admin/assets/js/jquery.js')); ?>"></script>
     <?php echo $__env->yieldContent('styles'); ?>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
 </head>
 
 <body>

@@ -6,19 +6,22 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="index.html" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="22">
+                            <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="17">
+                            <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt=""
+                                height="17">
                         </span>
                     </a>
 
                     <a href="index.html" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="22">
+                            <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt=""
+                                height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('themes/admin/assets/images/logoweb') }}" alt="" height="17">
+                            <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt=""
+                                height="17">
                         </span>
                     </a>
                 </div>
@@ -139,9 +142,11 @@
                         id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
                         data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bx-bell fs-22'></i>
-                        <span
-                            class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">{{ count($lowStockProducts) }}<span
-                                class="visually-hidden">unread messages</span></span>
+                        @if($noti > 0)
+                            <span class="position-absolute topbar-badge translate-middle badge p-1 bg-danger rounded-circle">
+                                <span class="visually-hidden"></span>
+                            </span>
+                        @endif
                     </button>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                         aria-labelledby="page-header-notifications-dropdown">
@@ -150,7 +155,7 @@
                             <div class="p-3">
                                 <div class="row align-items-center">
                                     <div class="col">
-                                        <h6 class="m-0 fs-16 fw-semibold text-white"> Thông báo </h6>
+                                        <h6 class="m-0 fs-16 fw-semibold text-white">Thông báo </h6>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +172,7 @@
                                     <li class="nav-item waves-effect waves-light">
                                         <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab"
                                             aria-selected="false">
-                                            Messages
+                                            Giao dịch ({{ count($transactions) }})
                                         </a>
                                     </li>
                                     <li class="nav-item waves-effect waves-light">
@@ -220,125 +225,88 @@
                             <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
                                 aria-labelledby="messages-tab">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    <div class="text-reset notification-item d-block dropdown-item">
-                                        <div class="d-flex">
-                                            <img src="{{ asset('themes/admin/assets/images/users/avatar-3.jpg') }}"
-                                                class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                            <div class="flex-grow-1">
-                                                <a href="#!" class="stretched-link">
-                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">James Lemire</h6>
-                                                </a>
-                                                <div class="fs-13 text-muted">
-                                                    <p class="mb-1">We talked about a project on linkedin.
-                                                    </p>
+                                    @if (isset($transactions) && $transactions->count() > 0)
+                                        @foreach ($transactions->sortByDesc('created_at') as $transaction)
+                                            <div class="text-reset notification-item d-block dropdown-item">
+                                                <div class="d-flex">
+                                                    <div class="flex-shrink-0">
+                                                        <div class="avatar-xs me-3">
+                                                            <span
+                                                                class="avatar-title bg-soft-warning text-warning rounded-circle fs-16">
+                                                                @if ($transaction->transaction_type == 'contract')
+                                                                <i class="ri-file-list-3-line fs-12"></i>
+                                                            @elseif($transaction->transaction_type == 'sale')
+                                                                <i class="ri-shopping-cart-line fs-12"></i>
+                                                            @else
+                                                                <i class="ri-shopping-basket-line fs-12"></i>
+                                                            @endif
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                                            @if ($transaction->transaction_type == 'contract')
+                                                                Hợp đồng
+                                                                #{{ $transaction->contract_number ?? $transaction->related_id }}
+                                                            @elseif($transaction->transaction_type == 'sale')
+                                                                Bán hàng
+                                                                #{{ $transaction->slug ?? $transaction->related_id }}
+                                                            @else
+                                                                Mua hàng
+                                                                #{{ $transaction->slug ?? $transaction->related_id }}
+                                                            @endif
+                                                            <br><span class="text-warning">Chờ xác nhận</span>
+                                                        </h6>
+                                                        <div class="fs-13 text-muted">
+                                                            <p class="mb-1">
+                                                                Số tiền: {{ number_format($transaction->amount) }} VNĐ
+                                                                <br>
+                                                                Nội dung: {{ $transaction->note }}
+                                                            </p>
+                                                        </div>
+                                                        <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                            <span><i class="mdi mdi-clock-outline"></i>
+                                                                {{ \Carbon\Carbon::parse($transaction->created_at)->diffForHumans() }}
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                    @if ($transaction->document)
+                                                        <div class="px-2 fs-15">
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-icon btn-ghost-info"
+                                                                onclick="showDocument('{{ url('storage/' . $transaction->document) }}', '{{ pathinfo($transaction->document, PATHINFO_EXTENSION) }}')">
+                                                                <i class="ri-file-text-line"></i>
+                                                            </button>
+                                                        </div>
+                                                    @endif
+                                                    <button type="button"
+                                                        class="btn btn-sm btn-ghost-success"
+                                                        onclick="confirmTransaction('{{ $transaction->transaction_type }}', {{ $transaction->id }})">
+                                                        Xác nhận
+                                                        <i class="ri-check-line"></i>
+                                                    </button>
                                                 </div>
-                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                    <span><i class="mdi mdi-clock-outline"></i> 30 min
-                                                        ago</span>
-                                                </p>
                                             </div>
-                                            <div class="px-2 fs-15">
-                                                <div class="form-check notification-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="messages-notification-check01">
-                                                    <label class="form-check-label"
-                                                        for="messages-notification-check01"></label>
+                                        @endforeach
+                                        {{-- 
+                                        <div class="my-3 text-center view-all">
+                                            <a href="{{ route('transactions.index') }}" class="btn btn-soft-success waves-effect waves-light">
+                                                Xem tất cả giao dịch <i class="ri-arrow-right-line align-middle"></i>
+                                            </a>
+                                        </div> --}}
+                                    @else
+                                        <div class="text-center p-4">
+                                            <div class="avatar-md mx-auto mb-4">
+                                                <div class="avatar-title bg-light rounded-circle text-primary fs-20">
+                                                    <i class="ri-exchange-line"></i>
                                                 </div>
                                             </div>
+                                            <h5 class="mb-1">Không có giao dịch nào!</h5>
+                                            <p class="text-muted mb-0">
+                                                Chưa có giao dịch nào được thực hiện.
+                                            </p>
                                         </div>
-                                    </div>
-
-                                    <div class="text-reset notification-item d-block dropdown-item">
-                                        <div class="d-flex">
-                                            <img src="{{ asset('themes/admin/assets/images/users/avatar-2.jpg') }}"
-                                                class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                            <div class="flex-grow-1">
-                                                <a href="#!" class="stretched-link">
-                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
-                                                </a>
-                                                <div class="fs-13 text-muted">
-                                                    <p class="mb-1">Answered to your comment on the cash flow
-                                                        forecast's
-                                                        graph 🔔.</p>
-                                                </div>
-                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                    <span><i class="mdi mdi-clock-outline"></i> 2 hrs
-                                                        ago</span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2 fs-15">
-                                                <div class="form-check notification-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="messages-notification-check02">
-                                                    <label class="form-check-label"
-                                                        for="messages-notification-check02"></label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="text-reset notification-item d-block dropdown-item">
-                                        <div class="d-flex">
-                                            <img src="{{ asset('themes/admin/assets/images/users/avatar-6.jpg') }}"
-                                                class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                            <div class="flex-grow-1">
-                                                <a href="#!" class="stretched-link">
-                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">Kenneth Brown</h6>
-                                                </a>
-                                                <div class="fs-13 text-muted">
-                                                    <p class="mb-1">Mentionned you in his comment on 📃
-                                                        invoice #12501.
-                                                    </p>
-                                                </div>
-                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                    <span><i class="mdi mdi-clock-outline"></i> 10 hrs
-                                                        ago</span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2 fs-15">
-                                                <div class="form-check notification-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="messages-notification-check03">
-                                                    <label class="form-check-label"
-                                                        for="messages-notification-check03"></label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="text-reset notification-item d-block dropdown-item">
-                                        <div class="d-flex">
-                                            <img src="{{ asset('themes/admin/assets/images/users/avatar-8.jpg') }}"
-                                                class="me-3 rounded-circle avatar-xs" alt="user-pic">
-                                            <div class="flex-grow-1">
-                                                <a href="#!" class="stretched-link">
-                                                    <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
-                                                </a>
-                                                <div class="fs-13 text-muted">
-                                                    <p class="mb-1">We talked about a project on linkedin.
-                                                    </p>
-                                                </div>
-                                                <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                    <span><i class="mdi mdi-clock-outline"></i> 3 days
-                                                        ago</span>
-                                                </p>
-                                            </div>
-                                            <div class="px-2 fs-15">
-                                                <div class="form-check notification-check">
-                                                    <input class="form-check-input" type="checkbox" value=""
-                                                        id="messages-notification-check04">
-                                                    <label class="form-check-label"
-                                                        for="messages-notification-check04"></label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="my-3 text-center view-all">
-                                        <button type="button"
-                                            class="btn btn-soft-success waves-effect waves-light">View
-                                            All Messages <i class="ri-arrow-right-line align-middle"></i></button>
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
                             <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel"
@@ -365,10 +333,6 @@
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
-                            <img class="rounded-circle header-profile-user"
-                                src="{{ asset('storage/' . (Session::get('employee')->image ?? 'themes/admin/assets/pro/default-user.jpg')) }}"
-                                alt="Header Avatar">
-
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
                                     {{ Session::get('employee')->name }}</span>
@@ -377,31 +341,6 @@
                         </span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <!-- item-->
-                        <h6 class="dropdown-header">Welcome Anna!</h6>
-                        <a class="dropdown-item" href="pages-profile.html"><i
-                                class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span
-                                class="align-middle">Profile</span></a>
-                        <a class="dropdown-item" href="apps-chat.html"><i
-                                class="mdi mdi-message-text-outline text-muted fs-16 align-middle me-1"></i>
-                            <span class="align-middle">Messages</span></a>
-                        <a class="dropdown-item" href="apps-tasks-kanban.html"><i
-                                class="mdi mdi-calendar-check-outline text-muted fs-16 align-middle me-1"></i>
-                            <span class="align-middle">Taskboard</span></a>
-                        <a class="dropdown-item" href="pages-faqs.html"><i
-                                class="mdi mdi-lifebuoy text-muted fs-16 align-middle me-1"></i> <span
-                                class="align-middle">Help</span></a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="pages-profile.html"><i
-                                class="mdi mdi-wallet text-muted fs-16 align-middle me-1"></i> <span
-                                class="align-middle">Balance : <b>$5971.67</b></span></a>
-                        <a class="dropdown-item" href="pages-profile-settings.html"><span
-                                class="badge bg-success-subtle text-success mt-1 float-end">New</span><i
-                                class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i> <span
-                                class="align-middle">Settings</span></a>
-                        <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
-                                class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
-                                class="align-middle">Lock screen</span></a>
                         <a class="dropdown-item" href="{{ route('employees.logOut') }}"><i
                                 class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle" data-key="t-logout">Logout</span></a>
@@ -527,5 +466,86 @@
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 });
         });
+    </script>
+
+    <script>
+        function showDocument(url, type) {
+     
+            Swal.fire({
+            imageUrl: url,
+            imageWidth: 800,
+            imageHeight: 'auto',
+            imageAlt: 'Chứng từ',
+            showCloseButton: true,
+            showConfirmButton: false,
+            backdrop: false, // Thêm dòng này để không đóng dropdown
+            willClose: () => {
+                // Đảm bảo dropdown không bị đóng
+                const dropdown = document.querySelector('#notificationDropdown .dropdown-menu');
+                if (dropdown) {
+                    dropdown.classList.add('show');
+                }
+            }
+        });
+        }
+
+        // Thêm hàm xác nhận giao dịch
+        function confirmTransaction(type, id) {
+            event.stopPropagation();
+            console.log('Starting confirmation for ID:', id); // Debug log
+
+            Swal.fire({
+                title: 'Xác nhận',
+                text: "Bạn có chắc chắn muốn xác nhận giao dịch này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    
+                    // Thử với đường dẫn đầy đủ bao gồm trang-quan-tri
+                    axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
+                        headers: {
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        console.log('Success Response:', response); // Log success response
+                        if (response.data && response.data.success) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: response.data.message || 'Giao dịch đã được xác nhận.',
+                                icon: 'success'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            throw new Error(response.data?.message || 'Có lỗi xảy ra');
+                        }
+                    })
+                    .catch(error => {
+                        // Log chi tiết lỗi để debug
+                        console.error('Error details:', {
+                            error: error,
+                            response: error.response,
+                            status: error.response?.status,
+                            data: error.response?.data
+                        });
+                        
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: error.response?.data?.message || 'Có lỗi xảy ra khi xác nhận giao dịch',
+                            icon: 'error'
+                        });
+                    });
+                }
+            });
+        }
     </script>
 @endsection

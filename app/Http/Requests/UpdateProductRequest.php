@@ -42,18 +42,18 @@ class UpdateProductRequest extends FormRequest
             'name' => [
                 'required',
                 'string',
-                'max:255',
+                'min:3',
+                'max:100',
                 'unique:products,name,' . $productId,
+                'regex:/^(?![0-9]+$).*/',
             ],
-            'price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
             'brand_id' => 'required|exists:brands,id',
             'unit_id' => 'required|exists:units,id',
-            'description' => 'nullable|string',
+            'description' => 'required|string|min:10|regex:/^(?![0-9]+$).*/',
             'product_images' => $imageRule,
             'product_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'images_to_delete.*' => 'nullable|exists:galleries,id',
-            'variations.*.price_export' => 'required|numeric|min:0',
         ];
     }
 
@@ -62,24 +62,23 @@ class UpdateProductRequest extends FormRequest
         return [
             'name.required' => 'Vui lòng nhập tên sản phẩm',
             'name.string' => 'Tên sản phẩm phải là chuỗi ký tự',
-            'name.max' => 'Tên sản phẩm không được vượt quá 255 ký tự',
+            'name.min' => 'Tên sản phẩm phải có ít nhất 3 ký tự',
+            'name.max' => 'Tên sản phẩm không được vượt quá 100 ký tự',
             'name.unique' => 'Tên sản phẩm đã tồn tại',
-            'price.required' => 'Vui lòng nhập giá sản phẩm',
-            'price.numeric' => 'Giá sản phẩm phải là số',
-            'price.min' => 'Giá sản phẩm không được nhỏ hơn 0',
+            'name.regex' => 'Tên sản phẩm không được chỉ chứa số',
             'category_id.required' => 'Vui lòng chọn danh mục sản phẩm',
             'category_id.exists' => 'Danh mục sản phẩm không tồn tại',
             'brand_id.required' => 'Vui lòng chọn thương hiệu',
             'brand_id.exists' => 'Thương hiệu không tồn tại',
             'unit_id.required' => 'Vui lòng chọn đơn vị tính',
             'unit_id.exists' => 'Đơn vị tính không tồn tại',
+            'description.required' => 'Vui lòng nhập mô tả sản phẩm',
+            'description.min' => 'Mô tả sản phẩm phải có ít nhất 10 ký tự',
+            'description.regex' => 'Mô tả sản phẩm không được chỉ chứa số',
             'product_images.required' => 'Sản phẩm phải có ít nhất một ảnh. Vui lòng thêm ảnh mới hoặc giữ lại ảnh cũ',
             'product_images.*.image' => 'File phải là hình ảnh',
             'product_images.*.mimes' => 'Hình ảnh phải có định dạng: jpeg, png, jpg hoặc gif',
             'product_images.*.max' => 'Kích thước hình ảnh không được vượt quá 2MB',
-            'variations.*.price_export.required' => 'Vui lòng nhập giá',
-            'variations.*.price_export.numeric' => 'Giá phải là số',
-            'variations.*.price_export.min' => 'Giá không được nhỏ hơn 0',
         ];
     }
 
@@ -97,7 +96,6 @@ class UpdateProductRequest extends FormRequest
             'brand_id' => 'Thương hiệu',
             'unit_id' => 'Đơn vị tính',
             'description' => 'Mô tả',
-            'is_active' => 'Trạng thái hiển thị',
             'product_images.*' => 'Hình ảnh',
             'variations.*.price_export' => 'Giá biến thể',
         ];

@@ -8,16 +8,10 @@ $(document).ready(function () {
       var min = $('#min-date').val();
       var max = $('#max-date').val();
       var date = $(table.row(dataIndex).node()).find('.date-column').text().split(' ')[0];
-      if (
-        (min === "" || date >= min) &&
-        (max === "" || date <= max)
-      ) {
-        return true;
-      }
-      return false;
+      return (min === "" || date >= min) && (max === "" || date <= max);
     }
   );
-  $('#min-date, #max-date').change(function () {
+  $('#min-date, #max-date').on('change', function () {
     table.draw();
   });
 });

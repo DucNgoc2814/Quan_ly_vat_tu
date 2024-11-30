@@ -138,7 +138,7 @@ class TripManagementController extends Controller
                             // Update cargoCar is_active to 0
                             $cargoCar = $trip->cargoCar; // Assuming a relationship exists in Trip model
                             if ($cargoCar) {
-                                $cargoCar->update(['is_active' => 0]);
+                                $cargoCar->update(['role' => 0]);
                             }
                         } else {
                             return back()->with('error', 'Không thể cập nhật trạng thái chuyến đi');

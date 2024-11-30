@@ -30,8 +30,8 @@ class StoreCargo_car_typeRequest extends FormRequest
     public function messages()
     {
         return [
-            'name' => 'Không dược bỏ trống',
-            'capacity' => 'Không dược bỏ trống',
+            'name' => 'Tên không được bỏ trống',
+            'capacity' => 'Dung tích không hợp lệ',
         ];
     }
     
