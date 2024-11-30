@@ -136,7 +136,7 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('product.index')); ?>" class="nav-link "
-                                        data-key="t-horizontal">Quản lý sản phẩm</a>
+                                        data-key="t-horizontal">Quản lý mã sản phẩm</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('category.index')); ?>" class="nav-link "
@@ -220,10 +220,6 @@
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('contract.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Danh sách hợp đồng</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="layouts-horizontal.html" class="nav-link " data-key="t-horizontal">Lịch
-                                        sử giao dịch</a>
                                 </li>
                             </ul>
                         </div>
@@ -330,14 +326,6 @@
 
                                 <a href="<?php echo e(route('payment.index')); ?>" class="nav-link"
                                     data-key="t-horizontal">Thu chi</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('CargoCars.index')); ?>" class="nav-link "
-                                    data-key="t-horizontal">Danh sách xe</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?php echo e(route('cargo_car_types.index')); ?>" class="nav-link "
-                                    data-key="t-horizontal">Danh sách loại xe</a>
                             </li>
                         </ul>
                     </div>

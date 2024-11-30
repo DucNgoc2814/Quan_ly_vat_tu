@@ -66,7 +66,6 @@ class PaymentHistoryController extends Controller
 
                 ]);
             });
-
             return redirect()->back()->with('success', 'Đã thêm lịch sử chuyển tiền thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());

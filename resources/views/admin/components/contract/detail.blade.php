@@ -48,7 +48,7 @@
                             <p><strong>Số điện thoại:</strong> <span
                                     class="text-muted">{{ $contract->customer_phone }}</span></p>
                             <p><strong>Email:</strong> <span class="text-muted">{{ $contract->customer_email }}</span></p>
-                            <p><strong>Thanh toán:</strong> <span class="text-muted">{{ number_format($totalPaid) }}/
+                            <p><strong>Thanh toán:</strong> <span class="text-muted">{{ number_format($contract->paid_amount) }}/
                                     {{ number_format($contract->total_amount) }} VNĐ</span></p>
 
                         </div>
