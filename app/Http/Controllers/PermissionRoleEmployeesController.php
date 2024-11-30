@@ -17,7 +17,7 @@ class PermissionRoleEmployeesController extends Controller
         $permission_role_employees = DB::table("permission_role_employees")->get();
         $permissions = DB::table("permissions")->get();
         $role_employees = DB::table("role_employees")->get();
-       return view('admin.components.permissions.home-permissions',compact('permissions', 'role_employees', 'permission_role_employees'));
+        return view('admin.components.permissions.home-permissions', compact('permissions', 'role_employees', 'permission_role_employees'));
     }
 
     /**
@@ -27,12 +27,10 @@ class PermissionRoleEmployeesController extends Controller
     {
         $role_id = request('role_id');
         $permission_id = request('permission_id');
-
         $exists = DB::table('permission_role_employees')
             ->where('role_employee_id', $role_id)
             ->where('permission_id', $permission_id)
             ->exists();
-
         if ($exists) {
             DB::table('permission_role_employees')
                 ->where('role_employee_id', $role_id)
@@ -48,43 +46,4 @@ class PermissionRoleEmployeesController extends Controller
         return response()->json(['success' => true]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePermissionRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Permission $permission)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Permission $permission)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePermissionRequest $request, Permission $permission)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Permission $permission)
-    {
-        //
-    }
 }

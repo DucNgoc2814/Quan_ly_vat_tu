@@ -57,6 +57,7 @@ Route::prefix('nhan-vien-lai-xe')
 
 Route::middleware('CheckEmployees')->group(
     function () {
+        Route::get('/', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard')->middleware('permission:1');
         Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard')->middleware('permission:1');
         Route::post('/them-chuc-vu', [RoleEmployeeController::class, 'create'])->name('addRole')->middleware('permission:2');
         Route::post('/permissions/toggle', [PermissionRoleEmployeesController::class, 'permissionsToggle'])->name('permissionsToggle')->middleware('permission:3');
@@ -319,3 +320,5 @@ Route::prefix('hop-dong')
         Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove');
         Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject');
     });
+Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen');
+Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission']);
