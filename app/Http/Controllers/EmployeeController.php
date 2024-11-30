@@ -8,7 +8,9 @@ use App\Models\Role_employee;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use App\Models\Permission;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -62,12 +64,35 @@ class EmployeeController extends Controller
 
     public function index(Request $request)
     {
-
         $data = Employee::all();
         $role_empoly = Role_employee::query()->get();
         $employee = Session::get('employee');
         return view('admin.components.employees.index', compact('data', 'role_empoly', 'employee'));
     }
+    public function changeQuyen($idquyen,$idStaff) {
+        DB::table('permission_employees')->insert([
+            'employee_id' => $idStaff,
+            'permission_id' => $idquyen,
+        ]);
+        return redirect()->back()->with('success', 'Đã cập nhật quyền thành công');
+    }
+    // EmployeeController.php
+
+    public function deletePermission($permission_id, $employee_id)
+    {
+        // Xóa bản ghi trong bảng permission_employees
+        $deletedRows = DB::table('permission_employees')
+        ->where('permission_id', $permission_id)
+            ->where('employee_id', $employee_id)
+            ->delete();
+
+        if ($deletedRows > 0) {
+            return response()->json(['message' => 'Permission deleted successfully']);
+        } else {
+            return response()->json(['message' => 'Permission not found'], 404);
+        }
+    }
+
 
 
     /**
@@ -113,7 +138,15 @@ class EmployeeController extends Controller
      */
     public function edit(String $id)
     {
-
+        $listpermission_employees = DB::table('permission_employees')
+        ->join('permissions', 'permission_employees.permission_id', '=', 'permissions.id')
+        ->where('employee_id', $id)
+        ->get();
+        $arrCheck = [];
+        foreach ($listpermission_employees as $item) {
+            $arrCheck[] = $item->id;
+        }
+        $listPermission= Permission::whereNotIn('id', $arrCheck)->get();
         $datae = Employee::findOrFail($id);
         $isCEO = $datae->role_id == 1;
         if ($isCEO) {
@@ -121,7 +154,7 @@ class EmployeeController extends Controller
         } else {
             $data = Role_employee::where('id', '!=', 1)->get();
         }
-        return view('admin.components.employees.edit', compact('datae', 'data', 'isCEO'));
+        return view('admin.components.employees.edit', compact('datae', 'data', 'isCEO', 'listPermission', 'listpermission_employees'));
     }
 
 
@@ -131,7 +164,6 @@ class EmployeeController extends Controller
     public function update(UpdateEmployeeRequest $request, String $id)
     {
         if ($request->isMethod('put')) {
-
             // dd($request->all());
             $params = $request->except('_method', '_token');
             $params['is_active'] = $request->has('is_active') ? 1 : 0; // Handle the checkbox state

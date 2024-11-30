@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -19,6 +20,13 @@ class CheckPermission
             ->where('role_employee_id', $roleEmployee)
             ->where('permission_id', $permissionId)
             ->first();
+        $permissionStaff = DB::table('permission_employees')
+            ->where('employee_id', $roleEmployee)
+            ->where('permission_id', $permissionId)
+            ->first();
+        if ($permissionStaff) {
+            return $next($request);
+        }
         if (!$permissionRoleEmployee) {
             return back()->with('error', 'Bạn không có quyền truy cập chức năng này');
         }
