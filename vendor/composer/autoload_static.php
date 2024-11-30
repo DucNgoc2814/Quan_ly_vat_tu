@@ -946,6 +946,7 @@ class ComposerStaticInit90455e7f9ce59dd013a9e0c3d3873864
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Services\\LogService' => __DIR__ . '/../..' . '/app/Services/LogService.php',
         'App\\Traits\\LogActivity' => __DIR__ . '/../..' . '/app/Traits/LogActivity.php',
+        'App\\Traits\\PaymentTrait' => __DIR__ . '/../..' . '/app/Traits/PaymentTrait.php',
         'Attribute' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
         'Brick\\Math\\BigDecimal' => __DIR__ . '/..' . '/brick/math/src/BigDecimal.php',
         'Brick\\Math\\BigInteger' => __DIR__ . '/..' . '/brick/math/src/BigInteger.php',

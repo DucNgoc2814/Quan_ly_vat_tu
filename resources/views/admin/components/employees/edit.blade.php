@@ -3,7 +3,28 @@
 @section('title')
     Chi tiết đơn hàng
 @endsection
+<style>
+    .list-unstyled {
+        text-align: left;
+    }
 
+    .list-unstyled li {
+        width: 100%;
+        list-style: none;
+        padding: 20px 20px 20px 0px;
+        border-bottom: 1px solid #ccc;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .list-unstyled li span {
+        padding: 5px 10px;
+        background-color: red;
+        margin-right: 25px;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+</style>
 @section('content')
     <div class="position-relative mx-n4 mt-n4">
         <div class="profile-wid-bg profile-setting-img">
@@ -34,9 +55,8 @@
                             @method('PUT')
                             <div class="profile-user position-relative d-inline-block mx-auto mb-3">
                                 <img id="preview"
-                                src="{{ $datae->image ? \Storage::url($datae->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
-                                class="rounded-circle avatar-xl img-thumbnail user-profile-image"
-                                alt="image">
+                                    src="{{ $datae->image ? \Storage::url($datae->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
+                                    class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="image">
 
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                     <input id="profile-img-file-input" type="file" name="image"
@@ -50,9 +70,84 @@
                             </div>
                             <h4 class="fs-16">{{ $datae->name }}</h4>
                     </div>
+
                 </div>
             </div>
+            <div class="text-center card" style="text-align:start; padding: 20px">
+                <h6 style="text-align:start;">Quyền đặc biệt của nhân viên:</h6>
+                <span style="opacity: 0.5; font: small;"> (Ngoài những quyền hạn được phân theo chức vụ thì đây là quyền của
+                    riêng nhân viên {{ $datae->name }})</span>
+                <div class="d-flex justify-content-between">
+                    <input type="text" class="add_quyen form-control w-75" oninput="filterQuyen(event)" value="">
+                    <button disabled class="btn btn-changeQuen btn-primary"
+                        onclick="SubmitQuyen(event,'{{ $datae->id }}')">Thêm</button>
+                </div>
+                <ul class="list_quyen list-unstyled" id="list_quyen">
+                    @foreach ($listPermission as $item)
+                        <li style="display: none; cursor: pointer;"
+                            onclick="onValue('{{ $item->name }}','{{ $item->id }}')" class="quyen-item">
+                            {{ $item->name }}</li>
+                    @endforeach
+                </ul>
+                <ul class="list-unstyled">
+                    @foreach ($listpermission_employees as $item)
+                        <li id="permission-{{ $item->permission_id }}">
+                            <span onclick="deleteQuyen('{{ $item->permission_id }}', '{{ $item->employee_id }}')">X</span>
+                            {{ $item->name }}
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+            <script>
+                function deleteQuyen(permission_id, employee_id) {
+                    let confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa quyền này?");
+                    if (!confirmDelete) {
+                        return;
+                    }
+                    let liElement = document.getElementById('permission-' + permission_id);
+                    liElement.style.display = 'none';
+                    $.ajax({
+                        url: `/deleteQuyen/${permission_id}/${employee_id}`,
+                        type: 'DELETE',
+                        dataType: 'json',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {},
+                        error: function(xhr, status, error) {
+                            var errorMessage = xhr.responseJSON ? xhr.responseJSON.message : 'Có lỗi xảy ra';
+                            alert(errorMessage);
+                        }
+                    });
 
+                };
+
+                function onValue(textContent, id) {
+                    document.querySelector('.add_quyen').setAttribute('permissionid', id);
+                    document.querySelector('.add_quyen').value = textContent;
+                    document.querySelector('.add_quyen').style.borderColor = 'green';
+                    document.querySelector('.btn-changeQuen').disabled = false;
+                    document.querySelector('#list_quyen').style.display = 'none';
+                };
+
+                function filterQuyen(e) {
+                    const inputValue = e.target.value.toLowerCase();
+                    const listItems = document.querySelectorAll('.list_quyen .quyen-item');
+                    listItems.forEach(item => {
+                        const itemText = item.textContent.toLowerCase();
+                        if (itemText.includes(inputValue) && inputValue !== '') {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                }
+                SubmitQuyen = (e, empoyeeid) => {
+                    e.preventDefault();
+                    const permissionid = document.querySelector('.add_quyen').getAttribute('permissionid');
+                    window.location.href = '/add-quyen-permission/' + permissionid + '/' + empoyeeid;
+                }
+            </script>
             <!--end card-->
         </div>
         <!--end col-->
@@ -64,7 +159,6 @@
                             <a class="nav-link active" data-bs-toggle="tab" href="#personalDetails" role="tab">
                                 <i class="fas fa-home"></i>
                                 <h3>Thông tin nhân viên</h3>
-
                             </a>
                         </li>
                     </ul>
@@ -153,7 +247,6 @@
                                                     {{ $item->name }}
                                                 </option>
                                             @endforeach
-
                                         </select>
                                         @error('role_id')
                                             <span role="alert">
