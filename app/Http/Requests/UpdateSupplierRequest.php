@@ -27,7 +27,7 @@ class UpdateSupplierRequest extends FormRequest
             'name' => 'required|string|min:3|max:100|regex:/^[a-zA-Z\s]+$/|unique:suppliers,name,' . $this->route('id'),
             'email' => 'required|email|unique:suppliers,email,' . $this->route('id'),
             'number_phone' => 'required|regex:/^0[1-9]{1}[0-9]{8}$/|unique:suppliers,number_phone,' . $this->route('id'),
-            'address' => 'required|min:3|regex:/^[a-zA-Z\s]+$/',
+            'address' => 'required|min:3',
         ];
     }
 

@@ -28,55 +28,56 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="employee_id">Chọn tài xế</label>
-                            <select class="form-select @error('employee_id') is-invalid @enderror" id="employee_id"
-                                name="employee_id" data-choices data-choices-search-false>
+                        <div class="row">
+                            <!-- Chọn tài xế -->
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label" for="employee_id">Chọn tài xế</label>
+                                    <select class="form-select @error('employee_id') is-invalid @enderror" id="employee_id"
+                                        name="employee_id" data-choices data-choices-search-false>
+                                        <option value="">Chọn Tên</option>
+                                        @foreach ($employes as $employee)
+                                            <option value="{{ $employee->id }}"
+                                                {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
+                                                {{ $employee->name }} - {{ $employee->number_phone }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    @error('employee_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
 
-
-                                <option value="">Chọn Tên</option>
-
-                                @foreach ($employes as $employee)
-                                    <option value="{{ $employee->id }}"
-                                        {{ old('employee_id') == $employee->id ? 'selected' : '' }}>
-                                        {{ $employee->name }} - {{ $employee->number_phone }}
-                                    </option>
-                                @endforeach
-
-
-                            </select>
-                            @error('employee_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                            <!-- Phương tiện vận chuyển -->
+                            <div class="col-md-6">
+                                <div class="mb-2">
+                                    <label class="form-label" for="cargo_car_id">Phương tiện vận chuyển</label>
+                                    <select class="form-select @error('cargo_car_id') is-invalid @enderror"
+                                        id="cargo_car_id" name="cargo_car_id" data-choices data-choices-search-false>
+                                        <option value="">Chọn phương tiện vận chuyển</option>
+                                        @foreach ($cargoCars as $cargoCar)
+                                            @if ($cargoCar->is_active == 0)
+                                                <option value="{{ $cargoCar->id }}"
+                                                    {{ old('cargo_car_id') == $cargoCar->id ? 'selected' : '' }}>
+                                                    {{ $cargoCar->cargoCarType->name }}
+                                                </option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    @error('cargo_car_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- end card -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="cargo_car_id">Phương tiện vận chuyển</label>
-                            <select class="form-select @error('cargo_car_id') is-invalid @enderror" id="cargo_car_id"
-                                name="cargo_car_id" data-choices data-choices-search-false>
-                                <option value="">Chọn phương tiện vận chuyển</option>
-                                @foreach ($cargoCars as $cargoCar)
-                                    @if ($cargoCar->is_active == 0)
-                                        <option value="{{ $cargoCar->id }}"
-                                            {{ old('cargo_car_id') == $cargoCar->id ? 'selected' : '' }}>
-                                            {{ $cargoCar->cargoCarType->name }}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                            @error('cargo_car_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
+
                 <div class="card">
                     <div class=" mt-5">
                         <div class="card-body p-4">
@@ -154,7 +155,6 @@
 
 
 @section('scripts')
-
     <script>
         function addOder(button) {
 
