@@ -33,6 +33,23 @@ class TripManagementController extends Controller
     {
         return view('admin.components.tripmanagement.login');
     }
+    public function logOut()
+{
+    try {
+        // Forget the employee session
+        Session::forget('employee');
+
+        // Optionally, you can also clear all session data
+        Session::flush(); // Clear all session data, including employee session if needed
+
+        // Redirect to the login page with a success message
+        return redirect()->route('orderconfirm.login')->with('success', 'Đăng xuất thành công');
+    } catch (Exception $e) {
+        // If there is any issue during logout
+        return redirect()->route('orderconfirm.login')->with('error', 'Có lỗi xảy ra, thử lại sau');
+    }
+}
+
     public function loginPost(LoginAdminRequest $request)
     {
         $credentials = [
@@ -42,20 +59,31 @@ class TripManagementController extends Controller
 
         try {
             $employee = Employee::where('email', $request->email)->first();
+
+            // Check if employee exists
             if (!$employee) {
                 return redirect()->route('orderconfirm.login')->with('error', 'Email hoặc mật khẩu không tồn tại trên hệ thống');
             }
+
+            // Check if employee is active
             if (!$employee->is_active) {
                 return redirect()->route('orderconfirm.login')->with('error', 'Tài khoản đã bị vô hiệu hóa');
             }
-            // Kiểm tra thông tin đăng nhập
+
+            // Check if role_id is 4
+            if ($employee->role_id != 4) {
+                return redirect()->route('orderconfirm.login')->with('error', 'Bạn không có quyền truy cập');
+            }
+
+            // Check if the password is correct
             if (!password_verify($request->password, $employee->password)) {
                 return redirect()->route('orderconfirm.login')->with('error', 'Thông tin đăng nhập không chính xác');
             }
 
-            // Lưu thông tin người dùng vào session
+            // Store employee info in session
             Session::put('employee', $employee);
 
+            // Redirect to the order confirm page on successful login
             return redirect()->route('orderconfirm.index')->with('success', 'Đăng nhập thành công');
         } catch (Exception $e) {
             return redirect()->route('orderconfirm.login')->with('error', 'Không thể đăng nhập, thử lại lần sau');

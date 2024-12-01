@@ -25,7 +25,7 @@ class StoreSupplierRequest extends FormRequest
             'name' => 'required|string|min:3|max:100|regex:/^[a-zA-Z\s]+$/|unique:suppliers,name',
             'email' => 'required|email|unique:suppliers,email',
             'number_phone' => 'required|regex:/^0[1-9]{1}[0-9]{8}$/|numeric|unique:suppliers,number_phone',
-            'address' => 'required|min:3|regex:/^[a-zA-Z0-9\s,.-]+$/',
+            'address' => 'required|min:3',
 
 
         ];

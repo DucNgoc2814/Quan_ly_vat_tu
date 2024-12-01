@@ -24,71 +24,82 @@
     <form method="POST" action="{{ route('suppliers.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="row">
-            <div class="col">
+            <!-- First column -->
+            <div class="col-md-6">
+                <!-- Card for Tên nhà cung cấp -->
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Tên nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập tên nhà cung cấp" name="name" value="{{old('name')}}">
+                            <input type="text" class="form-control" placeholder="Nhập tên nhà cung cấp" name="name" value="{{ old('name') }}">
                             @error('name')
                                 <span role="alert">
-                                    <span class="text-danger">{{$message}}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 </span>
                             @enderror
                         </div>
                     </div>
                 </div>
-                <!-- end card -->
-          
-                <!-- end card -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label class="form-label" for="product-title-input">Email nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập email" name="email" value="{{old('email')}}">
-                            @error('email')
-                                <span role="alert">
-                                    <span class="text-danger">{{$message}}</span>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                <!-- end card -->
+
+                <!-- Card for Số điện thoại nhà cung cấp -->
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Số điện thoại nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập số điện thoại" name="number_phone" value="{{old('number_phone')}}">
+                            <input type="text" class="form-control" placeholder="Nhập số điện thoại" name="number_phone" value="{{ old('number_phone') }}">
                             @error('number_phone')
                                 <span role="alert">
-                                    <span class="text-danger">{{$message}}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 </span>
                             @enderror
                         </div>
                     </div>
                 </div>
-                <!-- end card -->
+            </div>
+            <!-- End first column -->
+
+            <!-- Second column -->
+            <div class="col-md-6">
+                <!-- Card for Email nhà cung cấp -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="product-title-input">Email nhà cung cấp</label>
+                            <input type="text" class="form-control" placeholder="Nhập email" name="email" value="{{ old('email') }}">
+                            @error('email')
+                                <span role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card for Địa chỉ nhà cung cấp -->
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Địa chỉ nhà cung cấp</label>
-                            <input type="text" class="form-control" placeholder="Nhập địa chỉ nhà cung cấp" name="address" value="{{old('address')}}">
+                            <input type="text" class="form-control" placeholder="Nhập địa chỉ nhà cung cấp" name="address" value="{{ old('address') }}">
                             @error('address')
                                 <span role="alert">
-                                    <span class="text-danger">{{$message}}</span>
+                                    <span class="text-danger">{{ $message }}</span>
                                 </span>
                             @enderror
                         </div>
                     </div>
                 </div>
+
+                <!-- Submit button -->
                 <div class="text-end mb-3">
                     <button type="submit" class="btn btn-success w-sm">Thêm mới</button>
                 </div>
             </div>
-            <!-- end col -->
+            <!-- End second column -->
         </div>
+        <!-- End row -->
     </form>
+
     <script>
         document.getElementById('product-image-input').addEventListener('change', function(event) {
             var output = document.getElementById('product-img');

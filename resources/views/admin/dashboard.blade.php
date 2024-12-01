@@ -1021,7 +1021,7 @@
                             (t.classList.remove('d-block'), t.classList.add('d-none')) :
                             (t.classList.remove('d-none'), t.classList.add('d-block'))
                     })
-                }))
+                });)
         }
         window.addEventListener('resize', function() {
                 var e = document.querySelector('.layout-rightside-col')
@@ -1037,7 +1037,7 @@
                     (e.classList.remove('d-block'), e.classList.add('d-none'))
             }),
             (overlay = document.querySelector('.overlay')) &&
-        document.querySelector('.overlay').addEventListener('click', function() {
+            document.querySelector('.overlay').addEventListener('click', function() {
                 1 ==
                     document
                     .querySelector('.layout-rightside-col')
