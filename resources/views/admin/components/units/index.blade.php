@@ -60,12 +60,6 @@
                                                     <form action="{{ route('units.destroy', $item->id) }}" method="post">
                                                         @method('DELETE')
                                                         @csrf
-
-                                                        <button class="dropdown-item remove-list" type="submit"
-                                                            onclick="return confirm('Bạn có chắc chắn muốn xóa không?')">
-                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                            Xóa
-                                                        </button>
                                                     </form>
                                                 </li>
                                             </ul>
