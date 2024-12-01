@@ -218,7 +218,8 @@
                                             @foreach ($variation as $variant)
                                                 <option value="{{ $variant->id }}"
                                                     data-price="{{ $variant->retail_price }}"
-                                                    data-stock="{{ $variant->stock }}">
+                                                    data-stock="{{ $variant->stock }}"
+                                                    {{ old('variation_id.0') == $variant->id ? 'selected' : '' }}>
                                                     {{ $variant->name }}
                                                 </option>
                                             @endforeach
@@ -233,22 +234,20 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Giá sản phẩm</label>
-                                                <input type="number" class="form-control" name="product_price[]"
-                                                    id="product-price-input">
+                                                <input type="number" class="form-control" name="product_price[]" readonly>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Số lượng sản phẩm</label>
                                                 <input type="number" class="form-control" name="product_quantity[]"
-                                                    id="product-quantity-input" placeholder="Nhập số lượng">
+                                                    placeholder="Nhập số lượng" onchange="calculateTotal()">
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Số lượng trong kho</label>
-                                                <input type="number" class="form-control" name="stock"
-                                                    id="product-stock-input" readonly>
+                                                <input type="text" class="form-control" name="stock[]" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -334,7 +333,7 @@
                 <hr class="mb-2">
                 <div class="mb-2">
                     <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                    <select class="form-select" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
+                    <select class="form-select" name="variation_id[]" onchange="updatePrice(this)">
                         ${optionsHtml}
                     </select>
                 </div>
@@ -342,19 +341,20 @@
                     <div class="col-4">
                         <div class="mb-2">
                             <label class="form-label">Giá sản phẩm</label>
-                            <input type="number" class="form-control" name="product_price[]">
+                            <input type="number" class="form-control" name="product_price[]" readonly>
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="mb-2">
                             <label class="form-label">Số lượng sản phẩm</label>
-                            <input type="number" class="form-control" name="product_quantity[]" placeholder="Nhập số lượng">
+                            <input type="number" class="form-control" name="product_quantity[]"
+                                placeholder="Nhập số lượng" onchange="calculateTotal()">
                         </div>
                     </div>
                     <div class="col-4">
                         <div class="mb-2">
                             <label class="form-label">Số lượng trong kho</label>
-                            <input type="number" class="form-control" name="stock" readonly>
+                            <input type="text" class="form-control" name="stock[]" readonly>
                         </div>
                     </div>
                 </div>
@@ -366,6 +366,9 @@
             </div>`;
 
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
+
+            // Cập nhật lại tất cả các dropdown sau khi thêm sản phẩm mới
+            updateAllDropdowns();
             addInputListeners();
         }
 
@@ -429,17 +432,28 @@
             const selectedOption = selectElement.options[selectElement.selectedIndex];
             const container = selectElement.closest('.col-md-12');
             const priceInput = container.querySelector('input[name="product_price[]"]');
-            const stockInput = container.querySelector('input[name="stock"]');
+            const stockInput = container.querySelector('input[name="stock[]"]');
 
-            if (priceInput && selectedOption.dataset.price) {
-                priceInput.value = selectedOption.dataset.price;
-            }
-            if (stockInput && selectedOption.dataset.stock) {
-                stockInput.value = selectedOption.dataset.stock;
+            if (selectedOption.value !== "0") {
+                // Cập nhật giá
+                if (priceInput && selectedOption.dataset.price) {
+                    priceInput.value = selectedOption.dataset.price;
+                }
+
+                // Cập nhật stock
+                if (stockInput && selectedOption.dataset.stock) {
+                    stockInput.value = selectedOption.dataset.stock;
+                }
+            } else {
+                // Reset các giá trị khi chọn "Chọn Sản Phẩm"
+                if (priceInput) priceInput.value = "";
+                if (stockInput) stockInput.value = "";
             }
 
             // Cập nhật tất cả các dropdown
             updateAllDropdowns();
+            // Tính lại tổng tiền
+            calculateTotal();
         }
 
         // Thêm hàm để cập nhật tất cả các dropdown khi có thay đổi
@@ -485,6 +499,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             addInputListeners();
             calculateTotal();
+        });
+
+        // Thêm đoạn code này để khôi phục giá trị sau khi load trang
+        document.addEventListener('DOMContentLoaded', function() {
+            const defaultSelect = document.querySelector('#product_default_item select[name="variation_id[]"]');
+            if (defaultSelect.value !== "0") {
+                updatePrice(defaultSelect);
+            }
         });
     </script>
 
