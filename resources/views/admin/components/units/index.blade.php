@@ -50,20 +50,12 @@
                                                 <i class="ri-more-fill align-middle"></i>
                                             </button>
                                             <ul class="dropdown-menu dropdown-menu-end">
-                                                
                                                 <li><a href="{{ route('units.edit', $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Sửa</a></li>
-                                                <li>
-
-                                                    <form action="{{ route('units.destroy', $item->id) }}" method="post">
-                                                        @method('DELETE')
-                                                        @csrf
-                                                    </form>
-                                                </li>
                                             </ul>
-                                        </div>
+                                        </div> 
                                     </td>
                                 </tr>
                             @endforeach

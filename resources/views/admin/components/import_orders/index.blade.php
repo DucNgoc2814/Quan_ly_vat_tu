@@ -79,14 +79,6 @@
                                                             class="dropdown-item edit-item-btn"><i
                                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                             Cập nhật</a></li>
-                                                    <li>
-                                                        <a href="#" class="dropdown-item text-danger"
-                                                            onclick="requestCancelOrder('{{ $item->slug }}'); return false;">
-                                                            <i
-                                                                class="ri-close-circle-line align-bottom me-2 text-danger"></i>
-                                                            Hủy đơn hàng
-                                                        </a>
-                                                    </li>
                                                 @endif
                                             </ul>
                                         </div>
