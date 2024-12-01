@@ -79,7 +79,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/khoi-phuc/{id}', [SupplierController::class, 'restoreSupplier'])->name('restoreSupplier')->middleware('permission:12');
                 Route::get('/them-moi', [SupplierController::class, 'create'])->name('create')->middleware('permission:13');
                 Route::post('/them-moi', [SupplierController::class, 'store'])->name('store')->middleware('permission:14');
-                Route::get('/sua/{id}', [SupplierController::class, 'edit'])->name('edit')->middleware('permission:15');
+                Route::get('/sua/{id}', [SupplierController::class, 'edit'])->name('edit')->middleware('permission:114');
                 Route::put('/cap-nhat/{id}', [SupplierController::class, 'update'])->name('update')->middleware('permission:16');
                 Route::delete('/an/{id}', [SupplierController::class, 'destroy'])->name('destroy')->middleware('permission:17');
             });

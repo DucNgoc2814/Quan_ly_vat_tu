@@ -21,7 +21,7 @@ class PaymentHistoryController extends Controller
      */
     public function index()
     {
-        $payments = Payment_history::all();
+        $payments = Payment_history::where('status', 1)->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('payments'));
     }
 

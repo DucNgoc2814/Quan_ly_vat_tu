@@ -33,19 +33,12 @@
                 $employees = collect($permission_id)->pluck('permission_id')->toArray();
             ?>
             <ul class="navbar-nav" id="navbar-nav">
-                <?php if(in_array(1, $employees)): ?>
                     <li class="nav-item"> <a class="nav-link menu-link" href="<?php echo e(route('admin.dashboard')); ?>"
                             role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                             <i class="ri-home-2-fill"></i> <span data-key="t-dashboards">Bảng điều khiển</span>
                         </a>
                     </li>
-                <?php endif; ?>
-                <?php if(in_array(4, $employees) ||
-                        in_array(5, $employees) ||
-                        in_array(6, $employees) ||
-                        in_array(7, $employees) ||
-                        in_array(8, $employees) ||
-                        in_array(9, $employees)): ?>
+                
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarEmployees" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarEmployees">
@@ -65,15 +58,8 @@
                             </ul>
                         </div>
                     </li>
-                <?php endif; ?>
 
-                <?php if(in_array(33, $employees) ||
-                        in_array(34, $employees) ||
-                        in_array(35, $employees) ||
-                        in_array(36, $employees) ||
-                        in_array(37, $employees) ||
-                        in_array(38, $employees) ||
-                        in_array(39, $employees)): ?>
+                
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarSliders" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarSliders">
@@ -89,43 +75,7 @@
                             </ul>
                         </div>
                     </li>
-                <?php endif; ?>
-                <?php if(in_array(79, $employees) ||
-                        in_array(80, $employees) ||
-                        in_array(81, $employees) ||
-                        in_array(82, $employees) ||
-                        in_array(83, $employees) ||
-                        in_array(99, $employees) ||
-                        in_array(100, $employees) ||
-                        in_array(101, $employees) ||
-                        in_array(102, $employees) ||
-                        in_array(103, $employees) ||
-                        in_array(111, $employees) ||
-                        in_array(112, $employees) ||
-                        in_array(113, $employees) ||
-                        in_array(114, $employees) ||
-                        in_array(115, $employees) ||
-                        in_array(116, $employees) ||
-                        in_array(104, $employees) ||
-                        in_array(40, $employees) ||
-                        in_array(41, $employees) ||
-                        in_array(42, $employees) ||
-                        in_array(43, $employees) ||
-                        in_array(44, $employees) ||
-                        in_array(131, $employees) ||
-                        in_array(132, $employees) ||
-                        in_array(133, $employees) ||
-                        in_array(134, $employees) ||
-                        in_array(135, $employees) ||
-                        in_array(136, $employees) ||
-                        in_array(137, $employees) ||
-                        in_array(138, $employees) ||
-                        in_array(139, $employees) ||
-                        in_array(140, $employees) ||
-                        in_array(141, $employees) ||
-                        in_array(142, $employees) ||
-                        in_array(143, $employees) ||
-                        in_array(144, $employees)): ?>
+               
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarGalleries" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarGalleries">
@@ -136,7 +86,7 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('product.index')); ?>" class="nav-link "
-                                        data-key="t-horizontal">Quản lý mã sản phẩm</a>
+                                        data-key="t-horizontal">Quản lý sản phẩm</a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="<?php echo e(route('category.index')); ?>" class="nav-link "
@@ -163,16 +113,7 @@
                             </ul>
                         </div>
                     </li>
-                <?php endif; ?>
-                <?php if(in_array(10, $employees) ||
-                        in_array(11, $employees) ||
-                        in_array(12, $employees) ||
-                        in_array(13, $employees) ||
-                        in_array(14, $employees) ||
-                        in_array(15, $employees) ||
-                        in_array(16, $employees) ||
-                        in_array(17, $employees) ||
-                        in_array(78, $employees)): ?>
+                
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarSuppliers" data-bs-toggle="collapse"
                             role="button" aria-expanded="false" aria-controls="sidebarSuppliers">
@@ -193,22 +134,7 @@
                             </ul>
                         </div>
                     </li>
-                <?php endif; ?>
-                <?php if(in_array(45, $employees) ||
-                        in_array(46, $employees) ||
-                        in_array(47, $employees) ||
-                        in_array(48, $employees) ||
-                        in_array(49, $employees) ||
-                        in_array(50, $employees) ||
-                        in_array(51, $employees) ||
-                        in_array(52, $employees) ||
-                        in_array(53, $employees) ||
-                        in_array(54, $employees) ||
-                        in_array(55, $employees) ||
-                        in_array(56, $employees) ||
-                        in_array(57, $employees) ||
-                        in_array(58, $employees) ||
-                        in_array(59, $employees)): ?>
+                
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarBrands" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarBrands">
@@ -224,30 +150,7 @@
                             </ul>
                         </div>
                     </li>
-                <?php endif; ?>
-                <?php if(in_array(60, $employees) ||
-                        in_array(61, $employees) ||
-                        in_array(62, $employees) ||
-                        in_array(63, $employees) ||
-                        in_array(64, $employees) ||
-                        in_array(65, $employees) ||
-                        in_array(66, $employees) ||
-                        in_array(67, $employees) ||
-                        in_array(84, $employees) ||
-                        in_array(85, $employees) ||
-                        in_array(86, $employees) ||
-                        in_array(87, $employees) ||
-                        in_array(88, $employees) ||
-                        in_array(89, $employees) ||
-                        in_array(90, $employees) ||
-                        in_array(91, $employees) ||
-                        in_array(92, $employees) ||
-                        in_array(93, $employees) ||
-                        in_array(94, $employees) ||
-                        in_array(95, $employees) ||
-                        in_array(96, $employees) ||
-                        in_array(97, $employees) ||
-                        in_array(98, $employees)): ?>
+                
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarOrders" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarOrders">
@@ -267,14 +170,8 @@
                             </ul>
                         </div>
                     </li>
-                <?php endif; ?>
                 
-                <?php if(in_array(123, $employees) ||
-                        in_array(124, $employees) ||
-                        in_array(125, $employees) ||
-                        in_array(126, $employees) ||
-                        in_array(127, $employees) ||
-                        in_array(128, $employees)): ?>
+                
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarTrips">
@@ -299,13 +196,7 @@
                             </ul>
                         </div>
                     </li>
-                <?php endif; ?>
-                <?php if(in_array(131, $employees) ||
-                        in_array(132, $employees) ||
-                        in_array(133, $employees) ||
-                        in_array(134, $employees) ||
-                        in_array(135, $employees) ||
-                        in_array(136, $employees)): ?>
+                
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="<?php echo e(route('logs.index')); ?>" role="button"
                             aria-expanded="false" aria-controls="sidebarTrips">
@@ -313,7 +204,6 @@
                             <span data-key="t-layouts">Lịch sử thao tác</span>
                         </a>
                     </li>
-                <?php endif; ?>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebartk" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebartk">

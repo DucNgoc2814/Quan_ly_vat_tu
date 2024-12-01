@@ -24,6 +24,7 @@ class OrderDetailController extends Controller
         $paymentHistories = Payment_history::where('related_id', $data->first()->order_id)->where('transaction_type', 'sale')->get();
         return view(self::PATH_VIEW . __FUNCTION__, data: compact('data', 'paymentHistories', 'payments'));
     }
+    
 
     /**
      * Show the form for creating a new resource.

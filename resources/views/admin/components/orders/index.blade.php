@@ -52,7 +52,7 @@
                                         <td>{{ number_format($order->total_amount) }}</td>
                                         <td>{{ number_format($order->paid_amount) }}</td>
                                         <td>
-                                            <span class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng có chứng từ'}}</span>
+                                            <span class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng hợp đồng'}}</span>
                                         </td>
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
@@ -69,7 +69,6 @@
                                                             {{ $order->orderStatus->name }}</option>
                                                         @if ($order->status_id == 1)
                                                             <option class="optionCheck" value="2">Xác Nhận</option>
-
                                                             <option class="optionCheck" value="5">Hủy</option>
                                                         @elseif ($order->status_id == 2)
                                                             <option class="optionCheck" value="3">Đang giao</option>

@@ -293,12 +293,11 @@
                     </div>
                     <!-- end col -->
                 </div>
-                <div class="col-xl-8 w-100">
+                <div class="col-xl-8 w-100 fs-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Đơn hàng gần đây</h4>
                             <div class="flex-shrink-0">
-
                             </div>
                         </div>
 
@@ -361,7 +360,7 @@
                         </div>
                     </div> <!-- .card-->
                 </div> <!-- .col-->
-                <div class="row ">
+                <div class="row fs-12">
                     <div class="col-xl-6  w-100">
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
@@ -391,8 +390,6 @@
                                                                         href="apps-ecommerce-product-details.html"
                                                                         class="text-reset">{{ $value->product_name }}</a>
                                                                 </h5>
-                                                                <span
-                                                                    class="text-muted">{{ $value->variation_name }}</span>
                                                             </div>
                                                         </div>
                                                     </td>

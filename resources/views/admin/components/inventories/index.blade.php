@@ -54,8 +54,8 @@
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="selectAllVariation"></th>
-                                    <th>Mã biến thể</th>
-                                    <th>Tên Biến thể</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
                                     <th>Danh mục</th>
                                     <th>SL</th>
                                     <th>ĐVT</th>
@@ -279,7 +279,7 @@
                         data.forEach(item => {
                             html += `
                 <tr>
-                    <td>${item.import_order.slug}</td>
+                    <td><a href="">${item.import_order.slug}</a></td>
                     <td>${item.quantity}</td>
                     <td>${item.price}</td>
                     <td>${item.import_order.supplier.name}</td>
