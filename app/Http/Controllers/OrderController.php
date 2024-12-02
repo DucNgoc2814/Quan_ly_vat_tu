@@ -37,10 +37,18 @@ class OrderController extends Controller
 
     public function index()
     {
-        $data = Order::with(['payment', 'customer', 'orderStatus'])
-            ->get();
+        $data = Order::with(['payment', 'customer', 'orderStatus'])->where('contract_id', null)->get();
 
         return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
+    }
+
+    public function orderContract()
+    {
+        $data = Order::with(['payment', 'customer', 'orderStatus', 'contract'])
+            ->whereNotNull('contract_id')
+            ->get();
+        
+        return view(self::PATH_VIEW . 'indexContract', compact('data'));
     }
 
     public function create()
@@ -120,7 +128,7 @@ class OrderController extends Controller
                         $variation = Variation::findOrFail($variationID);
                         $orderQuantity = $request->product_quantity[$key];
 
-                        // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
+                        // Thêm log kiểm tra số lượng tồn kho hiện tại và s�� lượng yêu cầu
                         logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
                         logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
 

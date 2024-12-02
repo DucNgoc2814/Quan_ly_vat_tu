@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\LogService;
+
 class Order extends Model
 {
     use HasFactory;
@@ -48,7 +49,7 @@ class Order extends Model
 
     public function contract()
     {
-        return $this->belongsTo(Contract::class, 'order_id');
+        return $this->belongsTo(Contract::class);
     }
 
     public function debts()
@@ -59,6 +60,20 @@ class Order extends Model
     public function orderCanceled()
     {
         return $this->hasOne(Order_canceled::class);
+    }
+    public function orderStatusTimes()
+    {
+        return $this->hasMany(OrderStatusTime::class);
+    }
+    public function tripDetail()
+    {
+        return $this->hasOne(Trip_detail::class);
+    }
+
+    public function paymentHistories()
+    {
+        return $this->hasMany(Payment_history::class, 'related_id')
+            ->where('transaction_type', Payment_history::TYPE_SALE);
     }
     protected static function booted()
     {
@@ -73,19 +88,5 @@ class Order extends Model
         static::deleted(function ($model) {
             LogService::addLog('Xóa', $model);
         });
-    }
-    public function orderStatusTimes()
-    {
-        return $this->hasMany(OrderStatusTime::class);
-    }
-    public function tripDetail()
-    {
-        return $this->hasOne(Trip_detail::class);
-    }
-
-    public function paymentHistories()
-    {
-        return $this->hasMany(Payment_history::class, 'related_id')
-        ->where('transaction_type', Payment_history::TYPE_SALE);
     }
 }

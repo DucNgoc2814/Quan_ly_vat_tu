@@ -151,7 +151,8 @@ Route::middleware('CheckEmployees')->group(
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')
             ->group(function () {
-                Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index')->middleware('permission:60');
+                Route::get('/danh-sach-ban-le', [OrderController::class, 'index'])->name('index')->middleware('permission:60');
+                Route::get('/danh-sach-ban-le-co-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract')->middleware('permission:60');
                 Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create')->middleware('permission:61');
                 Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store')->middleware('permission:62');
                 Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract');
@@ -326,3 +327,4 @@ Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController:
 
 // new
 Route::get('/quan-ly-ton-kho/lich-su-ban-hang/{id}', [InventoryController::class, 'getExportHistory'])->name('getExportHistory');
+Route::get('/quan-ly-ban-hang/danh-sach-don-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract');

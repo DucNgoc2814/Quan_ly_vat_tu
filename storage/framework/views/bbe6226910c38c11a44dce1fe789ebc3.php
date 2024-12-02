@@ -88,6 +88,11 @@
                                     bán lẻ</a>
                             </li>
                             <li class="nav-item">
+                                <a href="<?php echo e(route('order.orderContract')); ?>" class="nav-link "
+                                    data-key="t-horizontal">Đơn
+                                    có hợp đồng</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="<?php echo e(route('contract.index')); ?>" class="nav-link" data-key="t-horizontal">Danh
                                     sách hợp đồng</a>
                             </li>

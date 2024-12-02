@@ -40,21 +40,18 @@ class PaymentHistoryController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
-                // Kiểm tra số tiền còn thiếu
+                $isContractOrder = Order::find($request->related_id)->contract_id !== null;
+                if ($isContractOrder) {
+                    throw new \Exception("Không thể chuyển tiền cho đơn hàng hợp đồng.");
+                }
                 $remainingAmount = $this->getRemainingAmount($request->transaction_type, $request->related_id);
-
-                // Nếu số tiền thanh toán lớn hơn số tiền còn thiếu
                 if ($request->amount > $remainingAmount) {
                     throw new \Exception("Số tiền thanh toán (" . number_format($request->amount) . " VNĐ) lớn hơn số tiền còn thiếu (" . number_format($remainingAmount) . " VNĐ)");
                 }
-
-                // Upload document nếu có
                 $document_path = null;
                 if ($request->hasFile('document')) {
                     $document_path = $request->file('document')->store('payment-documents', 'public');
                 }
-
-                // Tạo payment history
                 Payment_history::create([
                     'related_id' => $request->related_id,
                     'transaction_type' => $request->transaction_type,
@@ -78,39 +75,25 @@ class PaymentHistoryController extends Controller
 
         try {
             DB::beginTransaction();
-
-            // Kiểm tra payment có tồn tại không
             $payment = Payment_history::find($id);
             if (!$payment) {
                 throw new \Exception('Không tìm thấy giao dịch');
             }
-
             Log::info('Found payment', ['payment' => $payment->toArray()]);
-
-            // Kiểm tra trạng thái hiện tại
             if ($payment->status == 1) {
                 throw new \Exception('Giao dịch này đã được xác nhận trước đó');
             }
-
-            // Cập nhật trạng thái
             $payment->status = 1;
-
             if (!$payment->save()) {
                 throw new \Exception('Không thể cập nhật trạng thái thanh toán');
             }
-
-            // Cập nhật số tiền đã thanh toán
             $this->updatePaidAmount(
                 $payment->transaction_type,
                 $payment->related_id,
                 $payment->amount
             );
             log::info('Payment updated successfully');
-
-            // Cập nhật trạng thái của đơn hàng/hợp đồng tương ứng nếu cần
-
             DB::commit();
-
             return response()->json([
                 'success' => true,
                 'message' => 'Xác nhận thanh toán thành công'
