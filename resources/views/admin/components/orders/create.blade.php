@@ -218,8 +218,7 @@
                                             @foreach ($variation as $variant)
                                                 <option value="{{ $variant->id }}"
                                                     data-price="{{ $variant->retail_price }}"
-                                                    data-stock="{{ $variant->stock }}"
-                                                    {{ old('variation_id.0') == $variant->id ? 'selected' : '' }}>
+                                                    data-stock="{{ $variant->stock }}">
                                                     {{ $variant->name }}
                                                 </option>
                                             @endforeach
@@ -234,20 +233,22 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Giá sản phẩm</label>
-                                                <input type="number" class="form-control" name="product_price[]" readonly>
+                                                <input type="number" class="form-control" name="product_price[]"
+                                                    id="product-price-input">
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Số lượng sản phẩm</label>
                                                 <input type="number" class="form-control" name="product_quantity[]"
-                                                    placeholder="Nhập số lượng" onchange="calculateTotal()">
+                                                    id="product-quantity-input" placeholder="Nhập số lượng">
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Số lượng trong kho</label>
-                                                <input type="text" class="form-control" name="stock[]" readonly>
+                                                <input type="number" class="form-control" name="stock"
+                                                    id="product-stock-input" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -310,65 +311,52 @@
         // Hàm để thêm sản phẩm mới
         function addProduct() {
             let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
-
-            // Lấy tất cả các sản phẩm đã được chọn
-            const selectedProducts = Array.from(document.querySelectorAll('[name="variation_id[]"]'))
-                .map(select => select.value);
-
-            // Tạo options cho select mới, loại bỏ các sản phẩm đã chọn
-            let optionsHtml = '<option value="0">Chọn Sản Phẩm</option>';
-            @foreach ($variation as $variant)
-                optionsHtml += `
-                    ${!selectedProducts.includes('{{ $variant->id }}') ?
-                        `<option value="{{ $variant->id }}"
-                            data-price="{{ $variant->retail_price }}"
-                            data-stock="{{ $variant->stock }}">
-                            {{ $variant->name }}
-                        </option>` : ''}
-                `;
-            @endforeach
-
             let html = `
-            <div class="col-md-12" id="${id}_item">
-                <hr class="mb-2">
+    <div class="col-md-12" id="${id}_item">
+        <hr class="mb-2">
+        <div class="mb-2">
+            <label class="form-label" for="product-variant-input">Sản phẩm</label>
+            <select class="form-select" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
+                <option value="0">Chọn Sản Phẩm</option>
+                @foreach ($variation as $variant)
+                    <option value="{{ $variant->id }}" data-price="{{ $variant->retail_price }}" data-stock="{{ $variant->stock }}">
+                        {{ $variant->name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-4">
                 <div class="mb-2">
-                    <label class="form-label" for="product-variant-input">Sản phẩm</label>
-                    <select class="form-select" name="variation_id[]" onchange="updatePrice(this)">
-                        ${optionsHtml}
-                    </select>
+                    <label class="form-label">Giá sản phẩm</label>
+                    <input type="number" class="form-control" name="product_price[]">
                 </div>
-                <div class="row">
-                    <div class="col-4">
-                        <div class="mb-2">
-                            <label class="form-label">Giá sản phẩm</label>
-                            <input type="number" class="form-control" name="product_price[]" readonly>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="mb-2">
-                            <label class="form-label">Số lượng sản phẩm</label>
-                            <input type="number" class="form-control" name="product_quantity[]"
-                                placeholder="Nhập số lượng" onchange="calculateTotal()">
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="mb-2">
-                            <label class="form-label">Số lượng trong kho</label>
-                            <input type="text" class="form-control" name="stock[]" readonly>
-                        </div>
-                    </div>
-                </div>
+            </div>
+            <div class="col-4">
                 <div class="mb-2">
-                    <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
-                        <span class="bx bx-trash"></span> Xóa sản phẩm
-                    </button>
+                    <label class="form-label">Số lượng sản phẩm</label>
+                    <input type="number"
+                        class="form-control @error('product_quantity.*') is-invalid @enderror"
+                        name="product_quantity[]"
+                        placeholder="Nhập số lượng">
+                    <div class="invalid-feedback d-block product-quantity-error"></div>
                 </div>
-            </div>`;
+            </div>
+            <div class="col-4">
+                <div class="mb-2">
+                    <label class="form-label">Số lượng trong kho</label>
+                    <input type="number" class="form-control" name="stock" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="mb-2">
+            <button type="button" class="btn btn-danger" onclick="removeProduct('${id}_item')">
+                <span class="bx bx-trash"></span> Xóa sản phẩm
+            </button>
+        </div>
+    </div>`;
 
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
-
-            // Cập nhật lại tất cả các dropdown sau khi thêm sản phẩm mới
-            updateAllDropdowns();
             addInputListeners();
         }
 
@@ -430,58 +418,46 @@
         // Hàm để cập nhật giá khi chọn sản phẩm
         function updatePrice(selectElement) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
+
+            // Debug
+            console.log('Selected option:', selectedOption);
+            console.log('Data attributes:', {
+                price: selectedOption.getAttribute('data-price'),
+                stock: selectedOption.getAttribute('data-stock')
+            });
+
+            // Lấy giá trị
+            const price = selectedOption.getAttribute('data-price') || selectedOption.dataset.price;
+            const stock = selectedOption.getAttribute('data-stock') || selectedOption.dataset.stock;
+
+            console.log('Final values:', {
+                price,
+                stock
+            });
+
+            // Tìm container và inputs
             const container = selectElement.closest('.col-md-12');
             const priceInput = container.querySelector('input[name="product_price[]"]');
-            const stockInput = container.querySelector('input[name="stock[]"]');
+            const stockInput = container.querySelector('input[name="stock"]');
 
-            if (selectedOption.value !== "0") {
-                // Cập nhật giá
-                if (priceInput && selectedOption.dataset.price) {
-                    priceInput.value = selectedOption.dataset.price;
-                }
+            // Debug found elements
+            console.log('Found elements:', {
+                container: container,
+                priceInput: priceInput,
+                stockInput: stockInput
+            });
 
-                // Cập nhật stock
-                if (stockInput && selectedOption.dataset.stock) {
-                    stockInput.value = selectedOption.dataset.stock;
-                }
-            } else {
-                // Reset các giá trị khi chọn "Chọn Sản Phẩm"
-                if (priceInput) priceInput.value = "";
-                if (stockInput) stockInput.value = "";
+            // Cập nhật giá trị
+            if (priceInput && price) {
+                priceInput.value = price;
+                console.log('Updated price input:', priceInput.value);
             }
 
-            // Cập nhật tất cả các dropdown
-            updateAllDropdowns();
-            // Tính lại tổng tiền
-            calculateTotal();
+            if (stockInput && stock) {
+                stockInput.value = stock;
+                console.log('Updated stock input:', stockInput.value);
+            }
         }
-
-        // Thêm hàm để cập nhật tất cả các dropdown khi có thay đổi
-        function updateAllDropdowns() {
-            const allSelects = document.querySelectorAll('[name="variation_id[]"]');
-            const selectedProducts = Array.from(allSelects).map(select => select.value);
-
-            allSelects.forEach(select => {
-                const currentValue = select.value;
-                let optionsHtml = '<option value="0">Chọn Sản Phẩm</option>';
-
-                @foreach ($variation as $variant)
-                    if ('{{ $variant->id }}' === currentValue || !selectedProducts.includes('{{ $variant->id }}')) {
-                        optionsHtml += `
-                            <option value="{{ $variant->id }}"
-                                data-price="{{ $variant->retail_price }}"
-                                data-stock="{{ $variant->stock }}"
-                                ${currentValue === '{{ $variant->id }}' ? 'selected' : ''}>
-                                {{ $variant->name }}
-                            </option>
-                        `;
-                    }
-                @endforeach
-
-                select.innerHTML = optionsHtml;
-            });
-        }
-
         // Hàm để thêm sự kiện lắng nghe cho input
         function addInputListeners() {
             document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
@@ -499,14 +475,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             addInputListeners();
             calculateTotal();
-        });
-
-        // Thêm đoạn code này để khôi phục giá trị sau khi load trang
-        document.addEventListener('DOMContentLoaded', function() {
-            const defaultSelect = document.querySelector('#product_default_item select[name="variation_id[]"]');
-            if (defaultSelect.value !== "0") {
-                updatePrice(defaultSelect);
-            }
         });
     </script>
 

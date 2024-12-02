@@ -44,9 +44,7 @@
                                         @endforeach
                                     </select>
                                     @error('employee_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -68,9 +66,7 @@
                                         @endforeach
                                     </select>
                                     @error('cargo_car_id')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                        <div class="text-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -95,8 +91,10 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($pendingOrders as $order)
-                                            <tr>
-                                            <tr data-order-id="{{ $order->id }}">
+                                            @php
+                                                $isSelected = old('order_id') && in_array($order->id, old('order_id'));
+                                            @endphp
+                                            <tr data-order-id="{{ $order->id }}" style="{{ $isSelected ? 'display: none;' : '' }}">
                                                 <td>{{ $order->slug }}</td>
                                                 <td>{{ $order->address }}</td>
                                                 <td>{{ $order->number_phone }}</td>
@@ -121,7 +119,37 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <div id="selected_orders" style="display: none;"></div>
+                                <div id="selected_orders" style="display: {{ old('order_id') ? 'block' : 'none' }};">
+                                    @if(old('order_id'))
+                                        <table class="table table-striped">
+                                            <thead class="table-light">
+                                                <tr>
+                                                    <th scope="col">Mã đơn</th>
+                                                    <th scope="col">Địa chỉ giao</th>
+                                                    <th scope="col">Số điện thoại người nhận</th>
+                                                    <th scope="col">Tổng tiền</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($pendingOrders as $order)
+                                                    @if(old('order_id') && in_array($order->id, old('order_id')))
+                                                        <tr>
+                                                            <td>{{ $order->slug }}</td>
+                                                            <td>{{ $order->address }}</td>
+                                                            <td>{{ $order->number_phone }}</td>
+                                                            <td>{{ $order->total_amount }}</td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-danger" onclick="removeOrder(this, '{{ $order->slug }}')">Xóa</button>
+                                                            </td>
+                                                            <input type="hidden" name="order_id[]" value="{{ $order->id }}">
+                                                        </tr>
+                                                    @endif
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    @endif
+                                </div>
                                 <div class="mb-2">
                                     <label class="form-label" for="total_amount">Tổng giá trị chuyến xe</label>
                                     <input type="text" class="form-control form-control-lg" id="total_amount"
@@ -268,5 +296,12 @@
             });
             document.getElementById('total_amount').value = total.toFixed(2);
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tính lại tổng tiền khi trang load lại sau validation fail
+            if (document.querySelector('#selected_orders tbody tr')) {
+                calculateTotal();
+            }
+        });
     </script>
 @endsection
