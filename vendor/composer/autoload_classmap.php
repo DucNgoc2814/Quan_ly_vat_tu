@@ -252,6 +252,7 @@ return array(
     'App\\Providers\\RouteServiceProvider' => $baseDir . '/app/Providers/RouteServiceProvider.php',
     'App\\Services\\LogService' => $baseDir . '/app/Services/LogService.php',
     'App\\Traits\\LogActivity' => $baseDir . '/app/Traits/LogActivity.php',
+    'App\\Traits\\PaymentTrait' => $baseDir . '/app/Traits/PaymentTrait.php',
     'Attribute' => $vendorDir . '/symfony/polyfill-php80/Resources/stubs/Attribute.php',
     'Brick\\Math\\BigDecimal' => $vendorDir . '/brick/math/src/BigDecimal.php',
     'Brick\\Math\\BigInteger' => $vendorDir . '/brick/math/src/BigInteger.php',
