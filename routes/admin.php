@@ -32,6 +32,7 @@ use App\Exports\VariationsExport;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\PaymentHistoryController;
 use Maatwebsite\Excel\Facades\Excel;
+
 Route::prefix('trang-quan-tri')
     ->as('employees.')
     ->group(function () {
@@ -317,5 +318,7 @@ Route::middleware('CheckEmployees')->group(
         Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen')->middleware('permission:162');
         Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission'])->middleware('permission:163');
         Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
+        Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
+        Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
     }
 );
