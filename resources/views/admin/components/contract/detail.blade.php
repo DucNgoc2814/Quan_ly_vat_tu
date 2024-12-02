@@ -15,15 +15,16 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
-                    <div class="row g-4">
-                        <div class="col-sm-auto">
-                            <div>
-                                <a href="" class="btn btn-secondary">Quay lại danh sách hợp đồng</a>
-                            </div>
-                            <div class="mt-3">
-                                <button class="btn btn-primary" onclick="showPdf({{ $contract->id }})">Xem hợp đồng</button>
-                                <!-- Nút xem hợp đồng -->
+                <div class="card-header border-0 py-3">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <div class="d-flex align-items-center gap-3">
+                                <a href="" class="btn btn-secondary">
+                                    <i class="ri-arrow-left-line align-bottom me-1"></i>Quay lại danh sách
+                                </a>
+                                <button class="btn btn-primary" onclick="showPdf({{ $contract->id }})">
+                                    <i class="ri-file-pdf-line align-bottom me-1"></i>Xem hợp đồng
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -53,6 +54,15 @@
 
                         </div>
 
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <div class="d-flex align-items-center">
+                        <i class="ri-user-3-line text-muted fs-20 me-2"></i>
+                        <div>
+                            <span class="text-muted">Người phụ trách:</span>
+                            <span class="fw-medium ms-1"><a href="{{ route('employees.edit', $contract->employee->id) }}">{{ $contract->employee->name ?? 'Chưa phân công' }}</a></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -313,6 +323,7 @@
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng đã đặt</th>
                                     <th>Số lượng cần thêm</th>
+                                    <th>Tồn kho</th>
                                     <th>Số lượng cần mua</th>
                                 </tr>
                             </thead>
@@ -327,11 +338,13 @@
                                         <td>{{ $item->variation->name }}</td>
                                         <td>{{ $item->quantity }}</td>
                                         <td>{{ $item->remaining_quantity }}</td>
+                                        <td>{{ $item->variation->stock }}</td>
                                         <td>
                                             <input type="hidden" name="variation_id[]"
                                                 value="{{ $item->variation_id }}">
                                             <input type="number" class="form-control quantity-input"
                                                 id="quantity_{{ $item->id }}" min="0"
+                                                max="{{ min($item->remaining_quantity, $item->variation->stock) }}"
                                                 style="width: 100px; height: 30px; display: none;"
                                                 name="product_quantity[]">
                                             @error('product_quantity')
@@ -533,83 +546,73 @@
         }
 
         document.getElementById('submitOrder').addEventListener('click', function(event) {
-            event.preventDefault(); // Ngăn chặn gửi form ngay lập tức
+            event.preventDefault();
+            
+            // Tính toán tỷ lệ thanh toán
+            const totalContractAmount = {{ $contract->total_amount }};
+            const paidAmount = {{ $contract->paid_amount }};
+            const paymentRatio = paidAmount / totalContractAmount;
 
-            // Lấy giá trị từ các trường input
-            const recipientName = document.getElementById('recipientName').value.trim();
-            const recipientPhone = document.getElementById('recipientPhone').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const province = document.getElementById('provinces').value;
-            const district = document.getElementById('districts').value;
-            const ward = document.getElementById('wards').value;
-            const phoneRegex = /^(0[0-9]{9,10})$/;
-
-            let isValid = true;
-
-            // Reset tất cả thông báo lỗi
-            const errorElements = document.querySelectorAll('.invalid-feedback');
-            errorElements.forEach(element => {
-                element.style.display = 'none';
-            });
-
-            // Validate tên người nhận
-            if (!recipientName) {
-                document.getElementById('recipientNameError').innerText = 'Vui lòng nhập tên người nhận.';
-                document.getElementById('recipientNameError').style.display = 'block';
-                document.getElementById('recipientName').classList.add('is-invalid');
-                isValid = false;
-            }
-
-            // Validate số điện thoại
-            if (!recipientPhone || !phoneRegex.test(recipientPhone)) {
-                document.getElementById('recipientPhoneError').innerText = 'Số điện thoại không hợp lệ.';
-                document.getElementById('recipientPhoneError').style.display = 'block';
-                document.getElementById('recipientPhone').classList.add('is-invalid');
-                isValid = false;
-            }
-
-            // Validate địa chỉ
-            if (!address) {
-                document.getElementById('addressError').innerText = 'Vui lòng nhập địa chỉ.';
-                document.getElementById('addressError').style.display = 'block';
-                document.getElementById('address').classList.add('is-invalid');
-                isValid = false;
-            }
-
-            // Validate sản phẩm
+            // Validate sản phẩm và số lượng
             const productQuantities = document.querySelectorAll('.quantity-input');
-            let hasSelectedProduct = false;
-            let hasInvalidQuantity = false;
+            let totalSelectedQuantity = 0;
+            let maxAllowedQuantity = 0;
 
+            // Tính tổng số lượng sản phẩm trong hợp đồng
+            const totalContractQuantity = {{ $contract->contractDetails->sum('quantity') }};
+            maxAllowedQuantity = Math.floor(totalContractQuantity * paymentRatio);
+
+            // Kiểm tra từng sản phẩm được chọn
             productQuantities.forEach(input => {
                 if (input.style.display === 'block') {
-                    hasSelectedProduct = true;
-                    if (input.value <= 0) {
-                        hasInvalidQuantity = true;
+                    const quantity = parseInt(input.value) || 0;
+                    totalSelectedQuantity += quantity;
+
+                    // Kiểm tra số lượng còn lại của từng sản phẩm
+                    const remainingQuantity = parseInt(input.closest('tr').querySelector('td:nth-child(5)').textContent);
+                    if (quantity > remainingQuantity) {
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Vượt quá số lượng cho phép',
+                            text: 'Số lượng đặt vượt quá số lượng còn lại của sản phẩm.',
+                            confirmButtonText: 'Đồng ý'
+                        });
+                        return;
                     }
                 }
             });
 
-            if (!hasSelectedProduct) {
-                // Tạo một thông báo lỗi mới cho sản phẩm
-                const productError = document.createElement('div');
-                productError.className = 'alert alert-danger mt-2';
-                productError.innerText = 'Vui lòng chọn ít nhất một sản phẩm.';
-                document.querySelector('.table').parentNode.appendChild(productError);
-                isValid = false;
-            } else if (hasInvalidQuantity) {
-                // Tạo một thông báo lỗi mới cho số lượng
-                const quantityError = document.createElement('div');
-                quantityError.className = 'alert alert-danger mt-2';
-                quantityError.innerText = 'Vui lòng nhập số lượng hợp lệ cho sản phẩm đã chọn.';
-                document.querySelector('.table').parentNode.appendChild(quantityError);
-                isValid = false;
+            // Kiểm tra tổng số lượng so với số tiền đã thanh toán
+            if (totalSelectedQuantity > maxAllowedQuantity) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Vượt quá số lượng cho phép',
+                    html: `Với số tiền đã thanh toán <b>${new Intl.NumberFormat('vi-VN').format(paidAmount)}đ/${new Intl.NumberFormat('vi-VN').format(totalContractAmount)}đ</b>,<br>
+                          bạn chỉ được mua tối đa <b>${maxAllowedQuantity}</b> sản phẩm.<br><br>
+                          Số lượng bạn đang chọn: <b>${totalSelectedQuantity}</b> sản phẩm.`,
+                    confirmButtonText: 'Đồng ý'
+                });
+                return;
             }
 
-            // Nếu tất cả các trường hợp đều hợp lệ, gửi form
-            if (isValid) {
-                document.querySelector('form').submit();
+            // Validate các trường thông tin cơ bản
+            const recipientName = document.getElementById('recipientName').value.trim();
+            const recipientPhone = document.getElementById('recipientPhone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const phoneRegex = /^(0[0-9]{9,10})$/;
+
+            if (!recipientName || !recipientPhone || !address || !phoneRegex.test(recipientPhone)) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Thiếu thông tin',   
+                    text: 'Vui lòng điền đầy đủ và chính xác thông tin người nhận hàng',
+                    confirmButtonText: 'Đồng ý'
+                });
+                return;
             }
+
+            // Nếu tất cả điều kiện đều hợp lệ, submit form
+            document.querySelector('form').submit();
         });
     </script>
 @endpush

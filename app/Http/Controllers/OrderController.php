@@ -274,70 +274,75 @@ class OrderController extends Controller
     {
         $order = Order::where('slug', $slug)->firstOrFail();
         $order->cancel_reason = $request->cancel_reason;
-        // $order->status_id = 6;
         $order->save();
 
         return response()->json(['success' => true]);
     }
 
-    // Sửa lại phương thức updateStatus
     public function updateStatus(Request $request, $slug)
     {
-        DB::transaction(function () use ($request, $slug) {
-            $order = Order::where('slug', $slug)->firstOrFail();
-            $oldStatus = $order->status_id;
-            $newStatus = $request->input('status');
+        try {
+            DB::transaction(function () use ($request, $slug) {
+                $order = Order::where('slug', $slug)->firstOrFail();
+                $oldStatus = $order->status_id;
+                $newStatus = $request->input('status');
 
-            // Cập nhật trạng thái đơn hàng
-            $order->status_id = $newStatus;
+                $order->status_id = $newStatus;
 
-            // Thêm mới: Lưu thời gian cập nhật trạng thái
-            OrderStatusTime::create([
-                'order_id' => $order->id,
-                'order_status_id' => $newStatus,
-            ]);
+                OrderStatusTime::create([
+                    'order_id' => $order->id,
+                    'order_status_id' => $newStatus,
+                ]);
 
-            // Nếu chuyển sang trạng thái chờ xác nhận hủy
-            if ($newStatus == 6) {
-                $order->save();
-                return;
-            }
+                if ($newStatus == 6) {
+                    $order->save();
+                    return;
+                }
 
-            // Nếu xác nhận hủy đơn hàng
-            if ($newStatus == 5 && $oldStatus != 5) {
-                // Hoàn lại số lượng sản phẩm vào kho và remaining_quantity trong contract_details
-                foreach ($order->orderDetails as $detail) {
-                    // Hoàn lại stock cho variation
-                    $variation = Variation::findOrFail($detail->variation_id);
-                    $variation->stock += $detail->quantity;
-                    $variation->save();
-
-                    // Hoàn lại remaining_quantity cho contract_detail
-                    if ($order->contract_id) {
-                        $contractDetail = ContractDetail::where('contract_id', $order->contract_id)
-                            ->where('variation_id', $detail->variation_id)
-                            ->first();
-
-                        if ($contractDetail) {
-                            $contractDetail->remaining_quantity += $detail->quantity;
-                            $contractDetail->save();
-                        }
+                if ($order->status_id == 1 && ($newStatus == 2 || $newStatus == 3) && !$order->contract_id) {
+                    if ($order->total_amount != $order->paid_amount) {
+                        throw new \Exception('Không thể xác nhận đơn hàng chưa thanh toán đủ');
                     }
                 }
 
-                // Lưu ghi chú vào bảng order_canceleds
-                $canceledOrder = new Order_canceled();
-                $canceledOrder->order_id = $order->id;
-                $canceledOrder->note = $order->cancel_reason; // Sử dụng lý do từ yêu cầu hủy
-                $canceledOrder->save();
+                if ($newStatus == 5 && $oldStatus != 5) {
+                    foreach ($order->orderDetails as $detail) {
+                        $variation = Variation::find($detail->variation_id);
+                        $variation->stock += $detail->quantity;
+                        $variation->save();
+                        
+                        if ($order->contract_id) {
+                            $contractDetail = ContractDetail::where('contract_id', $order->contract_id)
+                                ->where('variation_id', $detail->variation_id)
+                                ->first();
+                            if ($contractDetail) {
+                                $contractDetail->remaining_quantity += $detail->quantity;
+                                $contractDetail->save();
+                            }
+                        }
+                    }
 
-                // Xóa lý do hủy sau khi đã xử lý
-                $order->cancel_reason = null;
-            }
-            $order->save();
-        });
+                    $canceledOrder = new Order_canceled();
+                    $canceledOrder->order_id = $order->id;
+                    $canceledOrder->note = $order->cancel_reason;
+                    $canceledOrder->save();
+                    $order->cancel_reason = null;
+                }
+                
+                $order->save();
+            });
 
-        return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công!');
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật trạng thái đơn hàng thành công!'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function getCustomerLocation($customerId)

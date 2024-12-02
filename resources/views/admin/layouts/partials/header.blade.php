@@ -382,9 +382,7 @@
 
             showLowStockNotifications();
         });
-    </script>
 
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const employee_id = "{{ Session::get('employee_id') }}";
             const token = "{{ Session::get('token') }}";
@@ -463,9 +461,7 @@
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 });
         });
-    </script>
 
-    <script>
         let dropdown = document.querySelector('#notificationDropdown .dropdown-menu');
 
         function showDropdown(dropdown) {
@@ -494,7 +490,6 @@
         // Thêm hàm xác nhận giao dịch
         function confirmTransaction(type, id) {
             event.stopPropagation();
-            console.log('Starting confirmation for ID:', id); // Debug log
 
             Swal.fire({
                 title: 'Xác nhận',

@@ -68,8 +68,8 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/danh-sach-nhan-vien', [EmployeeController::class, 'index'])->name('index')->middleware('permission:5');
                 Route::get('/them-moi-nhan-vien', [EmployeeController::class, 'create'])->name('create')->middleware('permission:6');
                 Route::post('/them-moi', [EmployeeController::class, 'store'])->name('store')->middleware('permission:7');
-                Route::get('{id}/sua-thong-tin-nhan-vien', [EmployeeController::class, 'edit'])->name('edit')->middleware('permission:8');
-                Route::put('{id}/cap-nhat', [EmployeeController::class, 'update'])->name('update')->middleware('permission:9');
+                Route::get('sua-thong-tin-nhan-vien/{id}', [EmployeeController::class, 'edit'])->name('edit')->middleware('permission:8');
+                Route::put('cap-nhat/{id}', [EmployeeController::class, 'update'])->name('update')->middleware('permission:9');
             });
         Route::prefix('quan-ly-nha-phan-phoi')
             ->as('suppliers.')
@@ -322,3 +322,7 @@ Route::prefix('hop-dong')
     });
 Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen');
 Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission']);
+
+
+// new
+Route::get('/quan-ly-ton-kho/lich-su-ban-hang/{id}', [InventoryController::class, 'getExportHistory'])->name('getExportHistory');
