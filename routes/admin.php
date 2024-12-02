@@ -335,6 +335,7 @@ Route::post('/suppliers/add-variations/{supplier}', [SupplierController::class, 
 Route::delete('/suppliers/{supplier}/variations/{variation}', [SupplierController::class, 'removeVariation'])
     ->name('suppliers.removeVariation');
 Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 'getVariationsBySupplier']);
+Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {
