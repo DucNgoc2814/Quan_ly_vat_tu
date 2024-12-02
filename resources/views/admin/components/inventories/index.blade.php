@@ -54,15 +54,15 @@
                             <thead>
                                 <tr>
                                     <th><input type="checkbox" id="selectAllVariation"></th>
-                                    <th>Mã biến thể</th>
-                                    <th>Tên Biến thể</th>
+                                    <th>Mã sản phẩm</th>
+                                    <th>Tên sản phẩm</th>
                                     <th>Danh mục</th>
                                     <th>SL</th>
                                     <th>ĐVT</th>
                                     <th>GNTB</th>
                                     <th>GNGN</th>
                                     <th>Giá sỉ</th>
-                                    <th>LS nhập</th>
+                                    <th>LSXN</th>
                                     <th>Hiển thị</th>
                                 </tr>
                             </thead>
@@ -179,23 +179,60 @@
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Lịch sử nhập hàng</h5>
+                    <h5 class="modal-title">Lịch sử nhập xuất hàng</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Mã đơn nhập</th>
-                                <th>Số lượng</th>
-                                <th>Giá nhập</th>
-                                <th>Nhà cung cấp</th>
-                                <th>Ngày nhập</th>
-                            </tr>
-                        </thead>
-                        <tbody id="historyContent">
-                        </tbody>
-                    </table>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-bs-toggle="tab" href="#import-history" role="tab">
+                                Lịch sử nhập hàng
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#export-history" role="tab">
+                                Lịch sử bán hàng
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!-- Tab panes -->
+                    <div class="tab-content p-3">
+                        <!-- Tab lịch sử nhập -->
+                        <div class="tab-pane active" id="import-history" role="tabpanel">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn</th>
+                                        <th>Số lượng</th>
+                                        <th>Giá nhập</th>
+                                        <th>Nhà cung cấp</th>
+                                        <th>Ngày nhập</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="historyContent">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Tab lịch sử bán -->
+                        <div class="tab-pane" id="export-history" role="tabpanel">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Mã đơn</th>
+                                        <th>Số lượng</th>
+                                        <th>Giá bán</th>
+                                        <th>Khách hàng</th>
+                                        <th>Ngày bán</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="exportHistoryContent">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -274,22 +311,73 @@
 
                 $(document).on('click', '.view-history', function() {
                     let variationId = $(this).data('id');
-                    $.get(`/quan-ly-ton-kho/lich-su-nhap-hang/${variationId}`, function(data) {
-                        let html = '';
-                        data.forEach(item => {
-                            html += `
-                <tr>
-                    <td>${item.import_order.slug}</td>
-                    <td>${item.quantity}</td>
-                    <td>${item.price}</td>
-                    <td>${item.import_order.supplier.name}</td>
-                    <td>${new Date(item.import_order.created_at).toLocaleString()}</td>               
-                </tr>
-            `;
-                        });
-                        $('#historyContent').html(html);
-                        $('#historyDetailModal').modal('show');
+                    console.log('Loading history for variation:', variationId);
+
+                    // Load lịch sử nhập hàng
+                    $.ajax({
+                        url: `/quan-ly-ton-kho/lich-su-nhap-hang/${variationId}`,
+                        method: 'GET',
+                        success: function(data) {
+                            let html = '';
+                            if (data && data.length > 0) {
+                                data.forEach(item => {
+                                    html += `
+                                        <tr>
+                                            <td><a href="/don-hang-nhap/chi-tiet-don-hang/${item.import_order.slug}">${item.import_order?.slug || ''}</a></td>
+                                            <td>${item.quantity || 0}</td>
+                                            <td>${(item.price || 0).toLocaleString('vi-VN')}</td>
+                                            <td>${item.import_order?.supplier?.name || ''}</td>
+                                            <td>${item.import_order?.created_at ? new Date(item.import_order.created_at).toLocaleString('vi-VN') : ''}</td>               
+                                        </tr>
+                                    `;
+                                });
+                            } else {
+                                html =
+                                    '<tr><td colspan="5" class="text-center">Không có dữ liệu nhập hàng</td></tr>';
+                            }
+                            $('#historyContent').html(html);
+                        },
+                        error: function(xhr, status, error) {
+                            $('#historyContent').html(
+                                '<tr><td colspan="5" class="text-center text-danger">Lỗi khi tải dữ liệu nhập hàng</td></tr>'
+                                );
+                        }
                     });
+
+                    // Load lịch sử bán hàng
+                    $.get(`/quan-ly-ton-kho/lich-su-ban-hang/${variationId}`, function(data) {
+                        let html = '';
+
+                        if (!data || data.length === 0) {
+                            html =
+                                '<tr><td colspan="5" class="text-center">Không có dữ liệu bán hàng</td></tr>';
+                        } else {
+                            data.forEach(item => {
+                                html += `
+                                    <tr>
+                                        <td><a href="/quan-ly-ban-hang/chi-tiet-don-hang/${item.slug}">${item.slug}</a></td>
+                                        <td>${item.quantity || 0}</td>
+                                        <td>${(item.price || 0).toLocaleString('vi-VN')} đ</td>
+                                        <td>${item.customer_name || 'Khách lẻ'}</td>
+                                        <td>${item.created_at ? new Date(item.created_at).toLocaleString('vi-VN') : ''}</td>               
+                                    </tr>
+                                `;
+                            });
+                        }
+                        const exportHistoryContent = $('#exportHistoryContent');
+                        if (exportHistoryContent.length) {
+                            exportHistoryContent.html(html);
+                        } else {
+                            console.error('Element #exportHistoryContent not found');
+                        }
+                    }).fail(function(error) {
+                        console.error('Error loading export history:', error);
+                        $('#exportHistoryContent').html(
+                            '<tr><td colspan="5" class="text-center text-danger">Lỗi khi tải dữ liệu</td></tr>'
+                            );
+                    });
+
+                    $('#historyDetailModal').modal('show');
                 });
 
                 $('#import-btn').click(function(e) {

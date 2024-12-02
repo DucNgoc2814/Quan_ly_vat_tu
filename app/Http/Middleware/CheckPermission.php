@@ -16,12 +16,13 @@ class CheckPermission
         $token = Session::get('token');
         $dataToken = JWTAuth::setToken($token)->getPayload();
         $roleEmployee = $dataToken->get('role');
+        $idEmployee = $dataToken->get('id');
         $permissionRoleEmployee = DB::table('permission_role_employees')
             ->where('role_employee_id', $roleEmployee)
             ->where('permission_id', $permissionId)
             ->first();
         $permissionStaff = DB::table('permission_employees')
-            ->where('employee_id', $roleEmployee)
+            ->where('employee_id', $idEmployee)
             ->where('permission_id', $permissionId)
             ->first();
         if ($permissionStaff) {
