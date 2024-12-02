@@ -22,7 +22,6 @@ use PhpOffice\PhpWord\Writer\HTML;
 use Illuminate\Http\Request;
 use App\Events\ContractRejected;
 use App\Events\ContractSentToCustomer;
-use App\Events\NewContractCreated;
 use App\Models\Contract_status_time;
 use App\Models\Customer;
 use App\Models\Payment;
@@ -68,6 +67,7 @@ class ContractController extends Controller
             $contract = Contract::create([
                 'contract_status_id' => 1,
                 'employee_id' => '1',
+                'customer_id' => $request->customer_id,
                 'contract_number' => $contractNumber,
                 'customer_name' => $request->customer_name,
                 'customer_phone' => $request->customer_phone,

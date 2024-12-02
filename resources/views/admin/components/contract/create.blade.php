@@ -304,7 +304,7 @@
             hiddenInput.type = 'hidden';
             hiddenInput.name = 'customer_id';
             customerInput.parentNode.appendChild(hiddenInput);
-            customerInput.name = 'customer_display';
+            // customerInput.name = 'customer_display';
 
             customerInput.addEventListener('input', function() {
                 const searchText = this.value.toLowerCase();
