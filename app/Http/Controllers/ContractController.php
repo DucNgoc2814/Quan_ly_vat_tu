@@ -108,7 +108,7 @@ class ContractController extends Controller
 
 
             // \Log::info('kkkkkkkkkkkk', ['contract' => $contract]);
-            event(new NewContractCreated($contract));
+            // event(new NewContractCreated($contract));
             // \Log::info('thành công nè');
             return redirect()
                 ->route('contract.index')
@@ -226,22 +226,6 @@ class ContractController extends Controller
         return redirect()->route('contract.index')
             ->with('success', 'Đã gửi hợp đồng cho giám đốc thành công');
     }
-    // public function confirmContract($id)
-    // {
-    //     try {
-    //         $contract = Contract::findOrFail($id);
-    //         $contract->update([
-    //             'contract_status_id' => 2
-    //         ]);
-    //         Contract_status_time::create([
-    //             'contract_id' => $contract->id,
-    //             'contract_status_id' => 2
-    //         ]);
-    //         return redirect()->back()->with('success', 'Đã xác nhận hợp đồng');
-    //     } catch (Exception $e) {
-    //         return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
-    //     }
-    // }
 
     public function confirmContract($id)
     {
@@ -349,7 +333,7 @@ class ContractController extends Controller
         $contract->save();
 
         // \Log::info('kkkkkkkkkkkkkkkk', ['contract' => $contract]);
-        event(new ContractSentToCustomer($contract));
+        // event(new ContractSentToCustomer($contract));
         // \Log::info('Gửi thành công nè');
         return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
     }
