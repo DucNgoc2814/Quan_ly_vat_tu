@@ -9,6 +9,7 @@ use App\Http\Controllers\ContractController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerRankController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ThongkeController;
 use App\Http\Controllers\ImportOrderController;
 use App\Http\Controllers\ImportOrderDetailController;
 use App\Http\Controllers\InventoryController;
@@ -31,7 +32,6 @@ use App\Exports\VariationsExport;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\PaymentHistoryController;
 use Maatwebsite\Excel\Facades\Excel;
-
 Route::prefix('trang-quan-tri')
     ->as('employees.')
     ->group(function () {
@@ -41,7 +41,7 @@ Route::prefix('trang-quan-tri')
         Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
 Route::prefix('nhan-vien-lai-xe')
-    ->as('orderconfirm.') // Apply route name prefix
+    ->as('orderconfirm.')
     ->group(function () {
         Route::get('/404-not-found', [TripManagementController::class, 'notFound'])->name('notfound');
         Route::get('/dang-nhap', [TripManagementController::class, 'login'])->name('login');
@@ -54,7 +54,6 @@ Route::prefix('nhan-vien-lai-xe')
         Route::put('/chi-tiet/{id}', [TripManagementController::class, 'update'])->name('update');
         Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
-
 Route::middleware('CheckEmployees')->group(
     function () {
         Route::get('/dashboard', [ImportOrderController::class, 'dashboard'])->name('admin.dashboard')->middleware('permission:1');
@@ -304,7 +303,6 @@ Route::middleware('CheckEmployees')->group(
             });
         Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm')->middleware('permission:156');
         Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject')->middleware('permission:157');
-
         Route::prefix('chat')
             ->middleware('CheckEmployees')
             ->group(function () {
@@ -315,5 +313,6 @@ Route::middleware('CheckEmployees')->group(
         Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf')->middleware('permission:161');
         Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen')->middleware('permission:162');
         Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission'])->middleware('permission:163');
+        Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
     }
 );
