@@ -15,9 +15,17 @@ use App\Models\Order_status;
 use App\Models\OrderStatusTime;
 use App\Models\Payment;
 use App\Models\Variation;
+use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\Writer\HTML;
+use PhpOffice\PhpWord\Settings;
+
 // use PhpOffice\PhpWord\PhpWord;
 
 /**
@@ -124,11 +132,8 @@ class OrderController extends Controller
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationID) {
 
-                        // Tìm variation theo ID
                         $variation = Variation::findOrFail($variationID);
                         $orderQuantity = $request->product_quantity[$key];
-
-                        // Thêm log kiểm tra số lượng tồn kho hiện tại và s�� lượng yêu cầu
                         logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
                         logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
 
@@ -373,9 +378,8 @@ class OrderController extends Controller
                 $slug = 'DHB' . $randomChars . $timestamp;
                 $contract = Contract::findOrFail($request->contract_id);
                 $prices = [];
-                // Duyệt qua từng contractDetail để lấy giá
                 foreach ($contract->contractDetails as $detail) {
-                    $prices[] = $detail->price; // Lưu giá vào mảng
+                    $prices[] = $detail->price;
                 }
                 $totalAmount = 0;
                 if (count($prices) === count($request->product_quantity)) {
@@ -390,6 +394,7 @@ class OrderController extends Controller
                     "contract_id" => $request->contract_id,
                     "status_id" => 1,
                     "slug" => $slug,
+                    "customer_id" => $request->customer_id,
                     "customer_name" => $request->customer_name,
                     "email" => $contract->customer_email,
                     "number_phone" => $request->number_phone,
@@ -400,6 +405,8 @@ class OrderController extends Controller
                     "total_amount" => $totalAmount,
                     "paid_amount" => 0,
                 ];
+
+
 
                 $order = Order::query()->create($dataOrder);
 
@@ -435,8 +442,8 @@ class OrderController extends Controller
                                     $contractDetail->remaining_quantity -= $orderQuantity;
                                     $contractDetail->save();
                                 }
-
                                 // Giảm số lượng hàng tồn kho
+                                
                                 $variation->stock -= $orderQuantity;
                                 $variation->save();
                             }
@@ -453,5 +460,109 @@ class OrderController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
+    }
+
+
+    public function exportInvoice($orderId)
+    {
+        $order = Order::with([
+            'orderDetails.variations.product.unit',
+            'customer',
+            'tripDetail.trip.employee',
+            'tripDetail.trip.cargoCar'
+        ])->findOrFail($orderId);
+
+        // Load template
+        $templateProcessor = new TemplateProcessor(storage_path('app/public/templates/hoa-don.docx'));
+
+        // Thông tin chung
+        $templateProcessor->setValue('order_code', $order->slug);
+        $templateProcessor->setValue('order_date', Carbon::parse($order->created_at)->format('d/m/Y'));
+        $templateProcessor->setValue('export_date', Carbon::now()->format('d/m/Y'));
+
+        // Thông tin người nhận
+        $templateProcessor->setValue('customer_name', $order->customer_name);
+        $templateProcessor->setValue('customer_phone', $order->number_phone);
+        $templateProcessor->setValue('customer_email', $order->email);
+        $templateProcessor->setValue('customer_address', $order->address . ', ' . $order->ward . ', ' . $order->district . ', ' . $order->province);
+
+        // Thông tin người đặt
+        $templateProcessor->setValue('orderer_name', $order->customer->name ?? 'Đơn hàng hợp đồng');
+        $templateProcessor->setValue('orderer_phone', $order->customer->number_phone ?? '');
+        $templateProcessor->setValue('orderer_email', $order->customer->email ?? '');
+
+        // Thông tin người giao hàng
+        // $templateProcessor->setValue('shipper_name', $order->tripDetail->trip->employee->name ?? 'Chưa có người giao');
+        // $templateProcessor->setValue('shipper_phone', $order->tripDetail->trip->employee->number_phone ?? '');
+        // $templateProcessor->setValue('vehicle', $order->tripDetail->trip->cargoCar->cargoCarType->name ?? '');
+        // $templateProcessor->setValue('license_plate', $order->tripDetail->trip->cargoCar->license_plate ?? '');
+
+        // Thông tin sản phẩm
+        $products = $order->orderDetails;
+        $templateProcessor->cloneRow('product_name', count($products));
+
+        foreach ($products as $index => $product) {
+            $i = $index + 1;
+            $templateProcessor->setValue('stt#' . $i, $i);
+            $templateProcessor->setValue('product_name#' . $i, $product->variations->name ?? '');
+            $templateProcessor->setValue('product_quantity#' . $i, $product->quantity);
+            $templateProcessor->setValue('product_unit#' . $i, $product->variations->product->unit->name ?? '');
+            $templateProcessor->setValue('product_price#' . $i, number_format($product->price));
+            $templateProcessor->setValue('product_total#' . $i, number_format($product->quantity * $product->price));
+        }
+
+        // Thông tin thanh toán
+        $templateProcessor->setValue('total_amount', number_format($order->total_amount));
+        $templateProcessor->setValue('paid_amount', number_format($order->paid_amount));
+        $templateProcessor->setValue('remaining_amount', number_format($order->total_amount - $order->paid_amount));
+
+
+        // Lưu file Word
+        $docxFileName = 'Hoadon_' . $order->slug . '.docx';
+        $docxFilePath = storage_path('app/public/invoices/' . $docxFileName);
+
+        // Tạo thư mục nếu chưa tồn tại
+        if (!file_exists(storage_path('app/public/invoices'))) {
+            mkdir(storage_path('app/public/invoices'), 0777, true);
+        }
+
+        $templateProcessor->saveAs($docxFilePath);
+
+        // Cấu hình PDF
+        $domPdfPath = base_path('vendor/dompdf/dompdf');
+        Settings::setPdfRendererPath($domPdfPath);
+        Settings::setPdfRendererName('DomPDF');
+
+        $options = new Options();
+        $options->set('defaultFont', 'DejaVu Sans');
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+
+        // Tạo HTML với font Unicode
+        $html = '<style>
+        body { font-family: "DejaVu Sans", sans-serif; }
+        * { font-family: "DejaVu Sans", sans-serif !important; }
+    </style>';
+        $html .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
+
+        // Chuyển Word sang HTML
+        $phpWord = IOFactory::load($docxFilePath);
+        $htmlWriter = new HTML($phpWord);
+        $html .= $htmlWriter->getContent();
+
+        // Tạo PDF
+        $dompdf->loadHtml($html, 'UTF-8');
+        $dompdf->render();
+
+        // Lưu file PDF
+        $pdfFileName = 'Hoadon_' . $order->slug . '.pdf';
+        $pdfFilePath = storage_path('app/public/invoices/' . $pdfFileName);
+        file_put_contents($pdfFilePath, $dompdf->output());
+
+        // Download file PDF
+        return response()->download($pdfFilePath)->deleteFileAfterSend(true);
     }
 }

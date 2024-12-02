@@ -75,8 +75,11 @@
                             <h5 class="card-title flex-grow-1 mb-0">Hóa đơn</h5>
                         </div>
                         <div class="flex-shrink-0">
-                            <a href="apps-invoices-details.html" class="btn btn-success btn-sm"><i
-                                    class="ri-download-2-fill align-middle me-1"></i>Xuất hóa đơn</a>
+                            <a href="{{ route('order.invoice', $data->first()->order->id) }}"
+                                class="btn btn-success btn-sm">
+                                <i class="ri-download-2-fill align-middle me-1"></i>Xuất hóa đơn
+                            </a>
+
                         </div>
                     </div>
                     <div class="card-body">
@@ -223,9 +226,6 @@
                 <div class="card-header">
                     <div class="d-flex">
                         <h5 class="card-title flex-grow-1 mb-0">Người giao hàng</h5>
-                        <div class="flex-shrink-0">
-                            <a href="javascript:void(0);" class="link-secondary">Xem thông tin</a>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">
@@ -284,9 +284,6 @@
                 <div class="card-header">
                     <div class="d-flex">
                         <h5 class="card-title flex-grow-1 mb-0">Người đặt hàng</h5>
-                        <div class="flex-shrink-0">
-                            <a href="javascript:void(0);" class="link-secondary">Xem thông tin</a>
-                        </div>
                     </div>
                 </div>
                 <div class="card-body">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewContractCreated;
 use App\Models\Contract;
 use App\Http\Requests\StoreContractRequest;
 use App\Http\Requests\UpdateContractRequest;
@@ -21,8 +22,8 @@ use PhpOffice\PhpWord\Writer\HTML;
 use Illuminate\Http\Request;
 use App\Events\ContractRejected;
 use App\Events\ContractSentToCustomer;
-use App\Events\NewContractCreated;
 use App\Models\Contract_status_time;
+use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\Payment_history;
 
@@ -45,7 +46,8 @@ class ContractController extends Controller
     public function create()
     {
         $variation = Variation::all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('variation'));
+        $customers  = Customer::all();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('variation','customers'));
     }
 
     /**
@@ -65,6 +67,7 @@ class ContractController extends Controller
             $contract = Contract::create([
                 'contract_status_id' => 1,
                 'employee_id' => '1',
+                'customer_id' => $request->customer_id,
                 'contract_number' => $contractNumber,
                 'customer_name' => $request->customer_name,
                 'customer_phone' => $request->customer_phone,
@@ -79,7 +82,6 @@ class ContractController extends Controller
                 'contract_status_id' => 1
             ]);
 
-            // 2. Lưu chi tiết các sản phẩm trong hợp đồng
             $variations = $request->variation_id ?? [];
             $quantities = $request->quantity ?? [];
 
@@ -98,15 +100,16 @@ class ContractController extends Controller
                 }
             }
 
-            // 3. Tạo file Word từ thông tin hợp đồng và chi tiết hợp đồng
             $files = $this->exportContractToWord($contract, $request);
             $contract->update([
                 'file' => $files['docx'],
                 'file_pdf' => $files['pdf']
             ]);
 
-            // 4. Trở về trang danh sách hợp đồng
+
+            // \Log::info('kkkkkkkkkkkk', ['contract' => $contract]);
             event(new NewContractCreated($contract));
+            // \Log::info('thành công nè');
             return redirect()
                 ->route('contract.index')
                 ->with('success', 'Tạo hợp đồng thành công!');
@@ -120,14 +123,10 @@ class ContractController extends Controller
     {
         $templatePath = storage_path('app/public/templates/hop-dong.docx');
         $templateProcessor = new TemplateProcessor($templatePath);
-
-        // Replace basic information
         $templateProcessor->setValue('contract_number', $contract->contract_number);
         $templateProcessor->setValue('customer_name', $contract->customer_name);
         $templateProcessor->setValue('customer_phone', $contract->customer_phone);
         $templateProcessor->setValue('customer_email', $contract->customer_email);
-
-        // Prepare table data
         $variations = $request->variation_id ?? [];
         $quantities = $request->quantity ?? [];
         $prices = $request->price ?? [];
@@ -153,10 +152,7 @@ class ContractController extends Controller
             }
         }
 
-        // Add data to table
         $templateProcessor->cloneRowAndSetValues('stt', $tableData);
-
-        // Add total amount and time
         $templateProcessor->setValue('total_amount', number_format($totalAmount) . ' VNĐ');
         $templateProcessor->setValue('timestart', date('d/m/Y', strtotime($contract->timestart)));
         $templateProcessor->setValue('timeend', date('d/m/Y', strtotime($contract->timeend)));
@@ -165,8 +161,6 @@ class ContractController extends Controller
         $docxFileName = 'Hopdong_' . $contract->id . '.docx';
         $docxFilePath = storage_path('app/public/contracts/' . $docxFileName);
         $templateProcessor->saveAs($docxFilePath);
-
-        // Configure DomPDF with Vietnamese font support
         $domPdfPath = base_path('vendor/dompdf/dompdf');
         Settings::setPdfRendererPath($domPdfPath);
         Settings::setPdfRendererName('DomPDF');
@@ -179,14 +173,12 @@ class ContractController extends Controller
 
         $dompdf = new Dompdf($options);
 
-        // Thêm style để sử dụng font DejaVu Sans
         $html = '<style>
             body { font-family: "DejaVu Sans", sans-serif; }
             * { font-family: "DejaVu Sans", sans-serif !important; }
         </style>';
         $html .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
 
-        // Load file docx và chuyển sang HTML
         $phpWord = IOFactory::load($docxFilePath);
         $htmlWriter = new HTML($phpWord);
         $html .= $htmlWriter->getContent();
@@ -234,22 +226,72 @@ class ContractController extends Controller
         return redirect()->route('contract.index')
             ->with('success', 'Đã gửi hợp đồng cho giám đốc thành công');
     }
+    // public function confirmContract($id)
+    // {
+    //     try {
+    //         $contract = Contract::findOrFail($id);
+    //         $contract->update([
+    //             'contract_status_id' => 2
+    //         ]);
+    //         Contract_status_time::create([
+    //             'contract_id' => $contract->id,
+    //             'contract_status_id' => 2
+    //         ]);
+    //         return redirect()->back()->with('success', 'Đã xác nhận hợp đồng');
+    //     } catch (Exception $e) {
+    //         return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+    //     }
+    // }
+
     public function confirmContract($id)
     {
         try {
             $contract = Contract::findOrFail($id);
-            $contract->update([
-                'contract_status_id' => 2
-            ]);
+
+            // Xử lý file Word
+            $wordPath = storage_path('app/public/contracts/Hopdong_' . $id . '.docx');
+            $templateProcessor = new TemplateProcessor($wordPath);
+            $signaturePath = storage_path('app/public/signatures/signatures.png');
+            $templateProcessor->setImageValue('signaturee', $signaturePath);
+            $templateProcessor->saveAs($wordPath);
+
+            // Tạo lại file PDF từ file Word đã cập nhật
+            $domPdfPath = base_path('vendor/dompdf/dompdf');
+            Settings::setPdfRendererPath($domPdfPath);
+            Settings::setPdfRendererName('DomPDF');
+
+            $phpWord = IOFactory::load($wordPath);
+            $htmlWriter = new HTML($phpWord);
+            $html = $htmlWriter->getContent();
+
+            $options = new Options();
+            $options->set('defaultFont', 'DejaVu Sans');
+            $options->set('isHtml5ParserEnabled', true);
+            $options->set('isPhpEnabled', true);
+            $options->set('isRemoteEnabled', true);
+
+            $dompdf = new Dompdf($options);
+            $dompdf->loadHtml($html);
+            $dompdf->render();
+
+            $pdfPath = storage_path('app/public/contracts/Hopdong_' . $id . '.pdf');
+            file_put_contents($pdfPath, $dompdf->output());
+
+            // Cập nhật trạng thái
+            $contract->contract_status_id = 2;
             Contract_status_time::create([
                 'contract_id' => $contract->id,
                 'contract_status_id' => 2
             ]);
+            $contract->save();
+
             return redirect()->back()->with('success', 'Đã xác nhận hợp đồng');
         } catch (Exception $e) {
             return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
+
+
     public function rejectContract(Request $request, $id)
     {
         $contract = Contract::find($id);
@@ -306,7 +348,9 @@ class ContractController extends Controller
         ]);
         $contract->save();
 
+        // \Log::info('kkkkkkkkkkkkkkkk', ['contract' => $contract]);
         event(new ContractSentToCustomer($contract));
+        // \Log::info('Gửi thành công nè');
         return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
     }
     public function customerApprove($id)
@@ -318,12 +362,51 @@ class ContractController extends Controller
         if ($contract->contract_status_id == 6 || $contract->contract_status_id == 7) {
             return view('emails.processed', ['message' => 'Hợp đồng này đã được xử lý trước đó']);
         }
+
+        $wordPath = storage_path('app/public/contracts/Hopdong_' . $id . '.docx');
+        $templateProcessor = new TemplateProcessor($wordPath);
+        $signaturePath = storage_path('app/public/signatures/signatures(1).png');
+        $templateProcessor->setImageValue('signature', $signaturePath);
+        $templateProcessor->saveAs($wordPath);
+
+        $domPdfPath = base_path('vendor/dompdf/dompdf');
+        Settings::setPdfRendererPath($domPdfPath);
+        Settings::setPdfRendererName('DomPDF');
+
+        $phpWord = IOFactory::load($wordPath);
+        $htmlWriter = new HTML($phpWord);
+        $html = $htmlWriter->getContent();
+
+        $options = new Options();
+        $options->set('defaultFont', 'DejaVu Sans');
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+        $dompdf->loadHtml($html);
+        $dompdf->render();
+
+        $pdfPath = storage_path('app/public/contracts/Hopdong_' . $id . '.pdf');
+        file_put_contents($pdfPath, $dompdf->output());
+
         $contract->contract_status_id = 6;
         Contract_status_time::create([
             'contract_id' => $contract->id,
             'contract_status_id' => 6
         ]);
         $contract->save();
+
+        Mail::send('emails.contract_approved', [
+            'contract' => $contract
+        ], function ($message) use ($contract, $pdfPath) {
+            $message->to($contract->customer_email)
+                ->subject('Xác nhận hợp đồng thành công')
+                ->attach($pdfPath, [
+                    'as' => 'Hopdong_' . $contract->id . '.pdf',
+                    'mime' => 'application/pdf'
+                ]);
+        });
 
         return view('emails.success', ['message' => 'Xác nhận hợp đồng thành công']);
     }

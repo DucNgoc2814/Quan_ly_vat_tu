@@ -6,6 +6,7 @@ use App\Models\Payment_history;
 use App\Traits\PaymentTrait;
 use App\Http\Requests\StorePayment_historyRequest;
 use App\Http\Requests\UpdatePayment_historyRequest;
+use App\Models\Contract;
 use App\Models\Order;
 use App\Models\Request;
 use Illuminate\Support\Facades\DB;
@@ -40,18 +41,29 @@ class PaymentHistoryController extends Controller
     {
         try {
             DB::transaction(function () use ($request) {
-                $isContractOrder = Order::find($request->related_id)->contract_id !== null;
-                if ($isContractOrder) {
-                    throw new \Exception("Không thể chuyển tiền cho đơn hàng hợp đồng.");
+                // Kiểm tra loại giao dịch và lấy thông tin customer
+                if ($request->transaction_type === 'sale') {
+                    $order = Order::findOrFail($request->related_id);
+                    if ($order->contract_id !== null) {
+                        throw new \Exception("Không thể chuyển tiền cho đơn hàng hợp đồng.");
+                    }
+                } elseif ($request->transaction_type === 'contract') {
+                    Contract::findOrFail($request->related_id);
+                } else {
+                    throw new \Exception("Loại giao dịch không hợp lệ.");
                 }
+
                 $remainingAmount = $this->getRemainingAmount($request->transaction_type, $request->related_id);
                 if ($request->amount > $remainingAmount) {
                     throw new \Exception("Số tiền thanh toán (" . number_format($request->amount) . " VNĐ) lớn hơn số tiền còn thiếu (" . number_format($remainingAmount) . " VNĐ)");
                 }
+
+                // Xử lý document nếu có
                 $document_path = null;
                 if ($request->hasFile('document')) {
                     $document_path = $request->file('document')->store('payment-documents', 'public');
                 }
+
                 Payment_history::create([
                     'related_id' => $request->related_id,
                     'transaction_type' => $request->transaction_type,
@@ -60,9 +72,9 @@ class PaymentHistoryController extends Controller
                     'note' => $request->note,
                     'document' => $document_path,
                     'payment_id' => $request->payment_id
-
                 ]);
             });
+            
             return redirect()->back()->with('success', 'Đã thêm lịch sử chuyển tiền thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
@@ -83,16 +95,34 @@ class PaymentHistoryController extends Controller
             if ($payment->status == 1) {
                 throw new \Exception('Giao dịch này đã được xác nhận trước đó');
             }
+
+            // Cập nhật số tiền của customer
+            $customer = null;
+            if ($payment->transaction_type === 'sale') {
+                $order = Order::findOrFail($payment->related_id);
+                $customer = $order->customer;
+            } elseif ($payment->transaction_type === 'contract') {
+                $contract = Contract::findOrFail($payment->related_id);
+                $customer = $contract->customer;
+            }
+
+            if ($customer) {
+                $customer->amount += $payment->amount;
+                $customer->save();
+            }
+
             $payment->status = 1;
             if (!$payment->save()) {
                 throw new \Exception('Không thể cập nhật trạng thái thanh toán');
             }
+
             $this->updatePaidAmount(
                 $payment->transaction_type,
                 $payment->related_id,
                 $payment->amount
             );
-            log::info('Payment updated successfully');
+            
+            Log::info('Payment updated successfully');
             DB::commit();
             return response()->json([
                 'success' => true,
