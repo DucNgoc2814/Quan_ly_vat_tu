@@ -187,11 +187,15 @@
             <div class="card mt-n5">
                 <div class="card-body p-4">
                     <div class="table-responsive table-card p-4">
-                        <table class="table table-nowrap table-striped-columns mb-0">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5>Danh sách sản phẩm</h5>
+                        </div>
+                        <table class="table table-nowrap table-striped-columns mb-0 fs-13">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">STT</th>
-                                    <th scope="col">Tên sản phẩm</th>
+                                    <th scope="col">Mã SP</th>
+                                    <th scope="col">Tên SP</th>
                                     <th scope="col">Số lượng</th>
                                     <th scope="col">Đơn vị</th>
                                     <th scope="col">Giá sản phẩm</th>
@@ -202,6 +206,7 @@
                                 @foreach ($data as $index => $importOrderDetail)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
+                                        <td>{{ $importOrderDetail->variation?->sku ?? 'Không có thông tin sản phẩm' }}
                                         <td>{{ $importOrderDetail->variation?->name ?? 'Không có thông tin sản phẩm' }}
                                         </td>
                                         <td>{{ $importOrderDetail->quantity }}</td>
@@ -218,101 +223,108 @@
                 </div>
             </div>
         </div>
-     <div class="col-lg-12 mt-4 card p-3">
-            <div class="my-3 d-flex justify-content-between align-items-center">
-                <h5>Lịch sử chuyển tiền</h5>
-                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
-                    Tạo lịch sử chuyển tiền
-                </button>
-            </div>
-            <table class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Nội dung</th>
-                        <th>Số tiền</th>
-                        <th>PTTT</th>
-                        <th>Ngày chuyển</th>
-                        <th>Chứng từ</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($paymentHistories as $payment)
-                        <tr>
-                            <td>{{ $payment->note }}</td>
-                            <td>{{ number_format($payment->amount) }} VNĐ</td>
-                            <td>{{ $payment->payment->name }}</td>
-                            <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
-                            <td>
-                                @if ($payment->document)
-                                    @php
-                                        $extension = pathinfo($payment->document, PATHINFO_EXTENSION);
-                                        $documentUrl = url('storage/' . $payment->document);
-                                    @endphp
-                                    <button type="button" class="btn btn-sm btn-info"
-                                        onclick="showDocument('{{ $documentUrl }}', '{{ $extension }}')"
-                                        title="Xem chứng từ">
-                                        <i class="ri-file-text-line"></i> Xem chứng từ
-                                    </button>
-                                @else
-                                    <span class="text-muted">Không có</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($payment->status == 1)
-                                    <span class="badge bg-success-subtle text-success">
-                                        Đã thanh toán
-                                    </span>
-                                @else
-                                    <span class="badge bg-danger-subtle text-danger">
-                                        Chờ xác nhận
-                                    </span>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-            <!--end card-->
-        </div>
-    </div>
-        <div class="col-12 mt-5">
-            <div class="card">
-                <div class="card-body ">
-                    <div class="d-flex justify-content-between">
-                        <h3 class="fw-bold">Tổng cộng:</h3>
-                        <h4>{{ number_format($data->first()->importOrder->total_amount) }}đ</h4>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h3 class="fw-bold">Số tiền đã trả:</h3>
-                        <h4>{{ number_format($data->first()->importOrder->paid_amount) }}đ</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mt-n5 ">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <h2 class="fw-bold">Tổng thanh toán:</h2>
-                        <h3>{{ number_format($data->first()->importOrder->total_amount - $data->first()->importOrder->paid_amount) }}đ
-                        </h3>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="col-12 mt-5">
             <div class="card mt-n5">
                 <div class="card-body p-4">
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-primary">Xuất hóa đơn</button>
+                    <div class="table-responsive table-card p-4">
+                        <div class="my-3 d-flex justify-content-between align-items-center">
+                            <h5>Lịch sử chuyển tiền</h5>
+                            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
+                                Tạo lịch sử chuyển tiền
+                            </button>
+                        </div>
+                        <table class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14"
+                        style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Nội dung</th>
+                                <th>Số tiền</th>
+                                <th>PTTT</th>
+                                <th>Ngày chuyển</th>
+                                <th>Chứng từ</th>
+                                <th>Trạng thái</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($paymentHistories as $payment)
+                                <tr>
+                                    <td>{{ $payment->note }}</td>
+                                    <td>{{ number_format($payment->amount) }} VNĐ</td>
+                                    <td>{{ $payment->payment->name }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
+                                    <td>
+                                        @if ($payment->document)
+                                            @php
+                                                $extension = pathinfo($payment->document, PATHINFO_EXTENSION);
+                                                $documentUrl = url('storage/' . $payment->document);
+                                            @endphp
+                                            <button type="button" class="btn btn-sm btn-info"
+                                                onclick="showDocument('{{ $documentUrl }}', '{{ $extension }}')"
+                                                title="Xem chứng từ">
+                                                <i class="ri-file-text-line"></i> Xem chứng từ
+                                            </button>
+                                        @else
+                                            <span class="text-muted">Không có</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($payment->status == 1)
+                                            <span class="badge bg-success-subtle text-success">
+                                                Đã thanh toán
+                                            </span>
+                                        @else
+                                            <span class="badge bg-danger-subtle text-danger">
+                                                Chờ xác nhận
+                                            </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                     </div>
                 </div>
             </div>
         </div>
-        <!--end col-->
+        <!--end card-->
+    </div>
+    </div>
+    <div class="col-12 mt-5">
+        <div class="card">
+            <div class="card-body ">
+                <div class="d-flex justify-content-between">
+                    <h3 class="fw-bold">Tổng cộng:</h3>
+                    <h4>{{ number_format($data->first()->importOrder->total_amount) }}đ</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h3 class="fw-bold">Số tiền đã trả:</h3>
+                    <h4>{{ number_format($data->first()->importOrder->paid_amount) }}đ</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-n5 ">
+            <div class="card-body">
+                <div class="d-flex justify-content-between">
+                    <h2 class="fw-bold">Tổng thanh toán:</h2>
+                    <h3>{{ number_format($data->first()->importOrder->total_amount - $data->first()->importOrder->paid_amount) }}đ
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-5">
+        <div class="card mt-n5">
+            <div class="card-body p-4">
+                <div class="d-flex justify-content-between">
+                    <button class="btn btn-primary">Xuất hóa đơn</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end col-->
     </div>
 
     <div class="modal fade" id="createPaymentModal" tabindex="-1">
@@ -332,7 +344,8 @@
                             <select class="form-select" id="paymentId" name="payment_id">
                                 <option value="">Chọn Phương Thức Thanh Toán</option>
                                 @foreach ($payments as $id => $name)
-                                    <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
+                                    <option value="{{ $id }}"
+                                        @if (old('payment_id') == $id) selected @endif>
                                         {{ $name }}</option>
                                 @endforeach
                             </select>

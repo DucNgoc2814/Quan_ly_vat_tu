@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -15,10 +16,18 @@ class CheckPermission
         $token = Session::get('token');
         $dataToken = JWTAuth::setToken($token)->getPayload();
         $roleEmployee = $dataToken->get('role');
+        $idEmployee = $dataToken->get('id');
         $permissionRoleEmployee = DB::table('permission_role_employees')
             ->where('role_employee_id', $roleEmployee)
             ->where('permission_id', $permissionId)
             ->first();
+        $permissionStaff = DB::table('permission_employees')
+            ->where('employee_id', $idEmployee)
+            ->where('permission_id', $permissionId)
+            ->first();
+        if ($permissionStaff) {
+            return $next($request);
+        }
         if (!$permissionRoleEmployee) {
             return back()->with('error', 'Bạn không có quyền truy cập chức năng này');
         }

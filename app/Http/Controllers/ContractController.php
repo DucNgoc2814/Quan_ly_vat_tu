@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Writer\HTML;
 use Illuminate\Http\Request;
 use App\Events\ContractRejected;
 use App\Events\ContractSentToCustomer;
+use App\Events\NewContractCreated;
 use App\Models\Contract_status_time;
 use App\Models\Customer;
 use App\Models\Payment;

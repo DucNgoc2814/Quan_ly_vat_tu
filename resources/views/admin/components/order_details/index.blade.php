@@ -92,14 +92,7 @@
                                             <td class="text-end">
                                                 {{ number_format($data->first()->order->total_amount) }}</td>
                                         </tr>
-                                        <tr>
-                                            <td>Giảm giá <span
-                                                    class="text-muted">({{ $data->first()->order->customer->customerRank->name ?? 'Đơn hàng hợp đồng' }})</span>:
-                                            </td>
-                                            <td class="text-end">
-                                                {{ $data->first()->order->customer->customerRank->discount ?? 'Đơn hàng hợp đồng' }}
-                                            </td>
-                                        </tr>
+
                                         <tr>
                                             <td>Đã thanh toán :</td>
                                             <td class="text-end">
@@ -110,8 +103,7 @@
                                             <th class="text-end">
                                                 @if (isset($data->first()->order->customer->customerRank->discount))
                                                     {{ number_format(
-                                                        $data->first()->order->total_amount * (1 - $data->first()->order->customer->customerRank->discount / 100) -
-                                                            $data->first()->order->paid_amount,
+                                                        $data->first()->order->total_amount - $data->first()->order->paid_amount,
                                                         2,
                                                     ) }}
                                                 @else

@@ -42,7 +42,7 @@ class Contract extends Model
     }
     public function employee()
     {
-        return $this->hasOne(Employee::class);
+        return $this->belongsTo(Employee::class);
     }
     public function customer()
     {
