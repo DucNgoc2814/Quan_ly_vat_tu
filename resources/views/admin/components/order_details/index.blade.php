@@ -92,7 +92,6 @@
                                             <td class="text-end">
                                                 {{ number_format($data->first()->order->total_amount) }}</td>
                                         </tr>
-
                                         <tr>
                                             <td>Đã thanh toán :</td>
                                             <td class="text-end">
@@ -102,10 +101,7 @@
                                             <th scope="row">Thanh toán (VND) :</th>
                                             <th class="text-end">
                                                 @if (isset($data->first()->order->customer->customerRank->discount))
-                                                    {{ number_format(
-                                                        $data->first()->order->total_amount - $data->first()->order->paid_amount,
-                                                        2,
-                                                    ) }}
+                                                    {{ number_format($data->first()->order->total_amount - $data->first()->order->paid_amount, 2) }}
                                                 @else
                                                     0
                                                 @endif
@@ -162,63 +158,65 @@
                 </div>
             </div>
             <!--end card-->
-            <div class="col-lg-12 mt-4 card p-3">
-                <div class="my-3 d-flex justify-content-between align-items-center">
-                    <h5>Lịch sử chuyển tiền</h5>
-                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
-                        Tạo lịch sử chuyển tiền
-                    </button>
-                </div>
-                <table class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14"
-                    style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>Nội dung</th>
-                            <th>Số tiền</th>
-                            <th>PTTT</th>
-                            <th>Ngày chuyển</th>
-                            <th>Chứng từ</th>
-                            <th>Trạng thái</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($paymentHistories as $payment)
+            @if ($data->first()->order->contract_id == null)
+                <div class="col-lg-12 mt-4 card p-3">
+                    <div class="my-3 d-flex justify-content-between align-items-center">
+                        <h5>Lịch sử chuyển tiền</h5>
+                        <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
+                            Tạo lịch sử chuyển tiền
+                        </button>
+                    </div>
+                    <table class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14"
+                        style="width:100%">
+                        <thead>
                             <tr>
-                                <td>{{ $payment->note }}</td>
-                                <td>{{ number_format($payment->amount) }} VNĐ</td>
-                                <td>{{ $payment->payment->name }}</td>
-                                <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
-                                <td>
-                                    @if ($payment->document)
-                                        @php
-                                            $extension = pathinfo($payment->document, PATHINFO_EXTENSION);
-                                            $documentUrl = url('storage/' . $payment->document);
-                                        @endphp
-                                        <button type="button" class="btn btn-sm btn-info"
-                                            onclick="showDocument('{{ $documentUrl }}', '{{ $extension }}')"
-                                            title="Xem chứng từ">
-                                            <i class="ri-file-text-line"></i> Xem chứng từ
-                                        </button>
-                                    @else
-                                        <span class="text-muted">Không có</span>
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($payment->status == 1)
-                                        <span class="badge bg-success-subtle text-success">
-                                            Đã thanh toán
-                                        </span>
-                                    @else
-                                        <span class="badge bg-danger-subtle text-danger">
-                                            Chờ xác nhận
-                                        </span>
-                                    @endif
-                                </td>
+                                <th>Nội dung</th>
+                                <th>Số tiền</th>
+                                <th>PTTT</th>
+                                <th>Ngày chuyển</th>
+                                <th>Chứng từ</th>
+                                <th>Trạng thái</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            @foreach ($paymentHistories as $payment)
+                                <tr>
+                                    <td>{{ $payment->note }}</td>
+                                    <td>{{ number_format($payment->amount) }} VNĐ</td>
+                                    <td>{{ $payment->payment->name }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
+                                    <td>
+                                        @if ($payment->document)
+                                            @php
+                                                $extension = pathinfo($payment->document, PATHINFO_EXTENSION);
+                                                $documentUrl = url('storage/' . $payment->document);
+                                            @endphp
+                                            <button type="button" class="btn btn-sm btn-info"
+                                                onclick="showDocument('{{ $documentUrl }}', '{{ $extension }}')"
+                                                title="Xem chứng từ">
+                                                <i class="ri-file-text-line"></i> Xem chứng từ
+                                            </button>
+                                        @else
+                                            <span class="text-muted">Không có</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($payment->status == 1)
+                                            <span class="badge bg-success-subtle text-success">
+                                                Đã thanh toán
+                                            </span>
+                                        @else
+                                            <span class="badge bg-danger-subtle text-danger">
+                                                Chờ xác nhận
+                                            </span>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @endif
             <!--end card-->
         </div>
         <!--end col-->

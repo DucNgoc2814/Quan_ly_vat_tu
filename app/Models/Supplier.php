@@ -9,7 +9,6 @@ use App\Services\LogService;
 class Supplier extends Model
 {
     use HasFactory;
-    use SoftDeletes;
     protected $fillable = [
         'name',
         'email',
@@ -17,9 +16,9 @@ class Supplier extends Model
         'address',
     ];
 
-    public function products()
+    public function variations()
     {
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Variation::class);
     }
 
     public function importOrders()
