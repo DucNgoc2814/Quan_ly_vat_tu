@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('contract_status_id')->constrained('contract_statuses')->default('1');
             $table->foreignId('employee_id')->constrained('employees');
+            $table->foreignId('customer_id')->constrained('customers');
             $table->string('contract_number', 255);
             $table->string('customer_name', 255);
             $table->string('customer_phone', 10);

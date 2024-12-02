@@ -20,6 +20,10 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
 Broadcast::channel('contract-notifications', function ($user) {
     return $user->role_id === 1;
 });
+Broadcast::channel('contract-created', function ($user) {
+    return $user->role_id === 1;
+    // return true;
+});
 
 
 Broadcast::channel('chat', function ($user) {

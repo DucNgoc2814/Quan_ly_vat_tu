@@ -13,9 +13,17 @@ use App\Models\Order_status;
 use App\Models\OrderStatusTime;
 use App\Models\Payment;
 use App\Models\Variation;
+use Carbon\Carbon;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\Writer\HTML;
+use PhpOffice\PhpWord\Settings;
+
 // use PhpOffice\PhpWord\PhpWord;
 /**
  * Handles the CRUD operations for orders in the application.
@@ -229,59 +237,74 @@ class OrderController extends Controller
     {
         $order = Order::where('slug', $slug)->firstOrFail();
         $order->cancel_reason = $request->cancel_reason;
-        // $order->status_id = 6;
         $order->save();
         return response()->json(['success' => true]);
     }
-    // Sửa lại phương thức updateStatus
+
     public function updateStatus(Request $request, $slug)
     {
-        DB::transaction(function () use ($request, $slug) {
-            $order = Order::where('slug', $slug)->firstOrFail();
-            $oldStatus = $order->status_id;
-            $newStatus = $request->input('status');
-            // Cập nhật trạng thái đơn hàng
-            $order->status_id = $newStatus;
-            // Thêm mới: Lưu thời gian cập nhật trạng thái
-            OrderStatusTime::create([
-                'order_id' => $order->id,
-                'order_status_id' => $newStatus,
-            ]);
-            // Nếu chuyển sang trạng thái chờ xác nhận hủy
-            if ($newStatus == 6) {
-                $order->save();
-                return;
-            }
-            // Nếu xác nhận hủy đơn hàng
-            if ($newStatus == 5 && $oldStatus != 5) {
-                // Hoàn lại số lượng sản phẩm vào kho và remaining_quantity trong contract_details
-                foreach ($order->orderDetails as $detail) {
-                    // Hoàn lại stock cho variation
-                    $variation = Variation::findOrFail($detail->variation_id);
-                    $variation->stock += $detail->quantity;
-                    $variation->save();
-                    // Hoàn lại remaining_quantity cho contract_detail
-                    if ($order->contract_id) {
-                        $contractDetail = ContractDetail::where('contract_id', $order->contract_id)
-                            ->where('variation_id', $detail->variation_id)
-                            ->first();
-                        if ($contractDetail) {
-                            $contractDetail->remaining_quantity += $detail->quantity;
-                            $contractDetail->save();
-                        }
+        try {
+            DB::transaction(function () use ($request, $slug) {
+                $order = Order::where('slug', $slug)->firstOrFail();
+                $oldStatus = $order->status_id;
+                $newStatus = $request->input('status');
+
+                $order->status_id = $newStatus;
+
+                OrderStatusTime::create([
+                    'order_id' => $order->id,
+                    'order_status_id' => $newStatus,
+                ]);
+
+                if ($newStatus == 6) {
+                    $order->save();
+                    return;
+                }
+
+                if ($order->status_id == 1 && ($newStatus == 2 || $newStatus == 3) && !$order->contract_id) {
+                    if ($order->total_amount != $order->paid_amount) {
+                        throw new \Exception('Không thể xác nhận đơn hàng chưa thanh toán đủ');
                     }
                 }
-                // Lưu ghi chú vào bảng order_canceleds
-                $canceledOrder = new Order_canceled();
-                $canceledOrder->order_id = $order->id;
-                $canceledOrder->note = $order->cancel_reason; // Sử dụng lý do từ yêu cầu hủy
-                $canceledOrder->save();
-                // Xóa lý do hủy sau khi đã xử lý
-                $order->cancel_reason = null;
-            }
-            $order->save();
-        });
-        return redirect()->back()->with('message', 'Cập nhật trạng thái đơn hàng thành công!');
+
+                if ($newStatus == 5 && $oldStatus != 5) {
+                    foreach ($order->orderDetails as $detail) {
+                        $variation = Variation::find($detail->variation_id);
+                        $variation->stock += $detail->quantity;
+                        $variation->save();
+
+                        if ($order->contract_id) {
+                            $contractDetail = ContractDetail::where('contract_id', $order->contract_id)
+                                ->where('variation_id', $detail->variation_id)
+                                ->first();
+                            if ($contractDetail) {
+                                $contractDetail->remaining_quantity += $detail->quantity;
+                                $contractDetail->save();
+                            }
+                        }
+                    }
+
+                    $canceledOrder = new Order_canceled();
+                    $canceledOrder->order_id = $order->id;
+                    $canceledOrder->note = $order->cancel_reason;
+                    $canceledOrder->save();
+                    $order->cancel_reason = null;
+                }
+
+                $order->save();
+            });
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Cập nhật trạng thái đơn hàng thành công!'
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
     public function getCustomerLocation($customerId)
     {
@@ -369,13 +392,114 @@ class OrderController extends Controller
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
             });
-            return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
+
+            return redirect()->back()->with('success', 'Thêm mới đơn hàng thành công!');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
         }
     }
-    public function thongKeDoanhThu()
+
+
+    public function exportInvoice($orderId)
     {
-        return view('admin.components.thongke.doanhthu');
+        $order = Order::with([
+            'orderDetails.variations.product.unit',
+            'customer',
+            'tripDetail.trip.employee',
+            'tripDetail.trip.cargoCar'
+        ])->findOrFail($orderId);
+
+        // Load template
+        $templateProcessor = new TemplateProcessor(storage_path('app/public/templates/hoa-don.docx'));
+
+        // Thông tin chung
+        $templateProcessor->setValue('order_code', $order->slug);
+        $templateProcessor->setValue('order_date', Carbon::parse($order->created_at)->format('d/m/Y'));
+        $templateProcessor->setValue('export_date', Carbon::now()->format('d/m/Y'));
+
+        // Thông tin người nhận
+        $templateProcessor->setValue('customer_name', $order->customer_name);
+        $templateProcessor->setValue('customer_phone', $order->number_phone);
+        $templateProcessor->setValue('customer_email', $order->email);
+        $templateProcessor->setValue('customer_address', $order->address . ', ' . $order->ward . ', ' . $order->district . ', ' . $order->province);
+
+        // Thông tin người đặt
+        $templateProcessor->setValue('orderer_name', $order->customer->name ?? 'Đơn hàng hợp đồng');
+        $templateProcessor->setValue('orderer_phone', $order->customer->number_phone ?? '');
+        $templateProcessor->setValue('orderer_email', $order->customer->email ?? '');
+
+        // Thông tin người giao hàng
+        // $templateProcessor->setValue('shipper_name', $order->tripDetail->trip->employee->name ?? 'Chưa có người giao');
+        // $templateProcessor->setValue('shipper_phone', $order->tripDetail->trip->employee->number_phone ?? '');
+        // $templateProcessor->setValue('vehicle', $order->tripDetail->trip->cargoCar->cargoCarType->name ?? '');
+        // $templateProcessor->setValue('license_plate', $order->tripDetail->trip->cargoCar->license_plate ?? '');
+
+        // Thông tin sản phẩm
+        $products = $order->orderDetails;
+        $templateProcessor->cloneRow('product_name', count($products));
+
+        foreach ($products as $index => $product) {
+            $i = $index + 1;
+            $templateProcessor->setValue('stt#' . $i, $i);
+            $templateProcessor->setValue('product_name#' . $i, $product->variations->name ?? '');
+            $templateProcessor->setValue('product_quantity#' . $i, $product->quantity);
+            $templateProcessor->setValue('product_unit#' . $i, $product->variations->product->unit->name ?? '');
+            $templateProcessor->setValue('product_price#' . $i, number_format($product->price));
+            $templateProcessor->setValue('product_total#' . $i, number_format($product->quantity * $product->price));
+        }
+
+        // Thông tin thanh toán
+        $templateProcessor->setValue('total_amount', number_format($order->total_amount));
+        $templateProcessor->setValue('paid_amount', number_format($order->paid_amount));
+        $templateProcessor->setValue('remaining_amount', number_format($order->total_amount - $order->paid_amount));
+
+
+        // Lưu file Word
+        $docxFileName = 'Hoadon_' . $order->slug . '.docx';
+        $docxFilePath = storage_path('app/public/invoices/' . $docxFileName);
+
+        // Tạo thư mục nếu chưa tồn tại
+        if (!file_exists(storage_path('app/public/invoices'))) {
+            mkdir(storage_path('app/public/invoices'), 0777, true);
+        }
+
+        $templateProcessor->saveAs($docxFilePath);
+
+        // Cấu hình PDF
+        $domPdfPath = base_path('vendor/dompdf/dompdf');
+        Settings::setPdfRendererPath($domPdfPath);
+        Settings::setPdfRendererName('DomPDF');
+
+        $options = new Options();
+        $options->set('defaultFont', 'DejaVu Sans');
+        $options->set('isHtml5ParserEnabled', true);
+        $options->set('isPhpEnabled', true);
+        $options->set('isRemoteEnabled', true);
+
+        $dompdf = new Dompdf($options);
+
+        // Tạo HTML với font Unicode
+        $html = '<style>
+        body { font-family: "DejaVu Sans", sans-serif; }
+        * { font-family: "DejaVu Sans", sans-serif !important; }
+    </style>';
+        $html .= '<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>';
+
+        // Chuyển Word sang HTML
+        $phpWord = IOFactory::load($docxFilePath);
+        $htmlWriter = new HTML($phpWord);
+        $html .= $htmlWriter->getContent();
+
+        // Tạo PDF
+        $dompdf->loadHtml($html, 'UTF-8');
+        $dompdf->render();
+
+        // Lưu file PDF
+        $pdfFileName = 'Hoadon_' . $order->slug . '.pdf';
+        $pdfFilePath = storage_path('app/public/invoices/' . $pdfFileName);
+        file_put_contents($pdfFilePath, $dompdf->output());
+
+        // Download file PDF
+        return response()->download($pdfFilePath)->deleteFileAfterSend(true);
     }
 }

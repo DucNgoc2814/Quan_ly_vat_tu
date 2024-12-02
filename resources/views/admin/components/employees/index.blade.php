@@ -69,7 +69,7 @@
 
                                             <ul class="dropdown-menu dropdown-menu-end">
                                                 <li>
-                                                    <a href="{{ route('employees.edit', ['id' => $item->id]) }}"
+                                                    <a href="{{ route('employees.edit',  $item->id) }}"
                                                         class="dropdown-item edit-item-btn"><i
                                                             class="ri-pencil-fill align-bottom me-2 text-muted"></i>
                                                         Thông tin chi tiết</a>

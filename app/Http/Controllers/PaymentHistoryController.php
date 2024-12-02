@@ -21,7 +21,7 @@ class PaymentHistoryController extends Controller
      */
     public function index()
     {
-        $payments = Payment_history::all();
+        $payments = Payment_history::where('status', 1)->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('payments'));
     }
 
@@ -66,7 +66,6 @@ class PaymentHistoryController extends Controller
 
                 ]);
             });
-
             return redirect()->back()->with('success', 'Đã thêm lịch sử chuyển tiền thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());

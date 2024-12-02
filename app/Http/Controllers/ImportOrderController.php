@@ -11,10 +11,9 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreImport_orderRequest;
 use App\Http\Requests\UpdateImport_orderRequest;
 use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\NewOrderRequest;
 use App\Models\Order;
-use App\Models\Order_detail;
-use App\Models\Product;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
@@ -23,9 +22,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ImportOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     const PATH_VIEW = 'admin.components.import_orders.';
     public function index()
     {
@@ -161,27 +157,6 @@ class ImportOrderController extends Controller
         ]);
     }
 
-    // public function autoUpdateStatus($slug)
-    // {
-    //     $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-    //     if ($importOrder->status == 2) {
-    //         $importOrder->status = 3; // Giao hàng thành công
-    //         $importOrder->save();
-
-    //         // Cập nhật số lượng stock
-    //         $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
-    //         foreach ($importOrderDetails as $detail) {
-    //             $variation = Variation::find($detail->variation_id);
-    //             $variation->stock += $detail->quantity;
-    //             $variation->save();
-    //         }
-
-    //         return response()->json(['success' => true, 'message' => 'Đã giao hàng thành công và cập nhật số lượng']);
-    //     }
-
-    //     return response()->json(['success' => false, 'message' => 'Đơn hàng chưa sẵn sàng để cập nhật']);
-    // }
-
     public function dashboard()
     {
         try {
@@ -227,7 +202,7 @@ class ImportOrderController extends Controller
                 $endDate = Carbon::now()->endOfMonth();
 
                 for ($date = $startDate; $date <= $endDate; $date->addMonth()) {
-$ordersCountn = Import_order::whereYear('created_at', $date->year)
+                    $ordersCountn = Import_order::whereYear('created_at', $date->year)
                         ->whereMonth('created_at', $date->month)
                         ->count();
                     $ordersPerMonthN[] = $ordersCountn;
@@ -282,7 +257,19 @@ $ordersCountn = Import_order::whereYear('created_at', $date->year)
         } catch (\Exception $e) {
             return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
         }
-// return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues', 'latestOrders', 'productsWithTotalQuantity'));
+        // return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues', 'latestOrders', 'productsWithTotalQuantity'));
+    }
+
+
+
+
+    public function checkOrderStatus($slug)
+    {
+        $importOrder = Import_order::where('slug', $slug)->first();
+        if ($importOrder && $importOrder->status == 2) {
+            return response()->json(['status' => 'confirmed']);
+        }
+        return response()->json(['status' => 'pending']);
     }
 
 
@@ -292,8 +279,10 @@ $ordersCountn = Import_order::whereYear('created_at', $date->year)
     {
         $importOrder = Import_order::where('slug', $slug)->first();
         if ($importOrder) {
-            $importOrder->status = 3;
+            $importOrder->status = 3; // Giao hàng thành công
             $importOrder->save();
+
+            // Cập nhật số lượng stock
             $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
             foreach ($importOrderDetails as $detail) {
                 $variation = Variation::find($detail->variation_id);

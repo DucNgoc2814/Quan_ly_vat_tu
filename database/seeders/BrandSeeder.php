@@ -13,7 +13,7 @@ class BrandSeeder extends Seeder
      */
     public function run(): void
     {
-        $hardData = ["Hoà Phát", "Tiền Phong"];
+        $hardData = ["Hoà Phát", "Tiền Phong", "Hải Phong"];
         $id = 1;
         foreach ($hardData as $item) {
             DB::table('brands')->insert([

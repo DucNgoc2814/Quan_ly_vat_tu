@@ -410,9 +410,60 @@
             });
         });
     </script>
+    <script>
+        console.log('kkkkkkkkkkkkkkkkkkk:', {
+            key: '{{ config('broadcasting.connections.pusher.key') }}',
+            cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}'
+        });
+        window.Echo.channel('contract-notifications')
+            .listen('ContractSentToCustomer', (e) => {
+                Swal.fire({
+                    title: 'Thông báo mới',
+                    text: 'Hợp đồng đã được gửi cho khách hàng',
+                    icon: 'info'
+                });
+            });
+    </script>
+    <script>
+        window.Echo.channel('contract-notifications')
+            .listen('NewContractCreated', (e) => {
+                Swal.fire({
+                    title: 'Thông báo mới',
+                    text: e.message,
+                    icon: 'info',
+                    showConfirmButton: true,
+                    timer: 3000
+                });
+            });
+    </script>
 
     @yield('scripts')
-
+    <script>
+        console.log('kkkkkkkkkkkkkkkkkkk:', {
+            key: '{{ config('broadcasting.connections.pusher.key') }}',
+            cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}'
+        });
+        window.Echo.channel('contract-notifications')
+            .listen('ContractSentToCustomer', (e) => {
+                Swal.fire({
+                    title: 'Thông báo mới',
+                    text: 'Hợp đồng đã được gửi cho khách hàng',
+                    icon: 'info'
+                });
+            });
+    </script>
+    <script>
+        window.Echo.channel('contract-notifications')
+            .listen('NewContractCreated', (e) => {
+                Swal.fire({
+                    title: 'Thông báo mới',
+                    text: e.message,
+                    icon: 'info',
+                    showConfirmButton: true,
+                    timer: 3000
+                });
+            });
+    </script>
     @if (session('authorization'))
         {{ session('authorization') }}
     @endif
