@@ -1,22 +1,180 @@
-[2024-12-02 14:20:48] local.INFO: === START LOGGING ===  
-[2024-12-02 14:20:48] local.INFO: Auth Check: No  
-[2024-12-02 14:20:48] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
-[2024-12-02 14:20:48] local.INFO: Directory Exists: Yes  
-[2024-12-02 14:20:48] local.INFO: Directory Writable: Yes  
-[2024-12-02 14:20:48] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
-[2024-12-02 14:20:48] local.INFO: File Exists: Yes  
-[2024-12-02 14:20:48] local.INFO: Loading existing file...  
-[2024-12-02 14:20:51] local.INFO: File Save Attempted  
-[2024-12-02 14:20:51] local.INFO: File Exists After Save: Yes  
-[2024-12-02 14:20:51] local.INFO: File Size: 36538 bytes  
-[2024-12-02 14:20:52] local.INFO: === START LOGGING ===  
-[2024-12-02 14:20:52] local.INFO: Auth Check: No  
-[2024-12-02 14:20:52] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
-[2024-12-02 14:20:52] local.INFO: Directory Exists: Yes  
-[2024-12-02 14:20:52] local.INFO: Directory Writable: Yes  
-[2024-12-02 14:20:52] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
-[2024-12-02 14:20:52] local.INFO: File Exists: Yes  
-[2024-12-02 14:20:52] local.INFO: Loading existing file...  
-[2024-12-02 14:20:52] local.INFO: File Save Attempted  
-[2024-12-02 14:20:52] local.INFO: File Exists After Save: Yes  
-[2024-12-02 14:20:52] local.INFO: File Size: 36568 bytes  
+[2024-12-02 21:35:06] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\routes\\admin.php:307)
+[stacktrace]
+#0 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('F:\\\\Workspace\\\\La...')
+#1 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(465): Illuminate\\Routing\\Router->loadRoutes('F:\\\\Workspace\\\\La...')
+#2 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\RouteRegistrar.php(194): Illuminate\\Routing\\Router->group(Array, 'F:\\\\Workspace\\\\La...')
+#3 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\app\\Providers\\RouteServiceProvider.php(40): Illuminate\\Routing\\RouteRegistrar->group('F:\\\\Workspace\\\\La...')
+#4 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\RouteServiceProvider->App\\Providers\\{closure}()
+#5 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#6 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#7 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#8 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#9 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(120): Illuminate\\Container\\Container->call(Object(Closure))
+#10 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(45): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->loadRoutes()
+#11 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->Illuminate\\Foundation\\Support\\Providers\\{closure}()
+#12 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#13 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#14 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#15 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#16 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\ServiceProvider.php(119): Illuminate\\Container\\Container->call(Object(Closure))
+#17 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1039): Illuminate\\Support\\ServiceProvider->callBootedCallbacks()
+#18 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1017): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\RouteServiceProvider))
+#19 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\RouteServiceProvider), 31)
+#20 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1018): array_walk(Array, Object(Closure))
+#21 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#22 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(263): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#23 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(447): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#24 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#26 {main}
+"} 
+[2024-12-02 21:35:06] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\routes\\admin.php:307)
+[stacktrace]
+#0 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('F:\\\\Workspace\\\\La...')
+#1 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(465): Illuminate\\Routing\\Router->loadRoutes('F:\\\\Workspace\\\\La...')
+#2 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\RouteRegistrar.php(194): Illuminate\\Routing\\Router->group(Array, 'F:\\\\Workspace\\\\La...')
+#3 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\app\\Providers\\RouteServiceProvider.php(40): Illuminate\\Routing\\RouteRegistrar->group('F:\\\\Workspace\\\\La...')
+#4 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\RouteServiceProvider->App\\Providers\\{closure}()
+#5 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#6 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#7 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#8 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#9 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(120): Illuminate\\Container\\Container->call(Object(Closure))
+#10 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(45): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->loadRoutes()
+#11 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->Illuminate\\Foundation\\Support\\Providers\\{closure}()
+#12 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#13 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#14 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#15 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#16 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\ServiceProvider.php(119): Illuminate\\Container\\Container->call(Object(Closure))
+#17 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1039): Illuminate\\Support\\ServiceProvider->callBootedCallbacks()
+#18 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1017): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\RouteServiceProvider))
+#19 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\RouteServiceProvider), 31)
+#20 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1018): array_walk(Array, Object(Closure))
+#21 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#22 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(263): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#23 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(447): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#24 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#26 {main}
+"} 
+[2024-12-02 21:35:06] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\routes\\admin.php:307)
+[stacktrace]
+#0 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('F:\\\\Workspace\\\\La...')
+#1 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(465): Illuminate\\Routing\\Router->loadRoutes('F:\\\\Workspace\\\\La...')
+#2 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\RouteRegistrar.php(194): Illuminate\\Routing\\Router->group(Array, 'F:\\\\Workspace\\\\La...')
+#3 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\app\\Providers\\RouteServiceProvider.php(40): Illuminate\\Routing\\RouteRegistrar->group('F:\\\\Workspace\\\\La...')
+#4 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\RouteServiceProvider->App\\Providers\\{closure}()
+#5 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#6 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#7 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#8 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#9 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(120): Illuminate\\Container\\Container->call(Object(Closure))
+#10 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(45): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->loadRoutes()
+#11 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->Illuminate\\Foundation\\Support\\Providers\\{closure}()
+#12 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#13 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#14 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#15 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#16 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\ServiceProvider.php(119): Illuminate\\Container\\Container->call(Object(Closure))
+#17 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1039): Illuminate\\Support\\ServiceProvider->callBootedCallbacks()
+#18 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1017): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\RouteServiceProvider))
+#19 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\RouteServiceProvider), 31)
+#20 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1018): array_walk(Array, Object(Closure))
+#21 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#22 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(263): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#23 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(447): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#24 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#26 {main}
+"} 
+[2024-12-02 21:35:06] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\routes\\admin.php:307)
+[stacktrace]
+#0 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('F:\\\\Workspace\\\\La...')
+#1 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(465): Illuminate\\Routing\\Router->loadRoutes('F:\\\\Workspace\\\\La...')
+#2 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\RouteRegistrar.php(194): Illuminate\\Routing\\Router->group(Array, 'F:\\\\Workspace\\\\La...')
+#3 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\app\\Providers\\RouteServiceProvider.php(40): Illuminate\\Routing\\RouteRegistrar->group('F:\\\\Workspace\\\\La...')
+#4 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\RouteServiceProvider->App\\Providers\\{closure}()
+#5 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#6 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#7 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#8 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#9 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(120): Illuminate\\Container\\Container->call(Object(Closure))
+#10 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(45): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->loadRoutes()
+#11 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->Illuminate\\Foundation\\Support\\Providers\\{closure}()
+#12 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#13 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#14 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#15 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#16 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\ServiceProvider.php(119): Illuminate\\Container\\Container->call(Object(Closure))
+#17 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1039): Illuminate\\Support\\ServiceProvider->callBootedCallbacks()
+#18 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1017): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\RouteServiceProvider))
+#19 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\RouteServiceProvider), 31)
+#20 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1018): array_walk(Array, Object(Closure))
+#21 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#22 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(263): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#23 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(447): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#24 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#26 {main}
+"} 
+[2024-12-02 21:35:07] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\routes\\admin.php:307)
+[stacktrace]
+#0 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('F:\\\\Workspace\\\\La...')
+#1 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(465): Illuminate\\Routing\\Router->loadRoutes('F:\\\\Workspace\\\\La...')
+#2 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\RouteRegistrar.php(194): Illuminate\\Routing\\Router->group(Array, 'F:\\\\Workspace\\\\La...')
+#3 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\app\\Providers\\RouteServiceProvider.php(40): Illuminate\\Routing\\RouteRegistrar->group('F:\\\\Workspace\\\\La...')
+#4 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\RouteServiceProvider->App\\Providers\\{closure}()
+#5 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#6 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#7 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#8 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#9 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(120): Illuminate\\Container\\Container->call(Object(Closure))
+#10 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(45): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->loadRoutes()
+#11 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->Illuminate\\Foundation\\Support\\Providers\\{closure}()
+#12 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#13 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#14 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#15 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#16 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\ServiceProvider.php(119): Illuminate\\Container\\Container->call(Object(Closure))
+#17 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1039): Illuminate\\Support\\ServiceProvider->callBootedCallbacks()
+#18 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1017): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\RouteServiceProvider))
+#19 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\RouteServiceProvider), 31)
+#20 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1018): array_walk(Array, Object(Closure))
+#21 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#22 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(263): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#23 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(447): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#24 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#26 {main}
+"} 
+[2024-12-02 21:35:07] local.ERROR: syntax error, unexpected token "<<" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"<<\" at F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\routes\\admin.php:307)
+[stacktrace]
+#0 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(511): Illuminate\\Routing\\RouteFileRegistrar->register('F:\\\\Workspace\\\\La...')
+#1 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(465): Illuminate\\Routing\\Router->loadRoutes('F:\\\\Workspace\\\\La...')
+#2 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\RouteRegistrar.php(194): Illuminate\\Routing\\Router->group(Array, 'F:\\\\Workspace\\\\La...')
+#3 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\app\\Providers\\RouteServiceProvider.php(40): Illuminate\\Routing\\RouteRegistrar->group('F:\\\\Workspace\\\\La...')
+#4 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): App\\Providers\\RouteServiceProvider->App\\Providers\\{closure}()
+#5 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#6 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#7 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#8 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#9 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(120): Illuminate\\Container\\Container->call(Object(Closure))
+#10 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider.php(45): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->loadRoutes()
+#11 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Foundation\\Support\\Providers\\RouteServiceProvider->Illuminate\\Foundation\\Support\\Providers\\{closure}()
+#12 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#13 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(81): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#14 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Object(Closure), Object(Closure))
+#15 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Object(Closure), Array, NULL)
+#16 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\ServiceProvider.php(119): Illuminate\\Container\\Container->call(Object(Closure))
+#17 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1039): Illuminate\\Support\\ServiceProvider->callBootedCallbacks()
+#18 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1017): Illuminate\\Foundation\\Application->bootProvider(Object(App\\Providers\\RouteServiceProvider))
+#19 [internal function]: Illuminate\\Foundation\\Application->Illuminate\\Foundation\\{closure}(Object(App\\Providers\\RouteServiceProvider), 31)
+#20 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1018): array_walk(Array, Object(Closure))
+#21 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\BootProviders.php(17): Illuminate\\Foundation\\Application->boot()
+#22 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(263): Illuminate\\Foundation\\Bootstrap\\BootProviders->bootstrap(Object(Illuminate\\Foundation\\Application))
+#23 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(447): Illuminate\\Foundation\\Application->bootstrapWith(Array)
+#24 F:\\Workspace\\Laravel\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(199): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
+#25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#26 {main}
+"} 
