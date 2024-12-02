@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [2024-12-01 23:03:17] local.ERROR: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'duantotnghiep.permission_employees' doesn't exist (Connection: mysql, SQL: select * from `permission_employees` where `employee_id` = 1 and `permission_id` = 1 limit 1) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S02): SQLSTATE[42S02]: Base table or view not found: 1146 Table 'duantotnghiep.permission_employees' doesn't exist (Connection: mysql, SQL: select * from `permission_employees` where `employee_id` = 1 and `permission_id` = 1 limit 1) at C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
 [stacktrace]
 #0 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
@@ -3829,3 +3830,51 @@
 [2024-12-02 11:46:48] local.INFO: File Save Attempted  
 [2024-12-02 11:46:48] local.INFO: File Exists After Save: Yes  
 [2024-12-02 11:46:48] local.INFO: File Size: 34274 bytes  
+=======
+[2024-12-02 14:20:48] local.INFO: === START LOGGING ===  
+[2024-12-02 14:20:48] local.INFO: Auth Check: No  
+[2024-12-02 14:20:48] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-02 14:20:48] local.INFO: Directory Exists: Yes  
+[2024-12-02 14:20:48] local.INFO: Directory Writable: Yes  
+[2024-12-02 14:20:48] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-02 14:20:48] local.INFO: File Exists: Yes  
+[2024-12-02 14:20:48] local.INFO: Loading existing file...  
+[2024-12-02 14:20:51] local.INFO: File Save Attempted  
+[2024-12-02 14:20:51] local.INFO: File Exists After Save: Yes  
+[2024-12-02 14:20:51] local.INFO: File Size: 36538 bytes  
+[2024-12-02 14:20:52] local.INFO: === START LOGGING ===  
+[2024-12-02 14:20:52] local.INFO: Auth Check: No  
+[2024-12-02 14:20:52] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-02 14:20:52] local.INFO: Directory Exists: Yes  
+[2024-12-02 14:20:52] local.INFO: Directory Writable: Yes  
+[2024-12-02 14:20:52] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-02 14:20:52] local.INFO: File Exists: Yes  
+[2024-12-02 14:20:52] local.INFO: Loading existing file...  
+[2024-12-02 14:20:52] local.INFO: File Save Attempted  
+[2024-12-02 14:20:52] local.INFO: File Exists After Save: Yes  
+[2024-12-02 14:20:52] local.INFO: File Size: 36568 bytes  
+>>>>>>> 1f7adcca1d79a783b7b3eb2bdf385204b887b8f1
+[2024-12-02 20:42:33] local.INFO: === START LOGGING ===  
+[2024-12-02 20:42:33] local.INFO: Auth Check: No  
+[2024-12-02 20:42:33] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-02 20:42:33] local.INFO: Directory Exists: Yes  
+[2024-12-02 20:42:33] local.INFO: Directory Writable: Yes  
+[2024-12-02 20:42:33] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-02 20:42:33] local.INFO: File Exists: Yes  
+[2024-12-02 20:42:33] local.INFO: Loading existing file...  
+[2024-12-02 20:42:36] local.INFO: File Save Attempted  
+[2024-12-02 20:42:36] local.INFO: File Exists After Save: Yes  
+[2024-12-02 20:42:36] local.INFO: File Size: 34305 bytes  
+[2024-12-02 20:42:36] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 198  
+[2024-12-02 20:42:36] local.DEBUG: Số lượng mua của variation 1 là: 10  
+[2024-12-02 20:42:36] local.INFO: === START LOGGING ===  
+[2024-12-02 20:42:36] local.INFO: Auth Check: No  
+[2024-12-02 20:42:36] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-02 20:42:36] local.INFO: Directory Exists: Yes  
+[2024-12-02 20:42:36] local.INFO: Directory Writable: Yes  
+[2024-12-02 20:42:36] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-02 20:42:36] local.INFO: File Exists: Yes  
+[2024-12-02 20:42:36] local.INFO: Loading existing file...  
+[2024-12-02 20:42:37] local.INFO: File Save Attempted  
+[2024-12-02 20:42:37] local.INFO: File Exists After Save: Yes  
+[2024-12-02 20:42:37] local.INFO: File Size: 34338 bytes  

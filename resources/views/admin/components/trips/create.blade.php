@@ -12,7 +12,7 @@
                 <h4 class="mb-sm-0">Thêm mới vận chuyển</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Vận chuyển</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('trips.index') }}">Vận chuyển</a></li>
                         <li class="breadcrumb-item active">Thêm mới đơn vận chuyển</li>
                     </ol>
                 </div>

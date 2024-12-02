@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\Log;
 |
 
 */
-Route::get('/',  [HomeController::class, 'listHome'])->name('home');
+// Route::get('/',  [HomeController::class, 'listHome'])->name('home');
 Route::post('/change-isActive', [ChangeStatusController::class, 'updateStatus'])->name('updateStatus');
 Route::get('/dang-ky', [LoginController::class, 'register'])->name('register');
 Route::post('/handleRegister', [LoginController::class, 'handleRegister'])->name('handleRegister');

@@ -9,9 +9,12 @@ use App\Models\Variation;
 use App\Imports\VariationsImport;
 use App\Models\Import_order_detail;
 use App\Models\InventoryDetail;
+use App\Models\Order_detail;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\OrderDetail;
+use Illuminate\Support\Facades\Log;
 
 class InventoryController extends Controller
 {
@@ -22,8 +25,8 @@ class InventoryController extends Controller
     public function index()
     {
         $variations = Variation::with('importOrderDetails') // Lấy thông tin đơn hàng nhập
-        ->orderBy('id', 'desc')
-        ->get();
+            ->orderBy('id', 'desc')
+            ->get();
         $inventories = Inventory::orderBy('created_at', 'desc')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('variations', 'inventories'));
     }
@@ -40,7 +43,7 @@ class InventoryController extends Controller
     public function bulkUpdate(Request $request)
     {
         $wholesalePrices = $request->input('wholesale_price', []);
-        
+
         foreach ($wholesalePrices as $key => $value) {
             $variation = Variation::find($key);
             if ($variation && isset($variation)) {
@@ -53,16 +56,16 @@ class InventoryController extends Controller
         return redirect()->route('inventories.index')->with('success', 'Cập nhật thành công!');
     }
 
-    public function historyImport($id) 
+    public function historyImport($id)
     {
         try {
             $historyImport = Import_order_detail::with(['importOrder', 'importOrder.supplier'])
                 ->where('variation_id', $id)
-                ->whereHas('importOrder', function($query) {
+                ->whereHas('importOrder', function ($query) {
                     $query->where('status', 3); // Chỉ lấy đơn đã hoàn thành
                 })
                 ->get();
-    
+
             return response()->json($historyImport);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -151,6 +154,32 @@ class InventoryController extends Controller
         } catch (\Exception $e) {
             dd($e->getMessage());
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi lưu kiểm kê: ' . $e->getMessage());
+        }
+    }
+
+    public function getExportHistory($id)
+    {
+        try {
+            $orderDetails = Order_detail::with(['order', 'order.customer'])
+                ->where('variation_id', $id)
+                ->whereHas('order', function($query) {
+                    $query->whereIn('status_id', [4]); // Đơn đã hoàn thành
+                })
+                ->get()
+                ->map(function($detail) {
+                    return [
+                        'slug' => $detail->order->slug,
+                        'quantity' => $detail->quantity,
+                        'price' => $detail->price,
+                        'customer_name' => $detail->order->customer_name ?? 'Khách lẻ',
+                        'created_at' => $detail->order->created_at
+                    ];
+                });
+
+            return response()->json($orderDetails);
+        } catch (\Exception $e) {
+            Log::error('Error in getExportHistory: ' . $e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

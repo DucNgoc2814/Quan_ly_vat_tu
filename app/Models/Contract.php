@@ -12,6 +12,7 @@ class Contract extends Model
     protected $fillable = [
         'employee_id',
         'contract_status_id',
+        'customer_id',
         'employee_id',
         'contract_number',
         'customer_name',
@@ -37,11 +38,15 @@ class Contract extends Model
     public function paymentHistories()
     {
         return $this->hasMany(Payment_history::class, 'related_id')
-        ->where('transaction_type', Payment_history::TYPE_CONTRACT);
+            ->where('transaction_type', Payment_history::TYPE_CONTRACT);
     }
     public function employee()
     {
-        return $this->hasOne(Employee::class);
+        return $this->belongsTo(Employee::class);
+    }
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
     }
     protected static function booted()
     {

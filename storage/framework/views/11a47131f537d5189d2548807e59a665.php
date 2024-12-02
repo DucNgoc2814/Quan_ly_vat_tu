@@ -143,12 +143,14 @@
                         data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bx-bell fs-22'></i>
                         <?php if($noti > 0): ?>
-                            <span class="position-absolute topbar-badge translate-middle badge p-1 bg-danger rounded-circle">
-                                <span class="visually-hidden"></span>
+                            <span class="position-absolute translate-middle badge p-1 bg-danger rounded-circle"
+                                style="top: 10px; left: 30px;">
+                                <?php echo e(count($lowStockProducts) + count($transactions)); ?>
+
                             </span>
                         <?php endif; ?>
                     </button>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
+                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 " style="width: 450px; "
                         aria-labelledby="page-header-notifications-dropdown">
 
                         <div class="dropdown-head bg-primary bg-pattern rounded-top">
@@ -160,25 +162,19 @@
                                 </div>
                             </div>
 
-                            <div class="px-2 pt-2">
+                            <div class="pt-2 ">
                                 <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
                                     id="notificationItemsTab" role="tablist">
-                                    <li class="nav-item waves-effect waves-light">
-                                        <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab"
-                                            role="tab" aria-selected="true">
+                                    <li class="nav-item waves-effect waves-light w-50">
+                                        <a class="nav-link active text-center" data-bs-toggle="tab"
+                                            href="#all-noti-tab" role="tab" aria-selected="true">
                                             Tồn kho (<?php echo e(count($lowStockProducts)); ?>)
                                         </a>
                                     </li>
-                                    <li class="nav-item waves-effect waves-light">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab"
-                                            aria-selected="false">
+                                    <li class="nav-item waves-effect waves-light w-50">
+                                        <a class="nav-link text-center" data-bs-toggle="tab" href="#messages-tab"
+                                            role="tab" aria-selected="false">
                                             Giao dịch (<?php echo e(count($transactions)); ?>)
-                                        </a>
-                                    </li>
-                                    <li class="nav-item waves-effect waves-light">
-                                        <a class="nav-link" data-bs-toggle="tab" href="#alerts-tab" role="tab"
-                                            aria-selected="false">
-                                            Alerts
                                         </a>
                                     </li>
                                 </ul>
@@ -234,21 +230,24 @@
                                                             <span
                                                                 class="avatar-title bg-soft-warning text-warning rounded-circle fs-16">
                                                                 <?php if($transaction->transaction_type == 'contract'): ?>
-                                                                <i class="ri-file-list-3-line fs-12"></i>
-                                                            <?php elseif($transaction->transaction_type == 'sale'): ?>
-                                                                <i class="ri-shopping-cart-line fs-12"></i>
-                                                            <?php else: ?>
-                                                                <i class="ri-shopping-basket-line fs-12"></i>
-                                                            <?php endif; ?>
+                                                                    <i class="ri-file-list-3-line fs-12"></i>
+                                                                <?php elseif($transaction->transaction_type == 'sale'): ?>
+                                                                    <i class="ri-shopping-cart-line fs-12"></i>
+                                                                <?php else: ?>
+                                                                    <i class="ri-shopping-basket-line fs-12"></i>
+                                                                <?php endif; ?>
                                                             </span>
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">
                                                             <?php if($transaction->transaction_type == 'contract'): ?>
-                                                                Hợp đồng
-                                                                #<?php echo e($transaction->contract_number ?? $transaction->related_id); ?>
+                                                                <a href="<?php echo e(route('contract.show', $transaction->related_id)); ?>"
+                                                                    class="text-reset">
+                                                                    Hợp đồng
+                                                                    #<?php echo e($transaction->contract_number ?? $transaction->related_id); ?>
 
+                                                                </a>
                                                             <?php elseif($transaction->transaction_type == 'sale'): ?>
                                                                 Bán hàng
                                                                 #<?php echo e($transaction->slug ?? $transaction->related_id); ?>
@@ -284,8 +283,7 @@
                                                             </button>
                                                         </div>
                                                     <?php endif; ?>
-                                                    <button type="button"
-                                                        class="btn btn-sm btn-ghost-success"
+                                                    <button type="button" class="btn btn-sm btn-ghost-success"
                                                         onclick="confirmTransaction('<?php echo e($transaction->transaction_type); ?>', <?php echo e($transaction->id); ?>)">
                                                         Xác nhận
                                                         <i class="ri-check-line"></i>
@@ -385,9 +383,7 @@
 
             showLowStockNotifications();
         });
-    </script>
 
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const employee_id = "<?php echo e(Session::get('employee_id')); ?>";
             const token = "<?php echo e(Session::get('token')); ?>";
@@ -466,33 +462,35 @@
                     chatMessages.scrollTop = chatMessages.scrollHeight;
                 });
         });
-    </script>
 
-    <script>
-        function showDocument(url, type) {
-     
-            Swal.fire({
-            imageUrl: url,
-            imageWidth: 800,
-            imageHeight: 'auto',
-            imageAlt: 'Chứng từ',
-            showCloseButton: true,
-            showConfirmButton: false,
-            backdrop: false, // Thêm dòng này để không đóng dropdown
-            willClose: () => {
-                // Đảm bảo dropdown không bị đóng
-                const dropdown = document.querySelector('#notificationDropdown .dropdown-menu');
-                if (dropdown) {
-                    dropdown.classList.add('show');
-                }
-            }
-        });
+        let dropdown = document.querySelector('#notificationDropdown .dropdown-menu');
+
+        function showDropdown(dropdown) {
+            dropdown.classList.add('show'); // Hiển thị dropdown ngay khi trang tải
         }
+
+        function showDocument(url, type) {
+            let dropdown = document.querySelector('#notificationDropdown .dropdown-menu');
+            Swal.fire({
+                imageUrl: url,
+                imageWidth: 800,
+                imageHeight: 'auto',
+                imageAlt: 'Chứng từ',
+                showCloseButton: true,
+                showConfirmButton: false,
+                backdrop: false,
+                willClose: () => {
+                    if (dropdown) {
+                        showDropdown(dropdown)
+                    }
+                }
+            });
+        }
+
 
         // Thêm hàm xác nhận giao dịch
         function confirmTransaction(type, id) {
             event.stopPropagation();
-            console.log('Starting confirmation for ID:', id); // Debug log
 
             Swal.fire({
                 title: 'Xác nhận',
@@ -506,44 +504,45 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    
+
                     // Thử với đường dẫn đầy đủ bao gồm trang-quan-tri
                     axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
-                        headers: {
-                            'X-CSRF-TOKEN': token,
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        console.log('Success Response:', response); // Log success response
-                        if (response.data && response.data.success) {
-                            Swal.fire({
-                                title: 'Thành công!',
-                                text: response.data.message || 'Giao dịch đã được xác nhận.',
-                                icon: 'success'
-                            }).then(() => {
-                                location.reload();
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            console.log('Success Response:', response); // Log success response
+                            if (response.data && response.data.success) {
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: response.data.message || 'Giao dịch đã được xác nhận.',
+                                    icon: 'success'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                throw new Error(response.data?.message || 'Có lỗi xảy ra');
+                            }
+                        })
+                        .catch(error => {
+                            // Log chi tiết lỗi để debug
+                            console.error('Error details:', {
+                                error: error,
+                                response: error.response,
+                                status: error.response?.status,
+                                data: error.response?.data
                             });
-                        } else {
-                            throw new Error(response.data?.message || 'Có lỗi xảy ra');
-                        }
-                    })
-                    .catch(error => {
-                        // Log chi tiết lỗi để debug
-                        console.error('Error details:', {
-                            error: error,
-                            response: error.response,
-                            status: error.response?.status,
-                            data: error.response?.data
+
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: error.response?.data?.message ||
+                                    'Có lỗi xảy ra khi xác nhận giao dịch',
+                                icon: 'error'
+                            });
                         });
-                        
-                        Swal.fire({
-                            title: 'Lỗi!',
-                            text: error.response?.data?.message || 'Có lỗi xảy ra khi xác nhận giao dịch',
-                            icon: 'error'
-                        });
-                    });
                 }
             });
         }

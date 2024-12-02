@@ -297,32 +297,124 @@
             </div>
     </form>
     <script>
-        document.getElementById('product-image-input').addEventListener('change', function(event) {
-            var output = document.getElementById('product-img');
-            output.src = URL.createObjectURL(event.target.files[0]);
-            output.onload = function() {
-                URL.revokeObjectURL(output.src)
+        // document.getElementById('product-image-input').addEventListener('change', function(event) {
+        //     var output = document.getElementById('product-img');
+        //     output.src = URL.createObjectURL(event.target.files[0]);
+        //     output.onload = function() {
+        //         URL.revokeObjectURL(output.src)
+        //     }
+        // });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const productImageInput = document.getElementById('product-image-input');
+            if (productImageInput) {
+                productImageInput.addEventListener('change', function(event) {
+                    const output = document.getElementById('product-img');
+                    if (output) {
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                        output.onload = function() {
+                            URL.revokeObjectURL(output.src);
+                        }
+                    }
+                });
             }
         });
     </script>
 @endsection
 @section('scripts')
     <script>
-        // Hàm để thêm sản phẩm mới
+        function updateAllSelects() {
+            const allSelects = document.querySelectorAll('[name="variation_id[]"]');
+            const selectedValues = Array.from(allSelects).map(select => select.value);
+
+            allSelects.forEach((select, index) => {
+                const currentValue = select.value;
+                let options = `<option value="0">Chọn Sản Phẩm</option>`;
+
+                @foreach ($variation as $variant)
+                    options += `
+                ${currentValue == "{{ $variant->id }}" || !selectedValues.includes("{{ $variant->id }}") ?
+                `<option value="{{ $variant->id }}"
+                        data-price="{{ $variant->retail_price }}"
+                        data-stock="{{ $variant->stock }}"
+                        ${currentValue == "{{ $variant->id }}" ? 'selected' : ''}>
+                        {{ $variant->name }}
+                    </option>` : ''}
+            `;
+                @endforeach
+
+                select.innerHTML = options;
+            });
+        }
+        // Hàm để cập nhật giá khi chọn sản phẩm
+        function updatePrice(selectElement) {
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+
+            // Debug
+            console.log('Selected option:', selectedOption);
+            console.log('Data attributes:', {
+                price: selectedOption.getAttribute('data-price'),
+                stock: selectedOption.getAttribute('data-stock')
+            });
+
+            // Lấy giá trị
+            const price = selectedOption.getAttribute('data-price') || selectedOption.dataset.price;
+            const stock = selectedOption.getAttribute('data-stock') || selectedOption.dataset.stock;
+
+            console.log('Final values:', {
+                price,
+                stock
+            });
+
+            // Tìm container và inputs
+            const container = selectElement.closest('.col-md-12');
+            const priceInput = container.querySelector('input[name="product_price[]"]');
+            const stockInput = container.querySelector('input[name="stock"]');
+
+            // Debug found elements
+            console.log('Found elements:', {
+                container: container,
+                priceInput: priceInput,
+                stockInput: stockInput
+            });
+
+            // Cập nhật giá trị
+            if (priceInput && price) {
+                priceInput.value = price;
+                console.log('Updated price input:', priceInput.value);
+            }
+
+            if (stockInput && stock) {
+                stockInput.value = stock;
+                console.log('Updated stock input:', stockInput.value);
+            }
+            updateAllSelects();
+        }
         function addProduct() {
             let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
+            // Lấy tất cả các sản phẩm đã chọn
+            const selectedProducts = Array.from(document.querySelectorAll('[name="variation_id[]"]')).map(select => select
+                .value);
+
+            // Tạo options cho select mới, loại bỏ các sản phẩm đã chọn
+            let productOptions = `<option value="0">Chọn Sản Phẩm</option>`;
+            @foreach ($variation as $variant)
+                productOptions += `
+            ${!selectedProducts.includes("{{ $variant->id }}") ?
+            `<option value="{{ $variant->id }}"
+                        data-price="{{ $variant->retail_price }}"
+                        data-stock="{{ $variant->stock }}">
+                        {{ $variant->name }}
+                    </option>` : ''}
+        `;
+            @endforeach
             let html = `
     <div class="col-md-12" id="${id}_item">
         <hr class="mb-2">
         <div class="mb-2">
             <label class="form-label" for="product-variant-input">Sản phẩm</label>
             <select class="form-select" name="variation_id[]" data-choices data-choices-search-false onchange="updatePrice(this)">
-                <option value="0">Chọn Sản Phẩm</option>
-                @foreach ($variation as $variant)
-                    <option value="{{ $variant->id }}" data-price="{{ $variant->retail_price }}" data-stock="{{ $variant->stock }}">
-                        {{ $variant->name }}
-                    </option>
-                @endforeach
+                ${productOptions}
             </select>
         </div>
         <div class="row">
@@ -358,6 +450,7 @@
 
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
             addInputListeners();
+            updateAllSelects();
         }
 
         // Hàm để tính tổng giá trị đơn hàng
@@ -415,49 +508,7 @@
             }
         });
 
-        // Hàm để cập nhật giá khi chọn sản phẩm
-        function updatePrice(selectElement) {
-            const selectedOption = selectElement.options[selectElement.selectedIndex];
 
-            // Debug
-            console.log('Selected option:', selectedOption);
-            console.log('Data attributes:', {
-                price: selectedOption.getAttribute('data-price'),
-                stock: selectedOption.getAttribute('data-stock')
-            });
-
-            // Lấy giá trị
-            const price = selectedOption.getAttribute('data-price') || selectedOption.dataset.price;
-            const stock = selectedOption.getAttribute('data-stock') || selectedOption.dataset.stock;
-
-            console.log('Final values:', {
-                price,
-                stock
-            });
-
-            // Tìm container và inputs
-            const container = selectElement.closest('.col-md-12');
-            const priceInput = container.querySelector('input[name="product_price[]"]');
-            const stockInput = container.querySelector('input[name="stock"]');
-
-            // Debug found elements
-            console.log('Found elements:', {
-                container: container,
-                priceInput: priceInput,
-                stockInput: stockInput
-            });
-
-            // Cập nhật giá trị
-            if (priceInput && price) {
-                priceInput.value = price;
-                console.log('Updated price input:', priceInput.value);
-            }
-
-            if (stockInput && stock) {
-                stockInput.value = stock;
-                console.log('Updated stock input:', stockInput.value);
-            }
-        }
         // Hàm để thêm sự kiện lắng nghe cho input
         function addInputListeners() {
             document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
@@ -502,7 +553,7 @@
             try {
                 const response = await fetch('https://api.mysupership.vn/v1/partner/areas/province');
                 const data = await response.json();
-                console.log('Provinces data:', data);
+                // console.log('Provinces data:', data);
                 const provinces = data.results;
                 populateSelect('provinces', provinces, 'code', 'name');
             } catch (error) {
@@ -625,11 +676,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                                                                                            <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                                                            <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                                                        ` : `
-                                                                                                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                                                        `}
+                                                                                                                                    <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                                                                    <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                                                                ` : `
+                                                                                                                                    <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                                                                `}
                                 </div>
                             </div>
                             <hr>

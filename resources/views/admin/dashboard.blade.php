@@ -293,12 +293,11 @@
                     </div>
                     <!-- end col -->
                 </div>
-                <div class="col-xl-8 w-100">
+                <div class="col-xl-8 w-100 fs-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Đơn hàng gần đây</h4>
                             <div class="flex-shrink-0">
-
                             </div>
                         </div>
 
@@ -361,7 +360,7 @@
                         </div>
                     </div> <!-- .card-->
                 </div> <!-- .col-->
-                <div class="row ">
+                <div class="row fs-12">
                     <div class="col-xl-6  w-100">
                         <div class="card">
                             <div class="card-header align-items-center d-flex">
@@ -391,8 +390,6 @@
                                                                         href="apps-ecommerce-product-details.html"
                                                                         class="text-reset">{{ $value->product_name }}</a>
                                                                 </h5>
-                                                                <span
-                                                                    class="text-muted">{{ $value->variation_name }}</span>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -484,25 +481,10 @@
                                             {{ $request->cancel_reason }}
                                         </p>
                                         <div>
-                                            <a href="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
-                                                onclick="event.preventDefault(); document.getElementById('update-status-{{ $request->slug }}').submit();"
-                                                class="btn btn-info btn-sm">Xác Nhận</a>
-                                            <a href="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
-                                                onclick="event.preventDefault(); document.getElementById('reject-status-{{ $request->slug }}').submit();"
-                                                class="btn btn-danger btn-sm">Từ Chối</a>
-                                            <form id="update-status-{{ $request->slug }}"
-                                                action="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
-                                                method="POST" style="display: none;">
-                                                @csrf
-                                                @method('POST')
-                                                <input type="hidden" name="status" value="5">
-                                            </form>
-                                            <form id="reject-status-{{ $request->slug }}"
-                                                action="{{ route('order.updateStatus', ['slug' => $request->slug]) }}"
-                                                method="POST" style="display: none;">
-                                                @csrf
-                                                <input type="hidden" name="status" value="1">
-                                            </form>
+                                            <button onclick="handleOrderStatus('{{ $request->slug }}', 5)"
+                                                class="btn btn-info btn-sm">Xác Nhận</button>
+                                            <button onclick="handleOrderStatus('{{ $request->slug }}', 1)"
+                                                class="btn btn-danger btn-sm">Từ Chối</button>
                                         </div>
                                     </div>
                                 </div>
@@ -725,9 +707,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             checkPendingCancelRequests();
         });
-    </script>
 
-    <script>
         function showRejectModal(contractId) {
             $('#contractId').val(contractId);
             $('#rejectReasonModal').modal('show');
@@ -1062,5 +1042,72 @@
             })
 
         // <+====================POSEIDON====================+>
+    </script>
+    <script>
+        function handleOrderStatus(slug, status) {
+            // Thêm CSRF token vào headers thay vì gửi trong data
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            const url = "{{ route('order.updateStatus', ':slug') }}".replace(':slug', slug);
+            $.ajax({
+                url: url, 
+                method: 'POST',
+                data: {
+                    status: status
+                },
+                success: function(response) {
+                    if (response.success) {
+                        // Sử dụng SweetAlert2
+                        Swal.fire({
+                            title: 'Thành công!',
+                            text: response.message || 'Cập nhật trạng thái thành công',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    } else {
+                        console.error('Error updating order status:', response.message || 'Unknown error occurred');
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: response.message || 'Có lỗi xảy ra',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Debug error details
+                    console.error('Ajax Error Details:', {
+                        status: status,
+                        error: error,
+                        response: xhr.responseText,
+                        statusCode: xhr.status
+                    });
+
+                    let errorMessage = 'Không thể xử lý yêu cầu.';
+
+                    // Thử parse response JSON nếu có
+                    try {
+                        const response = JSON.parse(xhr.responseText);
+                        errorMessage = response.message || errorMessage;
+                    } catch (e) {
+                        console.error('Error parsing response:', e);
+                    }
+
+                    Swal.fire({
+                        title: 'Lỗi!',
+                        text: errorMessage,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        }
     </script>
 @endsection

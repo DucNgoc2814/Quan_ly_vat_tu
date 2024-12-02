@@ -22,14 +22,10 @@ class StoreImport_orderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_id' => 'required',
-            'supplier_id' => 'required',
-            'variation_id' => 'required|array',
-            'product_quantity' => 'required|array',
-            'variation_id.*' => 'required|exists:variations,id',
-            'product_price.*' => 'required|numeric|min:0',
-            'product_quantity.*' => 'required|integer|min:1',
-            'paid_amount' => 'required|numeric|min:0'
+            // 'payment_id' => 'required',
+            // 'supplier_id' => 'required',
+            // 'variation_id' => 'required|array',
+            // 'product_quantity' => 'required|array|numeric|min:1',
         ];
     }
     public function messages(): array
