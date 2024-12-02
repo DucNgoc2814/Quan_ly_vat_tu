@@ -43,7 +43,9 @@
         <!-- removeNotificationModal -->
 
         <!-- ========== App Menu ========== -->
+
         @include('admin.layouts.partials.sidebarnv')
+
         <div id="removeNotificationModal" class="modal fade zoomIn" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">

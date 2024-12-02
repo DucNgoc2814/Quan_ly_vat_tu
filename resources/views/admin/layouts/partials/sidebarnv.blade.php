@@ -24,19 +24,15 @@
             <i class="ri-record-circle-line"></i>
         </button>
     </div>
-
     <div id="scrollbar">
         <div class="container-fluid">
-
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
-
                 <a class="nav-link" href="{{route('orderconfirm.dashboard')}}">
                     <i class="ri-dashboard-2-line"></i> <span>Dashboards</span>
                 </a>
-
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarLayouts">
@@ -53,7 +49,6 @@
                         </ul>
                     </div>
                 </li> <!-- end Dashboard Menu -->
-
             </ul>
         </div>
         <!-- Sidebar -->
