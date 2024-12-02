@@ -48,8 +48,8 @@
                             <div class="col-lg-8">
                                 <label class="form-label">Tên thương hiệu</label>
                                 <input type="text" name="name" value="{{ $brand->name }}" class="form-control">
-                                @error('description')
-                                    <p class="text-danger">{{ $name }}</p>
+                                @error('name')
+                                    <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div class=" col-lg-4 form-check form-switch form-switch">

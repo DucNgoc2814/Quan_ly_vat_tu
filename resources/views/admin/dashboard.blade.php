@@ -331,10 +331,6 @@
                                                 </td>
                                                 <td>
                                                     <div class="d-flex align-items-center">
-                                                        <div class="flex-shrink-0 me-2">
-                                                            <img src="{{ asset('themes/admin/assets/images/users/' . $latestOrder->image) }}"
-                                                                alt="" class="avatar-xs rounded-circle" />
-                                                        </div>
                                                         <div class="flex-grow-1">{{ $latestOrder->customer_name }}</div>
                                                     </div>
                                                 </td>
@@ -390,10 +386,6 @@
                                                     </td>
                                                     <td>
                                                         <div class="d-flex align-items-center">
-                                                            <div class="avatar-sm bg-light rounded p-1 me-2">
-                                                                <img
-                                                                    src="{{ asset('themes/admin/assets/images/products/' . $value->image) }}">
-                                                            </div>
                                                             <div>
                                                                 <h5 class="fs-14 my-1"><a
                                                                         href="apps-ecommerce-product-details.html"
@@ -475,7 +467,7 @@
                             </h6>
                         </div>
 
-                        <div class="p-3">
+                        <div class="p-3 mt-2">
                             @foreach ($orderCancelRequests as $request)
                                 <div class="col mb-3">
                                     <div class="card card-body">
@@ -550,11 +542,11 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="p-3">
+                        <div class="p-3 mt-2">
                             <div id="cancelRequestsContainer">
                             </div>
                         </div>
-                        <div class="p-3">
+                        <div class="mt-2">
                             @foreach ($pendingContracts as $contract)
                                 <div class="col mb-3">
                                     <div class="card card-body">
@@ -760,9 +752,7 @@
                 }
             });
         }
-    </script>
-    <script>
-                // <+====================POSEIDON====================+>
+        // <+====================POSEIDON====================+>
         function getChartColorsArray(e) {
             if (null !== document.getElementById(e)) {
                 var t = document.getElementById(e).getAttribute('data-colors')
@@ -796,7 +786,6 @@
         var ordersPerMonthX = @json($ordersPerMonthX);
         var totalAmoutx = @json($totalAmoutx);
         var statusValues = @json($statusValues);
-        console.log(statusValues)
         var reorderedMonths = months.slice(currentMonth).concat(months.slice(0, currentMonth));
         var options,
             chart,
@@ -1032,23 +1021,22 @@
                             (t.classList.remove('d-block'), t.classList.add('d-none')) :
                             (t.classList.remove('d-none'), t.classList.add('d-block'))
                     })
-                }),
-            )
+                }))
         }
-                window.addEventListener('resize', function() {
-                    var e = document.querySelector('.layout-rightside-col')
-                    e &&
-                        Array.from(
-                            document.querySelectorAll('.layout-rightside-btn')
-                        ).forEach(function() {
-                            window.outerWidth < 1699 || 3440 < window.outerWidth ?
-                                e.classList.remove('d-block') :
-                                1699 < window.outerWidth && e.classList.add('d-block')
-                        }),
-                        'semibox' == document.documentElement.getAttribute('data-layout') &&
-                        (e.classList.remove('d-block'), e.classList.add('d-none'))
-                }),
-                (overlay = document.querySelector('.overlay'))) &&
+        window.addEventListener('resize', function() {
+                var e = document.querySelector('.layout-rightside-col')
+                e &&
+                    Array.from(
+                        document.querySelectorAll('.layout-rightside-btn')
+                    ).forEach(function() {
+                        window.outerWidth < 1699 || 3440 < window.outerWidth ?
+                            e.classList.remove('d-block') :
+                            1699 < window.outerWidth && e.classList.add('d-block')
+                    }),
+                    'semibox' == document.documentElement.getAttribute('data-layout') &&
+                    (e.classList.remove('d-block'), e.classList.add('d-none'))
+            }),
+            (overlay = document.querySelector('.overlay')) &&
             document.querySelector('.overlay').addEventListener('click', function() {
                 1 ==
                     document

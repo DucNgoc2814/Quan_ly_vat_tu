@@ -6,21 +6,21 @@
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="index.html" class="logo logo-dark">
                         <span class="logo-sm">
-                            <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt="" height="22">
+                            <img src="<?php echo e(asset('themes/admin/assets/images/gemo2.png')); ?>" alt="" height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt=""
+                            <img src="<?php echo e(asset('themes/admin/assets/images/gemo2.png')); ?>" alt=""
                                 height="17">
                         </span>
                     </a>
 
                     <a href="index.html" class="logo logo-light">
                         <span class="logo-sm">
-                            <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt=""
+                            <img src="<?php echo e(asset('themes/admin/assets/images/gemo2.png')); ?>" alt=""
                                 height="22">
                         </span>
                         <span class="logo-lg">
-                            <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt=""
+                            <img src="<?php echo e(asset('themes/admin/assets/images/gemo2.png')); ?>" alt=""
                                 height="17">
                         </span>
                     </a>
@@ -89,7 +89,7 @@
                                 <!-- item -->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-2.jpg') }}"
+                                        <img src="<?php echo e(asset('themes/admin/assets/images/users/avatar-2.jpg')); ?>"
                                             class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="m-0">Angela Bernier</h6>
@@ -100,7 +100,7 @@
                                 <!-- item -->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-3.jpg') }}"
+                                        <img src="<?php echo e(asset('themes/admin/assets/images/users/avatar-3.jpg')); ?>"
                                             class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="m-0">David Grasso</h6>
@@ -111,7 +111,7 @@
                                 <!-- item -->
                                 <a href="javascript:void(0);" class="dropdown-item notify-item py-2">
                                     <div class="d-flex">
-                                        <img src="{{ asset('themes/admin/assets/images/users/avatar-5.jpg') }}"
+                                        <img src="<?php echo e(asset('themes/admin/assets/images/users/avatar-5.jpg')); ?>"
                                             class="me-3 rounded-circle avatar-xs" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="m-0">Mike Bunch</h6>
@@ -142,11 +142,11 @@
                         id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
                         data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bx-bell fs-22'></i>
-                        @if($noti > 0)
+                        <?php if($noti > 0): ?>
                             <span class="position-absolute topbar-badge translate-middle badge p-1 bg-danger rounded-circle">
                                 <span class="visually-hidden"></span>
                             </span>
-                        @endif
+                        <?php endif; ?>
                     </button>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                         aria-labelledby="page-header-notifications-dropdown">
@@ -166,13 +166,13 @@
                                     <li class="nav-item waves-effect waves-light">
                                         <a class="nav-link active" data-bs-toggle="tab" href="#all-noti-tab"
                                             role="tab" aria-selected="true">
-                                            Tồn kho ({{ count($lowStockProducts) }})
+                                            Tồn kho (<?php echo e(count($lowStockProducts)); ?>)
                                         </a>
                                     </li>
                                     <li class="nav-item waves-effect waves-light">
                                         <a class="nav-link" data-bs-toggle="tab" href="#messages-tab" role="tab"
                                             aria-selected="false">
-                                            Giao dịch ({{ count($transactions) }})
+                                            Giao dịch (<?php echo e(count($transactions)); ?>)
                                         </a>
                                     </li>
                                     <li class="nav-item waves-effect waves-light">
@@ -189,7 +189,7 @@
                         <div class="tab-content position-relative" id="notificationItemsTabContent">
                             <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    @foreach ($lowStockProducts as $product)
+                                    <?php $__currentLoopData = $lowStockProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                         <div
                                             class="text-reset notification-item d-block dropdown-item position-relative">
                                             <div class="d-flex">
@@ -205,10 +205,10 @@
                                                         </h6>
                                                     </a>
                                                     <div class="fs-13 text-muted">
-                                                        <p class="mb-1">Sản phẩm "{{ $product->product->name }}"
-                                                            ({{ $product->name }})
+                                                        <p class="mb-1">Sản phẩm "<?php echo e($product->product->name); ?>"
+                                                            (<?php echo e($product->name); ?>)
                                                             có số lượng tồn kho thấp:
-                                                            {{ $product->stock }}</p>
+                                                            <?php echo e($product->stock); ?></p>
                                                     </div>
                                                     <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                                         <span><i class="mdi mdi-clock-outline"></i> Vui lòng nhập thêm
@@ -217,7 +217,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </div>
                             </div>
 
@@ -225,76 +225,76 @@
                             <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
                                 aria-labelledby="messages-tab">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    @if (isset($transactions) && $transactions->count() > 0)
-                                        @foreach ($transactions->sortByDesc('created_at') as $transaction)
+                                    <?php if(isset($transactions) && $transactions->count() > 0): ?>
+                                        <?php $__currentLoopData = $transactions->sortByDesc('created_at'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                             <div class="text-reset notification-item d-block dropdown-item">
                                                 <div class="d-flex">
                                                     <div class="flex-shrink-0">
                                                         <div class="avatar-xs me-3">
                                                             <span
                                                                 class="avatar-title bg-soft-warning text-warning rounded-circle fs-16">
-                                                                @if ($transaction->transaction_type == 'contract')
+                                                                <?php if($transaction->transaction_type == 'contract'): ?>
                                                                 <i class="ri-file-list-3-line fs-12"></i>
-                                                            @elseif($transaction->transaction_type == 'sale')
+                                                            <?php elseif($transaction->transaction_type == 'sale'): ?>
                                                                 <i class="ri-shopping-cart-line fs-12"></i>
-                                                            @else
+                                                            <?php else: ?>
                                                                 <i class="ri-shopping-basket-line fs-12"></i>
-                                                            @endif
+                                                            <?php endif; ?>
                                                             </span>
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1">
                                                         <h6 class="mt-0 mb-1 fs-13 fw-semibold">
-                                                            @if ($transaction->transaction_type == 'contract')
+                                                            <?php if($transaction->transaction_type == 'contract'): ?>
                                                                 Hợp đồng
-                                                                #{{ $transaction->contract_number ?? $transaction->related_id }}
-                                                            @elseif($transaction->transaction_type == 'sale')
+                                                                #<?php echo e($transaction->contract_number ?? $transaction->related_id); ?>
+
+                                                            <?php elseif($transaction->transaction_type == 'sale'): ?>
                                                                 Bán hàng
-                                                                #{{ $transaction->slug ?? $transaction->related_id }}
-                                                            @else
+                                                                #<?php echo e($transaction->slug ?? $transaction->related_id); ?>
+
+                                                            <?php else: ?>
                                                                 Mua hàng
-                                                                #{{ $transaction->slug ?? $transaction->related_id }}
-                                                            @endif
+                                                                #<?php echo e($transaction->slug ?? $transaction->related_id); ?>
+
+                                                            <?php endif; ?>
                                                             <br><span class="text-warning">Chờ xác nhận</span>
                                                         </h6>
                                                         <div class="fs-13 text-muted">
                                                             <p class="mb-1">
-                                                                Số tiền: {{ number_format($transaction->amount) }} VNĐ
+                                                                Số tiền: <?php echo e(number_format($transaction->amount)); ?> VNĐ
                                                                 <br>
-                                                                Nội dung: {{ $transaction->note }}
+                                                                Nội dung: <?php echo e($transaction->note); ?>
+
                                                             </p>
                                                         </div>
                                                         <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
                                                             <span><i class="mdi mdi-clock-outline"></i>
-                                                                {{ \Carbon\Carbon::parse($transaction->created_at)->diffForHumans() }}
+                                                                <?php echo e(\Carbon\Carbon::parse($transaction->created_at)->diffForHumans()); ?>
+
                                                             </span>
                                                         </p>
                                                     </div>
-                                                    @if ($transaction->document)
+                                                    <?php if($transaction->document): ?>
                                                         <div class="px-2 fs-15">
                                                             <button type="button"
                                                                 class="btn btn-sm btn-icon btn-ghost-info"
-                                                                onclick="showDocument('{{ url('storage/' . $transaction->document) }}', '{{ pathinfo($transaction->document, PATHINFO_EXTENSION) }}')">
+                                                                onclick="showDocument('<?php echo e(url('storage/' . $transaction->document)); ?>', '<?php echo e(pathinfo($transaction->document, PATHINFO_EXTENSION)); ?>')">
                                                                 <i class="ri-file-text-line"></i>
                                                             </button>
                                                         </div>
-                                                    @endif
+                                                    <?php endif; ?>
                                                     <button type="button"
                                                         class="btn btn-sm btn-ghost-success"
-                                                        onclick="confirmTransaction('{{ $transaction->transaction_type }}', {{ $transaction->id }})">
+                                                        onclick="confirmTransaction('<?php echo e($transaction->transaction_type); ?>', <?php echo e($transaction->id); ?>)">
                                                         Xác nhận
                                                         <i class="ri-check-line"></i>
                                                     </button>
                                                 </div>
                                             </div>
-                                        @endforeach
-                                        {{--
-                                        <div class="my-3 text-center view-all">
-                                            <a href="{{ route('transactions.index') }}" class="btn btn-soft-success waves-effect waves-light">
-                                                Xem tất cả giao dịch <i class="ri-arrow-right-line align-middle"></i>
-                                            </a>
-                                        </div> --}}
-                                    @else
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        
+                                    <?php else: ?>
                                         <div class="text-center p-4">
                                             <div class="avatar-md mx-auto mb-4">
                                                 <div class="avatar-title bg-light rounded-circle text-primary fs-20">
@@ -306,7 +306,7 @@
                                                 Chưa có giao dịch nào được thực hiện.
                                             </p>
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
                             <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel"
@@ -335,13 +335,13 @@
                         <span class="d-flex align-items-center">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
-                                    {{-- {{ Session::get('employee')->name }}</span> --}}
+                                    <?php echo e(Session::get('employee')->name); ?></span>
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
                             </span>
                         </span>
                     </button>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="{{ route('employees.logOut') }}"><i
+                        <a class="dropdown-item" href="<?php echo e(route('employees.logOut')); ?>"><i
                                 class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
@@ -370,10 +370,10 @@
         </div>
     </div>
 </header>
-@section('scripts')
+<?php $__env->startSection('scripts'); ?>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const lowStockProducts = @json($lowStockProducts);
+            const lowStockProducts = <?php echo json_encode($lowStockProducts, 15, 512) ?>;
 
             function showLowStockNotifications() {
                 const notificationContainer = document.querySelector('#all-noti-tab .simplebar-content');
@@ -389,8 +389,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const employee_id = "{{ Session::get('employee_id') }}";
-            const token = "{{ Session::get('token') }}";
+            const employee_id = "<?php echo e(Session::get('employee_id')); ?>";
+            const token = "<?php echo e(Session::get('token')); ?>";
             if (token) {
                 axios.defaults.headers.common = {
                     'Authorization': 'Bearer ' + token,
@@ -405,7 +405,7 @@
             const chatInput = document.getElementById('chat-input');
             const sendChat = document.getElementById('send-chat');
             const chatMessages = document.getElementById('chat-messages');
-            const currentUserId = "{{ auth()->id() }}";
+            const currentUserId = "<?php echo e(auth()->id()); ?>";
 
             chatIcon.addEventListener('click', function() {
                 chatBox.style.display = chatBox.style.display === 'none' ? 'block' : 'none';
@@ -470,7 +470,7 @@
 
     <script>
         function showDocument(url, type) {
-
+     
             Swal.fire({
             imageUrl: url,
             imageWidth: 800,
@@ -506,7 +506,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
+                    
                     // Thử với đường dẫn đầy đủ bao gồm trang-quan-tri
                     axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
                         headers: {
@@ -537,7 +537,7 @@
                             status: error.response?.status,
                             data: error.response?.data
                         });
-
+                        
                         Swal.fire({
                             title: 'Lỗi!',
                             text: error.response?.data?.message || 'Có lỗi xảy ra khi xác nhận giao dịch',
@@ -548,4 +548,5 @@
             });
         }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php /**PATH C:\laragon\www\DuAnTotNghiep\resources\views/admin/layouts/partials/header.blade.php ENDPATH**/ ?>

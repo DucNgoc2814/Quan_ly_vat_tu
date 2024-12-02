@@ -29,6 +29,7 @@ use App\Http\Controllers\UnitController;
 use App\Http\Controllers\LogController;
 use App\Exports\VariationsExport;
 use App\Http\Controllers\AttributeController;
+use App\Http\Controllers\PaymentHistoryController;
 use Maatwebsite\Excel\Facades\Excel;
 Route::prefix('trang-quan-tri')
     ->as('employees.')
@@ -38,7 +39,7 @@ Route::prefix('trang-quan-tri')
         Route::post('/dang-nhap', [EmployeeController::class, 'loginPost'])->name('loginPost');
         Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
     });
-    Route::prefix('nhan-vien-lai-xe')
+Route::prefix('nhan-vien-lai-xe')
     ->as('orderconfirm.') // Apply route name prefix
     ->group(function () {
         Route::get('/404-not-found', [TripManagementController::class, 'notFound'])->name('notfound');
@@ -123,7 +124,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/sua/{sku}', [BrandController::class, 'edit'])->name('edit')->middleware('permission:43');
                 Route::put('/sua/{brand}', [BrandController::class, 'update'])->name('update')->middleware('permission:44');
             });
-            Route::prefix('hop-dong')
+        Route::prefix('hop-dong')
             ->as('contract.')
             ->group(function () {
                 Route::get('/danh-sach', [ContractController::class, 'index'])->name('index')->middleware('permission:45');
@@ -137,14 +138,15 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
                 Route::get('/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove')->middleware('permission:54');
                 Route::get('/tu-choi/{id}', [ContractController::class, 'customerReject'])->name('customerReject')->middleware('permission:55');
-                Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove')->middleware('permission:56');
-                Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject')->middleware('permission:57');
+                // Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove')->middleware('permission:56');
+                // Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject')->middleware('permission:57');
                 Route::get('/sua/{contract_number}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:58');
                 Route::put('/sua/{contract_number}', [ContractController::class, 'update'])->name('update')->middleware('permission:59');
                 Route::get('/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf');
                 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('sendToManagerPdf');
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject');
                 Route::get('/status-history/{id}', [ContractController::class, 'getStatusHistory'])->name('status-history');
+                Route::get('/chi-tiet-hop-dong/{id}', [ContractController::class, 'show'])->name('show');
 
             });
         Route::prefix('quan-ly-ban-hang')
@@ -153,6 +155,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index')->middleware('permission:60');
                 Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create')->middleware('permission:61');
                 Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store')->middleware('permission:62');
+                Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract');
                 Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit')->middleware('permission:63');
                 Route::put('/cap-nhat-don-hang/{slug}', [OrderController::class, 'update'])->name('update')->middleware('permission:64');
                 Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus')->middleware('permission:65');
@@ -281,6 +284,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('save', [InventoryController::class, 'save'])->name('save')->middleware('permission:134');
                 Route::get('get-detail/{id}', [InventoryController::class, 'getDetail'])->name('getDetail')->middleware('permission:135');
                 Route::get('lich-su-nhap-hang/{id}', [InventoryController::class, 'historyImport'])->name('historyImport')->middleware('permission:136');
+                Route::post('sua-nhieu-san-pham', [InventoryController::class, 'bulkUpdate'])->name('bulkUpdate');
             });
         Route::prefix('loai-bien-the')
             ->as('valueVariations.')
@@ -291,6 +295,13 @@ Route::middleware('CheckEmployees')->group(
                 Route::post('/them-moi-gia-tri', [AttributeController::class, 'storeValue'])->name('storeValue')->middleware('permission:140');
                 Route::get('/sua/{id}', [AttributeController::class, 'edit'])->name('edit')->middleware('permission:141');
                 Route::put('/sua/{id}', [AttributeController::class, 'update'])->name('update')->middleware('permission:142');
+            });
+        Route::prefix('lich-su-chuyen-tien')
+            ->as('payment.')
+            ->group(function () {
+                Route::get('/danh-sach', [PaymentHistoryController::class, 'index'])->name('index');
+                Route::post('/them-moi', [PaymentHistoryController::class, 'store'])->name('store');
+                Route::post('/xac-nhan/{id}', [PaymentHistoryController::class, 'confirm'])->name('confirm');
             });
         Route::get('contracts/confirm/{id}', [ContractController::class, 'customerConfirm'])->name('contracts.customerConfirm')->middleware('permission:143');
         Route::get('contracts/reject/{id}', [ContractController::class, 'customerReject'])->name('contracts.customerReject')->middleware('permission:144');
@@ -309,3 +320,15 @@ Route::middleware('CheckEmployees')->group(
 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf');
 Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf');
 
+Route::prefix('hop-dong')
+    ->as('contract.')
+    ->group(function () {
+        Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove');
+        Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject');
+
+    });
+    Route::prefix('quan-ly-ban-hang')
+    ->as('order.')
+    ->group(function () {
+        Route::get('/export-invoice/{orderId}', [OrderController::class, 'exportInvoice'])->name('invoice');
+    });

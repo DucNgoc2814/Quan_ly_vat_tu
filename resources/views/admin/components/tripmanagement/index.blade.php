@@ -46,10 +46,10 @@
                                         <td>{{ $trip->employee->name }}</td>
                                         <td>
                                             @if ($trip->status == 1)
-                                                <span class="badge-soft-success" style="color: green;">Đang vận chuyển</span>
-                                            @else
-                                                <span class="badge-soft-info" style="color: rgb(2, 80, 72);">Hoàn thành</span>
-                                            @endif
+                                            <span style="color: green" class=" badge-soft-success">Đang vận chuyển</span>
+                                        @elseif($trip->status == 2)
+                                            <span style="color: rgb(2, 80, 72)" class=" badge-soft-info">Hoàn thành</span>
+                                        @endif
                                         </td>
                                         <td class="text-center">
                                             <a href="{{ route('orderconfirm.show', ['id' => $trip->id]) }}" class="btn btn-secondary">

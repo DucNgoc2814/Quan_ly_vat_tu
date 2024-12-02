@@ -12,6 +12,7 @@ class ContractDetail extends Model
         'contract_id',
         'variation_id',
         'quantity',
+        'remaining_quantity',
         'price'
     ];
 

@@ -52,7 +52,7 @@
                                     <td>
                                         <a href="{{ route('valueVariations.edit', $item->id) }}"
                                             class="btn btn-sm btn-primary">
-                                            <i class="ri-pencil-line"> Sửa</i>
+                                            <i class="ri-pencil-line">Sửa</i>
                                         </a>
                                     </td>
                                 </tr>
@@ -73,6 +73,7 @@
                 <div class="modal-body">
                     <input type="text" class="form-control" id="valueName" placeholder="Nhập giá trị">
                     @error('valueName')
+                        <p class="text-danger">{{ $message }}</p>
                     @enderror
                     <input type="hidden" id="attributeId">
                 </div>
@@ -94,6 +95,11 @@
         });
 
         $('#saveValue').click(function() {
+            // Xóa các thông báo lỗi cũ
+            $('.invalid-feedback').remove(); // Xóa tất cả thông báo lỗi
+            $('#valueName').removeClass('is-invalid'); // Xóa lớp lỗi
+
+            // Gửi yêu cầu AJAX
             $.ajax({
                 url: '/loai-bien-the/them-moi-gia-tri',
                 type: 'POST',

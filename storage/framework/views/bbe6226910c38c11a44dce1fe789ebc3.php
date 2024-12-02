@@ -2,18 +2,18 @@
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
-        <a href="{{ route('admin.dashboard') }}" class="logo logo-dark">
+        <a href="<?php echo e(route('admin.dashboard')); ?>" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt="" height="180">
+                <img src="<?php echo e(asset('themes/admin/assets/images/gemo2.png')); ?>" alt="" height="180">
             </span>
             <span class="logo-lg">
-                <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt="" height="180">
+                <img src="<?php echo e(asset('themes/admin/assets/images/gemo2.png')); ?>" alt="" height="180">
             </span>
         </a>
         <!-- Light Logo-->
-        <a href="{{ route('admin.dashboard') }}" class="logo logo-light">
-            <a href="{{ route('admin.dashboard') }}" class="d-block">
-                <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}" alt="" height="150">
+        <a href="<?php echo e(route('admin.dashboard')); ?>" class="logo logo-light">
+            <a href="<?php echo e(route('admin.dashboard')); ?>" class="d-block">
+                <img src="<?php echo e(asset('themes/admin/assets/images/gemo2.png')); ?>" alt="" height="150">
             </a>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -25,27 +25,27 @@
         <div class="container-fluid">
             <div id="two-column-menu">
             </div>
-            @php
+            <?php
                 $id = JWTAuth::setToken(Session::get('token'))->getPayload()->get('id');
                 $permission_id = App\Models\Permission_role_employee::where('role_employee_id', $id)->get(
                     'permission_id',
                 );
                 $employees = collect($permission_id)->pluck('permission_id')->toArray();
-            @endphp
+            ?>
             <ul class="navbar-nav" id="navbar-nav">
-                @if (in_array(1, $employees))
-                    <li class="nav-item"> <a class="nav-link menu-link" href="{{ route('admin.dashboard') }}"
+                <?php if(in_array(1, $employees)): ?>
+                    <li class="nav-item"> <a class="nav-link menu-link" href="<?php echo e(route('admin.dashboard')); ?>"
                             role="button" aria-expanded="false" aria-controls="sidebarDashboards">
                             <i class="ri-home-2-fill"></i> <span data-key="t-dashboards">Bảng điều khiển</span>
                         </a>
                     </li>
-                @endif
-                @if (in_array(4, $employees) ||
+                <?php endif; ?>
+                <?php if(in_array(4, $employees) ||
                         in_array(5, $employees) ||
                         in_array(6, $employees) ||
                         in_array(7, $employees) ||
                         in_array(8, $employees) ||
-                        in_array(9, $employees))
+                        in_array(9, $employees)): ?>
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarEmployees" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarEmployees">
@@ -55,25 +55,25 @@
                         <div class="collapse menu-dropdown" id="sidebarEmployees">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('employees.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('employees.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Danh sách nhân sự</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('employees.listPermissions') }}" class="nav-link "
+                                    <a href="<?php echo e(route('employees.listPermissions')); ?>" class="nav-link "
                                         data-key="t-horizontal">Quyền truy cập nhân sự</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                @endif
+                <?php endif; ?>
 
-                @if (in_array(33, $employees) ||
+                <?php if(in_array(33, $employees) ||
                         in_array(34, $employees) ||
                         in_array(35, $employees) ||
                         in_array(36, $employees) ||
                         in_array(37, $employees) ||
                         in_array(38, $employees) ||
-                        in_array(39, $employees))
+                        in_array(39, $employees)): ?>
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarSliders" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarSliders">
@@ -83,14 +83,14 @@
                         <div class="collapse menu-dropdown" id="sidebarSliders">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('sliders.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('sliders.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Danh sách thanh trượt</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                @endif
-                @if (in_array(79, $employees) ||
+                <?php endif; ?>
+                <?php if(in_array(79, $employees) ||
                         in_array(80, $employees) ||
                         in_array(81, $employees) ||
                         in_array(82, $employees) ||
@@ -125,7 +125,7 @@
                         in_array(141, $employees) ||
                         in_array(142, $employees) ||
                         in_array(143, $employees) ||
-                        in_array(144, $employees))
+                        in_array(144, $employees)): ?>
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarGalleries" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarGalleries">
@@ -135,36 +135,36 @@
                         <div class="collapse menu-dropdown" id="sidebarGalleries">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('product.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('product.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Quản lý sản phẩm</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('category.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('category.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Danh mục sản phẩm</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('units.index') }}" class="nav-link " data-key="t-horizontal">Đơn
+                                    <a href="<?php echo e(route('units.index')); ?>" class="nav-link " data-key="t-horizontal">Đơn
                                         vị tính</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('brand.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('brand.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Thương hiệu</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('valueVariations.index') }}" class="nav-link"
+                                    <a href="<?php echo e(route('valueVariations.index')); ?>" class="nav-link"
                                         data-key="t-horizontal">Loại biến thể</a>
                                 </li>
 
                                 <li class="nav-item">
-                                    <a href="{{ route('inventories.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('inventories.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Kho hàng</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                @endif
-                @if (in_array(10, $employees) ||
+                <?php endif; ?>
+                <?php if(in_array(10, $employees) ||
                         in_array(11, $employees) ||
                         in_array(12, $employees) ||
                         in_array(13, $employees) ||
@@ -172,7 +172,7 @@
                         in_array(15, $employees) ||
                         in_array(16, $employees) ||
                         in_array(17, $employees) ||
-                        in_array(78, $employees))
+                        in_array(78, $employees)): ?>
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarSuppliers" data-bs-toggle="collapse"
                             role="button" aria-expanded="false" aria-controls="sidebarSuppliers">
@@ -183,18 +183,18 @@
                             <ul class="nav nav-sm flex-column">
 
                                 <li class="nav-item">
-                                    <a href="{{ route('suppliers.index') }}" class="nav-link"
+                                    <a href="<?php echo e(route('suppliers.index')); ?>" class="nav-link"
                                         data-key="t-horizontal">Danh sách nhà cung cấp</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('customer.index') }}" class="nav-link"
+                                    <a href="<?php echo e(route('customer.index')); ?>" class="nav-link"
                                         data-key="t-horizontal">Danh sách khách hàng</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                @endif
-                @if (in_array(45, $employees) ||
+                <?php endif; ?>
+                <?php if(in_array(45, $employees) ||
                         in_array(46, $employees) ||
                         in_array(47, $employees) ||
                         in_array(48, $employees) ||
@@ -208,7 +208,7 @@
                         in_array(56, $employees) ||
                         in_array(57, $employees) ||
                         in_array(58, $employees) ||
-                        in_array(59, $employees))
+                        in_array(59, $employees)): ?>
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarBrands" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarBrands">
@@ -218,7 +218,7 @@
                         <div class="collapse menu-dropdown" id="sidebarBrands">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('contract.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('contract.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Danh sách hợp đồng</a>
                                 </li>
                                 <li class="nav-item">
@@ -228,8 +228,8 @@
                             </ul>
                         </div>
                     </li>
-                @endif
-                @if (in_array(60, $employees) ||
+                <?php endif; ?>
+                <?php if(in_array(60, $employees) ||
                         in_array(61, $employees) ||
                         in_array(62, $employees) ||
                         in_array(63, $employees) ||
@@ -251,7 +251,7 @@
                         in_array(95, $employees) ||
                         in_array(96, $employees) ||
                         in_array(97, $employees) ||
-                        in_array(98, $employees))
+                        in_array(98, $employees)): ?>
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarOrders" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarOrders">
@@ -261,39 +261,24 @@
                         <div class="collapse menu-dropdown" id="sidebarOrders">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
-                                    <a href="{{ route('order.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('order.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Đơn hàng</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('importOrder.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('importOrder.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Quản lý phiếu nhập hàng</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                @endif
-                {{--
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarDebts" data-bs-toggle="collapse"
-                        role="button" aria-expanded="false" aria-controls="sidebarDebts">
-                        <i class="ri-hand-coin-fill"></i>
-                        <span data-key="t-layouts">Quản lý công nợ</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarDebts">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="layouts-horizontal.html" class="nav-link "
-                                    data-key="t-horizontal">Thêm mới</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li> --}}
-                @if (in_array(123, $employees) ||
+                <?php endif; ?>
+                
+                <?php if(in_array(123, $employees) ||
                         in_array(124, $employees) ||
                         in_array(125, $employees) ||
                         in_array(126, $employees) ||
                         in_array(127, $employees) ||
-                        in_array(128, $employees))
+                        in_array(128, $employees)): ?>
                     <li class="nav-item">
                         <a class="nav-link menu-link" href="#sidebarTrips" data-bs-toggle="collapse" role="button"
                             aria-expanded="false" aria-controls="sidebarTrips">
@@ -304,35 +289,35 @@
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item">
 
-                                    <a href="{{ route('trips.index') }}" class="nav-link"
+                                    <a href="<?php echo e(route('trips.index')); ?>" class="nav-link"
                                         data-key="t-horizontal">Quản lý chuyến đi</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('CargoCars.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('CargoCars.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Danh sách xe</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ route('cargo_car_types.index') }}" class="nav-link "
+                                    <a href="<?php echo e(route('cargo_car_types.index')); ?>" class="nav-link "
                                         data-key="t-horizontal">Danh sách loại xe</a>
                                 </li>
                             </ul>
                         </div>
                     </li>
-                @endif
-                @if (in_array(131, $employees) ||
+                <?php endif; ?>
+                <?php if(in_array(131, $employees) ||
                         in_array(132, $employees) ||
                         in_array(133, $employees) ||
                         in_array(134, $employees) ||
                         in_array(135, $employees) ||
-                        in_array(136, $employees))
+                        in_array(136, $employees)): ?>
                     <li class="nav-item">
-                        <a class="nav-link menu-link" href="{{ route('logs.index') }}" role="button"
+                        <a class="nav-link menu-link" href="<?php echo e(route('logs.index')); ?>" role="button"
                             aria-expanded="false" aria-controls="sidebarTrips">
                             <i class="ri-settings-6-fill"></i>
                             <span data-key="t-layouts">Lịch sử thao tác</span>
                         </a>
                     </li>
-                @endif
+                <?php endif; ?>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebartk" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebartk">
@@ -343,15 +328,15 @@
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
 
-                                <a href="{{ route('payment.index') }}" class="nav-link"
+                                <a href="<?php echo e(route('payment.index')); ?>" class="nav-link"
                                     data-key="t-horizontal">Thu chi</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('CargoCars.index') }}" class="nav-link "
+                                <a href="<?php echo e(route('CargoCars.index')); ?>" class="nav-link "
                                     data-key="t-horizontal">Danh sách xe</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('cargo_car_types.index') }}" class="nav-link "
+                                <a href="<?php echo e(route('cargo_car_types.index')); ?>" class="nav-link "
                                     data-key="t-horizontal">Danh sách loại xe</a>
                             </li>
                         </ul>
@@ -364,3 +349,4 @@
 
     <div class="sidebar-background"></div>
 </div>
+<?php /**PATH C:\laragon\www\DuAnTotNghiep\resources\views/admin/layouts/partials/sidebar.blade.php ENDPATH**/ ?>

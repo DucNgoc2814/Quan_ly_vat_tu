@@ -36,10 +36,8 @@
                                 <th data-ordering="false">Tên sản phẩm</th>
                                 <th data-ordering="false">Danh mục</th>
                                 <th data-ordering="false">Thương hiệu</th>
-                                <th data-ordering="false">Số lượng</th>
-                                <th data-ordering="false">Đơn vị</th>
-                                <th data-ordering="false">Giá bán</th>
-                                <th data-ordering="false">Hiển thị</th>
+                                <th data-ordering="false">Số lượng tồn kho</th>
+                                <th data-ordering="false">Đơn vị tính</th>
                                 <th data-ordering="false">Thao tác</th>
                             </tr>
                         </thead>
@@ -52,20 +50,7 @@
                                     <td>{{ $data->brand->name }}</td>
                                     <td>{{ $data->variations->sum('stock') }}</td>
                                     <td>{{ $data->unit->name }}</td>
-                                    <td>{{ number_format($data->price) }}</td>
-                                    <td>
-                                        <div class="form-check form-switch form-switch">
-                                            @if ($data->is_active == 1)
-                                                <input onchange="changeStatus('products', {{ $data->id }},0)"
-                                                    class="form-check-input" type="checkbox" name="is_active" value="1"
-                                                    id="is_active" checked>
-                                            @else
-                                                <input onchange="changeStatus('products', {{ $data->id }},1)"
-                                                    class="form-check-input" type="checkbox" name="is_active" value="0"
-                                                    id="is_active">
-                                            @endif
-                                        </div>
-                                    </td>
+                                    
                                     <td>
                                         <a href="{{ route('product.edit', $data->slug) }}" class="dropdown-item edit-item-btn"><i
                                                 class="ri-pencil-fill align-bottom me-2 text-muted"></i>

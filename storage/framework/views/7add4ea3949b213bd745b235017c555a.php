@@ -4,20 +4,20 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>@yield('title')</title>
+    <title><?php echo $__env->yieldContent('title'); ?></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
     <meta content="Themesbrand" name="author" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png') }}">
+    <link rel="shortcut icon" href="<?php echo e(asset('themes/admin/assets/images/Gemo__1_-removebg-preview.png')); ?>">
 
     <!-- jsvectormap css -->
-    <link href="{{ asset('themes/admin/assets/libs/jsvectormap/css/jsvectormap.min.css') }}" rel="stylesheet"
+    <link href="<?php echo e(asset('themes/admin/assets/libs/jsvectormap/css/jsvectormap.min.css')); ?>" rel="stylesheet"
         type="text/css" />
 
     <!--Swiper slider css-->
-    <link href="{{ asset('themes/admin/assets/libs/swiper/swiper-bundle.min.css') }}" rel="stylesheet"
+    <link href="<?php echo e(asset('themes/admin/assets/libs/swiper/swiper-bundle.min.css')); ?>" rel="stylesheet"
         type="text/css" />
 
     <!--datatable css-->
@@ -27,16 +27,16 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
     <!-- Layout config Js -->
-    <script src="{{ asset('themes/admin/assets/js/layout.js') }}"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/js/layout.js')); ?>"></script>
     <!-- Bootstrap Css -->
-    <link href="{{ asset('themes/admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(asset('themes/admin/assets/css/bootstrap.min.css')); ?>" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="{{ asset('themes/admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(asset('themes/admin/assets/css/icons.min.css')); ?>" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="{{ asset('themes/admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="<?php echo e(asset('themes/admin/assets/css/app.min.css')); ?>" rel="stylesheet" type="text/css" />
     <!-- custom Css-->
-    <link href="{{ asset('themes/admin/assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
-    {{-- link ajax jquery --}}
+    <link href="<?php echo e(asset('themes/admin/assets/css/custom.min.css')); ?>" rel="stylesheet" type="text/css" />
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -49,8 +49,8 @@
     <script>
         window.Echo = new Echo({
             broadcaster: 'pusher',
-            key: '{{ config('broadcasting.connections.pusher.key') }}',
-            cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
+            key: '<?php echo e(config('broadcasting.connections.pusher.key')); ?>',
+            cluster: '<?php echo e(config('broadcasting.connections.pusher.options.cluster')); ?>',
             forceTLS: true,
             encrypted: true
         });
@@ -264,8 +264,8 @@
             background: #f1f1f1;
         }
     </style>
-    <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
-    @yield('styles')
+    <script src="<?php echo e(asset('themes/admin/assets/js/jquery.js')); ?>"></script>
+    <?php echo $__env->yieldContent('styles'); ?>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
@@ -273,9 +273,9 @@
 <body>
     <!-- Begin page -->
     <div id="jquery-wrapper">
-        @include('admin.layouts.partials.header')
+        <?php echo $__env->make('admin.layouts.partials.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- ========== App Menu ========== -->
-        @include('admin.layouts.partials.sidebar')
+        <?php echo $__env->make('admin.layouts.partials.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- Left Sidebar End -->
         <!-- ============================================================== -->
         <!-- Start right Content here -->
@@ -285,14 +285,14 @@
             <div class="page-content">
                 <div class="container-fluid">
 
-                    @yield('content')
+                    <?php echo $__env->yieldContent('content'); ?>
 
                 </div>
                 <!-- container-fluid -->
             </div>
             <!-- End Page-content -->
 
-            @include('admin.layouts.partials.footer')
+            <?php echo $__env->make('admin.layouts.partials.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         </div>
         <!-- end main content-->
 
@@ -322,35 +322,35 @@
         </div>
     </div>
     <script>
-        const PATH_ROOT = '{{ asset('themes/admin/') }}';
+        const PATH_ROOT = '<?php echo e(asset('themes/admin/')); ?>';
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!-- JAVASCRIPT -->
-    <script src="{{ asset('themes/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('themes/admin/assets/libs/simplebar/simplebar.min.js') }}"></script>
-    <script src="{{ asset('themes/admin/assets/libs/node-waves/waves.min.js') }}"></script>
-    <script src="{{ asset('themes/admin/assets/libs/feather-icons/feather.min.js') }}"></script>
-    <script src="{{ asset('themes/admin/assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
-    <script src="{{ asset('themes/admin/assets/js/plugins.js') }}"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/libs/simplebar/simplebar.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/libs/node-waves/waves.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/libs/feather-icons/feather.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/js/pages/plugins/lord-icon-2.1.0.js')); ?>"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/js/plugins.js')); ?>"></script>
 
-    <script src="{{ asset('themes/admin/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/libs/apexcharts/apexcharts.min.js')); ?>"></script>
 
     <!-- Vector map-->
-    <script src="{{ asset('themes/admin/assets/libs/jsvectormap/js/jsvectormap.min.js') }}"></script>
-    <script src="{{ asset('themes/admin/assets/libs/jsvectormap/maps/world-merc.js') }}"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/libs/jsvectormap/js/jsvectormap.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/libs/jsvectormap/maps/world-merc.js')); ?>"></script>
 
     <!--Swiper slider js-->
-    <script src="{{ asset('themes/admin/assets/libs/swiper/swiper-bundle.min.j') }}s"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/libs/swiper/swiper-bundle.min.j')); ?>s"></script>
 
     <!-- Dashboard init -->
-    <script src="{{ asset('themes/admin/assets/js/pages/dashboard-ecommerce.init.js') }}"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/js/pages/dashboard-ecommerce.init.js')); ?>"></script>
     <!-- App js -->
-    <script src="{{ asset('themes/admin/assets/js/app.js') }}"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/js/app.js')); ?>"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <!--datatable js-->
-    <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/js/jquery.js')); ?>"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.2.2/js/dataTables.buttons.min.js"></script>
@@ -364,15 +364,15 @@
     <script>
         new DataTable('#myTable')
     </script>
-    <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
+    <script src="<?php echo e(asset('themes/admin/assets/js/jquery.js')); ?>"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         function changeStatus(nameTable, id, is_active) {
             $.ajax({
-                url: '{{ route('updateStatus') }}',
+                url: '<?php echo e(route('updateStatus')); ?>',
                 type: 'POST',
                 data: {
-                    _token: '{{ csrf_token() }}',
+                    _token: '<?php echo e(csrf_token()); ?>',
                     id: id,
                     nameTable: nameTable,
                     is_active: is_active
@@ -411,39 +411,15 @@
             });
         });
     </script>
-    <script>
-        console.log('kkkkkkkkkkkkkkkkkkk:', {
-            key: '{{ config('broadcasting.connections.pusher.key') }}',
-            cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}'
-        });
-        window.Echo.channel('contract-notifications')
-            .listen('ContractSentToCustomer', (e) => {
-                Swal.fire({
-                    title: 'Thông báo mới',
-                    text: 'Hợp đồng đã được gửi cho khách hàng',
-                    icon: 'info'
-                });
-            });
-    </script>
-    <script>
-        window.Echo.channel('contract-notifications')
-            .listen('NewContractCreated', (e) => {
-                Swal.fire({
-                    title: 'Thông báo mới',
-                    text: e.message,
-                    icon: 'info',
-                    showConfirmButton: true,
-                    timer: 3000
-                });
-            });
-    </script>
 
-    @yield('scripts')
+    <?php echo $__env->yieldContent('scripts'); ?>
 
-    @if (session('authorization'))
-        {{ session('authorization') }}
-    @endif
-    @stack('scripts')
+    <?php if(session('authorization')): ?>
+        <?php echo e(session('authorization')); ?>
+
+    <?php endif; ?>
+    <?php echo $__env->yieldPushContent('scripts'); ?>
 </body>
 
 </html>
+<?php /**PATH C:\laragon\www\DuAnTotNghiep\resources\views/admin/layouts/master.blade.php ENDPATH**/ ?>

@@ -26,12 +26,12 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                    <table id="myTable" class="fs-13 table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>
                                 <th data-ordering="false">ID</th>
-                                <th data-ordering="false">Tên hợp đồng</th>
+                                <th data-ordering="false">Mã số hợp đồng</th>
                                 <th data-ordering="false">Bên B</th>
                                 <th data-ordering="false">Số điện thoại bên B</th>
                                 <th data-ordering="false">Email bên B</th>
@@ -53,7 +53,7 @@
                                                 style="display:inline;">
                                                 @csrf
                                                 <button type="submit" class="btn btn-primary btn-sm">
-                                                    Gửi giám đốc xác nhận
+                                                    Gửi giám đốc
                                                 </button>
                                             </form>
                                         @elseif ($data->contract_status_id == 2)
@@ -61,7 +61,7 @@
                                                 style="display:inline;">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm">
-                                                    Gửi cho khách hàng
+                                                    Gửi khách hàng
                                                 </button>
                                             </form>
                                         @else
@@ -71,34 +71,19 @@
 
                                     <td class="d-flex flex-column gap-2">
                                         @if ($data->contract_status_id == 1)
-                                            <a href="#" class="btn btn-info btn-sm"
-                                                onclick="showPdf({{ $data->id }})">
+                                            <a href="{{ route('contract.show', $data->id) }}" class="btn btn-info btn-sm">
                                                 <i class="ri-eye-fill align-bottom me-2"></i>Xem
                                             </a>
                                         @elseif ($data->contract_status_id == 3 || $data->contract_status_id == 7)
-                                            <a href="#" class="btn btn-warning btn-sm"
+                                            <a href="#" class="btn btn-primary btn-sm"
                                                 onclick="showWord({{ $data->id }})">
-                                                <i class="ri-pencil-fill align-bottom me-2"></i>Thay đổi
+                                                <i class="ri-eye-fill align-bottom me-2"></i>Xem chi tiết
                                             </a>
-                                            <form action="{{ route('contract.sendToManagerPdf', $data->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm w-100">
-                                                    <i class="ri-send-plane-fill align-bottom me-2"></i>Gửi giám đốc
-                                                </button>
-                                            </form>
                                         @elseif ($data->contract_status_id == 6)
                                             <a href="#" class="btn btn-info btn-sm"
                                                 onclick="showPdf({{ $data->id }})">
                                                 <i class="ri-eye-fill align-bottom me-2"></i>Xem
                                             </a>
-                                            <form action="{{ route('contract.sendToManagerPdf', $data->id) }}"
-                                                method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm w-100">
-                                                    <i class="ri-send-plane-fill align-bottom me-2"></i>Gửi giám đốc
-                                                </button>
-                                            </form>
                                             <a href="{{ route('order.createordercontract', ['contract_id' => $data->id]) }}"
                                                 class="btn btn-primary btn-sm">
                                                 <i class="ri-add-fill align-bottom me-2"></i>Tạo đơn hàng
@@ -217,4 +202,3 @@
         }
     </script>
 @endpush
-

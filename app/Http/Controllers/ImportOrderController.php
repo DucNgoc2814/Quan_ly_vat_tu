@@ -204,7 +204,7 @@ class ImportOrderController extends Controller
                 $endDate = Carbon::now()->endOfMonth();
 
                 for ($date = $startDate; $date <= $endDate; $date->addMonth()) {
-                    $ordersCountn = Import_order::whereYear('created_at', $date->year)
+$ordersCountn = Import_order::whereYear('created_at', $date->year)
                         ->whereMonth('created_at', $date->month)
                         ->count();
                     $ordersPerMonthN[] = $ordersCountn;
@@ -259,17 +259,7 @@ class ImportOrderController extends Controller
         } catch (\Exception $e) {
             return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
         }
-
-        // return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues', 'latestOrders', 'productsWithTotalQuantity'));
-    }
-
-    public function checkOrderStatus($slug)
-    {
-        $importOrder = Import_order::where('slug', $slug)->first();
-        if ($importOrder && $importOrder->status == 2) {
-            return response()->json(['status' => 'confirmed']);
-        }
-        return response()->json(['status' => 'pending']);
+// return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues', 'latestOrders', 'productsWithTotalQuantity'));
     }
 
 
@@ -279,19 +269,25 @@ class ImportOrderController extends Controller
     {
         $importOrder = Import_order::where('slug', $slug)->first();
         if ($importOrder) {
-            $importOrder->status = 3; // Giao hàng thành công
+            $importOrder->status = 3;
             $importOrder->save();
-
-            // Cập nhật số lượng stock
             $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
             foreach ($importOrderDetails as $detail) {
                 $variation = Variation::find($detail->variation_id);
                 if ($variation) {
                     $variation->stock += $detail->quantity;
+                    $latestImportPrice = $detail->price;
+                    if ($variation->avgImportPrice === 0) {
+                        $variation->avgImportPrice = $latestImportPrice;
+                    } else {
+                        $totalQuantity = $variation->stock;
+                        $totalCost = ($variation->avgImportPrice * ($totalQuantity - $detail->quantity)) + ($latestImportPrice * $detail->quantity);
+                        $variation->avgImportPrice = $totalCost / $totalQuantity;
+                    }
+                    $variation->latestImportPrice = $latestImportPrice;
                     $variation->save();
                 }
             }
-
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false]);

@@ -22,10 +22,11 @@ class NewContractCreated implements ShouldBroadcast
     {
         return  new Channel('contract-created');
     }
-    // public function broadcastWith()
-    // {
-    //     return [
-    //         'contract' => $this->contract
-    //     ];
-    // }
+    public function broadcastWith()
+    {
+        return [
+            'message' => "Hợp đồng {$this->contract->contract_number} đã được thêm mới",
+            'contract' => $this->contract
+        ];
+    }
 }
