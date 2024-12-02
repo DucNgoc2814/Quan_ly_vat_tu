@@ -285,7 +285,7 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                        {{-- 
+                                        {{--
                                         <div class="my-3 text-center view-all">
                                             <a href="{{ route('transactions.index') }}" class="btn btn-soft-success waves-effect waves-light">
                                                 Xem tất cả giao dịch <i class="ri-arrow-right-line align-middle"></i>
@@ -332,7 +332,7 @@
                         <span class="d-flex align-items-center">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
-                                    {{ Session::get('employee')->name }}</span>
+                                    {{-- {{ Session::get('employee')->name }}</span> --}}
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
                             </span>
                         </span>
@@ -469,6 +469,7 @@
         }
 
         function showDocument(url, type) {
+
             let dropdown = document.querySelector('#notificationDropdown .dropdown-menu');
             Swal.fire({
                 imageUrl: url,
@@ -506,6 +507,41 @@
 
                     // Thử với đường dẫn đầy đủ bao gồm trang-quan-tri
                     axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
+                        headers: {
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        console.log('Success Response:', response); // Log success response
+                        if (response.data && response.data.success) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: response.data.message || 'Giao dịch đã được xác nhận.',
+                                icon: 'success'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        } else {
+                            throw new Error(response.data?.message || 'Có lỗi xảy ra');
+                        }
+                    })
+                    .catch(error => {
+                        // Log chi tiết lỗi để debug
+                        console.error('Error details:', {
+                            error: error,
+                            response: error.response,
+                            status: error.response?.status,
+                            data: error.response?.data
+                        });
+
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: error.response?.data?.message || 'Có lỗi xảy ra khi xác nhận giao dịch',
+                            icon: 'error'
+                        });
+                    });
                             headers: {
                                 'X-CSRF-TOKEN': token,
                                 'Accept': 'application/json',

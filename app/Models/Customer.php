@@ -31,6 +31,10 @@ class Customer extends Authenticatable implements JWTSubject
         return $this->hasMany(Order::class);
     }
 
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class);
+    }
     public function getJWTIdentifier()
     {
         return $this->getKey();
