@@ -21,6 +21,7 @@ use PhpOffice\PhpWord\Writer\HTML;
 use Illuminate\Http\Request;
 use App\Events\ContractRejected;
 use App\Events\ContractSentToCustomer;
+use App\Events\NewContractCreated;
 use App\Models\Contract_status_time;
 use App\Models\Payment;
 use App\Models\Payment_history;
@@ -105,6 +106,7 @@ class ContractController extends Controller
             ]);
 
             // 4. Trở về trang danh sách hợp đồng
+            event(new NewContractCreated($contract));
             return redirect()
                 ->route('contract.index')
                 ->with('success', 'Tạo hợp đồng thành công!');

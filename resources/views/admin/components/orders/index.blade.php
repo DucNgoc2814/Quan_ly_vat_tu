@@ -46,13 +46,14 @@
                                 @foreach ($data as $order)
                                     <tr>
                                         <td>{{ $order->slug }}</td>
-                                        <td>{{ $order->customer->name ?? 'Đơn hợp đồng'  }}</td>
+                                        <td>{{ $order->customer->name ?? 'Đơn hợp đồng' }}</td>
                                         <td>{{ $order->customer_name }}</td>
                                         <td>{{ $order->number_phone }}</td>
                                         <td>{{ number_format($order->total_amount) }}</td>
                                         <td>{{ number_format($order->paid_amount) }}</td>
                                         <td>
-                                            <span class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng có chứng từ'}}</span>
+                                            <span
+                                                class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng hợp đồng' }}</span>
                                         </td>
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
@@ -61,15 +62,15 @@
                                                     method="POST" class="{{ $order->slug }} d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
-                                                    <select name="status" class="form-select form-select-sm "
+                                                    <select name="status" class="form-select form-select-sm status-select"
+                                                        data-order-slug="{{ $order->slug }}"
                                                         id="statusSelect-{{ $order->slug }}"
-                                                        onchange="confirmStatusChange(this, '{{ $order->slug }}')">
+                                                        onchange="handleStatusChange(this, '{{ $order->slug }}')">
                                                         <option class="optionCheck" value="{{ $order->status_id }}"
                                                             selected>
                                                             {{ $order->orderStatus->name }}</option>
                                                         @if ($order->status_id == 1)
                                                             <option class="optionCheck" value="2">Xác Nhận</option>
-
                                                             <option class="optionCheck" value="5">Hủy</option>
                                                         @elseif ($order->status_id == 2)
                                                             <option class="optionCheck" value="3">Đang giao</option>
@@ -132,127 +133,144 @@
 @section('scripts')
     <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
     <script>
-        function changeStatusOrder(orderSlug, newStatus, note) {
-            $.ajax({
-                url: `{{ route('order.updateStatus', '') }}/${orderSlug}`,
-                type: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    status: newStatus,
-                    note: note
-                },
-                success: function(response) {},
-                error: function(xhr) {}
-            });
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Thêm event listener cho tất cả các select có class status-select
+            document.querySelectorAll('.status-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    const orderSlug = this.dataset.orderSlug;
+                    const newStatus = this.value;
+                    const currentStatus = this.options[0].value;
 
-        // Hàm xử lý yêu cầu hủy đơn hàng
-        function requestCancelOrder(orderSlug) {
-            Swal.fire({
-                title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
-                text: "Hãy nhập lý do hủy đơn hàng",
-                input: 'textarea',
-                inputPlaceholder: 'Nhập lý do đơn hàng bị hủy...',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Gửi yêu cầu',
-                cancelButtonText: 'Thoát'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch(`{{ route('order.requestCancel', '') }}/${orderSlug}`, {
+                    if (currentStatus == '1' && newStatus == '2') {
+                        const row = this.closest('tr');
+                        const totalAmount = parseInt(row.querySelector('td:nth-child(5)')
+                            .textContent.replace(/,/g, ''));
+                        const paidAmount = parseInt(row.querySelector('td:nth-child(6)').textContent
+                            .replace(/,/g, ''));
+
+                        if (totalAmount !== paidAmount) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Không thể xác nhận',
+                                text: `Số tiền chưa được thanh toán đủ! (Đã trả: ${paidAmount.toLocaleString('vi-VN')}/${totalAmount.toLocaleString('vi-VN')} VNĐ)`,
+                                confirmButtonText: 'Đóng'
+                            });
+                            this.value = currentStatus;
+                            return;
+                        }
+                        updateOrderStatus(this, orderSlug, newStatus);
+                    } else if (newStatus == 5) {
+                        requestCancelOrder(orderSlug);
+                        this.value = this.options[0].value;
+                        return;
+                    } else {
+                        updateOrderStatus(this, orderSlug, newStatus);
+                    }
+                });
+            });
+
+            function updateOrderStatus(selectElement, orderSlug, newStatus) {
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Cập nhật',
+                    cancelButtonText: 'Thoát'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        changeStatusOrder(orderSlug, newStatus, selectElement);
+                    } else {
+                        selectElement.value = selectElement.options[0].value;
+                    }
+                });
+            }
+
+            function requestCancelOrder(orderSlug) {
+                Swal.fire({
+                    title: 'Bạn có chắc chắn muốn hủy đơn hàng này?',
+                    text: "Hãy nhập lý do hủy đơn hàng",
+                    input: 'textarea',
+                    inputPlaceholder: 'Nhập lý do đơn hàng bị hủy...',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Gửi yêu cầu',
+                    cancelButtonText: 'Thoát'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Chỉ gửi yêu cầu hủy đơn hàng, không cập nhật status
+                        $.ajax({
+                            url: `{{ route('order.requestCancel', '') }}/${orderSlug}`,
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
-                            body: JSON.stringify({
+                            data: JSON.stringify({
                                 cancel_reason: result.value
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                fetch(`{{ route('order.updateStatus', '') }}/${orderSlug}`, {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                                    },
-                                    body: JSON.stringify({
-                                        status: 6
-                                    })
-                                }).then(() => {
-                                    Swal.fire('Đã gửi!', 'Yêu cầu hủy đơn hàng đã được gửi.', 'success')
-                                        .then(() => {
-                                            location.reload();
-                                        });
+                            }),
+                            success: function(response) {
+                                if (response.success) {
+                                    Swal.fire({
+                                        title: 'Đã gửi!',
+                                        text: 'Yêu cầu hủy đơn hàng đã được gửi cho admin xác nhận.',
+                                        icon: 'success',
+                                        confirmButtonText: 'OK'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                }
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: xhr.responseJSON?.message || 'Không thể gửi yêu cầu hủy đơn hàng',
+                                    icon: 'error',
+                                    confirmButtonText: 'OK'
                                 });
                             }
                         });
-                }
-            });
-        }
-
-        // Hàm xử lý cập nhật trạng thái
-        function confirmStatusChange(selectElement, orderSlug) {
-            const newStatus = selectElement.value;
-
-            if (newStatus == 5) {
-                requestCancelOrder(orderSlug);
-                selectElement.value = selectElement.options[0].value;
-                return;
+                    }
+                });
             }
 
-            Swal.fire({
-                title: 'Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Cập nhật',
-                cancelButtonText: 'Thoát'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let optionDefaul = selectElement.querySelectorAll(`.optionDefaul`)
-                    selectElement.querySelectorAll(`.optionCheck`).forEach((element) => {
-                        element.style.display = 'none';
-                    });
-
-                    if (newStatus == 1) {
-                        optionDefaul[1].style.display = ''
-                        optionDefaul[4].style.display = ''
-                        optionDefaul[2].style.display = 'none'
-                        optionDefaul[3].style.display = 'none'
-                    } else if (newStatus == 2) {
-                        optionDefaul[1].style.display = 'none'
-                        optionDefaul[3].style.display = 'none'
-                        optionDefaul[2].style.display = ''
-                        optionDefaul[4].style.display = ''
-                    } else if (newStatus == 3) {
-                        optionDefaul[1].style.display = 'none'
-                        optionDefaul[4].style.display = 'none'
-                        optionDefaul[2].style.display = 'none'
-                        optionDefaul[3].style.display = ''
-                    } else {
+            function changeStatusOrder(orderSlug, newStatus, selectElement) {
+                $.ajax({
+                    url: `{{ route('order.updateStatus', '') }}/${orderSlug}`,
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        status: newStatus
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: response.message || 'Cập nhật trạng thái thành công',
+                                icon: 'success'
+                            }).then(() => {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: xhr.responseJSON?.message ||
+                                'Có lỗi xảy ra khi cập nhật trạng thái',
+                            icon: 'error'
+                        });
                         if (selectElement) {
-                            const spanElement = document.createElement('span');
-                            spanElement.className = 'badge bg-success-subtle text-success';
-                            spanElement.textContent = 'Thành công';
-                            selectElement.parentNode.replaceChild(spanElement, selectElement);
+                            selectElement.value = selectElement.options[0].value;
                         }
                     }
-                    changeStatusOrder(orderSlug, newStatus, '');
-                } else {
-                    selectElement.value = selectElement.options[0].value;
-                }
-            });
-        }
-    </script>
-    <script>
-        // Kiểm tra nếu có thông báo thành công từ controller
-        document.addEventListener('DOMContentLoaded', function() {
+                });
+            }
+
+            // Thông báo thành công nếu có
             @if (session('success'))
                 Swal.fire({
                     icon: 'success',
@@ -261,6 +279,63 @@
                     confirmButtonText: 'OK'
                 });
             @endif
+
+            // Thêm hàm confirmTransaction vào đây
+            window.confirmTransaction = function(type, id) {
+                event.stopPropagation();
+                console.log('Starting confirmation for ID:', id);
+
+                Swal.fire({
+                    title: 'Xác nhận',
+                    text: "Bạn có chắc chắn muốn xác nhận giao dịch này?",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Đồng ý',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        const token = document.querySelector('meta[name="csrf-token"]').getAttribute(
+                            'content');
+
+                        axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
+                                headers: {
+                                    'X-CSRF-TOKEN': token,
+                                    'Accept': 'application/json',
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => {
+                                console.log('Success Response:', response);
+                                if (response.data && response.data.success) {
+                                    Swal.fire({
+                                        title: 'Thành công!',
+                                        text: response.data.message ||
+                                            'Giao dịch đã được xác nhận.',
+                                        icon: 'success'
+                                    }).then(() => {
+                                        location.reload();
+                                    });
+                                } else {
+                                    throw new Error(response.data?.message || 'Có lỗi xảy ra');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error details:', error);
+                                Swal.fire({
+                                    title: 'Lỗi!',
+                                    text: error.response?.data?.message ||
+                                        'Có lỗi xảy ra khi xác nhận giao dịch',
+                                    icon: 'error'
+                                });
+                            });
+                    }
+                });
+            }
+
+            // Thêm hàm requestCancelOrder
+
         });
     </script>
 @endsection

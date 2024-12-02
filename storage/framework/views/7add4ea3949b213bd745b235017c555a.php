@@ -413,7 +413,32 @@
     </script>
 
     <?php echo $__env->yieldContent('scripts'); ?>
-
+    <script>
+        console.log('kkkkkkkkkkkkkkkkkkk:', {
+            key: '<?php echo e(config('broadcasting.connections.pusher.key')); ?>',
+            cluster: '<?php echo e(config('broadcasting.connections.pusher.options.cluster')); ?>'
+        });
+        window.Echo.channel('contract-notifications')
+            .listen('ContractSentToCustomer', (e) => {
+                Swal.fire({
+                    title: 'Thông báo mới',
+                    text: 'Hợp đồng đã được gửi cho khách hàng',
+                    icon: 'info'
+                });
+            });
+    </script>
+    <script>
+        window.Echo.channel('contract-notifications')
+            .listen('NewContractCreated', (e) => {
+                Swal.fire({
+                    title: 'Thông báo mới',
+                    text: e.message,
+                    icon: 'info',
+                    showConfirmButton: true,
+                    timer: 3000
+                });
+            });
+    </script>
     <?php if(session('authorization')): ?>
         <?php echo e(session('authorization')); ?>
 

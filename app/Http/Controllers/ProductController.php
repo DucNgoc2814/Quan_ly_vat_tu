@@ -52,58 +52,75 @@ class ProductController extends Controller
     public function store(StoreProductRequest $request)
     {
         try {
-            DB::transaction(function () use ($request) {
-                if ($request->hasFile('image')) {
-                    $mainImagePath = Storage::put('products', $request->file('image'));
-                }
-
-                // Create product with all required fields including image
-                $product = Product::create([
-                    "category_id" => $request->category_id,
-                    "unit_id" => $request->unit_id,
-                    "brand_id" => $request->brand_id,
-                    "slug" => Str::slug($request->name) . '-' . Str::random(5),
-                    "name" => $request->name,
-                    "description" => $request->description,
-                    "is_active" => $request->has('is_active'),
-                    "image" => $mainImagePath // Include image path in initial creation
-                ]);
-
-                // Xử lý ảnh sản phẩm phụ
-                if ($request->hasFile('product_images')) {
-                    $galleries = [];
-                    foreach ($request->file('product_images') as $image) {
-                        $path = Storage::put('galleries', $image);
-                        $galleries[] = ['url' => $path, 'product_id' => $product->id];
+            DB::transaction(
+                function () use ($request) {
+                    if ($request->hasFile('image')) {
+                        $mainImagePath = Storage::put('products', $request->file('image'));
                     }
-                    // Bulk insert galleries
-                    Gallery::insert($galleries);
-                }
 
-                // Tạo biến thể
-                $variations = [];
-                foreach ($request->variants as $index => $variantData) {
-                    $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
-                    $variations[] = [
-                        'product_id' => $product->id,
-                        'sku' => Str::upper($this->generateUniqueSku($index)),
-                        'name' => $variantName,
-                        'is_active' => false,
-                    ];
-                }
-                // Bulk insert variations
-                Variation::insert($variations);
+                    // Create product with all required fields including image
+                    $product = Product::create([
+                        "category_id" => $request->category_id,
+                        "unit_id" => $request->unit_id,
+                        "brand_id" => $request->brand_id,
+                        "slug" => Str::slug($request->name) . '-' . Str::random(5),
+                        "name" => $request->name,
+                        "description" => $request->description,
+                        "is_active" => $request->has('is_active'),
+                        "image" => $mainImagePath // Include image path in initial creation
+                    ]);
 
-                // Gán giá trị thuộc tính cho biến thể
-                foreach ($request->variants as $index => $variantData) {
-                    $variation = Variation::where('sku', Str::upper($this->generateUniqueSku($index)))
-                        ->where('product_id', $product->id)
-                        ->first();
-                    if ($variation) {
-                        $variation->attributeValues()->attach($variantData['attribute_value_ids']);
+                    // Xử lý ảnh sản phẩm phụ
+                    if ($request->hasFile('product_images')) {
+                        $galleries = [];
+                        foreach ($request->file('product_images') as $image) {
+                            $path = Storage::put('galleries', $image);
+                            $galleries[] = ['url' => $path, 'product_id' => $product->id];
+                        }
+                        // Bulk insert galleries
+                        Gallery::insert($galleries);
+                    }
+
+                    // Khởi tạo biến thể
+                    $variations = [];
+                    
+                    if ($request->has('variants') && is_array($request->variants)) {
+                        // Tạo biến thể cho sản phẩm có nhiều biến thể
+                        foreach ($request->variants as $index => $variantData) {
+                            $variantName = $request->name . ' (' . implode(', ', $variantData['attribute_value_values']) . ')';
+                            $variations[] = [
+                                'product_id' => $product->id,
+                                'sku' => Str::upper($this->generateUniqueSku($index)),
+                                'name' => $variantName,
+                                'is_active' => false,
+                            ];
+                        }
+                    } else {
+                        // Tạo một biến thể mặc định cho sản phẩm đơn
+                        $variations[] = [
+                            'product_id' => $product->id,
+                            'sku' => Str::upper($this->generateUniqueSku(rand(0, 9))),
+                            'name' => $request->name,
+                            'is_active' => true,
+                        ];
+                    }
+
+                    // Insert variations
+                    Variation::insert($variations);
+
+                    // Gán giá trị thuộc tính cho biến thể chỉ khi có variants
+                    if ($request->has('variants') && is_array($request->variants)) {
+                        foreach ($request->variants as $index => $variantData) {
+                            $variation = Variation::where('sku', Str::upper($this->generateUniqueSku($index)))
+                                ->where('product_id', $product->id)
+                                ->first();
+                            if ($variation) {
+                                $variation->attributeValues()->attach($variantData['attribute_value_ids']);
+                            }
+                        }
                     }
                 }
-            });
+            );
             return redirect()
                 ->route('product.index')
                 ->with('success', 'Thêm sản phẩm thành công');

@@ -49,7 +49,7 @@ class Employee extends Authenticatable implements JWTSubject
     }
     public function contract()
     {
-        return $this->belongsTo(contract::class);
+        return $this->hasMany(Contract::class);
     }
     public function messages()
     {
