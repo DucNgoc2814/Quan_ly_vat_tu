@@ -331,6 +331,10 @@ Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController:
 // new
 Route::get('/quan-ly-ton-kho/lich-su-ban-hang/{id}', [InventoryController::class, 'getExportHistory'])->name('getExportHistory');
 Route::get('/quan-ly-ban-hang/danh-sach-don-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract');
+Route::post('/suppliers/add-variations/{supplier}', [SupplierController::class, 'addVariations'])->name('suppliers.addVariations');
+Route::delete('/suppliers/{supplier}/variations/{variation}', [SupplierController::class, 'removeVariation'])
+    ->name('suppliers.removeVariation');
+Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 'getVariationsBySupplier']);
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {

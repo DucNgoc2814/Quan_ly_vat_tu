@@ -94,7 +94,7 @@ class OrderController extends Controller
                     "ward" => $request->ward_name,
                     "address" => $request->address,
                     "total_amount" => $request->total_amount,
-                    "paid_amount" => $request->paid_amount,
+                    "paid_amount" => 0,
                 ];
 
                 $order = Order::query()->create($dataOrder);

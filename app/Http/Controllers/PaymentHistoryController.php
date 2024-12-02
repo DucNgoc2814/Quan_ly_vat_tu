@@ -107,7 +107,7 @@ class PaymentHistoryController extends Controller
             }
 
             if ($customer) {
-                $customer->amount += $payment->amount;
+                $customer->total_amount += $payment->amount;
                 $customer->save();
             }
 
