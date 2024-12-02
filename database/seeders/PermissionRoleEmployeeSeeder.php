@@ -15,9 +15,8 @@ class PermissionRoleEmployeeSeeder extends Seeder
     {
         // Tạo mảng dữ liệu để insert
         $data = [];
-
         // Tạo 68 bản ghi với permission_id từ 1-68 và role_employee_id = 1
-        for($i = 1; $i <= 144; $i++) {
+        for ($i = 1; $i <= 163; $i++) {
             $data[] = [
                 'permission_id' => $i,
                 'role_employee_id' => 1,
