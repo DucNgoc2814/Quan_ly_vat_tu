@@ -1646,3 +1646,47 @@
 [2024-12-03 23:33:20] local.INFO: File Exists After Save: Yes  
 [2024-12-03 23:33:20] local.INFO: File Size: 46700 bytes  
 [2024-12-03 23:33:20] local.INFO: Payment updated successfully  
+[2024-12-03 23:47:00] local.INFO: === START LOGGING ===  
+[2024-12-03 23:47:00] local.INFO: Auth Check: No  
+[2024-12-03 23:47:00] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-03 23:47:00] local.INFO: Directory Exists: Yes  
+[2024-12-03 23:47:00] local.INFO: Directory Writable: Yes  
+[2024-12-03 23:47:00] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-03 23:47:00] local.INFO: File Exists: Yes  
+[2024-12-03 23:47:00] local.INFO: Loading existing file...  
+[2024-12-03 23:47:01] local.INFO: File Save Attempted  
+[2024-12-03 23:47:01] local.INFO: File Exists After Save: Yes  
+[2024-12-03 23:47:01] local.INFO: File Size: 46733 bytes  
+[2024-12-03 23:48:17] local.INFO: === START LOGGING ===  
+[2024-12-03 23:48:17] local.INFO: Auth Check: No  
+[2024-12-03 23:48:17] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-03 23:48:17] local.INFO: Directory Exists: Yes  
+[2024-12-03 23:48:17] local.INFO: Directory Writable: Yes  
+[2024-12-03 23:48:17] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-03 23:48:17] local.INFO: File Exists: Yes  
+[2024-12-03 23:48:17] local.INFO: Loading existing file...  
+[2024-12-03 23:48:17] local.INFO: File Save Attempted  
+[2024-12-03 23:48:17] local.INFO: File Exists After Save: Yes  
+[2024-12-03 23:48:17] local.INFO: File Size: 46773 bytes  
+[2024-12-03 23:49:46] local.INFO: === START LOGGING ===  
+[2024-12-03 23:49:46] local.INFO: Auth Check: No  
+[2024-12-03 23:49:46] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-03 23:49:46] local.INFO: Directory Exists: Yes  
+[2024-12-03 23:49:46] local.INFO: Directory Writable: Yes  
+[2024-12-03 23:49:46] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-03 23:49:46] local.INFO: File Exists: Yes  
+[2024-12-03 23:49:46] local.INFO: Loading existing file...  
+[2024-12-03 23:49:46] local.INFO: File Save Attempted  
+[2024-12-03 23:49:46] local.INFO: File Exists After Save: Yes  
+[2024-12-03 23:49:46] local.INFO: File Size: 46813 bytes  
+[2024-12-03 23:49:57] local.INFO: === START LOGGING ===  
+[2024-12-03 23:49:57] local.INFO: Auth Check: No  
+[2024-12-03 23:49:57] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-03 23:49:57] local.INFO: Directory Exists: Yes  
+[2024-12-03 23:49:57] local.INFO: Directory Writable: Yes  
+[2024-12-03 23:49:57] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-03 23:49:57] local.INFO: File Exists: Yes  
+[2024-12-03 23:49:57] local.INFO: Loading existing file...  
+[2024-12-03 23:49:58] local.INFO: File Save Attempted  
+[2024-12-03 23:49:58] local.INFO: File Exists After Save: Yes  
+[2024-12-03 23:49:58] local.INFO: File Size: 46843 bytes  

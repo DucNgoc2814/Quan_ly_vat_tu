@@ -331,13 +331,17 @@
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
+                            @php
+                                $id = JWTAuth::setToken(Session::get('token'))->getPayload()->get('id');
+                                $employee = App\Models\Employee::find($id);
+                            @endphp
                             <img class="rounded-circle header-profile-user"
-                                src="{{ asset('storage/uploads/' . JWTAuth::setToken(Session::get('token'))->getPayload()->get('image')) }}"
+                                src="{{ asset('storage/' . $employee->image) }}"
                                 alt="Header Avatar">
 
                             <span class="text-start ms-xl-2">
                                 <span
-                                    class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">{{ JWTAuth::setToken(Session::get('token'))->getPayload()}}</span>
+                                    class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">{{ $employee->name}}</span>
                             </span>
                         </span>
                     </button>

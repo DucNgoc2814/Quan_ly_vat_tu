@@ -137,7 +137,7 @@
                     </button>
                 </div>
 
-                <?php if(JWTAuth::setToken(Session::get('token'))->getPayload()->get('id') == 1): ?>
+                <?php if(JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == 1): ?>
                     <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
                         <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
                             id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
@@ -338,13 +338,17 @@
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
+                            <?php
+                                $id = JWTAuth::setToken(Session::get('token'))->getPayload()->get('id');
+                                $employee = App\Models\Employee::find($id);
+                            ?>
                             <img class="rounded-circle header-profile-user"
-                                src="<?php echo e(asset('storage/uploads/' . JWTAuth::setToken(Session::get('token'))->getPayload()->get('image'))); ?>"
+                                src="<?php echo e(asset('storage/' . $employee->image)); ?>"
                                 alt="Header Avatar">
 
                             <span class="text-start ms-xl-2">
                                 <span
-                                    class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo e(JWTAuth::setToken(Session::get('token'))->getPayload()); ?></span>
+                                    class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo e($employee->name); ?></span>
                             </span>
                         </span>
                     </button>
