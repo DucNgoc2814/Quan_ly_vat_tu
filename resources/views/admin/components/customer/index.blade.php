@@ -30,7 +30,7 @@
                                 <th data-ordering="false">Email</th>
                                 <th data-ordering="false">Tích lũy</th>
                                 <th data-ordering="false">Hiển thị</th>
-                                <th>Action</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -42,7 +42,7 @@
                                     </td>
                                     <td>{{ $customer->number_phone }}</td>
                                     <td>{{ $customer->email }}</td>
-                                    <td>{{ $customer->amount }}</td>
+                                    <td>{{ $customer->total_amount }}</td>
                                     <td>
                                         <div class="form-check form-switch form-switch">
                                             @if ($customer->is_active == 1)
@@ -54,7 +54,7 @@
                                             @endif
                                         </div>
                                     <td>
-                                        <div class="dropdown d-inline-block">
+                                        {{-- <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="ri-more-fill align-middle"></i>
@@ -71,7 +71,8 @@
                                                 </form>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> --}}
+
                                     </td>
                                 </tr>
                             @endforeach

@@ -1,122 +1,142 @@
 @extends('admin.layouts.master')
 
 @section('title')
+    Sửa slider
 @endsection
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">{{$title}}</h4>
-
-                <div class="page-title-right">
-                    <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Tables</a></li>
-                        <li class="breadcrumb-item active">{{$title}}</li>
-                        <li class="breadcrumb-item active">{{$title}}</li>
-                    </ol>
+    <div class="container-fluid">
+        <!-- Breadcrumb -->
+        <div class="row">
+            <div class="col-12">
+                <div class="page-title-box d-flex align-items-center justify-content-between">
+                    <h4 class="mb-0 font-size-18">{{ $title }}</h4>
+                    <div class="page-title-right">
+                        <ol class="breadcrumb m-0">
+                            <li class="breadcrumb-item"><a href="{{ route('sliders.index') }}">Sliders</a></li>
+                            <li class="breadcrumb-item active">{{$title}}</li>
+                        </ol>
+                    </div>
                 </div>
+            </div>
+        </div>
 
+        <!-- Main Content -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{{ route('sliders.update', $sliders->id) }}" method="POST" enctype="multipart/form-data">
+                            @method('PUT')
+                            @csrf
+                            <div class="row">
+                                <!-- Left Column -->
+                                <div class="col-lg-8">
+                                    <div class="mb-4">
+                                        <label class="form-label">Mô tả</label>
+                                        <input type="text" name="description"
+                                               class="form-control @error('description') is-invalid @enderror"
+                                               placeholder="Nhập mô tả slider"
+                                               value="{{ $sliders->description }}">
+                                        @error('description')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Ngày bắt đầu</label>
+                                            <input type="date" name="date_start"
+                                                   class="form-control @error('date_start') is-invalid @enderror"
+                                                   value="{{ $sliders->date_start }}">
+                                            @error('date_start')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label class="form-label">Ngày kết thúc</label>
+                                            <input type="date" name="date_end"
+                                                   class="form-control @error('date_end') is-invalid @enderror"
+                                                   value="{{ $sliders->date_end }}">
+                                            @error('date_end')
+                                                <div class="invalid-feedback">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Right Column -->
+                                <div class="col-lg-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h5 class="card-title mb-3">Hình ảnh slider</h5>
+                                            <div class="text-center mb-3">
+                                                <img src="{{ asset('storage/' . $sliders->url) }}"
+                                                     alt="No image"
+                                                     id="img_slider"
+                                                     class="img-fluid rounded"
+                                                     style="max-height: 200px; width: auto;">
+                                            </div>
+                                            <div class="mb-3">
+                                                <input type="file" name="url" id="url"
+                                                       class="form-control @error('url') is-invalid @enderror"
+                                                       onchange="showImage(event)">
+                                                @error('url')
+                                                    <div class="invalid-feedback">{{ $message }}</div>
+                                                @enderror
+                                            </div>
+
+                                            <div class="mb-3">
+                                                <label class="form-label d-block">Trạng thái</label>
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" id="statusActive" name="status" value="1"
+                                                           class="form-check-input" {{ $sliders->status == '1' ? 'checked' : '' }}>
+                                                    <label class="form-check-label text-success" for="statusActive">
+                                                        Hiển thị
+                                                    </label>
+                                                </div>
+                                                <div class="form-check form-check-inline">
+                                                    <input type="radio" id="statusInactive" name="status" value="0"
+                                                           class="form-check-input" {{ $sliders->status == '0' ? 'checked' : '' }}>
+                                                    <label class="form-check-label text-danger" for="statusInactive">
+                                                        Ẩn
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a href="{{ route('sliders.index') }}" class="btn btn-secondary">Hủy</a>
+                                        <button type="submit" class="btn btn-primary">Lưu slider</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-header border-0">
-                    <div class="row g-4">
 
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm sliders...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <form action="{{ route('sliders.update', $sliders->id) }}" method="POST" enctype="multipart/form-data">
-                        @method('PUT')
-                        @csrf
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <label class="form-label">Hình ảnh</label>
-                                <input type="file" name="url" id="url"
-                                    class="from-control @error('url') is-invalid @enderror" onchange="showImage(event)"><br>
-                                <img src="{{ asset('storage/' . $sliders->url) }}" alt="" id="img_slider" style="width: 150px;"
-                                    class="mt-3">
-
-                                @error('url')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="col-lg-8">
-                                <label class="form-label">Mô tả</label>
-                                <input type="text" name="description" placeholder="Nhập mô tả"
-                                class="form-control" value = "{{$sliders->description}}">
-
-                                @error('description')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="col-lg-8">
-                                <label class="form-label">Ngày bắt đầu</label>
-                                <input type="date" name="date_start" placeholder="Nhập ngày bắt đầu" \
-                                class="form-control" value="{{$sliders->date_start}}">
-
-                                @error('date_start')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="col-lg-8">
-                                <label class="form-label">Ngày kết thúc</label>
-                                <input type="date" name="date_end" placeholder="Nhập ngày kết thúc"
-                                class="form-control" value="{{$sliders->date_end}}">
-
-                                @error('date_end')
-                                    <p class="text-danger">{{ $message }}</p>
-                                @enderror
-                            </div>
-                            <div class="col-lg-8">
-                                <div class="mb-3 ">
-                                    <label for="status" class="form-label">Trạng thái</label>
-                                    <select name="status" class="form-control">
-                                        <option value="1" {{ $sliders->status == '1' ? 'selected' : '' }}>Hiển thị
-                                        </option>
-                                        <option value="0" {{ $sliders->status == '0' ? 'selected' : '' }}>Ẩn</option>
-                                    </select>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="mt-3">
-                            <button class = "btn btn-success text ">Submit</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-        </div><!--end col-->
-    </div>
-
+    @push('scripts')
     <script>
         function showImage(event) {
             const img_slider = document.getElementById('img_slider');
             const file = event.target.files[0];
-            const reader = new FileReader();
-            reader.onload = function() {
-                img_slider.src = reader.result;
-                img_slider.style.display = 'block';
-               
-            }
+
             if (file) {
-                reader.readAsDataURL(file);
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    img_slider.src = e.target.result;
+                }
                 reader.readAsDataURL(file);
             }
         }
     </script>
+    @endpush
 @endsection

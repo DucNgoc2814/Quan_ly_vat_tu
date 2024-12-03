@@ -287,11 +287,26 @@
         </div>
     </form>
     <script>
-        document.getElementById('product-image-input').addEventListener('change', function(event) {
-            var output = document.getElementById('product-img');
-            output.src = URL.createObjectURL(event.target.files[0]);
-            output.onload = function() {
-                URL.revokeObjectURL(output.src)
+        // document.getElementById('product-image-input').addEventListener('change', function(event) {
+        //     var output = document.getElementById('product-img');
+        //     output.src = URL.createObjectURL(event.target.files[0]);
+        //     output.onload = function() {
+        //         URL.revokeObjectURL(output.src)
+        //     }
+        // });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const productImageInput = document.getElementById('product-image-input');
+            if (productImageInput) {
+                productImageInput.addEventListener('change', function(event) {
+                    const output = document.getElementById('product-img');
+                    if (output) {
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                        output.onload = function() {
+                            URL.revokeObjectURL(output.src);
+                        }
+                    }
+                });
             }
         });
     </script>
@@ -529,7 +544,7 @@
             try {
                 const response = await fetch('https://api.mysupership.vn/v1/partner/areas/province');
                 const data = await response.json();
-                console.log('Provinces data:', data);
+                // console.log('Provinces data:', data);
                 const provinces = data.results;
                 populateSelect('provinces', provinces, 'code', 'name');
             } catch (error) {

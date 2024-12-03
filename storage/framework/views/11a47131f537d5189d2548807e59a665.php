@@ -3,6 +3,7 @@
         <div class="navbar-header">
             <div class="d-flex">
                 <!-- LOGO -->
+
                 <div class="navbar-brand-box horizontal-logo">
                     <a href="index.html" class="logo logo-dark">
                         <span class="logo-sm">
@@ -61,7 +62,6 @@
                             <div class="dropdown-header mt-2">
                                 <h6 class="text-overflow text-muted mb-1 text-uppercase">Pages</h6>
                             </div>
-
                             <!-- item-->
                             <a href="javascript:void(0);" class="dropdown-item notify-item">
                                 <i class="ri-bubble-chart-line align-middle fs-18 text-muted me-2"></i>
@@ -137,190 +137,196 @@
                     </button>
                 </div>
 
-                <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                        id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
-                        data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
-                        <i class='bx bx-bell fs-22'></i>
-                        <?php if($noti > 0): ?>
-                            <span class="position-absolute translate-middle badge p-1 bg-danger rounded-circle"
-                                style="top: 10px; left: 30px;">
-                                <?php echo e(count($lowStockProducts) + count($transactions)); ?>
+                <?php if(JWTAuth::setToken(Session::get('token'))->getPayload()->get('id') == 1): ?>
+                    <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
+                        <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
+                            id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
+                            data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
+                            <i class='bx bx-bell fs-22'></i>
+                            <?php if($noti > 0): ?>
+                                <span class="position-absolute translate-middle badge p-1 bg-danger rounded-circle"
+                                    style="top: 10px; left: 30px;">
+                                    <?php echo e(count($lowStockProducts) + count($transactions)); ?>
 
-                            </span>
-                        <?php endif; ?>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 " style="width: 450px; "
-                        aria-labelledby="page-header-notifications-dropdown">
+                                </span>
+                            <?php endif; ?>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0 " style="width: 450px; "
+                            aria-labelledby="page-header-notifications-dropdown">
 
-                        <div class="dropdown-head bg-primary bg-pattern rounded-top">
-                            <div class="p-3">
-                                <div class="row align-items-center">
-                                    <div class="col">
-                                        <h6 class="m-0 fs-16 fw-semibold text-white">Thông báo </h6>
+                            <div class="dropdown-head bg-primary bg-pattern rounded-top">
+                                <div class="p-3">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <h6 class="m-0 fs-16 fw-semibold text-white">Thông báo </h6>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="pt-2 ">
-                                <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
-                                    id="notificationItemsTab" role="tablist">
-                                    <li class="nav-item waves-effect waves-light w-50">
-                                        <a class="nav-link active text-center" data-bs-toggle="tab"
-                                            href="#all-noti-tab" role="tab" aria-selected="true">
-                                            Tồn kho (<?php echo e(count($lowStockProducts)); ?>)
-                                        </a>
-                                    </li>
-                                    <li class="nav-item waves-effect waves-light w-50">
-                                        <a class="nav-link text-center" data-bs-toggle="tab" href="#messages-tab"
-                                            role="tab" aria-selected="false">
-                                            Giao dịch (<?php echo e(count($transactions)); ?>)
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-
-                        </div>
-
-                        <div class="tab-content position-relative" id="notificationItemsTabContent">
-                            <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
-                                <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    <?php $__currentLoopData = $lowStockProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <div
-                                            class="text-reset notification-item d-block dropdown-item position-relative">
-                                            <div class="d-flex">
-                                                <div class="avatar-xs me-3">
-                                                    <span
-                                                        class="avatar-title bg-warning-subtle text-warning rounded-circle fs-16">
-                                                        <i class='bx bx-package'></i>
-                                                    </span>
-                                                </div>
-                                                <div class="flex-grow-1">
-                                                    <a href="#!" class="stretched-link">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">Cảnh báo tồn kho thấp
-                                                        </h6>
-                                                    </a>
-                                                    <div class="fs-13 text-muted">
-                                                        <p class="mb-1">Sản phẩm "<?php echo e($product->product->name); ?>"
-                                                            (<?php echo e($product->name); ?>)
-                                                            có số lượng tồn kho thấp:
-                                                            <?php echo e($product->stock); ?></p>
-                                                    </div>
-                                                    <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                        <span><i class="mdi mdi-clock-outline"></i> Vui lòng nhập thêm
-                                                            hàng</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <div class="pt-2 ">
+                                    <ul class="nav nav-tabs dropdown-tabs nav-tabs-custom" data-dropdown-tabs="true"
+                                        id="notificationItemsTab" role="tablist">
+                                        <li class="nav-item waves-effect waves-light w-50">
+                                            <a class="nav-link active text-center" data-bs-toggle="tab"
+                                                href="#all-noti-tab" role="tab" aria-selected="true">
+                                                Tồn kho (<?php echo e(count($lowStockProducts)); ?>)
+                                            </a>
+                                        </li>
+                                        <li class="nav-item waves-effect waves-light w-50">
+                                            <a class="nav-link text-center" data-bs-toggle="tab" href="#messages-tab"
+                                                role="tab" aria-selected="false">
+                                                Giao dịch (<?php echo e(count($transactions)); ?>)
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
+
                             </div>
 
-
-                            <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
-                                aria-labelledby="messages-tab">
-                                <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    <?php if(isset($transactions) && $transactions->count() > 0): ?>
-                                        <?php $__currentLoopData = $transactions->sortByDesc('created_at'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                            <div class="text-reset notification-item d-block dropdown-item">
+                            <div class="tab-content position-relative" id="notificationItemsTabContent">
+                                <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
+                                    <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                        <?php $__currentLoopData = $lowStockProducts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $product): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <div
+                                                class="text-reset notification-item d-block dropdown-item position-relative">
                                                 <div class="d-flex">
-                                                    <div class="flex-shrink-0">
-                                                        <div class="avatar-xs me-3">
-                                                            <span
-                                                                class="avatar-title bg-soft-warning text-warning rounded-circle fs-16">
-                                                                <?php if($transaction->transaction_type == 'contract'): ?>
-                                                                    <i class="ri-file-list-3-line fs-12"></i>
-                                                                <?php elseif($transaction->transaction_type == 'sale'): ?>
-                                                                    <i class="ri-shopping-cart-line fs-12"></i>
-                                                                <?php else: ?>
-                                                                    <i class="ri-shopping-basket-line fs-12"></i>
-                                                                <?php endif; ?>
-                                                            </span>
-                                                        </div>
+                                                    <div class="avatar-xs me-3">
+                                                        <span
+                                                            class="avatar-title bg-warning-subtle text-warning rounded-circle fs-16">
+                                                            <i class='bx bx-package'></i>
+                                                        </span>
                                                     </div>
                                                     <div class="flex-grow-1">
-                                                        <h6 class="mt-0 mb-1 fs-13 fw-semibold">
-                                                            <?php if($transaction->transaction_type == 'contract'): ?>
-                                                                <a href="<?php echo e(route('contract.show', $transaction->related_id)); ?>"
-                                                                    class="text-reset">
-                                                                    Hợp đồng
-                                                                    #<?php echo e($transaction->contract_number ?? $transaction->related_id); ?>
-
-                                                                </a>
-                                                            <?php elseif($transaction->transaction_type == 'sale'): ?>
-                                                                Bán hàng
-                                                                #<?php echo e($transaction->slug ?? $transaction->related_id); ?>
-
-                                                            <?php else: ?>
-                                                                Mua hàng
-                                                                #<?php echo e($transaction->slug ?? $transaction->related_id); ?>
-
-                                                            <?php endif; ?>
-                                                            <br><span class="text-warning">Chờ xác nhận</span>
-                                                        </h6>
+                                                        <a href="#!" class="stretched-link">
+                                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">Cảnh báo tồn kho
+                                                                thấp
+                                                            </h6>
+                                                        </a>
                                                         <div class="fs-13 text-muted">
-                                                            <p class="mb-1">
-                                                                Số tiền: <?php echo e(number_format($transaction->amount)); ?> VNĐ
-                                                                <br>
-                                                                Nội dung: <?php echo e($transaction->note); ?>
-
-                                                            </p>
+                                                            <p class="mb-1">Sản phẩm "<?php echo e($product->product->name); ?>"
+                                                                (<?php echo e($product->name); ?>)
+                                                                có số lượng tồn kho thấp:
+                                                                <?php echo e($product->stock); ?></p>
                                                         </div>
                                                         <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
-                                                            <span><i class="mdi mdi-clock-outline"></i>
-                                                                <?php echo e(\Carbon\Carbon::parse($transaction->created_at)->diffForHumans()); ?>
-
-                                                            </span>
+                                                            <span><i class="mdi mdi-clock-outline"></i> Vui lòng nhập
+                                                                thêm
+                                                                hàng</span>
                                                         </p>
                                                     </div>
-                                                    <?php if($transaction->document): ?>
-                                                        <div class="px-2 fs-15">
-                                                            <button type="button"
-                                                                class="btn btn-sm btn-icon btn-ghost-info"
-                                                                onclick="showDocument('<?php echo e(url('storage/' . $transaction->document)); ?>', '<?php echo e(pathinfo($transaction->document, PATHINFO_EXTENSION)); ?>')">
-                                                                <i class="ri-file-text-line"></i>
-                                                            </button>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                    <button type="button" class="btn btn-sm btn-ghost-success"
-                                                        onclick="confirmTransaction('<?php echo e($transaction->transaction_type); ?>', <?php echo e($transaction->id); ?>)">
-                                                        Xác nhận
-                                                        <i class="ri-check-line"></i>
-                                                    </button>
                                                 </div>
                                             </div>
                                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                        
-                                    <?php else: ?>
-                                        <div class="text-center p-4">
-                                            <div class="avatar-md mx-auto mb-4">
-                                                <div class="avatar-title bg-light rounded-circle text-primary fs-20">
-                                                    <i class="ri-exchange-line"></i>
-                                                </div>
-                                            </div>
-                                            <h5 class="mb-1">Không có giao dịch nào!</h5>
-                                            <p class="text-muted mb-0">
-                                                Chưa có giao dịch nào được thực hiện.
-                                            </p>
-                                        </div>
-                                    <?php endif; ?>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel"
-                                aria-labelledby="alerts-tab"></div>
 
-                            <div class="notification-actions" id="notification-actions">
-                                <div class="d-flex text-muted justify-content-center">
-                                    Select <div id="select-content" class="text-body fw-semibold px-1">0</div>
-                                    Result <button type="button" class="btn btn-link link-danger p-0 ms-3"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#removeNotificationModal">Remove</button>
+
+                                <div class="tab-pane fade py-2 ps-2" id="messages-tab" role="tabpanel"
+                                    aria-labelledby="messages-tab">
+                                    <div data-simplebar style="max-height: 300px;" class="pe-2">
+                                        <?php if(isset($transactions) && $transactions->count() > 0): ?>
+                                            <?php $__currentLoopData = $transactions->sortByDesc('created_at'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <div class="text-reset notification-item d-block dropdown-item">
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0">
+                                                            <div class="avatar-xs me-3">
+                                                                <span
+                                                                    class="avatar-title bg-soft-warning text-warning rounded-circle fs-16">
+                                                                    <?php if($transaction->transaction_type == 'contract'): ?>
+                                                                        <i class="ri-file-list-3-line fs-12"></i>
+                                                                    <?php elseif($transaction->transaction_type == 'sale'): ?>
+                                                                        <i class="ri-shopping-cart-line fs-12"></i>
+                                                                    <?php else: ?>
+                                                                        <i class="ri-shopping-basket-line fs-12"></i>
+                                                                    <?php endif; ?>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="mt-0 mb-1 fs-13 fw-semibold">
+                                                                <?php if($transaction->transaction_type == 'contract'): ?>
+                                                                    <a href="<?php echo e(route('contract.show', $transaction->related_id)); ?>"
+                                                                        class="text-reset">
+                                                                        Hợp đồng
+                                                                        #<?php echo e($transaction->contract_number ?? $transaction->related_id); ?>
+
+                                                                    </a>
+                                                                <?php elseif($transaction->transaction_type == 'sale'): ?>
+                                                                    Bán hàng
+                                                                    #<?php echo e($transaction->slug ?? $transaction->related_id); ?>
+
+                                                                <?php else: ?>
+                                                                    Mua hàng
+                                                                    #<?php echo e($transaction->slug ?? $transaction->related_id); ?>
+
+                                                                <?php endif; ?>
+                                                                <br><span class="text-warning">Chờ xác nhận</span>
+                                                            </h6>
+                                                            <div class="fs-13 text-muted">
+                                                                <p class="mb-1">
+                                                                    Số tiền: <?php echo e(number_format($transaction->amount)); ?>
+
+                                                                    VNĐ
+                                                                    <br>
+                                                                    Nội dung: <?php echo e($transaction->note); ?>
+
+                                                                </p>
+                                                            </div>
+                                                            <p class="mb-0 fs-11 fw-medium text-uppercase text-muted">
+                                                                <span><i class="mdi mdi-clock-outline"></i>
+                                                                    <?php echo e(\Carbon\Carbon::parse($transaction->created_at)->diffForHumans()); ?>
+
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                        <?php if($transaction->document): ?>
+                                                            <div class="px-2 fs-15">
+                                                                <button type="button"
+                                                                    class="btn btn-sm btn-icon btn-ghost-info"
+                                                                    onclick="showDocument('<?php echo e(url('storage/' . $transaction->document)); ?>', '<?php echo e(pathinfo($transaction->document, PATHINFO_EXTENSION)); ?>')">
+                                                                    <i class="ri-file-text-line"></i>
+                                                                </button>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                        <button type="button" class="btn btn-sm btn-ghost-success"
+                                                            onclick="confirmTransaction('<?php echo e($transaction->transaction_type); ?>', <?php echo e($transaction->id); ?>)">
+                                                            Xác nhận
+                                                            <i class="ri-check-line"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                        <?php else: ?>
+                                            <div class="text-center p-4">
+                                                <div class="avatar-md mx-auto mb-4">
+                                                    <div
+                                                        class="avatar-title bg-light rounded-circle text-primary fs-20">
+                                                        <i class="ri-exchange-line"></i>
+                                                    </div>
+                                                </div>
+                                                <h5 class="mb-1">Không có giao dịch nào!</h5>
+                                                <p class="text-muted mb-0">
+                                                    Chưa có giao dịch nào được thực hiện.
+                                                </p>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade p-4" id="alerts-tab" role="tabpanel"
+                                    aria-labelledby="alerts-tab"></div>
+
+                                <div class="notification-actions" id="notification-actions">
+                                    <div class="d-flex text-muted justify-content-center">
+                                        Select <div id="select-content" class="text-body fw-semibold px-1">0</div>
+                                        Result <button type="button" class="btn btn-link link-danger p-0 ms-3"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#removeNotificationModal">Remove</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                <?php endif; ?>
                 <div class="dropdown">
                     <button class="btn" type="button" id="chat-icon">
                         <i class="ri-message-3-line fs-22"></i>
@@ -328,13 +334,17 @@
                 </div>
 
                 <div class="dropdown ms-sm-3 header-item topbar-user">
+
                     <button type="button" class="btn" id="page-header-user-dropdown" data-bs-toggle="dropdown"
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
+                            <img class="rounded-circle header-profile-user"
+                                src="<?php echo e(asset('storage/uploads/' . JWTAuth::setToken(Session::get('token'))->getPayload()->get('image'))); ?>"
+                                alt="Header Avatar">
+
                             <span class="text-start ms-xl-2">
-                                <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
-                                    
-                                <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
+                                <span
+                                    class="d-none d-xl-block ms-1 fs-12 user-name-sub-text"><?php echo e(JWTAuth::setToken(Session::get('token'))->getPayload()); ?></span>
                             </span>
                         </span>
                     </button>
@@ -507,40 +517,41 @@
                     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                     axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
-                        headers: {
-                            'X-CSRF-TOKEN': token,
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        console.log('Success Response:', response);
-                        if (response.data && response.data.success) {
-                            Swal.fire({
-                                title: 'Thành công!',
-                                text: response.data.message || 'Giao dịch đã được xác nhận.',
-                                icon: 'success'
-                            }).then(() => {
-                                location.reload();
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            console.log('Success Response:', response);
+                            if (response.data && response.data.success) {
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: response.data.message || 'Giao dịch đã được xác nhận.',
+                                    icon: 'success'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                throw new Error(response.data?.message || 'Có lỗi xảy ra');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error details:', {
+                                error: error,
+                                response: error.response,
+                                status: error.response?.status,
+                                data: error.response?.data
                             });
-                        } else {
-                            throw new Error(response.data?.message || 'Có lỗi xảy ra');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error details:', {
-                            error: error,
-                            response: error.response,
-                            status: error.response?.status,
-                            data: error.response?.data
-                        });
 
-                        Swal.fire({
-                            title: 'Lỗi!',
-                            text: error.response?.data?.message || 'Có lỗi xảy ra khi xác nhận giao dịch',
-                            icon: 'error'
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: error.response?.data?.message ||
+                                    'Có lỗi xảy ra khi xác nhận giao dịch',
+                                icon: 'error'
+                            });
                         });
-                    });
                 }
             });
         }

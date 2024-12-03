@@ -425,10 +425,7 @@
         });
     </script>
     <script>
-        console.log('kkkkkkkkkkkkkkkkkkk:', {
-            key: '<?php echo e(config('broadcasting.connections.pusher.key')); ?>',
-            cluster: '<?php echo e(config('broadcasting.connections.pusher.options.cluster')); ?>'
-        });
+        
         window.Echo.channel('contract-notifications')
             .listen('ContractSentToCustomer', (e) => {
                 Swal.fire({
@@ -453,10 +450,6 @@
 
     <?php echo $__env->yieldContent('scripts'); ?>
     <script>
-        console.log('kkkkkkkkkkkkkkkkkkk:', {
-            key: '<?php echo e(config('broadcasting.connections.pusher.key')); ?>',
-            cluster: '<?php echo e(config('broadcasting.connections.pusher.options.cluster')); ?>'
-        });
         window.Echo.channel('contract-notifications')
             .listen('ContractSentToCustomer', (e) => {
                 Swal.fire({
@@ -483,6 +476,45 @@
 
     <?php endif; ?>
     <?php echo $__env->yieldPushContent('scripts'); ?>
+    <div id="loading-overlay">
+        <div class="spinner-border text-primary avatar-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <script>
+        // Show loading overlay on page transitions and form submits
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show loading on form submissions
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function() {
+                    document.getElementById('loading-overlay').style.display = 'flex';
+                });
+            });
+
+            // Show loading on page transitions (link clicks)
+            document.addEventListener('click', function(e) {
+                const target = e.target.closest('a');
+                if (target &&
+                    target.href &&
+                    !target.href.includes('#') &&
+                    !target.href.includes('javascript:') &&
+                    target.target !== '_blank') {
+                    document.getElementById('loading-overlay').style.display = 'flex';
+                }
+            });
+
+            // Show loading on browser back/forward
+            window.addEventListener('beforeunload', function() {
+                document.getElementById('loading-overlay').style.display = 'flex';
+            });
+
+            // Hide loading when page is fully loaded
+            window.addEventListener('load', function() {
+                document.getElementById('loading-overlay').style.display = 'none';
+            });
+        });
+    </script>
     <div id="loading-overlay">
         <div class="spinner-border text-primary avatar-sm" role="status">
             <span class="visually-hidden">Loading...</span>
