@@ -39,6 +39,27 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebartk" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebartk">
+                        <i class="ri-treasure-map-fill"></i>
+                        <span data-key="t-layouts">Thống kê</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebartk">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+
+                                <a href="{{ route('payment.index') }}" class="nav-link" data-key="t-horizontal">Thu
+                                    chi</a>
+                            </li>
+                            <li class="nav-item">
+
+                                <a href="{{ route('thongKeDoanhThu') }}" class="nav-link" data-key="t-horizontal">Doanh
+                                    thu</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarGalleries" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarGalleries">
                         <i class="ri-product-hunt-fill"></i>
@@ -93,7 +114,8 @@
                                     có hợp đồng</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('contract.index') }}" class="nav-link" data-key="t-horizontal">Danh
+                                <a href="{{ route('contract.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Danh
                                     sách hợp đồng</a>
                             </li>
                         </ul>
@@ -223,27 +245,7 @@
                         <span data-key="t-layouts">Lịch sử thao tác</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebartk" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebartk">
-                        <i class="ri-treasure-map-fill"></i>
-                        <span data-key="t-layouts">Thống kê</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebartk">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
 
-                                <a href="{{ route('payment.index') }}" class="nav-link" data-key="t-horizontal">Thu
-                                    chi</a>
-                            </li>
-                            <li class="nav-item">
-
-                                <a href="{{ route('thongKeDoanhThu') }}" class="nav-link"
-                                    data-key="t-horizontal">Doanh thu</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
             </ul>
         </div>
         <!-- Sidebar -->
