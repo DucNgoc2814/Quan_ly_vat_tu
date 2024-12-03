@@ -34,9 +34,9 @@
                                 <th data-ordering="false">Mã số hợp đồng</th>
                                 <th data-ordering="false">Bên B</th>
                                 <th data-ordering="false">Số điện thoại bên B</th>
-                                <th data-ordering="false">Email bên B</th>
                                 <th data-ordering="false">Tổng tiền</th>
-                                <th data-ordering="false">Tiền cần trả</th>
+                                <th data-ordering="false">Tiền đã trả</th>
+                                <th data-ordering="false">Phụ trách</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Thao tác</th>
                             </tr>
@@ -48,9 +48,9 @@
                                     <td>{{ $data->contract_number }}</td>
                                     <td>{{ $data->customer_name }}</td>
                                     <td>{{ $data->customer_phone }}</td>
-                                    <td>{{ $data->customer_email }}</td>
-                                    <td>{{ $data->total_amount }}</td>
-                                    <td>{{ $data->total_amount - $data->paid_amount }}</td>
+                                    <td class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">{{ $data->total_amount }}</td>
+                                    <td class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">{{ $data->paid_amount }}</td>
+                                    <td>{{ $data->employee->name }}</td>
                                     <td>
                                         @if ($data->contract_status_id == 1)
                                             <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST"

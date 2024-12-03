@@ -88,6 +88,11 @@
                                     bán lẻ</a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('order.orderContract') }}" class="nav-link "
+                                    data-key="t-horizontal">Đơn
+                                    có hợp đồng</a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('contract.index') }}" class="nav-link" data-key="t-horizontal">Danh
                                     sách hợp đồng</a>
                             </li>
@@ -132,25 +137,6 @@
                     </div>
                 </li>
 
-
-                <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarSliders" data-bs-toggle="collapse" role="button"
-                        aria-expanded="false" aria-controls="sidebarSliders">
-                        <i class="ri-slideshow-3-fill"></i>
-                        <span data-key="t-layouts">Quản lý nội dung</span>
-                    </a>
-                    <div class="collapse menu-dropdown" id="sidebarSliders">
-                        <ul class="nav nav-sm flex-column">
-                            <li class="nav-item">
-                                <a href="{{ route('sliders.index') }}" class="nav-link "
-                                    data-key="t-horizontal">Danh sách thanh trượt</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-
-
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarSuppliers" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarSuppliers">
@@ -171,7 +157,6 @@
                         </ul>
                     </div>
                 </li>
-
 
 
                 {{--
@@ -215,6 +200,21 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarSliders" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarSliders">
+                        <i class="ri-slideshow-3-fill"></i>
+                        <span data-key="t-layouts">Quản lý nội dung</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarSliders">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('sliders.index') }}" class="nav-link "
+                                    data-key="t-horizontal">Danh sách thanh trượt</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="{{ route('logs.index') }}" role="button"
@@ -235,6 +235,11 @@
 
                                 <a href="{{ route('payment.index') }}" class="nav-link" data-key="t-horizontal">Thu
                                     chi</a>
+                            </li>
+                            <li class="nav-item">
+
+                                <a href="{{ route('thongKeDoanhThu') }}" class="nav-link"
+                                    data-key="t-horizontal">Doanh thu</a>
                             </li>
                         </ul>
                     </div>

@@ -153,16 +153,17 @@ Route::middleware('CheckEmployees')->group(
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')
             ->group(function () {
-                Route::get('/danh-sach-ban', [OrderController::class, 'index'])->name('index')->middleware('permission:65');
-                Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create')->middleware('permission:66');
-                Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store')->middleware('permission:67');
-                Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract')->middleware('permission:68');
-                Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit')->middleware('permission:69');
-                Route::put('/cap-nhat-don-hang/{slug}', [OrderController::class, 'update'])->name('update')->middleware('permission:70');
-                Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus')->middleware('permission:71');
-                Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail')->middleware('permission:72');
-                Route::post('/yeu-cau-huy/{slug}', [OrderController::class, 'requestCancel'])->name('requestCancel')->middleware('permission:73');
-                Route::get('/them-don-hang-co-hop-dong/{contract_id}', [OrderController::class, 'createordercontract'])->name('createordercontract')->middleware('permission:74');
+                Route::get('/danh-sach-ban-le', [OrderController::class, 'index'])->name('index')->middleware('permission:60');
+                Route::get('/danh-sach-ban-le-co-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract')->middleware('permission:60');
+                Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create')->middleware('permission:61');
+                Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store')->middleware('permission:62');
+                Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract');
+                Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit')->middleware('permission:63');
+                Route::put('/cap-nhat-don-hang/{slug}', [OrderController::class, 'update'])->name('update')->middleware('permission:64');
+                Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus')->middleware('permission:65');
+                Route::get('/chi-tiet-don-hang/{slug}', [OrderDetailController::class, 'index'])->name('indexDetail')->middleware('permission:66');
+                Route::post('/yeu-cau-huy/{slug}', [OrderController::class, 'requestCancel'])->name('requestCancel')->middleware('permission:67');
+                Route::get('/them-don-hang-co-hop-dong/{contract_id}', [OrderController::class, 'createordercontract'])->name('createordercontract');
             });
         Route::prefix('quan-ly-xe')
             ->as('CargoCars.')
@@ -313,6 +314,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/messages', [MessageController::class, 'getMessages'])->name('messages')->middleware('permission:158');
                 Route::post('/messages', [MessageController::class, 'sendMessage'])->name('send')->middleware('permission:159');
             });
+
         Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf')->middleware('permission:160');
         Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf')->middleware('permission:161');
         Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen')->middleware('permission:162');
@@ -320,5 +322,32 @@ Route::middleware('CheckEmployees')->group(
         Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
         Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
         Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
+
     }
 );
+Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf');
+Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf');
+
+Route::prefix('hop-dong')
+    ->as('contract.')
+    ->group(function () {
+        Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove');
+        Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject');
+    });
+Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen');
+Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission']);
+
+
+// new
+Route::get('/quan-ly-ton-kho/lich-su-ban-hang/{id}', [InventoryController::class, 'getExportHistory'])->name('getExportHistory');
+Route::get('/quan-ly-ban-hang/danh-sach-don-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract');
+Route::post('/suppliers/add-variations/{supplier}', [SupplierController::class, 'addVariations'])->name('suppliers.addVariations');
+Route::delete('/suppliers/{supplier}/variations/{variation}', [SupplierController::class, 'removeVariation'])
+    ->name('suppliers.removeVariation');
+Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 'getVariationsBySupplier']);
+Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
+Route::prefix('quan-ly-ban-hang')
+    ->as('order.')
+    ->group(function () {
+        Route::get('/export-invoice/{orderId}', [OrderController::class, 'exportInvoice'])->name('invoice');
+    });

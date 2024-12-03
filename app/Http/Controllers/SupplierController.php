@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Supplier;
 use App\Http\Requests\StoreSupplierRequest;
 use App\Http\Requests\UpdateSupplierRequest;
+use App\Models\Variation;
 use Symfony\Component\HttpFoundation\Request;
 
 
@@ -58,10 +59,13 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(String $id)
+    public function edit(string $id)
     {
         $supplier = Supplier::findOrFail($id);
-        return view('admin.components.suppliers.edit', compact('supplier'));
+        $variations = Variation::all();
+        $supplierVariations = $supplier->variations()->paginate(10);
+        
+        return view('admin.components.suppliers.edit', compact('supplier', 'variations', 'supplierVariations'));
     }
 
     /**
@@ -69,14 +73,58 @@ class SupplierController extends Controller
      */
     public function update(UpdateSupplierRequest $request, String $id)
     {
-        if ($request->isMethod('PUT')) {
-            $params = $request->except('_token', '_method');
+        try {
             $supplier = Supplier::findOrFail($id);
-            $supplier->update($params);
-            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
+            
+            // Cập nhật thông tin cơ bản
+            $supplier->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'number_phone' => $request->number_phone,
+                'address' => $request->address,
+            ]);
+
+            return redirect('quan-ly-tai-khoan/danh-sach-nha-cung-cap')
+                ->with('success', 'Bạn đã thay đổi thông tin thành công nhà cung cấp');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
 
+    public function addVariations(Request $request, Supplier $supplier)
+    {
+        try {
+            $variations = $request->variations ?? [];
+            $supplier->variations()->attach($variations);
 
+            return response()->json([
+                'success' => true,
+                'message' => 'Thêm biến thể thành công'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function removeVariation(Request $request, $supplierId, $variationId)
+    {
+        try {
+            $supplier = Supplier::findOrFail($supplierId);
+            $supplier->variations()->detach($variationId);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Xóa biến thể thành công'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 
 }

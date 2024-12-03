@@ -505,7 +505,6 @@
                 if (result.isConfirmed) {
                     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                    // Thử với đường dẫn đầy đủ bao gồm trang-quan-tri
                     axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
                         headers: {
                             'X-CSRF-TOKEN': token,
@@ -514,7 +513,7 @@
                         }
                     })
                     .then(response => {
-                        console.log('Success Response:', response); // Log success response
+                        console.log('Success Response:', response);
                         if (response.data && response.data.success) {
                             Swal.fire({
                                 title: 'Thành công!',
@@ -528,7 +527,6 @@
                         }
                     })
                     .catch(error => {
-                        // Log chi tiết lỗi để debug
                         console.error('Error details:', {
                             error: error,
                             response: error.response,
@@ -542,42 +540,6 @@
                             icon: 'error'
                         });
                     });
-                            headers: {
-                                'X-CSRF-TOKEN': token,
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => {
-                            console.log('Success Response:', response); // Log success response
-                            if (response.data && response.data.success) {
-                                Swal.fire({
-                                    title: 'Thành công!',
-                                    text: response.data.message || 'Giao dịch đã được xác nhận.',
-                                    icon: 'success'
-                                }).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                throw new Error(response.data?.message || 'Có lỗi xảy ra');
-                            }
-                        })
-                        .catch(error => {
-                            // Log chi tiết lỗi để debug
-                            console.error('Error details:', {
-                                error: error,
-                                response: error.response,
-                                status: error.response?.status,
-                                data: error.response?.data
-                            });
-
-                            Swal.fire({
-                                title: 'Lỗi!',
-                                text: error.response?.data?.message ||
-                                    'Có lỗi xảy ra khi xác nhận giao dịch',
-                                icon: 'error'
-                            });
-                        });
                 }
             });
         }
