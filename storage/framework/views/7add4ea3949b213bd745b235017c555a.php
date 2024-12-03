@@ -212,6 +212,20 @@
         .customer-item:hover {
             background-color: #f8f9fa;
         }
+
+        /* Overlay for loading */
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.8);
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
     <style>
         .chat-box-wrapper {
@@ -469,6 +483,45 @@
 
     <?php endif; ?>
     <?php echo $__env->yieldPushContent('scripts'); ?>
+    <div id="loading-overlay">
+        <div class="spinner-border text-primary avatar-sm" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <script>
+        // Show loading overlay on page transitions and form submits
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show loading on form submissions
+            const forms = document.querySelectorAll('form');
+            forms.forEach(form => {
+                form.addEventListener('submit', function() {
+                    document.getElementById('loading-overlay').style.display = 'flex';
+                });
+            });
+
+            // Show loading on page transitions (link clicks)
+            document.addEventListener('click', function(e) {
+                const target = e.target.closest('a');
+                if (target &&
+                    target.href &&
+                    !target.href.includes('#') &&
+                    !target.href.includes('javascript:') &&
+                    target.target !== '_blank') {
+                    document.getElementById('loading-overlay').style.display = 'flex';
+                }
+            });
+
+            // Show loading on browser back/forward
+            window.addEventListener('beforeunload', function() {
+                document.getElementById('loading-overlay').style.display = 'flex';
+            });
+
+            // Hide loading when page is fully loaded
+            window.addEventListener('load', function() {
+                document.getElementById('loading-overlay').style.display = 'none';
+            });
+        });
+    </script>
 </body>
 
 </html>
