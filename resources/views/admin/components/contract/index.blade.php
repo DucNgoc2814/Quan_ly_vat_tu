@@ -3,13 +3,13 @@
 @section('title')
     Danh sách hợp đồng
 @endsection
+
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Danh sách hợp đồng</h4>
             </div>
-
         </div>
     </div>
     <div class="row">
@@ -19,8 +19,9 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng </a>
+                                <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn">
+                                    <i class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -34,9 +35,9 @@
                                 <th data-ordering="false">Mã số hợp đồng</th>
                                 <th data-ordering="false">Bên B</th>
                                 <th data-ordering="false">Số điện thoại bên B</th>
-                                <th data-ordering="false">Email bên B</th>
                                 <th data-ordering="false">Tổng tiền</th>
-                                <th data-ordering="false">Tiền cần trả</th>
+                                <th data-ordering="false">Tiền đã trả</th>
+                                <th data-ordering="false">Phụ trách</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Thao tác</th>
                             </tr>
@@ -48,10 +49,16 @@
                                     <td>{{ $data->contract_number }}</td>
                                     <td>{{ $data->customer_name }}</td>
                                     <td>{{ $data->customer_phone }}</td>
-                                    <td>{{ $data->customer_email }}</td>
-                                    <td>{{ $data->total_amount }}</td>
-                                    <td>{{ $data->total_amount - $data->paid_amount }}</td>
-                                    <td>
+                                    <td
+                                        class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">
+                                        {{ $data->total_amount }}
+                                    </td>
+                                    <td
+                                        class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">
+                                        {{ $data->paid_amount }}
+                                    </td>
+                                    <td>{{ $data->employee->name }}</td>
+                                    <td id="status-{{ $data->id }}" data-contract-id="{{ $data->id }}">
                                         @if ($data->contract_status_id == 1)
                                             <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST"
                                                 style="display:inline;">
@@ -72,11 +79,10 @@
                                             {{ $data->contractStatus->name }}
                                         @endif
                                     </td>
-
-                                    <td class="d-flex flex-column gap-2">
-                                            <a href="{{ route('contract.show', $data->id) }}" class="btn btn-info btn-sm">
-                                                <i class="ri-eye-fill align-bottom me-2"></i>Xem
-                                            </a>
+                                    <td>
+                                        <a href="{{ route('contract.show', $data->id) }}" class="btn btn-info btn-sm">
+                                            <i class="ri-eye-fill align-bottom me-2"></i>Xem
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -84,69 +90,58 @@
                     </table>
                 </div>
             </div>
-        </div><!--end col-->
-    </div>
-    {{ $contracts->links() }}
-@endsection
-
-<div class="modal fade" id="pdfModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Xem hợp đồng</h5>
-                <button type="button" class="btn btn-primary ms-2" id="showStatusBtn">Chi tiết trạng thái</button>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <embed id="pdfViewer" src="" type="application/pdf" width="100%" height="600px">
-            </div>
         </div>
     </div>
-</div>
+    {{ $contracts->links() }}
 
-
-
-@push('scripts')
-    <script>
-        function showPdf(contractId) {
-            const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
-            document.getElementById('pdfViewer').src = pdfUrl;
-            new bootstrap.Modal(document.getElementById('pdfModal')).show();
-        }
-    </script>
-@endpush
-
-
-
-<div class="modal fade" id="statusHistoryModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Lịch sử trạng thái hợp đồng</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Trạng thái</th>
-                                <th>Thời gian</th>
-                            </tr>
-                        </thead>
-                        <tbody id="statusHistoryContent">
-                        </tbody>
-                    </table>
+    <!-- Modal xem PDF -->
+    <div class="modal fade" id="pdfModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xem hợp đồng</h5>
+                    <button type="button" class="btn btn-primary ms-2" id="showStatusBtn">Chi tiết trạng thái</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <embed id="pdfViewer" src="" type="application/pdf" width="100%" height="600px">
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Modal lịch sử trạng thái -->
+    <div class="modal fade" id="statusHistoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lịch sử trạng thái hợp đồng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Trạng thái</th>
+                                    <th>Thời gian</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statusHistoryContent">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
 @push('scripts')
     <script>
         let currentContractId;
 
+        // Hàm hiển thị PDF
         function showPdf(contractId) {
             currentContractId = contractId;
             const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
@@ -154,10 +149,7 @@
             new bootstrap.Modal(document.getElementById('pdfModal')).show();
         }
 
-        document.getElementById('showStatusBtn').addEventListener('click', function() {
-            showStatusHistory(currentContractId);
-        });
-
+        // Hàm hiển thị lịch sử trạng thái
         function showStatusHistory(contractId) {
             fetch(`/hop-dong/status-history/${contractId}`)
                 .then(response => response.json())
@@ -176,5 +168,45 @@
                     new bootstrap.Modal(document.getElementById('statusHistoryModal')).show();
                 });
         }
+
+        // Xử lý sự kiện click nút hiển thị trạng thái
+        document.getElementById('showStatusBtn').addEventListener('click', function() {
+            showStatusHistory(currentContractId);
+        });
+
+        // Lắng nghe sự kiện realtime
+        window.Echo.channel('contract-status')
+            .listen('.contract.updated', (e) => {
+                const statusCell = document.getElementById(`status-${e.id}`);
+                if (statusCell) { // Kiểm tra nếu phần tử tồn tại
+                    let html = '';
+
+                    if (e.contract_status_id == 1) {
+                        html = `
+                    <form action="{{ url('contract/send-to-manager') }}/${e.id}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Gửi giám đốc
+                        </button>
+                    </form>
+                `;
+                    } else if (e.contract_status_id == 2) {
+                        html = `
+                    <form action="{{ url('contract/send-to-customer') }}/${e.id}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Gửi khách hàng
+                        </button>
+                    </form>
+                `;
+                    } else {
+                        html = e.contract_status.name;
+                    }
+
+                    statusCell.innerHTML = html;
+                } else {
+                    console.warn(`Element with ID status-${e.id} not found.`);
+                }
+            });
     </script>
 @endpush

@@ -22,6 +22,7 @@ use PhpOffice\PhpWord\Writer\HTML;
 use Illuminate\Http\Request;
 use App\Events\ContractRejected;
 use App\Events\ContractSentToCustomer;
+use App\Events\ContractStatusUpdated;
 use App\Models\Contract_status_time;
 use App\Models\Customer;
 use App\Models\Payment;
@@ -110,6 +111,7 @@ class ContractController extends Controller
             // \Log::info('kkkkkkkkkkkk', ['contract' => $contract]);
             // event(new NewContractCreated($contract));
             // \Log::info('thành công nè');
+            event(new ContractStatusUpdated($contract));
             return redirect()
                 ->route('contract.index')
                 ->with('success', 'Tạo hợp đồng thành công!');
@@ -190,6 +192,8 @@ class ContractController extends Controller
         $pdfFilePath = storage_path('app/public/contracts/' . $pdfFileName);
         file_put_contents($pdfFilePath, $dompdf->output());
 
+        event(new ContractStatusUpdated($contract));
+
         return [
             'docx' => 'contracts/' . $docxFileName,
             'pdf' => 'contracts/' . $pdfFileName
@@ -209,6 +213,7 @@ class ContractController extends Controller
                 'contract_id' => $contract->id,
                 'contract_status_id' => 4
             ]);
+            event(new ContractStatusUpdated($contract));
 
             return redirect()->back()->with('success', 'Đã gửi hợp đồng cho quản lý xác nhận');
         } catch (Exception $e) {
@@ -222,6 +227,7 @@ class ContractController extends Controller
             'contract' => $contract,
             'timestamp' => now()->timestamp
         ]);
+        event(new ContractStatusUpdated($contract));
 
         return redirect()->route('contract.index')
             ->with('success', 'Đã gửi hợp đồng cho giám đốc thành công');
@@ -268,6 +274,7 @@ class ContractController extends Controller
                 'contract_status_id' => 2
             ]);
             $contract->save();
+            event(new ContractStatusUpdated($contract));
 
             return redirect()->back()->with('success', 'Đã xác nhận hợp đồng');
         } catch (Exception $e) {
@@ -286,6 +293,7 @@ class ContractController extends Controller
         ]);
         $contract->reject_reason = $request->reason;
         $contract->save();
+        event(new ContractStatusUpdated($contract));
 
         return response()->json([
             'success' => true,
@@ -335,6 +343,7 @@ class ContractController extends Controller
         // \Log::info('kkkkkkkkkkkkkkkk', ['contract' => $contract]);
         // event(new ContractSentToCustomer($contract));
         // \Log::info('Gửi thành công nè');
+        event(new ContractStatusUpdated($contract));
         return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
     }
     public function customerApprove($id)
@@ -391,6 +400,7 @@ class ContractController extends Controller
                     'mime' => 'application/pdf'
                 ]);
         });
+        event(new ContractStatusUpdated($contract));
 
         return view('emails.success', ['message' => 'Xác nhận hợp đồng thành công']);
     }
@@ -406,6 +416,7 @@ class ContractController extends Controller
             'contract_status_id' => 7
         ]);
         $contract->save();
+        event(new ContractStatusUpdated($contract));
 
         return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
     }

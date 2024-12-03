@@ -23,7 +23,7 @@ class CustomerSeeder extends Seeder
                 'password' => 'abc12345678',
                 'number_phone' => '0123456789',
                 'image' => '',
-                'amount' => 10000000,
+                'total_amount' => 10000000,
                 'is_active' => true,
             ],
             [
@@ -34,7 +34,7 @@ class CustomerSeeder extends Seeder
                 'password' => 'abc12345678',
                 'number_phone' => '0123456729',
                 'image' => '',
-                'amount' => 10000000,
+                'total_amount' => 10000000,
                 'is_active' => true,
             ],
             [
@@ -45,7 +45,7 @@ class CustomerSeeder extends Seeder
                 'password' => 'abc12345678',
                 'number_phone' => '0123456719',
                 'image' => '',
-                'amount' => 10000000,
+                'total_amount' => 10000000,
                 'is_active' => true,
             ],
             [
@@ -56,7 +56,7 @@ class CustomerSeeder extends Seeder
                 'password' => 'abc12345678',
                 'number_phone' => '0123456779',
                 'image' => '',
-                'amount' => 10000000,
+                'total_amount' => 10000000,
                 'is_active' => true,
             ],
         ]);
