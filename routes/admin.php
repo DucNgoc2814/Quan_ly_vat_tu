@@ -337,8 +337,6 @@ Route::prefix('hop-dong')
 Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen');
 Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission']);
 
-
-// new
 Route::get('/quan-ly-ton-kho/lich-su-ban-hang/{id}', [InventoryController::class, 'getExportHistory'])->name('getExportHistory');
 Route::get('/quan-ly-ban-hang/danh-sach-don-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract');
 Route::post('/suppliers/add-variations/{supplier}', [SupplierController::class, 'addVariations'])->name('suppliers.addVariations');

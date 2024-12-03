@@ -47,10 +47,9 @@ class PaymentHistoryController extends Controller
                     if ($order->contract_id !== null) {
                         throw new \Exception("Không thể chuyển tiền cho đơn hàng hợp đồng.");
                     }
-                } elseif ($request->transaction_type === 'contract') {
+                }
+                if ($request->transaction_type === 'contract') {
                     Contract::findOrFail($request->related_id);
-                } else {
-                    throw new \Exception("Loại giao dịch không hợp lệ.");
                 }
 
                 $remainingAmount = $this->getRemainingAmount($request->transaction_type, $request->related_id);
@@ -74,7 +73,7 @@ class PaymentHistoryController extends Controller
                     'payment_id' => $request->payment_id
                 ]);
             });
-            
+
             return redirect()->back()->with('success', 'Đã thêm lịch sử chuyển tiền thành công');
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
@@ -121,7 +120,7 @@ class PaymentHistoryController extends Controller
                 $payment->related_id,
                 $payment->amount
             );
-            
+
             Log::info('Payment updated successfully');
             DB::commit();
             return response()->json([
