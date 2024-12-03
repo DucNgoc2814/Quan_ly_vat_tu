@@ -47,14 +47,15 @@
                     <div class="collapse menu-dropdown" id="sidebartk">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-
                                 <a href="{{ route('payment.index') }}" class="nav-link" data-key="t-horizontal">Thu
                                     chi</a>
                             </li>
                             <li class="nav-item">
-
-                                <a href="{{ route('thongKeDoanhThu') }}" class="nav-link" data-key="t-horizontal">Doanh
+                                <a href="{{ route('thongKeDoanhThu') }}" class="nav-link" data-key="t-horizontal">Thống kê doanh
                                     thu</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('thongKeDonHang') }}" class="nav-link" data-key="t-horizontal">Thống kê đơn hàng</a>
                             </li>
                         </ul>
                     </div>

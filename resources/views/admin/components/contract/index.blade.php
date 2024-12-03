@@ -8,6 +8,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Danh sách hợp đồng</h4>
+                <div class="col-sm-auto">
+                    <div>
+                        <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng </a>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -15,16 +21,6 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
-                    <div class="row g-4">
-                        <div class="col-sm-auto">
-                            <div>
-                                <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body">
                     <table id="myTable" class="fs-13 table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
@@ -48,8 +44,8 @@
                                     <td>{{ $data->contract_number }}</td>
                                     <td>{{ $data->customer_name }}</td>
                                     <td>{{ $data->customer_phone }}</td>
-                                    <td class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">{{ $data->total_amount }}</td>
-                                    <td class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">{{ $data->paid_amount }}</td>
+                                    <td class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($data->total_amount) }}</td>
+                                    <td class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($data->paid_amount) }}</td>
                                     <td>{{ $data->employee->name }}</td>
                                     <td>
                                         @if ($data->contract_status_id == 1)
