@@ -283,7 +283,7 @@
             const productRows = document.querySelectorAll('#productList tr');
 
             productRows.forEach(row => {
-                const productName = row.querySelector('td').textContent.toLowerCase();
+                const productName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
                 if (productName.includes(searchValue)) {
                     row.style.display = '';
                 } else {

@@ -26,20 +26,18 @@ class ContractStatusUpdated implements ShouldBroadcast
         return new Channel('contract-status');
     }
 
-    public function broadcastAs()
-    {
-        return 'contract.updated';
-    }
-
     public function broadcastWith()
     {
         return [
             'id' => $this->contract->id,
+            'contract_number' => $this->contract->contract_number,
+            'customer_name' => $this->contract->customer_name,
+            'customer_phone' => $this->contract->customer_phone,
+            'total_amount' => $this->contract->total_amount,
+            'paid_amount' => $this->contract->paid_amount,
             'contract_status_id' => $this->contract->contract_status_id,
-            'contract_status' => [
-                'id' => $this->contract->contractStatus->id,
-                'name' => $this->contract->contractStatus->name
-            ]
+            'employee_name' => $this->contract->employee->name,
+            'contract_status' => $this->contract->contractStatus
         ];
     }
 }

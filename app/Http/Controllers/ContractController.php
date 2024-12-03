@@ -107,11 +107,7 @@ class ContractController extends Controller
                 'file_pdf' => $files['pdf']
             ]);
 
-
-            // \Log::info('kkkkkkkkkkkk', ['contract' => $contract]);
-            // event(new NewContractCreated($contract));
-            // \Log::info('thành công nè');
-            event(new ContractStatusUpdated($contract));
+            event(new NewContractCreated($contract));
             return redirect()
                 ->route('contract.index')
                 ->with('success', 'Tạo hợp đồng thành công!');
@@ -339,10 +335,6 @@ class ContractController extends Controller
             'contract_status_id' => 5
         ]);
         $contract->save();
-
-        // \Log::info('kkkkkkkkkkkkkkkk', ['contract' => $contract]);
-        // event(new ContractSentToCustomer($contract));
-        // \Log::info('Gửi thành công nè');
         event(new ContractStatusUpdated($contract));
         return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
     }
@@ -416,6 +408,15 @@ class ContractController extends Controller
             'contract_status_id' => 7
         ]);
         $contract->save();
+
+        Mail::send('emails.contract_rejected', [
+            'contract' => $contract
+        ], function ($message) use ($contract) {
+            $message->to($contract->customer_email)
+                ->subject('Xác nhận từ chối hợp đồng');
+        });
+
+
         event(new ContractStatusUpdated($contract));
 
         return view('emails.fail', ['message' => 'Hủy hợp đồng thành công']);
@@ -446,14 +447,6 @@ class ContractController extends Controller
     //     return response()->json(['url' => $fullUrl]);
     // }
 
-
-    /**
-     * Display the specified resource.
-     */
-
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $contract = Contract::with('contractDetails')->findOrFail($id);
@@ -462,11 +455,6 @@ class ContractController extends Controller
         $payments = Payment::pluck('name', 'id');
         $paymentHistories = Payment_history::where('related_id', $id)->where('transaction_type', 'contract')->get();
         return view('admin.components.contract.detail', compact('contract', 'totalPaid', 'paymentHistories', 'payments'));
-    }
-
-    public function edit(Contract $contract_number)
-    {
-
     }
 
     /**
@@ -500,14 +488,5 @@ class ContractController extends Controller
         } catch (Exception $exception) {
             return back()->with('error', $exception->getMessage());
         }
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Contract $contract)
-    {
-        //
     }
 }

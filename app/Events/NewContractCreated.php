@@ -25,8 +25,15 @@ class NewContractCreated implements ShouldBroadcast
     public function broadcastWith()
     {
         return [
-            'message' => "Hợp đồng {$this->contract->contract_number} đã được thêm mới",
-            'contract' => $this->contract
+            'id' => $this->contract->id,
+            'contract_number' => $this->contract->contract_number,
+            'customer_name' => $this->contract->customer_name,
+            'customer_phone' => $this->contract->customer_phone,
+            'total_amount' => $this->contract->total_amount,
+            'paid_amount' => $this->contract->paid_amount,
+            'contract_status_id' => $this->contract->contract_status_id,
+            'employee_name' => $this->contract->employee->name,
+            'contract_status' => $this->contract->contractStatus 
         ];
     }
 }

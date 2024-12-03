@@ -174,16 +174,73 @@
             showStatusHistory(currentContractId);
         });
 
-        // Lắng nghe sự kiện realtime
-        window.Echo.channel('contract-status')
-            .listen('.contract.updated', (e) => {
-                const statusCell = document.getElementById(`status-${e.id}`);
-                if (statusCell) { // Kiểm tra nếu phần tử tồn tại
-                    let html = '';
+        // Lắng nghe sự kiện realtime cho hợp đồng mới
+        window.Echo.channel('contract-created')
+            .listen('NewContractCreated', (e) => {
+                console.log('Received contract created event for ID:', e.id);
+                const statusCellId = `status-${e.id}`;
 
+                // Tạo HTML cho trạng thái
+                let statusHtml = '';
+                if (e.contract_status_id == 1) {
+                    statusHtml = `
+                <form action="/contract/send-to-manager/${e.id}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        Gửi giám đốc
+                    </button>
+                </form>
+            `;
+                } else if (e.contract_status_id == 2) {
+                    statusHtml = `
+                <form action="/contract/send-to-customer/${e.id}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm">
+                        Gửi khách hàng
+                    </button>
+                </form>
+            `;
+                } else {
+                    statusHtml = e.contract_status ? e.contract_status.name : '';
+                }
+
+                const newRow = `
+            <tr>
+                <td>${e.id || ''}</td>
+                <td>${e.contract_number || ''}</td>
+                <td>${e.customer_name || ''}</td>
+                <td>${e.customer_phone || ''}</td>
+                <td class="${e.total_amount == e.paid_amount ? 'text-success' : 'text-danger'}">
+                    ${e.total_amount || 0}
+                </td>
+                <td class="${e.total_amount == e.paid_amount ? 'text-success' : 'text-danger'}">
+                    ${e.paid_amount || 0}
+                </td>
+                <td>${e.employee_name || ''}</td>
+                <td id="${statusCellId}" data-contract-id="${e.id}">${statusHtml}</td>
+                <td>
+                    <a href="/contract/${e.id}" class="btn btn-info btn-sm">
+                        <i class="ri-eye-fill align-bottom me-2"></i>Xem
+                    </a>
+                </td>
+            </tr>
+        `;
+
+                const tbody = document.querySelector('#myTable tbody');
+                tbody.insertAdjacentHTML('afterbegin', newRow);
+            });
+
+        // Lắng nghe sự kiện cập nhật trạng thái
+        window.Echo.channel('contract-status')
+            .listen('ContractStatusUpdated', (e) => {
+                console.log('Received contract updated event for ID:', e.id);
+                const statusCell = document.getElementById(`status-${e.id}`);
+
+                if (statusCell) {
+                    let html = '';
                     if (e.contract_status_id == 1) {
                         html = `
-                    <form action="{{ url('contract/send-to-manager') }}/${e.id}" method="POST" style="display:inline;">
+                    <form action="/contract/send-to-manager/${e.id}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="btn btn-primary btn-sm">
                             Gửi giám đốc
@@ -192,7 +249,7 @@
                 `;
                     } else if (e.contract_status_id == 2) {
                         html = `
-                    <form action="{{ url('contract/send-to-customer') }}/${e.id}" method="POST" style="display:inline;">
+                    <form action="/contract/send-to-customer/${e.id}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="btn btn-success btn-sm">
                             Gửi khách hàng
@@ -200,12 +257,9 @@
                     </form>
                 `;
                     } else {
-                        html = e.contract_status.name;
+                        html = e.contract_status ? e.contract_status.name : '';
                     }
-
                     statusCell.innerHTML = html;
-                } else {
-                    console.warn(`Element with ID status-${e.id} not found.`);
                 }
             });
     </script>
