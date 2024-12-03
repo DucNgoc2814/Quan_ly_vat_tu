@@ -25,9 +25,14 @@ class StoreSupplierRequest extends FormRequest
             'name' => 'required|string|min:3|max:100|regex:/^[a-zA-Z\s]+$/|unique:suppliers,name',
             'email' => 'required|email|unique:suppliers,email',
             'number_phone' => 'required|regex:/^0[1-9]{1}[0-9]{8}$/|numeric|unique:suppliers,number_phone',
-            'address' => 'required|min:3',
-
-
+            'address' => [
+                'required',
+                'string',
+                'min:5',
+                'max:255',
+                'regex:/^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9\s,\/\-]+$/',
+                'not_regex:/^\d+[a-zA-Z]$|^[a-zA-Z]\d+$/'
+            ],
         ];
     }
 
@@ -47,8 +52,11 @@ class StoreSupplierRequest extends FormRequest
             'number_phone.unique' => 'Không được trùng số điện thoại !',
             'number_phone.numeric' => 'Số điện thoại không đúng định dạng bắt buộc phải là số !',
             'address.required' => 'Không được bỏ trống !',
-            'address.min' => 'Nhập tối thiểu 3 kí tự !',
-            'address.regex' => 'Nhập đúng định dạng!',
+            'address.min' => 'Địa chỉ phải có ít nhất 5 ký tự !',
+            'address.max' => 'Địa chỉ không được vượt quá 255 ký tự !',
+            'address.string' => 'Địa chỉ phải là chuỗi ký tự',
+            'address.regex' => 'Địa chỉ sai định dạng !',
+            'address.not_regex' => 'Địa chỉ sai định dạng !',
         ];
     }
 }

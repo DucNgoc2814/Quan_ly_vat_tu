@@ -90,12 +90,59 @@
                                             </div>
                                         </div>
                                     </div>
+
+
+
                                 </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="mb-4">
+                                            <div class="d-flex justify-content-lg-between">
+                                                <label class="form-label" for="product-images-input">Bộ sưu tập ảnh sản
+                                                    phẩm</label>
+                                                <button type="button" class="btn btn-primary" id="add-image-button">
+                                                    Thêm ảnh
+                                                </button>
+                                            </div>
+                                            <div class="mt-3" id="image-inputs">
+                                                <!-- Hiển thị ảnh hiện có -->
+                                                @foreach ($product->galleries as $index => $gallery)
+                                                    <div class="position-relative d-inline-block mb-4 me-4">
+                                                        <div class="position-absolute top-100 start-100 translate-middle">
+                                                            <button type="button" class="btn btn-danger btn-sm"
+                                                                onclick="markImageForDeletion({{ $gallery->id }}, this)">
+                                                                <i class="ri-delete-bin-line"></i>
+                                                            </button>
+                                                        </div>
+                                                        <div class="avatar-lg">
+                                                            <div class="avatar-title bg-light rounded">
+                                                                <img src="{{ asset('storage/' . $gallery->url) }}"
+                                                                    class="avatar-md h-auto" />
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" name="images_to_delete[]" value=""
+                                                            class="delete-image-input">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                            @if ($errors->has('product_images'))
+                                                <div class="text-danger mt-1">{{ $errors->first('product_images') }}
+                                                </div>
+                                            @endif
+
+
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="mb-3">
                                             <label class="form-label">Mô tả</label>
-                                            <textarea class="form-control" name="description" rows="4">{{ old('description', $product->description) }}</textarea>
+                                            <textarea class="form-control" name="description" rows="5">{{ old('description', $product->description) }}</textarea>
                                             @error('description')
                                                 <span role="alert">
                                                     <span class="text-danger">{{ $message }}</span>
@@ -104,20 +151,12 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-4">
+
+
+
                                 <div class="card">
                                     <div class="card-body">
-                                        <div class="card">
-                                            <div class="card-body d-flex justify-content-around">
-                                                <div class="form-check form-switch form-switch">
-                                                    <input class="form-check-input" type="checkbox" name="is_active"
-                                                        value="1"
-                                                        {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
-                                                    <label class="form-check-label" for="is_active">Hiển thị</label>
-                                                </div>
-                                            </div>
-                                        </div>
+
                                         <div class="card">
                                             <div class="card-body">
                                                 <div class="mb-3">
@@ -174,11 +213,17 @@
                                                     <div class="text-danger mt-1">{{ $errors->first('unit_id') }}</div>
                                                 @endif
                                             </div>
+
+
+
                                         </div>
+
 
                                         <div class="col-lg-12">
                                             <div id="selected-variants" style="margin-top: 10px;"></div>
                                         </div>
+
+
 
                                     </div>
                                 </div>
@@ -186,49 +231,21 @@
                                 <div class="col-lg-12">
                                     <div id="selected-variants" style="margin-top: 10px;"></div>
                                 </div>
-
+                                <div class="card">
+                                    <div class="card-body d-flex justify-content-around">
+                                        <div class="form-check form-switch form-switch">
+                                            <input class="form-check-input" type="checkbox" name="is_active"
+                                                value="1"
+                                                {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="is_active">Hiển thị</label>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- Phần ảnh sản phẩm -->
                             <div class="col-lg-12">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="mb-4">
-                                            <div class="d-flex justify-content-lg-between">
-                                                <label class="form-label" for="product-images-input">Bộ sưu tập ảnh sản
-                                                    phẩm</label>
-                                                <button type="button" class="btn btn-primary" id="add-image-button">
-                                                    Thêm ảnh
-                                                </button>
-                                            </div>
-                                            <div class="mt-3" id="image-inputs">
-                                                <!-- Hiển thị ảnh hiện có -->
-                                                @foreach ($product->galleries as $index => $gallery)
-                                                    <div class="position-relative d-inline-block mb-4 me-4">
-                                                        <div class="position-absolute top-100 start-100 translate-middle">
-                                                            <button type="button" class="btn btn-danger btn-sm"
-                                                                onclick="markImageForDeletion({{ $gallery->id }}, this)">
-                                                                <i class="ri-delete-bin-line"></i>
-                                                            </button>
-                                                        </div>
-                                                        <div class="avatar-lg">
-                                                            <div class="avatar-title bg-light rounded">
-                                                                <img src="{{ asset('storage/' . $gallery->url) }}"
-                                                                    class="avatar-md h-auto" />
-                                                            </div>
-                                                        </div>
-                                                        <input type="hidden" name="images_to_delete[]" value=""
-                                                            class="delete-image-input">
-                                                    </div>
-                                                @endforeach
-                                            </div>
-                                            @if ($errors->has('product_images'))
-                                                <div class="text-danger mt-1">{{ $errors->first('product_images') }}
-                                                </div>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
 
                             <!-- Phần biến thể -->

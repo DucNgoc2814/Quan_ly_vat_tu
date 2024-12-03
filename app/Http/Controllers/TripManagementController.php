@@ -97,7 +97,10 @@ class TripManagementController extends Controller
             return redirect()->route('orderconfirm.login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
         }
         $employee = Session::get('employee');
-        // dd($employee);
+        if ($employee->role_id != 4) {
+            return redirect()->route('orderconfirm.login')->with('error', 'Bạn không có quyền truy cập');
+        }
+
         $trips = Trip::where('employee_id', $employee->id)->get();
 
         return view('admin.components.tripmanagement.index', compact('employee', 'trips'));

@@ -20,13 +20,15 @@
     </div>
 
     <div class="row">
-
         <div class="col-lg-12">
+
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
                         <div class="col-sm-auto">
-
+                            <a href="{{ route('product.index') }}" class="btn btn-success" id="addproduct-btn">
+                                Danh sách sản phẩm
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -240,9 +242,11 @@
                                         <h5 class="card-title mb-0">Chọn loại sản phẩm:</h5>
                                         <select class="form-select mt-2" name="product_type" id="product_type"
                                             onchange="toggleVariantOptions()">
-                                            <option value="0" {{ old('product_type') == '0' ? 'selected' : '' }}>Sản
+                                            <option value="0" {{ old('product_type') == '0' ? 'selected' : '' }}>
+                                                Sản
                                                 phẩm thường</option>
-                                            <option value="1" {{ old('product_type') == '1' ? 'selected' : '' }}>Sản
+                                            <option value="1" {{ old('product_type') == '1' ? 'selected' : '' }}>
+                                                Sản
                                                 phẩm biến thể</option>
                                         </select>
                                         @error('product_type')
@@ -320,51 +324,51 @@
                             </div>
                             <div class="mt-3">
                                 <button class="btn btn-success text" id="btn-submit" ">Thêm mới</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <style>
-                                            .is-invalid {
-                                                border-color: #dc3545;
-                                            }
-                                        </style>
-                                        <script>
-                                            function getSelectedValues(e) {
-                                                const selectedVariants = [];
-                                                $('input[name="variant_types[]"]:checked').each(function() {
-                                                    selectedVariants.push($(this).val());
-                                                });
-                                                if (selectedVariants.length === 0) {
-                                                    alert('Bạn phải chọn ít nhất một loại biến thể.');
-                                                    event.preventDefault(); // Ngăn hành động mặc định
-                                                    event.target.checked = true;
-                                                    return false;
-                                                }
-                                                // Check the limit of variants
-                                                if (selectedVariants.length > 2) {
-                                                    alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
-                                                    e.preventDefault();
-                                                    return e.target.checked = false;
-                                                }
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <style>
+                                                                        .is-invalid {
+                                                                            border-color: #dc3545;
+                                                                        }
+                                                                    </style>
+                                                                    <script>
+                                                                        function getSelectedValues(e) {
+                                                                            const selectedVariants = [];
+                                                                            $('input[name="variant_types[]"]:checked').each(function() {
+                                                                                selectedVariants.push($(this).val());
+                                                                            });
+                                                                            if (selectedVariants.length === 0) {
+                                                                                alert('Bạn phải chọn ít nhất một loại biến thể.');
+                                                                                event.preventDefault(); // Ngăn hành động mặc định
+                                                                                event.target.checked = true;
+                                                                                return false;
+                                                                            }
+                                                                            // Check the limit of variants
+                                                                            if (selectedVariants.length > 2) {
+                                                                                alert('Bạn chỉ có thể chọn tối đa 2 loại biến thể.');
+                                                                                e.preventDefault();
+                                                                                return e.target.checked = false;
+                                                                            }
 
-                                                const variantValues = @json($attributesArray);
-                                                const selectedVariantValues = selectedVariants.map(variant => {
-                                                    const attribute = variantValues.find(attr => attr.id == variant);
-                                                    return attribute ? attribute.attribute_values : [];
-                                                });
-                                                const combinations = generateCombinations(selectedVariantValues);
-                                                const resultDiv = $('#selected-variants');
-                                                resultDiv.empty();
-                                                combinations.forEach(combo => {
-                                                    const id = combo.map(item => item.id).join('_');
-                                                    const variantLabels = selectedVariants.map((type, index) => {
-                                                        const variantValue = combo[index];
-                                                        const variantName = variantValues.find(attr => attr.id == type).name;
-                                                        return `
+                                                                            const variantValues = @json($attributesArray);
+                                                                            const selectedVariantValues = selectedVariants.map(variant => {
+                                                                                const attribute = variantValues.find(attr => attr.id == variant);
+                                                                                return attribute ? attribute.attribute_values : [];
+                                                                            });
+                                                                            const combinations = generateCombinations(selectedVariantValues);
+                                                                            const resultDiv = $('#selected-variants');
+                                                                            resultDiv.empty();
+                                                                            combinations.forEach(combo => {
+                                                                                const id = combo.map(item => item.id).join('_');
+                                                                                const variantLabels = selectedVariants.map((type, index) => {
+                                                                                    const variantValue = combo[index];
+                                                                                    const variantName = variantValues.find(attr => attr.id == type).name;
+                                                                                    return `
                 <div class="col-md-3">
                     <div class="mb-2">
                         <label class="form-label">${variantName}</label>
@@ -373,8 +377,8 @@
                     </div>
                 </div>
             `;
-                                                    }).join('');
-                                                    const html = `
+                                                                                }).join('');
+                                                                                const html = `
     <div class="col-lg-12">
         <div class="col-md-12" id="${id}_item">
             <hr class="mb-2">
@@ -390,48 +394,48 @@
         </div>
     </div>
 `;
-                                                    resultDiv.append(html);
-                                                });
-                                            }
+                                                                                resultDiv.append(html);
+                                                                            });
+                                                                        }
 
-                                            function removeVariant(id) {
-                                                const variantItems = document.querySelectorAll('[id$="_item"]'); // Lấy tất cả các biến thể
-                                                if (variantItems.length <= 1) {
-                                                    alert('Bạn không thể xóa biến thể cuối cùng.'); // Thông báo nếu chỉ còn một biến thể
-                                                    return; // Ngăn không cho xóa
-                                                }
+                                                                        function removeVariant(id) {
+                                                                            const variantItems = document.querySelectorAll('[id$="_item"]'); // Lấy tất cả các biến thể
+                                                                            if (variantItems.length <= 1) {
+                                                                                alert('Bạn không thể xóa biến thể cuối cùng.'); // Thông báo nếu chỉ còn một biến thể
+                                                                                return; // Ngăn không cho xóa
+                                                                            }
 
-                                                const variantItem = document.getElementById(id + '_item');
-                                                if (variantItem) {
-                                                    variantItem.remove(); // Xóa biến thể khỏi DOM
-                                                }
-                                            }
+                                                                            const variantItem = document.getElementById(id + '_item');
+                                                                            if (variantItem) {
+                                                                                variantItem.remove(); // Xóa biến thể khỏi DOM
+                                                                            }
+                                                                        }
 
-                                            let imageCount = {{ old('image_count', 1) }};
+                                                                        let imageCount = {{ old('image_count', 1) }};
 
 
-                                            // Hm hiển thị ảnh xem trước
-                                            function displayImage(event, count) {
-                                                event.preventDefault(); // Ngăn chặn sự kiện mặc định gây cuộn trang
-                                                var output = document.getElementById('product-img-' + count);
-                                                if (event.target.files.length > 0) { // Kiểm tra xem có file nào được chọn không
-                                                    output.src = URL.createObjectURL(event.target.files[0]);
-                                                    output.onload = function() {
-                                                        URL.revokeObjectURL(output.src); // Giải phóng bộ nhớ
-                                                        // Đặt kích thước mặc định cho ảnh
-                                                        output.style.width = '50px'; // Kích thước chiều rộng
-                                                        output.style.height = '50px'; // Kích thước chiều cao
-                                                        output.style.objectFit = 'cover'; // Đảm bảo ảnh không bị méo
-                                                    }
-                                                }
-                                            }
+                                                                        // Hm hiển thị ảnh xem trước
+                                                                        function displayImage(event, count) {
+                                                                            event.preventDefault(); // Ngăn chặn sự kiện mặc định gây cuộn trang
+                                                                            var output = document.getElementById('product-img-' + count);
+                                                                            if (event.target.files.length > 0) { // Kiểm tra xem có file nào được chọn không
+                                                                                output.src = URL.createObjectURL(event.target.files[0]);
+                                                                                output.onload = function() {
+                                                                                    URL.revokeObjectURL(output.src); // Giải phóng bộ nhớ
+                                                                                    // Đặt kích thước mặc định cho ảnh
+                                                                                    output.style.width = '50px'; // Kích thước chiều rộng
+                                                                                    output.style.height = '50px'; // Kích thước chiều cao
+                                                                                    output.style.objectFit = 'cover'; // Đảm bảo ảnh không bị méo
+                                                                                }
+                                                                            }
+                                                                        }
 
-                                            // Hàm thêm input ảnh mới
-                                            function addImageInput() {
-                                                imageCount++;
-                                                document.getElementById('image_count').value = imageCount;
+                                                                        // Hàm thêm input ảnh mới
+                                                                        function addImageInput() {
+                                                                            imageCount++;
+                                                                            document.getElementById('image_count').value = imageCount;
 
-                                                const html = `
+                                                                            const html = `
         <div class="position-relative d-inline-block mb-4 me-4" id="image-container-${imageCount-1}">
             <div class="position-absolute top-100 start-100 translate-middle">
                 <label for="product-image-${imageCount-1}" class="mb-0" data-bs-toggle="tooltip" data-bs-placement="right" title="Chọn ảnh">
@@ -456,142 +460,142 @@
             </button>
         </div>
     `;
-                                                document.getElementById('image-inputs').insertAdjacentHTML('beforeend', html);
-                                            }
-                                            document.getElementById('add-image-button').addEventListener('click', addImageInput);
+                                                                            document.getElementById('image-inputs').insertAdjacentHTML('beforeend', html);
+                                                                        }
+                                                                        document.getElementById('add-image-button').addEventListener('click', addImageInput);
 
-                                            function generateCombinations(arrays) {
-                                                if (arrays.some(array => array.length === 0)) {
-                                                    return []; // Trả về mảng rỗng nếu có mảng trống
-                                                }
+                                                                        function generateCombinations(arrays) {
+                                                                            if (arrays.some(array => array.length === 0)) {
+                                                                                return []; // Trả về mảng rỗng nếu có mảng trống
+                                                                            }
 
-                                                return arrays.reduce((accumulator, current) => {
-                                                    const combinations = [];
-                                                    accumulator.forEach(accItem => {
-                                                        current.forEach(curItem => {
-                                                            combinations.push([...accItem, curItem]);
-                                                        });
-                                                    });
-                                                    return combinations;
-                                                }, [
-                                                    []
-                                                ]); // Bắt đầu với một mảng chứa một mảng rỗng
-                                            }
+                                                                            return arrays.reduce((accumulator, current) => {
+                                                                                const combinations = [];
+                                                                                accumulator.forEach(accItem => {
+                                                                                    current.forEach(curItem => {
+                                                                                        combinations.push([...accItem, curItem]);
+                                                                                    });
+                                                                                });
+                                                                                return combinations;
+                                                                            }, [
+                                                                                []
+                                                                            ]); // Bắt đầu với một mảng chứa một mảng rỗng
+                                                                        }
 
-                                            function displayMainImage(event) {
-                                                const output = document.getElementById('product-img-main');
-                                                if (event.target.files.length > 0) {
-                                                    output.src = URL.createObjectURL(event.target.files[0]);
-                                                    output.style.width = '50px';
-                                                    output.style.height = '50px';
-                                                    output.style.objectFit = 'cover';
-                                                }
-                                            }
+                                                                        function displayMainImage(event) {
+                                                                            const output = document.getElementById('product-img-main');
+                                                                            if (event.target.files.length > 0) {
+                                                                                output.src = URL.createObjectURL(event.target.files[0]);
+                                                                                output.style.width = '50px';
+                                                                                output.style.height = '50px';
+                                                                                output.style.objectFit = 'cover';
+                                                                            }
+                                                                        }
 
-                                            function toggleVariantOptions() {
-                                                const productType = document.getElementById('product_type').value;
-                                                const variantSection = document.getElementById('variant-section');
-                                                const selectedVariants = document.getElementById('selected-variants');
+                                                                        function toggleVariantOptions() {
+                                                                            const productType = document.getElementById('product_type').value;
+                                                                            const variantSection = document.getElementById('variant-section');
+                                                                            const selectedVariants = document.getElementById('selected-variants');
 
-                                                if (productType === '1') {
-                                                    variantSection.style.display = 'block';
-                                                } else {
-                                                    variantSection.style.display = 'none';
+                                                                            if (productType === '1') {
+                                                                                variantSection.style.display = 'block';
+                                                                            } else {
+                                                                                variantSection.style.display = 'none';
 
-                                                    // Xóa tất cả các biến thể đã chọn
-                                                    if (selectedVariants) {
-                                                        selectedVariants.innerHTML = '';
-                                                    }
+                                                                                // Xóa tất cả các biến thể đã chọn
+                                                                                if (selectedVariants) {
+                                                                                    selectedVariants.innerHTML = '';
+                                                                                }
 
-                                                    // Bỏ chọn tất cả các checkbox biến thể
-                                                    const variantCheckboxes = document.querySelectorAll('input[name="variant_types[]"]');
-                                                    variantCheckboxes.forEach(checkbox => {
-                                                        checkbox.checked = false;
-                                                    });
+                                                                                // Bỏ chọn tất cả các checkbox biến thể
+                                                                                const variantCheckboxes = document.querySelectorAll('input[name="variant_types[]"]');
+                                                                                variantCheckboxes.forEach(checkbox => {
+                                                                                    checkbox.checked = false;
+                                                                                });
 
-                                                    // Reset các giá trị input liên quan đến biến thể
-                                                    const variantInputs = document.querySelectorAll('[name^="variants["]');
-                                                    variantInputs.forEach(input => {
-                                                        input.closest('.col-lg-12')?.remove();
-                                                    });
-                                                }
-                                            }
+                                                                                // Reset các giá trị input liên quan đến biến thể
+                                                                                const variantInputs = document.querySelectorAll('[name^="variants["]');
+                                                                                variantInputs.forEach(input => {
+                                                                                    input.closest('.col-lg-12')?.remove();
+                                                                                });
+                                                                            }
+                                                                        }
 
-                                            function removeImageInput(containerId) {
-                                                document.getElementById(containerId).remove();
-                                                imageCount -= 1;
-                                            }
-                                            // Gọi hàm để thiết lập trạng thái ban đầu
-                                            document.addEventListener('DOMContentLoaded', toggleVariantOptions);
+                                                                        function removeImageInput(containerId) {
+                                                                            document.getElementById(containerId).remove();
+                                                                            imageCount -= 1;
+                                                                        }
+                                                                        // Gọi hàm để thiết lập trạng thái ban đầu
+                                                                        document.addEventListener('DOMContentLoaded', toggleVariantOptions);
 
-                                            document.addEventListener('DOMContentLoaded', function() {
-                                                // Set initial product type
-                                                const savedProductType = '{{ old('product_type', '0') }}';
-                                                if (savedProductType === '1') {
-                                                    toggleVariantOptions();
-                                                    const savedVariantTypes = @json(old('variant_types', []));
-                                                    savedVariantTypes.forEach(type => {
-                                                        document.querySelector(`input[name="variant_types[]"][value="${type}"]`).checked = true;
-                                                    });
-                                                    if (savedVariantTypes.length > 0) {
-                                                        getSelectedValues({
-                                                            target: document.querySelector('input[name="variant_types[]"]:checked')
-                                                        });
-                                                    }
-                                                }
-                                            });
+                                                                        document.addEventListener('DOMContentLoaded', function() {
+                                                                            // Set initial product type
+                                                                            const savedProductType = '{{ old('product_type', '0') }}';
+                                                                            if (savedProductType === '1') {
+                                                                                toggleVariantOptions();
+                                                                                const savedVariantTypes = @json(old('variant_types', []));
+                                                                                savedVariantTypes.forEach(type => {
+                                                                                    document.querySelector(`input[name="variant_types[]"][value="${type}"]`).checked = true;
+                                                                                });
+                                                                                if (savedVariantTypes.length > 0) {
+                                                                                    getSelectedValues({
+                                                                                        target: document.querySelector('input[name="variant_types[]"]:checked')
+                                                                                    });
+                                                                                }
+                                                                            }
+                                                                        });
 
-                                            function toggleVariantOptions() {
-                                                const productType = document.getElementById('product_type').value;
-                                                const variantSection = document.getElementById('variant-section');
-                                                const selectedVariants = document.getElementById('selected-variants');
+                                                                        function toggleVariantOptions() {
+                                                                            const productType = document.getElementById('product_type').value;
+                                                                            const variantSection = document.getElementById('variant-section');
+                                                                            const selectedVariants = document.getElementById('selected-variants');
 
-                                                if (productType === '1') {
-                                                    variantSection.style.display = 'block';
-                                                } else {
-                                                    variantSection.style.display = 'none';
+                                                                            if (productType === '1') {
+                                                                                variantSection.style.display = 'block';
+                                                                            } else {
+                                                                                variantSection.style.display = 'none';
 
-                                                    // Xóa tất cả các biến thể đã chọn
-                                                    if (selectedVariants) {
-                                                        selectedVariants.innerHTML = '';
-                                                    }
+                                                                                // Xóa tất cả các biến thể đã chọn
+                                                                                if (selectedVariants) {
+                                                                                    selectedVariants.innerHTML = '';
+                                                                                }
 
-                                                    // Bỏ chọn tất cả các checkbox biến thể
-                                                    const variantCheckboxes = document.querySelectorAll('input[name="variant_types[]"]');
-                                                    variantCheckboxes.forEach(checkbox => {
-                                                        checkbox.checked = false;
-                                                    });
+                                                                                // Bỏ chọn tất cả các checkbox biến thể
+                                                                                const variantCheckboxes = document.querySelectorAll('input[name="variant_types[]"]');
+                                                                                variantCheckboxes.forEach(checkbox => {
+                                                                                    checkbox.checked = false;
+                                                                                });
 
-                                                    // Reset các giá trị input liên quan đến biến thể
-                                                    const variantInputs = document.querySelectorAll('[name^="variants["]');
-                                                    variantInputs.forEach(input => {
-                                                        input.closest('.col-lg-12')?.remove();
-                                                    });
-                                                }
-                                            }
+                                                                                // Reset các giá trị input liên quan đến biến thể
+                                                                                const variantInputs = document.querySelectorAll('[name^="variants["]');
+                                                                                variantInputs.forEach(input => {
+                                                                                    input.closest('.col-lg-12')?.remove();
+                                                                                });
+                                                                            }
+                                                                        }
 
-                                            function addErrorMessage(element, message) {
-                                                const existingError = element.nextElementSibling?.classList.contains('text-danger');
-                                                if (!existingError) {
-                                                    const errorDiv = document.createElement('span');
-                                                    errorDiv.className = 'text-danger';
-                                                    errorDiv.style.fontSize = '12px';
-                                                    errorDiv.textContent = message;
-                                                    element.insertAdjacentElement('afterend', errorDiv);
-                                                }
-                                            }
+                                                                        function addErrorMessage(element, message) {
+                                                                            const existingError = element.nextElementSibling?.classList.contains('text-danger');
+                                                                            if (!existingError) {
+                                                                                const errorDiv = document.createElement('span');
+                                                                                errorDiv.className = 'text-danger';
+                                                                                errorDiv.style.fontSize = '12px';
+                                                                                errorDiv.textContent = message;
+                                                                                element.insertAdjacentElement('afterend', errorDiv);
+                                                                            }
+                                                                        }
 
-                                            function removeErrorMessage(element) {
-                                                const errorMessage = element.nextElementSibling;
-                                                if (errorMessage?.classList.contains('text-danger')) {
-                                                    errorMessage.remove();
-                                                }
-                                            }
+                                                                        function removeErrorMessage(element) {
+                                                                            const errorMessage = element.nextElementSibling;
+                                                                            if (errorMessage?.classList.contains('text-danger')) {
+                                                                                errorMessage.remove();
+                                                                            }
+                                                                        }
 
-                                            ClassicEditor
-                                                .create(document.querySelector('#product-description'))
-                                                .catch(error => {
-                                                    console.error(error);
-                                                });
-                                        </script>
+                                                                        ClassicEditor
+                                                                            .create(document.querySelector('#product-description'))
+                                                                            .catch(error => {
+                                                                                console.error(error);
+                                                                            });
+                                                                    </script>
 @endsection
