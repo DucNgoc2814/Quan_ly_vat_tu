@@ -8,20 +8,16 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Danh sách khách hàng</h4>
+                <div>
+                    <a href="{{ route('customer.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                            class="ri-add-line align-bottom me-1"></i>Thêm mới tài khoản</a>
+                </div>
             </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
-                    <div class="row g-4">
-                        <div>
-                            <a href="{{ route('customer.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                    class="ri-add-line align-bottom me-1"></i>Thêm mới tài khoản</a>
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
@@ -34,7 +30,7 @@
                                 <th data-ordering="false">Email</th>
                                 <th data-ordering="false">Tích lũy</th>
                                 <th data-ordering="false">Hiển thị</th>
-                                <th>Action</th>
+                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>
@@ -46,7 +42,7 @@
                                     </td>
                                     <td>{{ $customer->number_phone }}</td>
                                     <td>{{ $customer->email }}</td>
-                                    <td>{{ $customer->amount }}</td>
+                                    <td>{{ $customer->total_amount }}</td>
                                     <td>
                                         <div class="form-check form-switch form-switch">
                                             @if ($customer->is_active == 1)
@@ -58,7 +54,7 @@
                                             @endif
                                         </div>
                                     <td>
-                                        <div class="dropdown d-inline-block">
+                                        {{-- <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
                                                 data-bs-toggle="dropdown" aria-expanded="false">
                                                 <i class="ri-more-fill align-middle"></i>
@@ -75,7 +71,8 @@
                                                 </form>
                                                 </li>
                                             </ul>
-                                        </div>
+                                        </div> --}}
+
                                     </td>
                                 </tr>
                             @endforeach

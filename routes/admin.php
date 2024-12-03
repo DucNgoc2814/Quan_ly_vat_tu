@@ -48,12 +48,12 @@ Route::prefix('nhan-vien-lai-xe')
         Route::get('/dang-nhap', [TripManagementController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [TripManagementController::class, 'loginPost'])->name('loginPost');
         Route::get('/dashboard-nv', [TripManagementController::class, 'dashboard'])->name('dashboard');
-        Route::get('/xan-nhan-don-hang', [TripManagementController::class, 'index'])->name('index');
+        Route::get('/danh-sach-chuyen-di', [TripManagementController::class, 'index'])->name('index');
         Route::get('/chi-tiet/{id}', [TripManagementController::class, 'show'])
             ->middleware('checkOwnership')
             ->name('show');
         Route::put('/chi-tiet/{id}', [TripManagementController::class, 'update'])->name('update');
-        Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
+        Route::get('/dang-xuat', [TripManagementController::class, 'logOut'])->name('logOut');
     });
 Route::middleware('CheckEmployees')->group(
     function () {
@@ -319,9 +319,7 @@ Route::middleware('CheckEmployees')->group(
         Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf')->middleware('permission:161');
         Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen')->middleware('permission:162');
         Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission'])->middleware('permission:163');
-        Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
-        Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
-        Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
+
 
     }
 );
@@ -340,10 +338,11 @@ Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController:
 Route::get('/quan-ly-ton-kho/lich-su-ban-hang/{id}', [InventoryController::class, 'getExportHistory'])->name('getExportHistory');
 Route::get('/quan-ly-ban-hang/danh-sach-don-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract');
 Route::post('/suppliers/add-variations/{supplier}', [SupplierController::class, 'addVariations'])->name('suppliers.addVariations');
-Route::delete('/suppliers/{supplier}/variations/{variation}', [SupplierController::class, 'removeVariation'])
-    ->name('suppliers.removeVariation');
+Route::delete('/suppliers/{supplier}/variations/{variation}', [SupplierController::class, 'removeVariation'])->name('suppliers.removeVariation');
 Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 'getVariationsBySupplier']);
 Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
+Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
+Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {

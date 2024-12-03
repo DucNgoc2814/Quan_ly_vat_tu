@@ -49,8 +49,8 @@
                                         <td>{{ $order->customer->name ?? 'Đơn hợp đồng' }}</td>
                                         <td>{{ $order->customer_name }}</td>
                                         <td>{{ $order->number_phone }}</td>
-                                        <td>{{ number_format($order->total_amount) }}</td>
-                                        <td>{{ number_format($order->paid_amount) }}</td>
+                                        <td class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($order->total_amount) }}</td>
+                                        <td class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($order->paid_amount) }}</td>
                                         <td>
                                             <span
                                                 class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng hợp đồng' }}</span>
@@ -170,6 +170,19 @@
             });
 
             function updateOrderStatus(selectElement, orderSlug, newStatus) {
+                // Thêm kiểm tra trạng thái
+                const currentStatus = parseInt(selectElement.options[0].value);
+                if (currentStatus === 3 && newStatus === 4) {
+                    Swal.fire({
+                        title: 'Không thể cập nhật',
+                        text: 'Không thể cập nhật trạng thái từ "Đang giao" sang "Thành công"',
+                        icon: 'error',
+                        confirmButtonText: 'Đóng'
+                    });
+                    selectElement.value = currentStatus;
+                    return;
+                }
+
                 Swal.fire({
                     title: 'Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?',
                     icon: 'question',

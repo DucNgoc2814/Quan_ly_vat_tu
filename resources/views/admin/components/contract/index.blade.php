@@ -9,6 +9,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Danh sách hợp đồng</h4>
+                <div class="col-sm-auto">
+                    <div>
+                        <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -10,6 +10,10 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Phân quyền</h4>
+                <div id="addBtn">
+                    <a class="btn btn-success" onclick="showForm()"><i
+                            class="ri-add-line align-bottom me-1"></i>Thêm chức vụ</a>
+                </div>
             </div>
         </div>
     </div>
@@ -19,10 +23,7 @@
                 <div class="card-header border-0">
                     <div class="row g-4">
                         <div class="col-sm-auto d-flex align-items-center">
-                            <div id="addBtn">
-                                <a class="btn btn-success" onclick="showForm()"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm chức vụ</a>
-                            </div>
+                            
                             <div id="permissionForm" class="ms-3" style="display:none;">
                                 <form class="d-flex align-items-center" method="POST" action="{{ route('addRole') }}">
                                   @csrf

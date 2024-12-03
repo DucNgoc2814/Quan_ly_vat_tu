@@ -29,20 +29,24 @@
                     <form action="{{ route('valueVariations.store') }}" method="POST">
                         @csrf
                         <div class="row mb-4">
-                            <div class="col-lg-6">
+                            <div class="col-lg-4">
                                 <div class="form-group">
-                                    <label class="form-label fw-bold">Tên loại biến thể</label>
-                                    <input type="text" name="name" class="form-control"
-                                        placeholder="VD: Màu sắc, Kích thước..." value="{{ old('name') }}">
-                                    @error('name')
-                                        <p class="text-danger">{{ $message }}</p>
-                                    @enderror
+                                    <div class="card border" style="height: 176px;">
+                                        <div class="card-header bg-light">
+                                            <h5 class="card-title mb-0">Tên loại biến thể</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <input type="text" name="name" class="form-control"
+                                                placeholder="VD: Màu sắc, Kích thước..." value="{{ old('name') }}">
+                                            @error('name')
+                                                <p class="text-danger">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="col-lg-12">
+                            <div class="col-lg-8">
                                 <div class="card border">
                                     <div class="card-header bg-light">
                                         <h5 class="card-title mb-0">Danh sách giá trị</h5>
@@ -52,7 +56,7 @@
                                             @if (old('values'))
                                                 @foreach (old('values') as $key => $value)
                                                     <div class="row mb-3 value-row">
-                                                        <div class="col-11">
+                                                        <div class="col-10">
                                                             <input type="text" name="values[]" class="form-control"
                                                                 placeholder="Nhập giá trị biến thể"
                                                                 value="{{ $value }}">
@@ -60,7 +64,7 @@
                                                                 <p class="text-danger">{{ $message }}</p>
                                                             @enderror
                                                         </div>
-                                                        <div class="col-1">
+                                                        <div class="col-2">
                                                             <button type="button" class="btn btn-danger remove-value"
                                                                 {{ count(old('values')) <= 1 ? 'style=display:none' : '' }}>
                                                                 <i class="ri-delete-bin-line"></i>
@@ -70,11 +74,11 @@
                                                 @endforeach
                                             @else
                                                 <div class="row mb-3 value-row">
-                                                    <div class="col-11">
+                                                    <div class="col-10">
                                                         <input type="text" name="values[]" class="form-control"
                                                             placeholder="Nhập giá trị biến thể">
                                                     </div>
-                                                    <div class="col-1">
+                                                    <div class="col-2">
                                                         <button type="button" class="btn btn-danger remove-value"
                                                             style="display: none;">
                                                             <i class="ri-delete-bin-line"></i>
@@ -107,41 +111,38 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            // Function to toggle the visibility of the remove button based on the number of value rows
             function toggleRemoveButtons() {
                 let valueRows = $('.value-row');
-                if (valueRows.length === 1) {
+                if (valueRows.length <= 1) {
                     $('.remove-value').hide();
                 } else {
                     $('.remove-value').show();
                 }
             }
 
+            // Add new value row when the add button is clicked
             $('#add-value').on('click', function() {
-                console.log('Button clicked!');
                 let newRow = `
-        <div class="row mb-3 value-row">
-            <div class="col-11">
-                <input type="text" name="values[]" class="form-control" placeholder="Nhập giá trị biến thể">
-                @error('values.*')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-                @error('values')
-                    <p class="text-danger">{{ $message }}</p>
-                @enderror
-            </div>
-            <div class="col-1">
-                <button type="button" class="btn btn-danger remove-value">
-                    <i class="ri-delete-bin-line"></i>
-                </button>
-            </div>
-        </div>
-    `;
+                    <div class="row mb-3 value-row">
+                        <div class="col-10">
+                            <input type="text" name="values[]" class="form-control" placeholder="Nhập giá trị biến thể">
+                        </div>
+                        <div class="col-2">
+                            <button type="button" class="btn btn-danger remove-value">
+                                <i class="ri-delete-bin-line"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
                 $('#value-container').append(newRow);
-                toggleRemoveButtons();
+                toggleRemoveButtons(); // Reapply logic to show/hide remove buttons
             });
+
+            // Remove the value row when the remove button is clicked
             $(document).on('click', '.remove-value', function() {
                 $(this).closest('.value-row').remove();
-                toggleRemoveButtons();
+                toggleRemoveButtons(); // Reapply logic to show/hide remove buttons
             });
         });
     </script>

@@ -184,11 +184,11 @@
                     <td>${product.sku}</td>
                     <td>${product.name}</td>
                     <td>
-                        <input type="number" class="form-control form-control-sm" 
+                        <input type="number" class="form-control form-control-sm"
                                placeholder="Nhập giá" id="price_${product.id}">
                     </td>
                     <td>
-                        <input type="number" class="form-control form-control-sm" 
+                        <input type="number" class="form-control form-control-sm"
                                placeholder="Nhập số lượng" id="quantity_${product.id}">
                     </td>
                 `;
@@ -257,12 +257,12 @@
         function calculateTotal() {
             let total = 0;
             const rows = document.querySelectorAll('#selectedProductsTable tbody tr');
-            
+
             rows.forEach(row => {
                 const lineTotal = parseFloat(row.querySelector('td:nth-child(4)').textContent);
                 total += lineTotal;
             });
-            
+
             document.getElementById('total_amount').value = total;
         }
 
@@ -295,7 +295,7 @@
         function importExcel() {
             const fileInput = document.getElementById('excelFile');
             const file = fileInput.files[0];
-            
+
             if (!file) {
                 Swal.fire({
                     icon: 'warning',
@@ -313,7 +313,7 @@
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
-                    
+
                     const jsonData = XLSX.utils.sheet_to_json(firstSheet, {
                         header: ['sku', 'name', 'quantity', 'price'],
                         range: 1  // Bỏ qua dòng tiêu đề

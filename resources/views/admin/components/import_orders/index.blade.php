@@ -42,8 +42,8 @@
                                 <tr>
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->supplier->name }}</td>
-                                    <td>{{ number_format($item->total_amount) }}</td>
-                                    <td>{{ number_format($item->paid_amount) }}</td>
+                                    <td class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($item->total_amount) }}</td>
+                                    <td class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($item->paid_amount) }}</td>
                                     <td>{{ $item->payment->name }}</td>
                                     <td>
                                         @if ($item->status == 1)
@@ -97,7 +97,6 @@
                         </tbody>
 
                     </table>
-                    {{-- {{ $contract_types->links('pagination::bootstrap-5') }} --}}
                 </div>
             </div>
         </div><!--end col-->
@@ -106,38 +105,6 @@
 
 @section('scripts')
     @parent
-    {{-- <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const lowStockProducts = @json($lowStockProducts);
-
-            function showLowStockAlerts() {
-                let currentIndex = 0;
-
-                function showNextAlert() {
-                    if (currentIndex < lowStockProducts.length) {
-                        const product = lowStockProducts[currentIndex];
-                        Swal.fire({
-                            title: 'Cảnh báo hàng tồn kho thấp!',
-                            text: `Sản phẩm "${product.product.name}" (${product.name}) có số lượng tồn kho thấp: ${product.stock}. Vui lòng nhập thêm hàng.`,
-                            icon: 'warning',
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            currentIndex++;
-                            showNextAlert();
-                        });
-                    }
-                }
-
-                if (lowStockProducts.length > 0) {
-                    showNextAlert();
-                }
-            }
-
-            showLowStockAlerts();
-
-            setInterval(showLowStockAlerts, 5 * 60 * 1000);
-        });
-    </script> --}}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

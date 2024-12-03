@@ -98,7 +98,8 @@
                                         <div class="col-8 me-3">
                                             <label class="form-label">Sản phẩm bên B mua</label>
                                             <select class="form-select @error('variation_id.' . $key) is-invalid @enderror"
-                                                name="variation_id[]" data-choices data-choices-search-false onchange="updateProductOptions()">
+                                                name="variation_id[]" data-choices data-choices-search-false
+                                                onchange="updateProductOptions()">
                                                 <option value="0">Chọn Sản Phẩm</option>
                                                 @foreach ($variation as $variant)
                                                     <option value="{{ $variant->id }}"
@@ -208,6 +209,7 @@
             </form>
         </div>
     </div>
+
 @endsection
 
 @section('scripts')
