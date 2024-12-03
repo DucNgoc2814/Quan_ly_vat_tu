@@ -32,6 +32,7 @@ use App\Exports\VariationsExport;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\PaymentHistoryController;
 use Maatwebsite\Excel\Facades\Excel;
+
 Route::prefix('trang-quan-tri')
     ->as('employees.')
     ->group(function () {
@@ -313,6 +314,15 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/messages', [MessageController::class, 'getMessages'])->name('messages')->middleware('permission:158');
                 Route::post('/messages', [MessageController::class, 'sendMessage'])->name('send')->middleware('permission:159');
             });
+
+        Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf')->middleware('permission:160');
+        Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf')->middleware('permission:161');
+        Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen')->middleware('permission:162');
+        Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission'])->middleware('permission:163');
+        Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
+        Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
+        Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
+
     }
 );
 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf');

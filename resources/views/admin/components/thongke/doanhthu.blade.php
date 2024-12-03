@@ -237,6 +237,20 @@ Dashboard
                             </select>
                         </div>
                         <canvas id="myChart" style="width:100%"></canvas>
+                        <div class="d-flex justify-content-between mt-3">
+                            <div class="d-flex">
+                                <div style="width: 20px; height: 20px; background: red; margin: 3px"></div> <span>Công
+                                    nợ </span>
+                            </div>
+                            <div class="d-flex">
+                                <div style="width: 20px; height: 20px; background: green; margin: 3px"></div>
+                                <span>Doanh thu thực </span>
+                            </div>
+                            <div class="d-flex">
+                                <div style="width: 20px; height: 20px; background: blue; margin: 3px"></div> <span>Doanh
+                                    thu </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xl-8 w-50">
@@ -251,6 +265,20 @@ Dashboard
                             </select>
                         </div>
                         <canvas id="myChart2" style="width:100%"></canvas>
+                        <div class="d-flex justify-content-between mt-3">
+                            <div class="d-flex">
+                                <div style="width: 20px; height: 20px; background: red; margin: 3px"></div> <span>Công
+                                    nợ cần trả</span>
+                            </div>
+                            <div class="d-flex">
+                                <div style="width: 20px; height: 20px; background: green; margin: 3px"></div> <span>Tổng
+                                    chi thực </span>
+                            </div>
+                            <div class="d-flex">
+                                <div style="width: 20px; height: 20px; background: blue; margin: 3px"></div> <span>Tổng
+                                    chi </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xl-8 w-100">
@@ -332,7 +360,7 @@ Dashboard
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 <script>
-    const xValues = @json($tongDoanhThuThucTheoNgay->pluck('date'));
+         const xValues = @json($tongDoanhThuThucTheoNgay->pluck('date'));
         let doanhThuThuc = @json($tongDoanhThuThucTheoNgay->pluck('paid_amount'));
         let doanhThu = @json($tongDoanhThuTheoNgay->pluck('total_amount'));
         let congNo = doanhThu.map((value, index) => value - doanhThuThuc[index]);
