@@ -43,7 +43,7 @@ class ThongkeController extends Controller
         $orderStatusTheoTuan = DB::table('orders')->select(DB::raw('YEARWEEK(created_at, 1) as date'), DB::raw('SUM(CASE WHEN status_id IN (1, 2, 3) THEN 1 ELSE 0 END) as tienHanh'), DB::raw('SUM(CASE WHEN status_id = 4 THEN 1 ELSE 0 END) as thanhCong'), DB::raw('SUM(CASE WHEN status_id = 5 THEN 1 ELSE 0 END) as thatBai'), DB::raw('COUNT(*) as total'))->groupBy(DB::raw('YEARWEEK(created_at, 1)'))->orderBy(DB::raw('YEARWEEK(created_at, 1)'), 'asc')->get()->map(function ($item) {
             $year = substr($item->date, 0, 4);
             $week = substr($item->date, 4, 2);
-            $item->date = "Năm $year, Tuần $week";
+            $item->date = "Tuần $week,Năm $year";
             return $item;
         });
         $orderStatusTheoThang = DB::table('orders')
@@ -74,7 +74,7 @@ class ThongkeController extends Controller
         ->get();
         $importOrdersStatusTheoTuan = DB::table('import_orders')
         ->select(
-            DB::raw('YEARWEEK(created_at, 1) as week'),
+            DB::raw('YEARWEEK(created_at, 1) as date'),
             DB::raw('SUM(CASE WHEN status IN (1, 2) THEN 1 ELSE 0 END) as tienHanh'),
             DB::raw('SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) as thanhCong'),
             DB::raw('SUM(CASE WHEN status = 4 THEN 1 ELSE 0 END) as thatBai'),
@@ -82,10 +82,16 @@ class ThongkeController extends Controller
         )
         ->groupBy(DB::raw('YEARWEEK(created_at, 1)'))
         ->orderBy(DB::raw('YEARWEEK(created_at, 1)'), 'asc')
-        ->get();
+        ->get()
+        ->map(function ($item) {
+            $year = substr($item->date, 0, 4);
+            $week = substr($item->date, 4, 2);
+            $item->date = "Tuần $week, Năm $year";
+            return $item;
+        });
         $importOrdersStatusTheoThang = DB::table('import_orders')
         ->select(
-            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as date'),
             DB::raw('SUM(CASE WHEN status IN (1, 2) THEN 1 ELSE 0 END) as tienHanh'),
             DB::raw('SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) as thanhCong'),
             DB::raw('SUM(CASE WHEN status = 4 THEN 1 ELSE 0 END) as thatBai'),
@@ -96,7 +102,7 @@ class ThongkeController extends Controller
         ->get();
         $importOrdersStatusTheoNam = DB::table('import_orders')
         ->select(
-            DB::raw('YEAR(created_at) as year'),
+            DB::raw('YEAR(created_at) as date'),
             DB::raw('SUM(CASE WHEN status IN (1, 2) THEN 1 ELSE 0 END) as tienHanh'),
             DB::raw('SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) as thanhCong'),
             DB::raw('SUM(CASE WHEN status = 4 THEN 1 ELSE 0 END) as thatBai'),
@@ -105,7 +111,76 @@ class ThongkeController extends Controller
         ->groupBy(DB::raw('YEAR(created_at)'))
         ->orderBy(DB::raw('YEAR(created_at)'), 'asc')
         ->get();
-        return view('admin.components.thongke.donhang', compact('totalOrders', 'processingOrders', 'successfulOrders', 'failedOrders', 'totalImportOrders', 'processingImportOrders', 'successfulImportOrders', 'failedImportOrders', 'orderStatusTheoNgay', 'orderStatusTheoTuan', 'orderStatusTheoThang', 'orderStatusTheoNam', 'importOrdersStatusTheoNgay', 'importOrdersStatusTheoTuan', 'importOrdersStatusTheoThang', 'importOrdersStatusTheoNam'));
+
+    $listOrders = DB::table('orders')
+        ->select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('SUM(CASE WHEN status_id = 1 THEN 1 ELSE 0 END) as dangCho1'),
+            DB::raw('SUM(CASE WHEN status_id = 2 THEN 1 ELSE 0 END) as dangCho2'),
+            DB::raw('SUM(CASE WHEN status_id = 3 THEN 1 ELSE 0 END) as dangCho3'),
+            DB::raw('SUM(CASE WHEN status_id = 4 THEN 1 ELSE 0 END) as thanhCong'),
+            DB::raw('SUM(CASE WHEN status_id = 5 THEN 1 ELSE 0 END) as thatBai'),
+            DB::raw('SUM(CASE WHEN status_id IN (1, 2, 3) THEN total_amount ELSE 0 END) as total_amount_dangCho'),
+            DB::raw('SUM(CASE WHEN status_id = 4 THEN total_amount ELSE 0 END) as total_amount_thanhCong'),
+            DB::raw('SUM(CASE WHEN status_id = 5 THEN total_amount ELSE 0 END) as total_amount_thatBai')
+        )
+        ->groupBy(DB::raw('DATE(created_at)'))
+        ->orderByDesc('date')
+        ->get()
+        ->keyBy('date');
+
+    $listImportOrders = DB::table('import_orders')
+        ->select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END) as dangCho1'),
+            DB::raw('SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END) as dangCho2'),
+            DB::raw('SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) as thanhCong'),
+            DB::raw('SUM(CASE WHEN status = 4 THEN 1 ELSE 0 END) as thatBai'),
+            DB::raw('SUM(CASE WHEN status IN (1, 2) THEN total_amount ELSE 0 END) as total_amount_dangCho'),
+            DB::raw('SUM(CASE WHEN status = 3 THEN total_amount ELSE 0 END) as total_amount_thanhCong'),
+            DB::raw('SUM(CASE WHEN status = 4 THEN total_amount ELSE 0 END) as total_amount_thatBai')
+        )
+        ->groupBy(DB::raw('DATE(created_at)'))
+        ->orderByDesc('date')
+        ->get()
+        ->keyBy('date');
+
+    $allDates = $listOrders->keys()->merge($listImportOrders->keys())->map(function ($date) {
+        return Carbon::parse($date);
+    });
+
+    $startDate = Carbon::now();
+    $endDate = $allDates->min();
+
+    $dates = [];
+    for ($date = Carbon::parse($startDate); $date->gte($endDate); $date->subDay()) {
+        $dates[] = $date->format('Y-m-d');
+    }
+
+    $mergedData = collect();
+    foreach ($dates as $date) {
+        $orders = $listOrders->get($date);
+        $importOrders = $listImportOrders->get($date);
+
+        $mergedData[$date] = [
+            'date' => $date,
+            'orders_dangCho' => ($orders ? (int)$orders->dangCho1 : 0) + ($orders ? (int)$orders->dangCho2 : 0) + ($orders ? (int)$orders->dangCho3 : 0),
+            'orders_thanhCong' => $orders ? (int)$orders->thanhCong : 0,
+            'orders_thatBai' => $orders ? (int)$orders->thatBai : 0,
+            'orders_total_amount_dangCho' => $orders ? (float)$orders->total_amount_dangCho : 0,
+            'orders_total_amount_thanhCong' => $orders ? (float)$orders->total_amount_thanhCong : 0,
+            'orders_total_amount_thatBai' => $orders ? (float)$orders->total_amount_thatBai : 0,
+            'importOrders_dangCho' => ($importOrders ? (int)$importOrders->dangCho1 : 0) + ($importOrders ? (int)$importOrders->dangCho2 : 0),
+            'importOrders_thanhCong' => $importOrders ? (int)$importOrders->thanhCong : 0,
+            'importOrders_thatBai' => $importOrders ? (int)$importOrders->thatBai : 0,
+            'importOrders_total_amount_dangCho' => $importOrders ? (float)$importOrders->total_amount_dangCho : 0,
+            'importOrders_total_amount_thanhCong' => $importOrders ? (float)$importOrders->total_amount_thanhCong : 0,
+            'importOrders_total_amount_thatBai' => $importOrders ? (float)$importOrders->total_amount_thatBai : 0,
+        ];
+    }
+
+
+        return view('admin.components.thongke.donhang', compact('totalOrders', 'processingOrders', 'successfulOrders', 'failedOrders', 'totalImportOrders', 'processingImportOrders', 'successfulImportOrders', 'failedImportOrders', 'orderStatusTheoNgay', 'orderStatusTheoTuan', 'orderStatusTheoThang', 'orderStatusTheoNam', 'importOrdersStatusTheoNgay', 'importOrdersStatusTheoTuan', 'importOrdersStatusTheoThang', 'importOrdersStatusTheoNam', 'mergedData'));
     }
     public function thongKeDoanhThu()
     {
