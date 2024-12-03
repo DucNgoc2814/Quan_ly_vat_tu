@@ -40,10 +40,20 @@ class OrderController extends Controller
     const PATH_VIEW = 'admin.components.orders.';
     public function index()
     {
-        $data = Order::with(['payment', 'customer', 'orderStatus'])
-            ->get();
+        $data = Order::with(['payment', 'customer', 'orderStatus'])->where('contract_id', null)->get();
+
         return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
     }
+
+    public function orderContract()
+    {
+        $data = Order::with(['payment', 'customer', 'orderStatus', 'contract'])
+            ->whereNotNull('contract_id')
+            ->get();
+
+        return view(self::PATH_VIEW . 'indexContract', compact('data'));
+    }
+
     public function create()
     {
         $payments = Payment::pluck('name', 'id')->all();
@@ -77,7 +87,7 @@ class OrderController extends Controller
                     "ward" => $request->ward_name,
                     "address" => $request->address,
                     "total_amount" => $request->total_amount,
-                    "paid_amount" => $request->paid_amount,
+                    "paid_amount" => 0,
                 ];
                 $order = Order::query()->create($dataOrder);
                 OrderStatusTime::create([
@@ -109,10 +119,9 @@ class OrderController extends Controller
                 }
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationID) {
-                        // Tìm variation theo ID
+
                         $variation = Variation::findOrFail($variationID);
                         $orderQuantity = $request->product_quantity[$key];
-                        // Thêm log kiểm tra số lượng tồn kho hiện tại và số lượng yêu cầu
                         logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
                         logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
                         // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
@@ -243,6 +252,15 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request, $slug)
     {
+        $order = Order::where('slug', $slug)->firstOrFail();
+
+        if ($order->status_id == 3 && $request->status == 4) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không thể cập nhật trạng thái từ "Đang giao" sang "Thành công"'
+            ], 403);
+        }
+
         try {
             DB::transaction(function () use ($request, $slug) {
                 $order = Order::where('slug', $slug)->firstOrFail();
@@ -323,9 +341,8 @@ class OrderController extends Controller
                 $slug = 'DHB' . $randomChars . $timestamp;
                 $contract = Contract::findOrFail($request->contract_id);
                 $prices = [];
-                // Duyệt qua từng contractDetail để lấy giá
                 foreach ($contract->contractDetails as $detail) {
-                    $prices[] = $detail->price; // Lưu giá vào mảng
+                    $prices[] = $detail->price;
                 }
                 $totalAmount = 0;
                 if (count($prices) === count($request->product_quantity)) {
@@ -340,6 +357,7 @@ class OrderController extends Controller
                     "contract_id" => $request->contract_id,
                     "status_id" => 1,
                     "slug" => $slug,
+                    "customer_id" => $request->customer_id,
                     "customer_name" => $request->customer_name,
                     "email" => $contract->customer_email,
                     "number_phone" => $request->number_phone,
@@ -350,6 +368,9 @@ class OrderController extends Controller
                     "total_amount" => $totalAmount,
                     "paid_amount" => 0,
                 ];
+
+
+
                 $order = Order::query()->create($dataOrder);
                 OrderStatusTime::create([
                     'order_id' => $order->id,
@@ -381,6 +402,7 @@ class OrderController extends Controller
                                     $contractDetail->save();
                                 }
                                 // Giảm số lượng hàng tồn kho
+
                                 $variation->stock -= $orderQuantity;
                                 $variation->save();
                             }

@@ -38,28 +38,21 @@
                         </thead>
                         <tbody>
                             @foreach ($listsupplier as $item)
-                            <tr>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->email }}</td>
-                                <td>{{ $item->number_phone }}</td>
-                                <td>{{ $item->address }}</td>
-                                <td style="text-align: center">
-                                    <div class="dropdown d-inline-block">
-                                        <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                            data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="ri-more-fill align-middle"></i>
-                                        </button>
-                                        <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a href="{{ route('suppliers.edit', ['id' => $item->id]) }}"
-                                                    class="dropdown-item edit-item-btn"><i
-                                                        class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                    Sửa thông tin</a></li>
-                                            <li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
+                                <tr>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->email }}</td>
+                                    <td>{{ $item->number_phone }}</td>
+                                    <td>{{ $item->address }}</td>
+                                    <td style="text-align: center">
+                                        <div class="dropdown d-inline-block">
+                                            <a href="{{ route('suppliers.edit', ['id' => $item->id]) }}"
+                                                class="dropdown-item edit-item-btn"><i
+                                                    class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                Sửa thông tin</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -72,18 +65,17 @@
 
 
 @section('scripts')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var successAlert = document.getElementById('success-alert');
-        if (successAlert) {
-            setTimeout(function() {
-                successAlert.style.opacity = '0';
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var successAlert = document.getElementById('success-alert');
+            if (successAlert) {
                 setTimeout(function() {
-                    successAlert.style.display = 'none';
-                }, 600);
-            }, 5000);
-        }
-    });
-</script>
-
+                    successAlert.style.opacity = '0';
+                    setTimeout(function() {
+                        successAlert.style.display = 'none';
+                    }, 600);
+                }, 5000);
+            }
+        });
+    </script>
 @endsection

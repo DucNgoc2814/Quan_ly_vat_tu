@@ -31,12 +31,10 @@
                             <thead>
                                 <tr class="text-center">
                                     <th data-ordering="false">Mã đơn hàng </th>
-                                    <th data-ordering="false">Người đặt </th>
+                                    <th data-ordering="false">Mã hợp đồng</th>
                                     <th data-ordering="false">Người nhận </th>
                                     <th data-ordering="false">Số điện thoại</th>
-                                    <th>Tổng tiền</th>
-                                    <th>Đã trả</th>
-                                    <th>PTTT</th>
+                                    <th>Giá trị đơn</th>
                                     <th data-ordering="false">Ngày đặt hàng </th>
                                     <th>Trạng thái</th>
                                     <th>Thao tác</th>
@@ -46,15 +44,12 @@
                                 @foreach ($data as $order)
                                     <tr>
                                         <td>{{ $order->slug }}</td>
-                                        <td>{{ $order->customer->name ?? 'Đơn hợp đồng' }}</td>
+                                        <td>
+                                            {{ $order->contract->contract_number ?? 'Đơn hàng hợp đồng' }}
+                                        </td>
                                         <td>{{ $order->customer_name }}</td>
                                         <td>{{ $order->number_phone }}</td>
                                         <td>{{ number_format($order->total_amount) }}</td>
-                                        <td>{{ number_format($order->paid_amount) }}</td>
-                                        <td>
-                                            <span
-                                                class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng hợp đồng' }}</span>
-                                        </td>
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
                                             @if ($order->status_id < 4)
@@ -170,19 +165,6 @@
             });
 
             function updateOrderStatus(selectElement, orderSlug, newStatus) {
-                // Thêm kiểm tra trạng thái
-                const currentStatus = parseInt(selectElement.options[0].value);
-                if (currentStatus === 3 && newStatus === 4) {
-                    Swal.fire({
-                        title: 'Không thể cập nhật',
-                        text: 'Không thể cập nhật trạng thái từ "Đang giao" sang "Thành công"',
-                        icon: 'error',
-                        confirmButtonText: 'Đóng'
-                    });
-                    selectElement.value = currentStatus;
-                    return;
-                }
-
                 Swal.fire({
                     title: 'Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?',
                     icon: 'question',
@@ -351,5 +333,4 @@
 
         });
     </script>
-
 @endsection

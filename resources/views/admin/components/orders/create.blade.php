@@ -21,7 +21,7 @@
     <form method="POST" class="form-datalist" action="{{ route('order.store') }}">
         @csrf
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body mb-2">
                         <label class="form-label" for="customer_id">Tên người đặt</label>
@@ -51,40 +51,57 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-                    </div>
-                </div>
 
-                <div class="card" id="receiver-info">
-                    <div class="card-header align-items-center d-flex">
-                        <h4 class="card-title mb-0 flex-grow-1">Thông tin nhận hàng</h4>
-                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#addressListModal">Danh sách địa chỉ</button>
-
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="customer_name">Tên người nhận</label>
-                            <input type="text" class="form-control  @error('customer_name') is-invalid @enderror"
-                                id="customer_name" value="{{ old('customer_name') }}" placeholder="Nhập tên người nhận "
-                                name="customer_name">
-                            @error('customer_name')
+                        <div class="mt-2 ">
+                            <label class="form-label" for="payment_id">Phương thức thanh toán</label>
+                            <select class="form-select @error('payment_id') is-invalid @enderror" id="payment_id"
+                                name="payment_id" data-choices data-choices-search-false>
+                                <option value="">Chọn Phương Thức Thanh Toán</option>
+                                @foreach ($payments as $id => $name)
+                                    <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
+                                        {{ $name }}</option>
+                                @endforeach
+                            </select>
+                            @error('payment_id')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                             @enderror
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="number_phone">Số điện thoại người nhận</label>
-                            <input type="text" class="form-control @error('number_phone') is-invalid @enderror"
-                                id="number_phone" value="{{ old('number_phone') }}"
-                                placeholder="Nhập số điện thoại người nhận" name="number_phone">
-                            @error('number_phone')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
+                </div>
+                <div class="card" id="receiver-info">
+                    <div class="card-header align-items-center d-flex">
+                        <h4 class="card-title mb-0 flex-grow-1">Thông tin nhận hàng</h4>
+                        <button type="button" class="ri-add-line align-bottom me-1 btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#addressListModal">Danh sách địa chỉ</button>
+                    </div>
+                    <div class="d-flex">
+                        <div class="card-body col-md-6">
+                            <div class="">
+                                <label class="form-label" for="customer_name">Tên người nhận</label>
+                                <input type="text" class="form-control  @error('customer_name') is-invalid @enderror"
+                                    id="customer_name" value="{{ old('customer_name') }}" placeholder="Nhập tên người nhận "
+                                    name="customer_name">
+                                @error('customer_name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="card-body col-md-6">
+                            <div class="">
+                                <label class="form-label" for="number_phone">Số điện thoại người nhận</label>
+                                <input type="text" class="form-control @error('number_phone') is-invalid @enderror"
+                                    id="number_phone" value="{{ old('number_phone') }}"
+                                    placeholder="Nhập số điện thoại người nhận" name="number_phone">
+                                @error('number_phone')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
                         </div>
                     </div>
                     <div class="card-body">
@@ -98,8 +115,6 @@
                                 </span>
                             @enderror
                         </div>
-                    </div>
-                    <div class="card-body">
                         <label class="form-label" for="">Địa chỉ người nhận</label>
                         <div class="location-select-container">
                             <div class="input-with-icons" id="input-with-icons">
@@ -137,10 +152,10 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="address">Địa chỉ cụ thể(*Số nhà, đường, ngõ, ngách, cụm dân
+              
+                        <div class="my-2">
+                            <label class="form-label" for="address">Địa chỉ cụ thể(*Số nhà, đường, ngõ, ngách, cụm
+                                dân
                                 cư, thôn)</label>
                             <input type="text" class="form-control @error('address') is-invalid @enderror"
                                 id="address" value="{{ old('address') }}" placeholder="NHập địa chỉ cụ thể"
@@ -179,26 +194,11 @@
 
 
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-2">
-                            <label class="form-label" for="payment_id">Phương thức thanh toán</label>
-                            <select class="form-select @error('payment_id') is-invalid @enderror" id="payment_id"
-                                name="payment_id" data-choices data-choices-search-false>
-                                <option value="">Chọn Phương Thức Thanh Toán</option>
-                                @foreach ($payments as $id => $name)
-                                    <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
-                                        {{ $name }}</option>
-                                @endforeach
-                            </select>
-                            @error('payment_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
+
+
+
+            </div>
+            <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header align-items-center d-flex">
                         <h4 class="card-title mb-0 flex-grow-1">Sản phẩm mua</h4>
@@ -257,13 +257,14 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="card">
                     <div class="card-body">
-                        <div class="row">
+                        <div class="row align-items-end">
                             <div class="col-md-6">
-                                <div class="mb-2">
+                                <div class="mb-0">
                                     <label class="form-label" for="total_amount">Tổng giá trị đơn hàng</label>
-                                    <input type="text" class="form-control form-control-lg" id="total_amount"
+                                    <input type="text" class="form-control form-control" id="total_amount"
                                         value="" readonly name="total_amount">
                                     @error('total_order_value')
                                         <span role="alert">
@@ -273,35 +274,39 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="mb-2">
-                                    <label class="form-label" for="paid_amount">Số tiền đã trả</label>
-                                    <input type="number"
-                                        class="form-control form-control-lg @error('paid_amount') is-invalid @enderror"
-                                        id="paid_amount" value="{{ old('paid_amount') }}"
-                                        placeholder="Nhập số tiền đã trả" name="paid_amount" step="any"
-                                        min="0">
-                                    @error('paid_amount')
-                                        <span role="alert">
-                                            <span class="text-danger">{{ $message }}</span>
-                                        </span>
-                                    @enderror
+                                <div class="mb-0 d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-success w-sm">Thêm mới</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- end card -->
-                <div class="text-end mb-3">
-                    <button type="submit" class="btn btn-success w-sm">Thêm mới</button>
-                </div>
+
             </div>
+        </div>
     </form>
     <script>
-        document.getElementById('product-image-input').addEventListener('change', function(event) {
-            var output = document.getElementById('product-img');
-            output.src = URL.createObjectURL(event.target.files[0]);
-            output.onload = function() {
-                URL.revokeObjectURL(output.src)
+        // document.getElementById('product-image-input').addEventListener('change', function(event) {
+        //     var output = document.getElementById('product-img');
+        //     output.src = URL.createObjectURL(event.target.files[0]);
+        //     output.onload = function() {
+        //         URL.revokeObjectURL(output.src)
+        //     }
+        // });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const productImageInput = document.getElementById('product-image-input');
+            if (productImageInput) {
+                productImageInput.addEventListener('change', function(event) {
+                    const output = document.getElementById('product-img');
+                    if (output) {
+                        output.src = URL.createObjectURL(event.target.files[0]);
+                        output.onload = function() {
+                            URL.revokeObjectURL(output.src);
+                        }
+                    }
+                });
             }
         });
     </script>
@@ -320,11 +325,11 @@
                     options += `
                 ${currentValue == "{{ $variant->id }}" || !selectedValues.includes("{{ $variant->id }}") ?
                 `<option value="{{ $variant->id }}"
-                        data-price="{{ $variant->retail_price }}"
-                        data-stock="{{ $variant->stock }}"
-                        ${currentValue == "{{ $variant->id }}" ? 'selected' : ''}>
-                        {{ $variant->name }}
-                    </option>` : ''}
+                                                            data-price="{{ $variant->retail_price }}"
+                                                            data-stock="{{ $variant->stock }}"
+                                                            ${currentValue == "{{ $variant->id }}" ? 'selected' : ''}>
+                                                            {{ $variant->name }}
+                                                        </option>` : ''}
             `;
                 @endforeach
 
@@ -375,6 +380,7 @@
             }
             updateAllSelects();
         }
+
         function addProduct() {
             let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
             // Lấy tất cả các sản phẩm đã chọn
@@ -387,10 +393,10 @@
                 productOptions += `
             ${!selectedProducts.includes("{{ $variant->id }}") ?
             `<option value="{{ $variant->id }}"
-                        data-price="{{ $variant->retail_price }}"
-                        data-stock="{{ $variant->stock }}">
-                        {{ $variant->name }}
-                    </option>` : ''}
+                                                            data-price="{{ $variant->retail_price }}"
+                                                            data-stock="{{ $variant->stock }}">
+                                                            {{ $variant->name }}
+                                                        </option>` : ''}
         `;
             @endforeach
             let html = `
@@ -538,7 +544,7 @@
             try {
                 const response = await fetch('https://api.mysupership.vn/v1/partner/areas/province');
                 const data = await response.json();
-                console.log('Provinces data:', data);
+                // console.log('Provinces data:', data);
                 const provinces = data.results;
                 populateSelect('provinces', provinces, 'code', 'name');
             } catch (error) {
@@ -661,11 +667,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                                                                                                    <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                                                                    <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                                                                ` : `
-                                                                                                                                    <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                                                                `}
+                                                                                                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                                                                                                    ` : `
+                                                                                                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                                                                                                    `}
                                 </div>
                             </div>
                             <hr>

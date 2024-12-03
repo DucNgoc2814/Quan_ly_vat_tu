@@ -333,7 +333,7 @@
                         <span class="d-flex align-items-center">
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
-                                    <?php echo e(Session::get('employee')->name); ?></span>
+                                    
                                 <span class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">Founder</span>
                             </span>
                         </span>
@@ -470,6 +470,7 @@
         }
 
         function showDocument(url, type) {
+
             let dropdown = document.querySelector('#notificationDropdown .dropdown-menu');
             Swal.fire({
                 imageUrl: url,
@@ -505,44 +506,41 @@
                 if (result.isConfirmed) {
                     const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-                    // Thử với đường dẫn đầy đủ bao gồm trang-quan-tri
                     axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
-                            headers: {
-                                'X-CSRF-TOKEN': token,
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => {
-                            console.log('Success Response:', response); // Log success response
-                            if (response.data && response.data.success) {
-                                Swal.fire({
-                                    title: 'Thành công!',
-                                    text: response.data.message || 'Giao dịch đã được xác nhận.',
-                                    icon: 'success'
-                                }).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                throw new Error(response.data?.message || 'Có lỗi xảy ra');
-                            }
-                        })
-                        .catch(error => {
-                            // Log chi tiết lỗi để debug
-                            console.error('Error details:', {
-                                error: error,
-                                response: error.response,
-                                status: error.response?.status,
-                                data: error.response?.data
-                            });
-
+                        headers: {
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        console.log('Success Response:', response);
+                        if (response.data && response.data.success) {
                             Swal.fire({
-                                title: 'Lỗi!',
-                                text: error.response?.data?.message ||
-                                    'Có lỗi xảy ra khi xác nhận giao dịch',
-                                icon: 'error'
+                                title: 'Thành công!',
+                                text: response.data.message || 'Giao dịch đã được xác nhận.',
+                                icon: 'success'
+                            }).then(() => {
+                                location.reload();
                             });
+                        } else {
+                            throw new Error(response.data?.message || 'Có lỗi xảy ra');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error details:', {
+                            error: error,
+                            response: error.response,
+                            status: error.response?.status,
+                            data: error.response?.data
                         });
+
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: error.response?.data?.message || 'Có lỗi xảy ra khi xác nhận giao dịch',
+                            icon: 'error'
+                        });
+                    });
                 }
             });
         }

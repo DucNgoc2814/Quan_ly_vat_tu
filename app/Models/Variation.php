@@ -46,6 +46,10 @@ class Variation extends Model
         return $this->belongsToMany(Attribute_value::class);
     }
 
+    public function suppliers()
+    {
+        return $this->belongsToMany(Supplier::class);
+    }
 
 
     protected static function booted()
