@@ -50,7 +50,7 @@ class OrderController extends Controller
         $data = Order::with(['payment', 'customer', 'orderStatus', 'contract'])
             ->whereNotNull('contract_id')
             ->get();
-        
+
         return view(self::PATH_VIEW . 'indexContract', compact('data'));
     }
 
@@ -252,6 +252,15 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request, $slug)
     {
+        $order = Order::where('slug', $slug)->firstOrFail();
+
+        if ($order->status_id == 3 && $request->status == 4) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Không thể cập nhật trạng thái từ "Đang giao" sang "Thành công"'
+            ], 403);
+        }
+
         try {
             DB::transaction(function () use ($request, $slug) {
                 $order = Order::where('slug', $slug)->firstOrFail();
@@ -393,7 +402,7 @@ class OrderController extends Controller
                                     $contractDetail->save();
                                 }
                                 // Giảm số lượng hàng tồn kho
-                                
+
                                 $variation->stock -= $orderQuantity;
                                 $variation->save();
                             }

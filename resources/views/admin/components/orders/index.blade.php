@@ -170,6 +170,19 @@
             });
 
             function updateOrderStatus(selectElement, orderSlug, newStatus) {
+                // Thêm kiểm tra trạng thái
+                const currentStatus = parseInt(selectElement.options[0].value);
+                if (currentStatus === 3 && newStatus === 4) {
+                    Swal.fire({
+                        title: 'Không thể cập nhật',
+                        text: 'Không thể cập nhật trạng thái từ "Đang giao" sang "Thành công"',
+                        icon: 'error',
+                        confirmButtonText: 'Đóng'
+                    });
+                    selectElement.value = currentStatus;
+                    return;
+                }
+
                 Swal.fire({
                     title: 'Bạn có chắc chắn muốn cập nhật trạng thái đơn hàng?',
                     icon: 'question',

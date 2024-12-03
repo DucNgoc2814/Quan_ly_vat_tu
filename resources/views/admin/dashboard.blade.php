@@ -1001,7 +1001,7 @@
                             (t.classList.remove('d-block'), t.classList.add('d-none')) :
                             (t.classList.remove('d-none'), t.classList.add('d-block'))
                     })
-                }))
+                });)
         }
         window.addEventListener('resize', function() {
                 var e = document.querySelector('.layout-rightside-col')

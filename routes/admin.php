@@ -48,12 +48,12 @@ Route::prefix('nhan-vien-lai-xe')
         Route::get('/dang-nhap', [TripManagementController::class, 'login'])->name('login');
         Route::post('/dang-nhap', [TripManagementController::class, 'loginPost'])->name('loginPost');
         Route::get('/dashboard-nv', [TripManagementController::class, 'dashboard'])->name('dashboard');
-        Route::get('/xan-nhan-don-hang', [TripManagementController::class, 'index'])->name('index');
+        Route::get('/danh-sach-chuyen-di', [TripManagementController::class, 'index'])->name('index');
         Route::get('/chi-tiet/{id}', [TripManagementController::class, 'show'])
             ->middleware('checkOwnership')
             ->name('show');
         Route::put('/chi-tiet/{id}', [TripManagementController::class, 'update'])->name('update');
-        Route::get('/dang-xuat', [EmployeeController::class, 'logOut'])->name('logOut');
+        Route::get('/dang-xuat', [TripManagementController::class, 'logOut'])->name('logOut');
     });
 Route::middleware('CheckEmployees')->group(
     function () {

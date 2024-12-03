@@ -1871,7 +1871,7 @@
       document.addEventListener('DOMContentLoaded', function () {
         var removeNotificationModal = document.getElementById("removeNotificationModal");
         var deleteNotification = document.getElementById("delete-notification");
-    
+
         // Kiểm tra phần tử có tồn tại không trước khi thêm sự kiện
         if (removeNotificationModal) {
             removeNotificationModal.addEventListener("show.bs.modal", function(e) {
@@ -1890,7 +1890,7 @@
             });
         }
     })
-    
+
     ), [].slice
     .call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     .map(function(e) {

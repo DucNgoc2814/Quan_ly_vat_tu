@@ -64,7 +64,7 @@ class SupplierController extends Controller
         $supplier = Supplier::findOrFail($id);
         $variations = Variation::all();
         $supplierVariations = $supplier->variations()->paginate(10);
-        
+
         return view('admin.components.suppliers.edit', compact('supplier', 'variations', 'supplierVariations'));
     }
 
@@ -75,8 +75,12 @@ class SupplierController extends Controller
     {
         try {
             $supplier = Supplier::findOrFail($id);
-            
-            // Cập nhật thông tin cơ bản
+
+            // Kiểm tra nếu supplier có variations
+            if ($supplier->variations()->exists()) {
+                return redirect()->back()->with('error', 'Không thể cập nhật thông tin nhà cung cấp vì đã có sản phẩm biến thể');
+            }
+
             $supplier->update([
                 'name' => $request->name,
                 'email' => $request->email,
@@ -114,7 +118,7 @@ class SupplierController extends Controller
         try {
             $supplier = Supplier::findOrFail($supplierId);
             $supplier->variations()->detach($variationId);
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Xóa biến thể thành công'

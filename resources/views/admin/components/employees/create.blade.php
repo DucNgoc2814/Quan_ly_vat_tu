@@ -18,10 +18,14 @@
                     </ol>
                 </div>
             </div>
-            <div>
-                <a href="{{ route('employees.index') }}" class="btn btn-success" id="addproduct-btn"><i
-                        class="ri-arrow-left-line align-bottom me-1"></i>Trang danh sách</a>
+
+            <div class="card-body">
+                <div class="mb-3">
+                    <a href="{{ route('employees.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                            class="ri-arrow-left-line align-bottom me-1"></i>Trang danh sách</a>
+                </div>
             </div>
+
         </div>
 
         <!-- end page title -->
@@ -30,7 +34,7 @@
         @csrf
 
         <div class="row">
-            <div class="col">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
@@ -39,7 +43,8 @@
                                 <option value="">Chọn chức vụ</option>
                                 @foreach ($data as $item)
                                     <option value="{{ $item->id }}" {{ old('role_id') == $item->id ? 'selected' : '' }}>
-                                        {{ $item->name }}</option>
+                                        {{ $item->name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('role_id')
@@ -66,13 +71,11 @@
                     </div>
                 </div>
                 <!-- end card -->
-
-                <!-- end card -->
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Email</label>
-                            <input type="text" class="form-control  @error('email') is-invalid @enderror"
+                            <input type="text" class="form-control @error('email') is-invalid @enderror"
                                 placeholder="Nhập email" name="email" value="{{ old('email') }}">
                             @error('email')
                                 <span role="alert">
@@ -83,7 +86,38 @@
                     </div>
                 </div>
                 <!-- end card -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="product-title-input">Căn cước công dân</label>
+                            <input type="text" class="form-control @error('cccd') is-invalid @enderror"
+                                placeholder="Nhập căn cước công dân" name="cccd" value="{{ old('cccd') }}">
+                            @error('cccd')
+                                <span role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
                 <!-- end card -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="product-title-input">Mô tả</label>
+                            <textarea name="description" class="form-control" cols="10" rows="5">{{ old('description') }}</textarea>
+                            @error('description')
+                                <span role="alert">
+                                    <span class="text-danger">{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end col -->
+
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
@@ -104,19 +138,18 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Hình ảnh</label>
-                            <input type="file" id="image-input"
-                                class="form-control  @error('image') is-invalid @enderror" name="image"
-                                value="{{ old('image') }}" accept="image/*" onchange="previewImage(event)">
+                            <input type="file" id="image-input" class="form-control @error('image') is-invalid @enderror"
+                                name="image" value="{{ old('image') }}" accept="image/*"
+                                onchange="previewImage(event)">
                             @error('image')
                                 <span role="alert">
                                     <span class="text-danger">{{ $message }}</span>
                                 </span>
                             @enderror
-
                             <div id="image-preview" class="mt-3" style="display: none">
                                 <h5>Hình ảnh đã chọn:</h5>
-                                <img style="border-radius:4px" width="200px" id="preview" src="" alt="Image"
-                                    class="img-fluid">
+                                <img style="border-radius:4px" width="200px" id="preview" src=""
+                                    alt="Image" class="img-fluid">
                             </div>
                         </div>
                     </div>
@@ -125,23 +158,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
-                            <label class="form-label" for="product-title-input">Căn cước công dân</label>
-                            <input type="text" class="form-control  @error('cccd') is-invalid @enderror"
-                                placeholder="Nhập căn cước công dân" name="cccd" value="{{ old('cccd') }}">
-                            @error('cccd')
-                                <span role="alert">
-                                    <span class="text-danger">{{ $message }}</span>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
-                <!-- end card -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3">
                             <label class="form-label" for="product-title-input">Số điện thoại</label>
-                            <input type="text" class="form-control  @error('number_phone') is-invalid @enderror"
+                            <input type="text" class="form-control @error('number_phone') is-invalid @enderror"
                                 placeholder="Nhập số điện thoại" name="number_phone" value="{{ old('number_phone') }}">
                             @error('number_phone')
                                 <span role="alert">
@@ -151,12 +169,13 @@
                         </div>
                     </div>
                 </div>
+                <!-- end card -->
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label" for="product-title-input">Ngày sinh</label>
-                            <input type="date" class="form-control  @error('date') is-invalid @enderror"
-                                name="date" value="{{ old('date') }}">
+                            <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
+                                value="{{ old('date') }}">
                             @error('date')
                                 <span role="alert">
                                     <span class="text-danger">{{ $message }}</span>
@@ -166,19 +185,7 @@
                     </div>
                 </div>
                 <!-- end card -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <label class="form-label" for="product-title-input">Mô tả</label>
-                            <textarea name="description" class="form-control" cols="30" rows="10"></textarea>
-                            @error('description')
-                                <span role="alert">
-                                    <span class="text-danger">{{ $message }}</span>
-                                </span>
-                            @enderror
-                        </div>
-                    </div>
-                </div>
+
                 <div class="card">
                     <div class="card-body">
                         <div class="mb-3">
@@ -191,13 +198,14 @@
                     </div>
                 </div>
 
-
                 <div class="text-end mb-3">
                     <button type="submit" class="btn btn-success w-sm">Thêm mới nhân viên</button>
                 </div>
             </div>
             <!-- end col -->
         </div>
+        <!-- end row -->
+
     </form>
 
 

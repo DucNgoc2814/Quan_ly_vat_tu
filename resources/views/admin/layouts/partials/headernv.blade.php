@@ -1,4 +1,3 @@
-
 <header id="page-topbar">
     <div class="layout-width">
         <div class="navbar-header">
@@ -24,8 +23,7 @@
                     </a>
                 </div>
 
-                <button type="button"
-                    class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
+                <button type="button" class="btn btn-sm px-3 fs-16 header-item vertical-menu-btn topnav-hamburger"
                     id="topnav-hamburger-icon">
                     <span class="hamburger-icon">
                         <span></span>
@@ -37,9 +35,8 @@
                 <!-- App Search-->
                 <form class="app-search d-none d-md-block">
                     <div class="position-relative">
-                        <input type="text" class="form-control" placeholder="Search..." autocomplete="off"
-                            id="search-options" value="">
-                        <span class="mdi mdi-magnify search-widget-icon"></span>
+
+
                         <span class="mdi mdi-close-circle search-widget-icon search-widget-icon-close d-none"
                             id="search-close-options"></span>
                     </div>
@@ -132,11 +129,7 @@
             <div class="d-flex align-items-center">
 
                 <div class="dropdown d-md-none topbar-head-dropdown header-item">
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                        id="page-header-search-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false">
-                        <i class="bx bx-search fs-22"></i>
-                    </button>
+
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                         aria-labelledby="page-header-search-dropdown">
                         <form class="p-3">
@@ -153,16 +146,12 @@
                 </div>
 
                 <div class="dropdown ms-1 topbar-head-dropdown header-item">
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <img id="header-lang-img" src="assets/images/flags/us.svg" alt="Header Language"
-                            height="20" class="rounded">
-                    </button>
+
                     <div class="dropdown-menu dropdown-menu-end">
 
                         <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item notify-item language py-2"
-                            data-lang="en" title="English">
+                        <a href="javascript:void(0);" class="dropdown-item notify-item language py-2" data-lang="en"
+                            title="English">
                             <img src="assets/images/flags/us.svg" alt="user-image" class="me-2 rounded"
                                 height="18">
                             <span class="align-middle">English</span>
@@ -226,10 +215,7 @@
                 </div>
 
                 <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class='bx bx-category-alt fs-22'></i>
-                    </button>
+
                     <div class="dropdown-menu dropdown-menu-lg p-0 dropdown-menu-end">
                         <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
                             <div class="row align-items-center">
@@ -290,13 +276,7 @@
                 </div>
 
                 <div class="dropdown topbar-head-dropdown ms-1 header-item">
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                        id="page-header-cart-dropdown" data-bs-toggle="dropdown" data-bs-auto-close="outside"
-                        aria-haspopup="true" aria-expanded="false">
-                        <i class='bx bx-shopping-bag fs-22'></i>
-                        <span
-                            class="position-absolute topbar-badge cartitem-badge fs-10 translate-middle badge rounded-pill bg-info">5</span>
-                    </button>
+
                     <div class="dropdown-menu dropdown-menu-xl dropdown-menu-end p-0 dropdown-menu-cart"
                         aria-labelledby="page-header-cart-dropdown">
                         <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -320,8 +300,8 @@
                                         </div>
                                     </div>
                                     <h5 class="mb-3">Your Cart is Empty!</h5>
-                                    <a href="apps-ecommerce-products.html"
-                                        class="btn btn-success w-md mb-3">Shop Now</a>
+                                    <a href="apps-ecommerce-products.html" class="btn btn-success w-md mb-3">Shop
+                                        Now</a>
                                 </div>
                                 <div class="d-block dropdown-item dropdown-item-cart text-wrap px-3 py-2">
                                     <div class="d-flex align-items-center">
@@ -380,8 +360,7 @@
                                             class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="mt-0 mb-1 fs-14">
-                                                <a href="apps-ecommerce-product-details.html"
-                                                    class="text-reset">
+                                                <a href="apps-ecommerce-product-details.html" class="text-reset">
                                                     Borosil Paper Cup</a>
                                             </h6>
                                             <p class="mb-0 fs-12 text-muted">
@@ -406,8 +385,7 @@
                                             class="me-3 rounded-circle avatar-sm p-2 bg-light" alt="user-pic">
                                         <div class="flex-grow-1">
                                             <h6 class="mt-0 mb-1 fs-14">
-                                                <a href="apps-ecommerce-product-details.html"
-                                                    class="text-reset">Gray
+                                                <a href="apps-ecommerce-product-details.html" class="text-reset">Gray
                                                     Styled T-Shirt</a>
                                             </h6>
                                             <p class="mb-0 fs-12 text-muted">
@@ -415,8 +393,7 @@
                                             </p>
                                         </div>
                                         <div class="px-2">
-                                            <h5 class="m-0 fw-normal">$ <span
-                                                    class="cart-item-price">1250</span></h5>
+                                            <h5 class="m-0 fw-normal">$ <span class="cart-item-price">1250</span></h5>
                                         </div>
                                         <div class="ps-2">
                                             <button type="button"
@@ -469,17 +446,11 @@
                 </div>
 
                 <div class="ms-1 header-item d-none d-sm-flex">
-                    <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle"
-                        data-toggle="fullscreen">
-                        <i class='bx bx-fullscreen fs-22'></i>
-                    </button>
+
                 </div>
 
                 <div class="ms-1 header-item d-none d-sm-flex">
-                    <button type="button"
-                        class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
-                        <i class='bx bx-moon fs-22'></i>
-                    </button>
+
                 </div>
 
                 <div class="dropdown topbar-head-dropdown ms-1 header-item" id="notificationDropdown">
@@ -487,9 +458,9 @@
                         id="page-header-notifications-dropdown" data-bs-toggle="dropdown"
                         data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                         <i class='bx bx-bell fs-22'></i>
-                        <span
-                            class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger">3<span
-                                class="visually-hidden">unread messages</span></span>
+                        {{-- <span
+                            class="position-absolute topbar-badge fs-10 translate-middle badge rounded-pill bg-danger"><span
+                                class="visually-hidden">unread messages</span></span> --}}
                     </button>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0"
                         aria-labelledby="page-header-notifications-dropdown">
@@ -535,8 +506,7 @@
                         <div class="tab-content position-relative" id="notificationItemsTabContent">
                             <div class="tab-pane fade show active py-2 ps-2" id="all-noti-tab" role="tabpanel">
                                 <div data-simplebar style="max-height: 300px;" class="pe-2">
-                                    <div
-                                        class="text-reset notification-item d-block dropdown-item position-relative">
+                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
                                             <div class="avatar-xs me-3 flex-shrink-0">
                                                 <span
@@ -569,12 +539,10 @@
                                         </div>
                                     </div>
 
-                                    <div
-                                        class="text-reset notification-item d-block dropdown-item position-relative">
+                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
                                             <img src="assets/images/users/avatar-2.jpg"
-                                                class="me-3 rounded-circle avatar-xs flex-shrink-0"
-                                                alt="user-pic">
+                                                class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Angela Bernier</h6>
@@ -600,8 +568,7 @@
                                         </div>
                                     </div>
 
-                                    <div
-                                        class="text-reset notification-item d-block dropdown-item position-relative">
+                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
                                             <div class="avatar-xs me-3 flex-shrink-0">
                                                 <span
@@ -631,12 +598,10 @@
                                         </div>
                                     </div>
 
-                                    <div
-                                        class="text-reset notification-item d-block dropdown-item position-relative">
+                                    <div class="text-reset notification-item d-block dropdown-item position-relative">
                                         <div class="d-flex">
                                             <img src="assets/images/users/avatar-8.jpg"
-                                                class="me-3 rounded-circle avatar-xs flex-shrink-0"
-                                                alt="user-pic">
+                                                class="me-3 rounded-circle avatar-xs flex-shrink-0" alt="user-pic">
                                             <div class="flex-grow-1">
                                                 <a href="#!" class="stretched-link">
                                                     <h6 class="mt-0 mb-1 fs-13 fw-semibold">Maureen Gibson</h6>
@@ -662,8 +627,7 @@
                                     <div class="my-3 text-center view-all">
                                         <button type="button"
                                             class="btn btn-soft-success waves-effect waves-light">View
-                                            All Notifications <i
-                                                class="ri-arrow-right-line align-middle"></i></button>
+                                            All Notifications <i class="ri-arrow-right-line align-middle"></i></button>
                                     </div>
                                 </div>
 
@@ -786,8 +750,7 @@
                                     <div class="my-3 text-center view-all">
                                         <button type="button"
                                             class="btn btn-soft-success waves-effect waves-light">View
-                                            All Messages <i
-                                                class="ri-arrow-right-line align-middle"></i></button>
+                                            All Messages <i class="ri-arrow-right-line align-middle"></i></button>
                                     </div>
                                 </div>
                             </div>
@@ -811,7 +774,8 @@
                         aria-haspopup="true" aria-expanded="false">
                         <span class="d-flex align-items-center">
                             <img class="rounded-circle header-profile-user"
-                            src="{{ asset('storage/' . (Session::get('employee')->image ?? 'default-avatar.png')) }}" alt="Header Avatar">
+                                src="{{ asset('storage/' . (Session::get('employee')->image ?? 'default-avatar.png')) }}"
+                                alt="Header Avatar">
 
                             <span class="text-start ms-xl-2">
                                 <span class="d-none d-xl-inline-block ms-1 fw-medium user-name-text">
@@ -848,7 +812,7 @@
                         <a class="dropdown-item" href="auth-lockscreen-basic.html"><i
                                 class="mdi mdi-lock text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle">Lock screen</span></a>
-                        <a class="dropdown-item" href="auth-logout-basic.html"><i
+                        <a class="dropdown-item" href="{{ route('orderconfirm.logOut') }}"><i
                                 class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i> <span
                                 class="align-middle" data-key="t-logout">Logout</span></a>
                     </div>
@@ -858,4 +822,3 @@
     </div>
 
 </header>
-
