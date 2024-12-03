@@ -22,7 +22,7 @@ class StoreSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|min:3|max:100|regex:/^[a-zA-Z\s]+$/|unique:suppliers,name',
+            'name' => 'required|string|min:3|max:100|unique:suppliers,name',
             'email' => 'required|email|unique:suppliers,email',
             'number_phone' => 'required|regex:/^0[1-9]{1}[0-9]{8}$/|numeric|unique:suppliers,number_phone',
             'address' => [
@@ -30,8 +30,6 @@ class StoreSupplierRequest extends FormRequest
                 'string',
                 'min:5',
                 'max:255',
-                'regex:/^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9\s,\/\-]+$/',
-                'not_regex:/^\d+[a-zA-Z]$|^[a-zA-Z]\d+$/'
             ],
         ];
     }

@@ -1060,7 +1060,6 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        // Sử dụng SweetAlert2
                         Swal.fire({
                             title: 'Thành công!',
                             text: response.message || 'Cập nhật trạng thái thành công',
@@ -1082,7 +1081,6 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Debug error details
                     console.error('Ajax Error Details:', {
                         status: status,
                         error: error,
@@ -1091,8 +1089,6 @@
                     });
 
                     let errorMessage = 'Không thể xử lý yêu cầu.';
-
-                    // Thử parse response JSON nếu có
                     try {
                         const response = JSON.parse(xhr.responseText);
                         errorMessage = response.message || errorMessage;
