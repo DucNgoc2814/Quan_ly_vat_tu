@@ -51,11 +51,13 @@
                                     chi</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('thongKeDoanhThu') }}" class="nav-link" data-key="t-horizontal">Thống kê doanh
+                                <a href="{{ route('thongKeDoanhThu') }}" class="nav-link" data-key="t-horizontal">Thống
+                                    kê doanh
                                     thu</a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('thongKeDonHang') }}" class="nav-link" data-key="t-horizontal">Thống kê đơn hàng</a>
+                                <a href="{{ route('thongKeDonHang') }}" class="nav-link" data-key="t-horizontal">Thống
+                                    kê đơn hàng</a>
                             </li>
                         </ul>
                     </div>
@@ -69,9 +71,19 @@
                     <div class="collapse menu-dropdown" id="sidebarGalleries">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('product.index') }}" class="nav-link " data-key="t-horizontal">Quản lý
+                                <a href="{{ route('product.index') }}" class="nav-link " data-key="t-horizontal">Quản
+                                    lý
                                     sản phẩm</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('inventories.index') }}" class="nav-link "
+                                    data-key="t-horizontal">Kho hàng</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('valueVariations.index') }}" class="nav-link"
+                                    data-key="t-horizontal">Loại biến thể</a>
+                            </li>
+
                             <li class="nav-item">
                                 <a href="{{ route('category.index') }}" class="nav-link " data-key="t-horizontal">Danh
                                     mục sản phẩm</a>
@@ -85,15 +97,7 @@
                                     hiệu</a>
                             </li>
 
-                            <li class="nav-item">
-                                <a href="{{ route('valueVariations.index') }}" class="nav-link"
-                                    data-key="t-horizontal">Loại biến thể</a>
-                            </li>
 
-                            <li class="nav-item">
-                                <a href="{{ route('inventories.index') }}" class="nav-link "
-                                    data-key="t-horizontal">Kho hàng</a>
-                            </li>
                         </ul>
                     </div>
                 </li>

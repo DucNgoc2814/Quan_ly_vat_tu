@@ -952,5 +952,134 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+
+        function validateOrderForm() {
+            let isValid = true;
+            const errorMessages = {
+                required: 'Trường này không được để trống',
+                numeric: 'Vui lòng nhập số',
+                positive: 'Số lượng phải lớn hơn 0',
+                stock: 'Số lượng không được vượt quá tồn kho'
+            };
+
+            // Validate người đặt
+            const customerId = document.getElementById('hidden_customer_id');
+            if (!customerId.value) {
+                isValid = false;
+                addErrorMessage(document.getElementById('customer_id'), errorMessages.required);
+            }
+
+            // Validate phương thức thanh toán
+            const paymentId = document.getElementById('payment_id');
+            if (!paymentId.value) {
+                isValid = false;
+                addErrorMessage(paymentId, errorMessages.required);
+            }
+
+            // Validate thông tin người nhận
+            const requiredFields = ['customer_name', 'number_phone', 'email', 'address'];
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    isValid = false;
+                    addErrorMessage(element, errorMessages.required);
+                }
+            });
+
+            // Validate địa chỉ
+            const provinceSelect = document.getElementById('provinces');
+            const districtSelect = document.getElementById('districts');
+            const wardSelect = document.getElementById('wards');
+
+            if (!provinceSelect.value || !districtSelect.value || !wardSelect.value) {
+                isValid = false;
+                addErrorMessage(document.getElementById('location-input'), 'Vui lòng chọn đầy đủ địa chỉ');
+            }
+
+            // Validate sản phẩm
+            const productSelects = document.querySelectorAll('[name="variation_id[]"]');
+            const quantities = document.querySelectorAll('[name="product_quantity[]"]');
+            let hasProducts = false;
+
+            productSelects.forEach((select, index) => {
+                if (select.value !== '0') {
+                    hasProducts = true;
+                    const quantity = quantities[index];
+                    const stock = select.options[select.selectedIndex].getAttribute('data-stock');
+
+                    if (!quantity.value) {
+                        isValid = false;
+                        addErrorMessage(quantity, errorMessages.required);
+                    } else if (!(/^\d+$/.test(quantity.value))) {
+                        isValid = false;
+                        addErrorMessage(quantity, errorMessages.numeric);
+                    } else if (parseInt(quantity.value) <= 0) {
+                        isValid = false;
+                        addErrorMessage(quantity, errorMessages.positive);
+                    } else if (parseInt(quantity.value) > parseInt(stock)) {
+                        isValid = false;
+                        addErrorMessage(quantity, errorMessages.stock);
+                    }
+                }
+            });
+
+            if (!hasProducts) {
+                isValid = false;
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: 'Vui lòng chọn ít nhất một sản phẩm',
+                    icon: 'error'
+                });
+            }
+
+            return isValid;
+        }
+
+        // Hàm thêm thông báo lỗi
+        function addErrorMessage(element, message) {
+            // Xóa thông báo lỗi cũ nếu có
+            removeErrorMessage(element);
+            
+            element.classList.add('is-invalid');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'invalid-feedback';
+            errorDiv.textContent = message;
+            element.parentNode.appendChild(errorDiv);
+        }
+
+        // Hàm xóa thông báo lỗi
+        function removeErrorMessage(element) {
+            element.classList.remove('is-invalid');
+            const errorDiv = element.parentNode.querySelector('.invalid-feedback');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+
+        // Thêm sự kiện submit cho form
+        document.querySelector('.form-datalist').addEventListener('submit', function(e) {
+            // Xóa tất cả thông báo lỗi cũ
+            document.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+            if (!validateOrderForm()) {
+                e.preventDefault();
+                // Scroll đến phần tử lỗi đầu tiên
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+
+        // Thêm sự kiện để xóa thông báo lỗi khi người dùng sửa input
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('input', function() {
+                removeErrorMessage(this);
+            });
+            element.addEventListener('change', function() {
+                removeErrorMessage(this);
+            });
+        });
     </script>
 @endsection

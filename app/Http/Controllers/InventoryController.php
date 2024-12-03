@@ -40,21 +40,40 @@ class InventoryController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-    public function bulkUpdate(Request $request)
-    {
-        $wholesalePrices = $request->input('wholesale_price', []);
+// App/Http/Controllers/Admin/InventoryController.php
 
-        foreach ($wholesalePrices as $key => $value) {
-            $variation = Variation::find($key);
-            if ($variation && isset($variation)) {
-                $retailPrice = (int) $value;
-                $variation->retail_price = $retailPrice;
-                $variation->save();
+public function bulkUpdate(Request $request)
+{
+    // Validate request
+    $request->validate([
+        'selected_variations' => 'required|string',
+        'wholesale_price.*' => 'required|numeric|min:1', // Thêm validation rule này
+    ], [
+        'selected_variations.required' => 'Vui lòng chọn ít nhất một sản phẩm',
+        'wholesale_price.*.required' => 'Giá sỉ không được để trống',
+        'wholesale_price.*.numeric' => 'Giá sỉ phải là số',
+        'wholesale_price.*.min' => 'Giá sỉ phải lớn hơn 0',
+    ]);
+
+    try {
+        $selectedIds = explode(',', $request->selected_variations);
+        $wholesalePrices = $request->wholesale_price;
+
+        foreach ($selectedIds as $id) {
+            if (isset($wholesalePrices[$id])) {
+                $variation = Variation::find($id);
+                if ($variation) {
+                    $variation->retail_price = $wholesalePrices[$id];
+                    $variation->save();
+                }
             }
         }
 
-        return redirect()->route('inventories.index')->with('success', 'Cập nhật thành công!');
+        return redirect()->back()->with('success', 'Cập nhật giá sỉ thành công');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật giá sỉ');
     }
+}
 
     public function historyImport($id)
     {
