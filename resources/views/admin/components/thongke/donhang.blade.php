@@ -349,7 +349,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xl-12 ">
-                        <div class="">
+                        <div class="card">
                             <div class="container mt-4">
                                 <h1 class="mb-4">Thống Kê Đơn Hàng</h1>
                                  <div class="form-group row m-1">
