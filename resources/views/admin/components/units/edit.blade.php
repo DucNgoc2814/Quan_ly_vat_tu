@@ -19,20 +19,17 @@ Sửa đơn vị
             </div>
         </div>
     </div>
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('units.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
-                    <div class="row g-4">
-                        <div class="col-sm-auto">
-                            <div>
-                                <a href="{{ route('units.index') }}" class="btn btn-success" id="addproduct-btn">
-                                    Danh sách đơn vị
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body">
                     <form action="{{ route('units.update', $unit->id) }}" method="POST" >
                         @csrf

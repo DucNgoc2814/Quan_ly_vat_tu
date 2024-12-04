@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Chi tiết đơn hàng
+    Chi tiết nhân viên
 @endsection
 <style>
     .list-unstyled {
@@ -57,7 +57,6 @@
                                 <img id="preview"
                                     src="{{ asset('storage/' . $datae->image) }}"
                                     class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="image">
-
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                     <input id="profile-img-file-input" type="file" name="image"
                                         class="profile-img-file-input" onchange="previewImage(event)">

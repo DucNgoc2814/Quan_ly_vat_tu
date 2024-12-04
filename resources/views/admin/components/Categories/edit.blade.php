@@ -11,27 +11,24 @@ Sửa danh mục
                 <h4 class="mb-sm-0">Sửa danh mục</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Danh mục sản phẩm</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('category.index') }}">Danh mục sản phẩm</a></li>
                         <li class="breadcrumb-item active">Sửa danh mục</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('category.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
-                    <div class="row g-4">
-                        <div class="col-sm-auto">
-                            <div>
-                                <a href="{{ route('category.index') }}" class="btn btn-success" id="addproduct-btn">
-                                    Danh sách danh mục
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body">
                     <form action="{{ route('category.update', $category1->id) }}" method="POST"
                         enctype="multipart/form-data">

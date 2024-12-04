@@ -19,14 +19,18 @@
             </div>
         </div>
     </div>
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('category.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <div class="card">
         <div class="card-body">
             <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="mb-5">
-                    <a href="{{ route('category.index') }}" class="btn btn-success" id="addproduct-btn">Danh
-                        sách danh mục </a>
-                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <label class="form-label" for="product-title-input">Tên danh mục</label>

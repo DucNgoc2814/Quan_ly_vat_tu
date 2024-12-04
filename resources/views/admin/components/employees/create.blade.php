@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Thêm nhân viên
+    Thêm nhân sự
 @endsection
 
 @section('content')
@@ -13,22 +13,21 @@
                 <h4 class="mb-sm-0">Thêm mới nhân viên</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Danh sách</a></li>
-                        <li class="breadcrumb-item active">Thêm mới nhân viên</li>
+                        <li class="breadcrumb-item"><a href="{{ route('employees.index') }}">Danh sách nhân sự</a></li>
+                        <li class="breadcrumb-item active">Thêm mới nhân sự</li>
                     </ol>
                 </div>
             </div>
-
-            <div class="card-body">
-                <div class="mb-3">
-                    <a href="{{ route('employees.index') }}" class="btn btn-success" id="addproduct-btn"><i
-                            class="ri-arrow-left-line align-bottom me-1"></i>Trang danh sách</a>
-                </div>
-            </div>
-
         </div>
-
         <!-- end page title -->
+    </div>
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('employees.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
     </div>
     <form method="POST" action="{{ route('employees.store') }}" enctype="multipart/form-data">
         @csrf
