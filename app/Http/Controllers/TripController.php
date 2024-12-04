@@ -42,7 +42,12 @@ class TripController extends Controller
              ->select('employees.*')
              ->get();
 
-         $cargoCars = Cargo_car::where('role', 0)->with('cargoCarType')->get();
+         $cargoCars = Cargo_car::whereDoesntHave('trips', function($query) {
+                 $query->where('status', 1);
+             })
+             ->where('role', 0)
+             ->with('cargoCarType')
+             ->get();
          $pendingOrders = Order::where('status_id', 2)->with('orderDetails')->get();
 
          return view(self::PATH_VIEW . 'create', compact('employes', 'cargoCars', 'pendingOrders'));
@@ -62,32 +67,28 @@ class TripController extends Controller
                 'status' => '1',
             ]);
 
+            $cargo_car = Cargo_car::findOrFail($request->cargo_car_id);
+            $cargo_car->update(['role' => 1]);
+
             $orderIds = $request->input('order_id', []);
             foreach ($orderIds as $orderId) {
                 $order = Order::findOrFail($orderId);
-                $cargor_car = Cargo_car::findOrFail($request->cargo_car_id);
                 Trip_detail::create([
                     'trip_id' => $trip->id,
                     'order_id' => $order->id,
                     'total_amount' => $order->total_amount,
                 ]);
 
-
                 OrderStatusTime::create([
                     'order_id' => $order->id,
                     'order_status_id' => 3,
-                    // 'time' => now()
                 ]);
                 $order->update(['status_id' => 3]);
-
-                $cargor_car->update(['role' => 1]);
             }
 
             DB::commit();
             return redirect()->route('trips.index')->with('success', 'Thêm đơn vận chuyển thành công');
         } catch (\Exception $th) {
-            // echo $th->getMessage();
-
             DB::rollBack();
             return back()->with('error', 'Đã xảy ra lỗi: ' . $th->getMessage());
         }

@@ -55,7 +55,7 @@
                             @method('PUT')
                             <div class="profile-user position-relative d-inline-block mx-auto mb-3">
                                 <img id="preview"
-                                    src="{{ $datae->image ? \Storage::url($datae->image) : asset('themes/admin/assets/pro/default-user.jpg') }}"
+                                    src="{{ asset('storage/' . $datae->image) }}"
                                     class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="image">
 
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">

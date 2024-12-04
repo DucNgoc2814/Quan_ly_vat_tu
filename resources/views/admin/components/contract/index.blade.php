@@ -3,13 +3,19 @@
 @section('title')
     Danh sách hợp đồng
 @endsection
+
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Danh sách hợp đồng</h4>
+                <div class="col-sm-auto">
+                    <div>
+                        <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn"><i
+                                class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng </a>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
     <div class="row">
@@ -19,8 +25,9 @@
                     <div class="row g-4">
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                        class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng </a>
+                                <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn">
+                                    <i class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -48,10 +55,16 @@
                                     <td>{{ $data->contract_number }}</td>
                                     <td>{{ $data->customer_name }}</td>
                                     <td>{{ $data->customer_phone }}</td>
-                                    <td class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">{{ $data->total_amount }}</td>
-                                    <td class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">{{ $data->paid_amount }}</td>
+                                    <td
+                                        class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">
+                                        {{ $data->total_amount }}
+                                    </td>
+                                    <td
+                                        class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">
+                                        {{ $data->paid_amount }}
+                                    </td>
                                     <td>{{ $data->employee->name }}</td>
-                                    <td>
+                                    <td id="status-{{ $data->id }}" data-contract-id="{{ $data->id }}">
                                         @if ($data->contract_status_id == 1)
                                             <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST"
                                                 style="display:inline;">
@@ -72,11 +85,10 @@
                                             {{ $data->contractStatus->name }}
                                         @endif
                                     </td>
-
-                                    <td class="d-flex flex-column gap-2">
-                                            <a href="{{ route('contract.show', $data->id) }}" class="btn btn-info btn-sm">
-                                                <i class="ri-eye-fill align-bottom me-2"></i>Xem
-                                            </a>
+                                    <td>
+                                        <a href="{{ route('contract.show', $data->id) }}" class="btn btn-info btn-sm">
+                                            <i class="ri-eye-fill align-bottom me-2"></i>Xem
+                                        </a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -84,69 +96,58 @@
                     </table>
                 </div>
             </div>
-        </div><!--end col-->
-    </div>
-    {{ $contracts->links() }}
-@endsection
-
-<div class="modal fade" id="pdfModal" tabindex="-1">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Xem hợp đồng</h5>
-                <button type="button" class="btn btn-primary ms-2" id="showStatusBtn">Chi tiết trạng thái</button>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <embed id="pdfViewer" src="" type="application/pdf" width="100%" height="600px">
-            </div>
         </div>
     </div>
-</div>
+    {{ $contracts->links() }}
 
-
-
-@push('scripts')
-    <script>
-        function showPdf(contractId) {
-            const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
-            document.getElementById('pdfViewer').src = pdfUrl;
-            new bootstrap.Modal(document.getElementById('pdfModal')).show();
-        }
-    </script>
-@endpush
-
-
-
-<div class="modal fade" id="statusHistoryModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Lịch sử trạng thái hợp đồng</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Trạng thái</th>
-                                <th>Thời gian</th>
-                            </tr>
-                        </thead>
-                        <tbody id="statusHistoryContent">
-                        </tbody>
-                    </table>
+    <!-- Modal xem PDF -->
+    <div class="modal fade" id="pdfModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xem hợp đồng</h5>
+                    <button type="button" class="btn btn-primary ms-2" id="showStatusBtn">Chi tiết trạng thái</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <embed id="pdfViewer" src="" type="application/pdf" width="100%" height="600px">
                 </div>
             </div>
         </div>
     </div>
-</div>
+
+    <!-- Modal lịch sử trạng thái -->
+    <div class="modal fade" id="statusHistoryModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Lịch sử trạng thái hợp đồng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Trạng thái</th>
+                                    <th>Thời gian</th>
+                                </tr>
+                            </thead>
+                            <tbody id="statusHistoryContent">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
 
 @push('scripts')
     <script>
         let currentContractId;
 
+        // Hàm hiển thị PDF
         function showPdf(contractId) {
             currentContractId = contractId;
             const pdfUrl = `{{ url('/hop-dong/xem-hop-dong/') }}/${contractId}/pdf`;
@@ -154,10 +155,7 @@
             new bootstrap.Modal(document.getElementById('pdfModal')).show();
         }
 
-        document.getElementById('showStatusBtn').addEventListener('click', function() {
-            showStatusHistory(currentContractId);
-        });
-
+        // Hàm hiển thị lịch sử trạng thái
         function showStatusHistory(contractId) {
             fetch(`/hop-dong/status-history/${contractId}`)
                 .then(response => response.json())
@@ -176,5 +174,99 @@
                     new bootstrap.Modal(document.getElementById('statusHistoryModal')).show();
                 });
         }
+
+        // Xử lý sự kiện click nút hiển thị trạng thái
+        document.getElementById('showStatusBtn').addEventListener('click', function() {
+            showStatusHistory(currentContractId);
+        });
+
+        // Lắng nghe sự kiện realtime cho hợp đồng mới
+        window.Echo.channel('contract-created')
+            .listen('NewContractCreated', (e) => {
+                console.log('Received contract created event for ID:', e.id);
+                const statusCellId = `status-${e.id}`;
+
+                // Tạo HTML cho trạng thái
+                let statusHtml = '';
+                if (e.contract_status_id == 1) {
+                    statusHtml = `
+                <form action="/contract/send-to-manager/${e.id}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-primary btn-sm">
+                        Gửi giám đốc
+                    </button>
+                </form>
+            `;
+                } else if (e.contract_status_id == 2) {
+                    statusHtml = `
+                <form action="/contract/send-to-customer/${e.id}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm">
+                        Gửi khách hàng
+                    </button>
+                </form>
+            `;
+                } else {
+                    statusHtml = e.contract_status ? e.contract_status.name : '';
+                }
+
+                const newRow = `
+            <tr>
+                <td>${e.id || ''}</td>
+                <td>${e.contract_number || ''}</td>
+                <td>${e.customer_name || ''}</td>
+                <td>${e.customer_phone || ''}</td>
+                <td class="${e.total_amount == e.paid_amount ? 'text-success' : 'text-danger'}">
+                    ${e.total_amount || 0}
+                </td>
+                <td class="${e.total_amount == e.paid_amount ? 'text-success' : 'text-danger'}">
+                    ${e.paid_amount || 0}
+                </td>
+                <td>${e.employee_name || ''}</td>
+                <td id="${statusCellId}" data-contract-id="${e.id}">${statusHtml}</td>
+                <td>
+                    <a href="/contract/${e.id}" class="btn btn-info btn-sm">
+                        <i class="ri-eye-fill align-bottom me-2"></i>Xem
+                    </a>
+                </td>
+            </tr>
+        `;
+
+                const tbody = document.querySelector('#myTable tbody');
+                tbody.insertAdjacentHTML('afterbegin', newRow);
+            });
+
+        // Lắng nghe sự kiện cập nhật trạng thái
+        window.Echo.channel('contract-status')
+            .listen('ContractStatusUpdated', (e) => {
+                console.log('Received contract updated event for ID:', e.id);
+                const statusCell = document.getElementById(`status-${e.id}`);
+
+                if (statusCell) {
+                    let html = '';
+                    if (e.contract_status_id == 1) {
+                        html = `
+                    <form action="/contract/send-to-manager/${e.id}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Gửi giám đốc
+                        </button>
+                    </form>
+                `;
+                    } else if (e.contract_status_id == 2) {
+                        html = `
+                    <form action="/contract/send-to-customer/${e.id}" method="POST" style="display:inline;">
+                        @csrf
+                        <button type="submit" class="btn btn-success btn-sm">
+                            Gửi khách hàng
+                        </button>
+                    </form>
+                `;
+                    } else {
+                        html = e.contract_status ? e.contract_status.name : '';
+                    }
+                    statusCell.innerHTML = html;
+                }
+            });
     </script>
 @endpush

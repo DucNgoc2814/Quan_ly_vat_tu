@@ -15,7 +15,7 @@
 
 @endphp
 @section('title')
-    Dashboard
+    Dashboard   
 @endsection
 @php
     use App\Models\Import_order;
@@ -64,7 +64,7 @@
                                         <!--end col-->
                                         <div class="col-auto">
                                             <button type="button"
-                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn"><i
+                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn" id="confirmButton"><i
                                                     class="ri-notification-2-line align-middle me-1"></i>
                                                 Thông Báo Xác Nhận</button>
                                         </div>
@@ -460,8 +460,10 @@
                 <div class="card h-100 rounded-0">
                     <div class="card-body p-0">
                         <div class="p-3">
-                            <h6 class="text-muted mb-0 text-uppercase fw-semibold">Yêu Cầu Xác Nhận
-                            </h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h6 class="text-muted mb-0 text-uppercase fw-semibold">Yêu Cầu Xác Nhận</h6>
+                                <button type="button" class="btn-close text-danger" id="closeNotification" aria-label="Close"></button>
+                            </div>
                         </div>
 
                         <div class="p-3 mt-2">
@@ -1001,7 +1003,7 @@
                             (t.classList.remove('d-block'), t.classList.add('d-none')) :
                             (t.classList.remove('d-none'), t.classList.add('d-block'))
                     })
-                }))
+                });)
         }
         window.addEventListener('resize', function() {
                 var e = document.querySelector('.layout-rightside-col')
@@ -1060,7 +1062,6 @@
                 },
                 success: function(response) {
                     if (response.success) {
-                        // Sử dụng SweetAlert2
                         Swal.fire({
                             title: 'Thành công!',
                             text: response.message || 'Cập nhật trạng thái thành công',
@@ -1082,7 +1083,6 @@
                     }
                 },
                 error: function(xhr, status, error) {
-                    // Debug error details
                     console.error('Ajax Error Details:', {
                         status: status,
                         error: error,
@@ -1091,8 +1091,6 @@
                     });
 
                     let errorMessage = 'Không thể xử lý yêu cầu.';
-
-                    // Thử parse response JSON nếu có
                     try {
                         const response = JSON.parse(xhr.responseText);
                         errorMessage = response.message || errorMessage;
@@ -1109,5 +1107,40 @@
                 }
             });
         }
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const confirmButton = document.getElementById('confirmButton');
+            if (confirmButton) {
+                confirmButton.addEventListener('click', function() {
+                    const rightSideCol = document.querySelector('.layout-rightside-col');
+                    if (rightSideCol) {
+                        // Toggle class d-block/d-none để hiển thị/ẩn panel thông báo
+                        if (rightSideCol.classList.contains('d-block')) {
+                            rightSideCol.classList.remove('d-block');
+                            rightSideCol.classList.add('d-none');
+                        } else {
+                            rightSideCol.classList.remove('d-none');
+                            rightSideCol.classList.add('d-block');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Xử lý nút đóng thông báo
+        const closeButton = document.getElementById('closeNotification');
+        if (closeButton) {
+            closeButton.addEventListener('click', function() {
+                const rightSideCol = document.querySelector('.layout-rightside-col');
+                if (rightSideCol) {
+                    rightSideCol.classList.remove('d-block');
+                    rightSideCol.classList.add('d-none');
+                }
+            });
+        }
+    });
     </script>
 @endsection

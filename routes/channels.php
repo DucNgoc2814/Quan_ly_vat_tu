@@ -24,7 +24,9 @@ Broadcast::channel('contract-created', function ($user) {
     return $user->role_id === 1;
     // return true;
 });
-
+Broadcast::channel('contract-status', function ($user) {
+    return true;
+});
 
 Broadcast::channel('chat', function ($user) {
     // return in_array($user->role_id, [1, 2, 3]);

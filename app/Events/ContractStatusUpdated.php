@@ -10,18 +10,22 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewContractCreated implements ShouldBroadcast
+class ContractStatusUpdated implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+
     public $contract;
+
     public function __construct($contract)
     {
         $this->contract = $contract;
     }
-    public function broadcastOn(): Channel
+
+    public function broadcastOn()
     {
-        return  new Channel('contract-created');
+        return new Channel('contract-status');
     }
+
     public function broadcastWith()
     {
         return [
@@ -33,7 +37,7 @@ class NewContractCreated implements ShouldBroadcast
             'paid_amount' => $this->contract->paid_amount,
             'contract_status_id' => $this->contract->contract_status_id,
             'employee_name' => $this->contract->employee->name,
-            'contract_status' => $this->contract->contractStatus 
+            'contract_status' => $this->contract->contractStatus
         ];
     }
 }

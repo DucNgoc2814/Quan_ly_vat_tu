@@ -132,7 +132,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <button type="submit" class="btn btn-primary">Cập nhật</button>
                     </form>
                 </div>
             </div>
@@ -327,7 +326,7 @@
                                             <td>${item.quantity || 0}</td>
                                             <td>${(item.price || 0).toLocaleString('vi-VN')}</td>
                                             <td>${item.import_order?.supplier?.name || ''}</td>
-                                            <td>${item.import_order?.created_at ? new Date(item.import_order.created_at).toLocaleString('vi-VN') : ''}</td>               
+                                            <td>${item.import_order?.created_at ? new Date(item.import_order.created_at).toLocaleString('vi-VN') : ''}</td>
                                         </tr>
                                     `;
                                 });
@@ -359,7 +358,7 @@
                                         <td>${item.quantity || 0}</td>
                                         <td>${(item.price || 0).toLocaleString('vi-VN')} đ</td>
                                         <td>${item.customer_name || 'Khách lẻ'}</td>
-                                        <td>${item.created_at ? new Date(item.created_at).toLocaleString('vi-VN') : ''}</td>               
+                                        <td>${item.created_at ? new Date(item.created_at).toLocaleString('vi-VN') : ''}</td>
                                     </tr>
                                 `;
                             });
