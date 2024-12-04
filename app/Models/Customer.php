@@ -17,7 +17,7 @@ class Customer extends Authenticatable implements JWTSubject
         'password',
         'number_phone',
         'image',
-        'amount',
+        'total_amount',
         'is_active',
     ];
 
@@ -31,6 +31,10 @@ class Customer extends Authenticatable implements JWTSubject
         return $this->hasMany(Order::class);
     }
 
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class);
+    }
     public function getJWTIdentifier()
     {
         return $this->getKey();

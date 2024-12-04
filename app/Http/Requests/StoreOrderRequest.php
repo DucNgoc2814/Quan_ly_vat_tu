@@ -28,7 +28,6 @@ class StoreOrderRequest extends FormRequest
             'variation_id' => 'required|array',
             'variation_id.*' => 'exists:variations,id',
             'product_quantity' => 'required|array',
-            'paid_amount' => 'nullable|numeric|min:0|lte:total_amount',
         ];
         if ($this->routeIs('order.store')) {
             $rules['email'] = 'email|max:255';
@@ -87,10 +86,6 @@ class StoreOrderRequest extends FormRequest
             'product_quantity.array' => 'Dữ liệu số lượng sản phẩm không hợp lệ.',
             'product_quantity.*.integer' => 'Số lượng phải là số nguyên.',
             'product_quantity.*.min' => 'Số lượng phải lớn hơn 0.',
-
-            'paid_amount.numeric' => 'Số tiền đã trả phải là số.',
-            'paid_amount.min' => 'Số tiền đã trả không được âm.',
-            'paid_amount.lte' => 'Số tiền đã trả không được lớn hơn tổng giá trị đơn hàng.',
         ];
     }
 }

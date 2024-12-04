@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Requests\StoreImport_orderRequest;
 use App\Http\Requests\UpdateImport_orderRequest;
 use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\NewOrderRequest;
 use App\Models\Order;
 use Carbon\Carbon;
@@ -21,9 +22,6 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ImportOrderController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     const PATH_VIEW = 'admin.components.import_orders.';
     public function index()
     {
@@ -68,7 +66,7 @@ class ImportOrderController extends Controller
                     "slug" => $slug,
                     "product_quantity" => array_sum($request->product_quantity),
                     "total_amount" => $request->total_amount,
-                    "paid_amount" => $request->paid_amount,
+                    "paid_amount" => 0,
                     "status" => 1, // Trạng thái ban đầu là chờ xác nhận
                 ]);
 
@@ -158,27 +156,6 @@ class ImportOrderController extends Controller
             'message' => 'Đã từ chối đơn hàng',
         ]);
     }
-
-    // public function autoUpdateStatus($slug)
-    // {
-    //     $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-    //     if ($importOrder->status == 2) {
-    //         $importOrder->status = 3; // Giao hàng thành công
-    //         $importOrder->save();
-
-    //         // Cập nhật số lượng stock
-    //         $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
-    //         foreach ($importOrderDetails as $detail) {
-    //             $variation = Variation::find($detail->variation_id);
-    //             $variation->stock += $detail->quantity;
-    //             $variation->save();
-    //         }
-
-    //         return response()->json(['success' => true, 'message' => 'Đã giao hàng thành công và cập nhật số lượng']);
-    //     }
-
-    //     return response()->json(['success' => false, 'message' => 'Đơn hàng chưa sẵn sàng để cập nhật']);
-    // }
 
     public function dashboard()
     {
@@ -420,5 +397,32 @@ class ImportOrderController extends Controller
     public function destroy(Import_order $import_order)
     {
         //
+    }
+
+    public function getProductsBySupplier($supplierId)
+    {
+        try {
+            $variations = Supplier::findOrFail($supplierId)
+                ->variations()
+                ->select('variations.id', 'variations.name', 'variations.sku')
+                ->get();
+
+            return response()->json($variations);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function getVariationsBySupplier($supplierId)
+    {
+        try {
+
+            $variations = Supplier::find($supplierId)->variations()
+                ->select('variations.id', 'variations.name', 'variations.sku')
+                ->get();
+            return response()->json($variations);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
