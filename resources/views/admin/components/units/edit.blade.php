@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
+Sửa đơn vị
 @endsection
 
 @section('content')
@@ -8,10 +9,9 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">{{$title}}</h4>
-
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn vị</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('units.index') }}">Đơn vị tính</a></li>
                         <li class="breadcrumb-item active">{{$title}}</li>
                     </ol>
                 </div>
@@ -24,14 +24,11 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm kiếm...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
+                        <div class="col-sm-auto">
+                            <div>
+                                <a href="{{ route('units.index') }}" class="btn btn-success" id="addproduct-btn">
+                                    Danh sách đơn vị
+                                </a>
                             </div>
                         </div>
                     </div>

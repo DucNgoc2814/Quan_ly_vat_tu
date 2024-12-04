@@ -1,42 +1,55 @@
 @extends('admin.layouts.master')
 
 @section('title')
+Sửa danh mục
 @endsection
 
 @section('content')
+    <div class="row">
+        <div class="col-12">
+            <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                <h4 class="mb-sm-0">Sửa danh mục</h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="{{ route('product.index') }}">Danh mục sản phẩm</a></li>
+                        <li class="breadcrumb-item active">Sửa danh mục</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header border-0">
                     <div class="row g-4">
-
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control " id="searchProductList" name="search"
-                                        placeholder="Tìm danh mục...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
+                        <div class="col-sm-auto">
+                            <div>
+                                <a href="{{ route('category.index') }}" class="btn btn-success" id="addproduct-btn">
+                                    Danh sách danh mục
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('category.update', $category1->id) }}" method="POST"  enctype="multipart/form-data">
+                    <form action="{{ route('category.update', $category1->id) }}" method="POST"
+                        enctype="multipart/form-data">
                         @csrf
-                        @method("PUT")
+                        @method('PUT')
                         <div class="row">
                             <div class="col-lg-8">
                                 <label class="form-label">Tên danh mục</label>
-                                <input value="{{ $category1->name }}" type="text" name="name" placeholder="Nhập tên mã hàng"
-                                    class="form-control"  >
+                                <input value="{{ $category1->name }}" type="text" name="name"
+                                    placeholder="Nhập tên mã hàng" class="form-control">
                                 @error('name')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
                             <div style="margin-top: 10px">
-                               <p> Ảnh cũ </p>
-                                <img src="{{ asset('storage/' . $category1->image) }}" width="200px" height="200px" alt="">
+                                <p> Ảnh cũ </p>
+                                <img src="{{ asset('storage/' . $category1->image) }}" width="200px" height="200px"
+                                    alt="">
                             </div>
 
 
@@ -47,8 +60,8 @@
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
                             </div>
-                            
-                
+
+
                             <div class="col-lg-12 mt-3">
                                 <label class="form-label">Mô tả</label>
                                 <textarea name="description" class="form-control" rows="3"> {{ $category1->description }}</textarea>
@@ -58,7 +71,7 @@
                             </div>
                         </div>
                         <div class="mt-3">
-                            <button type="submit" class = "btn btn-success text ">Update</button>
+                            <button type="submit" class = "btn btn-success text ">Cập nhật</button>
                         </div>
                     </form>
                 </div>
