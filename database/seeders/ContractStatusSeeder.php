@@ -14,13 +14,15 @@ class ContractStatusSeeder extends Seeder
     public function run(): void
     {
         $hardData = [
-            ['1','Trống','Hợp đồng mới tạo, đang chờ phê duyệt từ cấp trên.'],
-            ['2','Đã duyệt','Hợp đồng đã được phê duyệt và sẵn sàng thực hiện.'],
-            ['3','Đã hủy','Hợp đồng bị hủy và không tiếp tục thực hiện.'],
-            ['4','Đang chờ xác nhận','Hợp đồng đã quá hạn mà chưa hoàn thành.'],
-            ['5','Chờ khách hàng xác nhận','Hợp đồng đã hoàn thành tất cả các yêu cầu.'],
-            ['6','Khách hàng đã xác nhận','Hợp đồng đã hoàn thành tất cả các yêu cầu.'],
-            ['7','Khách hàng không đồng ý với hợp đồng','Hợp đồng đã hoàn thành tất cả các yêu cầu.'],
+            ['1', 'Trống'],
+            ['2', 'Đã duyệt'],
+            ['3', 'Đã hủy'],
+            ['4', 'Đang chờ xác nhận'],
+            ['5', 'Chờ khách hàng xác nhận'],
+            ['6', 'Đang tiến hành'],
+            ['7', 'Khách hàng không đồng ý với hợp đồng'],
+            ['8', 'Hoàn thành'],
+            ['9', 'Quá hạn'],
         ];
         foreach ($hardData as $data) {
             DB::table('contract_statuses')->insert([

@@ -288,11 +288,12 @@
                                                                 </button>
                                                             </div>
                                                         <?php endif; ?>
-                                                        <button type="button" class="btn btn-sm btn-ghost-success"
+                                                        <button type="button" 
+                                                            style="background-color: #00C49A; border: none; color: white; border-radius: 3px; 
+                                                            padding: 3px 10px; font-size: 12px; line-height: 20px; height: 26px; display: flex; align-items: center; justify-content: center; margin: auto 0;"
                                                             onclick="confirmTransaction('<?php echo e($transaction->transaction_type); ?>', <?php echo e($transaction->id); ?>)">
                                                             Xác nhận
-                                                            <i class="ri-check-line"></i>
-                                                        </button>
+                                                        </button>       
                                                     </div>
                                                 </div>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -343,8 +344,7 @@
                                 $employee = App\Models\Employee::find($id);
                             ?>
                             <img class="rounded-circle header-profile-user"
-                                src="<?php echo e(asset('storage/' . $employee->image)); ?>"
-                                alt="Header Avatar">
+                                src="<?php echo e(asset('storage/' . $employee->image)); ?>" alt="Header Avatar">
 
                             <span class="text-start ms-xl-2">
                                 <span

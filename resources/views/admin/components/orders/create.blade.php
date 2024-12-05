@@ -59,23 +59,6 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-
-                        <div class="mt-2 ">
-                            <label class="form-label" for="payment_id">Phương thức thanh toán</label>
-                            <select class="form-select @error('payment_id') is-invalid @enderror" id="payment_id"
-                                name="payment_id" data-choices data-choices-search-false>
-                                <option value="">Chọn Phương Thức Thanh Toán</option>
-                                @foreach ($payments as $id => $name)
-                                    <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
-                                        {{ $name }}</option>
-                                @endforeach
-                            </select>
-                            @error('payment_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
                     </div>
                 </div>
                 <div class="card" id="receiver-info">
@@ -373,12 +356,11 @@
             // Cập nhật giá trị
             if (priceInput && price) {
                 priceInput.value = price;
-                console.log('Updated price input:', priceInput.value);
+                calculateTotal();
             }
 
             if (stockInput && stock) {
                 stockInput.value = stock;
-                console.log('Updated stock input:', stockInput.value);
             }
             updateAllSelects();
         }
@@ -442,7 +424,7 @@
     </div>`;
 
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
-            addInputListeners();
+            reattachInputListeners();
             updateAllSelects();
         }
 
@@ -451,63 +433,33 @@
             let total = 0;
             const quantities = document.getElementsByName('product_quantity[]');
             const prices = document.getElementsByName('product_price[]');
+            
             // Tính tổng dựa trên số lượng và giá
             for (let i = 0; i < quantities.length; i++) {
-                total += (parseFloat(quantities[i].value) || 0) * (parseFloat(prices[i].value) || 0);
+                const quantity = parseFloat(quantities[i].value) || 0;
+                const price = parseFloat(prices[i].value) || 0;
+                total += quantity * price;
             }
-            // Định dạng tổng số thành dạng có dấu chấm phân cách hàng nghìn (ví dụ: 500.000)
+            
+            // Định dạng tổng số thành dạng có dấu chấm phân cách hàng nghìn
             const formattedTotal = total.toFixed(0).toLocaleString('vi-VN');
-            // Gán giá trị đã định dạng vào ô input
             document.getElementById('total_amount').value = formattedTotal;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get old values
-            const oldVariationIds = @json(old('variation_id', []));
-            const oldQuantities = @json(old('product_quantity', []));
-            const oldPrices = @json(old('product_price', []));
-
-            // If there are old values, set them
-            if (oldVariationIds.length > 0) {
-                // Set values for default item first
-                const defaultSelect = document.querySelector('#product_default_item [name="variation_id[]"]');
-                const defaultPrice = document.querySelector('#product_default_item [name="product_price[]"]');
-                const defaultQuantity = document.querySelector('#product_default_item [name="product_quantity[]"]');
-
-                if (defaultSelect) defaultSelect.value = oldVariationIds[0];
-                if (defaultPrice) defaultPrice.value = oldPrices[0];
-                if (defaultQuantity) defaultQuantity.value = oldQuantities[0];
-
-                // Add additional items if there were more than one
-                for (let i = 1; i < oldVariationIds.length; i++) {
-                    addProduct();
-                }
-
-                // Set values for additional items
-                document.querySelectorAll('[name="variation_id[]"]').forEach((select, index) => {
-                    if (index === 0) return; // Skip default item
-                    select.value = oldVariationIds[index];
-                    const priceInput = select.closest('.col-md-12').querySelector(
-                        '[name="product_price[]"]');
-                    const quantityInput = select.closest('.col-md-12').querySelector(
-                        '[name="product_quantity[]"]');
-
-                    if (priceInput) priceInput.value = oldPrices[index];
-                    if (quantityInput) quantityInput.value = oldQuantities[index];
-                });
-
-                // Recalculate total
-                calculateTotal();
-            }
-        });
-
-
-        // Hàm để thêm sự kiện lắng nghe cho input
-        function addInputListeners() {
-            document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
+        // Thêm hàm để gắn lại các event listener cho input số lượng và giá
+        function reattachInputListeners() {
+            document.querySelectorAll('[name="product_quantity[]"], [name="product_price[]"]').forEach(input => {
+                input.removeEventListener('input', calculateTotal);
                 input.addEventListener('input', calculateTotal);
             });
         }
+
+        // Gọi hàm khi trang được tải và sau khi thêm sản phẩm mới
+        document.addEventListener('DOMContentLoaded', function() {
+            reattachInputListeners();
+            calculateTotal();
+        });
+
         // Hàm để xóa sản phẩm
         function removeProduct(id) {
             if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -515,11 +467,6 @@
                 calculateTotal();
             }
         }
-        // Gọi hàm khi trang được tải lần đầu
-        document.addEventListener('DOMContentLoaded', function() {
-            addInputListeners();
-            calculateTotal();
-        });
     </script>
 
     <script>
@@ -954,5 +901,134 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+
+        function validateOrderForm() {
+            let isValid = true;
+            const errorMessages = {
+                required: 'Trường này không được để trống',
+                numeric: 'Vui lòng nhập số',
+                positive: 'Số lượng phải lớn hơn 0',
+                stock: 'Số lượng không được vượt quá tồn kho'
+            };
+
+            // Validate người đặt
+            const customerId = document.getElementById('hidden_customer_id');
+            if (!customerId.value) {
+                isValid = false;
+                addErrorMessage(document.getElementById('customer_id'), errorMessages.required);
+            }
+
+            // Validate phương thức thanh toán
+            const paymentId = document.getElementById('payment_id');
+            if (!paymentId.value) {
+                isValid = false;
+                addErrorMessage(paymentId, errorMessages.required);
+            }
+
+            // Validate thông tin người nhận
+            const requiredFields = ['customer_name', 'number_phone', 'email', 'address'];
+            requiredFields.forEach(field => {
+                const element = document.getElementById(field);
+                if (!element.value.trim()) {
+                    isValid = false;
+                    addErrorMessage(element, errorMessages.required);
+                }
+            });
+
+            // Validate địa chỉ
+            const provinceSelect = document.getElementById('provinces');
+            const districtSelect = document.getElementById('districts');
+            const wardSelect = document.getElementById('wards');
+
+            if (!provinceSelect.value || !districtSelect.value || !wardSelect.value) {
+                isValid = false;
+                addErrorMessage(document.getElementById('location-input'), 'Vui lòng chọn đầy đủ địa chỉ');
+            }
+
+            // Validate sản phẩm
+            const productSelects = document.querySelectorAll('[name="variation_id[]"]');
+            const quantities = document.querySelectorAll('[name="product_quantity[]"]');
+            let hasProducts = false;
+
+            productSelects.forEach((select, index) => {
+                if (select.value !== '0') {
+                    hasProducts = true;
+                    const quantity = quantities[index];
+                    const stock = select.options[select.selectedIndex].getAttribute('data-stock');
+
+                    if (!quantity.value) {
+                        isValid = false;
+                        addErrorMessage(quantity, errorMessages.required);
+                    } else if (!(/^\d+$/.test(quantity.value))) {
+                        isValid = false;
+                        addErrorMessage(quantity, errorMessages.numeric);
+                    } else if (parseInt(quantity.value) <= 0) {
+                        isValid = false;
+                        addErrorMessage(quantity, errorMessages.positive);
+                    } else if (parseInt(quantity.value) > parseInt(stock)) {
+                        isValid = false;
+                        addErrorMessage(quantity, errorMessages.stock);
+                    }
+                }
+            });
+
+            if (!hasProducts) {
+                isValid = false;
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: 'Vui lòng chọn ít nhất một sản phẩm',
+                    icon: 'error'
+                });
+            }
+
+            return isValid;
+        }
+
+        // Hàm thêm thông báo lỗi
+        function addErrorMessage(element, message) {
+            // Xóa thông báo lỗi cũ nếu có
+            removeErrorMessage(element);
+            
+            element.classList.add('is-invalid');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'invalid-feedback';
+            errorDiv.textContent = message;
+            element.parentNode.appendChild(errorDiv);
+        }
+
+        // Hàm xóa thông báo lỗi
+        function removeErrorMessage(element) {
+            element.classList.remove('is-invalid');
+            const errorDiv = element.parentNode.querySelector('.invalid-feedback');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+
+        // Thêm sự kiện submit cho form
+        document.querySelector('.form-datalist').addEventListener('submit', function(e) {
+            // Xóa tất cả thông báo lỗi cũ
+            document.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+            if (!validateOrderForm()) {
+                e.preventDefault();
+                // Scroll đến phần tử lỗi đầu tiên
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+
+        // Thêm sự kiện để xóa thông báo lỗi khi người dùng sửa input
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('input', function() {
+                removeErrorMessage(this);
+            });
+            element.addEventListener('change', function() {
+                removeErrorMessage(this);
+            });
+        });
     </script>
 @endsection

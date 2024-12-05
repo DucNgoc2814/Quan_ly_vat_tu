@@ -32,7 +32,6 @@ class StoreOrderRequest extends FormRequest
         if ($this->routeIs('order.store')) {
             $rules['email'] = 'email|max:255';
             $rules['customer_id'] = 'required|exists:customers,id';
-            $rules['payment_id'] = 'required|exists:payments,id';
             $rules['product_quantity.*'] = [
                 'required',
                 'integer',

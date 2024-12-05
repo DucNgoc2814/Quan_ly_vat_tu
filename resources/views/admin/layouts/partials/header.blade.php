@@ -281,11 +281,12 @@
                                                                 </button>
                                                             </div>
                                                         @endif
-                                                        <button type="button" class="btn btn-sm btn-ghost-success"
+                                                        <button type="button" 
+                                                            style="background-color: #00C49A; border: none; color: white; border-radius: 3px; 
+                                                            padding: 3px 10px; font-size: 12px; line-height: 20px; height: 26px; display: flex; align-items: center; justify-content: center; margin: auto 0;"
                                                             onclick="confirmTransaction('{{ $transaction->transaction_type }}', {{ $transaction->id }})">
                                                             Xác nhận
-                                                            <i class="ri-check-line"></i>
-                                                        </button>
+                                                        </button>       
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -336,12 +337,11 @@
                                 $employee = App\Models\Employee::find($id);
                             @endphp
                             <img class="rounded-circle header-profile-user"
-                                src="{{ asset('storage/' . $employee->image) }}"
-                                alt="Header Avatar">
+                                src="{{ asset('storage/' . $employee->image) }}" alt="Header Avatar">
 
                             <span class="text-start ms-xl-2">
                                 <span
-                                    class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">{{ $employee->name}}</span>
+                                    class="d-none d-xl-block ms-1 fs-12 user-name-sub-text">{{ $employee->name }}</span>
                             </span>
                         </span>
                     </button>

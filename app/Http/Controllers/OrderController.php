@@ -63,8 +63,14 @@ class OrderController extends Controller
         $locations = Location::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation', 'locations'));
     }
-    public function store(StoreOrderRequest $request)
+    public function store(Request $request)
     {
+        // Kiểm tra trạng thái hợp đồng
+        $contract = Contract::findOrFail($request->contract_id);
+        if ($contract->contract_status_id != 6) {
+            return back()->with('error', 'Chỉ có thể tạo đơn hàng khi hợp đồng đã được khách hàng xác nhận');
+        }
+
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request) {
@@ -74,7 +80,6 @@ class OrderController extends Controller
                 $timestamp = now()->format('His');
                 $slug = 'DHB' . $randomChars . $timestamp;
                 $dataOrder = [
-                    "payment_id" => $request->payment_id,
                     "customer_id" => $customer_id,
                     "contract_id" => $request->contract_id,
                     "status_id" => 1,
@@ -189,7 +194,6 @@ class OrderController extends Controller
                 $currentStatus = $order->status_id;
                 $newStatus = $request->status_id ?? $currentStatus;
                 $dataOrder = [
-                    "payment_id" => $request->payment_id,
                     "customer_id" => $request->customer_id,
                     "status_id" => $newStatus,
                     "customer_name" => $request->customer_name ?? $order->name,
@@ -351,7 +355,7 @@ class OrderController extends Controller
                     }
                 } else {
                     // Xử lý trường hợp mảng không cùng độ dài
-                    throw new Exception("Mảng giá và số lượng không khớp.");
+                    throw new Exception("Mảng giá và số lượng không kh���p.");
                 }
                 $dataOrder = [
                     "contract_id" => $request->contract_id,

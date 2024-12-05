@@ -106,8 +106,15 @@
                 <div class="row">
                     <div class="my-3 d-flex justify-content-between align-items-center">
                         <h5>Danh sách đơn hàng</h5>
-                        <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createOrderModal">Tạo
-                            đơn hàng</button>
+                        @if($contract->contract_status_id == 6)
+                            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createOrderModal">
+                                Tạo đơn hàng
+                            </button>
+                        @else
+                            <button class="btn btn-sm btn-secondary" disabled title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo đơn hàng' }}">
+                                Tạo đơn hàng
+                            </button>
+                        @endif
                     </div>
                     <table id="" class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14"
                         style="width:100%">
@@ -146,9 +153,15 @@
         <div class="col-lg-12 mt-4 card">
             <div class="my-3 d-flex justify-content-between align-items-center">
                 <h5>Lịch sử chuyển tiền</h5>
-                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
-                    Tạo lịch sử chuyển tiền
-                </button>
+                @if($contract->contract_status_id == 6)
+                    <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
+                        Tạo lịch sử chuyển tiền
+                    </button>
+                @else
+                    <button class="btn btn-sm btn-secondary" disabled title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo lịch sử chuyển tiền' }}">
+                        Tạo lịch sử chuyển tiền
+                    </button>
+                @endif
             </div>
             <table class="table table-bordered dt-responsive nowrap table-striped align-middle fs-14" style="width:100%">
                 <thead>
@@ -465,7 +478,7 @@
         const district = document.getElementById('districts').selectedOptions[0]?.text || '';
         const ward = document.getElementById('wards').selectedOptions[0]?.text || '';
 
-        // Update the location input field with the selected values (tên của tỉnh, huyện, xã)
+        // Update the location input field with the selected values (tên của tỉnh, huy��n, xã)
         locationInput.value = `${province}, ${district}, ${ward}`.trim();
     }
 

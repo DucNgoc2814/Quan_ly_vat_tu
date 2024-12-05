@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\Models\Employee;
+use Illuminate\Support\Facades\DB;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Session;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class LogService
 {
@@ -89,6 +93,7 @@ class LogService
                 'inventory' => 'tồn kho',
                 'import_order' => 'đơn nhập hàng',
                 'trip' => 'chuyến xe',
+                'attribute_value' => 'giá trị thuộc tính',
             ];
 
             // Lấy tên class và chuyển thành tên dễ đọc
@@ -100,10 +105,12 @@ class LogService
                 ($modelTypes[$modelName] ?? $modelName) . ': ' .
                 ($model->name ?? $model->id ?? '');
 
+            $id = JWTAuth::setToken(Session::get('token'))->getPayload()->get('id');
+            $employee = Employee::find($id);
             $data = [
-                auth()->check() ? auth()->user()->employee_id : $fakeEmployeeData['employee_id'],
-                auth()->check() ? auth()->user()->name : $fakeEmployeeData['name'],
-                auth()->check() ? auth()->user()->position : $fakeEmployeeData['position'],
+                $employee->id,
+                $employee->name,
+                $employee->roleEmployee->name,
                 $action,
                 $modelTypes[$modelName] ?? $modelName,
                 $description,

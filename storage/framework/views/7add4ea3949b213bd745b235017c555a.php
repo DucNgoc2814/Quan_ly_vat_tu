@@ -485,9 +485,16 @@
         // Show loading overlay on page transitions and form submits
         document.addEventListener('DOMContentLoaded', function() {
             // Show loading on form submissions
-            const forms = document.querySelectorAll('form');
+            const forms = document.querySelectorAll('form:not(.no-loading)');
             forms.forEach(form => {
-                form.addEventListener('submit', function() {
+                form.addEventListener('submit', function(e) {
+                    // Kiểm tra xem form có class 'form-datalist' không
+                    if (form.classList.contains('form-datalist')) {
+                        // Nếu form không pass validation thì không hiện loading
+                        if (!validateOrderForm()) {
+                            return;
+                        }
+                    }
                     document.getElementById('loading-overlay').style.display = 'flex';
                 });
             });
@@ -495,57 +502,21 @@
             // Show loading on page transitions (link clicks)
             document.addEventListener('click', function(e) {
                 const target = e.target.closest('a');
-                if (target &&
-                    target.href &&
-                    !target.href.includes('#') &&
-                    !target.href.includes('javascript:') &&
-                    target.target !== '_blank') {
+                if (target && 
+                    target.href && 
+                    !target.href.includes('#') && 
+                    !target.href.includes('javascript:') && 
+                    target.target !== '_blank' && 
+                    !target.classList.contains('no-loading')) {
                     document.getElementById('loading-overlay').style.display = 'flex';
                 }
             });
 
             // Show loading on browser back/forward
-            window.addEventListener('beforeunload', function() {
-                document.getElementById('loading-overlay').style.display = 'flex';
-            });
-
-            // Hide loading when page is fully loaded
-            window.addEventListener('load', function() {
-                document.getElementById('loading-overlay').style.display = 'none';
-            });
-        });
-    </script>
-    <div id="loading-overlay">
-        <div class="spinner-border text-primary avatar-sm" role="status">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-    </div>
-    <script>
-        // Show loading overlay on page transitions and form submits
-        document.addEventListener('DOMContentLoaded', function() {
-            // Show loading on form submissions
-            const forms = document.querySelectorAll('form');
-            forms.forEach(form => {
-                form.addEventListener('submit', function() {
-                    document.getElementById('loading-overlay').style.display = 'flex';
-                });
-            });
-
-            // Show loading on page transitions (link clicks)
-            document.addEventListener('click', function(e) {
-                const target = e.target.closest('a');
-                if (target &&
-                    target.href &&
-                    !target.href.includes('#') &&
-                    !target.href.includes('javascript:') &&
-                    target.target !== '_blank') {
+            window.addEventListener('beforeunload', function(e) {
+                if (!e.target.activeElement?.classList.contains('no-loading')) {
                     document.getElementById('loading-overlay').style.display = 'flex';
                 }
-            });
-
-            // Show loading on browser back/forward
-            window.addEventListener('beforeunload', function() {
-                document.getElementById('loading-overlay').style.display = 'flex';
             });
 
             // Hide loading when page is fully loaded
