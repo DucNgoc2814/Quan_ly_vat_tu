@@ -18,7 +18,14 @@
             </div>
         </div>
     </div>
-
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('contract.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <form action="{{ route('contract.store') }}" method="POST" enctype="multipart/form-data">

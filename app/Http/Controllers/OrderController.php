@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\NewOrderCreated;
+use App\Events\OrderCancelRequested;
+use App\Events\OrderStatusChanged;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -65,8 +67,16 @@ class OrderController extends Controller
         $locations = Location::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('payments', 'customers', 'status', 'variation', 'locations'));
     }
-    public function store(StoreOrderRequest $request)
+    public function store(Request $request)
     {
+        if ($request->has('contract_id')) {
+            $contract = Contract::findOrFail($request->contract_id);
+            if ($contract->contract_status_id != 6) {
+                return back()->with('error', 'Chỉ có thể tạo đơn hàng khi hợp đồng đã được khách hàng xác nhận');
+            }
+        }
+        // dd($request->all());
+
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request) {
@@ -76,7 +86,6 @@ class OrderController extends Controller
                 $timestamp = now()->format('His');
                 $slug = 'DHB' . $randomChars . $timestamp;
                 $dataOrder = [
-                    "payment_id" => $request->payment_id,
                     "customer_id" => $customer_id,
                     "contract_id" => $request->contract_id,
                     "status_id" => 1,
@@ -91,7 +100,6 @@ class OrderController extends Controller
                     "total_amount" => $request->total_amount,
                     "paid_amount" => 0,
                 ];
-                $order = Order::query()->create($dataOrder);
                 $order = Order::query()->create($dataOrder);
                 event(new NewOrderCreated($order));
                 OrderStatusTime::create([
@@ -195,7 +203,6 @@ class OrderController extends Controller
                 $currentStatus = $order->status_id;
                 $newStatus = $request->status_id ?? $currentStatus;
                 $dataOrder = [
-                    "payment_id" => $request->payment_id,
                     "customer_id" => $request->customer_id,
                     "status_id" => $newStatus,
                     "customer_name" => $request->customer_name ?? $order->name,
@@ -253,6 +260,7 @@ class OrderController extends Controller
         $order = Order::where('slug', $slug)->firstOrFail();
         $order->cancel_reason = $request->cancel_reason;
         $order->save();
+        event(new OrderCancelRequested($order));
         return response()->json(['success' => true]);
     }
 
@@ -313,10 +321,14 @@ class OrderController extends Controller
                     $canceledOrder->note = $order->cancel_reason;
                     $canceledOrder->save();
                     $order->cancel_reason = null;
+
+
                 }
 
                 $order->save();
             });
+
+            broadcast(new OrderStatusChanged($order))->toOthers();
 
             return response()->json([
                 'success' => true,
@@ -357,7 +369,7 @@ class OrderController extends Controller
                     }
                 } else {
                     // Xử lý trường hợp mảng không cùng độ dài
-                    throw new Exception("Mảng giá và số lượng không khớp.");
+                    throw new Exception("Mảng giá và số lượng không kh���p.");
                 }
                 $dataOrder = [
                     "contract_id" => $request->contract_id,

@@ -37,3 +37,18 @@ Broadcast::channel('chat', function ($user) {
     // return in_array($user->role_id, [1, 2, 3]);
     return true;
 });
+Broadcast::channel('orders', function ($user) {
+    // return $user->role_id === 1;
+    return true;
+});
+Broadcast::channel('order-cancel', function ($user) {
+    // return $user->role_id === 1;
+    return true;
+});
+Broadcast::channel('import-order-cancel', function ($user) {
+    return true;
+});
+
+Broadcast::channel('import-order-confirmed', function ($user) {
+    return true;
+});

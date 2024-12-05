@@ -48,7 +48,6 @@ class UpdateOrderRequest extends FormRequest
             'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers',
             'email' => 'required|email|max:255',
             'address' => 'required|string|max:255',
-            'payment_id' => 'required|exists:payments,id',
             'variation_id' => 'required|array',
             'variation_id.*' => 'exists:variations,id',
             'product_quantity' => 'required|array',

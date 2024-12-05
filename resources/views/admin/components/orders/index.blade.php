@@ -36,7 +36,6 @@
                                     <th data-ordering="false">Số điện thoại</th>
                                     <th>Tổng tiền</th>
                                     <th>Đã trả</th>
-                                    <th>PTTT</th>
                                     <th data-ordering="false">Ngày đặt hàng </th>
                                     <th>Trạng thái</th>
                                     <th>Thao tác</th>
@@ -44,7 +43,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($data as $order)
-                                    <tr>
+                                    <tr data-order-slug="{{ $order->slug }}">
                                         <td>{{ $order->slug }}</td>
                                         <td>{{ $order->customer->name ?? 'Đơn hợp đồng' }}</td>
                                         <td>{{ $order->customer_name }}</td>
@@ -55,10 +54,10 @@
                                         <td
                                             class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">
                                             {{ number_format($order->paid_amount) }}</td>
-                                        <td>
+                                        {{-- <td>
                                             <span
                                                 class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng hợp đồng' }}</span>
-                                        </td>
+                                        </td> --}}
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
                                             @if ($order->status_id < 4)
@@ -66,7 +65,8 @@
                                                     method="POST" class="{{ $order->slug }} d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
-                                                    <select name="status" class="form-select form-select-sm status-select"
+                                                    <select name="status"
+                                                        class="form-select form-select-sm status-select order-status-select"
                                                         data-order-slug="{{ $order->slug }}"
                                                         id="statusSelect-{{ $order->slug }}"
                                                         onchange="handleStatusChange(this, '{{ $order->slug }}')">
@@ -246,6 +246,8 @@
                                     title: 'Lỗi!',
                                     text: xhr.responseJSON?.message ||
                                         'Không thể gửi yêu cầu hủy đơn hàng',
+                                    text: xhr.responseJSON?.message ||
+                                        'Không thể gửi yêu cầu hủy đơn hàng',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
@@ -355,5 +357,50 @@
             // Thêm hàm requestCancelOrder
 
         });
+    </script>
+    <script>
+        window.Echo.channel('orders')
+            .listen('OrderStatusChanged', (e) => {
+                const order = e.order;
+                const row = document.querySelector(`tr[data-order-slug="${order.slug}"]`);
+                if (row) {
+                    const statusCell = row.querySelector('td:nth-child(8)');
+                    if (order.status_id >= 4) {
+                        const statusConfig = {
+                            4: {
+                                name: 'Thành công',
+                                color: 'success'
+                            },
+                            5: {
+                                name: 'Hủy',
+                                color: 'danger'
+                            }
+                        };
+
+                        const status = statusConfig[order.status_id];
+                        statusCell.innerHTML = `
+                    <span class="badge bg-${status.color}-subtle text-${status.color}">
+                        ${status.name}
+                    </span>
+                `;
+                    } else {
+                        const select = statusCell.querySelector('select');
+                        if (select) {
+                            select.value = order.status_id;
+                        }
+                    }
+                }
+            });
+
+        function getStatusHTML(statusId) {
+            const statusMap = {
+                1: '<span class="badge bg-warning-subtle text-warning">Chờ xử lý</span>',
+                2: '<span class="badge bg-primary-subtle text-primary">Đã xác nhận</span>',
+                3: '<span class="badge bg-info-subtle text-info">Đang giao</span>',
+                4: '<span class="badge bg-success-subtle text-success">Thành công</span>',
+                5: '<span class="badge bg-danger-subtle text-danger">Đã hủy</span>'
+            };
+            return statusMap[statusId] || '';
+        }
     </script>
 @endsection

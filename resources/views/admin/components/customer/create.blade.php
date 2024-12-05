@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Chi tiết đơn hàng
+    Thêm mới khách hàng
 @endsection
 
 @section('content')

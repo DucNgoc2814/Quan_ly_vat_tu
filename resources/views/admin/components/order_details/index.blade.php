@@ -13,8 +13,8 @@
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Ecommerce</a></li>
-                        <li class="breadcrumb-item active">Order Details</li>
+                        <li class="breadcrumb-item"><a href="{{ route('order.index') }}">Đơn bán lẻ</a></li>
+                        <li class="breadcrumb-item active">Chi tiết đơn bán lẻ</li>
                     </ol>
                 </div>
 
@@ -22,7 +22,14 @@
         </div>
     </div>
     <!-- end page title -->
-
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xl-9">
             <div class="d-flex justify-content-between">

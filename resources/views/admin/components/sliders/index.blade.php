@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
+Danh sách sliders
 @endsection
 
 @section('content')

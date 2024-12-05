@@ -26,8 +26,8 @@
                         </div>
                         <div class="col-sm-auto">
                             <div>
-                                <a href="{{ route('inventories.export') }}" class="btn btn-success btn-sm"><i
-                                        class="ri-download-2-fill align-middle me-1"></i>Xuất Excel</a>
+                                <a href="{{ route('inventories.export') }}" class="btn btn-success btn-sm no-loading"><i
+                                    class="ri-download-2-fill align-middle me-1"></i>Xuất Excel</a>
                             </div>
                         </div>
                         <div class="col-sm-auto">
@@ -42,12 +42,12 @@
                             </div>
                         </div>
                         <div class="col-sm-auto">
-                            <button class="btn btn-warning btn-sm" id="editSelected">Sửa giá sỉ</button>
+                            <button class="btn btn-warning btn-sm" id="editSelected">Sửa giá bán lẻ</button>
                         </div>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form id="bulkEditForm" method="POST" action="{{ route('inventories.bulkUpdate') }}">
+                    <form id="mainForm" method="POST" action="{{ route('inventories.bulkUpdate') }}">
                         @csrf
                         <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                             style="width:100%">
@@ -61,7 +61,7 @@
                                     <th>ĐVT</th>
                                     <th>GNTB</th>
                                     <th>GNGN</th>
-                                    <th>Giá sỉ</th>
+                                    <th>Giá bán lẻ</th>
                                     <th>LSXN</th>
                                     <th>Hiển thị</th>
                                 </tr>
@@ -251,16 +251,16 @@
         </div>
     </div>
 
-    <!-- Modal sửa giá sỉ -->
+    <!-- Modal sửa giá bán lẻ -->
     <div class="modal fade" id="editPriceModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Sửa giá sỉ cho các sản phẩm đã chọn</h5>
+                    <h5 class="modal-title">Sửa giá bán lẻ cho các sản phẩm đã chọn</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="bulkEditForm" method="POST" action="{{ route('inventories.bulkUpdate') }}">
+                    <form id="priceEditForm" method="POST" action="{{ route('inventories.bulkUpdate') }}">
                         @csrf
                         <div id="priceFields"></div>
                         <input type="hidden" name="selected_variations" id="selected_variations">
@@ -400,37 +400,143 @@
                 var selected = document.querySelectorAll('input[name="selected_variations[]"]:checked');
                 if (selected.length === 0) {
                     alert('Vui lòng chọn ít nhất một sản phẩm để sửa.');
-                } else {
-                    // Lưu ID sản phẩm đã chọn vào hidden input
-                    var selectedIds = Array.from(selected).map(checkbox => checkbox.value);
-                    document.getElementById('selected_variations').value = selectedIds.join(',');
-
-                    // Xóa các trường nhập giá cũ
-                    document.getElementById('priceFields').innerHTML = '';
-
-                    // Tạo các trường nhập giá cho từng sản phẩm đã chọn
-                    selected.forEach(function(checkbox) {
-                        var variationId = checkbox.value;
-                        var sku = checkbox.getAttribute('data-sku'); // Lấy SKU từ thuộc tính data
-                        var name = checkbox.getAttribute('data-name'); // Lấy tên từ thuộc tính data
-                        var currentPrice = checkbox.getAttribute(
-                            'data-current-price'); // Lấy giá hiện tại từ thuộc tính data
-                        var priceField = `
-                            <div class="mb-3">
-                                <label for="wholesale_price_${variationId}" class="form-label">Giá sỉ cho sản phẩm: ${sku} - ${name}:</label>
-                                <div>
-                                    <strong>Giá hiện tại: ${currentPrice}</strong>
-                                </div>
-                                <input type="text" class="form-control" id="wholesale_price_${variationId}" name="wholesale_price[${variationId}]" placeholder="Nhập giá sỉ mới">
-                            </div>
-                        `;
-                        document.getElementById('priceFields').insertAdjacentHTML('beforeend', priceField);
-                    });
-
-                    // Hiển thị modal
-                    $('#editPriceModal').modal('show');
+                    return;
                 }
+
+                // Lưu ID sản phẩm đã chọn vào hidden input
+                var selectedIds = Array.from(selected).map(checkbox => checkbox.value);
+                document.getElementById('selected_variations').value = selectedIds.join(',');
+
+                // Xóa các trường nhập giá cũ
+                document.getElementById('priceFields').innerHTML = '';
+
+                // Tạo các trường nhập giá cho từng sản phẩm đã chọn
+                selected.forEach(function(checkbox) {
+                    var variationId = checkbox.value;
+                    var sku = checkbox.getAttribute('data-sku');
+                    var name = checkbox.getAttribute('data-name');
+                    var currentPrice = checkbox.getAttribute('data-current-price');
+                    var priceField = `
+                        <div class="mb-3">
+                            <label for="wholesale_price_${variationId}" class="form-label">Giá bán lẻ cho sản phẩm: ${sku} - ${name}:</label>
+                            <div>
+                                <strong>Giá hiện tại: ${currentPrice}</strong>
+                            </div>
+                            <input type="text" class="form-control price-input" 
+                                   id="wholesale_price_${variationId}" 
+                                   name="wholesale_price[${variationId}]" 
+                                   placeholder="Nhập giá bán lẻ mới">
+                            <div class="text-danger mt-2 d-none" id="error-wholesale_price_${variationId}"></div>
+                        </div>
+                    `;
+                    document.getElementById('priceFields').insertAdjacentHTML('beforeend', priceField);
+                });
+
+                // Hiển thị modal
+                $('#editPriceModal').modal('show');
             };
+
+            // Thêm event listener cho form submit
+            document.getElementById('priceEditForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Reset loading state
+                const submitButton = this.querySelector('button[type="submit"]');
+                const originalButtonText = submitButton.innerHTML;
+                
+                // Reset loading state của master layout
+                const loadingOverlay = document.querySelector('.loading');
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+                
+                // Reset all error messages
+                document.querySelectorAll('.alert-danger').forEach(el => {
+                    el.classList.add('d-none');
+                    el.textContent = '';
+                });
+
+                let isValid = true;
+                const priceInputs = document.querySelectorAll('.price-input');
+
+                priceInputs.forEach(function(input) {
+                    const errorDiv = document.getElementById(`error-${input.id}`);
+                    const price = input.value.trim();
+                    
+                    // Kiểm tra giá trị rỗng
+                    if (!price) {
+                        isValid = false;
+                        errorDiv.textContent = 'Vui lòng nhập giá bán lẻ mới';
+                        errorDiv.classList.remove('d-none');
+                        return;
+                    }
+
+                    // Kiểm tra có phải là số không
+                    if (!/^\d+$/.test(price)) {
+                        isValid = false;
+                        errorDiv.textContent = 'Giá sỉ phải là số nguyên dương';
+                        errorDiv.classList.remove('d-none');
+                        input.value = '';
+                        return;
+                    }
+
+                    // Kiểm tra giá trị số
+                    const numericPrice = parseInt(price);
+                    if (numericPrice < 1) {
+                        isValid = false;
+                        errorDiv.textContent = 'Giá bán lẻ phải lớn hơn 0';
+                        errorDiv.classList.remove('d-none');
+                        input.value = '';
+                        return;
+                    }
+                });
+
+                // Nếu có lỗi validation, dừng loading
+                if (!isValid) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalButtonText;
+                    // Ẩn loading của master layout
+                    if (loadingOverlay) {
+                        loadingOverlay.style.display = 'none';
+                    }
+                    return;
+                }
+
+                // Set loading state
+                submitButton.disabled = true;
+                submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...';
+
+                // Submit form
+                this.submit();
+            });
+
+            // Thêm xử lý khi modal đóng để reset form và loading state
+            $('#editPriceModal').on('hidden.bs.modal', function () {
+                const form = document.getElementById('priceEditForm');
+                const submitButton = form.querySelector('button[type="submit"]');
+                
+                // Reset form
+                form.reset();
+                
+                // Reset loading state
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Cập nhật';
+                
+                // Reset loading state của master layout
+                const loadingOverlay = document.querySelector('.loading');
+                if (loadingOverlay) {
+                    loadingOverlay.style.display = 'none';
+                }
+                
+                // Reset error messages
+                document.querySelectorAll('.alert-danger').forEach(el => {
+                    el.classList.add('d-none');
+                    el.textContent = '';
+                });
+            });
+
+            // Thêm class no-loading vào form để ngăn loading mặc định của master layout
+            document.getElementById('priceEditForm').classList.add('no-loading');
         </script>
     @endpush
 @endsection

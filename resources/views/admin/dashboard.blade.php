@@ -20,8 +20,21 @@
 @php
     use App\Models\Import_order;
     use App\Models\Order;
-    $pendingCancelRequests = Import_order::where('status', 1)->whereNotNull('cancel_reason')->get();
-    $orderCancelRequests = Order::whereNotNull('cancel_reason')->get();
+    $pendingNewOrders = Import_order::with('newOrderRequests')
+        ->where('status', 1)
+        ->whereHas('newOrderRequests')
+        ->distinct()
+        ->get()
+        ->unique('slug');
+    $pendingCancelRequests = Import_order::where('status', 1)
+        ->whereNotNull('cancel_reason')
+        ->distinct()
+        ->get()
+        ->unique('slug');
+    $orderCancelRequests = Order::whereNotNull('cancel_reason')
+        ->distinct()
+        ->get()
+        ->unique('slug');
 
     $pendingContracts = App\Models\Contract::where('contract_status_id', 4)->get();
 
@@ -32,7 +45,6 @@
         return $currentTime - $item['timestamp'] < $twoHours;
     });
     session(['pending_contract_pdfs' => $validContracts]);
-
 @endphp
 @section('content')
     <div class="row">
@@ -69,7 +81,6 @@
                                                 Thông Báo Xác Nhận</button>
                                         </div>
                                     </div>
-                                    <!--end row-->
                                 </form>
                             </div>
                         </div><!-- end card header -->
@@ -501,24 +512,24 @@
                                             </div>
                                             <div class="flex-grow-1 ms-2">
                                                 <h5 class="card-title mb-1">Yêu cầu thêm mới đơn hàng nhập:
-                                                    {{ $request->importOrder->slug }}</h5>
+                                                    {{ $request->slug }}</h5>
                                             </div>
                                         </div>
                                         <p class="card-text text-muted">
                                             Sản phẩm:
                                         <ul>
-                                            @foreach ($request->importOrder->newOrderRequests as $item)
+                                            @foreach ($request->newOrderRequests as $item)
                                                 <li>{{ $item->variation->name }} - Số lượng: {{ $item->quantity }}</li>
                                             @endforeach
                                         </ul>
                                         </p>
                                         <div>
                                             <button type="button" class="btn btn-info btn-sm"
-                                                onclick="confirmImportOrder('{{ $request->importOrder->slug }}')">
+                                                onclick="confirmImportOrder('{{ $request->slug }}')">
                                                 Xác Nhận
                                             </button>
                                             <button type="button" class="btn btn-danger btn-sm"
-                                                onclick="rejectImportOrder('{{ $request->importOrder->slug }}')">
+                                                onclick="rejectImportOrder('{{ $request->slug }}')">
                                                 Từ Chối
                                             </button>
                                         </div>

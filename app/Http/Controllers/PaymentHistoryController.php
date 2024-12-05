@@ -39,9 +39,16 @@ class PaymentHistoryController extends Controller
      */
     public function store(StorePayment_historyRequest $request)
     {
+
+
         try {
             DB::transaction(function () use ($request) {
-                // Kiểm tra loại giao dịch và lấy thông tin customer
+                if ($request->transaction_type == 'contract') {
+                    $contract = Contract::findOrFail($request->related_id);
+                    if ($contract->contract_status_id != 6) {
+                        return back()->with('error', 'Chỉ có thể tạo lịch sử thanh toán khi hợp đồng đã được khách hàng xác nhận');
+                    }
+                }
                 if ($request->transaction_type === 'sale') {
                     $order = Order::findOrFail($request->related_id);
                     if ($order->contract_id !== null) {
@@ -95,7 +102,7 @@ class PaymentHistoryController extends Controller
                 throw new \Exception('Giao dịch này đã được xác nhận trước đó');
             }
 
-            // Cập nhật số tiền của customer
+            // Cập nhật số ti��n của customer
             $customer = null;
             if ($payment->transaction_type === 'sale') {
                 $order = Order::findOrFail($payment->related_id);

@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    Thêm đơn hàng
+    Thêm đơn bán lẻ
 @endsection
 @section('content')
     <!-- start page title -->
@@ -10,26 +10,33 @@
                 <h4 class="mb-sm-0">Thêm mới đơn hàng</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn hàng</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('order.index') }}">Đơn bán lẻ</a></li>
                         <li class="breadcrumb-item active">Thêm mới đơn hàng</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
-    <!-- end page title -->
     <form method="POST" class="form-datalist" action="{{ route('order.store') }}">
         @csrf
+        <input type="hidden" name="debug" value="1">
+        <div class="card-header border-0 mb-4">
+            <div class="row g-4">
+                <div class="col-sm-auto">
+                    <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                            class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-body mb-2">
                         <label class="form-label" for="customer_id">Tên người đặt</label>
                         <div class="position-relative">
-                            <input type="text" name="customer_id"
-                                class="form-control @error('customer_id') is-invalid @enderror" id="customer_id"
+                            <input type="text" name="customer_display" class="form-control" id="customer_id"
                                 placeholder="Nhập tên người đặt" autocomplete="off">
-                            <input type="hidden" name="customer_id" id="hidden_customer_id">
+                            <input type="hidden" name="hidden_customer_id" id="hidden_customer_id">
                             <div class="customer-list-dropdown" style="display:none;">
                                 <ul class="list-group">
                                     @foreach ($customers as $customer)
@@ -51,23 +58,6 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-
-                        <div class="mt-2 ">
-                            <label class="form-label" for="payment_id">Phương thức thanh toán</label>
-                            <select class="form-select @error('payment_id') is-invalid @enderror" id="payment_id"
-                                name="payment_id" data-choices data-choices-search-false>
-                                <option value="">Chọn Phương Thức Thanh Toán</option>
-                                @foreach ($payments as $id => $name)
-                                    <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
-                                        {{ $name }}</option>
-                                @endforeach
-                            </select>
-                            @error('payment_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
                     </div>
                 </div>
                 <div class="card" id="receiver-info">
@@ -152,7 +142,7 @@
                                 </div>
                             </div>
                         </div>
-              
+
                         <div class="my-2">
                             <label class="form-label" for="address">Địa chỉ cụ thể(*Số nhà, đường, ngõ, ngách, cụm
                                 dân
@@ -191,12 +181,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
             </div>
             <div class="col-lg-6">
                 <div class="card">
@@ -210,10 +194,9 @@
                             <div class="row gy-4" id="product_list">
                                 <div class="col-md-12" id="product_default_item">
                                     <div class="mb-2">
-                                        <label class="form-label" for="product-variant-input">Sản phẩm</label>
+                                        <label class="form-label">Sản phẩm</label>
                                         <select class="form-select @error('variation_id') is-invalid @enderror"
-                                            id="product-variant-input" name="variation_id[]"
-                                            onchange="updatePrice(this)">
+                                            name="variation_id[]" onchange="updatePrice(this)">
                                             <option value="0">Chọn Sản Phẩm</option>
                                             @foreach ($variation as $variant)
                                                 <option value="{{ $variant->id }}"
@@ -233,22 +216,20 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Giá sản phẩm</label>
-                                                <input type="number" class="form-control" name="product_price[]"
-                                                    id="product-price-input">
+                                                <input type="number" class="form-control" name="product_price[]" readonly>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Số lượng sản phẩm</label>
                                                 <input type="number" class="form-control" name="product_quantity[]"
-                                                    id="product-quantity-input" placeholder="Nhập số lượng">
+                                                    placeholder="Nhập số lượng" onchange="calculateTotal()">
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Số lượng trong kho</label>
-                                                <input type="number" class="form-control" name="stock"
-                                                    id="product-stock-input" readonly>
+                                                <input type="number" class="form-control" name="stock" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -263,14 +244,8 @@
                         <div class="row align-items-end">
                             <div class="col-md-6">
                                 <div class="mb-0">
-                                    <label class="form-label" for="total_amount">Tổng giá trị đơn hàng</label>
-                                    <input type="text" class="form-control form-control" id="total_amount"
-                                        value="" readonly name="total_amount">
-                                    @error('total_order_value')
-                                        <span role="alert">
-                                            <span class="text-danger">{{ $message }}</span>
-                                        </span>
-                                    @enderror
+                                    <label class="form-label">Tổng giá trị đơn hàng</label>
+                                    <input type="text" class="form-control" id="total_amount" readonly name="total_amount">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -281,8 +256,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- end card -->
-
             </div>
         </div>
     </form>
@@ -325,18 +298,18 @@
                     options += `
                 ${currentValue == "{{ $variant->id }}" || !selectedValues.includes("{{ $variant->id }}") ?
                 `<option value="{{ $variant->id }}"
-                                                            data-price="{{ $variant->retail_price }}"
-                                                            data-stock="{{ $variant->stock }}"
-                                                            ${currentValue == "{{ $variant->id }}" ? 'selected' : ''}>
-                                                            {{ $variant->name }}
-                                                        </option>` : ''}
+                                                                data-price="{{ $variant->retail_price }}"
+                                                                data-stock="{{ $variant->stock }}"
+                                                                ${currentValue == "{{ $variant->id }}" ? 'selected' : ''}>
+                                                                {{ $variant->name }}
+                                                            </option>` : ''}
             `;
                 @endforeach
 
                 select.innerHTML = options;
             });
         }
-        // Hàm để cập nhật giá khi chọn sản phẩm
+        // Hàm đ��� cập nhật giá khi chọn sản phẩm
         function updatePrice(selectElement) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
 
@@ -371,12 +344,11 @@
             // Cập nhật giá trị
             if (priceInput && price) {
                 priceInput.value = price;
-                console.log('Updated price input:', priceInput.value);
+                calculateTotal();
             }
 
             if (stockInput && stock) {
                 stockInput.value = stock;
-                console.log('Updated stock input:', stockInput.value);
             }
             updateAllSelects();
         }
@@ -393,10 +365,10 @@
                 productOptions += `
             ${!selectedProducts.includes("{{ $variant->id }}") ?
             `<option value="{{ $variant->id }}"
-                                                            data-price="{{ $variant->retail_price }}"
-                                                            data-stock="{{ $variant->stock }}">
-                                                            {{ $variant->name }}
-                                                        </option>` : ''}
+                                                                data-price="{{ $variant->retail_price }}"
+                                                                data-stock="{{ $variant->stock }}">
+                                                                {{ $variant->name }}
+                                                            </option>` : ''}
         `;
             @endforeach
             let html = `
@@ -440,7 +412,7 @@
     </div>`;
 
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
-            addInputListeners();
+            reattachInputListeners();
             updateAllSelects();
         }
 
@@ -449,63 +421,33 @@
             let total = 0;
             const quantities = document.getElementsByName('product_quantity[]');
             const prices = document.getElementsByName('product_price[]');
+
             // Tính tổng dựa trên số lượng và giá
             for (let i = 0; i < quantities.length; i++) {
-                total += (parseFloat(quantities[i].value) || 0) * (parseFloat(prices[i].value) || 0);
+                const quantity = parseFloat(quantities[i].value) || 0;
+                const price = parseFloat(prices[i].value) || 0;
+                total += quantity * price;
             }
-            // Định dạng tổng số thành dạng có dấu chấm phân cách hàng nghìn (ví dụ: 500.000)
+
+            // Định dạng tổng số thành dạng có dấu chấm phân cách hàng nghìn
             const formattedTotal = total.toFixed(0).toLocaleString('vi-VN');
-            // Gán giá trị đã định dạng vào ô input
             document.getElementById('total_amount').value = formattedTotal;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get old values
-            const oldVariationIds = @json(old('variation_id', []));
-            const oldQuantities = @json(old('product_quantity', []));
-            const oldPrices = @json(old('product_price', []));
-
-            // If there are old values, set them
-            if (oldVariationIds.length > 0) {
-                // Set values for default item first
-                const defaultSelect = document.querySelector('#product_default_item [name="variation_id[]"]');
-                const defaultPrice = document.querySelector('#product_default_item [name="product_price[]"]');
-                const defaultQuantity = document.querySelector('#product_default_item [name="product_quantity[]"]');
-
-                if (defaultSelect) defaultSelect.value = oldVariationIds[0];
-                if (defaultPrice) defaultPrice.value = oldPrices[0];
-                if (defaultQuantity) defaultQuantity.value = oldQuantities[0];
-
-                // Add additional items if there were more than one
-                for (let i = 1; i < oldVariationIds.length; i++) {
-                    addProduct();
-                }
-
-                // Set values for additional items
-                document.querySelectorAll('[name="variation_id[]"]').forEach((select, index) => {
-                    if (index === 0) return; // Skip default item
-                    select.value = oldVariationIds[index];
-                    const priceInput = select.closest('.col-md-12').querySelector(
-                        '[name="product_price[]"]');
-                    const quantityInput = select.closest('.col-md-12').querySelector(
-                        '[name="product_quantity[]"]');
-
-                    if (priceInput) priceInput.value = oldPrices[index];
-                    if (quantityInput) quantityInput.value = oldQuantities[index];
-                });
-
-                // Recalculate total
-                calculateTotal();
-            }
-        });
-
-
-        // Hàm để thêm sự kiện lắng nghe cho input
-        function addInputListeners() {
-            document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
+        // Thêm hàm để gắn lại các event listener cho input số lượng và giá
+        function reattachInputListeners() {
+            document.querySelectorAll('[name="product_quantity[]"], [name="product_price[]"]').forEach(input => {
+                input.removeEventListener('input', calculateTotal);
                 input.addEventListener('input', calculateTotal);
             });
         }
+
+        // Gọi hàm khi trang được tải và sau khi thêm sản phẩm mới
+        document.addEventListener('DOMContentLoaded', function() {
+            reattachInputListeners();
+            calculateTotal();
+        });
+
         // Hàm để xóa sản phẩm
         function removeProduct(id) {
             if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -513,11 +455,6 @@
                 calculateTotal();
             }
         }
-        // Gọi hàm khi trang được tải lần đầu
-        document.addEventListener('DOMContentLoaded', function() {
-            addInputListeners();
-            calculateTotal();
-        });
     </script>
 
     <script>
@@ -667,11 +604,11 @@
                                 <div class="mt-2">
                                     <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
                                     ${!location.is_active ? `
-                                                                                                                                                                        <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                                                                                                        <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                                                                                                    ` : `
-                                                                                                                                                                        <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                                                                                                    `}
+                                                                                                                                                                            <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                                                                                                            <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                                                                                                        ` : `
+                                                                                                                                                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                                                                                                        `}
                                 </div>
                             </div>
                             <hr>
@@ -781,7 +718,7 @@
                         document.getElementById('location-input').value = '';
 
                         if (data && data.is_active) {
-                            // Cập nhật thông tin cơ bản
+                            // Cập nh��t thông tin cơ bản
                             document.getElementById('customer_name').value = data.customer_name || '';
                             document.getElementById('email').value = data.email || '';
                             document.getElementById('number_phone').value = data.number_phone || '';
@@ -887,7 +824,7 @@
                         $('button[onclick="setDefaultAddress(' + locationId + ')"]').closest('.address-item')
                             .find('strong').after('<span class="badge bg-danger ms-2">Mặc định</span>');
 
-                        // Gọi API để lấy thông tin chi tiết địa chỉ
+                        // Gọi API để lấy thông tin chi tiết địa ch
                         fetch(`/locations/getLocation/${locationId}`)
                             .then(response => response.json())
                             .then(data => {
@@ -952,5 +889,152 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+
+        function validateOrderForm() {
+            let isValid = true;
+            const errors = [];
+
+            // 1. Validate khách hàng
+            const customerId = document.getElementById('hidden_customer_id');
+            const customerInput = document.getElementById('customer_id');
+            if (!customerId.value) {
+                isValid = false;
+                addErrorMessage(customerInput, 'Vui lòng chọn khách hàng');
+                errors.push('Vui lòng chọn khách hàng');
+            }
+
+            // 2. Validate thông tin người nhận
+            const receiverFields = {
+                'customer_name': 'Tên người nhận',
+                'number_phone': 'Số điện thoại',
+                'email': 'Email',
+                'address': 'Địa chỉ cụ thể'
+            };
+
+            Object.entries(receiverFields).forEach(([fieldId, fieldName]) => {
+                const field = document.getElementById(fieldId);
+                const value = field.value.trim();
+
+                if (!value) {
+                    isValid = false;
+                    addErrorMessage(field, `${fieldName} không được để trống`);
+                    errors.push(`${fieldName} không được để trống`);
+                } else if (fieldId === 'email' && !validateEmail(value)) {
+                    isValid = false;
+                    addErrorMessage(field, 'Email không đúng định dạng');
+                    errors.push('Email không đúng định dạng');
+                } else if (fieldId === 'number_phone' && !validatePhone(value)) {
+                    isValid = false;
+                    addErrorMessage(field, 'Số điện thoại không đúng định dạng');
+                    errors.push('Số điện thoại không đúng định dạng');
+                }
+            });
+
+            // 3. Validate địa chỉ
+            const locationFields = ['provinces', 'districts', 'wards'];
+            const locationInput = document.getElementById('location-input');
+
+            if (locationFields.some(field => !document.getElementById(field).value)) {
+                isValid = false;
+                addErrorMessage(locationInput, 'Vui lòng chọn đầy đủ địa chỉ');
+                errors.push('Vui lòng chọn đầy đủ địa chỉ');
+            }
+
+            // 4. Validate sản phẩm
+            const products = document.querySelectorAll('[name="variation_id[]"]');
+            let hasValidProduct = false;
+
+            products.forEach((product, index) => {
+                if (product.value !== '0') {
+                    hasValidProduct = true;
+                    const quantity = document.getElementsByName('product_quantity[]')[index];
+                    const stock = product.options[product.selectedIndex].getAttribute('data-stock');
+                    const quantityValue = parseInt(quantity.value);
+
+                    if (!quantity.value) {
+                        isValid = false;
+                        addErrorMessage(quantity, 'Vui lòng nhập số lượng');
+                        errors.push('Vui lòng nhập số lượng cho sản phẩm');
+                    } else if (isNaN(quantityValue) || quantityValue <= 0) {
+                        isValid = false;
+                        addErrorMessage(quantity, 'Số lượng phải lớn hơn 0');
+                        errors.push('Số lượng phải lớn hơn 0');
+                    } else if (quantityValue > parseInt(stock)) {
+                        isValid = false;
+                        addErrorMessage(quantity, `Số lượng không được vượt quá ${stock}`);
+                        errors.push(`Số lượng không được vượt quá ${stock}`);
+                    }
+                } else {
+                    // Thêm đoạn này để hiển thị lỗi khi chưa chọn sản phẩm
+                    isValid = false;
+                    addErrorMessage(product, 'Vui lòng chọn sản phẩm');
+                    errors.push('Vui lòng chọn sản phẩm');
+                }
+            });
+
+
+            // Hiển thị tất cả lỗi nếu có
+            if (!isValid) {
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+
+            return isValid;
+        }
+
+        // Hàm validate email
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Hàm validate số điện thoại
+        function validatePhone(phone) {
+            const re = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+            return re.test(phone);
+        }
+
+        // Hàm thêm thông báo lỗi
+        function addErrorMessage(element, message) {
+            removeErrorMessage(element);
+            element.classList.add('is-invalid');
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'invalid-feedback';
+            errorDiv.textContent = message;
+            element.parentNode.appendChild(errorDiv);
+        }
+
+        // Hàm xóa thông báo lỗi
+        function removeErrorMessage(element) {
+            element.classList.remove('is-invalid');
+            const errorDiv = element.parentNode.querySelector('.invalid-feedback');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+
+        // Gắn sự kiện submit cho form
+        document.querySelector('.form-datalist').addEventListener('submit', function(e) {
+            // Xóa tất cả thông báo lỗi cũ
+            document.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
+            document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+
+            if (!validateOrderForm()) {
+                e.preventDefault();
+            }
+        });
+
+        // Xóa thông báo lỗi khi người dùng nhập liệu
+        document.querySelectorAll('input, select').forEach(element => {
+            element.addEventListener('input', function() {
+                removeErrorMessage(this);
+            });
+            element.addEventListener('change', function() {
+                removeErrorMessage(this);
+            });
+        });
     </script>
 @endsection
+

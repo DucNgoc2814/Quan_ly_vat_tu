@@ -12,7 +12,7 @@
                 <h4 class="mb-sm-0">Cập nhật đơn hàng</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn hàng</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('importOrder.index') }}">Đơn hàng nhập</a></li>
                         <li class="breadcrumb-item active">Cập nhật đơn hàng</li>
                     </ol>
                 </div>
@@ -21,7 +21,14 @@
         </div>
     </div>
     <!-- end page title -->
-
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('importOrder.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <form method="POST" action="{{ route('importOrder.update', ['slug' => $import_order->slug]) }}">
         @csrf
         @method('PUT')
@@ -29,7 +36,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="mb-2">
+                        <div>
                             <label class="form-label" for="payment_id ">Phương thức thanh toán</label>
                             <select class="form-select @error('payment_id') is-invalid @enderror" id="payment_id"
                                 name="payment_id" data-choices data-choices-search-false>

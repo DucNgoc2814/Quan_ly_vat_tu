@@ -21,17 +21,6 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header border-0">
-                    <div class="row g-4">
-                        <div class="col-sm-auto">
-                            <div>
-                                <a href="{{ route('contract.create') }}" class="btn btn-success" id="addproduct-btn">
-                                    <i class="ri-add-line align-bottom me-1"></i>Thêm hợp đồng
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="card-body">
                     <table id="myTable" class="fs-13 table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
@@ -57,30 +46,72 @@
                                     <td>{{ $data->customer_phone }}</td>
                                     <td
                                         class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">
-                                        {{ $data->total_amount }}
+                                        {{ number_format($data->total_amount) }}
                                     </td>
                                     <td
                                         class="{{ $data->total_amount == $data->paid_amount ? 'text-success' : 'text-danger' }}">
-                                        {{ $data->paid_amount }}
+                                        {{ number_format($data->paid_amount) }}
                                     </td>
                                     <td>{{ $data->employee->name }}</td>
                                     <td id="status-{{ $data->id }}" data-contract-id="{{ $data->id }}">
-                                        @if ($data->contract_status_id == 1)
-                                            <form action="{{ route('contract.sendToManager', $data->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-primary btn-sm">
-                                                    Gửi giám đốc
-                                                </button>
-                                            </form>
-                                        @elseif ($data->contract_status_id == 2)
-                                            <form action="{{ route('contract.sendToCustomer', $data->id) }}" method="POST"
-                                                style="display:inline;">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">
-                                                    Gửi khách hàng
-                                                </button>
-                                            </form>
+                                        @php
+                                            $statusConfig = [
+                                                1 => [
+                                                    'type' => 'button',
+                                                    'class' => 'btn-primary',
+                                                    'route' => 'contract.sendToManager',
+                                                    'text' => 'Gửi giám đốc',
+                                                ],
+                                                2 => [
+                                                    'type' => 'button',
+                                                    'class' => 'btn-success',
+                                                    'route' => 'contract.sendToCustomer',
+                                                    'text' => 'Gửi khách hàng',
+                                                ],
+                                                3 => ['type' => 'badge', 'class' => 'bg-danger', 'text' => 'Đã hủy'],
+                                                4 => [
+                                                    'type' => 'badge',
+                                                    'class' => 'bg-warning',
+                                                    'text' => 'Đang chờ xác nhận',
+                                                ],
+                                                5 => [
+                                                    'type' => 'badge',
+                                                    'class' => 'bg-info',
+                                                    'text' => 'Chờ khách hàng xác nhận',
+                                                ],
+                                                6 => [
+                                                    'type' => 'badge',
+                                                    'class' => 'bg-primary',
+                                                    'text' => 'Đang tiến hành',
+                                                ],
+                                                7 => [
+                                                    'type' => 'badge',
+                                                    'class' => 'bg-danger',
+                                                    'text' => 'Khách hàng không đồng ý',
+                                                ],
+                                                8 => [
+                                                    'type' => 'badge',
+                                                    'class' => 'bg-success',
+                                                    'text' => 'Hoàn thành',
+                                                ],
+                                                9 => ['type' => 'badge', 'class' => 'bg-danger', 'text' => 'Quá hạn'],
+                                            ];
+
+                                            $status = $statusConfig[$data->contract_status_id] ?? null;
+                                        @endphp
+
+                                        @if ($status)
+                                            @if ($status['type'] === 'button')
+                                                <form action="{{ route($status['route'], $data->id) }}" method="POST"
+                                                    style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-sm {{ $status['class'] }}">
+                                                        {{ $status['text'] }}
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <span class="badge {{ $status['class'] }}">{{ $status['text'] }}</span>
+                                            @endif
                                         @else
                                             {{ $data->contractStatus->name }}
                                         @endif

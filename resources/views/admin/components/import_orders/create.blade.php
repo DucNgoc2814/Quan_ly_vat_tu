@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Thêm đơn hàng
+    Thêm đơn nhập
 @endsection
 
 @section('content')
@@ -11,11 +11,19 @@
                 <h4 class="mb-sm-0">Thêm đơn nhập hàng</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn nhập hàng</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('importOrder.index') }}">Đơn nhập hàng</a></li>
                         <li class="breadcrumb-item active">Thêm đơn nhập hàng</li>
                     </ol>
                 </div>
 
+            </div>
+        </div>
+    </div>
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('importOrder.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
             </div>
         </div>
     </div>
@@ -45,10 +53,9 @@
                 </div>
 
                 <!-- Nút chọn sản phẩm -->
-                <button type="button" class="btn btn-primary" onclick="openProductModal()">
+                <button type="button" class="btn btn-primary mt-3" onclick="openProductModal()">
                     Chọn sản phẩm nhập
                 </button>
-
                 <!-- Bảng hiển thị sản phẩm đã chọn -->
                 <div class="table-responsive mt-3">
                     <table class="table" id="selectedProductsTable">

@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Danh sách chuyến đi
+    Danh sách chuyến xe
 @endsection
 @section('content')
     <div class="row">
