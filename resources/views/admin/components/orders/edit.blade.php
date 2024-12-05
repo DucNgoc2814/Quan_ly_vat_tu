@@ -12,7 +12,7 @@
                 <h4 class="mb-sm-0">Cập nhật đơn hàng</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn hàng</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('order.index') }}">Đơn hàng</a></li>
                         <li class="breadcrumb-item active">Cập nhật đơn hàng</li>
                     </ol>
                 </div>
@@ -21,7 +21,14 @@
         </div>
     </div>
     <!-- end page title -->
-
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                        class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <form method="POST" action="{{ route('order.update', ['slug' => $order->slug]) }}">
         @csrf
         @method('PUT')

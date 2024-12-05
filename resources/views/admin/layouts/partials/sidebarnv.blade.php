@@ -31,7 +31,7 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span data-key="t-menu">Menu</span></li>
                 <a class="nav-link" href="{{route('orderconfirm.dashboard')}}">
-                    <i class="ri-dashboard-2-line"></i> <span>Dashboards</span>
+                    <i class="ri-dashboard-2-line"></i> <span>Bảng điều khiển</span>
                 </a>
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button"

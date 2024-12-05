@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    Thêm đơn hàng
+    Thêm đơn bán lẻ
 @endsection
 @section('content')
     <!-- start page title -->
@@ -10,7 +10,7 @@
                 <h4 class="mb-sm-0">Thêm mới đơn hàng</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn hàng</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('order.index') }}">Đơn bán lẻ</a></li>
                         <li class="breadcrumb-item active">Thêm mới đơn hàng</li>
                     </ol>
                 </div>
@@ -20,6 +20,14 @@
     <!-- end page title -->
     <form method="POST" class="form-datalist" action="{{ route('order.store') }}">
         @csrf
+        <div class="card-header border-0 mb-4">
+            <div class="row g-4">
+                <div class="col-sm-auto">
+                    <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                        class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class="card">
@@ -191,12 +199,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
-
-
-
             </div>
             <div class="col-lg-6">
                 <div class="card">

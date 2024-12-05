@@ -13,14 +13,21 @@
                 <h4 class="mb-0 font-size-18">Sửa thông tin nhà cung cấp</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Nhà cung cấp</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('suppliers.index') }}">Danh sách nhà cung cấp</a></li>
                         <li class="breadcrumb-item active">Sửa thông tin</li>
                     </ol>
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('suppliers.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <form method="POST" action="{{ route('suppliers.update', $supplier->id) }}">
         @csrf
         @method('PUT')
