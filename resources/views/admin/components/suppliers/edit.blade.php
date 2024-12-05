@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+<<<<<<< HEAD
     <div class="container-fluid">
         <!-- Breadcrumb -->
         <div class="row mb-4">
@@ -64,6 +65,71 @@
                                         <div class="text-danger mt-1">{{ $message }}</div>
                                     @enderror
                                 </div>
+=======
+<div class="container-fluid">
+    <!-- Breadcrumb -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="page-title-box d-flex align-items-center justify-content-between">
+                <h4 class="mb-0 font-size-18">Sửa thông tin nhà cung cấp</h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="{{ route('suppliers.index') }}">Danh sách nhà cung cấp</a></li>
+                        <li class="breadcrumb-item active">Sửa thông tin</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('suppliers.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
+    <form method="POST" action="{{ route('suppliers.update', $supplier->id) }}">
+        @csrf
+        @method('PUT')
+        <div class="row">
+            <!-- Thông tin cơ bản -->
+            <div class="col-lg-8">
+                <div class="card shadow-sm mb-4">
+                    <div class="card-header bg-transparent py-3">
+                        <h5 class="card-title mb-0">Thông tin cơ bản</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label fw-semibold">Tên nhà cung cấp</label>
+                                <input type="text" class="form-control" name="name" value="{{ $supplier->name }}">
+                                @error('name')
+                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label fw-semibold">Email</label>
+                                <input type="text" class="form-control" name="email" value="{{ $supplier->email }}">
+                                @error('email')
+                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label fw-semibold">Số điện thoại</label>
+                                <input type="text" class="form-control" name="number_phone"
+                                    value="{{ $supplier->number_phone }}">
+                                @error('number_phone')
+                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-md-12 mb-1">
+                                <label class="form-label fw-semibold">Địa chỉ</label>
+                                <input type="text" class="form-control" name="address" value="{{ $supplier->address }}">
+                                @error('address')
+                                    <div class="text-danger mt-1">{{ $message }}</div>
+                                @enderror
+>>>>>>> 0156c15cb39a673cc6b47b32b097b04f0838c1f0
                             </div>
                         </div>
                     </div>

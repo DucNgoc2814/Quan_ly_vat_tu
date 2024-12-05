@@ -1,17 +1,17 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Danh sách người lao động
+    Danh sách nhân sự
 @endsection
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Danh sách người lao động</h4>
+                <h4 class="mb-sm-0">Danh sách nhân sự</h4>
                 <div class="col-sm-auto">
                     <div>
                         <a href="{{ route('employees.create') }}" class="btn btn-success" id="addproduct-btn"><i
-                                class="ri-add-line align-bottom me-1"></i>Thêm người lao động</a>
+                                class="ri-add-line align-bottom me-1"></i>Thêm nhân sự</a>
                     </div>
                 </div>
             </div>

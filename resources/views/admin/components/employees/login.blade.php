@@ -170,7 +170,6 @@
     <script src="{{ asset('themes/admin/assets/libs/feather-icons/feather.min.js') }}"></script>
     <script src="{{ asset('themes/admin/assets/js/pages/plugins/lord-icon-2.1.0.js') }}"></script>
     <script src="{{ asset('themes/admin/assets/js/plugins.js') }}"></script>
-
     <!-- password-addon init -->
     <script src="{{ asset('themes/admin/assets/js/pages/password-addon.init.js') }}"></script>
 </body>

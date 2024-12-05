@@ -1,49 +1,45 @@
 @extends('admin.layouts.master')
 
 @section('title')
+    Thêm đơn vị
 @endsection
 
 @section('content')
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">{{$title}}</h4>
+                <h4 class="mb-sm-0">{{ $title }}</h4>
 
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Đơn Vị</a></li>
-                        <li class="breadcrumb-item active">{{$title}}</li>
+                        <li class="breadcrumb-item"><a href="{{ route('units.index') }}">Đơn vị tính</a></li>
+                        <li class="breadcrumb-item active">{{ $title }}</li>
                     </ol>
                 </div>
 
             </div>
         </div>
     </div>
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('units.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                {{-- <div class="card-header border-0">
-                    <div class="row g-4">
-
-                        <div class="col-sm">
-                            <div class="d-flex justify-content-sm-end">
-                                <form class="search-box ms-2" method="GET" action="">
-                                    <input type="text" class="form-control" id="searchProductList" name="search"
-                                        placeholder="Tìm bài viết...">
-                                    <i class="ri-search-line search-icon"></i>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div> --}}
                 <div class="card-body">
                     <form action="{{ route('units.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
-                            
+
                             <div class="col-lg-10">
                                 <label class="form-label">Tên đơn vị</label>
-                                <input type="text" name="name" placeholder="Nhập tên đơn vị..." class="form-control" value="{{ old('name') }}">
+                                <input type="text" name="name" placeholder="Nhập tên đơn vị..." class="form-control"
+                                    value="{{ old('name') }}">
                                 @error('name')
                                     <p class="text-danger">{{ $message }}</p>
                                 @enderror
@@ -87,4 +83,3 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
-

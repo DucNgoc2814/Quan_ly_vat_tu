@@ -1,6 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
+    Danh sách xe vận chuyển
 @endsection
 
 @section('content')
@@ -45,7 +46,8 @@
                                         @if ($item->is_active == 1)
                                             <span style="color: green" class=" badge-soft-success">Đang vận chuyển</span>
                                         @elseif ($item->is_active == 0)
-                                            <span style="color: rgb(17, 47, 216)" class=" badge-soft-danger">Đang trống</span>
+                                            <span style="color: rgb(17, 47, 216)" class=" badge-soft-danger">Đang
+                                                trống</span>
                                         @else
                                             <span style="color: red" class=" badge-soft-danger">Chờ xác nhận</span>
                                         @endif

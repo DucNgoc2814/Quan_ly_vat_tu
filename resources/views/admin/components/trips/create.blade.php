@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Thêm đơn vận chuyển
+    Thêm chuyến xe
 @endsection
 
 @section('content')
@@ -9,10 +9,10 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Thêm mới vận chuyển</h4>
+                <h4 class="mb-sm-0">Thêm chuyến xe</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="{{ route('trips.index') }}">Vận chuyển</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('trips.index') }}">Quản lý chuyến xe</a></li>
                         <li class="breadcrumb-item active">Thêm mới đơn vận chuyển</li>
                     </ol>
                 </div>
@@ -21,7 +21,14 @@
         </div>
     </div>
     <!-- end page title -->
-
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('trips.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <form method="POST" action="{{ route('trips.store') }}">
         @csrf
         <div class="row">

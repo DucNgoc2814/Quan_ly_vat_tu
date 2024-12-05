@@ -8,8 +8,13 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Chi tiết hợp đồng</h4>
+                <div class="page-title-right">
+                    <ol class="breadcrumb m-0">
+                        <li class="breadcrumb-item"><a href="{{ route('contract.index') }}">Danh sách hợp đồng</a></li>
+                        <li class="breadcrumb-item active">Chi tiết hợp đồng</li>
+                    </ol>
+                </div>
             </div>
-
         </div>
     </div>
     <div class="row">
@@ -19,9 +24,8 @@
                     <div class="row align-items-center">
                         <div class="col-lg-8">
                             <div class="d-flex align-items-center gap-3">
-                                <a href="" class="btn btn-secondary">
-                                    <i class="ri-arrow-left-line align-bottom me-1"></i>Quay lại danh sách
-                                </a>
+                                <a href="{{ route('contract.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
                                 <button class="btn btn-primary" onclick="showPdf({{ $contract->id }})">
                                     <i class="ri-file-pdf-line align-bottom me-1"></i>Xem hợp đồng
                                 </button>

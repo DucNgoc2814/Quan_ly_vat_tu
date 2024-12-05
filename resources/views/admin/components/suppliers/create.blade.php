@@ -12,7 +12,7 @@
                 <h4 class="mb-sm-0">Thêm mới nhà cung cấp</h4>
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Danh sách</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('suppliers.index') }}">Danh sách nhà cung câps</a></li>
                         <li class="breadcrumb-item active">Thêm mới nhà cung cấp</li>
                     </ol>
                 </div>
@@ -20,7 +20,14 @@
         </div>
     </div>
     <!-- end page title -->
-
+    <div class="card-header border-0 mb-4">
+        <div class="row g-4">
+            <div class="col-sm-auto">
+                <a href="{{ route('suppliers.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+            </div>
+        </div>
+    </div>
     <form method="POST" action="{{ route('suppliers.store') }}" enctype="multipart/form-data">
         @csrf
         <div class="card">
