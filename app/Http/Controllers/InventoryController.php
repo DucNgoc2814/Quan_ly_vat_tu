@@ -27,8 +27,10 @@ class InventoryController extends Controller
         $variations = Variation::with('importOrderDetails') // Lấy thông tin đơn hàng nhập
             ->orderBy('id', 'desc')
             ->get();
-        $inventories = Inventory::orderBy('created_at', 'desc')->get();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('variations', 'inventories'));
+        $allVariationIds = Variation::pluck('id')->toArray();
+        
+        $inventories = Inventory::orderBy('id', 'desc')->get();
+        return view(self::PATH_VIEW . __FUNCTION__, compact('variations', 'inventories', 'allVariationIds'));
     }
 
     public function getDetail($id)
@@ -50,9 +52,9 @@ public function bulkUpdate(Request $request)
         'wholesale_price.*' => 'required|numeric|min:1', // Thêm validation rule này
     ], [
         'selected_variations.required' => 'Vui lòng chọn ít nhất một sản phẩm',
-        'wholesale_price.*.required' => 'Giá sỉ không được để trống',
-        'wholesale_price.*.numeric' => 'Giá sỉ phải là số',
-        'wholesale_price.*.min' => 'Giá sỉ phải lớn hơn 0',
+        'wholesale_price.*.required' => 'Giá bán lẻ không được để trống',
+        'wholesale_price.*.numeric' => 'Giá bán lẻ phải là số',
+        'wholesale_price.*.min' => 'Giá bán lẻ phải lớn hơn 0',
     ]);
 
     try {
@@ -69,9 +71,9 @@ public function bulkUpdate(Request $request)
             }
         }
 
-        return redirect()->back()->with('success', 'Cập nhật giá sỉ thành công');
+        return redirect()->back()->with('success', 'Cập nhật giá bán lẻ thành công');
     } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật giá sỉ');
+        return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật giá bán lẻ');
     }
 }
 

@@ -45,15 +45,11 @@
                                         <div class="position-relative h-100 d-flex flex-column">
                                             <div class="mb-4">
                                                 <a href="index.html" class="d-block">
-                                                    <img src="{{ asset('themes/admin/assets/images/logo-light.png') }}"
-                                                        alt="" height="18">
+                                                    <img src="{{ asset('themes/admin/assets/images/gemo2.png') }}"
+                                                        alt="" height="200">
                                                 </a>
                                             </div>
                                             <div class="mt-auto">
-                                                <div class="mb-3">
-                                                    <i class="ri-double-quotes-l display-4 text-success"></i>
-                                                </div>
-
                                                 <div id="qoutescarouselIndicators" class="carousel slide"
                                                     data-bs-ride="carousel">
                                                     <div class="carousel-indicators">
@@ -96,7 +92,7 @@
                                     <div class="p-lg-5 p-4">
                                         <div>
                                             <h5 class="text-primary">Chào Mừng Trở Lại!</h5>
-                                            <p class="text-muted">Đăng nhập để tiếp tục vào Velzon.</p>
+                                            <p class="text-muted">Đăng nhập để tiếp tục vào hệ thống.</p>
                                             @if (session('error'))
                                                 <div class="alert alert-danger">
                                                     {{ session('error') }}
@@ -147,35 +143,7 @@
                                                     <button class="btn btn-success w-100" type="submit">Đăng
                                                         Nhập</button>
                                                 </div>
-
-                                                <div class="mt-4 text-center">
-                                                    <div class="signin-other-title">
-                                                        <h5 class="fs-13 mb-4 title">Đăng nhập bằng</h5>
-                                                    </div>
-
-                                                    <div>
-                                                        <button type="button"
-                                                            class="btn btn-primary btn-icon waves-effect waves-light"><i
-                                                                class="ri-facebook-fill fs-16"></i></button>
-                                                        <button type="button"
-                                                            class="btn btn-danger btn-icon waves-effect waves-light"><i
-                                                                class="ri-google-fill fs-16"></i></button>
-                                                        <button type="button"
-                                                            class="btn btn-dark btn-icon waves-effect waves-light"><i
-                                                                class="ri-github-fill fs-16"></i></button>
-                                                        <button type="button"
-                                                            class="btn btn-info btn-icon waves-effect waves-light"><i
-                                                                class="ri-twitter-fill fs-16"></i></button>
-                                                    </div>
-                                                </div>
-
                                             </form>
-                                        </div>
-
-                                        <div class="mt-5 text-center">
-                                            <p class="mb-0">Chưa có tài khoản? <a href="auth-signup-cover.html"
-                                                    class="fw-semibold text-primary text-decoration-underline">Đăng
-                                                    ký</a> </p>
                                         </div>
                                     </div>
                                 </div>
@@ -186,32 +154,12 @@
                         <!-- end card -->
                     </div>
                     <!-- end col -->
-
                 </div>
                 <!-- end row -->
             </div>
             <!-- end container -->
         </div>
         <!-- end auth page content -->
-
-        <!-- footer -->
-        <footer class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="text-center">
-                            <p class="mb-0">&copy;
-                                <script>
-                                    document.write(new Date().getFullYear())
-                                </script> Velzon. Được tạo với <i class="mdi mdi-heart text-danger"></i>
-                                bởi Themesbrand
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
-        <!-- end Footer -->
     </div>
     <!-- end auth-page-wrapper -->
 

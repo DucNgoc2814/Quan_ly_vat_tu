@@ -51,23 +51,6 @@
                                 <strong>{{ $message }}</strong>
                             </span>
                         @enderror
-
-                        <div class="mt-2 ">
-                            <label class="form-label" for="payment_id">Phương thức thanh toán</label>
-                            <select class="form-select @error('payment_id') is-invalid @enderror" id="payment_id"
-                                name="payment_id" data-choices data-choices-search-false>
-                                <option value="">Chọn Phương Thức Thanh Toán</option>
-                                @foreach ($payments as $id => $name)
-                                    <option value="{{ $id }}" @if (old('payment_id') == $id) selected @endif>
-                                        {{ $name }}</option>
-                                @endforeach
-                            </select>
-                            @error('payment_id')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                        </div>
                     </div>
                 </div>
                 <div class="card" id="receiver-info">
@@ -371,12 +354,11 @@
             // Cập nhật giá trị
             if (priceInput && price) {
                 priceInput.value = price;
-                console.log('Updated price input:', priceInput.value);
+                calculateTotal();
             }
 
             if (stockInput && stock) {
                 stockInput.value = stock;
-                console.log('Updated stock input:', stockInput.value);
             }
             updateAllSelects();
         }
@@ -440,7 +422,7 @@
     </div>`;
 
             document.getElementById('product_list').insertAdjacentHTML('beforeend', html);
-            addInputListeners();
+            reattachInputListeners();
             updateAllSelects();
         }
 
@@ -449,63 +431,33 @@
             let total = 0;
             const quantities = document.getElementsByName('product_quantity[]');
             const prices = document.getElementsByName('product_price[]');
+            
             // Tính tổng dựa trên số lượng và giá
             for (let i = 0; i < quantities.length; i++) {
-                total += (parseFloat(quantities[i].value) || 0) * (parseFloat(prices[i].value) || 0);
+                const quantity = parseFloat(quantities[i].value) || 0;
+                const price = parseFloat(prices[i].value) || 0;
+                total += quantity * price;
             }
-            // Định dạng tổng số thành dạng có dấu chấm phân cách hàng nghìn (ví dụ: 500.000)
+            
+            // Định dạng tổng số thành dạng có dấu chấm phân cách hàng nghìn
             const formattedTotal = total.toFixed(0).toLocaleString('vi-VN');
-            // Gán giá trị đã định dạng vào ô input
             document.getElementById('total_amount').value = formattedTotal;
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get old values
-            const oldVariationIds = @json(old('variation_id', []));
-            const oldQuantities = @json(old('product_quantity', []));
-            const oldPrices = @json(old('product_price', []));
-
-            // If there are old values, set them
-            if (oldVariationIds.length > 0) {
-                // Set values for default item first
-                const defaultSelect = document.querySelector('#product_default_item [name="variation_id[]"]');
-                const defaultPrice = document.querySelector('#product_default_item [name="product_price[]"]');
-                const defaultQuantity = document.querySelector('#product_default_item [name="product_quantity[]"]');
-
-                if (defaultSelect) defaultSelect.value = oldVariationIds[0];
-                if (defaultPrice) defaultPrice.value = oldPrices[0];
-                if (defaultQuantity) defaultQuantity.value = oldQuantities[0];
-
-                // Add additional items if there were more than one
-                for (let i = 1; i < oldVariationIds.length; i++) {
-                    addProduct();
-                }
-
-                // Set values for additional items
-                document.querySelectorAll('[name="variation_id[]"]').forEach((select, index) => {
-                    if (index === 0) return; // Skip default item
-                    select.value = oldVariationIds[index];
-                    const priceInput = select.closest('.col-md-12').querySelector(
-                        '[name="product_price[]"]');
-                    const quantityInput = select.closest('.col-md-12').querySelector(
-                        '[name="product_quantity[]"]');
-
-                    if (priceInput) priceInput.value = oldPrices[index];
-                    if (quantityInput) quantityInput.value = oldQuantities[index];
-                });
-
-                // Recalculate total
-                calculateTotal();
-            }
-        });
-
-
-        // Hàm để thêm sự kiện lắng nghe cho input
-        function addInputListeners() {
-            document.querySelectorAll('[name="product_quantity[]"]').forEach(input => {
+        // Thêm hàm để gắn lại các event listener cho input số lượng và giá
+        function reattachInputListeners() {
+            document.querySelectorAll('[name="product_quantity[]"], [name="product_price[]"]').forEach(input => {
+                input.removeEventListener('input', calculateTotal);
                 input.addEventListener('input', calculateTotal);
             });
         }
+
+        // Gọi hàm khi trang được tải và sau khi thêm sản phẩm mới
+        document.addEventListener('DOMContentLoaded', function() {
+            reattachInputListeners();
+            calculateTotal();
+        });
+
         // Hàm để xóa sản phẩm
         function removeProduct(id) {
             if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này?')) {
@@ -513,11 +465,6 @@
                 calculateTotal();
             }
         }
-        // Gọi hàm khi trang được tải lần đầu
-        document.addEventListener('DOMContentLoaded', function() {
-            addInputListeners();
-            calculateTotal();
-        });
     </script>
 
     <script>

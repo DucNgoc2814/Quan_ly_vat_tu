@@ -37,7 +37,6 @@ class ActivityLogExport implements FromArray, WithHeadings, WithStyles, ShouldAu
     public function styles(Worksheet $sheet)
     {
         return [
-            // Style cho header
             1 => [
                 'font' => [
                     'bold' => true,
@@ -53,7 +52,6 @@ class ActivityLogExport implements FromArray, WithHeadings, WithStyles, ShouldAu
                     ]
                 ]
             ],
-            // Style cho toàn bộ nội dung
             'A1:F'.$sheet->getHighestRow() => [
                 'borders' => [
                     'allBorders' => [

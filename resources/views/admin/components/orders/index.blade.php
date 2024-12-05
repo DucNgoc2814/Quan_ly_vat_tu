@@ -36,7 +36,6 @@
                                     <th data-ordering="false">Số điện thoại</th>
                                     <th>Tổng tiền</th>
                                     <th>Đã trả</th>
-                                    <th>PTTT</th>
                                     <th data-ordering="false">Ngày đặt hàng </th>
                                     <th>Trạng thái</th>
                                     <th>Thao tác</th>
@@ -49,12 +48,12 @@
                                         <td>{{ $order->customer->name ?? 'Đơn hợp đồng' }}</td>
                                         <td>{{ $order->customer_name }}</td>
                                         <td>{{ $order->number_phone }}</td>
-                                        <td class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($order->total_amount) }}</td>
-                                        <td class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($order->paid_amount) }}</td>
-                                        <td>
-                                            <span
-                                                class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng hợp đồng' }}</span>
-                                        </td>
+                                        <td
+                                            class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">
+                                            {{ number_format($order->total_amount) }}</td>
+                                        <td
+                                            class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">
+                                            {{ number_format($order->paid_amount) }}</td>
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
                                             @if ($order->status_id < 4)
@@ -62,7 +61,8 @@
                                                     method="POST" class="{{ $order->slug }} d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
-                                                    <select name="status" class="form-select form-select-sm status-select"
+                                                    <select name="status"
+                                                        class="form-select form-select-sm status-select order-status-select"
                                                         data-order-slug="{{ $order->slug }}"
                                                         id="statusSelect-{{ $order->slug }}"
                                                         onchange="handleStatusChange(this, '{{ $order->slug }}')">
@@ -240,7 +240,8 @@
                             error: function(xhr) {
                                 Swal.fire({
                                     title: 'Lỗi!',
-                                    text: xhr.responseJSON?.message || 'Không thể gửi yêu cầu hủy đơn hàng',
+                                    text: xhr.responseJSON?.message ||
+                                        'Không thể gửi yêu cầu hủy đơn hàng',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
@@ -351,5 +352,55 @@
 
         });
     </script>
+    <style>
+        /* Thêm class cụ thể cho select trạng thái đơn hàng */
+        .order-status-select {
+            height: 32px;
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 0.2rem;
+            min-width: 120px;
+            background-color: #fff;
+            border: 1px solid #e9ebec;
+            color: #495057;
+            cursor: pointer;
+        }
 
+        .order-status-select:focus {
+            border-color: #86b7fe;
+            outline: 0;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+        }
+
+        .order-status-select option {
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        /* Màu nền cho các trạng thái */
+        .order-status-select option[value="1"] {
+            background-color: #fff4e0;
+            color: #b76e00;
+        }
+
+        .order-status-select option[value="2"] {
+            background-color: #e0f4ff;
+            color: #006aac;
+        }
+
+        .order-status-select option[value="3"] {
+            background-color: #e8fff3;
+            color: #007847;
+        }
+
+        .order-status-select option[value="4"] {
+            background-color: #e8fff3;
+            color: #007847;
+        }
+
+        .order-status-select option[value="5"] {
+            background-color: #ffe0e0;
+            color: #ac0000;
+        }
+    </style>
 @endsection

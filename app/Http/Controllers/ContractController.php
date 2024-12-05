@@ -27,6 +27,8 @@ use App\Models\Contract_status_time;
 use App\Models\Customer;
 use App\Models\Payment;
 use App\Models\Payment_history;
+use Illuminate\Support\Facades\Session;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class ContractController extends Controller
 {
@@ -48,7 +50,7 @@ class ContractController extends Controller
     {
         $variation = Variation::all();
         $customers  = Customer::all();
-        return view(self::PATH_VIEW . __FUNCTION__, compact('variation','customers'));
+        return view(self::PATH_VIEW . __FUNCTION__, compact('variation', 'customers'));
     }
 
     /**
@@ -67,7 +69,7 @@ class ContractController extends Controller
             // 1. Tạo hợp đồng mới với trạng thái mặc định là 1 (đang chờ)
             $contract = Contract::create([
                 'contract_status_id' => 1,
-                'employee_id' => '1',
+                'employee_id' => JWTAuth::setToken(Session::get('token'))->getPayload()->get('id'),
                 'customer_id' => $request->customer_id,
                 'contract_number' => $contractNumber,
                 'customer_name' => $request->customer_name,
@@ -449,12 +451,72 @@ class ContractController extends Controller
 
     public function show($id)
     {
-        $contract = Contract::with('contractDetails')->findOrFail($id);
-        $totalPaid = $contract->orders()->where('status_id', 4)->sum('total_amount'); // Giả sử status_id = 1 là thành công
-        $percentagePaid = $totalPaid / $contract->total_amount * 100; // Tính tỷ lệ phần trăm
+        $contract = Contract::with(['contractDetails', 'orders'])->findOrFail($id);
+
+        // Tính tổng tiền đã thanh toán
+        $totalPaid = Payment_history::where('related_id', $id)
+            ->where('transaction_type', 'contract')
+            ->sum('amount');
+
+        // Tính phần trăm thanh toán
+        $percentagePaid = $contract->total_amount > 0 ?
+            ($totalPaid / $contract->total_amount * 100) : 0;
+
+        // Kiểm tra trạng thái giao hàng
+        $deliveryStatus = [];
+        $totalDelivered = 0;
+        $totalQuantity = 0;
+
+        foreach ($contract->contractDetails as $detail) {
+            $totalQuantity += $detail->quantity;
+            $delivered = $detail->quantity - $detail->remaining_quantity;
+            $totalDelivered += $delivered;
+
+            $deliveryStatus[] = [
+                'product' => $detail->variation->name,
+                'total' => $detail->quantity,
+                'delivered' => $delivered,
+                'remaining' => $detail->remaining_quantity
+            ];
+        }
+
+        $percentageDelivered = $totalQuantity > 0 ?
+            ($totalDelivered / $totalQuantity * 100) : 0;
+
         $payments = Payment::pluck('name', 'id');
-        $paymentHistories = Payment_history::where('related_id', $id)->where('transaction_type', 'contract')->get();
-        return view('admin.components.contract.detail', compact('contract', 'totalPaid', 'paymentHistories', 'payments'));
+        $paymentHistories = Payment_history::where('related_id', $id)
+            ->where('transaction_type', 'contract')
+            ->get();
+
+        // Thêm biến kiểm tra điều kiện tạo đơn hàng và thanh toán
+        $canCreateOrderAndPayment = $contract->contract_status_id == 6;
+
+        // Thêm mảng thông báo trạng thái
+        $statusMessages = [
+            1 => 'Hợp đồng chưa được gửi cho giám đốc',
+            2 => 'Hợp đồng chưa được gửi cho khách hàng',
+            3 => 'Hợp đồng đã bị hủy',
+            4 => 'Hợp đồng đang chờ giám đốc xác nhận',
+            5 => 'Đang chờ khách hàng xác nhận',
+            7 => 'Khách hàng không đồng ý với hợp đồng',
+            8 => 'Hợp đồng đã hoàn thành',
+            9 => 'Hợp đồng đã quá hạn'
+        ];
+
+        // Kiểm tra và cập nhật trạng thái nếu cần
+        $this->checkAndUpdateContractStatus($contract);
+
+        return view('admin.components.contract.detail', compact(
+            'contract',
+            'totalPaid',
+            'percentagePaid',
+            'deliveryStatus',
+            'percentageDelivered',
+            'paymentHistories',
+            'payments',
+            'canCreateOrderAndPayment',
+            'statusMessages'
+        ));
     }
 
     /**
@@ -488,5 +550,64 @@ class ContractController extends Controller
         } catch (Exception $exception) {
             return back()->with('error', $exception->getMessage());
         }
+    }
+
+    private function checkAndUpdateContractStatus(Contract $contract)
+    {
+        // Chỉ kiểm tra với hợp đồng đang tiến hành
+        if ($contract->contract_status_id == 6) {
+            // Kiểm tra đã thanh toán đủ chưa
+            $totalPaid = Payment_history::where('related_id', $contract->id)
+                ->where('transaction_type', 'contract')
+                ->sum('amount');
+            
+            // Kiểm tra đã giao đủ hàng chưa
+            $allProductsDelivered = true;
+            foreach ($contract->contractDetails as $detail) {
+                if ($detail->remaining_quantity > 0) {
+                    $allProductsDelivered = false;
+                    break;
+                }
+            }
+
+            // Kiểm tra có quá hạn không
+            $isOverdue = now()->gt($contract->timeend);
+
+            // Nếu quá hạn
+            if ($isOverdue) {
+                $contract->contract_status_id = 9; // Quá hạn
+            }
+            // Nếu đã thanh toán đủ và giao đủ hàng
+            elseif ($totalPaid >= $contract->total_amount && $allProductsDelivered) {
+                $contract->contract_status_id = 8; // Hoàn thành
+            }
+
+            // Nếu có sự thay đổi trạng thái
+            if ($contract->isDirty('contract_status_id')) {
+                $contract->save();
+
+                // Tạo lịch sử trạng thái
+                Contract_status_time::create([
+                    'contract_id' => $contract->id,
+                    'contract_status_id' => $contract->contract_status_id
+                ]);
+
+                event(new ContractStatusUpdated($contract));
+            }
+        }
+    }
+
+
+    // Method để validate trạng thái hợp đồng
+    public function validateContractStatus($contract_id)
+    {
+        $contract = Contract::findOrFail($contract_id);
+        if ($contract->contract_status_id != 6) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Hợp đồng phải được khách hàng xác nhận trước khi thực hiện thao tác này'
+            ], 403);
+        }
+        return true;
     }
 }
