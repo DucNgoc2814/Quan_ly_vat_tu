@@ -1,0 +1,661 @@
+[2024-12-04 00:04:32] local.INFO: === START LOGGING ===  
+[2024-12-04 00:04:32] local.INFO: Auth Check: No  
+[2024-12-04 00:04:32] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:04:32] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:04:32] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:04:32] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:04:32] local.INFO: File Exists: Yes  
+[2024-12-04 00:04:32] local.INFO: Loading existing file...  
+[2024-12-04 00:04:32] local.INFO: File Save Attempted  
+[2024-12-04 00:04:32] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:04:32] local.INFO: File Size: 39970 bytes  
+[2024-12-04 00:38:34] local.INFO: === START LOGGING ===  
+[2024-12-04 00:38:34] local.INFO: Auth Check: No  
+[2024-12-04 00:38:34] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:38:34] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:38:34] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:38:34] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:38:34] local.INFO: File Exists: Yes  
+[2024-12-04 00:38:34] local.INFO: Loading existing file...  
+[2024-12-04 00:38:35] local.INFO: File Save Attempted  
+[2024-12-04 00:38:35] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:38:35] local.INFO: File Size: 40005 bytes  
+[2024-12-04 00:38:35] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 100  
+[2024-12-04 00:38:35] local.DEBUG: Số lượng mua của variation 1 là: 9  
+[2024-12-04 00:38:35] local.INFO: === START LOGGING ===  
+[2024-12-04 00:38:35] local.INFO: Auth Check: No  
+[2024-12-04 00:38:35] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:38:35] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:38:35] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:38:35] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:38:35] local.INFO: File Exists: Yes  
+[2024-12-04 00:38:35] local.INFO: Loading existing file...  
+[2024-12-04 00:38:35] local.INFO: File Save Attempted  
+[2024-12-04 00:38:35] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:38:35] local.INFO: File Size: 40036 bytes  
+[2024-12-04 00:39:47] local.INFO: === START LOGGING ===  
+[2024-12-04 00:39:47] local.INFO: Auth Check: No  
+[2024-12-04 00:39:47] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:39:47] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:39:47] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:39:47] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:39:47] local.INFO: File Exists: Yes  
+[2024-12-04 00:39:47] local.INFO: Loading existing file...  
+[2024-12-04 00:39:47] local.INFO: File Save Attempted  
+[2024-12-04 00:39:47] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:39:47] local.INFO: File Size: 40072 bytes  
+[2024-12-04 00:39:47] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 91  
+[2024-12-04 00:39:47] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 00:39:47] local.INFO: === START LOGGING ===  
+[2024-12-04 00:39:47] local.INFO: Auth Check: No  
+[2024-12-04 00:39:47] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:39:47] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:39:47] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:39:47] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:39:47] local.INFO: File Exists: Yes  
+[2024-12-04 00:39:47] local.INFO: Loading existing file...  
+[2024-12-04 00:39:48] local.INFO: File Save Attempted  
+[2024-12-04 00:39:48] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:39:48] local.INFO: File Size: 40098 bytes  
+[2024-12-04 00:40:37] local.INFO: === START LOGGING ===  
+[2024-12-04 00:40:37] local.INFO: Auth Check: No  
+[2024-12-04 00:40:37] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:40:37] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:40:37] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:40:37] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:40:37] local.INFO: File Exists: Yes  
+[2024-12-04 00:40:37] local.INFO: Loading existing file...  
+[2024-12-04 00:40:37] local.INFO: File Save Attempted  
+[2024-12-04 00:40:37] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:40:37] local.INFO: File Size: 40132 bytes  
+[2024-12-04 00:40:37] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 90  
+[2024-12-04 00:40:37] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 00:40:37] local.INFO: === START LOGGING ===  
+[2024-12-04 00:40:37] local.INFO: Auth Check: No  
+[2024-12-04 00:40:37] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:40:37] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:40:37] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:40:37] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:40:37] local.INFO: File Exists: Yes  
+[2024-12-04 00:40:37] local.INFO: Loading existing file...  
+[2024-12-04 00:40:37] local.INFO: File Save Attempted  
+[2024-12-04 00:40:37] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:40:37] local.INFO: File Size: 40158 bytes  
+[2024-12-04 00:42:39] local.INFO: === START LOGGING ===  
+[2024-12-04 00:42:39] local.INFO: Auth Check: No  
+[2024-12-04 00:42:39] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:42:39] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:42:39] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:42:39] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:42:39] local.INFO: File Exists: Yes  
+[2024-12-04 00:42:39] local.INFO: Loading existing file...  
+[2024-12-04 00:42:39] local.INFO: File Save Attempted  
+[2024-12-04 00:42:39] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:42:39] local.INFO: File Size: 40189 bytes  
+[2024-12-04 00:42:40] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 89  
+[2024-12-04 00:42:40] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 00:42:40] local.INFO: === START LOGGING ===  
+[2024-12-04 00:42:40] local.INFO: Auth Check: No  
+[2024-12-04 00:42:40] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:42:40] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:42:40] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:42:40] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:42:40] local.INFO: File Exists: Yes  
+[2024-12-04 00:42:40] local.INFO: Loading existing file...  
+[2024-12-04 00:42:40] local.INFO: File Save Attempted  
+[2024-12-04 00:42:40] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:42:40] local.INFO: File Size: 40220 bytes  
+[2024-12-04 00:48:33] local.INFO: === START LOGGING ===  
+[2024-12-04 00:48:33] local.INFO: Auth Check: No  
+[2024-12-04 00:48:33] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:48:33] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:48:33] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:48:33] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:48:33] local.INFO: File Exists: Yes  
+[2024-12-04 00:48:33] local.INFO: Loading existing file...  
+[2024-12-04 00:48:34] local.INFO: File Save Attempted  
+[2024-12-04 00:48:34] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:48:34] local.INFO: File Size: 40254 bytes  
+[2024-12-04 00:48:34] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 88  
+[2024-12-04 00:48:34] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 00:48:34] local.INFO: === START LOGGING ===  
+[2024-12-04 00:48:34] local.INFO: Auth Check: No  
+[2024-12-04 00:48:34] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:48:34] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:48:34] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:48:34] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:48:34] local.INFO: File Exists: Yes  
+[2024-12-04 00:48:34] local.INFO: Loading existing file...  
+[2024-12-04 00:48:35] local.INFO: File Save Attempted  
+[2024-12-04 00:48:35] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:48:35] local.INFO: File Size: 40284 bytes  
+[2024-12-04 00:54:15] local.INFO: === START LOGGING ===  
+[2024-12-04 00:54:15] local.INFO: Auth Check: No  
+[2024-12-04 00:54:15] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:54:15] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:54:15] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:54:15] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:54:15] local.INFO: File Exists: Yes  
+[2024-12-04 00:54:15] local.INFO: Loading existing file...  
+[2024-12-04 00:54:15] local.INFO: File Save Attempted  
+[2024-12-04 00:54:15] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:54:15] local.INFO: File Size: 40321 bytes  
+[2024-12-04 00:54:16] local.INFO: Order created and broadcasted {"order":{"App\\Models\\Order":{"payment_id":"3","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBEWK005415","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-03T17:54:15.000000Z","created_at":"2024-12-03T17:54:15.000000Z","id":9}}} 
+[2024-12-04 00:54:16] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 87  
+[2024-12-04 00:54:16] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 00:54:16] local.INFO: === START LOGGING ===  
+[2024-12-04 00:54:16] local.INFO: Auth Check: No  
+[2024-12-04 00:54:16] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:54:16] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:54:16] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:54:16] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:54:16] local.INFO: File Exists: Yes  
+[2024-12-04 00:54:16] local.INFO: Loading existing file...  
+[2024-12-04 00:54:16] local.INFO: File Save Attempted  
+[2024-12-04 00:54:16] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:54:16] local.INFO: File Size: 40349 bytes  
+[2024-12-04 00:58:43] local.INFO: === START LOGGING ===  
+[2024-12-04 00:58:43] local.INFO: Auth Check: No  
+[2024-12-04 00:58:43] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:58:43] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:58:43] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:58:43] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:58:43] local.INFO: File Exists: Yes  
+[2024-12-04 00:58:43] local.INFO: Loading existing file...  
+[2024-12-04 00:58:43] local.INFO: File Save Attempted  
+[2024-12-04 00:58:43] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:58:43] local.INFO: File Size: 40384 bytes  
+[2024-12-04 00:58:44] local.INFO: Order created and broadcasted {"order":{"App\\Models\\Order":{"payment_id":"1","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBLWK005843","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-03T17:58:43.000000Z","created_at":"2024-12-03T17:58:43.000000Z","id":10}}} 
+[2024-12-04 00:58:44] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 86  
+[2024-12-04 00:58:44] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 00:58:44] local.INFO: === START LOGGING ===  
+[2024-12-04 00:58:44] local.INFO: Auth Check: No  
+[2024-12-04 00:58:44] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 00:58:44] local.INFO: Directory Exists: Yes  
+[2024-12-04 00:58:44] local.INFO: Directory Writable: Yes  
+[2024-12-04 00:58:44] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 00:58:44] local.INFO: File Exists: Yes  
+[2024-12-04 00:58:44] local.INFO: Loading existing file...  
+[2024-12-04 00:58:44] local.INFO: File Save Attempted  
+[2024-12-04 00:58:44] local.INFO: File Exists After Save: Yes  
+[2024-12-04 00:58:44] local.INFO: File Size: 40411 bytes  
+[2024-12-04 01:03:50] local.INFO: === START LOGGING ===  
+[2024-12-04 01:03:50] local.INFO: Auth Check: No  
+[2024-12-04 01:03:50] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 01:03:50] local.INFO: Directory Exists: Yes  
+[2024-12-04 01:03:50] local.INFO: Directory Writable: Yes  
+[2024-12-04 01:03:50] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 01:03:50] local.INFO: File Exists: Yes  
+[2024-12-04 01:03:50] local.INFO: Loading existing file...  
+[2024-12-04 01:03:50] local.INFO: File Save Attempted  
+[2024-12-04 01:03:50] local.INFO: File Exists After Save: Yes  
+[2024-12-04 01:03:50] local.INFO: File Size: 40449 bytes  
+[2024-12-04 01:03:50] local.INFO: Before broadcasting {"order":{"App\\Models\\Order":{"payment_id":"3","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBFUN010349","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-03T18:03:49.000000Z","created_at":"2024-12-03T18:03:49.000000Z","id":11}}} 
+[2024-12-04 01:03:50] local.INFO: NewOrderCreated event constructed {"order":{"App\\Models\\Order":{"payment_id":"3","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBFUN010349","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-03T18:03:49.000000Z","created_at":"2024-12-03T18:03:49.000000Z","id":11}}} 
+[2024-12-04 01:03:50] local.INFO: After broadcasting {"order":{"App\\Models\\Order":{"payment_id":"3","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBFUN010349","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-03T18:03:49.000000Z","created_at":"2024-12-03T18:03:49.000000Z","id":11}}} 
+[2024-12-04 01:03:50] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 85  
+[2024-12-04 01:03:50] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 01:03:50] local.INFO: === START LOGGING ===  
+[2024-12-04 01:03:50] local.INFO: Auth Check: No  
+[2024-12-04 01:03:50] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 01:03:50] local.INFO: Directory Exists: Yes  
+[2024-12-04 01:03:50] local.INFO: Directory Writable: Yes  
+[2024-12-04 01:03:50] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 01:03:50] local.INFO: File Exists: Yes  
+[2024-12-04 01:03:50] local.INFO: Loading existing file...  
+[2024-12-04 01:03:51] local.INFO: File Save Attempted  
+[2024-12-04 01:03:51] local.INFO: File Exists After Save: Yes  
+[2024-12-04 01:03:51] local.INFO: File Size: 40478 bytes  
+[2024-12-04 10:41:44] local.INFO: === START LOGGING ===  
+[2024-12-04 10:41:44] local.INFO: Auth Check: No  
+[2024-12-04 10:41:44] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 10:41:44] local.INFO: Directory Exists: Yes  
+[2024-12-04 10:41:44] local.INFO: Directory Writable: Yes  
+[2024-12-04 10:41:44] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 10:41:44] local.INFO: File Exists: Yes  
+[2024-12-04 10:41:44] local.INFO: Loading existing file...  
+[2024-12-04 10:41:47] local.INFO: File Save Attempted  
+[2024-12-04 10:41:47] local.INFO: File Exists After Save: Yes  
+[2024-12-04 10:41:47] local.INFO: File Size: 40519 bytes  
+[2024-12-04 10:41:47] local.INFO: Before broadcasting {"order":{"App\\Models\\Order":{"payment_id":"2","customer_id":"3","contract_id":null,"status_id":1,"slug":"DHBAMI104144","customer_name":"Nguyễn Quốc Khánh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0879075925","province":"Tỉnh Hải Dương","district":"Huyện Ninh Giang","ward":"Xã Tân Phong","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T03:41:44.000000Z","created_at":"2024-12-04T03:41:44.000000Z","id":12}}} 
+[2024-12-04 10:41:47] local.INFO: NewOrderCreated event constructed {"order":{"App\\Models\\Order":{"payment_id":"2","customer_id":"3","contract_id":null,"status_id":1,"slug":"DHBAMI104144","customer_name":"Nguyễn Quốc Khánh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0879075925","province":"Tỉnh Hải Dương","district":"Huyện Ninh Giang","ward":"Xã Tân Phong","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T03:41:44.000000Z","created_at":"2024-12-04T03:41:44.000000Z","id":12}}} 
+[2024-12-04 10:41:50] local.INFO: After broadcasting {"order":{"App\\Models\\Order":{"payment_id":"2","customer_id":"3","contract_id":null,"status_id":1,"slug":"DHBAMI104144","customer_name":"Nguyễn Quốc Khánh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0879075925","province":"Tỉnh Hải Dương","district":"Huyện Ninh Giang","ward":"Xã Tân Phong","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T03:41:44.000000Z","created_at":"2024-12-04T03:41:44.000000Z","id":12}}} 
+[2024-12-04 10:41:50] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 84  
+[2024-12-04 10:41:50] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 10:41:50] local.INFO: === START LOGGING ===  
+[2024-12-04 10:41:50] local.INFO: Auth Check: No  
+[2024-12-04 10:41:50] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 10:41:50] local.INFO: Directory Exists: Yes  
+[2024-12-04 10:41:50] local.INFO: Directory Writable: Yes  
+[2024-12-04 10:41:50] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 10:41:50] local.INFO: File Exists: Yes  
+[2024-12-04 10:41:50] local.INFO: Loading existing file...  
+[2024-12-04 10:41:50] local.INFO: File Save Attempted  
+[2024-12-04 10:41:50] local.INFO: File Exists After Save: Yes  
+[2024-12-04 10:41:50] local.INFO: File Size: 40547 bytes  
+[2024-12-04 11:02:05] local.INFO: === START LOGGING ===  
+[2024-12-04 11:02:05] local.INFO: Auth Check: No  
+[2024-12-04 11:02:05] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:02:05] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:02:05] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:02:05] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:02:05] local.INFO: File Exists: Yes  
+[2024-12-04 11:02:05] local.INFO: Loading existing file...  
+[2024-12-04 11:02:08] local.INFO: File Save Attempted  
+[2024-12-04 11:02:08] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:02:08] local.INFO: File Size: 40580 bytes  
+[2024-12-04 11:02:16] local.INFO: === START LOGGING ===  
+[2024-12-04 11:02:16] local.INFO: Auth Check: No  
+[2024-12-04 11:02:16] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:02:16] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:02:16] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:02:16] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:02:16] local.INFO: File Exists: Yes  
+[2024-12-04 11:02:16] local.INFO: Loading existing file...  
+[2024-12-04 11:02:17] local.INFO: File Save Attempted  
+[2024-12-04 11:02:17] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:02:17] local.INFO: File Size: 40613 bytes  
+[2024-12-04 11:04:25] local.INFO: === START LOGGING ===  
+[2024-12-04 11:04:25] local.INFO: Auth Check: No  
+[2024-12-04 11:04:25] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:04:25] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:04:25] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:04:25] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:04:25] local.INFO: File Exists: Yes  
+[2024-12-04 11:04:25] local.INFO: Loading existing file...  
+[2024-12-04 11:04:25] local.INFO: File Save Attempted  
+[2024-12-04 11:04:25] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:04:25] local.INFO: File Size: 40651 bytes  
+[2024-12-04 11:04:25] local.INFO: Before broadcasting {"order":{"App\\Models\\Order":{"payment_id":"3","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBMCK110425","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:04:25.000000Z","created_at":"2024-12-04T04:04:25.000000Z","id":13}}} 
+[2024-12-04 11:04:25] local.INFO: NewOrderCreated event constructed {"order":{"App\\Models\\Order":{"payment_id":"3","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBMCK110425","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:04:25.000000Z","created_at":"2024-12-04T04:04:25.000000Z","id":13}}} 
+[2024-12-04 11:04:25] local.INFO: After broadcasting {"order":{"App\\Models\\Order":{"payment_id":"3","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBMCK110425","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:04:25.000000Z","created_at":"2024-12-04T04:04:25.000000Z","id":13}}} 
+[2024-12-04 11:04:25] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 83  
+[2024-12-04 11:04:25] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 11:04:25] local.INFO: === START LOGGING ===  
+[2024-12-04 11:04:25] local.INFO: Auth Check: No  
+[2024-12-04 11:04:25] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:04:25] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:04:25] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:04:25] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:04:25] local.INFO: File Exists: Yes  
+[2024-12-04 11:04:25] local.INFO: Loading existing file...  
+[2024-12-04 11:04:26] local.INFO: File Save Attempted  
+[2024-12-04 11:04:26] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:04:26] local.INFO: File Size: 40675 bytes  
+[2024-12-04 11:07:19] local.INFO: === START LOGGING ===  
+[2024-12-04 11:07:19] local.INFO: Auth Check: No  
+[2024-12-04 11:07:19] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:07:19] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:07:19] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:07:19] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:07:19] local.INFO: File Exists: Yes  
+[2024-12-04 11:07:19] local.INFO: Loading existing file...  
+[2024-12-04 11:07:20] local.INFO: File Save Attempted  
+[2024-12-04 11:07:20] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:07:20] local.INFO: File Size: 40710 bytes  
+[2024-12-04 11:07:20] local.INFO: Before broadcasting {"order":{"App\\Models\\Order":{"payment_id":"1","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBRTS110719","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:07:19.000000Z","created_at":"2024-12-04T04:07:19.000000Z","id":14}}} 
+[2024-12-04 11:07:20] local.INFO: NewOrderCreated event constructed {"order":{"App\\Models\\Order":{"payment_id":"1","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBRTS110719","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:07:19.000000Z","created_at":"2024-12-04T04:07:19.000000Z","id":14}}} 
+[2024-12-04 11:07:20] local.INFO: After broadcasting {"order":{"App\\Models\\Order":{"payment_id":"1","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBRTS110719","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:07:19.000000Z","created_at":"2024-12-04T04:07:19.000000Z","id":14}}} 
+[2024-12-04 11:07:20] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 82  
+[2024-12-04 11:07:20] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 11:07:20] local.INFO: === START LOGGING ===  
+[2024-12-04 11:07:20] local.INFO: Auth Check: No  
+[2024-12-04 11:07:20] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:07:20] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:07:20] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:07:20] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:07:20] local.INFO: File Exists: Yes  
+[2024-12-04 11:07:20] local.INFO: Loading existing file...  
+[2024-12-04 11:07:20] local.INFO: File Save Attempted  
+[2024-12-04 11:07:20] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:07:20] local.INFO: File Size: 40733 bytes  
+[2024-12-04 11:25:01] local.INFO: === START LOGGING ===  
+[2024-12-04 11:25:01] local.INFO: Auth Check: No  
+[2024-12-04 11:25:01] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:25:01] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:25:01] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:25:01] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:25:01] local.INFO: File Exists: Yes  
+[2024-12-04 11:25:01] local.INFO: Loading existing file...  
+[2024-12-04 11:25:01] local.INFO: File Save Attempted  
+[2024-12-04 11:25:01] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:25:01] local.INFO: File Size: 40770 bytes  
+[2024-12-04 11:25:01] local.INFO: Before broadcasting {"order":{"App\\Models\\Order":{"payment_id":"2","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBSFK112501","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:25:01.000000Z","created_at":"2024-12-04T04:25:01.000000Z","id":15}}} 
+[2024-12-04 11:25:02] local.INFO: After broadcasting {"order":{"App\\Models\\Order":{"payment_id":"2","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBSFK112501","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:25:01.000000Z","created_at":"2024-12-04T04:25:01.000000Z","id":15}}} 
+[2024-12-04 11:25:02] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 81  
+[2024-12-04 11:25:02] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 11:25:02] local.INFO: === START LOGGING ===  
+[2024-12-04 11:25:02] local.INFO: Auth Check: No  
+[2024-12-04 11:25:02] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:25:02] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:25:02] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:25:02] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:25:02] local.INFO: File Exists: Yes  
+[2024-12-04 11:25:02] local.INFO: Loading existing file...  
+[2024-12-04 11:25:02] local.INFO: File Save Attempted  
+[2024-12-04 11:25:02] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:25:02] local.INFO: File Size: 40800 bytes  
+[2024-12-04 11:27:15] local.INFO: === START LOGGING ===  
+[2024-12-04 11:27:15] local.INFO: Auth Check: No  
+[2024-12-04 11:27:15] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:27:15] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:27:15] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:27:15] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:27:15] local.INFO: File Exists: Yes  
+[2024-12-04 11:27:15] local.INFO: Loading existing file...  
+[2024-12-04 11:27:15] local.INFO: File Save Attempted  
+[2024-12-04 11:27:15] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:27:15] local.INFO: File Size: 40832 bytes  
+[2024-12-04 11:27:15] local.INFO: Before broadcasting {"order":{"App\\Models\\Order":{"payment_id":"2","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBUXR112715","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:27:15.000000Z","created_at":"2024-12-04T04:27:15.000000Z","id":16}}} 
+[2024-12-04 11:27:15] local.INFO: Broadcasting NewOrderCreated event {"order":{"App\\Models\\Order":{"id":16,"payment_id":2,"customer_id":2,"status_id":1,"contract_id":null,"slug":"DHBUXR112715","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":9000,"paid_amount":0,"cancel_reason":null,"created_at":"2024-12-04T04:27:15.000000Z","updated_at":"2024-12-04T04:27:15.000000Z"}}} 
+[2024-12-04 11:27:16] local.INFO: After broadcasting {"order":{"App\\Models\\Order":{"payment_id":"2","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBUXR112715","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:27:15.000000Z","created_at":"2024-12-04T04:27:15.000000Z","id":16}}} 
+[2024-12-04 11:27:16] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 80  
+[2024-12-04 11:27:16] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 11:27:16] local.INFO: === START LOGGING ===  
+[2024-12-04 11:27:16] local.INFO: Auth Check: No  
+[2024-12-04 11:27:16] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:27:16] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:27:16] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:27:16] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:27:16] local.INFO: File Exists: Yes  
+[2024-12-04 11:27:16] local.INFO: Loading existing file...  
+[2024-12-04 11:27:16] local.INFO: File Save Attempted  
+[2024-12-04 11:27:16] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:27:16] local.INFO: File Size: 40861 bytes  
+[2024-12-04 11:28:05] local.INFO: === START LOGGING ===  
+[2024-12-04 11:28:05] local.INFO: Auth Check: No  
+[2024-12-04 11:28:05] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:28:05] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:28:05] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:28:05] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:28:05] local.INFO: File Exists: Yes  
+[2024-12-04 11:28:05] local.INFO: Loading existing file...  
+[2024-12-04 11:28:05] local.INFO: File Save Attempted  
+[2024-12-04 11:28:05] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:28:05] local.INFO: File Size: 40894 bytes  
+[2024-12-04 11:28:05] local.INFO: Before broadcasting {"order":{"App\\Models\\Order":{"payment_id":"2","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBQKH112805","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:28:05.000000Z","created_at":"2024-12-04T04:28:05.000000Z","id":17}}} 
+[2024-12-04 11:28:05] local.INFO: Broadcasting NewOrderCreated event {"order":{"App\\Models\\Order":{"id":17,"payment_id":2,"customer_id":2,"status_id":1,"contract_id":null,"slug":"DHBQKH112805","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":9000,"paid_amount":0,"cancel_reason":null,"created_at":"2024-12-04T04:28:05.000000Z","updated_at":"2024-12-04T04:28:05.000000Z"}}} 
+[2024-12-04 11:28:06] local.INFO: After broadcasting {"order":{"App\\Models\\Order":{"payment_id":"2","customer_id":"2","contract_id":null,"status_id":1,"slug":"DHBQKH112805","customer_name":"Nguyễn Quốc Khánhhhhhhhhhh","email":"khanhnqph31968@fpt.edu.vn","number_phone":"0964583629","province":"Tỉnh Bắc Ninh","district":"Huyện Lương Tài","ward":"Xã Phú Lương","address":"Thôn xuân nẻo xã hưng đạo","total_amount":"9000","paid_amount":0,"updated_at":"2024-12-04T04:28:05.000000Z","created_at":"2024-12-04T04:28:05.000000Z","id":17}}} 
+[2024-12-04 11:28:06] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 79  
+[2024-12-04 11:28:06] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 11:28:06] local.INFO: === START LOGGING ===  
+[2024-12-04 11:28:06] local.INFO: Auth Check: No  
+[2024-12-04 11:28:06] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:28:06] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:28:06] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:28:06] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:28:06] local.INFO: File Exists: Yes  
+[2024-12-04 11:28:06] local.INFO: Loading existing file...  
+[2024-12-04 11:28:06] local.INFO: File Save Attempted  
+[2024-12-04 11:28:06] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:28:06] local.INFO: File Size: 40923 bytes  
+[2024-12-04 11:45:11] local.INFO: === START LOGGING ===  
+[2024-12-04 11:45:11] local.INFO: Auth Check: No  
+[2024-12-04 11:45:11] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:45:11] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:45:11] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:45:11] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:45:11] local.INFO: File Exists: Yes  
+[2024-12-04 11:45:11] local.INFO: Loading existing file...  
+[2024-12-04 11:45:11] local.INFO: File Save Attempted  
+[2024-12-04 11:45:11] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:45:11] local.INFO: File Size: 40957 bytes  
+[2024-12-04 11:45:12] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 78  
+[2024-12-04 11:45:12] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 11:45:12] local.INFO: === START LOGGING ===  
+[2024-12-04 11:45:12] local.INFO: Auth Check: No  
+[2024-12-04 11:45:12] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 11:45:12] local.INFO: Directory Exists: Yes  
+[2024-12-04 11:45:12] local.INFO: Directory Writable: Yes  
+[2024-12-04 11:45:12] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 11:45:12] local.INFO: File Exists: Yes  
+[2024-12-04 11:45:12] local.INFO: Loading existing file...  
+[2024-12-04 11:45:12] local.INFO: File Save Attempted  
+[2024-12-04 11:45:12] local.INFO: File Exists After Save: Yes  
+[2024-12-04 11:45:12] local.INFO: File Size: 40985 bytes  
+[2024-12-04 21:36:27] local.INFO: === START LOGGING ===  
+[2024-12-04 21:36:27] local.INFO: Auth Check: No  
+[2024-12-04 21:36:27] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 21:36:27] local.INFO: Directory Exists: Yes  
+[2024-12-04 21:36:27] local.INFO: Directory Writable: Yes  
+[2024-12-04 21:36:27] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 21:36:27] local.INFO: File Exists: Yes  
+[2024-12-04 21:36:27] local.INFO: Loading existing file...  
+[2024-12-04 21:36:30] local.INFO: File Save Attempted  
+[2024-12-04 21:36:30] local.INFO: File Exists After Save: Yes  
+[2024-12-04 21:36:30] local.INFO: File Size: 41022 bytes  
+[2024-12-04 21:36:43] local.INFO: === START LOGGING ===  
+[2024-12-04 21:36:43] local.INFO: Auth Check: No  
+[2024-12-04 21:36:43] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 21:36:43] local.INFO: Directory Exists: Yes  
+[2024-12-04 21:36:43] local.INFO: Directory Writable: Yes  
+[2024-12-04 21:36:43] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 21:36:43] local.INFO: File Exists: Yes  
+[2024-12-04 21:36:43] local.INFO: Loading existing file...  
+[2024-12-04 21:36:43] local.INFO: File Save Attempted  
+[2024-12-04 21:36:43] local.INFO: File Exists After Save: Yes  
+[2024-12-04 21:36:43] local.INFO: File Size: 41056 bytes  
+[2024-12-04 21:40:56] local.INFO: === START LOGGING ===  
+[2024-12-04 21:40:56] local.INFO: Auth Check: No  
+[2024-12-04 21:40:56] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 21:40:56] local.INFO: Directory Exists: Yes  
+[2024-12-04 21:40:56] local.INFO: Directory Writable: Yes  
+[2024-12-04 21:40:56] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 21:40:56] local.INFO: File Exists: Yes  
+[2024-12-04 21:40:56] local.INFO: Loading existing file...  
+[2024-12-04 21:40:56] local.INFO: File Save Attempted  
+[2024-12-04 21:40:56] local.INFO: File Exists After Save: Yes  
+[2024-12-04 21:40:56] local.INFO: File Size: 41093 bytes  
+[2024-12-04 21:40:57] local.INFO: === START LOGGING ===  
+[2024-12-04 21:40:57] local.INFO: Auth Check: No  
+[2024-12-04 21:40:57] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 21:40:57] local.INFO: Directory Exists: Yes  
+[2024-12-04 21:40:57] local.INFO: Directory Writable: Yes  
+[2024-12-04 21:40:57] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 21:40:57] local.INFO: File Exists: Yes  
+[2024-12-04 21:40:57] local.INFO: Loading existing file...  
+[2024-12-04 21:40:58] local.INFO: File Save Attempted  
+[2024-12-04 21:40:58] local.INFO: File Exists After Save: Yes  
+[2024-12-04 21:40:58] local.INFO: File Size: 41126 bytes  
+[2024-12-04 21:43:18] local.INFO: === START LOGGING ===  
+[2024-12-04 21:43:18] local.INFO: Auth Check: No  
+[2024-12-04 21:43:18] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 21:43:18] local.INFO: Directory Exists: Yes  
+[2024-12-04 21:43:18] local.INFO: Directory Writable: Yes  
+[2024-12-04 21:43:18] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 21:43:18] local.INFO: File Exists: Yes  
+[2024-12-04 21:43:18] local.INFO: Loading existing file...  
+[2024-12-04 21:43:19] local.INFO: File Save Attempted  
+[2024-12-04 21:43:19] local.INFO: File Exists After Save: Yes  
+[2024-12-04 21:43:19] local.INFO: File Size: 41163 bytes  
+[2024-12-04 21:43:20] local.INFO: === START LOGGING ===  
+[2024-12-04 21:43:20] local.INFO: Auth Check: No  
+[2024-12-04 21:43:20] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 21:43:20] local.INFO: Directory Exists: Yes  
+[2024-12-04 21:43:20] local.INFO: Directory Writable: Yes  
+[2024-12-04 21:43:20] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 21:43:20] local.INFO: File Exists: Yes  
+[2024-12-04 21:43:20] local.INFO: Loading existing file...  
+[2024-12-04 21:43:21] local.INFO: File Save Attempted  
+[2024-12-04 21:43:21] local.INFO: File Exists After Save: Yes  
+[2024-12-04 21:43:21] local.INFO: File Size: 41195 bytes  
+[2024-12-04 21:59:59] local.INFO: === START LOGGING ===  
+[2024-12-04 21:59:59] local.INFO: Auth Check: No  
+[2024-12-04 21:59:59] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 21:59:59] local.INFO: Directory Exists: Yes  
+[2024-12-04 21:59:59] local.INFO: Directory Writable: Yes  
+[2024-12-04 21:59:59] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 21:59:59] local.INFO: File Exists: Yes  
+[2024-12-04 21:59:59] local.INFO: Loading existing file...  
+[2024-12-04 22:00:00] local.INFO: File Save Attempted  
+[2024-12-04 22:00:00] local.INFO: File Exists After Save: Yes  
+[2024-12-04 22:00:00] local.INFO: File Size: 41234 bytes  
+[2024-12-04 22:00:04] local.INFO: === START LOGGING ===  
+[2024-12-04 22:00:04] local.INFO: Auth Check: No  
+[2024-12-04 22:00:04] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 22:00:04] local.INFO: Directory Exists: Yes  
+[2024-12-04 22:00:04] local.INFO: Directory Writable: Yes  
+[2024-12-04 22:00:04] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 22:00:04] local.INFO: File Exists: Yes  
+[2024-12-04 22:00:04] local.INFO: Loading existing file...  
+[2024-12-04 22:00:04] local.INFO: File Save Attempted  
+[2024-12-04 22:00:04] local.INFO: File Exists After Save: Yes  
+[2024-12-04 22:00:04] local.INFO: File Size: 41264 bytes  
+[2024-12-04 22:23:14] local.INFO: === START LOGGING ===  
+[2024-12-04 22:23:14] local.INFO: Auth Check: No  
+[2024-12-04 22:23:14] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 22:23:14] local.INFO: Directory Exists: Yes  
+[2024-12-04 22:23:14] local.INFO: Directory Writable: Yes  
+[2024-12-04 22:23:14] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 22:23:14] local.INFO: File Exists: Yes  
+[2024-12-04 22:23:14] local.INFO: Loading existing file...  
+[2024-12-04 22:23:15] local.INFO: File Save Attempted  
+[2024-12-04 22:23:15] local.INFO: File Exists After Save: Yes  
+[2024-12-04 22:23:15] local.INFO: File Size: 41301 bytes  
+[2024-12-04 22:23:16] local.INFO: === START LOGGING ===  
+[2024-12-04 22:23:16] local.INFO: Auth Check: No  
+[2024-12-04 22:23:16] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 22:23:16] local.INFO: Directory Exists: Yes  
+[2024-12-04 22:23:16] local.INFO: Directory Writable: Yes  
+[2024-12-04 22:23:16] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 22:23:16] local.INFO: File Exists: Yes  
+[2024-12-04 22:23:16] local.INFO: Loading existing file...  
+[2024-12-04 22:23:16] local.INFO: File Save Attempted  
+[2024-12-04 22:23:16] local.INFO: File Exists After Save: Yes  
+[2024-12-04 22:23:16] local.INFO: File Size: 41329 bytes  
+[2024-12-04 22:24:20] local.INFO: === START LOGGING ===  
+[2024-12-04 22:24:20] local.INFO: Auth Check: No  
+[2024-12-04 22:24:20] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 22:24:20] local.INFO: Directory Exists: Yes  
+[2024-12-04 22:24:20] local.INFO: Directory Writable: Yes  
+[2024-12-04 22:24:20] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 22:24:20] local.INFO: File Exists: Yes  
+[2024-12-04 22:24:20] local.INFO: Loading existing file...  
+[2024-12-04 22:24:20] local.INFO: File Save Attempted  
+[2024-12-04 22:24:20] local.INFO: File Exists After Save: Yes  
+[2024-12-04 22:24:20] local.INFO: File Size: 41365 bytes  
+[2024-12-04 22:24:22] local.INFO: === START LOGGING ===  
+[2024-12-04 22:24:22] local.INFO: Auth Check: No  
+[2024-12-04 22:24:22] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 22:24:22] local.INFO: Directory Exists: Yes  
+[2024-12-04 22:24:22] local.INFO: Directory Writable: Yes  
+[2024-12-04 22:24:22] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 22:24:22] local.INFO: File Exists: Yes  
+[2024-12-04 22:24:22] local.INFO: Loading existing file...  
+[2024-12-04 22:24:23] local.INFO: File Save Attempted  
+[2024-12-04 22:24:23] local.INFO: File Exists After Save: Yes  
+[2024-12-04 22:24:23] local.INFO: File Size: 41397 bytes  
+[2024-12-04 22:33:49] local.INFO: === START LOGGING ===  
+[2024-12-04 22:33:49] local.INFO: Auth Check: No  
+[2024-12-04 22:33:49] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 22:33:49] local.INFO: Directory Exists: Yes  
+[2024-12-04 22:33:49] local.INFO: Directory Writable: Yes  
+[2024-12-04 22:33:49] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 22:33:49] local.INFO: File Exists: Yes  
+[2024-12-04 22:33:49] local.INFO: Loading existing file...  
+[2024-12-04 22:33:49] local.INFO: File Save Attempted  
+[2024-12-04 22:33:49] local.INFO: File Exists After Save: Yes  
+[2024-12-04 22:33:49] local.INFO: File Size: 41433 bytes  
+[2024-12-04 22:33:51] local.INFO: === START LOGGING ===  
+[2024-12-04 22:33:51] local.INFO: Auth Check: No  
+[2024-12-04 22:33:51] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 22:33:51] local.INFO: Directory Exists: Yes  
+[2024-12-04 22:33:51] local.INFO: Directory Writable: Yes  
+[2024-12-04 22:33:51] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 22:33:51] local.INFO: File Exists: Yes  
+[2024-12-04 22:33:51] local.INFO: Loading existing file...  
+[2024-12-04 22:33:51] local.INFO: File Save Attempted  
+[2024-12-04 22:33:51] local.INFO: File Exists After Save: Yes  
+[2024-12-04 22:33:51] local.INFO: File Size: 41465 bytes  
+[2024-12-04 23:06:08] local.INFO: === START LOGGING ===  
+[2024-12-04 23:06:08] local.INFO: Auth Check: No  
+[2024-12-04 23:06:08] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 23:06:08] local.INFO: Directory Exists: Yes  
+[2024-12-04 23:06:08] local.INFO: Directory Writable: Yes  
+[2024-12-04 23:06:08] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 23:06:08] local.INFO: File Exists: Yes  
+[2024-12-04 23:06:08] local.INFO: Loading existing file...  
+[2024-12-04 23:06:08] local.INFO: File Save Attempted  
+[2024-12-04 23:06:08] local.INFO: File Exists After Save: Yes  
+[2024-12-04 23:06:08] local.INFO: File Size: 41498 bytes  
+[2024-12-04 23:06:08] local.INFO: === START LOGGING ===  
+[2024-12-04 23:06:08] local.INFO: Auth Check: No  
+[2024-12-04 23:06:08] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 23:06:08] local.INFO: Directory Exists: Yes  
+[2024-12-04 23:06:08] local.INFO: Directory Writable: Yes  
+[2024-12-04 23:06:08] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 23:06:08] local.INFO: File Exists: Yes  
+[2024-12-04 23:06:08] local.INFO: Loading existing file...  
+[2024-12-04 23:06:09] local.INFO: File Save Attempted  
+[2024-12-04 23:06:09] local.INFO: File Exists After Save: Yes  
+[2024-12-04 23:06:09] local.INFO: File Size: 41528 bytes  
+[2024-12-04 23:06:09] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 77  
+[2024-12-04 23:06:09] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 23:06:09] local.INFO: === START LOGGING ===  
+[2024-12-04 23:06:09] local.INFO: Auth Check: No  
+[2024-12-04 23:06:09] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 23:06:09] local.INFO: Directory Exists: Yes  
+[2024-12-04 23:06:09] local.INFO: Directory Writable: Yes  
+[2024-12-04 23:06:09] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 23:06:09] local.INFO: File Exists: Yes  
+[2024-12-04 23:06:09] local.INFO: Loading existing file...  
+[2024-12-04 23:06:10] local.INFO: File Save Attempted  
+[2024-12-04 23:06:10] local.INFO: File Exists After Save: Yes  
+[2024-12-04 23:06:10] local.INFO: File Size: 41561 bytes  
+[2024-12-04 23:09:17] local.INFO: === START LOGGING ===  
+[2024-12-04 23:09:17] local.INFO: Auth Check: No  
+[2024-12-04 23:09:17] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 23:09:17] local.INFO: Directory Exists: Yes  
+[2024-12-04 23:09:17] local.INFO: Directory Writable: Yes  
+[2024-12-04 23:09:17] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 23:09:17] local.INFO: File Exists: Yes  
+[2024-12-04 23:09:17] local.INFO: Loading existing file...  
+[2024-12-04 23:09:17] local.INFO: File Save Attempted  
+[2024-12-04 23:09:17] local.INFO: File Exists After Save: Yes  
+[2024-12-04 23:09:17] local.INFO: File Size: 41597 bytes  
+[2024-12-04 23:09:17] local.INFO: === START LOGGING ===  
+[2024-12-04 23:09:17] local.INFO: Auth Check: No  
+[2024-12-04 23:09:17] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 23:09:17] local.INFO: Directory Exists: Yes  
+[2024-12-04 23:09:17] local.INFO: Directory Writable: Yes  
+[2024-12-04 23:09:17] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 23:09:17] local.INFO: File Exists: Yes  
+[2024-12-04 23:09:17] local.INFO: Loading existing file...  
+[2024-12-04 23:09:18] local.INFO: File Save Attempted  
+[2024-12-04 23:09:18] local.INFO: File Exists After Save: Yes  
+[2024-12-04 23:09:18] local.INFO: File Size: 41629 bytes  
+[2024-12-04 23:09:18] local.DEBUG: Số lượng tồn kho (stock) của variation 1 là: 76  
+[2024-12-04 23:09:18] local.DEBUG: Số lượng mua của variation 1 là: 1  
+[2024-12-04 23:09:18] local.INFO: === START LOGGING ===  
+[2024-12-04 23:09:18] local.INFO: Auth Check: No  
+[2024-12-04 23:09:18] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 23:09:18] local.INFO: Directory Exists: Yes  
+[2024-12-04 23:09:18] local.INFO: Directory Writable: Yes  
+[2024-12-04 23:09:18] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 23:09:18] local.INFO: File Exists: Yes  
+[2024-12-04 23:09:18] local.INFO: Loading existing file...  
+[2024-12-04 23:09:19] local.INFO: File Save Attempted  
+[2024-12-04 23:09:19] local.INFO: File Exists After Save: Yes  
+[2024-12-04 23:09:19] local.INFO: File Size: 41656 bytes  
+[2024-12-04 23:32:27] local.INFO: === START LOGGING ===  
+[2024-12-04 23:32:27] local.INFO: Auth Check: No  
+[2024-12-04 23:32:27] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 23:32:27] local.INFO: Directory Exists: Yes  
+[2024-12-04 23:32:27] local.INFO: Directory Writable: Yes  
+[2024-12-04 23:32:27] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 23:32:27] local.INFO: File Exists: Yes  
+[2024-12-04 23:32:27] local.INFO: Loading existing file...  
+[2024-12-04 23:32:28] local.INFO: File Save Attempted  
+[2024-12-04 23:32:28] local.INFO: File Exists After Save: Yes  
+[2024-12-04 23:32:28] local.INFO: File Size: 41689 bytes  
+[2024-12-04 23:33:31] local.INFO: === START LOGGING ===  
+[2024-12-04 23:33:31] local.INFO: Auth Check: No  
+[2024-12-04 23:33:31] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-04 23:33:31] local.INFO: Directory Exists: Yes  
+[2024-12-04 23:33:31] local.INFO: Directory Writable: Yes  
+[2024-12-04 23:33:31] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-04 23:33:31] local.INFO: File Exists: Yes  
+[2024-12-04 23:33:31] local.INFO: Loading existing file...  
+[2024-12-04 23:33:31] local.INFO: File Save Attempted  
+[2024-12-04 23:33:31] local.INFO: File Exists After Save: Yes  
+[2024-12-04 23:33:31] local.INFO: File Size: 41718 bytes  

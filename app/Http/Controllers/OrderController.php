@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Events\NewOrderCreated;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -90,6 +92,8 @@ class OrderController extends Controller
                     "paid_amount" => 0,
                 ];
                 $order = Order::query()->create($dataOrder);
+                $order = Order::query()->create($dataOrder);
+                event(new NewOrderCreated($order));
                 OrderStatusTime::create([
                     'order_id' => $order->id,
                     'order_status_id' => 1,
@@ -143,6 +147,8 @@ class OrderController extends Controller
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
             });
+
+
             return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
             // dd(session('success'));
         } catch (\Throwable $th) {

@@ -49,8 +49,12 @@
                                         <td>{{ $order->customer->name ?? 'Đơn hợp đồng' }}</td>
                                         <td>{{ $order->customer_name }}</td>
                                         <td>{{ $order->number_phone }}</td>
-                                        <td class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($order->total_amount) }}</td>
-                                        <td class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($order->paid_amount) }}</td>
+                                        <td
+                                            class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">
+                                            {{ number_format($order->total_amount) }}</td>
+                                        <td
+                                            class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">
+                                            {{ number_format($order->paid_amount) }}</td>
                                         <td>
                                             <span
                                                 class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng hợp đồng' }}</span>
@@ -240,7 +244,8 @@
                             error: function(xhr) {
                                 Swal.fire({
                                     title: 'Lỗi!',
-                                    text: xhr.responseJSON?.message || 'Không thể gửi yêu cầu hủy đơn hàng',
+                                    text: xhr.responseJSON?.message ||
+                                        'Không thể gửi yêu cầu hủy đơn hàng',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
@@ -351,5 +356,4 @@
 
         });
     </script>
-
 @endsection

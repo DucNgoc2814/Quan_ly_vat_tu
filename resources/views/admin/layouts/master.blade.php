@@ -52,7 +52,8 @@
             key: '{{ config('broadcasting.connections.pusher.key') }}',
             cluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
             forceTLS: true,
-            encrypted: true
+            encrypted: true,
+            enabledTransports: ['ws', 'wss']
         });
     </script>
 
@@ -379,6 +380,8 @@
     </script>
     <script src="{{ asset('themes/admin/assets/js/jquery.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {{-- <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> --}}
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css"> --}}
     <script>
         function changeStatus(nameTable, id, is_active) {
             $.ajax({
@@ -424,53 +427,23 @@
             });
         });
     </script>
+
     <script>
-        
-        window.Echo.channel('contract-notifications')
-            .listen('ContractSentToCustomer', (e) => {
+        window.Echo.channel('order-created')
+            .listen('NewOrderCreated', (e) => {
+                console.log('Nhận được event:', e);
                 Swal.fire({
-                    title: 'Thông báo mới',
-                    text: 'Hợp đồng đã được gửi cho khách hàng',
-                    icon: 'info'
-                });
-            });
-    </script>
-    <script>
-        window.Echo.channel('contract-notifications')
-            .listen('NewContractCreated', (e) => {
-                Swal.fire({
-                    title: 'Thông báo mới',
-                    text: e.message,
+                    title: 'Đơn hàng mới!',
+                    text: `Đơn hàng bán "${e.order.slug}" vừa được tạo`,
                     icon: 'info',
-                    showConfirmButton: true,
-                    timer: 3000
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload();
                 });
             });
     </script>
 
     @yield('scripts')
-    <script>
-        window.Echo.channel('contract-notifications')
-            .listen('ContractSentToCustomer', (e) => {
-                Swal.fire({
-                    title: 'Thông báo mới',
-                    text: 'Hợp đồng đã được gửi cho khách hàng',
-                    icon: 'info'
-                });
-            });
-    </script>
-    <script>
-        window.Echo.channel('contract-notifications')
-            .listen('NewContractCreated', (e) => {
-                Swal.fire({
-                    title: 'Thông báo mới',
-                    text: e.message,
-                    icon: 'info',
-                    showConfirmButton: true,
-                    timer: 3000
-                });
-            });
-    </script>
     @if (session('authorization'))
         {{ session('authorization') }}
     @endif
