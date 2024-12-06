@@ -43,7 +43,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($data as $order)
-                                    <tr>
+                                    <tr data-order-slug="{{ $order->slug }}">
                                         <td>{{ $order->slug }}</td>
                                         <td>{{ $order->customer->name ?? 'Đơn hợp đồng' }}</td>
                                         <td>{{ $order->customer_name }}</td>
@@ -54,6 +54,10 @@
                                         <td
                                             class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">
                                             {{ number_format($order->paid_amount) }}</td>
+                                        {{-- <td>
+                                            <span
+                                                class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng hợp đồng' }}</span>
+                                        </td> --}}
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
                                             @if ($order->status_id < 4)
@@ -242,6 +246,8 @@
                                     title: 'Lỗi!',
                                     text: xhr.responseJSON?.message ||
                                         'Không thể gửi yêu cầu hủy đơn hàng',
+                                    text: xhr.responseJSON?.message ||
+                                        'Không thể gửi yêu cầu hủy đơn hàng',
                                     icon: 'error',
                                     confirmButtonText: 'OK'
                                 });
@@ -352,55 +358,49 @@
 
         });
     </script>
-    <style>
-        /* Thêm class cụ thể cho select trạng thái đơn hàng */
-        .order-status-select {
-            height: 32px;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            border-radius: 0.2rem;
-            min-width: 120px;
-            background-color: #fff;
-            border: 1px solid #e9ebec;
-            color: #495057;
-            cursor: pointer;
-        }
+    <script>
+        window.Echo.channel('orders')
+            .listen('OrderStatusChanged', (e) => {
+                const order = e.order;
+                const row = document.querySelector(`tr[data-order-slug="${order.slug}"]`);
+                if (row) {
+                    const statusCell = row.querySelector('td:nth-child(8)');
+                    if (order.status_id >= 4) {
+                        const statusConfig = {
+                            4: {
+                                name: 'Thành công',
+                                color: 'success'
+                            },
+                            5: {
+                                name: 'Hủy',
+                                color: 'danger'
+                            }
+                        };
 
-        .order-status-select:focus {
-            border-color: #86b7fe;
-            outline: 0;
-            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-        }
+                        const status = statusConfig[order.status_id];
+                        statusCell.innerHTML = `
+                    <span class="badge bg-${status.color}-subtle text-${status.color}">
+                        ${status.name}
+                    </span>
+                `;
+                    } else {
+                        const select = statusCell.querySelector('select');
+                        if (select) {
+                            select.value = order.status_id;
+                        }
+                    }
+                }
+            });
 
-        .order-status-select option {
-            padding: 8px 12px;
-            font-size: 13px;
+        function getStatusHTML(statusId) {
+            const statusMap = {
+                1: '<span class="badge bg-warning-subtle text-warning">Chờ xử lý</span>',
+                2: '<span class="badge bg-primary-subtle text-primary">Đã xác nhận</span>',
+                3: '<span class="badge bg-info-subtle text-info">Đang giao</span>',
+                4: '<span class="badge bg-success-subtle text-success">Thành công</span>',
+                5: '<span class="badge bg-danger-subtle text-danger">Đã hủy</span>'
+            };
+            return statusMap[statusId] || '';
         }
-
-        /* Màu nền cho các trạng thái */
-        .order-status-select option[value="1"] {
-            background-color: #fff4e0;
-            color: #b76e00;
-        }
-
-        .order-status-select option[value="2"] {
-            background-color: #e0f4ff;
-            color: #006aac;
-        }
-
-        .order-status-select option[value="3"] {
-            background-color: #e8fff3;
-            color: #007847;
-        }
-
-        .order-status-select option[value="4"] {
-            background-color: #e8fff3;
-            color: #007847;
-        }
-
-        .order-status-select option[value="5"] {
-            background-color: #ffe0e0;
-            color: #ac0000;
-        }
-    </style>
+    </script>
 @endsection

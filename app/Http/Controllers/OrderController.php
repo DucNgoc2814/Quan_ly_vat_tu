@@ -1,5 +1,9 @@
 <?php
 namespace App\Http\Controllers;
+
+use App\Events\NewOrderCreated;
+use App\Events\OrderCancelRequested;
+use App\Events\OrderStatusChanged;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -65,11 +69,13 @@ class OrderController extends Controller
     }
     public function store(Request $request)
     {
-        // Kiểm tra trạng thái hợp đồng
-        $contract = Contract::findOrFail($request->contract_id);
-        if ($contract->contract_status_id != 6) {
-            return back()->with('error', 'Chỉ có thể tạo đơn hàng khi hợp đồng đã được khách hàng xác nhận');
+        if ($request->has('contract_id')) {
+            $contract = Contract::findOrFail($request->contract_id);
+            if ($contract->contract_status_id != 6) {
+                return back()->with('error', 'Chỉ có thể tạo đơn hàng khi hợp đồng đã được khách hàng xác nhận');
+            }
         }
+        // dd($request->all());
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
@@ -95,6 +101,7 @@ class OrderController extends Controller
                     "paid_amount" => 0,
                 ];
                 $order = Order::query()->create($dataOrder);
+                event(new NewOrderCreated($order));
                 OrderStatusTime::create([
                     'order_id' => $order->id,
                     'order_status_id' => 1,
@@ -148,6 +155,8 @@ class OrderController extends Controller
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
             });
+
+
             return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
             // dd(session('success'));
         } catch (\Throwable $th) {
@@ -251,6 +260,7 @@ class OrderController extends Controller
         $order = Order::where('slug', $slug)->firstOrFail();
         $order->cancel_reason = $request->cancel_reason;
         $order->save();
+        event(new OrderCancelRequested($order));
         return response()->json(['success' => true]);
     }
 
@@ -311,10 +321,14 @@ class OrderController extends Controller
                     $canceledOrder->note = $order->cancel_reason;
                     $canceledOrder->save();
                     $order->cancel_reason = null;
+
+
                 }
 
                 $order->save();
             });
+
+            broadcast(new OrderStatusChanged($order))->toOthers();
 
             return response()->json([
                 'success' => true,

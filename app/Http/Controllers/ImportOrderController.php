@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ImportOrderCancelRequested;
+use App\Events\ImportOrderConfirmed;
+use App\Events\NewImportOrderCreated;
 use App\Models\Import_order_detail;
 use App\Models\Payment;
 use App\Models\Supplier;
@@ -93,6 +96,8 @@ class ImportOrderController extends Controller
                 } else {
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng nhập');
                 }
+
+                event(new NewImportOrderCreated($importOrder));
             });
 
             // Chuyển hướng về trang index và hiển thị thông báo
@@ -110,6 +115,9 @@ class ImportOrderController extends Controller
         // $importOrder->status = 1;
         $importOrder->cancel_reason = $request->reason; // Lưu lý do hủy
         $importOrder->save();
+
+        event(new ImportOrderCancelRequested($importOrder));
+
 
         return response()->json(['success' => true, 'message' => 'Chờ quản lý xác nhận hủy']);
     }
@@ -138,6 +146,8 @@ class ImportOrderController extends Controller
         $importOrder = Import_order::where('slug', $slug)->firstOrFail();
         $importOrder->status = 2; // Đã xác nhận
         $importOrder->save();
+
+        event(new ImportOrderConfirmed($importOrder));
 
         return response()->json([
             'success' => true,
