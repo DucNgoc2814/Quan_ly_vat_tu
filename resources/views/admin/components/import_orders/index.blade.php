@@ -38,7 +38,7 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $item)
-                                <tr>
+                                <tr data-order-id="{{ $item->id }}">
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->supplier->name }}</td>
                                     <td class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($item->total_amount) }}</td>
@@ -180,58 +180,59 @@
     <script>
         function checkOrderStatus(slug) {
             console.log('Checking status for:', slug); // Debug log
-            
+
             setInterval(function() {
                 fetch(`/don-hang-nhap/kiem-tra-trang-thai/${slug}`, {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log('Response data:', data); // Debug log
-                    if (data.status === 'confirmed') {
-                        Swal.fire({
-                            title: 'Đơn hàng đã giao thành công',
-                            text: `Đơn hàng - ${slug} đã được giao thành công`,
-                            icon: 'success',
-                            confirmButtonText: 'Xác nhận'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                updateOrderStatus(slug);
-                            }
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Response data:', data); // Debug log
+                        if (data.status === 'confirmed') {
+                            Swal.fire({
+                                title: 'Đơn hàng đã giao thành công',
+                                text: `Đơn hàng - ${slug} đã được giao thành công`,
+                                icon: 'success',
+                                confirmButtonText: 'Xác nhận'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    updateOrderStatus(slug);
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
             }, 10000);
         }
 
         function updateOrderStatus(slug) {
             fetch(`/don-hang-nhap/cap-nhat-trang-thai/${slug}`, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    location.reload();
-                }
-            })
-            .catch(error => console.error('Error:', error));
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
         }
 
         // Gọi hàm này cho mỗi đơn hàng có trạng thái "Đã xác nhận"
@@ -240,5 +241,26 @@
                 checkOrderStatus('{{ $item->slug }}');
             @endif
         @endforeach
+    </script>
+    <script>
+        window.Echo.channel('import-order-confirmed')
+            .listen('ImportOrderConfirmed', (e) => {
+                const row = document.querySelector(`tr[data-order-id="${e.importOrder.id}"]`);
+                if (row) {
+                    const statusCell = row.querySelector('td:nth-child(6)');
+                    if (statusCell) {
+                        statusCell.innerHTML = '<span class="badge bg-info">Đã xác nhận</span>';
+                    }
+                }
+
+                Swal.fire({
+                    title: 'Đơn hàng đã xác nhận!',
+                    text: `Đơn hàng ${e.importOrder.slug} đã được xác nhận`,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload();
+                });
+            });
     </script>
 @endsection

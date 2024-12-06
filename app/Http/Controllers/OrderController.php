@@ -1,5 +1,10 @@
 <?php
+
 namespace App\Http\Controllers;
+
+use App\Events\NewOrderCreated;
+use App\Events\OrderCancelRequested;
+use App\Events\OrderStatusChanged;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -96,6 +101,7 @@ class OrderController extends Controller
                     "paid_amount" => 0,
                 ];
                 $order = Order::query()->create($dataOrder);
+                event(new NewOrderCreated($order));
                 OrderStatusTime::create([
                     'order_id' => $order->id,
                     'order_status_id' => 1,
@@ -149,6 +155,8 @@ class OrderController extends Controller
                     throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
                 }
             });
+
+
             return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
@@ -186,7 +194,7 @@ class OrderController extends Controller
             DB::transaction(function () use ($request, $slug) {
                 // Lấy đơn hàng theo slug
                 $order = Order::where('slug', $slug)->firstOrFail();
-                
+
                 // Cập nhật thông tin cơ bản của đơn hàng
                 $dataOrder = [
                     "customer_id" => $request->customer_id,
@@ -200,7 +208,7 @@ class OrderController extends Controller
                     "total_amount" => $request->total_amount,
                     "paid_amount" => $request->paid_amount ?? 0,
                 ];
-                
+
                 $order->update($dataOrder);
 
                 // Trả lại số lượng tồn kho cho các sản phẩm cũ
@@ -254,11 +262,14 @@ class OrderController extends Controller
         $order = Order::where('slug', $slug)->firstOrFail();
         $order->cancel_reason = $request->cancel_reason;
         $order->save();
+        event(new OrderCancelRequested($order));
         return response()->json(['success' => true]);
     }
 
     public function updateStatus(Request $request, $slug)
     {
+        $order = Order::where('slug', $slug)->firstOrFail();
+
         try {
             DB::transaction(function () use ($request, $slug) {
                 $order = Order::where('slug', $slug)->firstOrFail();
@@ -280,6 +291,8 @@ class OrderController extends Controller
                     }
                 }
             });
+
+            broadcast(new OrderStatusChanged($order))->toOthers();
 
             return response()->json([
                 'success' => true,

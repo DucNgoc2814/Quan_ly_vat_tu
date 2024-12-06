@@ -20,10 +20,12 @@
     <form method="POST" class="form-datalist" action="{{ route('order.store') }}">
         @csrf
         <input type="hidden" name="debug" value="1">
+        <input type="hidden" name="debug" value="1">
         <div class="card-header border-0 mb-4">
             <div class="row g-4">
                 <div class="col-sm-auto">
                     <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
+                            class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
                             class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
                 </div>
             </div>
@@ -36,6 +38,7 @@
                         <div class="position-relative">
                             <input type="text" name="customer_display" class="form-control" id="customer_id" 
                                 placeholder="Nhập tên người đặt" autocomplete="off">
+                            <input type="hidden" name="hidden_customer_id" id="hidden_customer_id">
                             <input type="hidden" name="hidden_customer_id" id="hidden_customer_id">
                             <div class="customer-list-dropdown" style="display:none;">
                                 <ul class="list-group">
@@ -143,6 +146,7 @@
                             </div>
                         </div>
 
+
                         <div class="my-2">
                             <label class="form-label" for="address">Địa chỉ cụ thể(*Số nhà, đường, ngõ, ngách, cụm
                                 dân
@@ -217,6 +221,7 @@
                                             <div class="mb-2">
                                                 <label class="form-label">Giá sản phẩm</label>
                                                 <input type="number" class="form-control" name="product_price[]" readonly>
+                                                <input type="number" class="form-control" name="product_price[]" readonly>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -229,6 +234,7 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Số lượng trong kho</label>
+                                                <input type="number" class="form-control" name="stock" readonly>
                                                 <input type="number" class="form-control" name="stock" readonly>
                                             </div>
                                         </div>
@@ -244,6 +250,8 @@
                         <div class="row align-items-end">
                             <div class="col-md-6">
                                 <div class="mb-0">
+                                    <label class="form-label">Tổng giá trị đơn hàng</label>
+                                    <input type="text" class="form-control" id="total_amount" readonly name="total_amount">
                                     <label class="form-label">Tổng giá trị đơn hàng</label>
                                     <input type="text" class="form-control" id="total_amount" readonly name="total_amount">
                                 </div>
@@ -303,13 +311,18 @@
                                                                 ${currentValue == "{{ $variant->id }}" ? 'selected' : ''}>
                                                                 {{ $variant->name }}
                                                             </option>` : ''}
+                                                                data-price="{{ $variant->retail_price }}"
+                                                                data-stock="{{ $variant->stock }}"
+                                                                ${currentValue == "{{ $variant->id }}" ? 'selected' : ''}>
+                                                                {{ $variant->name }}
+                                                            </option>` : ''}
             `;
                 @endforeach
 
                 select.innerHTML = options;
             });
         }
-        // Hàm để cập nhật giá khi chọn sản phẩm
+        // Hàm đ��� cập nhật giá khi chọn sản phẩm
         function updatePrice(selectElement) {
             const selectedOption = selectElement.options[selectElement.selectedIndex];
 
@@ -369,6 +382,10 @@
                                                                 data-stock="{{ $variant->stock }}">
                                                                 {{ $variant->name }}
                                                             </option>` : ''}
+                                                                data-price="{{ $variant->retail_price }}"
+                                                                data-stock="{{ $variant->stock }}">
+                                                                {{ $variant->name }}
+                                                            </option>` : ''}
         `;
             @endforeach
             let html = `
@@ -422,12 +439,14 @@
             const quantities = document.getElementsByName('product_quantity[]');
             const prices = document.getElementsByName('product_price[]');
 
+
             // Tính tổng dựa trên số lượng và giá
             for (let i = 0; i < quantities.length; i++) {
                 const quantity = parseFloat(quantities[i].value) || 0;
                 const price = parseFloat(prices[i].value) || 0;
                 total += quantity * price;
             }
+
 
             // Định dạng tổng số thành dạng có dấu chấm phân cách hàng nghìn
             const formattedTotal = total.toFixed(0).toLocaleString('vi-VN');
@@ -609,6 +628,11 @@
                                                                                                                                                                         ` : `
                                                                                                                                                                             <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
                                                                                                                                                                         `}
+                                                                                                                                                                            <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                                                                                                                            <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
+                                                                                                                                                                        ` : `
+                                                                                                                                                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
+                                                                                                                                                                        `}
                                 </div>
                             </div>
                             <hr>
@@ -718,7 +742,7 @@
                         document.getElementById('location-input').value = '';
 
                         if (data && data.is_active) {
-                            // Cập nhật thông tin cơ bản
+                            // Cập nh��t thông tin cơ bản
                             document.getElementById('customer_name').value = data.customer_name || '';
                             document.getElementById('email').value = data.email || '';
                             document.getElementById('number_phone').value = data.number_phone || '';
@@ -893,12 +917,17 @@
         function validateOrderForm() {
             let isValid = true;
             const errors = [];
+            const errors = [];
 
+            // 1. Validate khách hàng
             // 1. Validate khách hàng
             const customerId = document.getElementById('hidden_customer_id');
             const customerInput = document.getElementById('customer_id');
+            const customerInput = document.getElementById('customer_id');
             if (!customerId.value) {
                 isValid = false;
+                addErrorMessage(customerInput, 'Vui lòng chọn khách hàng');
+                errors.push('Vui lòng chọn khách hàng');
                 addErrorMessage(customerInput, 'Vui lòng chọn khách hàng');
                 errors.push('Vui lòng chọn khách hàng');
             }
@@ -938,12 +967,23 @@
                 isValid = false;
                 addErrorMessage(locationInput, 'Vui lòng chọn đầy đủ địa chỉ');
                 errors.push('Vui lòng chọn đầy đủ địa chỉ');
+                addErrorMessage(locationInput, 'Vui lòng chọn đầy đủ địa chỉ');
+                errors.push('Vui lòng chọn đầy đủ địa chỉ');
             }
 
             // 4. Validate sản phẩm
             const products = document.querySelectorAll('[name="variation_id[]"]');
             let hasValidProduct = false;
+            // 4. Validate sản phẩm
+            const products = document.querySelectorAll('[name="variation_id[]"]');
+            let hasValidProduct = false;
 
+            products.forEach((product, index) => {
+                if (product.value !== '0') {
+                    hasValidProduct = true;
+                    const quantity = document.getElementsByName('product_quantity[]')[index];
+                    const stock = product.options[product.selectedIndex].getAttribute('data-stock');
+                    const quantityValue = parseInt(quantity.value);
             products.forEach((product, index) => {
                 if (product.value !== '0') {
                     hasValidProduct = true;
@@ -956,7 +996,13 @@
                         addErrorMessage(quantity, 'Vui lòng nhập số lượng');
                         errors.push('Vui lòng nhập số lượng cho sản phẩm');
                     } else if (isNaN(quantityValue) || quantityValue <= 0) {
+                        addErrorMessage(quantity, 'Vui lòng nhập số lượng');
+                        errors.push('Vui lòng nhập số lượng cho sản phẩm');
+                    } else if (isNaN(quantityValue) || quantityValue <= 0) {
                         isValid = false;
+                        addErrorMessage(quantity, 'Số lượng phải lớn hơn 0');
+                        errors.push('Số lượng phải lớn hơn 0');
+                    } else if (quantityValue > parseInt(stock)) {
                         addErrorMessage(quantity, 'Số lượng phải lớn hơn 0');
                         errors.push('Số lượng phải lớn hơn 0');
                     } else if (quantityValue > parseInt(stock)) {
@@ -969,10 +1015,25 @@
                     isValid = false;
                     addErrorMessage(product, 'Vui lòng chọn sản phẩm');
                     errors.push('Vui lòng chọn sản phẩm');
+                        addErrorMessage(quantity, `Số lượng không được vượt quá ${stock}`);
+                        errors.push(`Số lượng không được vượt quá ${stock}`);
+                    }
+                } else {
+                    // Thêm đoạn này để hiển thị lỗi khi chưa chọn sản phẩm
+                    isValid = false;
+                    addErrorMessage(product, 'Vui lòng chọn sản phẩm');
+                    errors.push('Vui lòng chọn sản phẩm');
                 }
             });
 
 
+
+            // Hiển thị tất cả lỗi nếu có
+            if (!isValid) {
+                const firstError = document.querySelector('.is-invalid');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             // Hiển thị tất cả lỗi nếu có
             if (!isValid) {
                 const firstError = document.querySelector('.is-invalid');
@@ -982,6 +1043,18 @@
             }
 
             return isValid;
+        }
+
+        // Hàm validate email
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        // Hàm validate số điện thoại
+        function validatePhone(phone) {
+            const re = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+            return re.test(phone);
         }
 
         // Hàm validate email
@@ -1016,6 +1089,7 @@
         }
 
         // Gắn sự kiện submit cho form
+        // Gắn sự kiện submit cho form
         document.querySelector('.form-datalist').addEventListener('submit', function(e) {
             // Xóa tất cả thông báo lỗi cũ
             document.querySelectorAll('.invalid-feedback').forEach(el => el.remove());
@@ -1027,6 +1101,7 @@
         });
 
         // Xóa thông báo lỗi khi người dùng nhập liệu
+        // Xóa thông báo lỗi khi người dùng nhập liệu
         document.querySelectorAll('input, select').forEach(element => {
             element.addEventListener('input', function() {
                 removeErrorMessage(this);
@@ -1037,4 +1112,5 @@
         });
     </script>
 @endsection
+
 
