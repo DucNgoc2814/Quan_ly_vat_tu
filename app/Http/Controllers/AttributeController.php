@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateAttributeRequest;
 use App\Models\Attribute_value;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class AttributeController extends Controller
 {
@@ -105,37 +106,51 @@ class AttributeController extends Controller
      */
     public function update(UpdateAttributeRequest $request, $id)
     {
-        // Tìm loại biến thể theo ID
-        $attribute = Attribute::findOrFail($id);
+        try {
+            DB::beginTransaction();
+            
+            $attribute = Attribute::findOrFail($id);
+            $attribute->update([
+                'name' => $request->name,
+            ]);
 
-        // Cập nhật tên loại biến thể
-        $attribute->update([
-            'name' => $request->name,
-        ]);
+            $existingValues = $attribute->attributeValues->pluck('id')->toArray();
+            $updatedValues = [];
 
-        // Lấy các giá trị hiện có
-        $existingValues = $attribute->attributeValues()->pluck('id')->toArray();
-
-        // Tạo mảng để lưu trữ các giá trị mới
-        $newValues = $request->values;
-
-        // Cập nhật hoặc thêm các giá trị mới
-        foreach ($newValues as $key => $value) {
-            // Nếu giá trị đã tồn tại, cập nhật
-            if (isset($existingValues[$key])) {
-                $attributeValue = Attribute_value::find($existingValues[$key]);
-                $attributeValue->update(['value' => $value]);
-            } else {
-                // Nếu không, thêm giá trị mới
-                Attribute_value::create([
-                    'attribute_id' => $attribute->id, // Đảm bảo rằng attribute_id được thiết lập
-                    'value' => $value
-                ]);
+            foreach ($request->values as $key => $value) {
+                if (!empty(trim($value))) {
+                    if (isset($existingValues[$key])) {
+                        // Cập nhật giá trị cũ
+                        Attribute_value::where('id', $existingValues[$key])
+                            ->update(['value' => $value]);
+                        $updatedValues[] = $existingValues[$key];
+                    } else {
+                        // Thêm giá trị mới
+                        $newValue = $attribute->attributeValues()->create([
+                            'value' => $value
+                        ]);
+                        $updatedValues[] = $newValue->id;
+                    }
+                }
             }
-        }
 
-        return redirect()->route('valueVariations.index')
-            ->with('success', 'Cập nhật loại biến thể thành công');
+            // Xóa những giá trị không còn trong danh sách cập nhật
+            if (!empty($updatedValues)) {
+                $attribute->attributeValues()
+                    ->whereNotIn('id', $updatedValues)
+                    ->delete();
+            }
+
+            DB::commit();
+            return redirect()->route('valueVariations.index')
+                ->with('success', 'Cập nhật loại biến thể thành công');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'Có lỗi xảy ra: ' . $e->getMessage())
+                ->withInput();
+        }
     }
 
     /**

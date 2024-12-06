@@ -31,7 +31,6 @@ Danh sách khách hàng
                                 <th data-ordering="false">Email</th>
                                 <th data-ordering="false">Tích lũy</th>
                                 <th data-ordering="false">Hiển thị</th>
-                                {{-- <th>Action</th> --}}
                             </tr>
                         </thead>
                         <tbody>

@@ -321,6 +321,7 @@ Route::middleware('CheckEmployees')->group(
         Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission'])->middleware('permission:163');
 
 
+
     }
 );
 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf');
@@ -343,6 +344,10 @@ Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 
 Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
 Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
 Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
+Route::get('/thong-ke-san-pham', [ThongkeController::class, 'thongKeSanPham'])->name('thongKeSanPham');
+Route::get('/thong-ke-doi-tac', [ThongkeController::class, 'thongKeDoiTac'])->name('thongKeDoiTac');
+Route::get('/thong-ke-doi-tac/filter', [ThongkeController::class, 'filterPartnerStats'])->name('thongKeDoiTac.filter');
+
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {

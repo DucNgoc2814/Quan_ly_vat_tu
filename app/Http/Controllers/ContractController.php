@@ -498,7 +498,7 @@ class ContractController extends Controller
             3 => 'Hợp đồng đã bị hủy',
             4 => 'Hợp đồng đang chờ giám đốc xác nhận',
             5 => 'Đang chờ khách hàng xác nhận',
-            7 => 'Khách hàng không đồng ý với hợp đồng',
+            7 => 'Khách hàng không ��ồng  với hợp đồng',
             8 => 'Hợp đồng đã hoàn thành',
             9 => 'Hợp đồng đã quá hạn'
         ];
@@ -552,15 +552,15 @@ class ContractController extends Controller
         }
     }
 
-    private function checkAndUpdateContractStatus(Contract $contract)
+    public function checkAndUpdateContractStatus(Contract $contract)
     {
         // Chỉ kiểm tra với hợp đồng đang tiến hành
-        if ($contract->contract_status_id == 6) {
+        if ($contract->contract_status_id == Contract::STATUS_IN_PROGRESS) {
             // Kiểm tra đã thanh toán đủ chưa
             $totalPaid = Payment_history::where('related_id', $contract->id)
                 ->where('transaction_type', 'contract')
                 ->sum('amount');
-            
+
             // Kiểm tra đã giao đủ hàng chưa
             $allProductsDelivered = true;
             foreach ($contract->contractDetails as $detail) {
@@ -570,28 +570,37 @@ class ContractController extends Controller
                 }
             }
 
+            // Kiểm tra tất cả đơn hàng đã thành công chưa
+            $allOrdersCompleted = true;
+            foreach ($contract->orders as $order) {
+                if ($order->status_id != 4) {
+                    $allOrdersCompleted = false;
+                    break;
+                }
+            }
+
             // Kiểm tra có quá hạn không
             $isOverdue = now()->gt($contract->timeend);
 
-            // Nếu quá hạn
+            // Cập nhật trạng thái
+            $shouldComplete = $totalPaid >= $contract->total_amount 
+                && $allProductsDelivered 
+                && $allOrdersCompleted 
+                && !$isOverdue;
+
             if ($isOverdue) {
-                $contract->contract_status_id = 9; // Quá hạn
-            }
-            // Nếu đã thanh toán đủ và giao đủ hàng
-            elseif ($totalPaid >= $contract->total_amount && $allProductsDelivered) {
-                $contract->contract_status_id = 8; // Hoàn thành
+                $contract->contract_status_id = Contract::STATUS_EXPIRED;
+            } elseif ($shouldComplete) {
+                $contract->contract_status_id = Contract::STATUS_COMPLETED;
             }
 
             // Nếu có sự thay đổi trạng thái
             if ($contract->isDirty('contract_status_id')) {
                 $contract->save();
-
-                // Tạo lịch sử trạng thái
                 Contract_status_time::create([
                     'contract_id' => $contract->id,
                     'contract_status_id' => $contract->contract_status_id
                 ]);
-
                 event(new ContractStatusUpdated($contract));
             }
         }

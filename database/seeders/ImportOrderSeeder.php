@@ -15,7 +15,6 @@ class ImportOrderSeeder extends Seeder
     {
         $importOrders = [
             [
-                'payment_id' => 1,
                 'supplier_id' => 1,
                 'slug' => 'order-1',
                 'status' => 1,
@@ -26,7 +25,6 @@ class ImportOrderSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
-                'payment_id' => 2,
                 'supplier_id' => 2,
                 'slug' => 'order-2',
                 'status' => 4,

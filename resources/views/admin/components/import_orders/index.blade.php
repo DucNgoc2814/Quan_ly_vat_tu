@@ -31,7 +31,6 @@
                                 <th data-ordering="false">Tên nhà phân phối</th>
                                 <th data-ordering="false">Tổng tiền</th>
                                 <th data-ordering="false">Tiền đã trả</th>
-                                <th data-ordering="false">PTTT</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Ngày đặt hàng</th>
                                 <th>Hành động</th>
@@ -42,13 +41,8 @@
                                 <tr data-order-id="{{ $item->id }}">
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->supplier->name }}</td>
-                                    <td
-                                        class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">
-                                        {{ number_format($item->total_amount) }}</td>
-                                    <td
-                                        class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">
-                                        {{ number_format($item->paid_amount) }}</td>
-                                    <td>{{ $item->payment->name }}</td>
+                                    <td class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($item->total_amount) }}</td>
+                                    <td class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($item->paid_amount) }}</td>
                                     <td>
                                         @if ($item->status == 1)
                                             <span class="badge bg-warning">Chờ xác nhận</span>
