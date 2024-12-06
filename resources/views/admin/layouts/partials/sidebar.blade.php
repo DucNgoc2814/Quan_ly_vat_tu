@@ -59,6 +59,14 @@
                                 <a href="{{ route('thongKeDonHang') }}" class="nav-link" data-key="t-horizontal">Thống
                                     kê đơn hàng</a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{ route('thongKeSanPham') }}" class="nav-link" data-key="t-horizontal">Thống
+                                    kê sản phẩm</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('thongKeDoiTac') }}" class="nav-link" data-key="t-horizontal">Thống
+                                    kê đối tác</a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -250,7 +258,6 @@
                         <span data-key="t-layouts">Lịch sử thao tác</span>
                     </a>
                 </li>
-
             </ul>
         </div>
         <!-- Sidebar -->

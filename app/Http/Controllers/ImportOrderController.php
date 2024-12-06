@@ -52,30 +52,30 @@ class ImportOrderController extends Controller
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
 
-
         try {
             DB::transaction(function () use ($request) {
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 3);
                 $timestamp = now()->format('His');
                 $slug = 'DHN' . $randomChars . $timestamp;
 
+                // Đảm bảo total_amount là số nguyên
+                $totalAmount = (int) str_replace([',', '.'], '', $request->total_amount);
+
                 // Tạo đơn hàng nhập
                 $importOrder = Import_order::create([
-                    "payment_id" => $request->payment_id,
                     "supplier_id" => $request->supplier_id,
                     "slug" => $slug,
                     "product_quantity" => array_sum($request->product_quantity),
-                    "total_amount" => $request->total_amount,
+                    "total_amount" => $totalAmount,
                     "paid_amount" => 0,
-                    "status" => 1, // Trạng thái ban đầu là chờ xác nhận
+                    "status" => 1,
                 ]);
 
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationID) {
-                        $quantity = $request->product_quantity[$key];
-                        $price = $request->product_price[$key];
+                        $quantity = (int) $request->product_quantity[$key];
+                        $price = (int) str_replace([',', '.'], '', $request->product_price[$key]);
 
-                        // Thêm vào bảng import_order_details
                         Import_order_detail::create([
                             'import_order_id' => $importOrder->id,
                             'variation_id' => $variationID,
@@ -83,22 +83,20 @@ class ImportOrderController extends Controller
                             'price' => $price,
                         ]);
 
-                        // Vẫn giữ lại chức năng tạo NewOrderRequest
                         NewOrderRequest::create([
                             'import_order_id' => $importOrder->id,
                             'variation_id' => $variationID,
                             'quantity' => $quantity,
                         ]);
                     }
-                } else {
-                    throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng nhập');
                 }
             });
 
-            // Chuyển hướng về trang index và hiển thị thông báo
-            return redirect()->route('importOrder.index')->with('success', 'Đơn hàng của bạn đã được gửi đến quản lý, chờ quản lý xác nhận');
+            return redirect()->route('importOrder.index')
+                ->with('success', 'Đơn hàng của bạn đã được gửi đến quản lý, chờ quản lý xác nhận');
         } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng nhập: ' . $th->getMessage());
+            return redirect()->back()
+                ->with('error', 'Có lỗi xảy ra khi tạo đơn hàng nhập: ' . $th->getMessage());
         }
     }
 
@@ -324,7 +322,6 @@ class ImportOrderController extends Controller
     public function update(UpdateImport_orderRequest $request, $slug)
     {
         date_default_timezone_set('Asia/Ho_Chi_Minh');
-        // dd('a');
         try {
             DB::transaction(function () use ($request, $slug) {
 
@@ -338,11 +335,9 @@ class ImportOrderController extends Controller
                 $slug = 'DH' . $randomChars . $timestamp;
 
                 $importOrderData = [
-                    "payment_id" => $request->payment_id,
                     "supplier_id" => $request->supplier_id,
                     "product_quantity" => $request->product_quantity,
                     "total_amount" => $request->total_amount,
-                    "paid_amount" => $request->paid_amount,
                 ];
 
                 $importOrder->update($importOrderData);

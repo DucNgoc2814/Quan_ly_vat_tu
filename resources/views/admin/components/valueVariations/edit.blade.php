@@ -68,12 +68,6 @@
                                                                 <p class="text-danger">{{ $message }}</p>
                                                             @enderror
                                                         </div>
-                                                        <div class="col-1">
-                                                            <button type="button" class="btn btn-danger remove-value"
-                                                                {{ count(old('values', $attribute->attributeValues)) <= 1 ? 'style=display:none' : '' }}>
-                                                                <i class="ri-delete-bin-line"></i>
-                                                            </button>
-                                                        </div>
                                                     </div>
                                                 @endforeach
                                             @else
