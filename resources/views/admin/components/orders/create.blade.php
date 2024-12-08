@@ -249,8 +249,6 @@
                                 <div class="mb-0">
                                     <label class="form-label">Tổng giá trị đơn hàng</label>
                                     <input type="text" class="form-control" id="total_amount" readonly name="total_amount">
-                                    <label class="form-label">Tổng giá trị đơn hàng</label>
-                                    <input type="text" class="form-control" id="total_amount" readonly name="total_amount">
                                 </div>
                             </div>
                             <div class="col-md-6">
