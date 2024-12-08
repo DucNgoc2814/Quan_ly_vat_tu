@@ -158,7 +158,7 @@
                                             <th>Nhà cung cấp</th>
                                             <th>Sản phẩm</th>
                                             <th>Số đơn hàng</th>
-                                            <th>Tổng số lượng</th>
+                                            <th>Tổng số lượng sản phẩm</th>
                                             <th>Tổng giá trị</th>
                                         </tr>
                                     </thead>
