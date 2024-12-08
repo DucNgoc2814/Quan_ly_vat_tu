@@ -302,12 +302,12 @@ Dashboard
                                 <tr>
                                     <th data-ordering="false">STT</th>
                                     <th style="background: rgb(0, 162, 255)" data-ordering="false">Ngày</th>
-                                    <th data-ordering="false" style="background: red">Tổng doanh thu</th>
-                                    <th data-ordering="false" style="background: red">Tổng doanh thu thực</th>
-                                    <th data-ordering="false" style="background: red">Công nợ cần đòi</th>
-                                    <th data-ordering="false" style="background: green">Tổng khoản chi</th>
-                                    <th data-ordering="false" style="background: green">Tổng khoản chi thực</th>
-                                    <th data-ordering="false" style="background: green">Công nợ cần trả</th>
+                                    <th data-ordering="false" style="background: rgb(0, 162, 255)">Tổng doanh thu</th>
+                                    <th data-ordering="false" style="background: rgb(0, 162, 255)">Tổng doanh thu thực</th>
+                                    <th data-ordering="false" style="background: rgb(0, 162, 255)">Công nợ cần đòi</th>
+                                    <th data-ordering="false" style="background: rgb(0, 162, 255)">Tổng khoản chi</th>
+                                    <th data-ordering="false" style="background: rgb(0, 162, 255)">Tổng khoản chi thực</th>
+                                    <th data-ordering="false" style="background: rgb(0, 162, 255)">Công nợ cần trả</th>
                                 </tr>
                             </thead>
                             <tbody>

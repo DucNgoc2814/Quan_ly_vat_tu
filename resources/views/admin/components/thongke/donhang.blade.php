@@ -385,22 +385,22 @@
                                             <tr class="data-row">
                                                 <td>{{ $count += 1 }}</td>
                                                 <td class="date">{{ $item['date'] }}</td>
-                                                <td>{{ $item['orders_dangCho'] }} <br> TT :
+                                                <td>SL: {{ $item['orders_dangCho'] }} <br> TT :
                                                    <b> {{ number_format($item['orders_total_amount_dangCho'], 0, ',', '.') }}</b>
                                                     VND</td>
-                                                <td>{{ $item['orders_thanhCong'] }} <br> TT :
+                                                <td>SL: {{ $item['orders_thanhCong'] }} <br> TT :
                                                    <b> {{ number_format($item['orders_total_amount_thanhCong'], 0, ',', '.') }}</b>
                                                     VND</td>
-                                                <td>{{ $item['orders_thatBai'] }} <br> TT :
+                                                <td>SL: {{ $item['orders_thatBai'] }} <br> TT :
                                                    <b> {{ number_format($item['orders_total_amount_thatBai'], 0, ',', '.') }}</b>
                                                     VND</td>
-                                                <td>{{ $item['importOrders_dangCho'] }} <br> TT :
+                                                <td>SL: {{ $item['importOrders_dangCho'] }} <br> TT :
                                                    <b> {{ number_format($item['importOrders_total_amount_dangCho'], 0, ',', '.') }}</b>
                                                     VND</td>
-                                                <td>{{ $item['importOrders_thanhCong'] }} <br> TT :
+                                                <td>SL: {{ $item['importOrders_thanhCong'] }} <br> TT :
                                                    <b> {{ number_format($item['importOrders_total_amount_thanhCong'], 0, ',', '.') }}</b>
                                                     VND</td>
-                                                <td>{{ $item['importOrders_thatBai'] }} <br> TT :
+                                                <td>SL: {{ $item['importOrders_thatBai'] }} <br> TT :
                                                    <b> {{ number_format($item['importOrders_total_amount_thatBai'], 0, ',', '.') }}</b>
                                                     VND</td>
                                             </tr>

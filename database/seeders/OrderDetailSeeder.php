@@ -13,35 +13,24 @@ class OrderDetailSeeder extends Seeder
      */
     public function run(): void
     {
-        $orderDetails = [
-            [
-                'order_id' => 1,
-                'variation_id' => 1,
-                'quantity' => 3,
-                'price' => 50000,
-            ],
-            [
-                'order_id' => 1,
-                'variation_id' => null,
-                'quantity' => 1,
-                'price' => 75000,
-            ],
-            [
-                'order_id' => 2,
-                'variation_id' => 2,
-                'quantity' => 2,
-                'price' => 100000,
-            ],
-            [
-                'order_id' => 2,
-                'variation_id' => null,
-                'quantity' => 5,
-                'price' => 20000,
-            ],
-        ];
-
-        foreach ($orderDetails as $detail) {
-            DB::table('order_details')->insert($detail);
+        $faker = \Faker\Factory::create('vi_VN');
+        
+        // Tạo chi tiết đơn hàng cho mỗi đơn hàng
+        for ($orderId = 1; $orderId <= 100; $orderId++) {
+            // Mỗi đơn hàng có 1-5 sản phẩm
+            $numberOfProducts = rand(1, 5);
+            
+            for ($j = 0; $j < $numberOfProducts; $j++) {
+                $variation = DB::table('variations')->find(rand(1, 100));
+                $quantity = rand(1, 10);
+                
+                DB::table('order_details')->insert([
+                    'order_id' => $orderId,
+                    'variation_id' => $variation->id,
+                    'quantity' => $quantity,
+                    'price' => $variation->retail_price,
+                ]);
+            }
         }
     }
 }

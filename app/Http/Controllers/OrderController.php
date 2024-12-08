@@ -177,6 +177,12 @@ class OrderController extends Controller
     public function edit($slug)
     {
         $order = Order::where('slug', $slug)->firstOrFail();
+        
+        // Kiểm tra nếu đơn hàng đã được xác nhận thì không cho sửa
+        if ($order->status_id != 1) {
+            return redirect()->route('order.index')->with('error', 'Không thể sửa đơn hàng');
+        }
+
         $payments = Payment::pluck('name', 'id')->all();
         $customers = Customer::pluck('name', 'id')->all();
         $status = Order_status::pluck('description', 'id')->all();
@@ -189,6 +195,13 @@ class OrderController extends Controller
      */
     public function update(UpdateOrderRequest $request, $slug)
     {
+        $order = Order::where('slug', $slug)->firstOrFail();
+        
+        // Kiểm tra nếu đơn hàng đã được xác nhận thì không cho cập nhật
+        if ($order->status_id != 1) {
+            return redirect()->route('order.index')->with('error', 'Không thể cập nhật đơn hàng');
+        }
+
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request, $slug) {
