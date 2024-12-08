@@ -54,10 +54,6 @@
                                         <td
                                             class="{{ $order->total_amount == $order->paid_amount ? 'text-success' : 'text-danger' }}">
                                             {{ number_format($order->paid_amount) }}</td>
-                                        {{-- <td>
-                                            <span
-                                                class="badge bg-info-subtle text-info">{{ $order->payment->name ?? 'Đơn hàng hợp đồng' }}</span>
-                                        </td> --}}
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
                                             @if ($order->status_id < 4)
@@ -402,5 +398,33 @@
             };
             return statusMap[statusId] || '';
         }
+    </script>
+    <script>
+        window.Echo.channel('orders-status-update')
+            .listen('OrderStatusUpdated', (e) => {
+                Swal.fire({
+                    title: 'Cập nhật đơn hàng',
+                    text: `Đơn hàng bán lẻ "${e.order.slug}" đã được cập nhật trạng thái: "${e.newStatus}"`,
+                    icon: 'info',
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 3000
+                });
+
+                // Cập nhật UI
+                const row = document.querySelector(`tr[data-order-slug="${e.order.slug}"]`);
+                if (row) {
+                    const statusCell = row.querySelector('td:nth-child(8)');
+                    if (e.order.status_id >= 4) {
+                        statusCell.innerHTML = getStatusHTML(e.order.status_id);
+                    } else {
+                        const select = statusCell.querySelector('select');
+                        if (select) {
+                            select.value = e.order.status_id;
+                        }
+                    }
+                }
+            });
     </script>
 @endsection

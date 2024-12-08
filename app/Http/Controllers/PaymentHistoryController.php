@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\TransactionConfirmed;
 use App\Models\Payment_history;
 use App\Traits\PaymentTrait;
 use App\Http\Requests\StorePayment_historyRequest;
@@ -130,6 +131,7 @@ class PaymentHistoryController extends Controller
 
             Log::info('Payment updated successfully');
             DB::commit();
+            event(new TransactionConfirmed($id));
             return response()->json([
                 'success' => true,
                 'message' => 'Xác nhận thanh toán thành công'

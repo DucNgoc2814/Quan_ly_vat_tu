@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Events\NewOrderCreated;
 use App\Events\OrderCancelRequested;
 use App\Events\OrderStatusChanged;
+use App\Events\OrderStatusUpdated;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -329,6 +330,8 @@ class OrderController extends Controller
             });
 
             broadcast(new OrderStatusChanged($order))->toOthers();
+
+            event(new OrderStatusUpdated($order, $order->orderStatus->name));
 
             return response()->json([
                 'success' => true,
