@@ -26,7 +26,6 @@
                 <div class="col-sm-auto">
                     <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
                             class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
-                            class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
                 </div>
             </div>
         </div>
@@ -221,7 +220,6 @@
                                             <div class="mb-2">
                                                 <label class="form-label">Giá sản phẩm</label>
                                                 <input type="number" class="form-control" name="product_price[]" readonly>
-                                                <input type="number" class="form-control" name="product_price[]" readonly>
                                             </div>
                                         </div>
                                         <div class="col-4">
@@ -234,7 +232,6 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Số lượng trong kho</label>
-                                                <input type="number" class="form-control" name="stock" readonly>
                                                 <input type="number" class="form-control" name="stock" readonly>
                                             </div>
                                         </div>

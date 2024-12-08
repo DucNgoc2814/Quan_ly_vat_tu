@@ -111,3 +111,14 @@
 [2024-12-06 16:02:44] local.INFO: File Exists After Save: Yes  
 [2024-12-06 16:02:44] local.INFO: File Size: 36695 bytes  
 [2024-12-06 16:02:44] local.INFO: Payment updated successfully  
+[2024-12-08 13:25:17] local.INFO: === START LOGGING ===  
+[2024-12-08 13:25:17] local.INFO: Auth Check: No  
+[2024-12-08 13:25:17] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 13:25:17] local.INFO: Directory Exists: Yes  
+[2024-12-08 13:25:17] local.INFO: Directory Writable: Yes  
+[2024-12-08 13:25:17] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 13:25:17] local.INFO: File Exists: Yes  
+[2024-12-08 13:25:17] local.INFO: Loading existing file...  
+[2024-12-08 13:25:20] local.INFO: File Save Attempted  
+[2024-12-08 13:25:20] local.INFO: File Exists After Save: Yes  
+[2024-12-08 13:25:20] local.INFO: File Size: 14569 bytes  
