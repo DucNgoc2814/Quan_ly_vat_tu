@@ -177,7 +177,7 @@ class OrderController extends Controller
     public function edit($slug)
     {
         $order = Order::where('slug', $slug)->firstOrFail();
-        
+
         // Kiểm tra nếu đơn hàng đã được xác nhận thì không cho sửa
         if ($order->status_id != 1) {
             return redirect()->route('order.index')->with('error', 'Không thể sửa đơn hàng');
@@ -196,7 +196,7 @@ class OrderController extends Controller
     public function update(UpdateOrderRequest $request, $slug)
     {
         $order = Order::where('slug', $slug)->firstOrFail();
-        
+
         // Kiểm tra nếu đơn hàng đã được xác nhận thì không cho cập nhật
         if ($order->status_id != 1) {
             return redirect()->route('order.index')->with('error', 'Không thể cập nhật đơn hàng');
@@ -284,27 +284,33 @@ class OrderController extends Controller
         $order = Order::where('slug', $slug)->firstOrFail();
 
         try {
-            DB::transaction(function () use ($request, $slug) {
-                $order = Order::where('slug', $slug)->firstOrFail();
+            DB::transaction(function () use ($request, $order) {
+                if ($request->status == 5 && $order->cancel_reason) {
+                    DB::table('order_canceleds')->insert([
+                        'order_id' => $order->id,
+                        'note' => $order->cancel_reason,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+                    $order->cancel_reason = null;
+                }
                 $order->status_id = $request->status;
                 $order->save();
-
                 OrderStatusTime::create([
                     'order_id' => $order->id,
                     'order_status_id' => $request->status,
                 ]);
 
-                // Nếu đơn hàng thuộc về hợp đồng, kiểm tra và cập nhật trạng thái hợp đồng
                 if ($order->contract_id) {
                     $contract = Contract::find($order->contract_id);
                     if ($contract) {
-                        // Gọi trực tiếp phương thức private thông qua một instance mới của ContractController
                         $contractController = new \App\Http\Controllers\ContractController();
                         $contractController->checkAndUpdateContractStatus($contract);
                     }
                 }
             });
 
+            // Broadcast event
             broadcast(new OrderStatusChanged($order))->toOthers();
 
             return response()->json([
