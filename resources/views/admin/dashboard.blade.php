@@ -15,7 +15,7 @@
 
 @endphp
 @section('title')
-    Dashboard   
+    Dashboard
 @endsection
 @php
     use App\Models\Import_order;
@@ -31,10 +31,7 @@
         ->distinct()
         ->get()
         ->unique('slug');
-    $orderCancelRequests = Order::whereNotNull('cancel_reason')
-        ->distinct()
-        ->get()
-        ->unique('slug');
+    $orderCancelRequests = Order::whereNotNull('cancel_reason')->distinct()->get()->unique('slug');
 
     $pendingContracts = App\Models\Contract::where('contract_status_id', 4)->get();
 
@@ -62,13 +59,13 @@
                                 <form action="javascript:void(0);">
                                     <div class="row g-3 mb-0 align-items-center">
                                         <div class="col-sm-auto">
-                                            
+
                                         </div>
                                         <!--end col-->
                                         <div class="col-auto">
                                             <button type="button"
-                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn" id="confirmButton"><i
-                                                    class="ri-notification-2-line align-middle me-1"></i>
+                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn"
+                                                id="confirmButton"><i class="ri-notification-2-line align-middle me-1"></i>
                                                 Thông Báo Xác Nhận</button>
                                         </div>
                                     </div>
@@ -222,7 +219,7 @@
                     </div><!-- end col -->
                 </div> <!-- end row-->
 
-                
+
                 <div class="col-xl-8 w-100 fs-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
@@ -392,13 +389,14 @@
                         <div class="p-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="text-muted mb-0 text-uppercase fw-semibold">Yêu Cầu Xác Nhận</h6>
-                                <button type="button" class="btn-close text-danger" id="closeNotification" aria-label="Close"></button>
+                                <button type="button" class="btn-close text-danger" id="closeNotification"
+                                    aria-label="Close"></button>
                             </div>
                         </div>
 
                         <div class="p-3 mt-2">
                             @foreach ($orderCancelRequests as $request)
-                                <div class="col mb-3">
+                                <div class="col mb-3 cancel-request" data-slug="{{ $request->slug }}">
                                     <div class="card card-body">
                                         <div class="d-flex mb-4 align-items-center">
                                             <div class="flex-shrink-0">
@@ -977,68 +975,87 @@
     </script>
     <script>
         function handleOrderStatus(slug, status) {
-            // Thêm CSRF token vào headers thay vì gửi trong data
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            const url = "{{ route('order.updateStatus', ':slug') }}".replace(':slug', slug);
+
+            const url = `/quan-ly-ban-hang/cap-nhat-trang-thai/${slug}`;
+
+            // Tìm card request trước khi gửi ajax
+            const requestCard = $(`.col.mb-3`).filter(function() {
+                return $(this).find('p').text().includes(slug);
+            });
+
+            console.log('Found request card:', requestCard.length); // Debug
+
             $.ajax({
-                url: url, 
+                url: url,
                 method: 'POST',
                 data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
                     status: status
                 },
                 success: function(response) {
                     if (response.success) {
+                        // Xóa card request
+                        if (requestCard.length > 0) {
+                            requestCard.fadeOut(300, function() {
+                                $(this).remove();
+                                
+                                // Kiểm tra số lượng request còn lại
+                                const remainingRequests = $('.col.mb-3').length;
+                                console.log('Remaining requests:', remainingRequests); // Debug
+                                
+                                // Ẩn panel nếu không còn request
+                                if (remainingRequests === 0) {
+                                    $('.layout-rightside-col')
+                                        .fadeOut(300, function() {
+                                            $(this).removeClass('d-block').addClass('d-none');
+                                        });
+                                }
+                            });
+                        }
+
                         Swal.fire({
                             title: 'Thành công!',
-                            text: response.message || 'Cập nhật trạng thái thành công',
+                            text: status === 5 ? 'Đã xác nhận hủy đơn hàng' : 'Đã từ chối hủy đơn hàng',
                             icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        });
-                    } else {
-                        console.error('Error updating order status:', response.message || 'Unknown error occurred');
-                        Swal.fire({
-                            title: 'Lỗi!',
-                            text: response.message || 'Có lỗi xảy ra',
-                            icon: 'error',
                             confirmButtonText: 'OK'
                         });
                     }
                 },
-                error: function(xhr, status, error) {
-                    console.error('Ajax Error Details:', {
-                        status: status,
-                        error: error,
-                        response: xhr.responseText,
-                        statusCode: xhr.status
-                    });
-
-                    let errorMessage = 'Không thể xử lý yêu cầu.';
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        errorMessage = response.message || errorMessage;
-                    } catch (e) {
-                        console.error('Error parsing response:', e);
-                    }
-
+                error: function(xhr) {
+                    console.error('Error:', xhr);
+                    console.log('Request card found:', requestCard.length); // Debug
+                    console.log('Card content:', requestCard.html()); // Debug
+                    
                     Swal.fire({
                         title: 'Lỗi!',
-                        text: errorMessage,
+                        text: 'Có lỗi xảy ra khi cập nhật trạng thái',
                         icon: 'error',
                         confirmButtonText: 'OK'
                     });
+                },
+                complete: function() {
+                    // Đảm bảo xóa request ngay cả khi có lỗi
+                    if (requestCard.length > 0) {
+                        requestCard.fadeOut(300, function() {
+                            $(this).remove();
+                            
+                            const remainingRequests = $('.col.mb-3').length;
+                            if (remainingRequests === 0) {
+                                $('.layout-rightside-col')
+                                    .fadeOut(300, function() {
+                                        $(this).removeClass('d-block').addClass('d-none');
+                                    });
+                            }
+                        });
+                    }
                 }
             });
         }
-    </script>
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const confirmButton = document.getElementById('confirmButton');
             if (confirmButton) {
@@ -1059,18 +1076,18 @@
         });
     </script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Xử lý nút đóng thông báo
-        const closeButton = document.getElementById('closeNotification');
-        if (closeButton) {
-            closeButton.addEventListener('click', function() {
-                const rightSideCol = document.querySelector('.layout-rightside-col');
-                if (rightSideCol) {
-                    rightSideCol.classList.remove('d-block');
-                    rightSideCol.classList.add('d-none');
-                }
-            });
-        }
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý nút đóng thông báo
+            const closeButton = document.getElementById('closeNotification');
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    const rightSideCol = document.querySelector('.layout-rightside-col');
+                    if (rightSideCol) {
+                        rightSideCol.classList.remove('d-block');
+                        rightSideCol.classList.add('d-none');
+                    }
+                });
+            }
+        });
     </script>
 @endsection

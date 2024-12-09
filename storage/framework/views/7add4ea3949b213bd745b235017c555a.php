@@ -286,15 +286,9 @@
 </head>
 
 <body>
-    <!-- Begin page -->
     <div id="jquery-wrapper">
         <?php echo $__env->make('admin.layouts.partials.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <!-- ========== App Menu ========== -->
         <?php echo $__env->make('admin.layouts.partials.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <!-- Left Sidebar End -->
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
         <div class="main-content">
 
             <div class="page-content">
@@ -455,8 +449,6 @@
                     location.reload();
                 });
             });
-    </script>
-    <script>
         window.Echo.channel('import-order-created')
             .listen('NewImportOrderCreated', (e) => {
                 Swal.fire({
@@ -468,9 +460,7 @@
                     location.reload();
                 });
             });
-    </script>
 
-    <script>
         window.Echo.channel('import-order-cancel')
             .listen('ImportOrderCancelRequested', (e) => {
                 Swal.fire({
@@ -539,6 +529,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>

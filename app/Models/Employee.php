@@ -58,6 +58,14 @@ class Employee extends Authenticatable implements JWTSubject
         return $this->hasMany(Message::class);
     }
 
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+
+    public function importOrders(){
+        return $this->hasMany(Import_order::class);
+    }
+    
     public function getJWTCustomClaims()
     {
         return [
