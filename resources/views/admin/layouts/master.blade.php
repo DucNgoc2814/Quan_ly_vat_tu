@@ -286,15 +286,9 @@
 </head>
 
 <body>
-    <!-- Begin page -->
     <div id="jquery-wrapper">
         @include('admin.layouts.partials.header')
-        <!-- ========== App Menu ========== -->
         @include('admin.layouts.partials.sidebar')
-        <!-- Left Sidebar End -->
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
         <div class="main-content">
 
             <div class="page-content">
@@ -455,8 +449,6 @@
                     location.reload();
                 });
             });
-    </script>
-    <script>
         window.Echo.channel('import-order-created')
             .listen('NewImportOrderCreated', (e) => {
                 Swal.fire({
@@ -468,9 +460,7 @@
                     location.reload();
                 });
             });
-    </script>
 
-    <script>
         window.Echo.channel('import-order-cancel')
             .listen('ImportOrderCancelRequested', (e) => {
                 Swal.fire({
@@ -538,6 +528,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>

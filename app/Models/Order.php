@@ -15,6 +15,7 @@ class Order extends Model
         'customer_id',
         'status_id',
         'contract_id',
+        'employee_id',
         'slug',
         'customer_name',
         'email',
@@ -74,6 +75,10 @@ class Order extends Model
     {
         return $this->hasMany(Payment_history::class, 'related_id')
             ->where('transaction_type', Payment_history::TYPE_SALE);
+    }
+
+    public function employee(){
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
     protected static function booted()
     {
