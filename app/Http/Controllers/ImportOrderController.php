@@ -319,6 +319,12 @@ class ImportOrderController extends Controller
     public function edit($slug)
     {
         $import_order = Import_order::where('slug', $slug)->firstOrFail();
+        
+        // Kiểm tra nếu đơn nhập đã được xác nhận thì không cho sửa
+        if ($import_order->status != 1) {
+            return redirect()->route('importOrder.index')->with('error', 'Không thể sửa đơn nhập hàng');
+        }
+
         $payments = Payment::pluck('name', 'id')->all();
         $suppliers = Supplier::pluck('name', 'id')->all();
         $importOrderDetails = Import_order_detail::where('import_order_id', $import_order->id)->get();
@@ -331,6 +337,13 @@ class ImportOrderController extends Controller
      */
     public function update(UpdateImport_orderRequest $request, $slug)
     {
+        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+        
+        // Kiểm tra nếu đơn nhập đã được xác nhận thì không cho cập nhật
+        if ($importOrder->status != 1) {
+            return redirect()->route('importOrder.index')->with('error', 'Không thể cập nhật đơn nhập hàng');
+        }
+
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request, $slug) {

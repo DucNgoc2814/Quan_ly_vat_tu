@@ -13,30 +13,36 @@ class CargoCarSeeder extends Seeder
      */
     public function run(): void
     {
-         $hardData = [
-            [
+        // Kiểm tra xem có cargo_car_types không
+        $cargoCarTypeIds = DB::table('cargo_car_types')->pluck('id')->toArray();
+        
+        if (empty($cargoCarTypeIds)) {
+            throw new \Exception('Không có loại xe nào trong hệ thống. Vui lòng chạy CargoCarTypeSeeder trước.');
+        }
 
-                'cargo_car_type_id' => 1,
+        $hardData = [
+            [
+                'cargo_car_type_id' => $cargoCarTypeIds[0],
                 'license_plate' => '29C-123.45',
                 'role' => 0,
             ],
             [
-                'cargo_car_type_id' => 2,
+                'cargo_car_type_id' => $cargoCarTypeIds[1],
                 'license_plate' => '30D-678.90',
                 'role' => 0,
             ],
             [
-                'cargo_car_type_id' => 3,
+                'cargo_car_type_id' => $cargoCarTypeIds[2],
                 'license_plate' => '31E-234.56',
                 'role' => 0,
             ],
             [
-                'cargo_car_type_id' => 4,
+                'cargo_car_type_id' => $cargoCarTypeIds[3],
                 'license_plate' => '32F-789.00',
                 'role' => 0,
             ],
             [
-                'cargo_car_type_id' => 5,
+                'cargo_car_type_id' => $cargoCarTypeIds[4],
                 'license_plate' => '33G-345.67',
                 'role' => 0,
             ],
