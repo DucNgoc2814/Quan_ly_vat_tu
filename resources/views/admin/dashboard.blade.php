@@ -15,7 +15,7 @@
 
 @endphp
 @section('title')
-    Dashboard   
+    Dashboard
 @endsection
 @php
     use App\Models\Import_order;
@@ -31,10 +31,7 @@
         ->distinct()
         ->get()
         ->unique('slug');
-    $orderCancelRequests = Order::whereNotNull('cancel_reason')
-        ->distinct()
-        ->get()
-        ->unique('slug');
+    $orderCancelRequests = Order::whereNotNull('cancel_reason')->distinct()->get()->unique('slug');
 
     $pendingContracts = App\Models\Contract::where('contract_status_id', 4)->get();
 
@@ -62,13 +59,13 @@
                                 <form action="javascript:void(0);">
                                     <div class="row g-3 mb-0 align-items-center">
                                         <div class="col-sm-auto">
-                                            
+
                                         </div>
                                         <!--end col-->
                                         <div class="col-auto">
                                             <button type="button"
-                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn" id="confirmButton"><i
-                                                    class="ri-notification-2-line align-middle me-1"></i>
+                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn"
+                                                id="confirmButton"><i class="ri-notification-2-line align-middle me-1"></i>
                                                 Thông Báo Xác Nhận</button>
                                         </div>
                                     </div>
@@ -222,7 +219,7 @@
                     </div><!-- end col -->
                 </div> <!-- end row-->
 
-                
+
                 <div class="col-xl-8 w-100 fs-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
@@ -392,7 +389,8 @@
                         <div class="p-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="text-muted mb-0 text-uppercase fw-semibold">Yêu Cầu Xác Nhận</h6>
-                                <button type="button" class="btn-close text-danger" id="closeNotification" aria-label="Close"></button>
+                                <button type="button" class="btn-close text-danger" id="closeNotification"
+                                    aria-label="Close"></button>
                             </div>
                         </div>
 
@@ -607,6 +605,7 @@
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('cancelRequestsContainer');
+                    container.innerHTML = ''; // Xóa nội dung cũ trước khi thêm mới
                     if (data.length > 0) {
                         data.forEach(request => {
                             const requestElement = document.createElement('div');
@@ -631,6 +630,17 @@
                         </div>
                     `;
                             container.appendChild(requestElement);
+                        });
+
+                        // Kiểm tra và ẩn yêu cầu thêm mới nếu có yêu cầu hủy
+                        const newOrderRequests = document.querySelectorAll(
+                        '.new-order-request'); // Giả sử các yêu cầu thêm mới có class là 'new-order-request'
+                        newOrderRequests.forEach(order => {
+                            const orderSlug = order.dataset
+                            .slug; // Giả sử slug của đơn hàng được lưu trong data-attribute
+                            if (data.some(request => request.slug === orderSlug)) {
+                                order.style.display = 'none'; // Ẩn yêu cầu thêm mới
+                            }
                         });
                     }
                 });
@@ -985,7 +995,7 @@
             });
             const url = "{{ route('order.updateStatus', ':slug') }}".replace(':slug', slug);
             $.ajax({
-                url: url, 
+                url: url,
                 method: 'POST',
                 data: {
                     status: status
@@ -1003,7 +1013,8 @@
                             }
                         });
                     } else {
-                        console.error('Error updating order status:', response.message || 'Unknown error occurred');
+                        console.error('Error updating order status:', response.message ||
+                            'Unknown error occurred');
                         Swal.fire({
                             title: 'Lỗi!',
                             text: response.message || 'Có lỗi xảy ra',
@@ -1059,18 +1070,18 @@
         });
     </script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Xử lý nút đóng thông báo
-        const closeButton = document.getElementById('closeNotification');
-        if (closeButton) {
-            closeButton.addEventListener('click', function() {
-                const rightSideCol = document.querySelector('.layout-rightside-col');
-                if (rightSideCol) {
-                    rightSideCol.classList.remove('d-block');
-                    rightSideCol.classList.add('d-none');
-                }
-            });
-        }
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý nút đóng thông báo
+            const closeButton = document.getElementById('closeNotification');
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    const rightSideCol = document.querySelector('.layout-rightside-col');
+                    if (rightSideCol) {
+                        rightSideCol.classList.remove('d-block');
+                        rightSideCol.classList.add('d-none');
+                    }
+                });
+            }
+        });
     </script>
 @endsection

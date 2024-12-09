@@ -13044,3 +13044,634 @@ Cần Thơ, 32179908, 50894401, ?, 2024-04-29 13:27:56, 2024-12-06 18:12:55)) at
 [2024-12-08 21:29:12] local.INFO: File Save Attempted  
 [2024-12-08 21:29:12] local.INFO: File Exists After Save: Yes  
 [2024-12-08 21:29:12] local.INFO: File Size: 43365 bytes  
+[2024-12-08 22:36:50] local.ERROR: SQLSTATE[HY000]: General error: 3730 Cannot drop table 'orders' referenced by a foreign key constraint 'debts_order_id_foreign' on table 'debts'. (Connection: mysql, SQL: drop table if exists `orders`) {"exception":"[object] (Illuminate\\Database\\QueryException(code: HY000): SQLSTATE[HY000]: General error: 3730 Cannot drop table 'orders' referenced by a foreign key constraint 'debts_order_id_foreign' on table 'debts'. (Connection: mysql, SQL: drop table if exists `orders`) at C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
+[stacktrace]
+#0 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('drop table if e...', Array, Object(Closure))
+#1 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(588): Illuminate\\Database\\Connection->run('drop table if e...', Array, Object(Closure))
+#2 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Blueprint.php(110): Illuminate\\Database\\Connection->statement('drop table if e...')
+#3 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(602): Illuminate\\Database\\Schema\\Blueprint->build(Object(Illuminate\\Database\\MySqlConnection), Object(Illuminate\\Database\\Schema\\Grammars\\MySqlGrammar))
+#4 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(486): Illuminate\\Database\\Schema\\Builder->build(Object(Illuminate\\Database\\Schema\\Blueprint))
+#5 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(355): Illuminate\\Database\\Schema\\Builder->dropIfExists('orders')
+#6 C:\\laragon\\www\\Quan_ly_vat_tu\\database\\migrations\\2024_09_09_170349_create_orders_table.php(39): Illuminate\\Support\\Facades\\Facade::__callStatic('dropIfExists', Array)
+#7 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(493): Illuminate\\Database\\Migrations\\Migration@anonymous->down()
+#8 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(410): Illuminate\\Database\\Migrations\\Migrator->runMethod(Object(Illuminate\\Database\\MySqlConnection), Object(Illuminate\\Database\\Migrations\\Migration@anonymous), 'down')
+#9 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(419): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#10 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(385): Illuminate\\Database\\Migrations\\Migrator->runMigration(Object(Illuminate\\Database\\Migrations\\Migration@anonymous), 'down')
+#11 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\View\\Components\\Task.php(37): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#12 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(756): Illuminate\\Console\\View\\Components\\Task->render('2024_09_09_1703...', Object(Closure))
+#13 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(385): Illuminate\\Database\\Migrations\\Migrator->write('Illuminate\\\\Cons...', '2024_09_09_1703...', Object(Closure))
+#14 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(306): Illuminate\\Database\\Migrations\\Migrator->runDown('C:\\\\laragon\\\\www\\\\...', Object(stdClass), false)
+#15 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(360): Illuminate\\Database\\Migrations\\Migrator->rollbackMigrations(Array, Array, Array)
+#16 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(335): Illuminate\\Database\\Migrations\\Migrator->resetMigrations(Array, Array, false)
+#17 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\ResetCommand.php(67): Illuminate\\Database\\Migrations\\Migrator->reset(Array, false)
+#18 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(633): Illuminate\\Database\\Console\\Migrations\\ResetCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#19 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\ResetCommand.php(69): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
+#20 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\ResetCommand->handle()
+#21 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#22 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#23 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#24 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#25 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
+#26 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
+#27 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(181): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
+#28 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Concerns\\CallsCommands.php(68): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
+#29 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Concerns\\CallsCommands.php(28): Illuminate\\Console\\Command->runCommand('migrate:reset', Array, Object(Illuminate\\Console\\OutputStyle))
+#30 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\RefreshCommand.php(110): Illuminate\\Console\\Command->call('migrate:reset', Array)
+#31 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\RefreshCommand.php(55): Illuminate\\Database\\Console\\Migrations\\RefreshCommand->runReset(NULL, Array)
+#32 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\RefreshCommand->handle()
+#33 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#34 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#35 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#36 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#37 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
+#38 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#39 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(181): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#40 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Application.php(1096): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#41 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\RefreshCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#42 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#43 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#44 C:\\laragon\\www\\Quan_ly_vat_tu\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#45 {main}
+
+[previous exception] [object] (PDOException(code: HY000): SQLSTATE[HY000]: General error: 3730 Cannot drop table 'orders' referenced by a foreign key constraint 'debts_order_id_foreign' on table 'debts'. at C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:587)
+[stacktrace]
+#0 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(587): PDOStatement->execute()
+#1 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(816): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('drop table if e...', Array)
+#2 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('drop table if e...', Array, Object(Closure))
+#3 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(588): Illuminate\\Database\\Connection->run('drop table if e...', Array, Object(Closure))
+#4 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Blueprint.php(110): Illuminate\\Database\\Connection->statement('drop table if e...')
+#5 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(602): Illuminate\\Database\\Schema\\Blueprint->build(Object(Illuminate\\Database\\MySqlConnection), Object(Illuminate\\Database\\Schema\\Grammars\\MySqlGrammar))
+#6 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Schema\\Builder.php(486): Illuminate\\Database\\Schema\\Builder->build(Object(Illuminate\\Database\\Schema\\Blueprint))
+#7 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Facades\\Facade.php(355): Illuminate\\Database\\Schema\\Builder->dropIfExists('orders')
+#8 C:\\laragon\\www\\Quan_ly_vat_tu\\database\\migrations\\2024_09_09_170349_create_orders_table.php(39): Illuminate\\Support\\Facades\\Facade::__callStatic('dropIfExists', Array)
+#9 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(493): Illuminate\\Database\\Migrations\\Migration@anonymous->down()
+#10 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(410): Illuminate\\Database\\Migrations\\Migrator->runMethod(Object(Illuminate\\Database\\MySqlConnection), Object(Illuminate\\Database\\Migrations\\Migration@anonymous), 'down')
+#11 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(419): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#12 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(385): Illuminate\\Database\\Migrations\\Migrator->runMigration(Object(Illuminate\\Database\\Migrations\\Migration@anonymous), 'down')
+#13 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\View\\Components\\Task.php(37): Illuminate\\Database\\Migrations\\Migrator->Illuminate\\Database\\Migrations\\{closure}()
+#14 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(756): Illuminate\\Console\\View\\Components\\Task->render('2024_09_09_1703...', Object(Closure))
+#15 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(385): Illuminate\\Database\\Migrations\\Migrator->write('Illuminate\\\\Cons...', '2024_09_09_1703...', Object(Closure))
+#16 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(306): Illuminate\\Database\\Migrations\\Migrator->runDown('C:\\\\laragon\\\\www\\\\...', Object(stdClass), false)
+#17 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(360): Illuminate\\Database\\Migrations\\Migrator->rollbackMigrations(Array, Array, Array)
+#18 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(335): Illuminate\\Database\\Migrations\\Migrator->resetMigrations(Array, Array, false)
+#19 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\ResetCommand.php(67): Illuminate\\Database\\Migrations\\Migrator->reset(Array, false)
+#20 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Migrations\\Migrator.php(633): Illuminate\\Database\\Console\\Migrations\\ResetCommand->Illuminate\\Database\\Console\\Migrations\\{closure}()
+#21 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\ResetCommand.php(69): Illuminate\\Database\\Migrations\\Migrator->usingConnection(NULL, Object(Closure))
+#22 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\ResetCommand->handle()
+#23 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#24 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#25 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#26 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#27 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
+#28 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
+#29 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(181): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
+#30 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Concerns\\CallsCommands.php(68): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArrayInput), Object(Illuminate\\Console\\OutputStyle))
+#31 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Concerns\\CallsCommands.php(28): Illuminate\\Console\\Command->runCommand('migrate:reset', Array, Object(Illuminate\\Console\\OutputStyle))
+#32 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\RefreshCommand.php(110): Illuminate\\Console\\Command->call('migrate:reset', Array)
+#33 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Console\\Migrations\\RefreshCommand.php(55): Illuminate\\Database\\Console\\Migrations\\RefreshCommand->runReset(NULL, Array)
+#34 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(36): Illuminate\\Database\\Console\\Migrations\\RefreshCommand->handle()
+#35 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php(41): Illuminate\\Container\\BoundMethod::Illuminate\\Container\\{closure}()
+#36 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure(Object(Closure))
+#37 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php(37): Illuminate\\Container\\BoundMethod::callBoundMethod(Object(Illuminate\\Foundation\\Application), Array, Object(Closure))
+#38 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(662): Illuminate\\Container\\BoundMethod::call(Object(Illuminate\\Foundation\\Application), Array, Array, NULL)
+#39 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(211): Illuminate\\Container\\Container->call(Array)
+#40 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#41 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php(181): Symfony\\Component\\Console\\Command\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Illuminate\\Console\\OutputStyle))
+#42 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Application.php(1096): Illuminate\\Console\\Command->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#43 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand(Object(Illuminate\\Database\\Console\\Migrations\\RefreshCommand), Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#44 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#45 C:\\laragon\\www\\Quan_ly_vat_tu\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(201): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#46 C:\\laragon\\www\\Quan_ly_vat_tu\\artisan(37): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#47 {main}
+"} 
+[2024-12-08 22:40:30] local.INFO: === START LOGGING ===  
+[2024-12-08 22:40:30] local.INFO: Auth Check: No  
+[2024-12-08 22:40:30] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 22:40:30] local.INFO: Directory Exists: No  
+[2024-12-08 22:40:30] local.INFO: Directory Writable: No  
+[2024-12-08 22:40:30] local.INFO: Directory Created  
+[2024-12-08 22:40:30] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 22:40:30] local.INFO: File Exists: No  
+[2024-12-08 22:40:30] local.INFO: Creating new file...  
+[2024-12-08 22:40:31] local.INFO: File Save Attempted  
+[2024-12-08 22:40:31] local.INFO: File Exists After Save: Yes  
+[2024-12-08 22:40:31] local.INFO: File Size: 6673 bytes  
+[2024-12-08 22:40:31] local.DEBUG: Số lượng tồn kho (stock) của variation 4 là: 436  
+[2024-12-08 22:40:31] local.DEBUG: Số lượng mua của variation 4 là: 9  
+[2024-12-08 22:40:31] local.INFO: === START LOGGING ===  
+[2024-12-08 22:40:31] local.INFO: Auth Check: No  
+[2024-12-08 22:40:31] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 22:40:31] local.INFO: Directory Exists: Yes  
+[2024-12-08 22:40:31] local.INFO: Directory Writable: Yes  
+[2024-12-08 22:40:31] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 22:40:31] local.INFO: File Exists: Yes  
+[2024-12-08 22:40:31] local.INFO: Loading existing file...  
+[2024-12-08 22:40:31] local.INFO: File Save Attempted  
+[2024-12-08 22:40:31] local.INFO: File Exists After Save: Yes  
+[2024-12-08 22:40:31] local.INFO: File Size: 6735 bytes  
+[2024-12-08 22:56:02] local.INFO: === START LOGGING ===  
+[2024-12-08 22:56:02] local.INFO: Auth Check: No  
+[2024-12-08 22:56:02] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 22:56:02] local.INFO: Directory Exists: Yes  
+[2024-12-08 22:56:02] local.INFO: Directory Writable: Yes  
+[2024-12-08 22:56:02] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 22:56:02] local.INFO: File Exists: Yes  
+[2024-12-08 22:56:02] local.INFO: Loading existing file...  
+[2024-12-08 22:56:04] local.INFO: File Save Attempted  
+[2024-12-08 22:56:04] local.INFO: File Exists After Save: Yes  
+[2024-12-08 22:56:04] local.INFO: File Size: 6791 bytes  
+[2024-12-08 23:13:11] local.INFO: === START LOGGING ===  
+[2024-12-08 23:13:11] local.INFO: Auth Check: No  
+[2024-12-08 23:13:11] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:13:11] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:13:11] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:13:11] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:13:11] local.INFO: File Exists: Yes  
+[2024-12-08 23:13:11] local.INFO: Loading existing file...  
+[2024-12-08 23:13:14] local.INFO: File Save Attempted  
+[2024-12-08 23:13:14] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:13:14] local.INFO: File Size: 6835 bytes  
+[2024-12-08 23:20:49] local.INFO: === START LOGGING ===  
+[2024-12-08 23:20:49] local.INFO: Auth Check: No  
+[2024-12-08 23:20:49] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:20:49] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:20:49] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:20:49] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:20:49] local.INFO: File Exists: Yes  
+[2024-12-08 23:20:49] local.INFO: Loading existing file...  
+[2024-12-08 23:20:49] local.INFO: File Save Attempted  
+[2024-12-08 23:20:49] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:20:49] local.INFO: File Size: 44261 bytes  
+[2024-12-08 23:21:56] local.INFO: === START LOGGING ===  
+[2024-12-08 23:21:56] local.INFO: Auth Check: No  
+[2024-12-08 23:21:56] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:21:56] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:21:56] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:21:56] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:21:56] local.INFO: File Exists: Yes  
+[2024-12-08 23:21:56] local.INFO: Loading existing file...  
+[2024-12-08 23:21:56] local.INFO: File Save Attempted  
+[2024-12-08 23:21:56] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:21:56] local.INFO: File Size: 44298 bytes  
+[2024-12-08 23:22:03] local.INFO: === START LOGGING ===  
+[2024-12-08 23:22:03] local.INFO: Auth Check: No  
+[2024-12-08 23:22:03] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:22:03] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:22:03] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:22:03] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:22:03] local.INFO: File Exists: Yes  
+[2024-12-08 23:22:03] local.INFO: Loading existing file...  
+[2024-12-08 23:22:03] local.INFO: File Save Attempted  
+[2024-12-08 23:22:03] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:22:03] local.INFO: File Size: 44329 bytes  
+[2024-12-08 23:25:34] local.INFO: === START LOGGING ===  
+[2024-12-08 23:25:34] local.INFO: Auth Check: No  
+[2024-12-08 23:25:34] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:25:34] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:25:34] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:25:34] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:25:34] local.INFO: File Exists: Yes  
+[2024-12-08 23:25:34] local.INFO: Loading existing file...  
+[2024-12-08 23:25:34] local.INFO: File Save Attempted  
+[2024-12-08 23:25:34] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:25:34] local.INFO: File Size: 44366 bytes  
+[2024-12-08 23:25:50] local.INFO: === START LOGGING ===  
+[2024-12-08 23:25:50] local.INFO: Auth Check: No  
+[2024-12-08 23:25:50] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:25:50] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:25:50] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:25:50] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:25:50] local.INFO: File Exists: Yes  
+[2024-12-08 23:25:50] local.INFO: Loading existing file...  
+[2024-12-08 23:25:50] local.INFO: File Save Attempted  
+[2024-12-08 23:25:50] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:25:50] local.INFO: File Size: 44395 bytes  
+[2024-12-08 23:26:12] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:12] local.INFO: Auth Check: No  
+[2024-12-08 23:26:12] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:12] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:12] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:12] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:12] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:12] local.INFO: Loading existing file...  
+[2024-12-08 23:26:12] local.INFO: File Save Attempted  
+[2024-12-08 23:26:12] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:12] local.INFO: File Size: 44429 bytes  
+[2024-12-08 23:26:12] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:12] local.INFO: Auth Check: No  
+[2024-12-08 23:26:12] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:12] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:12] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:12] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:12] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:12] local.INFO: Loading existing file...  
+[2024-12-08 23:26:13] local.INFO: File Save Attempted  
+[2024-12-08 23:26:13] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:13] local.INFO: File Size: 44464 bytes  
+[2024-12-08 23:26:25] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:25] local.INFO: Auth Check: No  
+[2024-12-08 23:26:25] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:25] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:25] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:25] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:25] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:25] local.INFO: Loading existing file...  
+[2024-12-08 23:26:26] local.INFO: File Save Attempted  
+[2024-12-08 23:26:26] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:26] local.INFO: File Size: 44500 bytes  
+[2024-12-08 23:26:26] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:26] local.INFO: Auth Check: No  
+[2024-12-08 23:26:26] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:26] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:26] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:26] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:26] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:26] local.INFO: Loading existing file...  
+[2024-12-08 23:26:26] local.INFO: File Save Attempted  
+[2024-12-08 23:26:26] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:26] local.INFO: File Size: 44538 bytes  
+[2024-12-08 23:26:26] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:26] local.INFO: Auth Check: No  
+[2024-12-08 23:26:26] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:26] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:26] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:26] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:26] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:26] local.INFO: Loading existing file...  
+[2024-12-08 23:26:27] local.INFO: File Save Attempted  
+[2024-12-08 23:26:27] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:27] local.INFO: File Size: 44579 bytes  
+[2024-12-08 23:26:27] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:27] local.INFO: Auth Check: No  
+[2024-12-08 23:26:27] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:27] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:27] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:27] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:27] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:27] local.INFO: Loading existing file...  
+[2024-12-08 23:26:27] local.INFO: File Save Attempted  
+[2024-12-08 23:26:27] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:27] local.INFO: File Size: 44619 bytes  
+[2024-12-08 23:26:27] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:27] local.INFO: Auth Check: No  
+[2024-12-08 23:26:27] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:27] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:27] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:27] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:27] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:27] local.INFO: Loading existing file...  
+[2024-12-08 23:26:28] local.INFO: File Save Attempted  
+[2024-12-08 23:26:28] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:28] local.INFO: File Size: 44653 bytes  
+[2024-12-08 23:26:41] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:41] local.INFO: Auth Check: No  
+[2024-12-08 23:26:41] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:41] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:41] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:41] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:41] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:41] local.INFO: Loading existing file...  
+[2024-12-08 23:26:41] local.INFO: File Save Attempted  
+[2024-12-08 23:26:41] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:41] local.INFO: File Size: 44689 bytes  
+[2024-12-08 23:26:41] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:41] local.INFO: Auth Check: No  
+[2024-12-08 23:26:41] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:41] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:41] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:41] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:41] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:41] local.INFO: Loading existing file...  
+[2024-12-08 23:26:42] local.INFO: File Save Attempted  
+[2024-12-08 23:26:42] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:42] local.INFO: File Size: 44730 bytes  
+[2024-12-08 23:26:42] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:42] local.INFO: Auth Check: No  
+[2024-12-08 23:26:42] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:42] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:42] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:42] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:42] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:42] local.INFO: Loading existing file...  
+[2024-12-08 23:26:42] local.INFO: File Save Attempted  
+[2024-12-08 23:26:42] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:42] local.INFO: File Size: 44777 bytes  
+[2024-12-08 23:26:42] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:42] local.INFO: Auth Check: No  
+[2024-12-08 23:26:42] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:42] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:42] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:42] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:42] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:42] local.INFO: Loading existing file...  
+[2024-12-08 23:26:42] local.INFO: File Save Attempted  
+[2024-12-08 23:26:42] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:42] local.INFO: File Size: 44806 bytes  
+[2024-12-08 23:26:55] local.INFO: === START LOGGING ===  
+[2024-12-08 23:26:55] local.INFO: Auth Check: No  
+[2024-12-08 23:26:55] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:26:55] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:26:55] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:26:55] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:26:55] local.INFO: File Exists: Yes  
+[2024-12-08 23:26:55] local.INFO: Loading existing file...  
+[2024-12-08 23:26:56] local.INFO: File Save Attempted  
+[2024-12-08 23:26:56] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:26:56] local.INFO: File Size: 44844 bytes  
+[2024-12-08 23:27:09] local.INFO: === START LOGGING ===  
+[2024-12-08 23:27:09] local.INFO: Auth Check: No  
+[2024-12-08 23:27:09] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:27:09] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:27:09] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:27:09] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:27:09] local.INFO: File Exists: Yes  
+[2024-12-08 23:27:09] local.INFO: Loading existing file...  
+[2024-12-08 23:27:10] local.INFO: File Save Attempted  
+[2024-12-08 23:27:10] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:27:10] local.INFO: File Size: 44882 bytes  
+[2024-12-08 23:27:10] local.INFO: === START LOGGING ===  
+[2024-12-08 23:27:10] local.INFO: Auth Check: No  
+[2024-12-08 23:27:10] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:27:10] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:27:10] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:27:10] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:27:10] local.INFO: File Exists: Yes  
+[2024-12-08 23:27:10] local.INFO: Loading existing file...  
+[2024-12-08 23:27:10] local.INFO: File Save Attempted  
+[2024-12-08 23:27:10] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:27:10] local.INFO: File Size: 44926 bytes  
+[2024-12-08 23:27:10] local.INFO: === START LOGGING ===  
+[2024-12-08 23:27:10] local.INFO: Auth Check: No  
+[2024-12-08 23:27:10] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:27:10] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:27:10] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:27:10] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:27:10] local.INFO: File Exists: Yes  
+[2024-12-08 23:27:10] local.INFO: Loading existing file...  
+[2024-12-08 23:27:10] local.INFO: File Save Attempted  
+[2024-12-08 23:27:10] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:27:10] local.INFO: File Size: 44961 bytes  
+[2024-12-08 23:27:19] local.INFO: === START LOGGING ===  
+[2024-12-08 23:27:19] local.INFO: Auth Check: No  
+[2024-12-08 23:27:19] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:27:19] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:27:19] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:27:19] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:27:19] local.INFO: File Exists: Yes  
+[2024-12-08 23:27:19] local.INFO: Loading existing file...  
+[2024-12-08 23:27:19] local.INFO: File Save Attempted  
+[2024-12-08 23:27:19] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:27:19] local.INFO: File Size: 44992 bytes  
+[2024-12-08 23:27:24] local.INFO: === START LOGGING ===  
+[2024-12-08 23:27:24] local.INFO: Auth Check: No  
+[2024-12-08 23:27:24] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:27:24] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:27:24] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:27:24] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:27:24] local.INFO: File Exists: Yes  
+[2024-12-08 23:27:24] local.INFO: Loading existing file...  
+[2024-12-08 23:27:24] local.INFO: File Save Attempted  
+[2024-12-08 23:27:24] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:27:24] local.INFO: File Size: 45029 bytes  
+[2024-12-08 23:27:24] local.INFO: === START LOGGING ===  
+[2024-12-08 23:27:24] local.INFO: Auth Check: No  
+[2024-12-08 23:27:24] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:27:24] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:27:24] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:27:24] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:27:24] local.INFO: File Exists: Yes  
+[2024-12-08 23:27:24] local.INFO: Loading existing file...  
+[2024-12-08 23:27:25] local.INFO: File Save Attempted  
+[2024-12-08 23:27:25] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:27:25] local.INFO: File Size: 45066 bytes  
+[2024-12-08 23:27:25] local.INFO: === START LOGGING ===  
+[2024-12-08 23:27:25] local.INFO: Auth Check: No  
+[2024-12-08 23:27:25] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:27:25] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:27:25] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:27:25] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:27:25] local.INFO: File Exists: Yes  
+[2024-12-08 23:27:25] local.INFO: Loading existing file...  
+[2024-12-08 23:27:25] local.INFO: File Save Attempted  
+[2024-12-08 23:27:25] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:27:25] local.INFO: File Size: 45105 bytes  
+[2024-12-08 23:27:25] local.INFO: === START LOGGING ===  
+[2024-12-08 23:27:25] local.INFO: Auth Check: No  
+[2024-12-08 23:27:25] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:27:25] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:27:25] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:27:25] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:27:25] local.INFO: File Exists: Yes  
+[2024-12-08 23:27:25] local.INFO: Loading existing file...  
+[2024-12-08 23:27:26] local.INFO: File Save Attempted  
+[2024-12-08 23:27:26] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:27:26] local.INFO: File Size: 45144 bytes  
+[2024-12-08 23:43:28] local.INFO: === START LOGGING ===  
+[2024-12-08 23:43:28] local.INFO: Auth Check: No  
+[2024-12-08 23:43:28] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:43:28] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:43:28] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:43:28] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:43:28] local.INFO: File Exists: Yes  
+[2024-12-08 23:43:28] local.INFO: Loading existing file...  
+[2024-12-08 23:43:29] local.INFO: File Save Attempted  
+[2024-12-08 23:43:29] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:43:29] local.INFO: File Size: 45178 bytes  
+[2024-12-08 23:43:32] local.INFO: === START LOGGING ===  
+[2024-12-08 23:43:32] local.INFO: Auth Check: No  
+[2024-12-08 23:43:32] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:43:32] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:43:32] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:43:32] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:43:32] local.INFO: File Exists: Yes  
+[2024-12-08 23:43:32] local.INFO: Loading existing file...  
+[2024-12-08 23:43:32] local.INFO: File Save Attempted  
+[2024-12-08 23:43:32] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:43:32] local.INFO: File Size: 45212 bytes  
+[2024-12-08 23:43:32] local.INFO: === START LOGGING ===  
+[2024-12-08 23:43:32] local.INFO: Auth Check: No  
+[2024-12-08 23:43:32] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:43:32] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:43:32] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:43:32] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:43:32] local.INFO: File Exists: Yes  
+[2024-12-08 23:43:32] local.INFO: Loading existing file...  
+[2024-12-08 23:43:33] local.INFO: File Save Attempted  
+[2024-12-08 23:43:33] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:43:33] local.INFO: File Size: 45250 bytes  
+[2024-12-08 23:43:33] local.INFO: === START LOGGING ===  
+[2024-12-08 23:43:33] local.INFO: Auth Check: No  
+[2024-12-08 23:43:33] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:43:33] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:43:33] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:43:33] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:43:33] local.INFO: File Exists: Yes  
+[2024-12-08 23:43:33] local.INFO: Loading existing file...  
+[2024-12-08 23:43:33] local.INFO: File Save Attempted  
+[2024-12-08 23:43:33] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:43:33] local.INFO: File Size: 45275 bytes  
+[2024-12-08 23:44:56] local.INFO: === START LOGGING ===  
+[2024-12-08 23:44:56] local.INFO: Auth Check: No  
+[2024-12-08 23:44:56] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:44:56] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:44:56] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:44:56] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:44:56] local.INFO: File Exists: Yes  
+[2024-12-08 23:44:56] local.INFO: Loading existing file...  
+[2024-12-08 23:44:57] local.INFO: File Save Attempted  
+[2024-12-08 23:44:57] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:44:57] local.INFO: File Size: 45307 bytes  
+[2024-12-08 23:45:37] local.INFO: === START LOGGING ===  
+[2024-12-08 23:45:37] local.INFO: Auth Check: No  
+[2024-12-08 23:45:37] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:45:37] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:45:37] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:45:37] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:45:37] local.INFO: File Exists: Yes  
+[2024-12-08 23:45:37] local.INFO: Loading existing file...  
+[2024-12-08 23:45:37] local.INFO: File Save Attempted  
+[2024-12-08 23:45:37] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:45:37] local.INFO: File Size: 45341 bytes  
+[2024-12-08 23:45:51] local.INFO: === START LOGGING ===  
+[2024-12-08 23:45:51] local.INFO: Auth Check: No  
+[2024-12-08 23:45:51] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:45:51] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:45:51] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:45:51] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:45:51] local.INFO: File Exists: Yes  
+[2024-12-08 23:45:51] local.INFO: Loading existing file...  
+[2024-12-08 23:45:51] local.INFO: File Save Attempted  
+[2024-12-08 23:45:51] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:45:51] local.INFO: File Size: 45379 bytes  
+[2024-12-08 23:45:51] local.INFO: === START LOGGING ===  
+[2024-12-08 23:45:51] local.INFO: Auth Check: No  
+[2024-12-08 23:45:51] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:45:51] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:45:51] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:45:51] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:45:51] local.INFO: File Exists: Yes  
+[2024-12-08 23:45:51] local.INFO: Loading existing file...  
+[2024-12-08 23:45:52] local.INFO: File Save Attempted  
+[2024-12-08 23:45:52] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:45:52] local.INFO: File Size: 45423 bytes  
+[2024-12-08 23:45:52] local.INFO: === START LOGGING ===  
+[2024-12-08 23:45:52] local.INFO: Auth Check: No  
+[2024-12-08 23:45:52] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:45:52] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:45:52] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:45:52] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:45:52] local.INFO: File Exists: Yes  
+[2024-12-08 23:45:52] local.INFO: Loading existing file...  
+[2024-12-08 23:45:52] local.INFO: File Save Attempted  
+[2024-12-08 23:45:52] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:45:52] local.INFO: File Size: 45462 bytes  
+[2024-12-08 23:45:52] local.INFO: === START LOGGING ===  
+[2024-12-08 23:45:52] local.INFO: Auth Check: No  
+[2024-12-08 23:45:52] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:45:52] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:45:52] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:45:52] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:45:52] local.INFO: File Exists: Yes  
+[2024-12-08 23:45:52] local.INFO: Loading existing file...  
+[2024-12-08 23:45:53] local.INFO: File Save Attempted  
+[2024-12-08 23:45:53] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:45:53] local.INFO: File Size: 45487 bytes  
+[2024-12-08 23:45:53] local.INFO: === START LOGGING ===  
+[2024-12-08 23:45:53] local.INFO: Auth Check: No  
+[2024-12-08 23:45:53] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:45:53] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:45:53] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:45:53] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:45:53] local.INFO: File Exists: Yes  
+[2024-12-08 23:45:53] local.INFO: Loading existing file...  
+[2024-12-08 23:45:53] local.INFO: File Save Attempted  
+[2024-12-08 23:45:53] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:45:53] local.INFO: File Size: 45533 bytes  
+[2024-12-08 23:45:53] local.INFO: === START LOGGING ===  
+[2024-12-08 23:45:53] local.INFO: Auth Check: No  
+[2024-12-08 23:45:53] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:45:53] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:45:53] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:45:53] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:45:53] local.INFO: File Exists: Yes  
+[2024-12-08 23:45:53] local.INFO: Loading existing file...  
+[2024-12-08 23:45:53] local.INFO: File Save Attempted  
+[2024-12-08 23:45:53] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:45:53] local.INFO: File Size: 45570 bytes  
+[2024-12-08 23:46:03] local.INFO: === START LOGGING ===  
+[2024-12-08 23:46:03] local.INFO: Auth Check: No  
+[2024-12-08 23:46:03] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:46:03] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:46:03] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:46:03] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:46:03] local.INFO: File Exists: Yes  
+[2024-12-08 23:46:03] local.INFO: Loading existing file...  
+[2024-12-08 23:46:04] local.INFO: File Save Attempted  
+[2024-12-08 23:46:04] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:46:04] local.INFO: File Size: 45608 bytes  
+[2024-12-08 23:52:08] local.INFO: === START LOGGING ===  
+[2024-12-08 23:52:08] local.INFO: Auth Check: No  
+[2024-12-08 23:52:08] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:52:08] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:52:08] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:52:08] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:52:08] local.INFO: File Exists: Yes  
+[2024-12-08 23:52:08] local.INFO: Loading existing file...  
+[2024-12-08 23:52:09] local.INFO: File Save Attempted  
+[2024-12-08 23:52:09] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:52:09] local.INFO: File Size: 45638 bytes  
+[2024-12-08 23:52:11] local.INFO: === START LOGGING ===  
+[2024-12-08 23:52:11] local.INFO: Auth Check: No  
+[2024-12-08 23:52:11] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:52:11] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:52:11] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:52:11] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:52:11] local.INFO: File Exists: Yes  
+[2024-12-08 23:52:11] local.INFO: Loading existing file...  
+[2024-12-08 23:52:11] local.INFO: File Save Attempted  
+[2024-12-08 23:52:11] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:52:11] local.INFO: File Size: 45671 bytes  
+[2024-12-08 23:52:11] local.INFO: === START LOGGING ===  
+[2024-12-08 23:52:11] local.INFO: Auth Check: No  
+[2024-12-08 23:52:11] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:52:11] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:52:11] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:52:11] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:52:11] local.INFO: File Exists: Yes  
+[2024-12-08 23:52:11] local.INFO: Loading existing file...  
+[2024-12-08 23:52:12] local.INFO: File Save Attempted  
+[2024-12-08 23:52:12] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:52:12] local.INFO: File Size: 45704 bytes  
+[2024-12-08 23:52:12] local.INFO: === START LOGGING ===  
+[2024-12-08 23:52:12] local.INFO: Auth Check: No  
+[2024-12-08 23:52:12] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:52:12] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:52:12] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:52:12] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:52:12] local.INFO: File Exists: Yes  
+[2024-12-08 23:52:12] local.INFO: Loading existing file...  
+[2024-12-08 23:52:12] local.INFO: File Save Attempted  
+[2024-12-08 23:52:12] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:52:12] local.INFO: File Size: 45743 bytes  
+[2024-12-08 23:52:12] local.INFO: === START LOGGING ===  
+[2024-12-08 23:52:12] local.INFO: Auth Check: No  
+[2024-12-08 23:52:12] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:52:12] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:52:12] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:52:12] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:52:12] local.INFO: File Exists: Yes  
+[2024-12-08 23:52:12] local.INFO: Loading existing file...  
+[2024-12-08 23:52:13] local.INFO: File Save Attempted  
+[2024-12-08 23:52:13] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:52:13] local.INFO: File Size: 45771 bytes  
+[2024-12-08 23:52:13] local.INFO: === START LOGGING ===  
+[2024-12-08 23:52:13] local.INFO: Auth Check: No  
+[2024-12-08 23:52:13] local.INFO: Directory Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs  
+[2024-12-08 23:52:13] local.INFO: Directory Exists: Yes  
+[2024-12-08 23:52:13] local.INFO: Directory Writable: Yes  
+[2024-12-08 23:52:13] local.INFO: File Path: C:\laragon\www\Quan_ly_vat_tu\public\storage/logs/activity_logs.xlsx  
+[2024-12-08 23:52:13] local.INFO: File Exists: Yes  
+[2024-12-08 23:52:13] local.INFO: Loading existing file...  
+[2024-12-08 23:52:14] local.INFO: File Save Attempted  
+[2024-12-08 23:52:14] local.INFO: File Exists After Save: Yes  
+[2024-12-08 23:52:14] local.INFO: File Size: 45814 bytes  
