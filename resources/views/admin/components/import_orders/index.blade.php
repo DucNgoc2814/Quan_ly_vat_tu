@@ -52,10 +52,6 @@
                                             <span class="badge bg-success">Giao hàng thành công</span>
                                         @elseif($item->status == 4)
                                             <span class="badge bg-danger">Đã hủy</span>
-                                        @elseif($item->status == 5)
-                                            <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
-                                        @elseif($item->status == 6)
-                                            <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
                                         @endif
                                     </td>
                                     <td>{{ $item->created_at }}</td>
@@ -161,7 +157,8 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                             body: JSON.stringify({
-                                reason: result.value // Gửi lý do hủy đơn hàng
+                                reason: result.value,
+                                order_slug: slug
                             })
                         })
                         .then(response => response.json())

@@ -60,13 +60,12 @@
                                         </td> --}}
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
-                                            @if ($order->status_id < 4)
+                                            @if ($order->status_id < 4 || $order->status_id == 6)
                                                 <form action="{{ route('order.updateStatus', $order->slug) }}"
                                                     method="POST" class="{{ $order->slug }} d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
                                                     @csrf
-                                                    <select name="status"
-                                                        class="form-select form-select-sm status-select"
+                                                    <select name="status" class="form-select form-select-sm status-select"
                                                         data-order-slug="{{ $order->slug }}"
                                                         data-cancel-reason="{{ $order->cancel_reason }}"
                                                         onchange="handleStatusChange(this)">
@@ -81,6 +80,7 @@
                                                             <option value="5">Hủy</option>
                                                         @elseif ($order->status_id == 3)
                                                             <option value="4">Thành công</option>
+                                                        @elseif ($order->status_id == 6)
                                                         @endif
                                                     </select>
                                                 </form>
@@ -132,7 +132,7 @@
             const newStatus = $(select).val();
             const currentStatus = $(select).find('option:first').val();
 
-            if (newStatus == '5') {  // Trường hợp hủy đơn
+            if (newStatus == '5') { // Trường hợp hủy đơn
                 Swal.fire({
                     title: 'Yêu cầu hủy đơn hàng',
                     text: 'Vui lòng nhập lý do hủy đơn hàng',
@@ -198,14 +198,24 @@
                         $(select).val(currentStatus);
                     }
                 });
-            }
-            else {
+            } else if (newStatus == '6') {
+                newStatus = '1'; 
+            } else {
                 sendUpdateRequest($(select), orderSlug, newStatus);
             }
         }
 
         function sendUpdateRequest(select, orderSlug, status) {
             select.prop('disabled', true);
+
+            Swal.fire({
+                title: 'Đang xử lý...',
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
 
             $.ajax({
                 url: `/quan-ly-ban-hang/cap-nhat-trang-thai/${orderSlug}`,
@@ -222,7 +232,7 @@
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(() => {
-                            // location.reload();
+                            location.reload();
                         });
                     }
                 },
