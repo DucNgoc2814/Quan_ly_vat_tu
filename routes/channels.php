@@ -52,3 +52,9 @@ Broadcast::channel('import-order-cancel', function ($user) {
 Broadcast::channel('import-order-confirmed', function ($user) {
     return true;
 });
+Broadcast::channel('transactions', function ($user) {
+    return true;
+});
+Broadcast::channel('orders-status-update', function ($user) {
+    return true;
+});

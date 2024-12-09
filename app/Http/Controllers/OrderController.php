@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\NewOrderCreated;
 use App\Events\OrderCancelRequested;
 use App\Events\OrderStatusChanged;
+use App\Events\OrderStatusUpdated;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -273,9 +274,20 @@ class OrderController extends Controller
     public function requestCancel(Request $request, $slug)
     {
         $order = Order::where('slug', $slug)->firstOrFail();
-        $order->cancel_reason = $request->cancel_reason;
-        $order->save();
-        event(new OrderCancelRequested($order));
+
+        DB::transaction(function () use ($order, $request) {
+            $order->status_id = 6;
+            $order->cancel_reason = $request->cancel_reason;
+            $order->save();
+
+            OrderStatusTime::create([
+                'order_id' => $order->id,
+                'order_status_id' => 6,
+            ]);
+
+            event(new OrderCancelRequested($order));
+        });
+
         return response()->json(['success' => true]);
     }
 
@@ -293,12 +305,17 @@ class OrderController extends Controller
                         'updated_at' => now()
                     ]);
                     $order->cancel_reason = null;
+                } elseif ($request->status == 1) {
+                    $order->status_id = 1;
+                } else {
+                    $order->status_id = $request->status;
                 }
-                $order->status_id = $request->status;
+
                 $order->save();
+
                 OrderStatusTime::create([
                     'order_id' => $order->id,
-                    'order_status_id' => $request->status,
+                    'order_status_id' => $order->status_id,
                 ]);
 
                 if ($order->contract_id) {
@@ -310,14 +327,15 @@ class OrderController extends Controller
                 }
             });
 
-            // Broadcast event
             broadcast(new OrderStatusChanged($order))->toOthers();
+
+            event(new OrderStatusUpdated($order, $order->orderStatus->name));
 
             return response()->json([
                 'success' => true,
                 'message' => 'Cập nhật trạng thái thành công'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()

@@ -474,7 +474,7 @@
             });
     </script>
 
-    @yield('scripts')
+
     @if (session('authorization'))
         {{ session('authorization') }}
     @endif
@@ -528,7 +528,7 @@
             });
         });
     </script>
-
+    @yield('scripts')
 </body>
 
 </html>
