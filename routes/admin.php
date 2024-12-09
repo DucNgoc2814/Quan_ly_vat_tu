@@ -135,7 +135,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/sua/{contract}', [ContractController::class, 'edit'])->name('edit')->middleware('permission:48');
                 Route::put('/sua/{contract}', [ContractController::class, 'update'])->name('update')->middleware('permission:49');
                 Route::post('/gui-xac-nhan/{id}', [ContractController::class, 'sendToManager'])->name('sendToManager')->middleware('permission:50');
-                Route::post('/gui-xac-nhan-khach-hang/{id}', [ContractController::class, 'sendToCustomer'])->name('sendToCustomer');
+                Route::post('/gui-xac-nhan-khach-hang/{id}', [ContractController::class, 'sendToCustomer'])->name('sendToCustomer')->middleware('permission:51');
                 Route::post('/confirm/{id}', [ContractController::class, 'confirmContract'])->name('confirm')->middleware('permission:52');
                 Route::post('/reject/{id}', [ContractController::class, 'rejectContract'])->name('reject')->middleware('permission:53');
                 Route::get('/xac-nhan/{id}', [ContractController::class, 'customerApprove'])->name('customerApprove')->middleware('permission:54');
@@ -210,13 +210,13 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail')->middleware('permission:98');
                 Route::post('/yeu-cau-huy/{slug}', [ImportOrderController::class, 'requestCancel'])->name('requestCancel')->middleware('permission:99');
                 Route::get('/pending-cancel-requests', [ImportOrderController::class, 'getPendingCancelRequests'])->name('pendingCancelRequests')->middleware('permission:100');
-                Route::get('/cancel/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel')->middleware('permission:101');
+                Route::post('/xac-nhan-huy/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel')->middleware('permission:101');
                 Route::post('/xac-nhan/{slug}', [ImportOrderController::class, 'confirmOrder'])->name('confirmOrder')->middleware('permission:102');
                 Route::get('/tu-dong-cap-nhat/{slug}', [ImportOrderController::class, 'autoUpdateStatus'])->name('autoUpdateStatus')->middleware('permission:103');
                 Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests')->middleware('permission:104');
                 Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus')->middleware('permission:105');
                 Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus')->middleware('permission:106');
-                Route::post('/reject/{slug}', [ImportOrderController::class, 'rejectOrder'])->name('rejectOrder')->middleware('permission:107');
+                Route::post('/tu-choi-huy/{slug}', [ImportOrderController::class, 'rejectOrder'])->name('rejectOrder')->middleware('permission:107');
             });
         Route::prefix('quan-ly-don-vi')
             ->as('units.')
@@ -321,6 +321,7 @@ Route::middleware('CheckEmployees')->group(
         Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission'])->middleware('permission:163');
 
 
+
     }
 );
 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf');
@@ -343,6 +344,10 @@ Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 
 Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
 Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
 Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
+Route::get('/thong-ke-san-pham', [ThongkeController::class, 'thongKeSanPham'])->name('thongKeSanPham');
+Route::get('/thong-ke-doi-tac', [ThongkeController::class, 'thongKeDoiTac'])->name('thongKeDoiTac');
+Route::get('/thong-ke-doi-tac/filter', [ThongkeController::class, 'filterPartnerStats'])->name('thongKeDoiTac.filter');
+
 Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {

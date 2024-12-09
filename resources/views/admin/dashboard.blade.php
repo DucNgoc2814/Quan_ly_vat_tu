@@ -15,26 +15,26 @@
 
 @endphp
 @section('title')
-    Dashboard   
+    Dashboard
 @endsection
 @php
     use App\Models\Import_order;
     use App\Models\Order;
-    $pendingNewOrders = Import_order::with('newOrderRequests')
-        ->where('status', 1)
-        ->whereHas('newOrderRequests')
-        ->distinct()
-        ->get()
-        ->unique('slug');
     $pendingCancelRequests = Import_order::where('status', 1)
         ->whereNotNull('cancel_reason')
         ->distinct()
         ->get()
         ->unique('slug');
-    $orderCancelRequests = Order::whereNotNull('cancel_reason')
+    $pendingNewOrders = Import_order::with('newOrderRequests')
+        ->where('status', 1)
+        ->whereHas('newOrderRequests')
         ->distinct()
         ->get()
-        ->unique('slug');
+        ->unique('slug')
+        ->reject(function ($order) use ($pendingCancelRequests) {
+            return $pendingCancelRequests->contains('slug', $order->slug);
+        });
+    $orderCancelRequests = Order::whereNotNull('cancel_reason')->distinct()->get()->unique('slug');
 
     $pendingContracts = App\Models\Contract::where('contract_status_id', 4)->get();
 
@@ -62,22 +62,13 @@
                                 <form action="javascript:void(0);">
                                     <div class="row g-3 mb-0 align-items-center">
                                         <div class="col-sm-auto">
-                                            <div class="input-group">
-                                                <input type="text"
-                                                    class="form-control border-0 dash-filter-picker shadow"
-                                                    data-provider="flatpickr" data-range-date="true"
-                                                    data-date-format="d M, Y"
-                                                    data-deafult-date="01 Jan 2022 to 31 Jan 2022">
-                                                <div class="input-group-text bg-primary border-primary text-white">
-                                                    <i class="ri-calendar-2-line"></i>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <!--end col-->
                                         <div class="col-auto">
                                             <button type="button"
-                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn" id="confirmButton"><i
-                                                    class="ri-notification-2-line align-middle me-1"></i>
+                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn"
+                                                id="confirmButton"><i class="ri-notification-2-line align-middle me-1"></i>
                                                 Thông Báo Xác Nhận</button>
                                         </div>
                                     </div>
@@ -231,79 +222,7 @@
                     </div><!-- end col -->
                 </div> <!-- end row-->
 
-                <div class="row">
-                    <div class="col-xl-8">
-                        <div class="card">
-                            <div class="card-header border-0 align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Thống kê theo năm</h4>
 
-                            </div><!-- end card header -->
-
-                            <div class="card-header p-0 border-0 bg-light-subtle">
-                                <div class="row g-0 text-center">
-                                    <div class="col-6 col-sm-3">
-                                        <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1"><span class="counter-value" data-target="7585">0</span>
-                                            </h5>
-                                            <p class="text-muted mb-0">Tổng đơn hàng xuất</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-6 col-sm-3">
-                                        <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1">$<span class="counter-value" data-target="22.9">0</span>k
-                                            </h5>
-                                            <p class="text-muted mb-0">Tổng đơn hàng nhập</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-6 col-sm-3">
-                                        <div class="p-3 border border-dashed border-start-0">
-                                            <h5 class="mb-1"><span class="counter-value" data-target="367">0</span>
-                                            </h5>
-                                            <p class="text-muted mb-0">Tổng doanh thu</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-6 col-sm-3">
-                                        <div class="p-3 border border-dashed border-start-0 border-end-0">
-                                            <h5 class="mb-1 text-success"><span class="counter-value"
-                                                    data-target="18.92">0</span>%</h5>
-                                            <p class="text-muted mb-0">Conversation Ratio</p>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                </div>
-                            </div><!-- end card header -->
-
-                            <div class="card-body p-0 pb-2">
-                                <div class="w-100">
-                                    <div id="customer_impression_charts"
-                                        data-colors='["--vz-primary", "--vz-success", "--vz-danger"]' class="apex-charts"
-                                        dir="ltr"></div>
-                                </div>
-                            </div><!-- end card body -->
-                        </div><!-- end card -->
-                    </div><!-- end col -->
-
-                    <div class="col-xl-4">
-                        <!-- card123 -->
-                        <div class="card card-height-100">
-                            <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Tỉ lệ chuyển đổi</h4>
-                                <div class="flex-shrink-0">
-                                </div>
-                            </div><!-- end card header -->
-                            <div class="card-body">
-                                <div id="store-visits-source"
-                                    data-colors='["--vz-primary", "--vz-success", "--vz-warning", "--vz-danger", "--vz-info"]'
-                                    class="apex-charts" dir="ltr"></div>
-                            </div>
-                        </div> <!-- .card-->
-                        <!-- end card -->
-                    </div>
-                    <!-- end col -->
-                </div>
                 <div class="col-xl-8 w-100 fs-12">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
@@ -473,13 +392,14 @@
                         <div class="p-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <h6 class="text-muted mb-0 text-uppercase fw-semibold">Yêu Cầu Xác Nhận</h6>
-                                <button type="button" class="btn-close text-danger" id="closeNotification" aria-label="Close"></button>
+                                <button type="button" class="btn-close text-danger" id="closeNotification"
+                                    aria-label="Close"></button>
                             </div>
                         </div>
 
                         <div class="p-3 mt-2">
                             @foreach ($orderCancelRequests as $request)
-                                <div class="col mb-3">
+                                <div class="col mb-3 cancel-request" data-slug="{{ $request->slug }}">
                                     <div class="card card-body">
                                         <div class="d-flex mb-4 align-items-center">
                                             <div class="flex-shrink-0">
@@ -537,8 +457,31 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="p-3 mt-2">
-                            <div id="cancelRequestsContainer">
+                        <div class="pending-cancel-requests">
+                            <div class="row">
+                                @foreach ($pendingCancelRequests as $request)
+                                    <div class="col mb-3">
+                                        <div class="card card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1 ms-2">
+                                                    <h5 class="card-title mb-1">Đơn hàng nhập vào: {{ $request->slug }}
+                                                        yêu cầu hủy</h5>
+                                                    <p class="text-muted">Lý do: {{ $request->cancel_reason }}</p>
+                                                    <div class="mt-3">
+                                                        <button onclick="handleCancelConfirm('{{ $request->slug }}')"
+                                                            class="btn btn-info btn-sm">
+                                                            <i class="ri-check-line align-bottom me-1"></i>Xác Nhận
+                                                        </button>
+                                                        <button onclick="handleCancelReject('{{ $request->slug }}')"
+                                                            class="btn btn-danger btn-sm">
+                                                            <i class="ri-close-circle-line align-bottom me-1"></i>Từ Chối
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="mt-2">
@@ -560,8 +503,8 @@
                                                             nhận</button>
                                                     </form>
 
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="showRejectModal({{ $contract->id }})">Từ chối</button>
+                                                    {{-- <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="showRejectModal({{ $contract->id }})">Từ chối</button> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -688,6 +631,7 @@
                 .then(response => response.json())
                 .then(data => {
                     const container = document.getElementById('cancelRequestsContainer');
+                    container.innerHTML = ''; // Xóa nội dung cũ trước khi thêm mới
                     if (data.length > 0) {
                         data.forEach(request => {
                             const requestElement = document.createElement('div');
@@ -713,6 +657,17 @@
                     `;
                             container.appendChild(requestElement);
                         });
+
+                        // Kiểm tra và ẩn yêu cầu thêm mới nếu có yêu cầu hủy
+                        const newOrderRequests = document.querySelectorAll(
+                            '.new-order-request'); // Giả sử các yêu cầu thêm mới có class là 'new-order-request'
+                        newOrderRequests.forEach(order => {
+                            const orderSlug = order.dataset
+                                .slug; // Giả sử slug của đơn hàng được lưu trong data-attribute
+                            if (data.some(request => request.slug === orderSlug)) {
+                                order.style.display = 'none'; // Ẩn yêu cầu thêm mới
+                            }
+                        });
                     }
                 });
         }
@@ -721,30 +676,79 @@
             checkPendingCancelRequests();
         });
 
-        function showRejectModal(contractId) {
-            $('#contractId').val(contractId);
-            $('#rejectReasonModal').modal('show');
-        }
-
-        function submitRejectReason() {
-            const contractId = $('#contractId').val();
-            const reason = $('#rejectReason').val();
-
-            $.ajax({
-                url: "{{ route('contract.reject', '') }}/" + contractId,
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    reason: reason
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('#rejectReasonModal').modal('hide');
-                        window.location.reload();
-                    }
+        function handleCancelConfirm(slug) {
+            Swal.fire({
+                title: 'Xác nhận',
+                text: "Bạn có chắc chắn muốn xác nhận hủy đơn hàng này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/don-hang-nhap/xac-nhan-huy/${slug}`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire('Thành công!', 'Đã xác nhận hủy đơn hàng', 'success')
+                                    .then(() => {
+                                        location.reload();
+                                    });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire('Lỗi!', 'Có lỗi xảy ra khi xử lý yêu cầu', 'error');
+                        });
                 }
             });
         }
+
+        function handleCancelReject(slug) {
+            Swal.fire({
+                title: 'Xác nhận',
+                text: "Bạn có chắc chắn muốn từ chối yêu cầu hủy đơn hàng này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/don-hang-nhap/tu-choi-huy/${slug}`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire('Thành công!', 'Đã từ chối yêu cầu hủy đơn hàng', 'success')
+                                    .then(() => {
+                                        location.reload();
+                                    });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire('Lỗi!', 'Có lỗi xảy ra khi xử lý yêu cầu', 'error');
+                        });
+                }
+            });
+        }
+    </script>
+    <script>
         // <+====================POSEIDON====================+>
         function getChartColorsArray(e) {
             if (null !== document.getElementById(e)) {
@@ -1058,68 +1062,87 @@
     </script>
     <script>
         function handleOrderStatus(slug, status) {
-            // Thêm CSRF token vào headers thay vì gửi trong data
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            const url = "{{ route('order.updateStatus', ':slug') }}".replace(':slug', slug);
+
+            const url = `/quan-ly-ban-hang/cap-nhat-trang-thai/${slug}`;
+
+            // Tìm card request trước khi gửi ajax
+            const requestCard = $(`.col.mb-3`).filter(function() {
+                return $(this).find('p').text().includes(slug);
+            });
+
+            console.log('Found request card:', requestCard.length); // Debug
+
             $.ajax({
-                url: url, 
+                url: url,
                 method: 'POST',
                 data: {
+                    _token: $('meta[name="csrf-token"]').attr('content'),
                     status: status
                 },
                 success: function(response) {
                     if (response.success) {
+                        // Xóa card request
+                        if (requestCard.length > 0) {
+                            requestCard.fadeOut(300, function() {
+                                $(this).remove();
+
+                                // Kiểm tra số lượng request còn lại
+                                const remainingRequests = $('.col.mb-3').length;
+                                console.log('Remaining requests:', remainingRequests); // Debug
+
+                                // Ẩn panel nếu không còn request
+                                if (remainingRequests === 0) {
+                                    $('.layout-rightside-col')
+                                        .fadeOut(300, function() {
+                                            $(this).removeClass('d-block').addClass('d-none');
+                                        });
+                                }
+                            });
+                        }
+
                         Swal.fire({
                             title: 'Thành công!',
-                            text: response.message || 'Cập nhật trạng thái thành công',
+                            text: status === 5 ? 'Đã xác nhận hủy đơn hàng' : 'Đã từ chối hủy đơn hàng',
                             icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        });
-                    } else {
-                        console.error('Error updating order status:', response.message || 'Unknown error occurred');
-                        Swal.fire({
-                            title: 'Lỗi!',
-                            text: response.message || 'Có lỗi xảy ra',
-                            icon: 'error',
                             confirmButtonText: 'OK'
                         });
                     }
                 },
-                error: function(xhr, status, error) {
-                    console.error('Ajax Error Details:', {
-                        status: status,
-                        error: error,
-                        response: xhr.responseText,
-                        statusCode: xhr.status
-                    });
-
-                    let errorMessage = 'Không thể xử lý yêu cầu.';
-                    try {
-                        const response = JSON.parse(xhr.responseText);
-                        errorMessage = response.message || errorMessage;
-                    } catch (e) {
-                        console.error('Error parsing response:', e);
-                    }
+                error: function(xhr) {
+                    console.error('Error:', xhr);
+                    console.log('Request card found:', requestCard.length); // Debug
+                    console.log('Card content:', requestCard.html()); // Debug
 
                     Swal.fire({
                         title: 'Lỗi!',
-                        text: errorMessage,
+                        text: 'Có lỗi xảy ra khi cập nhật trạng thái',
                         icon: 'error',
                         confirmButtonText: 'OK'
                     });
+                },
+                complete: function() {
+                    // Đảm bảo xóa request ngay cả khi có lỗi
+                    if (requestCard.length > 0) {
+                        requestCard.fadeOut(300, function() {
+                            $(this).remove();
+
+                            const remainingRequests = $('.col.mb-3').length;
+                            if (remainingRequests === 0) {
+                                $('.layout-rightside-col')
+                                    .fadeOut(300, function() {
+                                        $(this).removeClass('d-block').addClass('d-none');
+                                    });
+                            }
+                        });
+                    }
                 }
             });
         }
-    </script>
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const confirmButton = document.getElementById('confirmButton');
             if (confirmButton) {
@@ -1140,18 +1163,18 @@
         });
     </script>
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Xử lý nút đóng thông báo
-        const closeButton = document.getElementById('closeNotification');
-        if (closeButton) {
-            closeButton.addEventListener('click', function() {
-                const rightSideCol = document.querySelector('.layout-rightside-col');
-                if (rightSideCol) {
-                    rightSideCol.classList.remove('d-block');
-                    rightSideCol.classList.add('d-none');
-                }
-            });
-        }
-    });
+        document.addEventListener('DOMContentLoaded', function() {
+            // Xử lý nút đóng thông báo
+            const closeButton = document.getElementById('closeNotification');
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    const rightSideCol = document.querySelector('.layout-rightside-col');
+                    if (rightSideCol) {
+                        rightSideCol.classList.remove('d-block');
+                        rightSideCol.classList.add('d-none');
+                    }
+                });
+            }
+        });
     </script>
 @endsection

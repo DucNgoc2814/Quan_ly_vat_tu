@@ -55,28 +55,18 @@
                                                         data-order-slug="{{ $order->slug }}"
                                                         id="statusSelect-{{ $order->slug }}"
                                                         onchange="handleStatusChange(this, '{{ $order->slug }}')">
-                                                        <option class="optionCheck" value="{{ $order->status_id }}"
-                                                            selected>
-                                                            {{ $order->orderStatus->name }}</option>
+                                                        <option value="{{ $order->status_id }}" selected>
+                                                            {{ $order->orderStatus->name }}
+                                                        </option>
                                                         @if ($order->status_id == 1)
-                                                            <option class="optionCheck" value="2">Xác Nhận</option>
-                                                            <option class="optionCheck" value="5">Hủy</option>
+                                                            <option value="2">Xác Nhận</option>
+                                                            <option value="5">Hủy</option>
                                                         @elseif ($order->status_id == 2)
-                                                            <option class="optionCheck" value="3">Đang giao</option>
-                                                            <option class="optionCheck" value="5">Hủy</option>
+                                                            <option value="3">Đang giao</option>
+                                                            <option value="5">Hủy</option>
                                                         @elseif ($order->status_id == 3)
-                                                            <option class="optionCheck" value="4">Thành công</option>
+                                                            <option value="4">Thành công</option>
                                                         @endif
-                                                        <option class="optionDefaul" style="display: none" value="1">
-                                                            Chờ xử lý</option>
-                                                        <option class="optionDefaul" style="display: none" value="2">
-                                                            Xác Nhận</option>
-                                                        <option class="optionDefaul" style="display: none" value="3">
-                                                            Đang giao</option>
-                                                        <option class="optionDefaul" style="display: none" value="4">
-                                                            Thành công</option>
-                                                        <option class="optionDefaul" style="display: none" value="5">
-                                                            Hủy</option>
                                                     </select>
                                                 </form>
                                             @else
@@ -131,22 +121,6 @@
                     const currentStatus = this.options[0].value;
 
                     if (currentStatus == '1' && newStatus == '2') {
-                        const row = this.closest('tr');
-                        const totalAmount = parseInt(row.querySelector('td:nth-child(5)')
-                            .textContent.replace(/,/g, ''));
-                        const paidAmount = parseInt(row.querySelector('td:nth-child(6)').textContent
-                            .replace(/,/g, ''));
-
-                        if (totalAmount !== paidAmount) {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Không thể xác nhận',
-                                text: `Số tiền chưa được thanh toán đủ! (Đã trả: ${paidAmount.toLocaleString('vi-VN')}/${totalAmount.toLocaleString('vi-VN')} VNĐ)`,
-                                confirmButtonText: 'Đóng'
-                            });
-                            this.value = currentStatus;
-                            return;
-                        }
                         updateOrderStatus(this, orderSlug, newStatus);
                     } else if (newStatus == 5) {
                         requestCancelOrder(orderSlug);

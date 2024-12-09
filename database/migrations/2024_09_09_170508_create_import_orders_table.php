@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('import_orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('payment_id')->constrained('payments');
             $table->foreignId('supplier_id')->constrained('suppliers');
+            $table->foreignId('employee_id')->nullable()->constrained('employees');
             $table->string('slug', 255);
             $table->enum('status',[1,2,3,4])->default(1);
             $table->text('cancel_reason')->nullable();

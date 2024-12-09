@@ -42,16 +42,6 @@
                     </select>
                 </div>
 
-                <!-- Phương thức thanh toán -->
-                <div class="mb-3">
-                    <label class="form-label">Phương thức thanh toán</label>
-                    <select class="form-select" name="payment_id" required>
-                        @foreach ($payments as $payment)
-                            <option value="{{ $payment->id }}">{{ $payment->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
                 <!-- Nút chọn sản phẩm -->
                 <button type="button" class="btn btn-primary mt-3" onclick="openProductModal()">
                     Chọn sản phẩm nhập
@@ -61,6 +51,7 @@
                     <table class="table" id="selectedProductsTable">
                         <thead>
                             <tr>
+                                <th>Mã nhập hàng</th>
                                 <th>Tên sản phẩm</th>
                                 <th>Giá nhập</th>
                                 <th>Số lượng</th>
@@ -73,9 +64,12 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Tổng tiền</label>
-                    <input type="number" class="form-control" name="total_amount" id="total_amount" required>
+                <div class="mb-3 d-flex justify-content-between align-items-center">
+                    <label class="form-label mb-0">Tổng tiền</label>
+                    <div class="text-end">
+                        <span id="total_amount_display" class="fs-5 fw-bold">0</span>
+                        <input type="hidden" name="total_amount" id="total_amount">
+                    </div>
                 </div>
                 <div class="mt-3">
                     <button type="submit" class="btn btn-success">Thêm đơn nhập</button>
@@ -183,7 +177,6 @@
 
             products.forEach(product => {
                 const row = document.createElement('tr');
-                row.setAttribute('data-code', product.code);
                 row.innerHTML = `
                     <td>
                         <input type="checkbox" class="form-check-input product-checkbox">
@@ -201,39 +194,45 @@
                 `;
                 productList.appendChild(row);
             });
+
+            // Reset checkbox "Chọn tất cả"
+            const selectAllCheckbox = document.getElementById('selectAll');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.checked = false;
+            }
         }
 
         function addSelectedProducts() {
             const rows = document.querySelectorAll('#productList tr');
             let hasError = false;
 
+            const selectedProductsTable = document.querySelector('#selectedProductsTable tbody');
+            selectedProductsTable.innerHTML = '';
+
             rows.forEach(row => {
                 const checkbox = row.querySelector('input[type="checkbox"]');
                 if (checkbox && checkbox.checked) {
-                    const productName = row.cells[1].textContent;
+                    const sku = row.cells[1].textContent;
+                    const productName = row.cells[2].textContent;
                     const priceInput = row.querySelector('input[placeholder="Nhập giá"]');
                     const quantityInput = row.querySelector('input[placeholder="Nhập số lượng"]');
-
-                    console.log('Product:', productName);
-                    console.log('Price Input:', priceInput);
-                    console.log('Quantity Input:', quantityInput);
 
                     if (!priceInput?.value || !quantityInput?.value) {
                         hasError = true;
                         return;
                     }
 
-                    const price = parseFloat(priceInput.value);
-                    const quantity = parseFloat(quantityInput.value);
+                    const price = parseFloat(priceInput.value.replace(/[.,]/g, ''));
+                    const quantity = parseInt(quantityInput.value);
                     const lineTotal = price * quantity;
 
-                    const selectedProductsTable = document.querySelector('#selectedProductsTable tbody');
                     const newRow = document.createElement('tr');
                     newRow.innerHTML = `
+                        <td>${sku}</td>
                         <td>${productName}</td>
-                        <td>${price}</td>
+                        <td>${price.toLocaleString('vi-VN')}</td>
                         <td>${quantity}</td>
-                        <td>${lineTotal}</td>
+                        <td>${lineTotal.toLocaleString('vi-VN')}</td>
                         <td>
                             <button type="button" class="btn btn-sm btn-danger" onclick="removeProduct(this)">
                                 Xóa
@@ -248,17 +247,18 @@
             });
 
             if (hasError) {
-                alert('Vui lòng nhập đầy đủ giá và số lượng cho các sản phẩm đã chọn');
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Lỗi',
+                    text: 'Vui lòng nhập đầy đủ giá và số lượng cho các sản phẩm đã chọn',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
                 return;
             }
 
             calculateTotal();
-            const modal = bootstrap.Modal.getInstance(document.getElementById('productModal'));
-            modal.hide();
-        }
-
-        function calculateLineTotal(price, quantity) {
-            return price * quantity;
+            productModal.hide();
         }
 
         function calculateTotal() {
@@ -266,11 +266,13 @@
             const rows = document.querySelectorAll('#selectedProductsTable tbody tr');
 
             rows.forEach(row => {
-                const lineTotal = parseFloat(row.querySelector('td:nth-child(4)').textContent);
-                total += lineTotal;
+                const price = parseFloat(row.querySelector('input[name="product_price[]"]').value) || 0;
+                const quantity = parseInt(row.querySelector('input[name="product_quantity[]"]').value) || 0;
+                total += price * quantity;
             });
 
-            document.getElementById('total_amount').value = total;
+            document.getElementById('total_amount').value = total.toLocaleString('vi-VN');
+            document.getElementById('total_amount_display').textContent = total.toLocaleString('vi-VN');
         }
 
         function removeProduct(button) {
@@ -323,10 +325,24 @@
 
                     const jsonData = XLSX.utils.sheet_to_json(firstSheet, {
                         header: ['sku', 'name', 'quantity', 'price'],
-                        range: 1  // Bỏ qua dòng tiêu đề
+                        range: 1
                     });
 
-                    // Kiểm tra tất cả sản phẩm trước khi import
+                    // Reset tất cả checkbox và input trước khi import
+                    document.querySelectorAll('#productList tr').forEach(row => {
+                        const checkbox = row.querySelector('.product-checkbox');
+                        const priceInput = row.querySelector('input[placeholder="Nhập giá"]');
+                        const quantityInput = row.querySelector('input[placeholder="Nhập số lượng"]');
+                        
+                        if (checkbox) checkbox.checked = false;
+                        if (priceInput) priceInput.value = '';
+                        if (quantityInput) quantityInput.value = '';
+                    });
+
+                    // Reset checkbox "Chọn tất cả"
+                    document.getElementById('selectAll').checked = false;
+
+                    // Kiểm tra và import
                     const invalidProducts = [];
                     jsonData.forEach(row => {
                         if (!row.sku) return;
@@ -340,19 +356,17 @@
                         }
                     });
 
-                    // Nếu có sản phẩm không tồn tại, hiển thị thông báo lỗi
                     if (invalidProducts.length > 0) {
                         Swal.fire({
                             icon: 'error',
                             title: 'Lỗi import',
                             html: `Các mã sản phẩm sau không tồn tại trong hệ thống:<br><strong>${invalidProducts.join(', ')}</strong>`,
-                            timer: 3000, // Tăng thời gian hiển thị để người dùng có thể đọc
+                            timer: 3000,
                             showConfirmButton: false
                         });
-                        return; // Dừng quá trình import
+                        return;
                     }
 
-                    // Nếu tất cả sản phẩm hợp lệ, tiến hành import
                     let importCount = 0;
                     jsonData.forEach(row => {
                         if (!row.sku) return;
@@ -361,17 +375,23 @@
                             return tr.querySelector('td:nth-child(2)').textContent.trim() === row.sku;
                         });
 
-                        const priceInput = productRow.querySelector('input[placeholder="Nhập giá"]');
-                        const quantityInput = productRow.querySelector('input[placeholder="Nhập số lượng"]');
-                        const checkbox = productRow.querySelector('.product-checkbox');
+                        if (productRow) {
+                            const priceInput = productRow.querySelector('input[placeholder="Nhập giá"]');
+                            const quantityInput = productRow.querySelector('input[placeholder="Nhập số lượng"]');
+                            const checkbox = productRow.querySelector('.product-checkbox');
 
-                        if (priceInput && quantityInput && checkbox) {
-                            priceInput.value = row.price || '';
-                            quantityInput.value = row.quantity || '';
-                            checkbox.checked = true;
-                            importCount++;
+                            if (priceInput && quantityInput && checkbox) {
+                                priceInput.value = row.price || '';
+                                quantityInput.value = row.quantity || '';
+                                checkbox.checked = true;
+                                importCount++;
+                            }
                         }
                     });
+
+                    // Xóa hết sản phẩm trong bảng selectedProductsTable
+                    const selectedProductsTable = document.querySelector('#selectedProductsTable tbody');
+                    selectedProductsTable.innerHTML = '';
 
                     Swal.fire({
                         icon: 'success',
@@ -393,17 +413,6 @@
                 }
             };
 
-            reader.onerror = function(error) {
-                console.error('Error reading file:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Lỗi',
-                    text: 'Có lỗi xảy ra khi đọc file.',
-                    timer: 1000,
-                    showConfirmButton: false
-                });
-            };
-
             reader.readAsArrayBuffer(file);
         }
 
@@ -412,5 +421,17 @@
             return jQuery(a).text().toUpperCase()
                 .indexOf(m[3].toUpperCase()) >= 0;
         };
+
+        // Sửa lại event submit form
+        document.getElementById('importOrderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const totalInput = document.getElementById('total_amount');
+            const rawValue = parseInt(totalInput.value.replace(/[.,]/g, ''));
+            totalInput.value = rawValue;
+
+            // Submit form
+            this.submit();
+        });
     </script>
 @endpush

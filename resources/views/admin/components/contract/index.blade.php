@@ -221,7 +221,7 @@
                 let statusHtml = '';
                 if (e.contract_status_id == 1) {
                     statusHtml = `
-                <form action="/contract/send-to-manager/${e.id}" method="POST" style="display:inline;">
+                <form action="/hop-dong/gui-xac-nhan/${e.id}" method="POST" style="display:inline;">
                     @csrf
                     <button type="submit" class="btn btn-primary btn-sm">
                         Gửi giám đốc
@@ -230,7 +230,7 @@
             `;
                 } else if (e.contract_status_id == 2) {
                     statusHtml = `
-                <form action="/contract/send-to-customer/${e.id}" method="POST" style="display:inline;">
+                <form action="/hop-dong/gui-xac-nhan-khach-hang/${e.id}" method="POST" style="display:inline;">
                     @csrf
                     <button type="submit" class="btn btn-success btn-sm">
                         Gửi khách hàng
@@ -277,7 +277,7 @@
                     let html = '';
                     if (e.contract_status_id == 1) {
                         html = `
-                    <form action="/contract/send-to-manager/${e.id}" method="POST" style="display:inline;">
+                    <form action="/hop-dong/gui-xac-nhan/${e.id}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="btn btn-primary btn-sm">
                             Gửi giám đốc
@@ -286,7 +286,7 @@
                 `;
                     } else if (e.contract_status_id == 2) {
                         html = `
-                    <form action="/contract/send-to-customer/${e.id}" method="POST" style="display:inline;">
+                    <form action="/hop-dong/gui-xac-nhan-khach-hang/${e.id}" method="POST" style="display:inline;">
                         @csrf
                         <button type="submit" class="btn btn-success btn-sm">
                             Gửi khách hàng

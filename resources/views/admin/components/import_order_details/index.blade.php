@@ -136,14 +136,6 @@
                                     <!--end col-->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="payment_id" class="form-label">Phương thức thanh toán</label>
-                                            <input type="text" class="form-control" id="payment_id"
-                                                value="{{ $data->first()->importOrder->payment->name }}" readonly>
-                                        </div>
-                                    </div>
-                                    <!--end col-->
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
                                             <label for="status_id" class="form-label">Trạng thái đơn hàng </label>
                                             <input type="text" class="form-control" id="status_id"
                                                 value="@if ($data->first()->importOrder->status == 1) Chờ xác nhận

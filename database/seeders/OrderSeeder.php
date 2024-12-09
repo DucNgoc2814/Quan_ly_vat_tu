@@ -13,62 +13,45 @@ class OrderSeeder extends Seeder
      */
     public function run(): void
     {
-        $orders = [
-            [
-                'id' => 1,
-                'customer_id' => 5,
-                'status_id' => 1,
-                'slug' => 'order-001',
-                'customer_name' => 'Nguyễn Văn A',
-                'email' => 'nguyenvana@example.com',
-                'number_phone' => '0123456789',
-                'province' => 'Tỉnh Hải Dương',
-                'district' => 'Huyện Tứ Kỳ',
-                'ward' => 'Xã Hưng Đạo',
-                'address' => '123 Đường ABC, Quận 1, TP. Hồ Chí Minh',
-                'total_amount' => 300000,
-                'paid_amount' => 150000,
-                'created_at' => now(),
+        $faker = \Faker\Factory::create('vi_VN');
+        
+        // Lấy danh sách status_id có sẵn
+        $statusIds = DB::table('order_statuses')->pluck('id')->toArray();
+        
+        // Lấy danh sách customer_id có sẵn
+        $customerIds = DB::table('customers')->pluck('id')->toArray();
+        
+        if (empty($statusIds)) {
+            throw new \Exception('Không có trạng thái đơn hàng nào trong hệ thống. Vui lòng chạy OrderStatuSeeder trước.');
+        }
+        
+        if (empty($customerIds)) {
+            throw new \Exception('Không có khách hàng nào trong hệ thống. Vui lòng chạy CustomerSeeder trước.');
+        }
+        
+        for ($i = 1; $i <= 100; $i++) {
+            // Lấy thông tin khách hàng ngẫu nhiên
+            $customerId = $faker->randomElement($customerIds);
+            $customer = DB::table('customers')->find($customerId);
+            
+            DB::table('orders')->insert([
+                'customer_id' => $customerId,
+                'contract_id' => null,
+                'status_id' => $faker->randomElement($statusIds),
+                'slug' => 'DHB' . str_pad($i, 5, '0', STR_PAD_LEFT),
+                'customer_name' => $customer->name,
+                'email' => $customer->email,
+                'number_phone' => $customer->number_phone,
+                'province' => $faker->city,
+                'district' => $faker->city,
+                'ward' => $faker->streetName,
+                'address' => $faker->address,
+                'total_amount' => $totalAmount = rand(1000000, 100000000),
+                'paid_amount' => $totalAmount,
+                'cancel_reason' => null,
+                'created_at' => $faker->dateTimeBetween('-1 year', 'now'),
                 'updated_at' => now(),
-            ],
-            [
-                'id'=> 2,
-                'customer_id' => 2,
-                'status_id' => 2,
-                'slug' => 'order-002',
-                'customer_name' => 'Trần Thị B',
-                'email' => 'tranthib@example.com',
-                'number_phone' => '0987654321',
-                'province' => 'Thành phố Hà Nội',
-                'district' => 'Quận Hoàn Kiếm',
-                'ward' => 'Phường Phúc Tân',
-                'address' => '456 Đường XYZ',
-                'total_amount' => 450000,
-                'paid_amount' => 450000,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'id'=> 3,
-                'customer_id' => 3,
-                'status_id' => 3,
-                'slug' => 'order-003',
-                'customer_name' => 'Lê Văn C',
-                'email' => 'levanc@example.com',
-                'number_phone' => '0912345678',
-                'province' => 'Thành phố Hồ Chí Minh',
-                'district' => 'Quận 8',
-                'ward' => 'Phường 04',
-                'address' => '789 Đường DEF',
-                'total_amount' => 120000,
-                'paid_amount' => 60000,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ];
-
-        foreach ($orders as $order) {
-            DB::table('orders')->insert($order);
+            ]);
         }
     }
 }

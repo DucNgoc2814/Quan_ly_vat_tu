@@ -52,7 +52,8 @@
             key: '<?php echo e(config('broadcasting.connections.pusher.key')); ?>',
             cluster: '<?php echo e(config('broadcasting.connections.pusher.options.cluster')); ?>',
             forceTLS: true,
-            encrypted: true
+            encrypted: true,
+            enabledTransports: ['ws', 'wss']
         });
     </script>
 
@@ -285,15 +286,9 @@
 </head>
 
 <body>
-    <!-- Begin page -->
     <div id="jquery-wrapper">
         <?php echo $__env->make('admin.layouts.partials.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <!-- ========== App Menu ========== -->
         <?php echo $__env->make('admin.layouts.partials.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-        <!-- Left Sidebar End -->
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
         <div class="main-content">
 
             <div class="page-content">
@@ -379,6 +374,8 @@
     </script>
     <script src="<?php echo e(asset('themes/admin/assets/js/jquery.js')); ?>"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    
     <script>
         function changeStatus(nameTable, id, is_active) {
             $.ajax({
@@ -424,53 +421,60 @@
             });
         });
     </script>
+
     <script>
-        
-        window.Echo.channel('contract-notifications')
-            .listen('ContractSentToCustomer', (e) => {
+        window.Echo.channel('order-created')
+            .listen('NewOrderCreated', (e) => {
+                console.log('Nhận được event:', e);
                 Swal.fire({
-                    title: 'Thông báo mới',
-                    text: 'Hợp đồng đã được gửi cho khách hàng',
-                    icon: 'info'
+                    title: 'Đơn hàng mới!',
+                    text: `Đơn hàng bán "${e.order.slug}" vừa được tạo`,
+                    icon: 'info',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload();
                 });
             });
     </script>
+
     <script>
-        window.Echo.channel('contract-notifications')
-            .listen('NewContractCreated', (e) => {
+        window.Echo.channel('order-cancel')
+            .listen('OrderCancelRequested', (e) => {
                 Swal.fire({
-                    title: 'Thông báo mới',
-                    text: e.message,
+                    title: 'Thông báo hủy!',
+                    text: `Đơn hàng bán ra ${e.order.slug} yêu cầu hủy`,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload();
+                });
+            });
+        window.Echo.channel('import-order-created')
+            .listen('NewImportOrderCreated', (e) => {
+                Swal.fire({
+                    title: 'Đơn hàng nhập mới!',
+                    text: `Đơn hàng nhập "${e.importOrder.slug}" yêu cầu thêm mới`,
                     icon: 'info',
-                    showConfirmButton: true,
-                    timer: 3000
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload();
+                });
+            });
+
+        window.Echo.channel('import-order-cancel')
+            .listen('ImportOrderCancelRequested', (e) => {
+                Swal.fire({
+                    title: 'Thông báo hủy!',
+                    text: `Đơn hàng nhập ${e.importOrder.slug} yêu cầu hủy`,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    location.reload();
                 });
             });
     </script>
 
     <?php echo $__env->yieldContent('scripts'); ?>
-    <script>
-        window.Echo.channel('contract-notifications')
-            .listen('ContractSentToCustomer', (e) => {
-                Swal.fire({
-                    title: 'Thông báo mới',
-                    text: 'Hợp đồng đã được gửi cho khách hàng',
-                    icon: 'info'
-                });
-            });
-    </script>
-    <script>
-        window.Echo.channel('contract-notifications')
-            .listen('NewContractCreated', (e) => {
-                Swal.fire({
-                    title: 'Thông báo mới',
-                    text: e.message,
-                    icon: 'info',
-                    showConfirmButton: true,
-                    timer: 3000
-                });
-            });
-    </script>
     <?php if(session('authorization')): ?>
         <?php echo e(session('authorization')); ?>
 
@@ -502,11 +506,11 @@
             // Show loading on page transitions (link clicks)
             document.addEventListener('click', function(e) {
                 const target = e.target.closest('a');
-                if (target && 
-                    target.href && 
-                    !target.href.includes('#') && 
-                    !target.href.includes('javascript:') && 
-                    target.target !== '_blank' && 
+                if (target &&
+                    target.href &&
+                    !target.href.includes('#') &&
+                    !target.href.includes('javascript:') &&
+                    target.target !== '_blank' &&
                     !target.classList.contains('no-loading')) {
                     document.getElementById('loading-overlay').style.display = 'flex';
                 }
@@ -525,6 +529,7 @@
             });
         });
     </script>
+
 </body>
 
 </html>

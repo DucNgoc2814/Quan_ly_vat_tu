@@ -22,19 +22,16 @@ class UpdateImport_orderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'payment_id' => 'required',
             'supplier_id' => 'required',
-            // 'status_id' => 'required',
+            'variation_id' => 'required',
             'product_quantity' => 'required',
             'total_amount' => 'required',
-            'paid_amount' => 'required',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'payment_id.required' => 'Vui lòng chọn',
             'supplier_id.required' => 'Vui lòng chọn',
             'variation_id.required' => 'Vui lòng',
             'product_quantity.required' => 'Vui lòng nhập số lượng',

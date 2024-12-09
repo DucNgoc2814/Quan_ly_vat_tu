@@ -18,7 +18,7 @@ class CustomerSeeder extends Seeder
             [
                 'id' => 5,
                 'customer_rank_id' => 1,
-                'name' => 'Nguyen Van A',
+                'name' => 'Khánh',
                 'email' => 'quockhanhh129@gmail.com',
                 'password' => 'abc12345678',
                 'number_phone' => '0123456789',
@@ -29,7 +29,7 @@ class CustomerSeeder extends Seeder
             [
                 'id' => 2,
                 'customer_rank_id' => 1,
-                'name' => 'Nguyen Van A',
+                'name' => 'Quân',
                 'email' => 'dqdev204@gmail.com',
                 'password' => 'abc12345678',
                 'number_phone' => '0123456729',
@@ -40,7 +40,7 @@ class CustomerSeeder extends Seeder
             [
                 'id' => 3,
                 'customer_rank_id' => 1,
-                'name' => 'Nguyen Van A',
+                'name' => 'Ngọc',
                 'email' => 'phungducngoc1@gmail.com',
                 'password' => 'abc12345678',
                 'number_phone' => '0123456719',

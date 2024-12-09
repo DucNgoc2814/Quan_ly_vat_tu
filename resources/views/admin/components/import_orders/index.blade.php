@@ -31,7 +31,6 @@
                                 <th data-ordering="false">Tên nhà phân phối</th>
                                 <th data-ordering="false">Tổng tiền</th>
                                 <th data-ordering="false">Tiền đã trả</th>
-                                <th data-ordering="false">PTTT</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Ngày đặt hàng</th>
                                 <th>Hành động</th>
@@ -42,13 +41,8 @@
                                 <tr data-order-id="{{ $item->id }}">
                                     <td>{{ $item->slug }}</td>
                                     <td>{{ $item->supplier->name }}</td>
-                                    <td
-                                        class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">
-                                        {{ number_format($item->total_amount) }}</td>
-                                    <td
-                                        class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">
-                                        {{ number_format($item->paid_amount) }}</td>
-                                    <td>{{ $item->payment->name }}</td>
+                                    <td class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($item->total_amount) }}</td>
+                                    <td class="{{ $item->total_amount == $item->paid_amount ? 'text-success' : 'text-danger' }}">{{ number_format($item->paid_amount) }}</td>
                                     <td>
                                         @if ($item->status == 1)
                                             <span class="badge bg-warning">Chờ xác nhận</span>
@@ -58,10 +52,6 @@
                                             <span class="badge bg-success">Giao hàng thành công</span>
                                         @elseif($item->status == 4)
                                             <span class="badge bg-danger">Đã hủy</span>
-                                        @elseif($item->status == 5)
-                                            <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
-                                        @elseif($item->status == 6)
-                                            <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
                                         @endif
                                     </td>
                                     <td>{{ $item->created_at }}</td>
@@ -167,7 +157,8 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                             body: JSON.stringify({
-                                reason: result.value // Gửi lý do hủy đơn hàng
+                                reason: result.value,
+                                order_slug: slug
                             })
                         })
                         .then(response => response.json())

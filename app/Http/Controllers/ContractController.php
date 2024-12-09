@@ -301,44 +301,70 @@ class ContractController extends Controller
 
     public function sendToCustomer($id)
     {
-        $contract = Contract::findOrFail($id);
-        $pdfFileName = 'Hopdong_' . $contract->id . '.pdf';
-        $wordFileName = 'Hopdong_' . $contract->id . '.docx';
+        try {
+            $contract = Contract::findOrFail($id);
+            
+            // Kiểm tra trạng thái hợp đồng
+            if ($contract->contract_status_id != 2) {
+                return redirect()->back()->with('error', 'Chỉ có thể gửi hợp đồng cho khách hàng sau khi giám đốc đã xác nhận');
+            }
 
-        $pdfFilePath = storage_path('app/public/contracts/' . $pdfFileName);
-        $wordFilePath = storage_path('app/public/contracts/' . $wordFileName);
+            // Kiểm tra email khách hàng
+            if (empty($contract->customer_email)) {
+                return redirect()->back()->with('error', 'Không tìm thấy email khách hàng');
+            }
 
-        $token = Str::random(60);
-        $contract->verification_token = $token;
-        $contract->save();
+            $pdfFileName = 'Hopdong_' . $contract->id . '.pdf';
+            $wordFileName = 'Hopdong_' . $contract->id . '.docx';
 
-        $baseUrl = config('app.url');
+            $pdfFilePath = storage_path('app/public/contracts/' . $pdfFileName);
+            $wordFilePath = storage_path('app/public/contracts/' . $wordFileName);
 
-        Mail::send('emails.contract', [
-            'contract' => $contract,
-            'token' => $token,
-            'baseUrl' => $baseUrl
-        ], function ($message) use ($contract, $pdfFilePath, $wordFilePath) {
-            $message->to($contract->customer_email)
-                ->subject('Hợp đồng của bạn')
-                ->attach($pdfFilePath, [
-                    'as' => 'Hopdong_' . $contract->id . '.pdf',
-                    'mime' => 'application/pdf'
-                ])
-                ->attach($wordFilePath, [
-                    'as' => 'Hopdong_' . $contract->id . '.docx',
-                    'mime' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            // Kiểm tra file tồn tại
+            if (!file_exists($pdfFilePath) || !file_exists($wordFilePath)) {
+                return redirect()->back()->with('error', 'Không tìm thấy file hợp đồng');
+            }
+
+            $token = Str::random(60);
+            $contract->verification_token = $token;
+            $contract->save();
+
+            $baseUrl = config('app.url');
+
+            try {
+                Mail::send('emails.contract', [
+                    'contract' => $contract,
+                    'token' => $token,
+                    'baseUrl' => $baseUrl
+                ], function ($message) use ($contract, $pdfFilePath, $wordFilePath) {
+                    $message->to($contract->customer_email)
+                        ->subject('Hợp đồng của bạn')
+                        ->attach($pdfFilePath, [
+                            'as' => 'Hopdong_' . $contract->id . '.pdf',
+                            'mime' => 'application/pdf'
+                        ])
+                        ->attach($wordFilePath, [
+                            'as' => 'Hopdong_' . $contract->id . '.docx',
+                            'mime' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+                        ]);
+                });
+
+                $contract->contract_status_id = 5;
+                Contract_status_time::create([
+                    'contract_id' => $contract->id,
+                    'contract_status_id' => 5
                 ]);
-        });
-
-        $contract->contract_status_id = 5;
-        Contract_status_time::create([
-            'contract_id' => $contract->id,
-            'contract_status_id' => 5
-        ]);
-        $contract->save();
-        event(new ContractStatusUpdated($contract));
-        return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
+                $contract->save();
+                
+                event(new ContractStatusUpdated($contract));
+                
+                return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Lỗi khi gửi email: ' . $e->getMessage());
+            }
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
+        }
     }
     public function customerApprove($id)
     {
@@ -498,7 +524,7 @@ class ContractController extends Controller
             3 => 'Hợp đồng đã bị hủy',
             4 => 'Hợp đồng đang chờ giám đốc xác nhận',
             5 => 'Đang chờ khách hàng xác nhận',
-            7 => 'Khách hàng không đồng ý với hợp đồng',
+            7 => 'Khách hàng không ồng  với hợp đồng',
             8 => 'Hợp đồng đã hoàn thành',
             9 => 'Hợp đồng đã quá hạn'
         ];
@@ -552,15 +578,15 @@ class ContractController extends Controller
         }
     }
 
-    private function checkAndUpdateContractStatus(Contract $contract)
+    public function checkAndUpdateContractStatus(Contract $contract)
     {
         // Chỉ kiểm tra với hợp đồng đang tiến hành
-        if ($contract->contract_status_id == 6) {
+        if ($contract->contract_status_id == Contract::STATUS_IN_PROGRESS) {
             // Kiểm tra đã thanh toán đủ chưa
             $totalPaid = Payment_history::where('related_id', $contract->id)
                 ->where('transaction_type', 'contract')
                 ->sum('amount');
-            
+
             // Kiểm tra đã giao đủ hàng chưa
             $allProductsDelivered = true;
             foreach ($contract->contractDetails as $detail) {
@@ -570,28 +596,37 @@ class ContractController extends Controller
                 }
             }
 
+            // Kiểm tra tất cả đơn hàng đã thành công chưa
+            $allOrdersCompleted = true;
+            foreach ($contract->orders as $order) {
+                if ($order->status_id != 4) {
+                    $allOrdersCompleted = false;
+                    break;
+                }
+            }
+
             // Kiểm tra có quá hạn không
             $isOverdue = now()->gt($contract->timeend);
 
-            // Nếu quá hạn
+            // Cập nhật trạng thái
+            $shouldComplete = $totalPaid >= $contract->total_amount 
+                && $allProductsDelivered 
+                && $allOrdersCompleted 
+                && !$isOverdue;
+
             if ($isOverdue) {
-                $contract->contract_status_id = 9; // Quá hạn
-            }
-            // Nếu đã thanh toán đủ và giao đủ hàng
-            elseif ($totalPaid >= $contract->total_amount && $allProductsDelivered) {
-                $contract->contract_status_id = 8; // Hoàn thành
+                $contract->contract_status_id = Contract::STATUS_EXPIRED;
+            } elseif ($shouldComplete) {
+                $contract->contract_status_id = Contract::STATUS_COMPLETED;
             }
 
             // Nếu có sự thay đổi trạng thái
             if ($contract->isDirty('contract_status_id')) {
                 $contract->save();
-
-                // Tạo lịch sử trạng thái
                 Contract_status_time::create([
                     'contract_id' => $contract->id,
                     'contract_status_id' => $contract->contract_status_id
                 ]);
-
                 event(new ContractStatusUpdated($contract));
             }
         }
