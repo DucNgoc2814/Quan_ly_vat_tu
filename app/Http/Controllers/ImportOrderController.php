@@ -107,24 +107,32 @@ class ImportOrderController extends Controller
 
     public function requestCancel(Request $request, $slug)
     {
-        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-
-
-        $importOrder->cancel_reason = $request->reason;
-        $importOrder->save();
-
-        NewOrderRequest::where('import_order_id', $importOrder->id)->delete();
-
-        event(new ImportOrderCancelRequested($importOrder));
-
-
-        return response()->json(['success' => true, 'message' => 'Chờ quản lý xác nhận hủy']);
+        try {
+            $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+            if ($importOrder->status != 1) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không thể  hủy đơn hàng này.'
+                ], 403);
+            }
+            DB::transaction(function () use ($importOrder, $request) {
+                $importOrder->cancel_reason = $request->reason;
+                $importOrder->save();
+                NewOrderRequest::where('import_order_id', $importOrder->id)->delete();
+                event(new ImportOrderCancelRequested($importOrder));
+            });
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function getPendingCancelRequests()
     {
         $pendingRequests = Import_order::where('status', 1)
-            ->whereNotNull('cancel_reason') 
+            ->whereNotNull('cancel_reason')
             ->get();
 
         return response()->json($pendingRequests);
@@ -132,11 +140,27 @@ class ImportOrderController extends Controller
 
     public function cancelImportOrder($slug)
     {
-        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-        $importOrder->status = 4;
-        $importOrder->save();
+        try {
+            $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+            if ($importOrder->status != 1) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Chỉ có thể hủy đơn hàng ở trạng thái chờ xử lý'
+                ], 403);
+            }
+            $importOrder->status = 4;
+            $importOrder->save();
 
-        return redirect()->back()->with('success', 'Đơn hàng đã bị hủy');
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã xác nhận hủy đơn hàng'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function confirmOrder($slug)
@@ -292,10 +316,9 @@ class ImportOrderController extends Controller
     {
         $importOrder = Import_order::where('slug', $slug)->first();
         if ($importOrder) {
-            $importOrder->status = 3; // Giao hàng thành công
+            $importOrder->status = 3;
             $importOrder->save();
 
-            // Cập nhật số lượng stock
             $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
             foreach ($importOrderDetails as $detail) {
                 $variation = Variation::find($detail->variation_id);

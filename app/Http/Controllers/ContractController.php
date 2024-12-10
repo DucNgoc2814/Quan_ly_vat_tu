@@ -39,7 +39,7 @@ class ContractController extends Controller
 
     public function index()
     {
-        $contracts = Contract::with('contractStatus')->latest('id')->paginate(10);
+        $contracts = Contract::with('contractStatus')->latest('id')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('contracts'));
     }
 

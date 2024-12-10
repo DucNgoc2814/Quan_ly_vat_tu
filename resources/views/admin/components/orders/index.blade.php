@@ -128,7 +128,7 @@
             const newStatus = $(select).val();
             const currentStatus = $(select).find('option:first').val();
 
-            if (newStatus == '5') { // Trường hợp hủy đơn
+            if (newStatus == '5') { 
                 Swal.fire({
                     title: 'Yêu cầu hủy đơn hàng',
                     text: 'Vui lòng nhập lý do hủy đơn hàng',
@@ -148,7 +148,6 @@
                     }
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Gửi yêu cầu hủy lên admin
                         $.ajax({
                             url: `/quan-ly-ban-hang/yeu-cau-huy/${orderSlug}`,
                             type: 'POST',
@@ -280,7 +279,6 @@
                     }
                 }
             });
-
         function getStatusHTML(statusId) {
             const statusMap = {
                 1: '<span class="badge bg-warning-subtle text-warning">Chờ xử lý</span>',

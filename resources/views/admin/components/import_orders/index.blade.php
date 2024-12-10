@@ -176,8 +176,6 @@
 
     <script>
         function checkOrderStatus(slug) {
-            console.log('Checking status for:', slug); // Debug log
-
             setInterval(function() {
                 fetch(`/don-hang-nhap/kiem-tra-trang-thai/${slug}`, {
                         method: 'GET',
@@ -194,17 +192,20 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log('Response data:', data); // Debug log
                         if (data.status === 'confirmed') {
-                            Swal.fire({
-                                title: 'Đơn hàng đã giao thành công',
-                                text: `Đơn hàng - ${slug} đã được giao thành công`,
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true
+                            });
+
+                            Toast.fire({
                                 icon: 'success',
-                                confirmButtonText: 'Xác nhận'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    updateOrderStatus(slug);
-                                }
+                                title: `Đơn hàng ${slug} đã giao thành công`
+                            }).then(() => {
+                                updateOrderStatus(slug);
                             });
                         }
                     })

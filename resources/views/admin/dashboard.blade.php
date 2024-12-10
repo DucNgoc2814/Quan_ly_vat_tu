@@ -627,10 +627,14 @@
     </script>
     <script>
         function checkPendingCancelRequests() {
+            const container = document.getElementById('cancelRequestsContainer');
+            if (!container) {
+                return;
+            }
             fetch("{{ route('importOrder.pendingCancelRequests') }}")
                 .then(response => response.json())
                 .then(data => {
-                    const container = document.getElementById('cancelRequestsContainer');
+
                     container.innerHTML = ''; // Xóa nội dung cũ trước khi thêm mới
                     if (data.length > 0) {
                         data.forEach(request => {
@@ -669,7 +673,9 @@
                             }
                         });
                     }
-                });
+                }).catch(error => {
+                    console.error('Error fetching requests:', error);
+                });;
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -686,28 +692,41 @@
                 cancelButtonText: 'Hủy'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch(`/don-hang-nhap/xac-nhan-huy/${slug}`, {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                    'content'),
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
+                    Swal.fire({
+                        title: 'Đang xử lý...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    $.ajax({
+                        url: `/don-hang-nhap/xac-nhan-huy/${slug}`,
+                        type: 'POST',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: 'Đã xác nhận hủy đơn hàng',
+                                    icon: 'success'
+                                }).then(() => {
+                                    location.reload();
+                                });
                             }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                Swal.fire('Thành công!', 'Đã xác nhận hủy đơn hàng', 'success')
-                                    .then(() => {
-                                        location.reload();
-                                    });
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            Swal.fire('Lỗi!', 'Có lỗi xảy ra khi xử lý yêu cầu', 'error');
-                        });
+                        },
+                        error: function(xhr) {
+                            console.error('Error:', xhr);
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: 'Có lỗi xảy ra khi xử lý yêu cầu',
+                                icon: 'error'
+                            });
+                        }
+                    });
                 }
             });
         }
