@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\NewOrderCreated;
 use App\Events\OrderCancelRequested;
 use App\Events\OrderStatusChanged;
+use App\Events\OrderStatusUpdated;
 use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -131,23 +132,19 @@ class OrderController extends Controller
                 }
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationID) {
-
                         $variation = Variation::findOrFail($variationID);
                         $orderQuantity = $request->product_quantity[$key];
                         logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
                         logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
-                        // Kiểm tra số lượng tồn kho để tránh giảm quá số lượng hiện có
                         if ($orderQuantity > $variation->stock) {
                             throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
                         }
-                        // Tạo chi tiết đơn hàng
                         Order_detail::query()->create([
                             'order_id' => $order->id,
                             'variation_id' => $variationID,
                             'quantity' => $orderQuantity,
                             'price' => $request->product_price[$key],
                         ]);
-                        // Giảm số lượng hàng tồn kho
                         $variation->stock -= $orderQuantity;
                         $variation->save();
                     }
@@ -197,7 +194,6 @@ class OrderController extends Controller
     {
         $order = Order::where('slug', $slug)->firstOrFail();
 
-        // Kiểm tra nếu đơn hàng đã được xác nhận thì không cho cập nhật
         if ($order->status_id != 1) {
             return redirect()->route('order.index')->with('error', 'Không thể cập nhật đơn hàng');
         }
@@ -205,10 +201,7 @@ class OrderController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request, $slug) {
-                // Lấy đơn hàng theo slug
                 $order = Order::where('slug', $slug)->firstOrFail();
-
-                // Cập nhật thông tin cơ bản của đơn hàng
                 $dataOrder = [
                     "customer_id" => $request->customer_id,
                     "customer_name" => $request->customer_name,
@@ -224,38 +217,27 @@ class OrderController extends Controller
 
                 $order->update($dataOrder);
 
-                // Trả lại số lượng tồn kho cho các sản phẩm cũ
                 foreach ($order->orderDetails as $detail) {
                     $variation = Variation::findOrFail($detail->variation_id);
                     $variation->stock += $detail->quantity;
                     $variation->save();
                 }
-
-                // Xóa chi tiết đơn hàng cũ
                 $order->orderDetails()->delete();
-
-                // Thêm chi tiết đơn hàng mới
                 if (is_array($request->variation_id) && count($request->variation_id) > 0) {
                     foreach ($request->variation_id as $key => $variationId) {
                         if ($variationId) {
                             $variation = Variation::findOrFail($variationId);
                             $quantity = $request->product_quantity[$key];
                             $price = $request->product_price[$key];
-
-                            // Kiểm tra số lượng tồn kho
                             if ($quantity > $variation->stock) {
                                 throw new Exception("Sản phẩm '{$variation->name}' không đủ số lượng trong kho.");
                             }
-
-                            // Tạo chi tiết đơn hàng mới
                             Order_detail::create([
                                 'order_id' => $order->id,
                                 'variation_id' => $variationId,
                                 'quantity' => $quantity,
                                 'price' => $price,
                             ]);
-
-                            // Cập nhật số lượng tồn kho
                             $variation->stock -= $quantity;
                             $variation->save();
                         }
@@ -273,9 +255,20 @@ class OrderController extends Controller
     public function requestCancel(Request $request, $slug)
     {
         $order = Order::where('slug', $slug)->firstOrFail();
-        $order->cancel_reason = $request->cancel_reason;
-        $order->save();
-        event(new OrderCancelRequested($order));
+
+        DB::transaction(function () use ($order, $request) {
+            $order->status_id = 6;
+            $order->cancel_reason = $request->cancel_reason;
+            $order->save();
+
+            OrderStatusTime::create([
+                'order_id' => $order->id,
+                'order_status_id' => 6,
+            ]);
+
+            event(new OrderCancelRequested($order));
+        });
+
         return response()->json(['success' => true]);
     }
 
@@ -293,12 +286,17 @@ class OrderController extends Controller
                         'updated_at' => now()
                     ]);
                     $order->cancel_reason = null;
+                } elseif ($request->status == 1) {
+                    $order->status_id = 1;
+                } else {
+                    $order->status_id = $request->status;
                 }
-                $order->status_id = $request->status;
+
                 $order->save();
+
                 OrderStatusTime::create([
                     'order_id' => $order->id,
-                    'order_status_id' => $request->status,
+                    'order_status_id' => $order->status_id,
                 ]);
 
                 if ($order->contract_id) {
@@ -310,14 +308,15 @@ class OrderController extends Controller
                 }
             });
 
-            // Broadcast event
             broadcast(new OrderStatusChanged($order))->toOthers();
+
+            event(new OrderStatusUpdated($order, $order->orderStatus->name));
 
             return response()->json([
                 'success' => true,
                 'message' => 'Cập nhật trạng thái thành công'
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()

@@ -474,7 +474,7 @@
             });
     </script>
 
-    <?php echo $__env->yieldContent('scripts'); ?>
+
     <?php if(session('authorization')): ?>
         <?php echo e(session('authorization')); ?>
 
@@ -529,7 +529,7 @@
             });
         });
     </script>
-
+    <?php echo $__env->yieldContent('scripts'); ?>
 </body>
 
 </html>

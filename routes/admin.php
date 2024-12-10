@@ -210,13 +210,13 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail')->middleware('permission:98');
                 Route::post('/yeu-cau-huy/{slug}', [ImportOrderController::class, 'requestCancel'])->name('requestCancel')->middleware('permission:99');
                 Route::get('/pending-cancel-requests', [ImportOrderController::class, 'getPendingCancelRequests'])->name('pendingCancelRequests')->middleware('permission:100');
-                Route::get('/cancel/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel')->middleware('permission:101');
+                Route::post('/xac-nhan-huy/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel')->middleware('permission:101');
                 Route::post('/xac-nhan/{slug}', [ImportOrderController::class, 'confirmOrder'])->name('confirmOrder')->middleware('permission:102');
                 Route::get('/tu-dong-cap-nhat/{slug}', [ImportOrderController::class, 'autoUpdateStatus'])->name('autoUpdateStatus')->middleware('permission:103');
                 Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests')->middleware('permission:104');
                 Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus')->middleware('permission:105');
                 Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus')->middleware('permission:106');
-                Route::post('/reject/{slug}', [ImportOrderController::class, 'rejectOrder'])->name('rejectOrder')->middleware('permission:107');
+                Route::post('/tu-choi-huy/{slug}', [ImportOrderController::class, 'rejectOrder'])->name('rejectOrder')->middleware('permission:107');
             });
         Route::prefix('quan-ly-don-vi')
             ->as('units.')

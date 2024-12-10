@@ -129,7 +129,6 @@
             </div>
         </div>
     </div>
-    {{ $contracts->links() }}
 
     <!-- Modal xem PDF -->
     <div class="modal fade" id="pdfModal" tabindex="-1">

@@ -15,8 +15,9 @@ class Order_status extends Model
     ];
 
 
-    public function getColorAttribute(){
-        switch($this->id){
+    public function getColorAttribute()
+    {
+        switch ($this->id) {
             case 1:
                 return 'warning';
             case 2:
@@ -25,6 +26,8 @@ class Order_status extends Model
                 return 'info';
             case 4:
                 return 'success';
+            case 6:
+                return 'danger';
             default:
                 return 'danger';
         }
@@ -35,5 +38,5 @@ class Order_status extends Model
     {
         return $this->hasMany(Order::class);
     }
-    
+
 }

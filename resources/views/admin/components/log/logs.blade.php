@@ -54,7 +54,6 @@
                     </table>
 
                     <!-- Phân trang -->
-                    {{ $logLines->links() }}
                 </div>
             </div>
         </div>

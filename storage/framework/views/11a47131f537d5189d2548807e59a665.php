@@ -226,7 +226,7 @@
                                     <div data-simplebar style="max-height: 300px;" class="pe-2">
                                         <?php if(isset($transactions) && $transactions->count() > 0): ?>
                                             <?php $__currentLoopData = $transactions->sortByDesc('created_at'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $transaction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                <div class="text-reset notification-item d-block dropdown-item">
+                                                <div class="text-reset notification-item d-block dropdown-item" data-transaction-id="<?php echo e($transaction->id); ?>">
                                                     <div class="d-flex">
                                                         <div class="flex-shrink-0">
                                                             <div class="avatar-xs me-3">
@@ -288,12 +288,12 @@
                                                                 </button>
                                                             </div>
                                                         <?php endif; ?>
-                                                        <button type="button" 
-                                                            style="background-color: #00C49A; border: none; color: white; border-radius: 3px; 
+                                                        <button type="button"
+                                                            style="background-color: #00C49A; border: none; color: white; border-radius: 3px;
                                                             padding: 3px 10px; font-size: 12px; line-height: 20px; height: 26px; display: flex; align-items: center; justify-content: center; margin: auto 0;"
                                                             onclick="confirmTransaction('<?php echo e($transaction->transaction_type); ?>', <?php echo e($transaction->id); ?>)">
                                                             Xác nhận
-                                                        </button>       
+                                                        </button>
                                                     </div>
                                                 </div>
                                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -559,6 +559,31 @@
                 }
             });
         }
+
+        // Thêm lắng nghe sự kiện realtime
+window.Echo.channel('transactions')
+    .listen('TransactionConfirmed', (e) => {
+        // Tìm và xóa thông báo có transaction id tương ứng
+        const notificationElement = document.querySelector(`[data-transaction-id="${e.transactionId}"]`);
+        if (notificationElement) {
+            notificationElement.remove();
+
+            // Cập nhật số lượng thông báo
+            updateNotificationCount();
+        }
+    });
+
+// Hàm cập nhật số lượng thông báo
+function updateNotificationCount() {
+    const notificationCount = document.querySelectorAll('.notification-item').length;
+    const badge = document.querySelector('.badge');
+    if (badge) {
+        badge.textContent = notificationCount;
+        if (notificationCount === 0) {
+            badge.style.display = 'none';
+        }
+    }
+}
     </script>
 <?php $__env->stopSection(); ?>
 <?php /**PATH C:\laragon\www\DuAnTotNghiep\resources\views/admin/layouts/partials/header.blade.php ENDPATH**/ ?>

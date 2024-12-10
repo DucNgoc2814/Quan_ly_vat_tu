@@ -20,17 +20,20 @@
 @php
     use App\Models\Import_order;
     use App\Models\Order;
-    $pendingNewOrders = Import_order::with('newOrderRequests')
-        ->where('status', 1)
-        ->whereHas('newOrderRequests')
-        ->distinct()
-        ->get()
-        ->unique('slug');
     $pendingCancelRequests = Import_order::where('status', 1)
         ->whereNotNull('cancel_reason')
         ->distinct()
         ->get()
         ->unique('slug');
+    $pendingNewOrders = Import_order::with('newOrderRequests')
+        ->where('status', 1)
+        ->whereHas('newOrderRequests')
+        ->distinct()
+        ->get()
+        ->unique('slug')
+        ->reject(function ($order) use ($pendingCancelRequests) {
+            return $pendingCancelRequests->contains('slug', $order->slug);
+        });
     $orderCancelRequests = Order::whereNotNull('cancel_reason')->distinct()->get()->unique('slug');
 
     $pendingContracts = App\Models\Contract::where('contract_status_id', 4)->get();
@@ -454,8 +457,31 @@
                                 </div>
                             @endforeach
                         </div>
-                        <div class="p-3 mt-2">
-                            <div id="cancelRequestsContainer">
+                        <div class="pending-cancel-requests">
+                            <div class="row">
+                                @foreach ($pendingCancelRequests as $request)
+                                    <div class="col mb-3">
+                                        <div class="card card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1 ms-2">
+                                                    <h5 class="card-title mb-1">Đơn hàng nhập vào: {{ $request->slug }}
+                                                        yêu cầu hủy</h5>
+                                                    <p class="text-muted">Lý do: {{ $request->cancel_reason }}</p>
+                                                    <div class="mt-3">
+                                                        <button onclick="handleCancelConfirm('{{ $request->slug }}')"
+                                                            class="btn btn-info btn-sm">
+                                                            <i class="ri-check-line align-bottom me-1"></i>Xác Nhận
+                                                        </button>
+                                                        <button onclick="handleCancelReject('{{ $request->slug }}')"
+                                                            class="btn btn-danger btn-sm">
+                                                            <i class="ri-close-circle-line align-bottom me-1"></i>Từ Chối
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="mt-2">
@@ -477,8 +503,8 @@
                                                             nhận</button>
                                                     </form>
 
-                                                    <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="showRejectModal({{ $contract->id }})">Từ chối</button>
+                                                    {{-- <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="showRejectModal({{ $contract->id }})">Từ chối</button> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -601,10 +627,15 @@
     </script>
     <script>
         function checkPendingCancelRequests() {
+            const container = document.getElementById('cancelRequestsContainer');
+            if (!container) {
+                return;
+            }
             fetch("{{ route('importOrder.pendingCancelRequests') }}")
                 .then(response => response.json())
                 .then(data => {
-                    const container = document.getElementById('cancelRequestsContainer');
+
+                    container.innerHTML = ''; // Xóa nội dung cũ trước khi thêm mới
                     if (data.length > 0) {
                         data.forEach(request => {
                             const requestElement = document.createElement('div');
@@ -630,38 +661,113 @@
                     `;
                             container.appendChild(requestElement);
                         });
+
+                        // Kiểm tra và ẩn yêu cầu thêm mới nếu có yêu cầu hủy
+                        const newOrderRequests = document.querySelectorAll(
+                            '.new-order-request'); // Giả sử các yêu cầu thêm mới có class là 'new-order-request'
+                        newOrderRequests.forEach(order => {
+                            const orderSlug = order.dataset
+                                .slug; // Giả sử slug của đơn hàng được lưu trong data-attribute
+                            if (data.some(request => request.slug === orderSlug)) {
+                                order.style.display = 'none'; // Ẩn yêu cầu thêm mới
+                            }
+                        });
                     }
-                });
+                }).catch(error => {
+                    console.error('Error fetching requests:', error);
+                });;
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             checkPendingCancelRequests();
         });
 
-        function showRejectModal(contractId) {
-            $('#contractId').val(contractId);
-            $('#rejectReasonModal').modal('show');
-        }
+        function handleCancelConfirm(slug) {
+            Swal.fire({
+                title: 'Xác nhận',
+                text: "Bạn có chắc chắn muốn xác nhận hủy đơn hàng này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: 'Đang xử lý...',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
 
-        function submitRejectReason() {
-            const contractId = $('#contractId').val();
-            const reason = $('#rejectReason').val();
-
-            $.ajax({
-                url: "{{ route('contract.reject', '') }}/" + contractId,
-                method: 'POST',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    reason: reason
-                },
-                success: function(response) {
-                    if (response.success) {
-                        $('#rejectReasonModal').modal('hide');
-                        window.location.reload();
-                    }
+                    $.ajax({
+                        url: `/don-hang-nhap/xac-nhan-huy/${slug}`,
+                        type: 'POST',
+                        data: {
+                            _token: $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.success) {
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: 'Đã xác nhận hủy đơn hàng',
+                                    icon: 'success'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            }
+                        },
+                        error: function(xhr) {
+                            console.error('Error:', xhr);
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: 'Có lỗi xảy ra khi xử lý yêu cầu',
+                                icon: 'error'
+                            });
+                        }
+                    });
                 }
             });
         }
+
+        function handleCancelReject(slug) {
+            Swal.fire({
+                title: 'Xác nhận',
+                text: "Bạn có chắc chắn muốn từ chối yêu cầu hủy đơn hàng này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    fetch(`/don-hang-nhap/tu-choi-huy/${slug}`, {
+                            method: 'POST',
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                    'content'),
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire('Thành công!', 'Đã từ chối yêu cầu hủy đơn hàng', 'success')
+                                    .then(() => {
+                                        location.reload();
+                                    });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            Swal.fire('Lỗi!', 'Có lỗi xảy ra khi xử lý yêu cầu', 'error');
+                        });
+                }
+            });
+        }
+    </script>
+    <script>
         // <+====================POSEIDON====================+>
         function getChartColorsArray(e) {
             if (null !== document.getElementById(e)) {
@@ -1003,11 +1109,11 @@
                         if (requestCard.length > 0) {
                             requestCard.fadeOut(300, function() {
                                 $(this).remove();
-                                
+
                                 // Kiểm tra số lượng request còn lại
                                 const remainingRequests = $('.col.mb-3').length;
                                 console.log('Remaining requests:', remainingRequests); // Debug
-                                
+
                                 // Ẩn panel nếu không còn request
                                 if (remainingRequests === 0) {
                                     $('.layout-rightside-col')
@@ -1030,7 +1136,7 @@
                     console.error('Error:', xhr);
                     console.log('Request card found:', requestCard.length); // Debug
                     console.log('Card content:', requestCard.html()); // Debug
-                    
+
                     Swal.fire({
                         title: 'Lỗi!',
                         text: 'Có lỗi xảy ra khi cập nhật trạng thái',
@@ -1043,7 +1149,7 @@
                     if (requestCard.length > 0) {
                         requestCard.fadeOut(300, function() {
                             $(this).remove();
-                            
+
                             const remainingRequests = $('.col.mb-3').length;
                             if (remainingRequests === 0) {
                                 $('.layout-rightside-col')

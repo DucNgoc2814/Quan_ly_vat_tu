@@ -50,7 +50,6 @@ class LogController extends Controller
                     }
                 }
 
-                // Chỉ thêm dòng nếu có ít nhất một giá trị không trống
                 if ($hasData) {
                     $validRows[] = $rowData;
                 }
@@ -58,14 +57,7 @@ class LogController extends Controller
 
             $logLines = array_reverse($validRows);
 
-            $perPage = 10;
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $currentItems = array_slice($logLines, ($currentPage - 1) * $perPage, $perPage);
-            $paginatedItems = new LengthAwarePaginator($currentItems, count($logLines), $perPage, $currentPage, [
-                'path' => LengthAwarePaginator::resolveCurrentPath(),
-            ]);
-
-            return view('admin.components.log.logs', ['logLines' => $paginatedItems]);
+            return view('admin.components.log.logs', ['logLines' => $logLines]);
         } catch (\Exception $e) {
             return view('admin.components.log.logs', ['logLines' => []]);
         }
