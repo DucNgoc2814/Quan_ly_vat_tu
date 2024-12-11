@@ -41,7 +41,7 @@ class Kernel extends HttpKernel
 
         'api' => [
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-            \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
+            \Illuminate\Routing\Middleware\ThrottleRequests::class . ':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
     ];
@@ -73,6 +73,7 @@ class Kernel extends HttpKernel
         'CheckEmployees' => \App\Http\Middleware\CheckEmployees::class,
         'permission' => \App\Http\Middleware\CheckPermission::class,
         'checkOwnership' => \App\Http\Middleware\CheckUserOwnership::class,
+        'check.ownership' => \App\Http\Middleware\CheckOwnership::class,
 
     ];
 }

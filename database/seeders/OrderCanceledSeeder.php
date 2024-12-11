@@ -13,29 +13,6 @@ class OrderCanceledSeeder extends Seeder
      */
     public function run(): void
     {
-        $orderCanceleds = [
-            [
-                'order_id' => 1,
-                'note' => 'Khách hàng yêu cầu hủy do không còn nhu cầu.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'order_id' => 2,
-                'note' => 'Lỗi trong quá trình thanh toán.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'order_id' => 3,
-                'note' => 'Sản phẩm không còn trong kho.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ];
-
-        foreach ($orderCanceleds as $orderCanceled) {
-            DB::table('order_canceleds')->insert($orderCanceled);
-        }
+       
     }
 }

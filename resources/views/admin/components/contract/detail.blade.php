@@ -25,7 +25,7 @@
                         <div class="col-lg-8">
                             <div class="d-flex align-items-center gap-3">
                                 <a href="{{ route('contract.index') }}" class="btn btn-success" id="addproduct-btn"><i
-                                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+                                        class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
                                 <button class="btn btn-primary" onclick="showPdf({{ $contract->id }})">
                                     <i class="ri-file-pdf-line align-bottom me-1"></i>Xem hợp đồng
                                 </button>
@@ -53,7 +53,8 @@
                             <p><strong>Số điện thoại:</strong> <span
                                     class="text-muted">{{ $contract->customer_phone }}</span></p>
                             <p><strong>Email:</strong> <span class="text-muted">{{ $contract->customer_email }}</span></p>
-                            <p><strong>Thanh toán:</strong> <span class="text-muted">{{ number_format($contract->paid_amount) }}/
+                            <p><strong>Thanh toán:</strong> <span
+                                    class="text-muted">{{ number_format($contract->paid_amount) }}/
                                     {{ number_format($contract->total_amount) }} VNĐ</span></p>
 
                         </div>
@@ -65,7 +66,14 @@
                         <i class="ri-user-3-line text-muted fs-20 me-2"></i>
                         <div>
                             <span class="text-muted">Người phụ trách:</span>
-                            <span class="fw-medium ms-1"><a href="{{ route('employees.edit', $contract->employee->id) }}">{{ $contract->employee->name ?? 'Chưa phân công' }}</a></span>
+                            <span class="fw-medium ms-1"><a
+                                    href="{{ route('employees.edit', $contract->employee->id) }}">{{ $contract->employee->name ?? 'Chưa phân công' }}</a></span>
+                            @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == '1')
+                                <button type="button" class="btn btn-link text-warning"
+                                    onclick="openAssignmentModal('contract', {{ $contract->id }})">
+                                    <i class="ri-pencil-fill align-bottom"></i> Thay đổi
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -106,12 +114,14 @@
                 <div class="row">
                     <div class="my-3 d-flex justify-content-between align-items-center">
                         <h5>Danh sách đơn hàng</h5>
-                        @if($contract->contract_status_id == 6)
-                            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createOrderModal">
+                        @if ($contract->contract_status_id == 6)
+                            <button class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                data-bs-target="#createOrderModal">
                                 Tạo đơn hàng
                             </button>
                         @else
-                            <button class="btn btn-sm btn-secondary" disabled title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo đơn hàng' }}">
+                            <button class="btn btn-sm btn-secondary" disabled
+                                title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo đơn hàng' }}">
                                 Tạo đơn hàng
                             </button>
                         @endif
@@ -153,12 +163,13 @@
         <div class="col-lg-12 mt-4 card">
             <div class="my-3 d-flex justify-content-between align-items-center">
                 <h5>Lịch sử chuyển tiền</h5>
-                @if($contract->contract_status_id == 6)
+                @if ($contract->contract_status_id == 6)
                     <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
                         Tạo lịch sử chuyển tiền
                     </button>
                 @else
-                    <button class="btn btn-sm btn-secondary" disabled title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo lịch sử chuyển tiền' }}">
+                    <button class="btn btn-sm btn-secondary" disabled
+                        title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo lịch sử chuyển tiền' }}">
                         Tạo lịch sử chuyển tiền
                     </button>
                 @endif
@@ -215,7 +226,49 @@
     </div><!--end col-->
     </div>
 @endsection
+<div class="modal fade" id="assignmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thay đổi người phụ trách</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="assignmentForm">
+                @csrf
+                <input type="hidden" id="assignmentType" name="type">
+                <input type="hidden" id="assignmentId" name="id">
 
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tìm nhân viên</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control" id="employeeSearch"
+                                placeholder="Nhập tên nhân viên..." autocomplete="off">
+                            <input type="hidden" name="employee_id" id="selectedEmployeeId">
+
+                            <div id="employeeSearchResults"
+                                class="position-absolute w-100 mt-1 shadow bg-white rounded-2 d-none"
+                                style="max-height: 200px; overflow-y: auto; z-index: 1000;">
+                                @foreach ($employees as $employee)
+                                    <div class="p-2 border-bottom employee-item" data-id="{{ $employee->id }}"
+                                        data-name="{{ $employee->name }}" style="cursor: pointer;">
+                                        {{ $employee->name }} - {{ $employee->id }}
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="pdfModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -270,7 +323,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('order.storeContract', ['contract_id' => $contract->id, 'customer_id' => $contract->customer_id]) }}">
+                <form method="POST"
+                    action="{{ route('order.storeContract', ['contract_id' => $contract->id, 'customer_id' => $contract->customer_id]) }}">
                     @csrf
                     <div class="mb-3">
                         <label for="recipientName" class="form-label">Tên người nhận</label>
@@ -384,7 +438,132 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            const searchInput = $('#employeeSearch');
+            const searchResults = $('#employeeSearchResults');
+            const employeeItems = $('.employee-item');
+            const selectedIdInput = $('#selectedEmployeeId');
 
+            searchInput.on('input', function() {
+                const searchText = this.value.toLowerCase();
+
+                if (searchText === '') {
+                    searchResults.addClass('d-none');
+                    return;
+                }
+
+                employeeItems.each(function() {
+                    const employeeName = $(this).data('name').toLowerCase();
+                    const employeeId = $(this).data('id').toString();
+
+                    // Check if search text matches either name or ID
+                    if (employeeName.includes(searchText) || employeeId.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                searchResults.removeClass('d-none');
+            });
+
+            searchInput.on('focus', function() {
+                if (this.value) {
+                    searchResults.removeClass('d-none');
+                }
+            });
+
+            employeeItems.on('click', function() {
+                const id = $(this).data('id');
+                const name = $(this).data('name');
+
+                selectedIdInput.val(id);
+                searchInput.val(name);
+                searchResults.addClass('d-none');
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!searchInput.is(e.target) && !searchResults.is(e.target)) {
+                    searchResults.addClass('d-none');
+                }
+            });
+        });
+
+        function openAssignmentModal(type, id) {
+            $('#assignmentType').val(type);
+            $('#assignmentId').val(id);
+            $('#assignmentModal').modal('show');
+        }
+
+        $(document).ready(function() {
+            $('#assignmentForm').on('submit', function(e) {
+                e.preventDefault();
+
+                const id = $('#assignmentId').val();
+                const employeeId = $('#selectedEmployeeId').val();
+
+                console.log('Submitting data:', {
+                    id: id,
+                    employee_id: employeeId
+                });
+                if (!employeeId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Vui lòng chọn nhân viên",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true
+                    });
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('assignment.update', ['type' => 'contract', 'id' => ':id']) }}'
+                        .replace(':id', id),
+                    type: 'PUT',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        employee_id: employeeId, // Add employeeId to data instead of URL
+                        type: 'contract'
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true
+                            });
+                            $('#assignmentModal').modal('hide');
+                            location.reload();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error details:', {
+                            xhr: xhr,
+                            status: status,
+                            error: error
+                        });
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: xhr.responseJSON?.message || 'Có lỗi xảy ra',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
 <script>
     function toggleQuantityInput(checkbox) {
         const quantityInput = document.getElementById('quantity_' + checkbox.dataset.id);
@@ -395,9 +574,7 @@
             quantityInput.value = 0; // Đặt lại giá trị về 0
         }
     }
-</script>
 
-<script>
     const locationInput = document.getElementById('location-input');
     const locationDropdown = document.getElementById('location-dropdown');
     const inputWithIcons = document.getElementById('input-with-icons');
@@ -478,7 +655,6 @@
         const district = document.getElementById('districts').selectedOptions[0]?.text || '';
         const ward = document.getElementById('wards').selectedOptions[0]?.text || '';
 
-        // Update the location input field with the selected values (tên của tỉnh, huy��n, xã)
         locationInput.value = `${province}, ${district}, ${ward}`.trim();
     }
 
@@ -564,72 +740,91 @@
 
         document.getElementById('submitOrder').addEventListener('click', function(event) {
             event.preventDefault();
-            
-            // Tính toán tỷ lệ thanh toán
-            const totalContractAmount = {{ $contract->total_amount }};
-            const paidAmount = {{ $contract->paid_amount }};
-            const paymentRatio = paidAmount / totalContractAmount;
 
-            // Validate sản phẩm và số lượng
-            const productQuantities = document.querySelectorAll('.quantity-input');
-            let totalSelectedQuantity = 0;
-            let maxAllowedQuantity = 0;
+            // Kiểm tra và log FormData trước khi gửi
+            const formData = new FormData(document.querySelector('form'));
+            console.log('FormData before send:', Object.fromEntries(formData));
 
-            // Tính tổng số lượng sản phẩm trong hợp đồng
-            const totalContractQuantity = {{ $contract->contractDetails->sum('quantity') }};
-            maxAllowedQuantity = Math.floor(totalContractQuantity * paymentRatio);
+            // Thêm contract_id vào FormData
+            formData.append('contract_id', '{{ $contract->id }}');
 
-            // Kiểm tra từng sản phẩm được chọn
-            productQuantities.forEach(input => {
-                if (input.style.display === 'block') {
-                    const quantity = parseInt(input.value) || 0;
-                    totalSelectedQuantity += quantity;
-
-                    // Kiểm tra số lượng còn lại của từng sản phẩm
-                    const remainingQuantity = parseInt(input.closest('tr').querySelector('td:nth-child(5)').textContent);
-                    if (quantity > remainingQuantity) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Vượt quá số lượng cho phép',
-                            text: 'Số lượng đặt vượt quá số lượng còn lại của sản phẩm.',
-                            confirmButtonText: 'Đồng ý'
-                        });
-                        return;
-                    }
-                }
-            });
-
-            // Kiểm tra tổng số lượng so với số tiền đã thanh toán
-            if (totalSelectedQuantity > maxAllowedQuantity) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Vượt quá số lượng cho phép',
-                    html: `Với số tiền đã thanh toán <b>${new Intl.NumberFormat('vi-VN').format(paidAmount)}đ/${new Intl.NumberFormat('vi-VN').format(totalContractAmount)}đ</b>,<br>
-                          bạn chỉ được mua tối đa <b>${maxAllowedQuantity}</b> sản phẩm.<br><br>
-                          Số lượng bạn đang chọn: <b>${totalSelectedQuantity}</b> sản phẩm.`,
-                    confirmButtonText: 'Đồng ý'
-                });
-                return;
-            }
-
-            // Validate các trường thông tin cơ bản
-            const recipientName = document.getElementById('recipientName').value.trim();
-            const recipientPhone = document.getElementById('recipientPhone').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const phoneRegex = /^(0[0-9]{9,10})$/;
-
-            if (!recipientName || !recipientPhone || !address || !phoneRegex.test(recipientPhone)) {
+            // Kiểm tra dữ liệu sản phẩm
+            const selectedProducts = document.querySelectorAll('.product-checkbox:checked');
+            if (selectedProducts.length === 0) {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Thiếu thông tin',   
-                    text: 'Vui lòng điền đầy đủ và chính xác thông tin người nhận hàng',
-                    confirmButtonText: 'Đồng ý'
+                    title: 'Lỗi',
+                    text: 'Vui lòng chọn ít nhất một sản phẩm'
                 });
                 return;
             }
 
-            // Nếu tất cả điều kiện đều hợp lệ, submit form
-            document.querySelector('form').submit();
+            // Debug log for form data
+            console.log('Form Data:', {
+                recipientName: document.getElementById('recipientName').value,
+                recipientPhone: document.getElementById('recipientPhone').value,
+                address: document.getElementById('address').value,
+                province: document.getElementById('province_name').value,
+                district: document.getElementById('district_name').value,
+                ward: document.getElementById('ward_name').value,
+                contract_id: '{{ $contract->id }}',
+                customer_id: '{{ $contract->customer_id }}'
+            });
+
+            // Log selected products and quantities
+            const selectedProducts = [];
+            document.querySelectorAll('.product-checkbox:checked').forEach(checkbox => {
+                const row = checkbox.closest('tr');
+                const variationId = row.querySelector('[name="variation_id[]"]').value;
+                const quantity = row.querySelector('.quantity-input').value;
+                selectedProducts.push({
+                    variation_id: variationId,
+                    quantity: quantity,
+                    remaining: row.querySelector('td:nth-child(5)').textContent
+                });
+            });
+            console.log('Selected Products:', selectedProducts);
+
+            // Submit form using AJAX instead of regular submit
+            const formData = new FormData(document.querySelector('form'));
+            
+            $.ajax({
+                url: '{{ route('order.storeContract') }}',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log('Server Response:', response);
+                    if(response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thành công',
+                            text: response.message
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Lỗi',
+                            text: response.message
+                        });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', {
+                        status: status,
+                        error: error,
+                        response: xhr.responseText
+                    });
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi',
+                        text: 'Có lỗi xảy ra khi tạo đơn hàng'
+                    });
+                }
+            });
         });
     </script>
 @endpush

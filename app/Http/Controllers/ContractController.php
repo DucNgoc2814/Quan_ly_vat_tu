@@ -25,6 +25,7 @@ use App\Events\ContractSentToCustomer;
 use App\Events\ContractStatusUpdated;
 use App\Models\Contract_status_time;
 use App\Models\Customer;
+use App\Models\Employee;
 use App\Models\Payment;
 use App\Models\Payment_history;
 use Illuminate\Support\Facades\Session;
@@ -39,7 +40,20 @@ class ContractController extends Controller
 
     public function index()
     {
-        $contracts = Contract::with('contractStatus')->latest('id')->get();
+        $token = Session::get('token');
+        $payload = JWTAuth::setToken($token)->getPayload();
+        $role = $payload->get('role');
+        $userId = $payload->get('id');
+
+        $query = Contract::with('contractStatus');
+
+        // Filter for non-admin users
+        if ($role != '1') {
+            $query->where('employee_id', $userId);
+        }
+
+        $contracts = $query->latest('id')->get();
+
         return view(self::PATH_VIEW . __FUNCTION__, compact('contracts'));
     }
 
@@ -303,7 +317,7 @@ class ContractController extends Controller
     {
         try {
             $contract = Contract::findOrFail($id);
-            
+
             // Kiểm tra trạng thái hợp đồng
             if ($contract->contract_status_id != 2) {
                 return redirect()->back()->with('error', 'Chỉ có thể gửi hợp đồng cho khách hàng sau khi giám đốc đã xác nhận');
@@ -355,9 +369,9 @@ class ContractController extends Controller
                     'contract_status_id' => 5
                 ]);
                 $contract->save();
-                
+
                 event(new ContractStatusUpdated($contract));
-                
+
                 return redirect()->back()->with('success', 'Đã gửi hợp đồng cho khách hàng thành công');
             } catch (\Exception $e) {
                 return redirect()->back()->with('error', 'Lỗi khi gửi email: ' . $e->getMessage());
@@ -478,7 +492,10 @@ class ContractController extends Controller
     public function show($id)
     {
         $contract = Contract::with(['contractDetails', 'orders'])->findOrFail($id);
-
+        $employees = Employee::where('role_id', '!=', '1')
+            ->where('is_active', 1)
+            ->select('id', 'name')
+            ->get();
         // Tính tổng tiền đã thanh toán
         $totalPaid = Payment_history::where('related_id', $id)
             ->where('transaction_type', 'contract')
@@ -541,7 +558,8 @@ class ContractController extends Controller
             'paymentHistories',
             'payments',
             'canCreateOrderAndPayment',
-            'statusMessages'
+            'statusMessages',
+            'employees'
         ));
     }
 
@@ -609,9 +627,9 @@ class ContractController extends Controller
             $isOverdue = now()->gt($contract->timeend);
 
             // Cập nhật trạng thái
-            $shouldComplete = $totalPaid >= $contract->total_amount 
-                && $allProductsDelivered 
-                && $allOrdersCompleted 
+            $shouldComplete = $totalPaid >= $contract->total_amount
+                && $allProductsDelivered
+                && $allOrdersCompleted
                 && !$isOverdue;
 
             if ($isOverdue) {

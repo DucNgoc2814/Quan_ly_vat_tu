@@ -25,10 +25,12 @@ use Dompdf\Options;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use PhpOffice\PhpWord\IOFactory;
 use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Settings;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 // use PhpOffice\PhpWord\PhpWord;
 /**
@@ -46,7 +48,20 @@ class OrderController extends Controller
     const PATH_VIEW = 'admin.components.orders.';
     public function index()
     {
-        $data = Order::with(['payment', 'customer', 'orderStatus'])->where('contract_id', null)->get();
+        $token = Session::get('token');
+        $payload = JWTAuth::setToken($token)->getPayload();
+        $role = $payload->get('role');
+        $userId = $payload->get('id');
+
+        $query = Order::with(['payment', 'customer', 'orderStatus'])
+            ->where('contract_id', null);
+
+        // Nếu không phải admin thì chỉ hiện đơn hàng của nhân viên đó
+        if ($role != '1') {
+            $query->where('employee_id', $userId);
+        }
+
+        $data = $query->latest('id')->get();
 
         return view(self::PATH_VIEW . __FUNCTION__, compact('data'));
     }
@@ -89,6 +104,7 @@ class OrderController extends Controller
                 $dataOrder = [
                     "customer_id" => $customer_id,
                     "contract_id" => $request->contract_id,
+                    'employee_id' => JWTAuth::setToken(Session::get('token'))->getPayload()->get('id'),
                     "status_id" => 1,
                     "slug" => $slug,
                     "customer_name" => $request->customer_name ?? $customers->name,
@@ -278,6 +294,17 @@ class OrderController extends Controller
 
         try {
             DB::transaction(function () use ($request, $order) {
+                if ($request->status == 2 && $order->contract_id == null) {
+                    $minimumPayment = $order->total_amount * 0.3;
+                    if ($order->paid_amount < $minimumPayment) {
+                        throw new Exception('Đơn hàng cần thanh toán ít nhất 30% tổng giá trị để được xác nhận');
+                    }
+                }
+                if ($request->status == 4 && $order->contract_id == null) {
+                    if ($order->paid_amount < $order->total_amount) {
+                        throw new Exception('Đơn hàng cần thanh toán đủ số tiền để hoàn thành');
+                    }
+                }
                 if ($request->status == 5 && $order->cancel_reason) {
                     DB::table('order_canceleds')->insert([
                         'order_id' => $order->id,
@@ -335,25 +362,32 @@ class OrderController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request) {
-                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
+                // Generate slug
+                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 3);
                 $timestamp = now()->format('His');
                 $slug = 'DHB' . $randomChars . $timestamp;
+
+                // Get contract and validate prices
                 $contract = Contract::findOrFail($request->contract_id);
                 $prices = [];
                 foreach ($contract->contractDetails as $detail) {
                     $prices[] = $detail->price;
                 }
+
+                // Calculate total amount
                 $totalAmount = 0;
                 if (count($prices) === count($request->product_quantity)) {
                     for ($i = 0; $i < count($prices); $i++) {
-                        $totalAmount += $prices[$i] * $request->product_quantity[$i]; // Tính tổng tiền
+                        $totalAmount += $prices[$i] * $request->product_quantity[$i];
                     }
                 } else {
-                    // Xử lý trường hợp mảng không cùng độ dài
-                    throw new Exception("Mảng giá và số lượng không khp.");
+                    throw new Exception("Mảng giá và số lượng không khớp.");
                 }
+
+                // Create order
                 $dataOrder = [
                     "contract_id" => $request->contract_id,
+                    'employee_id' => JWTAuth::setToken(Session::get('token'))->getPayload()->get('id'),
                     "status_id" => 1,
                     "slug" => $slug,
                     "customer_id" => $request->customer_id,
@@ -368,55 +402,62 @@ class OrderController extends Controller
                     "paid_amount" => 0,
                 ];
 
+                // Add validation before creating order
+                if (!$request->customer_name || !$request->number_phone || !$request->address) {
+                    throw new Exception("Vui lòng điền đầy đủ thông tin người nhận.");
+                }
 
+                // Validate quantities before creating order
+                if (!is_array($request->product_quantity) || !is_array($request->variation_id)) {
+                    throw new Exception("Vui lòng chọn sản phẩm và số lượng.");
+                }
 
-                $order = Order::query()->create($dataOrder);
+                $order = Order::create($dataOrder);
+
+                // Create order details and update stock
+                for ($i = 0; $i < count($request->variation_id); $i++) {
+                    if ($request->product_quantity[$i] > 0) {
+                        $variation = Variation::findOrFail($request->variation_id[$i]);
+                        
+                        // Check stock availability
+                        if ($variation->stock < $request->product_quantity[$i]) {
+                            throw new Exception("Số lượng trong kho không đủ cho sản phẩm " . $variation->name);
+                        }
+
+                        Order_detail::create([
+                            'order_id' => $order->id,
+                            'variation_id' => $request->variation_id[$i],
+                            'quantity' => $request->product_quantity[$i],
+                            'price' => $prices[$i],
+                        ]);
+
+                        // Update contract detail remaining quantity
+                        $contractDetail = ContractDetail::where('contract_id', $request->contract_id)
+                            ->where('variation_id', $request->variation_id[$i])
+                            ->first();
+
+                        if ($contractDetail && $request->product_quantity[$i] > $contractDetail->remaining_quantity) {
+                            throw new Exception("Số lượng vượt quá số lượng còn lại trong hợp đồng.");
+                        }
+
+                        $contractDetail->remaining_quantity -= $request->product_quantity[$i];
+                        $contractDetail->save();
+
+                        // Update stock
+                        $variation->stock -= $request->product_quantity[$i];
+                        $variation->save();
+                    }
+                }
+
                 OrderStatusTime::create([
                     'order_id' => $order->id,
                     'order_status_id' => 1,
                 ]);
-                if (is_array($request->variation_id) && count($request->variation_id) > 0) {
-                    if (count($request->variation_id) === count($request->product_quantity)) {
-                        for ($i = 0; $i < count($prices); $i++) {
-                            if ($request->product_quantity[$i] > 0 && $request->product_quantity[$i] != null) {
-                                $variation = Variation::findOrFail($request->variation_id[$i]);
-                                $orderQuantity = $request->product_quantity[$i];
-                                // Tạo chi tiết đơn hàng
-                                Order_detail::query()->create([
-                                    'order_id' => $order->id,
-                                    'variation_id' => $request->variation_id[$i],
-                                    'quantity' => $orderQuantity,
-                                    'price' => $prices[$i],
-                                ]);
-                                // Cập nhật remaining_quantity trong contract_details
-                                $contractDetail = ContractDetail::where('contract_id', $request->contract_id)
-                                    ->where('variation_id', $request->variation_id[$i])
-                                    ->first();
-                                if ($contractDetail) {
-                                    // Kiểm tra nếu số lượng đặt không vượt quá remaining_quantity
-                                    if ($orderQuantity > $contractDetail->remaining_quantity) {
-                                        throw new Exception('Số lượng đặt hàng vượt quá số lượng còn lại trong hợp đồng.');
-                                    }
-                                    $contractDetail->remaining_quantity -= $orderQuantity;
-                                    $contractDetail->save();
-                                }
-                                // Giảm số lượng hàng tồn kho
-
-                                $variation->stock -= $orderQuantity;
-                                $variation->save();
-                            }
-                        }
-                    } else {
-                        throw new Exception("Mảng giá và số lượng không khp.");
-                    }
-                } else {
-                    throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
-                }
             });
 
             return redirect()->back()->with('success', 'Thêm mới đơn hàng thành công!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
 

@@ -33,6 +33,7 @@
                                 <th data-ordering="false">Tiền đã trả</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Ngày đặt hàng</th>
+                                <th data-ordering="false">Người phụ trách</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -55,6 +56,7 @@
                                         @endif
                                     </td>
                                     <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->employee->name }}</td>
                                     <td class="text-center">
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
