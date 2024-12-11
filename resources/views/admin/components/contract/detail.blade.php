@@ -135,6 +135,7 @@
                                 <th>Người nhận</th>
                                 <th>Số điện thoại</th>
                                 <th>Ngày đặt</th>
+                                <th>Người phụ trách</th>
                                 <th>Trạng thái</th>
                             </tr>
                         </thead>
@@ -147,6 +148,7 @@
                                     <td>{{ $order->customer_name }}</td>
                                     <td>{{ $order->number_phone }}</td>
                                     <td>{{ \Carbon\Carbon::parse($order->created_at)->format('H:i:s d/m/Y') }}</td>
+                                    <td>{{ $order->employee->name }}</td>
                                     <td class="text-center">
                                         <span
                                             class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">
