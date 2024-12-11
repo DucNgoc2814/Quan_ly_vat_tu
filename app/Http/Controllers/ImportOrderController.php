@@ -28,8 +28,21 @@ class ImportOrderController extends Controller
     const PATH_VIEW = 'admin.components.import_orders.';
     public function index()
     {
-        $data = Import_order::with(['payment', 'supplier'])->get();
+        $token = Session::get('token');
+        $payload = JWTAuth::setToken($token)->getPayload();
+        $role = $payload->get('role');
+        $userId = $payload->get('id');
 
+        $query = Import_order::with(['payment', 'supplier']);
+
+        // Filter for non-admin users
+        if ($role != '1') {
+            $query->where('employee_id', $userId);
+        }
+
+        $data = $query->latest('id')->get();
+
+        // Keep existing low stock products query
         $lowStockProducts = Variation::with('product')
             ->where('stock', '<=', 30)
             ->get();
@@ -67,6 +80,7 @@ class ImportOrderController extends Controller
                 // Tạo đơn hàng nhập
                 $importOrder = Import_order::create([
                     "supplier_id" => $request->supplier_id,
+                    'employee_id' => JWTAuth::setToken(Session::get('token'))->getPayload()->get('id'),
                     "slug" => $slug,
                     "product_quantity" => array_sum($request->product_quantity),
                     "total_amount" => $totalAmount,

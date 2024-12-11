@@ -26,7 +26,7 @@
         <div class="row g-4">
             <div class="col-sm-auto">
                 <a href="{{ route('order.index') }}" class="btn btn-success" id="addproduct-btn"><i
-                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+                        class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
             </div>
         </div>
     </div>
@@ -229,6 +229,24 @@
         <!--end col-->
         <div class="col-xl-3">
 
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex">
+                        <h5 class="card-title flex-grow-1 mb-0">Người phụ trách</h5>
+                    </div>
+                    <span class="fw-medium ms-1">
+                        <a href="{{ route('employees.edit', $data->first()->importOrder->employee->id ?? '1') }}">
+                            {{ $data->first()->order->employee->name ?? 'Chưa phân công' }}
+                        </a>
+                    </span>
+                    @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == '1')
+                        <button type="button" class="btn btn-link text-warning"
+                            onclick="openAssignmentModal('order', {{ $data->first()->order->id }})">
+                            <i class="ri-pencil-fill align-bottom"></i> Thay đổi
+                        </button>
+                    @endif
+                </div>
+            </div>
             <div class="card">
                 <div class="card-header">
                     <div class="d-flex">
@@ -471,8 +489,175 @@
     </div>
 </div>
 
+<div class="modal fade" id="assignmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thay đổi người phụ trách</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="assignmentForm">
+                @csrf
+                <input type="hidden" id="assignmentType" name="type">
+                <input type="hidden" id="assignmentId" name="id">
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tìm nhân viên</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control" id="employeeSearch"
+                                placeholder="Nhập tên nhân viên..." autocomplete="off">
+                            <input type="hidden" name="employee_id" id="selectedEmployeeId">
+
+                            <div id="employeeSearchResults"
+                                class="position-absolute w-100 mt-1 shadow bg-white rounded-2 d-none"
+                                style="max-height: 200px; overflow-y: auto; z-index: 1000;">
+                                @foreach ($employees as $employee)
+                                    <div class="p-2 border-bottom employee-item" data-id="{{ $employee->id }}"
+                                        data-name="{{ $employee->name }}" style="cursor: pointer;">
+                                        {{ $employee->name }} - {{ $employee->id }}
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @push('scripts')
     <script>
+        $(document).ready(function() {
+            const searchInput = $('#employeeSearch');
+            const searchResults = $('#employeeSearchResults');
+            const employeeItems = $('.employee-item');
+            const selectedIdInput = $('#selectedEmployeeId');
+
+            searchInput.on('input', function() {
+                const searchText = this.value.toLowerCase();
+
+                if (searchText === '') {
+                    searchResults.addClass('d-none');
+                    return;
+                }
+
+                employeeItems.each(function() {
+                    const employeeName = $(this).data('name').toLowerCase();
+                    const employeeId = $(this).data('id').toString();
+
+                    // Check if search text matches either name or ID
+                    if (employeeName.includes(searchText) || employeeId.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                searchResults.removeClass('d-none');
+            });
+
+            searchInput.on('focus', function() {
+                if (this.value) {
+                    searchResults.removeClass('d-none');
+                }
+            });
+
+            employeeItems.on('click', function() {
+                const id = $(this).data('id');
+                const name = $(this).data('name');
+
+                selectedIdInput.val(id);
+                searchInput.val(name);
+                searchResults.addClass('d-none');
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!searchInput.is(e.target) && !searchResults.is(e.target)) {
+                    searchResults.addClass('d-none');
+                }
+            });
+        });
+
+        function openAssignmentModal(type, id) {
+            $('#assignmentType').val(type);
+            $('#assignmentId').val(id);
+            $('#assignmentModal').modal('show');
+        }
+
+        $(document).ready(function() {
+            $('#assignmentForm').on('submit', function(e) {
+                e.preventDefault();
+
+                const id = $('#assignmentId').val();
+                const employeeId = $('#selectedEmployeeId').val();
+
+                console.log('Submitting data:', {
+                    id: id,
+                    employee_id: employeeId
+                });
+                if (!employeeId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Vui lòng chọn nhân viên",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true
+                    });
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('assignment.update', ['type' => 'order', 'id' => ':id']) }}'
+                        .replace(':id', id),
+                    type: 'PUT',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        employee_id: employeeId, // Add employeeId to data instead of URL
+                        type: 'order'
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true
+                            });
+                            $('#assignmentModal').modal('hide');
+                            location.reload();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error details:', {
+                            xhr: xhr,
+                            status: status,
+                            error: error
+                        });
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: xhr.responseJSON?.message || 'Có lỗi xảy ra',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true
+                        });
+                    }
+                });
+            });
+        });
+
         function showDocument(url, fileType) {
             console.log('Loading document:', {
                 url: url,

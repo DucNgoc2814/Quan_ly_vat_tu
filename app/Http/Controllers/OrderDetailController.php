@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order_detail;
 use App\Http\Requests\StoreOrder_detailRequest;
 use App\Http\Requests\UpdateOrder_detailRequest;
+use App\Models\Employee;
 use App\Models\Payment;
 use App\Models\Payment_history;
 
@@ -23,11 +24,15 @@ class OrderDetailController extends Controller
         if ($data->first() == null) {
             return redirect()->back()->with('error', 'Không tìm thấy đơn hàng');
         }
+        $employees = Employee::where('role_id', '!=', '1')
+            ->where('is_active', 1)
+            ->select('id', 'name')
+            ->get();
         $payments = Payment::pluck('name', 'id');
         $paymentHistories = Payment_history::where('related_id', $data->first()->order_id)->where('transaction_type', 'sale')->get();
-        return view(self::PATH_VIEW . __FUNCTION__, data: compact('data', 'paymentHistories', 'payments'));
+        return view(self::PATH_VIEW . __FUNCTION__, data: compact('data', 'paymentHistories', 'employees', 'payments'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.

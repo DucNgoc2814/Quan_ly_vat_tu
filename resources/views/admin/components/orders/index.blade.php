@@ -127,8 +127,29 @@
             const orderSlug = $(select).data('order-slug');
             const newStatus = $(select).val();
             const currentStatus = $(select).find('option:first').val();
-
-            if (newStatus == '5') { 
+            const totalAmount = parseFloat($(select).closest('tr').find('td:nth-child(5)').text().replace(/,/g, ''));
+            const paidAmount = parseFloat($(select).closest('tr').find('td:nth-child(6)').text().replace(/,/g, ''));
+            if (newStatus == '2' && (paidAmount < totalAmount * 0.3)) {
+                Swal.fire({
+                    title: 'Không thể xác nhận!',
+                    text: `Đơn hàng cần cọc ít nhất ${new Intl.NumberFormat('vi-VN').format(totalAmount * 0.3)}VND (30%) tổng giá trị để được xác nhận`,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                $(select).val(currentStatus);
+                return;
+            }
+            if (newStatus == '4' && (paidAmount < totalAmount)) {
+                Swal.fire({
+                    title: 'Không thể hoàn thành!',
+                    text: `Đơn hàng cần thanh toán đủ số tiền ${new Intl.NumberFormat('vi-VN').format(totalAmount - paidAmount)}VND để hoàn thành`,
+                    icon: 'warning',
+                    confirmButtonText: 'OK'
+                });
+                $(select).val(currentStatus);
+                return;
+            }
+            if (newStatus == '5') {
                 Swal.fire({
                     title: 'Yêu cầu hủy đơn hàng',
                     text: 'Vui lòng nhập lý do hủy đơn hàng',
@@ -194,7 +215,7 @@
                     }
                 });
             } else if (newStatus == '6') {
-                newStatus = '1'; 
+                newStatus = '1';
             } else {
                 sendUpdateRequest($(select), orderSlug, newStatus);
             }
@@ -279,6 +300,7 @@
                     }
                 }
             });
+
         function getStatusHTML(statusId) {
             const statusMap = {
                 1: '<span class="badge bg-warning-subtle text-warning">Chờ xử lý</span>',

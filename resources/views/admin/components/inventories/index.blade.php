@@ -49,7 +49,7 @@
                 <div class="card-body">
                     <form id="mainForm" method="POST" action="{{ route('inventories.bulkUpdate') }}">
                         @csrf
-                        <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
+                        <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle fs-11"
                             style="width:100%">
                             <thead>
                                 <tr>
