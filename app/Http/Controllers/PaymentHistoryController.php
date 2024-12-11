@@ -75,7 +75,6 @@ class PaymentHistoryController extends Controller
                     'related_id' => $request->related_id,
                     'transaction_type' => $request->transaction_type,
                     'amount' => $request->amount,
-                    'payment_date' => $request->payment_date,
                     'note' => $request->note,
                     'document' => $document_path,
                     'payment_id' => $request->payment_id

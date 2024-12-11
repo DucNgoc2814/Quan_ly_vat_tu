@@ -421,7 +421,7 @@ class OrderController extends Controller
                         
                         // Check stock availability
                         if ($variation->stock < $request->product_quantity[$i]) {
-                            throw new Exception("Số lượng trong kho không đủ cho sản phẩm " . $variation->name);
+                            return redirect()->back()->with('error', 'Sản phẩm ' . $variation->name . ' không đủ số lượng trong kho.');
                         }
 
                         Order_detail::create([
