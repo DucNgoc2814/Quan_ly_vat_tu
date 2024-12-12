@@ -41,7 +41,8 @@
                             </thead>
                             <tbody>
                                 @foreach ($results as $variation)
-                                    <tr>
+                                    <tr
+                                        class="{{ $variation['so_luong'] > 0 && $variation['current_stock'] == 0 ? 'table-danger' : '' }}">
                                         <td>{{ $variation['ma_bien_the'] }}</td>
                                         <td>{{ $variation['ten_bien_the'] }}</td>
                                         <td>{{ $variation['danh_muc'] }}</td>

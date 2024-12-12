@@ -71,7 +71,7 @@ class TripManagementController extends Controller
             }
 
             // Check if role_id is 4
-            if ($employee->role_id != 4) {
+            if ($employee->role_id != 3) {
                 return redirect()->route('orderconfirm.login')->with('error', 'Bạn không có quyền truy cập');
             }
 
@@ -97,7 +97,7 @@ class TripManagementController extends Controller
             return redirect()->route('orderconfirm.login')->with('error', 'Vui lòng đăng nhập để tiếp tục');
         }
         $employee = Session::get('employee');
-        if ($employee->role_id != 4) {
+        if ($employee->role_id != 3) {
             return redirect()->route('orderconfirm.login')->with('error', 'Bạn không có quyền truy cập');
         }
 
