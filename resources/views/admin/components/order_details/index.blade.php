@@ -191,7 +191,7 @@
                                     <td>{{ $payment->note }}</td>
                                     <td>{{ number_format($payment->amount) }} VNĐ</td>
                                     <td>{{ $payment->payment->name }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($payment->created_at)->format('H:i:s d/m/Y') }}</td>
                                     <td>
                                         @if ($payment->document)
                                             @php
@@ -396,11 +396,7 @@
                             <input type="number" class="form-control" id="amount" name="amount" required>
                             <span class="invalid-feedback" id="amountError" style="display: none;"></span>
                         </div>
-                        <div class="mb-3">
-                            <label for="payment_date" class="form-label">Ngày chuyển</label>
-                            <input type="date" class="form-control" id="payment_date" name="payment_date" required>
-                            <span class="invalid-feedback" id="dateError" style="display: none;"></span>
-                        </div>
+
                         <div class="mb-3">
                             <label for="note" class="form-label">Nội dung</label>
                             <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
@@ -431,7 +427,6 @@
 
             // Lấy giá trị từ form
             const amount = document.getElementById('amount').value.trim();
-            const paymentDate = document.getElementById('payment_date').value.trim();
             const note = document.getElementById('note').value.trim();
             const paymentId = document.getElementById('paymentId').value.trim();
             let isValid = true;
@@ -446,12 +441,6 @@
                 isValid = false;
             }
 
-            // Validate date
-            if (!paymentDate) {
-                document.getElementById('dateError').innerText = 'Vui lòng chọn ngày chuyển tiền';
-                document.getElementById('dateError').style.display = 'block';
-                isValid = false;
-            }
 
             // Validate note
             if (!note) {

@@ -27,7 +27,7 @@
                         <div class="col-sm-auto">
                             <div>
                                 <a href="{{ route('inventories.export') }}" class="btn btn-success btn-sm no-loading"><i
-                                    class="ri-download-2-fill align-middle me-1"></i>Xuất Excel</a>
+                                        class="ri-download-2-fill align-middle me-1"></i>Xuất Excel</a>
                             </div>
                         </div>
                         <div class="col-sm-auto">
@@ -49,7 +49,8 @@
                 <div class="card-body">
                     <form id="mainForm" method="POST" action="{{ route('inventories.bulkUpdate') }}">
                         @csrf
-                        <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle fs-11"
+                        <table id="myTable"
+                            class="table table-bordered dt-responsive nowrap table-striped align-middle fs-11"
                             style="width:100%">
                             <thead>
                                 <tr>
@@ -339,7 +340,7 @@
                         error: function(xhr, status, error) {
                             $('#historyContent').html(
                                 '<tr><td colspan="5" class="text-center text-danger">Lỗi khi tải dữ liệu nhập hàng</td></tr>'
-                                );
+                            );
                         }
                     });
 
@@ -373,7 +374,7 @@
                         console.error('Error loading export history:', error);
                         $('#exportHistoryContent').html(
                             '<tr><td colspan="5" class="text-center text-danger">Lỗi khi tải dữ liệu</td></tr>'
-                            );
+                        );
                     });
 
                     $('#historyDetailModal').modal('show');
@@ -439,17 +440,17 @@
             // Thêm event listener cho form submit
             document.getElementById('priceEditForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                
+
                 // Reset loading state
                 const submitButton = this.querySelector('button[type="submit"]');
                 const originalButtonText = submitButton.innerHTML;
-                
+
                 // Reset loading state của master layout
                 const loadingOverlay = document.querySelector('.loading');
                 if (loadingOverlay) {
                     loadingOverlay.style.display = 'none';
                 }
-                
+
                 // Reset all error messages
                 document.querySelectorAll('.alert-danger').forEach(el => {
                     el.classList.add('d-none');
@@ -462,7 +463,7 @@
                 priceInputs.forEach(function(input) {
                     const errorDiv = document.getElementById(`error-${input.id}`);
                     const price = input.value.trim();
-                    
+
                     // Kiểm tra giá trị rỗng
                     if (!price) {
                         isValid = false;
@@ -504,30 +505,31 @@
 
                 // Set loading state
                 submitButton.disabled = true;
-                submitButton.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...';
+                submitButton.innerHTML =
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Đang xử lý...';
 
                 // Submit form
                 this.submit();
             });
 
             // Thêm xử lý khi modal đóng để reset form và loading state
-            $('#editPriceModal').on('hidden.bs.modal', function () {
+            $('#editPriceModal').on('hidden.bs.modal', function() {
                 const form = document.getElementById('priceEditForm');
                 const submitButton = form.querySelector('button[type="submit"]');
-                
+
                 // Reset form
                 form.reset();
-                
+
                 // Reset loading state
                 submitButton.disabled = false;
                 submitButton.innerHTML = 'Cập nhật';
-                
+
                 // Reset loading state của master layout
                 const loadingOverlay = document.querySelector('.loading');
                 if (loadingOverlay) {
                     loadingOverlay.style.display = 'none';
                 }
-                
+
                 // Reset error messages
                 document.querySelectorAll('.alert-danger').forEach(el => {
                     el.classList.add('d-none');

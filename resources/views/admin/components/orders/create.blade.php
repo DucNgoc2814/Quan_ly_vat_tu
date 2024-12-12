@@ -35,7 +35,7 @@
                     <div class="card-body mb-2">
                         <label class="form-label" for="customer_id">Tên người đặt</label>
                         <div class="position-relative">
-                            <input type="text" name="customer_display" class="form-control" id="customer_id" 
+                            <input type="text" name="customer_display" class="form-control" id="customer_id"
                                 placeholder="Nhập tên người đặt" autocomplete="off">
                             <input type="hidden" name="hidden_customer_id" id="hidden_customer_id">
                             <input type="hidden" name="hidden_customer_id" id="hidden_customer_id">
@@ -198,11 +198,11 @@
                                 <div class="col-md-12" id="product_default_item">
                                     <div class="mb-2">
                                         <label class="form-label">Sản phẩm</label>
-                                        <select class="form-select @error('variation_id') is-invalid @enderror" 
+                                        <select class="form-select @error('variation_id') is-invalid @enderror"
                                             name="variation_id[]" onchange="updatePrice(this)">
                                             <option value="0">Chọn Sản Phẩm</option>
                                             @foreach ($variation as $variant)
-                                                <option value="{{ $variant->id }}" 
+                                                <option value="{{ $variant->id }}"
                                                     data-price="{{ $variant->retail_price }}"
                                                     data-stock="{{ $variant->stock }}">
                                                     {{ $variant->name }}
@@ -219,13 +219,14 @@
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Giá sản phẩm</label>
-                                                <input type="number" class="form-control" name="product_price[]" readonly>
+                                                <input type="number" class="form-control" name="product_price[]"
+                                                    readonly>
                                             </div>
                                         </div>
                                         <div class="col-4">
                                             <div class="mb-2">
                                                 <label class="form-label">Số lượng sản phẩm</label>
-                                                <input type="number" class="form-control" name="product_quantity[]" 
+                                                <input type="number" class="form-control" name="product_quantity[]"
                                                     placeholder="Nhập số lượng" onchange="calculateTotal()">
                                             </div>
                                         </div>
@@ -248,7 +249,8 @@
                             <div class="col-md-6">
                                 <div class="mb-0">
                                     <label class="form-label">Tổng giá trị đơn hàng</label>
-                                    <input type="text" class="form-control" id="total_amount" readonly name="total_amount">
+                                    <input type="text" class="form-control" id="total_amount" readonly
+                                        name="total_amount">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -288,6 +290,69 @@
     </script>
 @endsection
 @section('scripts')
+    {{-- Import các file JS cần thiết --}}
+    <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
+
+    {{-- Định nghĩa các functions --}}
+    <script>
+        // Định nghĩa window.confirmTransaction trước
+        window.confirmTransaction = function(type, id) {
+            event?.preventDefault();
+            event?.stopPropagation();
+            
+            Swal.fire({
+                title: 'Xác nhận',
+                text: "Bạn có chắc chắn muốn xác nhận giao dịch này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
+                        headers: {
+                            'X-CSRF-TOKEN': token,
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (response.data?.success) {
+                            Swal.fire({
+                                title: 'Thành công!',
+                                text: response.data.message || 'Xác nhận thành công',
+                                icon: 'success'
+                            }).then(() => location.reload());
+                        }
+                    })
+                    .catch(error => {
+                        Swal.fire({
+                            title: 'Lỗi!',
+                            text: error.response?.data?.message || 'Có lỗi xảy ra',
+                            icon: 'error'
+                        });
+                    });
+                }
+            });
+        };
+
+        // Hàm xử lý trạng thái đơn hàng
+        function handleStatusChange(select) {
+            // Giữ nguyên code cũ của hàm này
+        }
+
+        // Khởi tạo các event listeners khi DOM ready
+        $(document).ready(function() {
+            // Xử lý status dropdown
+            $('.status-select').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            });
+        });
+    </script>
     <script>
         function updateAllSelects() {
             const allSelects = document.querySelectorAll('[name="variation_id[]"]');
@@ -301,11 +366,11 @@
                     options += `
                         ${currentValue == "{{ $variant->id }}" || !selectedValues.includes("{{ $variant->id }}") ?
                             `<option value="{{ $variant->id }}"
-                                data-price="{{ $variant->retail_price }}"
-                                data-stock="{{ $variant->stock }}"
-                                ${currentValue == "{{ $variant->id }}" ? 'selected' : ''}>
-                                {{ $variant->name }}
-                            </option>` 
+                                        data-price="{{ $variant->retail_price }}"
+                                        data-stock="{{ $variant->stock }}"
+                                        ${currentValue == "{{ $variant->id }}" ? 'selected' : ''}>
+                                        {{ $variant->name }}
+                                    </option>` 
                         : ''}
                     `;
                 @endforeach
@@ -360,7 +425,8 @@
         function addProduct() {
             let id = 'product_' + Math.random().toString(36).substring(2, 15).toLowerCase();
             // Lấy tất cả các sản phẩm đã chọn
-            const selectedProducts = Array.from(document.querySelectorAll('[name="variation_id[]"]')).map(select => select.value);
+            const selectedProducts = Array.from(document.querySelectorAll('[name="variation_id[]"]')).map(select => select
+                .value);
 
             // Tạo options cho select mới, loại bỏ các sản phẩm đã chọn
             let productOptions = `<option value="0">Chọn Sản Phẩm</option>`;
@@ -368,10 +434,10 @@
                 productOptions += `
                     ${!selectedProducts.includes("{{ $variant->id }}") ?
                         `<option value="{{ $variant->id }}"
-                            data-price="{{ $variant->retail_price }}"
-                            data-stock="{{ $variant->stock }}">
-                            {{ $variant->name }}
-                        </option>`
+                                    data-price="{{ $variant->retail_price }}"
+                                    data-stock="{{ $variant->stock }}">
+                                    {{ $variant->name }}
+                                </option>`
                     : ''}
                 `;
             @endforeach
@@ -603,38 +669,36 @@
                             addressListContainer.innerHTML = '';
                             locations.forEach(location => {
                                 addressListContainer.innerHTML += `
-                            <div class="address-item mb-3">
-                                <strong>${location.customer_name}</strong> <br>
-                                ${location.number_phone} <br>
-                                ${location.address} <br>
-                                ${location.ward}, ${location.district}, ${location.province} <br>
-                                ${location.is_active ? '<span class="badge bg-danger">Mặc định</span>' : ''}
-                                <div class="mt-2">
-                                    <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">Chọn</button>
-                                    ${!location.is_active ? `
-                                                                                                                                                                            <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                                                                                                            <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                                                                                                        ` : `
-                                                                                                                                                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                                                                                                        `}
-                                                                                                                                                                            <button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
-                                                                                                                                                                            <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">Thiết lập mặc định</button>
-                                                                                                                                                                        ` : `
-                                                                                                                                                                            <button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>
-                                                                                                                                                                        `}
-                                </div>
-                            </div>
-                            <hr>
-                        `;
+                                                    <div class="address-item mb-3">
+                                                        <strong>${location.customer_name}</strong><br>
+                                                        ${location.number_phone}<br>
+                                                        ${location.address}<br>
+                                                        ${location.ward}, ${location.district}, ${location.province}<br>
+                                                        ${location.is_active ? '<span class="badge bg-danger">Mặc định</span>' : ''}
+                                                        <div class="mt-2">
+                                                            <button class="btn btn-link p-0 text-primary" onclick="selectAddress('${location.id}')">
+                                                                Chọn
+                                                            </button>
+                                                            ${location.is_active ? 
+                                                                `<button class="btn btn-secondary btn-sm" disabled>Thiết lập mặc định</button>` :
+                                                                `<button class="btn btn-link p-0 text-danger" onclick="deleteAddress('${location.id}')">Xóa</button>
+                                                                     <button class="btn btn-outline-secondary btn-sm" onclick="event.preventDefault(); setDefaultAddress('${location.id}')">
+                                                                        Thiết lập mặc định
+                                                                     </button>`
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                `;
                             });
-                        })
-                        .catch(error => console.error('Error:', error));
+                        });
                 }
             });
-
             window.deleteAddress = function(locationId) {
                 if (confirm("Bạn có chắc muốn xóa địa chỉ này không?")) {
-                    fetch(`/locations/${locationId}`, {
+                    fetch(` / locations / $ {
+                                                            locationId
+                                                        }
+                                                        `, {
                             method: 'DELETE',
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
@@ -927,7 +991,7 @@
             Object.entries(receiverFields).forEach(([fieldId, fieldName]) => {
                 const field = document.getElementById(fieldId);
                 const value = field.value.trim();
-                
+
                 if (!value) {
                     isValid = false;
                     addErrorMessage(field, `${fieldName} không được để trống`);
@@ -946,7 +1010,7 @@
             // 3. Validate địa chỉ
             const locationFields = ['provinces', 'districts', 'wards'];
             const locationInput = document.getElementById('location-input');
-            
+
             if (locationFields.some(field => !document.getElementById(field).value)) {
                 isValid = false;
                 addErrorMessage(locationInput, 'Vui lòng chọn đầy đủ địa chỉ');
@@ -988,7 +1052,10 @@
             if (!isValid) {
                 const firstError = document.querySelector('.is-invalid');
                 if (firstError) {
-                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center'
+                    });
                 }
             }
 
@@ -1048,5 +1115,3 @@
         });
     </script>
 @endsection
-
-

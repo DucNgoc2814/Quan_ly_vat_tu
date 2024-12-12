@@ -28,7 +28,7 @@ class InventoryController extends Controller
             ->orderBy('id', 'desc')
             ->get();
         $allVariationIds = Variation::pluck('id')->toArray();
-        
+
         $inventories = Inventory::orderBy('id', 'desc')->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('variations', 'inventories', 'allVariationIds'));
     }
@@ -42,40 +42,40 @@ class InventoryController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-// App/Http/Controllers/Admin/InventoryController.php
+    // App/Http/Controllers/Admin/InventoryController.php
 
-public function bulkUpdate(Request $request)
-{
-    // Validate request
-    $request->validate([
-        'selected_variations' => 'required|string',
-        'wholesale_price.*' => 'required|numeric|min:1', // Thêm validation rule này
-    ], [
-        'selected_variations.required' => 'Vui lòng chọn ít nhất một sản phẩm',
-        'wholesale_price.*.required' => 'Giá bán lẻ không được để trống',
-        'wholesale_price.*.numeric' => 'Giá bán lẻ phải là số',
-        'wholesale_price.*.min' => 'Giá bán lẻ phải lớn hơn 0',
-    ]);
+    public function bulkUpdate(Request $request)
+    {
+        // Validate request
+        $request->validate([
+            'selected_variations' => 'required|string',
+            'wholesale_price.*' => 'required|numeric|min:1', // Thêm validation rule này
+        ], [
+            'selected_variations.required' => 'Vui lòng chọn ít nhất một sản phẩm',
+            'wholesale_price.*.required' => 'Giá bán lẻ không được để trống',
+            'wholesale_price.*.numeric' => 'Giá bán lẻ phải là số',
+            'wholesale_price.*.min' => 'Giá bán lẻ phải lớn hơn 0',
+        ]);
 
-    try {
-        $selectedIds = explode(',', $request->selected_variations);
-        $wholesalePrices = $request->wholesale_price;
+        try {
+            $selectedIds = explode(',', $request->selected_variations);
+            $wholesalePrices = $request->wholesale_price;
 
-        foreach ($selectedIds as $id) {
-            if (isset($wholesalePrices[$id])) {
-                $variation = Variation::find($id);
-                if ($variation) {
-                    $variation->retail_price = $wholesalePrices[$id];
-                    $variation->save();
+            foreach ($selectedIds as $id) {
+                if (isset($wholesalePrices[$id])) {
+                    $variation = Variation::find($id);
+                    if ($variation) {
+                        $variation->retail_price = $wholesalePrices[$id];
+                        $variation->save();
+                    }
                 }
             }
-        }
 
-        return redirect()->back()->with('success', 'Cập nhật giá bán lẻ thành công');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật giá bán lẻ');
+            return redirect()->back()->with('success', 'Cập nhật giá bán lẻ thành công');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Có lỗi xảy ra khi cập nhật giá bán lẻ');
+        }
     }
-}
 
     public function historyImport($id)
     {
@@ -96,33 +96,32 @@ public function bulkUpdate(Request $request)
 
     public function import(Request $request)
     {
-        // Kiểm tra xem file có được tải lên hay không
+        // Validate file upload
         $request->validate([
             'file' => 'required|mimes:xlsx,xls,csv',
         ]);
 
-        // Nhập dữ liệu từ file Excel
+        // Import data from Excel
         $importedVariations = Excel::toArray(new VariationsImport, $request->file('file'));
 
-        // Lọc ra những biến thể có sự khác biệt về số lượng
+        // Filter out null values
         $differences = array_filter($importedVariations[0], function ($variation) {
-            return $variation !== null; // Chỉ lấy những biến thể không null
+            return $variation !== null;
         });
 
-        // Tạo mảng để lưu trữ kết quả so sánh
         $results = [];
+        $missingSKUs = [];
 
-        // So sánh số lượng
+        // Compare quantities
         foreach ($differences as $variation) {
-            // Truy vấn biến thể từ cơ sở dữ liệu
+            // Query variation from database
             $dbVariation = Variation::where('sku', $variation['ma_bien_the'])->first();
 
-            // Nếu biến thể tồn tại trong cơ sở dữ liệu
             if ($dbVariation) {
-                $currentStock = $dbVariation->stock; // Số lượng trên web
-                $deviation = $variation['so_luong'] - $currentStock; // Tính độ lệch
+                $currentStock = $dbVariation->stock;
+                $deviation = $variation['so_luong'] - $currentStock;
 
-                if ($deviation !== 0) { // Nếu có độ lệch
+                if ($deviation !== 0) {
                     $results[] = [
                         'ma_bien_the' => $variation['ma_bien_the'],
                         'ten_bien_the' => $variation['ten_bien_the'],
@@ -130,19 +129,42 @@ public function bulkUpdate(Request $request)
                         'thuong_hieu' => $variation['thuong_hieu'],
                         'so_luong' => $variation['so_luong'],
                         'dvt' => $variation['dvt'],
-                        'current_stock' => $currentStock, // Số lượng trên web
-                        'deviation' => $deviation, // Độ lệch
+                        'current_stock' => $currentStock,
+                        'deviation' => $deviation,
+                        'status' => 'exists' // Add status for existing SKUs
                     ];
                 }
+            } else {
+                // Add to missing SKUs list
+                $missingSKUs[] = $variation['ma_bien_the'];
+
+                // Add to results with missing status
+                $results[] = [
+                    'ma_bien_the' => $variation['ma_bien_the'],
+                    'ten_bien_the' => $variation['ten_bien_the'],
+                    'danh_muc' => $variation['danh_muc'],
+                    'thuong_hieu' => $variation['thuong_hieu'],
+                    'so_luong' => $variation['so_luong'],
+                    'dvt' => $variation['dvt'],
+                    'current_stock' => 0,
+                    'deviation' => 0,
+                    'status' => 'missing' // Add status for missing SKUs
+                ];
             }
         }
 
-        // Kiểm tra xem có dữ liệu nào không
+        // If there are missing SKUs, show error message
+        if (!empty($missingSKUs)) {
+            $message = 'Không tìm thấy các mã sau trong hệ thống: ' . implode(', ', $missingSKUs);
+            session()->flash('warning', $message);
+        }
+
+        // Check if there's any data
         if (empty($results)) {
             return redirect()->back()->with('error', 'Không có sản phẩm nào có sự khác biệt về số lượng.');
         }
 
-        // Lưu results vào session trước khi return view
+        // Save results to session
         session(['results' => $results]);
 
         return view('admin.components.inventories.difference', compact('results'));
@@ -183,11 +205,11 @@ public function bulkUpdate(Request $request)
         try {
             $orderDetails = Order_detail::with(['order', 'order.customer'])
                 ->where('variation_id', $id)
-                ->whereHas('order', function($query) {
+                ->whereHas('order', function ($query) {
                     $query->whereIn('status_id', [4]); // Đơn đã hoàn thành
                 })
                 ->get()
-                ->map(function($detail) {
+                ->map(function ($detail) {
                     return [
                         'slug' => $detail->order->slug,
                         'quantity' => $detail->quantity,

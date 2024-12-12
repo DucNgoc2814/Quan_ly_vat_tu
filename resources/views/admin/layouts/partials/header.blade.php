@@ -225,7 +225,8 @@
                                     <div data-simplebar style="max-height: 300px;" class="pe-2">
                                         @if (isset($transactions) && $transactions->count() > 0)
                                             @foreach ($transactions->sortByDesc('created_at') as $transaction)
-                                                <div class="text-reset notification-item d-block dropdown-item" data-transaction-id="{{ $transaction->id }}">
+                                                <div class="text-reset notification-item d-block dropdown-item"
+                                                    data-transaction-id="{{ $transaction->id }}">
                                                     <div class="d-flex">
                                                         <div class="flex-shrink-0">
                                                             <div class="avatar-xs me-3">
@@ -377,6 +378,62 @@
 </header>
 @section('scripts')
     <script>
+        // Thêm hàm xác nhận giao dịch
+        function confirmTransaction(type, id) {
+            event.stopPropagation();
+
+            Swal.fire({
+                title: 'Xác nhận',
+                text: "Bạn có chắc chắn muốn xác nhận giao dịch này?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Đồng ý',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                    axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
+                            headers: {
+                                'X-CSRF-TOKEN': token,
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                        .then(response => {
+                            console.log('Success Response:', response);
+                            if (response.data && response.data.success) {
+                                Swal.fire({
+                                    title: 'Thành công!',
+                                    text: response.data.message || 'Giao dịch đã được xác nhận.',
+                                    icon: 'success'
+                                }).then(() => {
+                                    location.reload();
+                                });
+                            } else {
+                                throw new Error(response.data?.message || 'Có lỗi xảy ra');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error details:', {
+                                error: error,
+                                response: error.response,
+                                status: error.response?.status,
+                                data: error.response?.data
+                            });
+
+                            Swal.fire({
+                                title: 'Lỗi!',
+                                text: error.response?.data?.message ||
+                                    'Có lỗi xảy ra khi xác nhận giao dịch',
+                                icon: 'error'
+                            });
+                        });
+                }
+            });
+        }
         document.addEventListener('DOMContentLoaded', function() {
             const lowStockProducts = @json($lowStockProducts);
 
@@ -496,86 +553,30 @@
         }
 
 
-        // Thêm hàm xác nhận giao dịch
-        function confirmTransaction(type, id) {
-            event.stopPropagation();
-
-            Swal.fire({
-                title: 'Xác nhận',
-                text: "Bạn có chắc chắn muốn xác nhận giao dịch này?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Đồng ý',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
-                    axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
-                            headers: {
-                                'X-CSRF-TOKEN': token,
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => {
-                            console.log('Success Response:', response);
-                            if (response.data && response.data.success) {
-                                Swal.fire({
-                                    title: 'Thành công!',
-                                    text: response.data.message || 'Giao dịch đã được xác nhận.',
-                                    icon: 'success'
-                                }).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                throw new Error(response.data?.message || 'Có lỗi xảy ra');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error details:', {
-                                error: error,
-                                response: error.response,
-                                status: error.response?.status,
-                                data: error.response?.data
-                            });
-
-                            Swal.fire({
-                                title: 'Lỗi!',
-                                text: error.response?.data?.message ||
-                                    'Có lỗi xảy ra khi xác nhận giao dịch',
-                                icon: 'error'
-                            });
-                        });
-                }
-            });
-        }
 
         // Thêm lắng nghe sự kiện realtime
-window.Echo.channel('transactions')
-    .listen('TransactionConfirmed', (e) => {
-        // Tìm và xóa thông báo có transaction id tương ứng
-        const notificationElement = document.querySelector(`[data-transaction-id="${e.transactionId}"]`);
-        if (notificationElement) {
-            notificationElement.remove();
+        window.Echo.channel('transactions')
+            .listen('TransactionConfirmed', (e) => {
+                // Tìm và xóa thông báo có transaction id tương ứng
+                const notificationElement = document.querySelector(`[data-transaction-id="${e.transactionId}"]`);
+                if (notificationElement) {
+                    notificationElement.remove();
 
-            // Cập nhật số lượng thông báo
-            updateNotificationCount();
-        }
-    });
+                    // Cập nhật số lượng thông báo
+                    updateNotificationCount();
+                }
+            });
 
-// Hàm cập nhật số lượng thông báo
-function updateNotificationCount() {
-    const notificationCount = document.querySelectorAll('.notification-item').length;
-    const badge = document.querySelector('.badge');
-    if (badge) {
-        badge.textContent = notificationCount;
-        if (notificationCount === 0) {
-            badge.style.display = 'none';
+        // Hàm cập nhật số lượng thông báo
+        function updateNotificationCount() {
+            const notificationCount = document.querySelectorAll('.notification-item').length;
+            const badge = document.querySelector('.badge');
+            if (badge) {
+                badge.textContent = notificationCount;
+                if (notificationCount === 0) {
+                    badge.style.display = 'none';
+                }
+            }
         }
-    }
-}
     </script>
 @endsection

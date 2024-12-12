@@ -362,13 +362,33 @@ class OrderController extends Controller
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
             DB::transaction(function () use ($request) {
-                // Generate slug
+                $contract = Contract::findOrFail($request->contract_id);
+                $paymentRatio = $contract->paid_amount / $contract->total_amount;
+
+                $orderTotal = 0;
+                for ($i = 0; $i < count($request->variation_id); $i++) {
+                    if ($request->product_quantity[$i] > 0) {
+                        $price = $contract->contractDetails[$i]->price;
+                        $orderTotal += $price * $request->product_quantity[$i];
+                    }
+                }
+
+                $maxAllowed = $contract->total_amount * $paymentRatio;
+                if ($orderTotal > $maxAllowed) {
+                    throw new Exception(
+                        sprintf(
+                            'Giá trị đơn hàng (%s) vượt quá giới hạn cho phép (%s) dựa trên số tiền đã thanh toán của hợp đồng (%s%%)',
+                            number_format($orderTotal),
+                            number_format($maxAllowed),
+                            number_format($paymentRatio * 100, 1)
+                        )
+                    );
+                }
                 $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, 3);
                 $timestamp = now()->format('His');
                 $slug = 'DHB' . $randomChars . $timestamp;
 
                 // Get contract and validate prices
-                $contract = Contract::findOrFail($request->contract_id);
                 $prices = [];
                 foreach ($contract->contractDetails as $detail) {
                     $prices[] = $detail->price;
@@ -418,10 +438,10 @@ class OrderController extends Controller
                 for ($i = 0; $i < count($request->variation_id); $i++) {
                     if ($request->product_quantity[$i] > 0) {
                         $variation = Variation::findOrFail($request->variation_id[$i]);
-                        
+
                         // Check stock availability
                         if ($variation->stock < $request->product_quantity[$i]) {
-                            throw new Exception("Số lượng trong kho không đủ cho sản phẩm " . $variation->name);
+                            return redirect()->back()->with('error', 'Sản phẩm ' . $variation->name . ' không đủ số lượng trong kho.');
                         }
 
                         Order_detail::create([

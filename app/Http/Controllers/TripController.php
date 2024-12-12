@@ -37,7 +37,7 @@ class TripController extends Controller
                      ->where('trips.status', '=', 1);
              })
              ->whereNull('trips.id')
-             ->where('employees.role_id', '=', 4)
+             ->where('employees.role_id', '=', 3)
              ->where('employees.is_active', '=', 1)
              ->select('employees.*')
              ->get();

@@ -193,7 +193,7 @@
                             <td>{{ $payment->note }}</td>
                             <td>{{ number_format($payment->amount) }} VNĐ</td>
                             <td>{{ $payment->payment->name }}</td>
-                            <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($payment->created_at)->format('H:i:s d/m/Y') }}</td>
                             <td>
                                 @if ($payment->document)
                                     @php
@@ -325,21 +325,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form method="POST"
+                <form method="POST" id='orderForm'
+                    data-pending-total="{{ $contract->orders->whereIn('status_id', [1, 2, 3])->sum('total_amount') }}"
                     action="{{ route('order.storeContract', ['contract_id' => $contract->id, 'customer_id' => $contract->customer_id]) }}">
                     @csrf
                     <div class="mb-3">
                         <label for="recipientName" class="form-label">Tên người nhận</label>
                         <input type="text" class="form-control" id="recipientName" name="customer_name">
-                        <span class="invalid-feedback" id="recipientNameError" style="display: none;"></span>
+                        <div class="invalid-feedback" id="recipientNameError"></div>
                     </div>
+
                     <div class="mb-3">
                         <label for="recipientPhone" class="form-label">Số điện thoại người nhận</label>
                         <input type="text" class="form-control" id="recipientPhone" name="number_phone">
-                        <span class="invalid-feedback" id="recipientPhoneError" style="display: none;"></span>
+                        <div class="invalid-feedback" id="recipientPhoneError"></div>
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label" for="">Địa chỉ người nhận</label>
+                        <label class="form-label">Địa chỉ người nhận</label>
                         <div class="location-select-container">
                             <div class="input-with-icons" id="input-with-icons">
                                 <input type="text" id="location-input" class="form-control"
@@ -358,6 +361,7 @@
                                             <option selected disabled value="">Chọn Tỉnh/Thành phố</option>
                                         </select>
                                         <input type="hidden" id="province_name" name="province_name">
+                                        <div class="invalid-feedback" id="provinceError"></div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="districts" class="form-label">Quận/Huyện</label>
@@ -365,6 +369,7 @@
                                             <option selected disabled value="">Chọn Quận/Huyện</option>
                                         </select>
                                         <input type="hidden" id="district_name" name="district_name">
+                                        <div class="invalid-feedback" id="districtError"></div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="wards" class="form-label">Phường/Xã</label>
@@ -372,10 +377,12 @@
                                             <option selected disabled value="">Chọn Phường/Xã</option>
                                         </select>
                                         <input type="hidden" id="ward_name" name="ward_name">
+                                        <div class="invalid-feedback" id="wardError"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="invalid-feedback" id="addressError"></div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="address">Địa chỉ cụ thể(*Số nhà, đường, ngõ, ngách, cụm dân
@@ -396,6 +403,7 @@
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng đã đặt</th>
                                     <th>Số lượng cần thêm</th>
+                                    <th>Giá</th>
                                     <th>Tồn kho</th>
                                     <th>Số lượng cần mua</th>
                                 </tr>
@@ -411,6 +419,7 @@
                                         <td>{{ $item->variation->name }}</td>
                                         <td>{{ $item->quantity }}</td>
                                         <td>{{ $item->remaining_quantity }}</td>
+                                        <td>{{ $item->price }}</td>
                                         <td>{{ $item->variation->stock }}</td>
                                         <td>
                                             <input type="hidden" name="variation_id[]"
@@ -581,13 +590,11 @@
     const locationDropdown = document.getElementById('location-dropdown');
     const inputWithIcons = document.getElementById('input-with-icons');
 
-    // Toggle dropdown visibility and show search icon when input is clicked
     locationInput.addEventListener('focus', function() {
         locationDropdown.classList.add('active');
         inputWithIcons.classList.add('focused');
     });
 
-    // Hide search icon and dropdown when clicking outside
     document.addEventListener('click', function(event) {
         if (!inputWithIcons.contains(event.target) && !locationDropdown.contains(event.target)) {
             locationDropdown.classList.remove('active');
@@ -595,7 +602,6 @@
         }
     });
 
-    // Load Provinces on page load
     async function loadProvinces() {
         try {
             const response = await fetch('https://api.mysupership.vn/v1/partner/areas/province');
@@ -651,7 +657,6 @@
         });
     }
 
-    // Update input value when all selects are chosen
     function updateLocationInput() {
         const province = document.getElementById('provinces').selectedOptions[0]?.text || '';
         const district = document.getElementById('districts').selectedOptions[0]?.text || '';
@@ -660,7 +665,6 @@
         locationInput.value = `${province}, ${district}, ${ward}`.trim();
     }
 
-    // Event listeners for dropdown changes
     document.getElementById('provinces').addEventListener('change', function() {
         const provinceName = this.selectedOptions[0].text;
         document.getElementById('province_name').value = provinceName; // Gán tên tỉnh vào input ẩn
@@ -681,7 +685,6 @@
         updateLocationInput();
     });
 
-    // Call loadProvinces when page loads
     document.addEventListener('DOMContentLoaded', loadProvinces);
 </script>
 
@@ -742,96 +745,115 @@
 
         document.getElementById('submitOrder').addEventListener('click', function(event) {
             event.preventDefault();
+            let isValid = true;
+            let hasProducts = false;
 
-            // Kiểm tra và log FormData trước khi gửi
-            const formData = new FormData(document.querySelector('form'));
-            console.log('FormData before send:', Object.fromEntries(formData));
+            const resetErrors = () => {
+                document.querySelectorAll('.invalid-feedback').forEach(element => {
+                    element.style.display = 'none';
+                    element.textContent = '';
+                });
+                document.querySelectorAll('.form-control, .form-select').forEach(element => {
+                    element.classList.remove('is-invalid');
+                });
+            };
 
-            // Thêm contract_id vào FormData
-            formData.append('contract_id', '{{ $contract->id }}');
+            resetErrors();
 
-            // Kiểm tra dữ liệu sản phẩm
-            const selectedProducts = document.querySelectorAll('.product-checkbox:checked');
-            if (selectedProducts.length === 0) {
+            const checkedProducts = document.querySelectorAll('.product-checkbox:checked');
+            hasProducts = checkedProducts.length > 0;
+
+            if (!hasProducts) {
+                isValid = false;
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi',
                     text: 'Vui lòng chọn ít nhất một sản phẩm'
                 });
-                return;
             }
 
-            // Debug log for form data
-            console.log('Form Data:', {
-                recipientName: document.getElementById('recipientName').value,
-                recipientPhone: document.getElementById('recipientPhone').value,
-                address: document.getElementById('address').value,
-                province: document.getElementById('province_name').value,
-                district: document.getElementById('district_name').value,
-                ward: document.getElementById('ward_name').value,
-                contract_id: '{{ $contract->id }}',
-                customer_id: '{{ $contract->customer_id }}'
-            });
+            if (hasProducts) {
+                const recipientName = document.getElementById('recipientName');
+                const nameError = document.getElementById('recipientNameError');
+                if (!recipientName.value.trim()) {
+                    isValid = false;
+                    recipientName.classList.add('is-invalid');
+                    nameError.textContent = 'Vui lòng nhập tên người nhận';
+                    nameError.style.display = 'block';
+                }
 
-            // Log selected products and quantities
-            const selectedProducts = [];
-            document.querySelectorAll('.product-checkbox:checked').forEach(checkbox => {
-                const row = checkbox.closest('tr');
-                const variationId = row.querySelector('[name="variation_id[]"]').value;
-                const quantity = row.querySelector('.quantity-input').value;
-                selectedProducts.push({
-                    variation_id: variationId,
-                    quantity: quantity,
-                    remaining: row.querySelector('td:nth-child(5)').textContent
-                });
-            });
-            console.log('Selected Products:', selectedProducts);
+                const phoneNumber = document.getElementById('recipientPhone');
+                const phoneError = document.getElementById('recipientPhoneError');
+                const phoneRegex = /^(0[0-9]{9})$/;
+                if (!phoneRegex.test(phoneNumber.value.trim())) {
+                    isValid = false;
+                    phoneNumber.classList.add('is-invalid');
+                    phoneError.textContent = 'Số điện thoại không hợp lệ';
+                    phoneError.style.display = 'block';
+                }
 
-            // Submit form using AJAX instead of regular submit
-            const formData = new FormData(document.querySelector('form'));
-            
-            $.ajax({
-                url: '{{ route('order.storeContract') }}',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    console.log('Server Response:', response);
-                    if(response.success) {
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thành công',
-                            text: response.message
-                        }).then(() => {
-                            location.reload();
-                        });
-                    } else {
+                const provinces = document.getElementById('provinces');
+                if (!provinces.value) {
+                    isValid = false;
+                    provinces.classList.add('is-invalid');
+                    document.getElementById('provinceError').textContent = 'Vui lòng chọn Tỉnh/Thành phố';
+                    document.getElementById('provinceError').style.display = 'block';
+                }
+                const districts = document.getElementById('districts');
+                if (!districts.value) {
+                    isValid = false;
+                    districts.classList.add('is-invalid');
+                    document.getElementById('districtError').textContent = 'Vui lòng chọn Quận/Huyện';
+                    document.getElementById('districtError').style.display = 'block';
+                }
+                const wards = document.getElementById('wards');
+                if (!wards.value) {
+                    isValid = false;
+                    wards.classList.add('is-invalid');
+                    document.getElementById('wardError').textContent = 'Vui lòng chọn Phường/Xã';
+                    document.getElementById('wardError').style.display = 'block';
+                }
+                const address = document.getElementById('address');
+                const addressError = document.getElementById('addressError');
+                if (!address.value.trim()) {
+                    isValid = false;
+                    address.classList.add('is-invalid');
+                    addressError.textContent = 'Vui lòng nhập địa chỉ cụ thể';
+                    addressError.style.display = 'block';
+                }
+
+                if (isValid) {
+                    const contractPaidAmount = parseFloat('{{ $contract->paid_amount }}');
+                    const pendingOrdersTotal = parseFloat(document.getElementById('orderForm').dataset
+                        .pendingTotal) || 0;
+
+                    let currentOrderTotal = 0;
+                    checkedProducts.forEach(checkbox => {
+                        const row = checkbox.closest('tr');
+                        const quantity = parseFloat(row.querySelector('.quantity-input').value);
+                        const priceText = row.querySelector('td:nth-child(6)').textContent;
+                        const price = parseFloat(priceText.replace(/[^\d]/g, ''));
+                        currentOrderTotal += quantity * price;
+                    });
+
+                    if ((currentOrderTotal + pendingOrdersTotal) > contractPaidAmount) {
+                        isValid = false;
                         Swal.fire({
                             icon: 'error',
-                            title: 'Lỗi',
-                            text: response.message
+                            title: 'Không thể tạo đơn hàng',
+                            text: `Tổng giá trị đơn hàng mới (${new Intl.NumberFormat('vi-VN').format(currentOrderTotal)}đ) và các đơn chưa hoàn thành (${new Intl.NumberFormat('vi-VN').format(pendingOrdersTotal)}đ) vượt quá số tiền đã thanh toán của hợp đồng (${new Intl.NumberFormat('vi-VN').format(contractPaidAmount)}đ)`
                         });
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error:', {
-                        status: status,
-                        error: error,
-                        response: xhr.responseText
-                    });
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Lỗi',
-                        text: 'Có lỗi xảy ra khi tạo đơn hàng'
-                    });
                 }
-            });
+            }
+
+            if (isValid && hasProducts) {
+                document.getElementById('orderForm').submit();
+            }
         });
     </script>
 @endpush
 
-<!-- Modal for Creating Payment History -->
 <div class="modal fade" id="createPaymentModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -861,11 +883,7 @@
                         <input type="number" class="form-control" id="amount" name="amount" required>
                         <span class="invalid-feedback" id="amountError" style="display: none;"></span>
                     </div>
-                    <div class="mb-3">
-                        <label for="payment_date" class="form-label">Ngày chuyển</label>
-                        <input type="date" class="form-control" id="payment_date" name="payment_date" required>
-                        <span class="invalid-feedback" id="dateError" style="display: none;"></span>
-                    </div>
+
                     <div class="mb-3">
                         <label for="note" class="form-label">Nội dung</label>
                         <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
@@ -892,44 +910,26 @@
     <script>
         document.getElementById('submitPayment').addEventListener('click', function(event) {
             event.preventDefault();
-
-            // Lấy giá trị từ form
             const amount = document.getElementById('amount').value.trim();
-            const paymentDate = document.getElementById('payment_date').value.trim();
             const note = document.getElementById('note').value.trim();
             const paymentId = document.getElementById('paymentId').value.trim();
             let isValid = true;
-
-            // Reset error messages
             document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
-
-            // Validate amount
             if (!amount || amount <= 0) {
                 document.getElementById('amountError').innerText = 'Vui lòng nhập số tiền hợp lệ';
                 document.getElementById('amountError').style.display = 'block';
                 isValid = false;
             }
-
-            // Validate date
-            if (!paymentDate) {
-                document.getElementById('dateError').innerText = 'Vui lòng chọn ngày chuyển tiền';
-                document.getElementById('dateError').style.display = 'block';
-                isValid = false;
-            }
-
-            // Validate note
             if (!note) {
                 document.getElementById('noteError').innerText = 'Vui lòng nhập nội dung chuyển tiền';
                 document.getElementById('noteError').style.display = 'block';
                 isValid = false;
             }
-
             if (paymentId == '') {
                 document.getElementById('paymentError').innerText = 'Vui lòng chọn phương thức thanh toán';
                 document.getElementById('paymentError').style.display = 'block';
                 isValid = false;
             }
-
             if (isValid) {
                 document.getElementById('paymentForm').submit();
             }
@@ -940,10 +940,7 @@
 @push('scripts')
     <script>
         function showDocument(url, fileType) {
-            // Ngăn chặn sự kiện click lan tỏa
             event.stopPropagation();
-
-            // Nếu là file ảnh
             Swal.fire({
                 imageUrl: url,
                 imageWidth: 500,
