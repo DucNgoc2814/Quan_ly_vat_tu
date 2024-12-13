@@ -423,21 +423,6 @@
     </script>
 
     <script>
-        window.Echo.channel('order-created')
-            .listen('NewOrderCreated', (e) => {
-                console.log('Nhận được event:', e);
-                Swal.fire({
-                    title: 'Đơn hàng mới!',
-                    text: `Đơn hàng bán "${e.order.slug}" vừa được tạo`,
-                    icon: 'info',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    location.reload();
-                });
-            });
-    </script>
-
-    <script>
         window.Echo.channel('order-cancel')
             .listen('OrderCancelRequested', (e) => {
                 Swal.fire({

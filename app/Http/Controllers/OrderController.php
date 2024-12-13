@@ -31,6 +31,7 @@ use PhpOffice\PhpWord\TemplateProcessor;
 use PhpOffice\PhpWord\Writer\HTML;
 use PhpOffice\PhpWord\Settings;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Jobs\ProcessOrder; // Thêm dòng này
 
 // use PhpOffice\PhpWord\PhpWord;
 /**
@@ -95,86 +96,33 @@ class OrderController extends Controller
 
         date_default_timezone_set('Asia/Ho_Chi_Minh');
         try {
-            DB::transaction(function () use ($request) {
-                $customer_id = strtok($request->customer_id, ' ');
-                $customers = Customer::findOrFail($request->customer_id);
-                $randomChars = substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ'), 0, length: 3);
-                $timestamp = now()->format('His');
-                $slug = 'DHB' . $randomChars . $timestamp;
-                $dataOrder = [
-                    "customer_id" => $customer_id,
-                    "contract_id" => $request->contract_id,
-                    'employee_id' => JWTAuth::setToken(Session::get('token'))->getPayload()->get('id'),
-                    "status_id" => 1,
-                    "slug" => $slug,
-                    "customer_name" => $request->customer_name ?? $customers->name,
-                    "email" => $request->email ?? $customers->email,
-                    "number_phone" => $request->number_phone ?? $customers->number_phone,
-                    "province" => $request->province_name,
-                    "district" => $request->district_name,
-                    "ward" => $request->ward_name,
-                    "address" => $request->address,
-                    "total_amount" => $request->total_amount,
-                    "paid_amount" => 0,
-                ];
-                $order = Order::query()->create($dataOrder);
-                event(new NewOrderCreated($order));
-                OrderStatusTime::create([
-                    'order_id' => $order->id,
-                    'order_status_id' => 1,
-                ]);
-                $existingLocation = Location::where('customer_id', $order->customer_id)
-                    ->where('customer_name', $order->customer_name)
-                    ->where('email', $order->email)
-                    ->where('number_phone', $order->number_phone)
-                    ->where('province', $order->province)
-                    ->where('district', $order->district)
-                    ->where('ward', $order->ward)
-                    ->where('address', $order->address)
-                    ->first();
-                if (!$existingLocation && $order->province) {
-                    $locationCount = Location::where('customer_id', $order->customer_id)->count();
-                    $location = new Location();
-                    $location->customer_id = $order->customer_id;
-                    $location->customer_name = $order->customer_name;
-                    $location->email = $order->email;
-                    $location->number_phone = $order->number_phone;
-                    $location->province = $order->province;
-                    $location->district = $order->district;
-                    $location->ward = $order->ward;
-                    $location->address = $order->address;
-                    $location->is_active = $locationCount === 0 ? 1 : 0;
-                    $location->save();
-                }
-                if (is_array($request->variation_id) && count($request->variation_id) > 0) {
-                    foreach ($request->variation_id as $key => $variationID) {
-                        $variation = Variation::findOrFail($variationID);
-                        $orderQuantity = $request->product_quantity[$key];
-                        logger("Số lượng tồn kho (stock) của variation $variationID là: " . $variation->stock);
-                        logger("Số lượng mua của variation $variationID là: " . $orderQuantity);
-                        if ($orderQuantity > $variation->stock) {
-                            throw new Exception('Số lượng mua vượt quá số lượng hàng tồn kho.');
-                        }
-                        Order_detail::query()->create([
-                            'order_id' => $order->id,
-                            'variation_id' => $variationID,
-                            'quantity' => $orderQuantity,
-                            'price' => $request->product_price[$key],
-                        ]);
-                        $variation->stock -= $orderQuantity;
-                        $variation->save();
-                    }
-                } else {
-                    throw new Exception('Không có sản phẩm nào để thêm vào đơn hàng');
-                }
-            });
+            // Validate stocks trước khi xử lý
+            if (!is_array($request->variation_id) || count($request->variation_id) == 0) {
+                return back()->with('error', 'Không có sản phẩm nào để thêm vào đơn hàng');
+            }
 
+            foreach ($request->variation_id as $key => $variationID) {
+                $variation = Variation::findOrFail($variationID);
+                $orderQuantity = $request->product_quantity[$key];
+                if ($orderQuantity > $variation->stock) {
+                    return back()->with('error', 'Số lượng mua của sản phẩm ' . $variation->name . ' vượt quá số lượng hàng tồn kho.');
+                }
+            }
 
-            return redirect()->route('order.index')->with('success', 'Thêm mới đơn hàng thành công!');
-        } catch (\Throwable $th) {
-            return redirect()->back()->with('error', 'Có lỗi xảy ra khi tạo đơn hàng: ' . $th->getMessage());
+            // Prepare order data
+            $orderData = $request->all();
+            $orderData['employee_id'] = JWTAuth::setToken(Session::get('token'))->getPayload()->get('id');
+
+            // Use queue to process order
+            ProcessOrder::dispatch($orderData)->onQueue('orders');
+
+            return redirect()->route('order.index')
+                ->with('success', 'Thêm mới đơn hàng thành công.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Có lỗi xảy ra: ' . $e->getMessage());
         }
     }
+
     public function createordercontract($contract_id)
     {
         $contract = Contract::with('contractDetails.variation')->findOrFail($contract_id);
