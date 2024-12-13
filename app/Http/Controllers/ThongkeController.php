@@ -247,75 +247,30 @@ class ThongkeController extends Controller
 
         return view('admin.components.thongke.doanhthu', compact('tongDoanhThuTheoNgay', 'tongDoanhThuTheoThang', 'tongDoanhThuTheoNam', 'tongDoanhThuTheoTuan', 'tongDoanhThuThucTheoNgay', 'tongDoanhThuThucTheoThang', 'tongDoanhThuThucTheoNam', 'tongDoanhThuThucTheoTuan', 'tongDoanhThu', 'tongDoanhThuThuc', 'listDoanhThu', 'tongKhoanChiTheoNgay', 'tongKhoanChiTheoThang', 'tongKhoanChiTheoNam', 'tongKhoanChiTheoTuan', 'tongKhoanChiThucTheoNgay', 'tongKhoanChiThucTheoThang', 'tongKhoanChiThucTheoNam', 'tongKhoanChiThucTheoTuan', 'tongKhoanChi', 'tongKhoanChiThuc', 'listKhoanChi', 'mergedData'));
     }
-    public function thongKeSanPham()
+    public function thongKeSanPham(Request $request)
     {
+        $startDate1 = $request->get('start_date1', Carbon::now()->startOfMonth()->format('Y-m-d'));
+        $endDate1 = $request->get('end_date1', Carbon::now()->endOfMonth()->format('Y-m-d'));
+        $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->format('Y-m-d'));
+        $endDate = $request->get('end_date', Carbon::now()->endOfMonth()->format('Y-m-d'));
+        $variationId = $request->get('variation_id');
+
         // Top 5 sản phẩm bán chạy
-        $topProductsData = [
-            'day' => DB::table('order_details')
-                ->join('variations', 'order_details.variation_id', '=', 'variations.id')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.status_id', 4)
-                ->whereDate('orders.created_at', Carbon::today())
-                ->select(
-                    'variations.sku',
-                    'variations.name as variation_name',
-                    DB::raw('SUM(order_details.quantity) as total_sold'),
-                    DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
-                )
-                ->groupBy('variations.sku', 'variations.name')
-                ->orderByDesc('total_revenue') // Changed from total_sold to total_revenue
-                ->limit(5)
-                ->get(),
-
-            'week' => DB::table('order_details')
-                ->join('variations', 'order_details.variation_id', '=', 'variations.id')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.status_id', 4)
-                ->whereBetween('orders.created_at', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
-                ->select(
-                    'variations.sku',
-                    'variations.name as variation_name',
-                    DB::raw('SUM(order_details.quantity) as total_sold'),
-                    DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
-                )
-                ->groupBy('variations.sku', 'variations.name')
-                ->orderByDesc('total_revenue')
-                ->limit(5)
-                ->get(),
-
-            'month' => DB::table('order_details')
-                ->join('variations', 'order_details.variation_id', '=', 'variations.id')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.status_id', 4)
-                ->whereMonth('orders.created_at', Carbon::now()->month)
-                ->whereYear('orders.created_at', Carbon::now()->year)
-                ->select(
-                    'variations.sku',
-                    'variations.name as variation_name',
-                    DB::raw('SUM(order_details.quantity) as total_sold'),
-                    DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
-                )
-                ->groupBy('variations.sku', 'variations.name')
-                ->orderByDesc('total_revenue')
-                ->limit(5)
-                ->get()
-                ->toArray(),  // Convert to array for JavaScript use
-            'year' => DB::table('order_details')
-                ->join('variations', 'order_details.variation_id', '=', 'variations.id')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.status_id', 4)
-                ->whereYear('orders.created_at', Carbon::now()->year)
-                ->select(
-                    'variations.sku',
-                    'variations.name as variation_name',
-                    DB::raw('SUM(order_details.quantity) as total_sold'),
-                    DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
-                )->groupBy('variations.sku', 'variations.name')
-                ->orderByDesc('total_revenue')
-                ->limit(5)
-                ->get()
-                ->toArray()
-        ];
+        $topProducts = DB::table('order_details')
+            ->join('variations', 'order_details.variation_id', '=', 'variations.id')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status_id', 4)
+            ->whereBetween('orders.created_at', [$startDate1 . ' 00:00:00', $endDate1 . ' 23:59:59'])
+            ->select(
+                'variations.sku',
+                'variations.name as variation_name',
+                DB::raw('SUM(order_details.quantity) as total_sold'),
+                DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
+            )
+            ->groupBy('variations.sku', 'variations.name')
+            ->orderByDesc('total_revenue')
+            ->limit(5)
+            ->get();
 
         // Chi tiết tất cả sản phẩm
         $productStats = DB::table('order_details')
@@ -362,88 +317,66 @@ class ThongkeController extends Controller
             ->limit(5)
             ->get();
 
-        // Add new time-based statistics
-        $timeBasedStats = [
-            'daily' => DB::table('order_details')
-                ->join('variations', 'order_details.variation_id', '=', 'variations.id')
-                ->join('products', 'variations.product_id', '=', 'products.id')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.status_id', 4)
-                ->select(
-                    'products.id as product_id',
-                    'products.name as product_name',
-                    DB::raw('DATE(orders.created_at) as date'),
-                    DB::raw('SUM(order_details.quantity) as total_quantity'),
-                    DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
-                )
-                ->groupBy('products.id', 'products.name', 'date')
-                ->orderBy('date')
-                ->get(),
-
-            'weekly' => DB::table('order_details')
-                ->join('variations', 'order_details.variation_id', '=', 'variations.id')
-                ->join('products', 'variations.product_id', '=', 'products.id')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.status_id', 4)
-                ->select(
-                    'products.id as product_id',
-                    'products.name as product_name',
-                    DB::raw('YEAR(orders.created_at) as year'),
-                    DB::raw('WEEK(orders.created_at) as week'),
-                    DB::raw('SUM(order_details.quantity) as total_quantity'),
-                    DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
-                )
-                ->groupBy('products.id', 'products.name', 'year', 'week')
-                ->orderBy('year')
-                ->orderBy('week')
-                ->get(),
-
-            'monthly' => DB::table('order_details')
-                ->join('variations', 'order_details.variation_id', '=', 'variations.id')
-                ->join('products', 'variations.product_id', '=', 'products.id')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.status_id', 4)
-                ->select(
-                    'products.id as product_id',
-                    'products.name as product_name',
-                    DB::raw('YEAR(orders.created_at) as year'),
-                    DB::raw('MONTH(orders.created_at) as month'),
-                    DB::raw('SUM(order_details.quantity) as total_quantity'),
-                    DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
-                )
-                ->groupBy('products.id', 'products.name', 'year', 'month')
-                ->orderBy('year')
-                ->orderBy('month')
-                ->get(),
-
-            'yearly' => DB::table('order_details')
-                ->join('variations', 'order_details.variation_id', '=', 'variations.id')
-                ->join('products', 'variations.product_id', '=', 'products.id')
-                ->join('orders', 'order_details.order_id', '=', 'orders.id')
-                ->where('orders.status_id', 4)
-                ->select(
-                    'products.id as product_id',
-                    'products.name as product_name',
-                    DB::raw('YEAR(orders.created_at) as year'),
-                    DB::raw('SUM(order_details.quantity) as total_quantity'),
-                    DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
-                )
-                ->groupBy('products.id', 'products.name', 'year')
-                ->orderBy('year')
-                ->get()
-        ];
-
-        // Get list of all products for dropdown
-        $products = DB::table('Variations')
-            ->select('id', 'name')
+        // Số lượng sản phẩm bán và nhập theo ngày
+        $productData = DB::table('order_details')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status_id', 4)
+            ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+            ->select(
+                DB::raw('DATE(orders.created_at) as date'),
+                DB::raw('SUM(order_details.quantity) as total_sold')
+            )
+            ->groupBy(DB::raw('DATE(orders.created_at)'))
+            ->orderBy('date', 'asc')
             ->get();
+
+        $productDataQuery = DB::table('order_details')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status_id', 4)
+            ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+
+        // Import data query    
+        $importDataQuery = DB::table('import_order_details')
+            ->join('import_orders', 'import_order_details.import_order_id', '=', 'import_orders.id')
+            ->where('import_orders.status', 3)
+            ->whereBetween('import_orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+
+        // Add variation filter if selected
+        if ($variationId) {
+            $productDataQuery->where('order_details.variation_id', $variationId);
+            $importDataQuery->where('import_order_details.variation_id', $variationId);
+        }
+
+        $importData = $importDataQuery
+            ->select(
+                DB::raw('DATE(import_orders.created_at) as date'),
+                DB::raw('SUM(import_order_details.quantity) as total_imported')
+            )
+            ->groupBy(DB::raw('DATE(import_orders.created_at)'))
+            ->orderBy('date', 'asc')
+            ->get();
+
+
+
+        $variations = Variation::all();
+
+        if ($request->ajax()) {
+            return response()->json([
+                'topProducts' => $topProducts,
+                'productData' => $productData,
+                'importData' => $importData
+            ]);
+        }
 
         return view('admin.components.thongke.sanpham', compact(
             'productStats',
-            'topProductsData',
             'inventory',
-            'timeBasedStats', // Add new stats
-            'products' // Add products for dropdown
+            'topProducts',
+            'productData',
+            'importData',
+            'startDate',
+            'endDate',
+            'variations'
         ));
     }
     public function thongKeDoiTac()
@@ -778,5 +711,29 @@ class ThongkeController extends Controller
         $filteredStats = $query->orderBy('total_orders', 'desc')->get();
 
         return response()->json($filteredStats);
+    }
+
+    public function getTopProducts(Request $request)
+    {
+        $startDate = $request->get('start_date');
+        $endDate = $request->get('end_date');
+
+        $topProducts = DB::table('order_details')
+            ->join('variations', 'order_details.variation_id', '=', 'variations.id')
+            ->join('orders', 'order_details.order_id', '=', 'orders.id')
+            ->where('orders.status_id', 4)
+            ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+            ->select(
+                'variations.sku',
+                'variations.name as variation_name',
+                DB::raw('SUM(order_details.quantity) as total_sold'),
+                DB::raw('SUM(order_details.quantity * order_details.price) as total_revenue')
+            )
+            ->groupBy('variations.sku', 'variations.name')
+            ->orderByDesc('total_revenue')
+            ->limit(5)
+            ->get();
+
+        return response()->json($topProducts);
     }
 }

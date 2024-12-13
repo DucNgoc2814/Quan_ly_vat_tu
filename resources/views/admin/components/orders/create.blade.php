@@ -20,7 +20,7 @@
     <form method="POST" class="form-datalist" action="{{ route('order.store') }}">
         @csrf
         <input type="hidden" name="debug" value="1">
-        <input type="hidden" name="debug" value="1">
+        <input type="hidden" name="use_queue" value="1">
         <div class="card-header border-0 mb-4">
             <div class="row g-4">
                 <div class="col-sm-auto">
@@ -37,7 +37,6 @@
                         <div class="position-relative">
                             <input type="text" name="customer_display" class="form-control" id="customer_id"
                                 placeholder="Nhập tên người đặt" autocomplete="off">
-                            <input type="hidden" name="hidden_customer_id" id="hidden_customer_id">
                             <input type="hidden" name="hidden_customer_id" id="hidden_customer_id">
                             <div class="customer-list-dropdown" style="display:none;">
                                 <ul class="list-group">
@@ -290,69 +289,6 @@
     </script>
 @endsection
 @section('scripts')
-    {{-- Import các file JS cần thiết --}}
-    <script src="{{ asset('themes/admin/assets/js/JqueryDate.js') }}"></script>
-
-    {{-- Định nghĩa các functions --}}
-    <script>
-        // Định nghĩa window.confirmTransaction trước
-        window.confirmTransaction = function(type, id) {
-            event?.preventDefault();
-            event?.stopPropagation();
-            
-            Swal.fire({
-                title: 'Xác nhận',
-                text: "Bạn có chắc chắn muốn xác nhận giao dịch này?",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Đồng ý',
-                cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                    axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
-                        headers: {
-                            'X-CSRF-TOKEN': token,
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => {
-                        if (response.data?.success) {
-                            Swal.fire({
-                                title: 'Thành công!',
-                                text: response.data.message || 'Xác nhận thành công',
-                                icon: 'success'
-                            }).then(() => location.reload());
-                        }
-                    })
-                    .catch(error => {
-                        Swal.fire({
-                            title: 'Lỗi!',
-                            text: error.response?.data?.message || 'Có lỗi xảy ra',
-                            icon: 'error'
-                        });
-                    });
-                }
-            });
-        };
-
-        // Hàm xử lý trạng thái đơn hàng
-        function handleStatusChange(select) {
-            // Giữ nguyên code cũ của hàm này
-        }
-
-        // Khởi tạo các event listeners khi DOM ready
-        $(document).ready(function() {
-            // Xử lý status dropdown
-            $('.status-select').on('click', function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            });
-        });
-    </script>
     <script>
         function updateAllSelects() {
             const allSelects = document.querySelectorAll('[name="variation_id[]"]');
