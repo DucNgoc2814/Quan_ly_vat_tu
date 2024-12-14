@@ -88,17 +88,17 @@ class ProcessOrder implements ShouldQueue
                 "total_amount" => str_replace(',', '', $this->orderData['total_amount']),
                 "paid_amount" => 0,
             ]);
-            if (!$this->orderData['contract_id']) {
+            if (!isset($this->orderData['contract_id'])) {
                 $existingLocation = Location::where('customer_id', $order->customer_id)
-                    ->where('customer_name', $order->customer_name)
-                    ->where('email', $order->email)
-                    ->where('number_phone', $order->number_phone)
-                    ->where('province', $order->province)
-                    ->where('district', $order->district)
-                    ->where('ward', $order->ward)
-                    ->where('address', $order->address)
-                    ->first();
-
+                ->where('customer_name', $order->customer_name)
+                ->where('email', $order->email)
+                ->where('number_phone', $order->number_phone)
+                ->where('province', $order->province)
+                ->where('district', $order->district)
+                ->where('ward', $order->ward)
+                ->where('address', $order->address)
+                ->first();
+                
                 if (!$existingLocation && $order->province) {
                     $locationCount = Location::where('customer_id', $order->customer_id)->count();
                     $location = new Location();

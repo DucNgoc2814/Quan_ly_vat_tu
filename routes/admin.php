@@ -354,6 +354,7 @@ Route::prefix('quan-ly-ban-hang')
     ->group(function () {
         Route::get('/export-invoice/{orderId}', [OrderController::class, 'exportInvoice'])->name('invoice');
         Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract');
+        Route::post('/yeu-cau-hoan-tien/{slug}', [OrderController::class, 'requestCancelAndRefund'])->name('order.cancel.refund');
     });
 // routes/admin.php
 Route::prefix('assignment')->group(function () {

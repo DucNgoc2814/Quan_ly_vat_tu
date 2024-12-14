@@ -8,8 +8,9 @@ use App\Traits\PaymentTrait;
 use App\Http\Requests\StorePayment_historyRequest;
 use App\Http\Requests\UpdatePayment_historyRequest;
 use App\Models\Contract;
+use App\Models\Import_order;
 use App\Models\Order;
-use App\Models\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -87,7 +88,7 @@ class PaymentHistoryController extends Controller
         }
     }
 
-    public function confirm($id)
+    public function confirm(Request $request, $id)
     {
         Log::info('Payment confirmation started', ['id' => $id]);
 
@@ -99,7 +100,6 @@ class PaymentHistoryController extends Controller
             if (!$payment) {
                 throw new \Exception('Không tìm thấy giao dịch');
             }
-            Log::info('Found payment', ['payment' => $payment->toArray()]);
             if ($payment->status == 1) {
                 throw new \Exception('Giao dịch này đã được xác nhận trước đó');
             }
@@ -111,6 +111,28 @@ class PaymentHistoryController extends Controller
             } elseif ($payment->transaction_type === 'contract') {
                 $contract = Contract::findOrFail($payment->related_id);
                 $customer = $contract->customer;
+            } elseif ($payment->transaction_type === 'refund') {
+                $order = Order::findOrFail($payment->related_id);
+                $order->paid_amount = $order->paid_amount - $payment->amount;
+                if ($request->hasFile('proof-document')) {
+                    $proofPath = $request->file('proof-document')->store('payment', 'public');
+                    $payment->document = $proofPath;
+                }
+                $order->save();
+                $payment->status = 1;
+                $payment->save();
+
+                DB::commit();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Xác nhận thanh toán thành công'
+                ]);
+            } elseif ($payment->transaction_type === 'purchase') {
+                if ($request->hasFile('proof-document')) {
+                    $proofPath = $request->file('proof-document')->store('payment', 'public');
+                    $payment->document = $proofPath;
+                }
+                DB::commit();
             }
 
             if ($customer) {
@@ -129,7 +151,6 @@ class PaymentHistoryController extends Controller
                 $payment->amount
             );
 
-            Log::info('Payment updated successfully');
             DB::commit();
             $payment->status = 1;
             $payment->save();

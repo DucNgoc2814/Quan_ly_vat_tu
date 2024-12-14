@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('payment_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('payment_id')->constrained('payments');
-            $table->enum('transaction_type', ['sale', 'contract', 'purchase']);
+            $table->enum('transaction_type', ['sale', 'contract', 'purchase', 'refund']);
             $table->foreignId('related_id');
             $table->integer('amount');
             $table->string('document');

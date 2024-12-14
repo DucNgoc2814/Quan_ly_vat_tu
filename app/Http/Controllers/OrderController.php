@@ -18,6 +18,7 @@ use App\Models\Order_detail;
 use App\Models\Order_status;
 use App\Models\OrderStatusTime;
 use App\Models\Payment;
+use App\Models\Payment_history;
 use App\Models\Variation;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
@@ -331,7 +332,7 @@ class OrderController extends Controller
                     return $request->product_quantity[$i] > 0 ?
                         $detail->price * $request->product_quantity[$i] : 0;
                 })->sum();
-                
+
             $prices = [];
             foreach ($contract->contractDetails as $detail) {
                 $prices[] = $detail->price;
@@ -472,5 +473,39 @@ class OrderController extends Controller
 
         // Download file PDF
         return response()->download($pdfFilePath)->deleteFileAfterSend(true);
+    }
+
+    public function requestCancelAndRefund(Request $request, $slug)
+    {
+        try {
+            DB::transaction(function () use ($request, $slug) {
+                $order = Order::where('slug', $slug)->firstOrFail();
+                $order->cancel_reason = $request->cancel_reason;
+                $order->save();
+                event(new OrderCancelRequested($order));
+                $document_path = null;
+
+                if ($request->hasFile('qr_image')) {
+                    $document_path = $request->file('qr_image')->store('payment', 'public');
+                }
+                $retentionAmount = $order->total_amount * 0.3; // 30% total order
+                $refundAmount = $order->paid_amount - $retentionAmount;
+                // 2. Create refund record
+                Payment_history::create([
+                    'related_id' => $order->id,
+                    'transaction_type' => 'refund',
+                    'amount' => $refundAmount,
+                    'note' => 'Hoàn tiền ĐH: ' . $order->slug,
+                    'document' => $document_path,
+                    'payment_id' => 1
+                ]);
+
+                DB::commit();
+            });
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 }
