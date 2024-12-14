@@ -82,11 +82,11 @@
                             <h5 class="card-title flex-grow-1 mb-0">Hóa đơn</h5>
                         </div>
                         <div class="flex-shrink-0">
-                            <a href="{{ route('order.invoice', $data->first()->order->id) }}"
-                                class="btn btn-success btn-sm">
+                            <button type="button" class="btn btn-success btn-sm"
+                                onclick="exportInvoice({{ $data->first()->order->id }})"
+                                id="exportBtn-{{ $data->first()->order->id }}">
                                 <i class="ri-download-2-fill align-middle me-1"></i>Xuất hóa đơn
-                            </a>
-
+                            </button>
                         </div>
                     </div>
                     <div class="card-body">
@@ -258,10 +258,6 @@
                         <ul class="list-unstyled mb-0 vstack gap-3">
                             <li>
                                 <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0">
-                                        <img src="{{ asset('storage/' . $data->first()->order->tripDetail->trip->employee->image) }}"
-                                            alt="" class="avatar-sm rounded">
-                                    </div>
                                     <div class="flex-grow-1 ms-3">
                                         <h6 class="fs-14 mb-1">
                                             {{ $data->first()->order->tripDetail->trip->employee->name ?? 'Chưa có tài xế giao' }}
@@ -315,9 +311,6 @@
                     <ul class="list-unstyled mb-0 vstack gap-3">
                         <li>
                             <div class="d-flex align-items-center">
-                                <div class="flex-shrink-0">
-                                    <img src="assets/images/users/avatar-3.jpg" alt="" class="avatar-sm rounded">
-                                </div>
                                 <div class="flex-grow-1 ms-3">
                                     <h6 class="fs-14 mb-1">
                                         {{ $data->first()->order->customer->name ?? 'Đơn hàng hợp đồng' }}</h6>
@@ -422,6 +415,30 @@
 @endsection
 @push('scripts')
     <script>
+        function exportInvoice(orderId) {
+            const btn = document.getElementById(`exportBtn-${orderId}`);
+            const originalContent = btn.innerHTML;
+
+            // Set loading state
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Đang xuất...';
+            btn.disabled = true;
+
+            // Create hidden form
+            const form = document.createElement('form');
+            form.method = 'GET';
+            form.action = `{{ route('order.invoice', '') }}/${orderId}`;
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+
+            // Reset button immediately
+            setTimeout(() => {
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }, 1000);
+            document.body.classList.add('no-loading');
+        }
+        
         document.getElementById('submitPayment').addEventListener('click', function(event) {
             event.preventDefault();
 
@@ -463,12 +480,12 @@
 @endpush
 
 <!-- Modal hiển thị ảnh chứng từ -->
-<div class="modal fade" id="documentModal" tabindex="-1">
+<div class="modal fade" id="documentModal" tabindex="-1" data-bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Chứng từ thanh toán</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
                 <img id="documentImage" src="" alt="Chứng từ" style="max-width: 100%; height: auto;">
@@ -647,43 +664,50 @@
             });
         });
 
-        function showDocument(url, fileType) {
-            console.log('Loading document:', {
-                url: url,
-                fileType: fileType
+        document.addEventListener('DOMContentLoaded', function() {
+            const documentModal = document.getElementById('documentModal');
+            documentModal.addEventListener('hidden.bs.modal', function(e) {
+                e.stopPropagation();
+                const imageElement = document.getElementById('documentImage');
+                const pdfElement = document.getElementById('documentPdf');
+                imageElement.src = '';
+                pdfElement.src = '';
+            });
+        });
+
+        function showDocument(url, type) {
+            // Store current dropdown state
+            let dropdown = document.querySelector('#notificationDropdown .dropdown-menu');
+            let isDropdownVisible = dropdown.classList.contains('show');
+
+            Swal.fire({
+                imageUrl: url,
+                imageWidth: 800,
+                imageHeight: 'auto',
+                imageAlt: 'Chứng từ',
+                showCloseButton: true,
+                showConfirmButton: false,
+                backdrop: false,
+                didOpen: () => {
+                    // Hide dropdown when modal opens
+                    if (dropdown) {
+                        dropdown.classList.remove('show');
+                    }
+                },
+                willClose: () => {
+                    // Restore dropdown to previous state
+                    if (dropdown && isDropdownVisible) {
+                        setTimeout(() => {
+                            dropdown.classList.add('show');
+                        }, 100);
+                    }
+                }
             });
 
-            const modal = new bootstrap.Modal(document.getElementById('documentModal'));
-            const imageElement = document.getElementById('documentImage');
-            const pdfElement = document.getElementById('documentPdf');
-
-            // Reset display
-            imageElement.style.display = 'none';
-            pdfElement.style.display = 'none';
-
-            // Kiểm tra loại file và hiển thị tương ứng
-            if (['jpg', 'jpeg', 'png'].includes(fileType.toLowerCase())) {
-                // Thêm event listener trước khi set src
-                imageElement.onload = function() {
-                    console.log('Image loaded successfully');
-                };
-
-                imageElement.onerror = function(e) {
-                    console.error('Error loading image:', {
-                        src: this.src,
-                        error: e
-                    });
-                };
-
-                imageElement.src = url;
-                imageElement.style.display = 'block';
-            } else if (fileType.toLowerCase() === 'pdf') {
-                pdfElement.src = url;
-                pdfElement.style.display = 'block';
-            }
-
-            modal.show();
+            // Prevent event bubbling
+            event.stopPropagation();
         }
+    </script>
     </script>
 @endpush
 

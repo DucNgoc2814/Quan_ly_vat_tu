@@ -12,7 +12,6 @@ class InventoryDetail extends Model
     protected $fillable = [
         'inventory_id',
         'variation_id',
-        'variation_name',
         'actual_quantity',
         'system_quantity',
         'deviation',
@@ -23,6 +22,11 @@ class InventoryDetail extends Model
     public function inventory()
     {
         return $this->belongsTo(Inventory::class);
+    }
+
+    public function variation()
+    {
+        return $this->belongsTo(Variation::class);
     }
 
 }

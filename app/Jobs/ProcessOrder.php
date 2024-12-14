@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Events\NewOrderCreated;
+use App\Models\Location;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -87,7 +88,7 @@ class ProcessOrder implements ShouldQueue
                 "total_amount" => str_replace(',', '', $this->orderData['total_amount']),
                 "paid_amount" => 0,
             ]);
-
+      
             // Tạo chi tiết đơn hàng và cập nhật số lượng
             foreach ($this->orderData['variation_id'] as $key => $variationID) {
                 $lockKey = 'variation_stock_' . $variationID;

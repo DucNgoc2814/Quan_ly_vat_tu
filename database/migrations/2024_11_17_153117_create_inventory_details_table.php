@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('inventory_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('inventory_id')->constrained('inventories');
-            $table->string('variation_id');
-            $table->string('variation_name');
+            $table->foreignId('variation_id')->foreignId('variations');
             $table->integer('actual_quantity');
             $table->integer('system_quantity');
             $table->integer('deviation');

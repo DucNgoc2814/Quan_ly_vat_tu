@@ -760,94 +760,100 @@
 
             resetErrors();
 
+            // 1. Check product selection
             const checkedProducts = document.querySelectorAll('.product-checkbox:checked');
             hasProducts = checkedProducts.length > 0;
 
             if (!hasProducts) {
-                isValid = false;
                 Swal.fire({
                     icon: 'error',
                     title: 'Lỗi',
                     text: 'Vui lòng chọn ít nhất một sản phẩm'
                 });
+                return;
             }
 
-            if (hasProducts) {
-                const recipientName = document.getElementById('recipientName');
-                const nameError = document.getElementById('recipientNameError');
-                if (!recipientName.value.trim()) {
-                    isValid = false;
-                    recipientName.classList.add('is-invalid');
-                    nameError.textContent = 'Vui lòng nhập tên người nhận';
-                    nameError.style.display = 'block';
-                }
+            // 2. Validate recipient info
+            const recipientName = document.getElementById('recipientName');
+            const phoneNumber = document.getElementById('recipientPhone');
+            const phoneRegex = /^(0[0-9]{9})$/;
 
-                const phoneNumber = document.getElementById('recipientPhone');
-                const phoneError = document.getElementById('recipientPhoneError');
-                const phoneRegex = /^(0[0-9]{9})$/;
-                if (!phoneRegex.test(phoneNumber.value.trim())) {
-                    isValid = false;
-                    phoneNumber.classList.add('is-invalid');
-                    phoneError.textContent = 'Số điện thoại không hợp lệ';
-                    phoneError.style.display = 'block';
-                }
+            if (!recipientName.value.trim()) {
+                recipientName.classList.add('is-invalid');
+                document.getElementById('recipientNameError').textContent = 'Vui lòng nhập tên người nhận';
+                document.getElementById('recipientNameError').style.display = 'block';
+                isValid = false;
+            }
 
-                const provinces = document.getElementById('provinces');
-                if (!provinces.value) {
-                    isValid = false;
-                    provinces.classList.add('is-invalid');
-                    document.getElementById('provinceError').textContent = 'Vui lòng chọn Tỉnh/Thành phố';
-                    document.getElementById('provinceError').style.display = 'block';
-                }
-                const districts = document.getElementById('districts');
-                if (!districts.value) {
-                    isValid = false;
-                    districts.classList.add('is-invalid');
-                    document.getElementById('districtError').textContent = 'Vui lòng chọn Quận/Huyện';
-                    document.getElementById('districtError').style.display = 'block';
-                }
-                const wards = document.getElementById('wards');
-                if (!wards.value) {
-                    isValid = false;
-                    wards.classList.add('is-invalid');
-                    document.getElementById('wardError').textContent = 'Vui lòng chọn Phường/Xã';
-                    document.getElementById('wardError').style.display = 'block';
-                }
-                const address = document.getElementById('address');
-                const addressError = document.getElementById('addressError');
-                if (!address.value.trim()) {
-                    isValid = false;
-                    address.classList.add('is-invalid');
-                    addressError.textContent = 'Vui lòng nhập địa chỉ cụ thể';
-                    addressError.style.display = 'block';
-                }
+            if (!phoneRegex.test(phoneNumber.value.trim())) {
+                phoneNumber.classList.add('is-invalid');
+                document.getElementById('recipientPhoneError').textContent = 'Số điện thoại không hợp lệ';
+                document.getElementById('recipientPhoneError').style.display = 'block';
+                isValid = false;
+            }
 
-                if (isValid) {
-                    const contractPaidAmount = parseFloat('{{ $contract->paid_amount }}');
-                    const pendingOrdersTotal = parseFloat(document.getElementById('orderForm').dataset
-                        .pendingTotal) || 0;
+            // 3. Validate quantities for selected products
+            checkedProducts.forEach(checkbox => {
+                const row = checkbox.closest('tr');
+                const quantityInput = row.querySelector('.quantity-input');
+                const quantity = parseInt(quantityInput.value) || 0;
+                const maxQuantity = parseInt(quantityInput.getAttribute('max'));
+                const productName = row.querySelector('td:nth-child(3)').textContent;
 
-                    let currentOrderTotal = 0;
-                    checkedProducts.forEach(checkbox => {
-                        const row = checkbox.closest('tr');
-                        const quantity = parseFloat(row.querySelector('.quantity-input').value);
-                        const priceText = row.querySelector('td:nth-child(6)').textContent;
-                        const price = parseFloat(priceText.replace(/[^\d]/g, ''));
-                        currentOrderTotal += quantity * price;
+                if (quantity <= 0) {
+                    quantityInput.classList.add('is-invalid');
+                    row.querySelector('.invalid-feedback').textContent = 'Vui lòng nhập số lượng';
+                    row.querySelector('.invalid-feedback').style.display = 'block';
+                    isValid = false;
+                } else if (quantity > maxQuantity) {
+                    quantityInput.classList.add('is-invalid');
+                    row.querySelector('.invalid-feedback').textContent = `Số lượng không được vượt quá ${maxQuantity}`;
+                    row.querySelector('.invalid-feedback').style.display = 'block';
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Lỗi số lượng',
+                        text: `Sản phẩm "${productName}" vượt quá số lượng cho phép (tối đa: ${maxQuantity})`
                     });
-
-                    if ((currentOrderTotal + pendingOrdersTotal) > contractPaidAmount) {
-                        isValid = false;
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Không thể tạo đơn hàng',
-                            text: `Tổng giá trị đơn hàng mới (${new Intl.NumberFormat('vi-VN').format(currentOrderTotal)}đ) và các đơn chưa hoàn thành (${new Intl.NumberFormat('vi-VN').format(pendingOrdersTotal)}đ) vượt quá số tiền đã thanh toán của hợp đồng (${new Intl.NumberFormat('vi-VN').format(contractPaidAmount)}đ)`
-                        });
-                    }
+                    isValid = false;
                 }
+            });
+
+            // 4. Validate address
+            const provinces = document.getElementById('provinces');
+            const districts = document.getElementById('districts');
+            const wards = document.getElementById('wards');
+            const address = document.getElementById('address');
+
+            if (!provinces.value) {
+                provinces.classList.add('is-invalid');
+                document.getElementById('provinceError').textContent = 'Vui lòng chọn Tỉnh/Thành phố';
+                document.getElementById('provinceError').style.display = 'block';
+                isValid = false;
             }
 
-            if (isValid && hasProducts) {
+            if (!districts.value) {
+                districts.classList.add('is-invalid');
+                document.getElementById('districtError').textContent = 'Vui lòng chọn Quận/Huyện';
+                document.getElementById('districtError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!wards.value) {
+                wards.classList.add('is-invalid');
+                document.getElementById('wardError').textContent = 'Vui lòng chọn Phường/Xã';
+                document.getElementById('wardError').style.display = 'block';
+                isValid = false;
+            }
+
+            if (!address.value.trim()) {
+                address.classList.add('is-invalid');
+                document.getElementById('addressError').textContent = 'Vui lòng nhập địa chỉ cụ thể';
+                document.getElementById('addressError').style.display = 'block';
+                isValid = false;
+            }
+
+            // 5. Submit if valid
+            if (isValid) {
                 document.getElementById('orderForm').submit();
             }
         });

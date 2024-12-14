@@ -34,6 +34,7 @@ class OrderStatuSeeder extends Seeder
                 'name' => 'Hủy',
                 'description' => 'Đơn hàng đã bị hủy',
             ],
+
         ];
 
         foreach ($orderStatuses as $status) {

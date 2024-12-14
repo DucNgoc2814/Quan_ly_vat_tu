@@ -13,6 +13,7 @@ return new class extends Migration {
         Schema::create('order_status_times', function (Blueprint $table) {
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->foreignId('order_status_id')->constrained('order_statuses');
+            $table->primary(['order_id', 'order_status_id']);
             $table->timestamps();
         });
     }

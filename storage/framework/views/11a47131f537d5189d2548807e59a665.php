@@ -559,21 +559,6 @@
             });
         }
 
-
-
-        // Thêm lắng nghe sự kiện realtime
-        window.Echo.channel('transactions')
-            .listen('TransactionConfirmed', (e) => {
-                // Tìm và xóa thông báo có transaction id tương ứng
-                const notificationElement = document.querySelector(`[data-transaction-id="${e.transactionId}"]`);
-                if (notificationElement) {
-                    notificationElement.remove();
-
-                    // Cập nhật số lượng thông báo
-                    updateNotificationCount();
-                }
-            });
-
         // Hàm cập nhật số lượng thông báo
         function updateNotificationCount() {
             const notificationCount = document.querySelectorAll('.notification-item').length;
@@ -585,6 +570,8 @@
                 }
             }
         }
+
+       
     </script>
 <?php $__env->stopSection(); ?>
 <?php /**PATH C:\laragon\www\DuAnTotNghiep\resources\views/admin/layouts/partials/header.blade.php ENDPATH**/ ?>

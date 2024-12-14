@@ -22,15 +22,15 @@ class StoreContractRequest extends FormRequest
     public function rules(): array
     {
         return [
-            // 'customer_name' => 'required|string|min:3|max:255|regex:/^(?=.*[a-zA-Z]).*$/',
-            // 'customer_phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:10',
-            // 'customer_email' => 'required|email|max:255',
-            // 'variation_id' => 'required|array',
-            // 'variation_id.*' => 'required|exists:variations,id',
-            // 'quantity' => 'required|array',
-            // 'quantity.*' => 'required|integer|min:1',
-            // 'timestart' => 'required|date|after_or_equal:today',
-            // 'timeend' => 'required|date|after:timestart',
+            'customer_name' => 'required|string|min:3|max:255|regex:/^(?=.*[a-zA-Z]).*$/',
+            'customer_phone' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:10',
+            'customer_email' => 'required|email|max:255',
+            'variation_id' => 'required|array',
+            'variation_id.*' => 'required|exists:variations,id',
+            'quantity' => 'required|array',
+            'quantity.*' => 'required|integer|min:1',
+            'timestart' => 'required|date|after_or_equal:today',
+            'timeend' => 'required|date|after:timestart',
         ];
     }
 

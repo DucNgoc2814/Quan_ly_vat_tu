@@ -175,17 +175,18 @@ class InventoryController extends Controller
             $result = DB::transaction(function () use ($request) {
                 // Create new inventory record
                 $inventory = Inventory::create([
-                    'name' => 'Kiểm kê #' . rand(1000000, 999999)
+                    'name' => 'Kiểm kê #' . rand(0, 999999)
                 ]);
 
                 // Get the results from session
                 $results = session('results');
                 // Create inventory details for each variation 
                 foreach ($results as $variation) {
+                    $dbVariation = Variation::where('sku', $variation['ma_bien_the'])->first();
+
                     InventoryDetail::create([
                         'inventory_id' => $inventory->id,
-                        'variation_id' => $variation['ma_bien_the'],
-                        'variation_name' => $variation['ten_bien_the'],
+                        'variation_id' => $dbVariation->id, 
                         'actual_quantity' => $variation['so_luong'],
                         'system_quantity' => $variation['current_stock'],
                         'deviation' => $variation['deviation']

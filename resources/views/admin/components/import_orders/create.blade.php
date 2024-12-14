@@ -23,7 +23,7 @@
         <div class="row g-4">
             <div class="col-sm-auto">
                 <a href="{{ route('importOrder.index') }}" class="btn btn-success" id="addproduct-btn"><i
-                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+                        class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
             </div>
         </div>
     </div>
@@ -84,16 +84,26 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Thêm sản phẩm</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <div class="d-flex align-items-center gap-2">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
                 </div>
                 <div class="modal-body">
-                    <div class="mb-3 d-flex justify-content-between align-items-center">
-                        <input type="text" class="form-control me-2" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
-
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <input type="text" class="form-control w-50" id="searchInput" placeholder="Tìm kiếm sản phẩm...">
+                        <input type="file" id="excelFile" accept=".xlsx, .xls" style="display: none;"
+                            onchange="importExcel()">
+                        <button class="btn btn-success"
+                            onclick="document.getElementById('excelFile').click(); return false;">
+                            <i class="ri-download-2-fill align-middle"></i>Nhập Excel
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="addSelectedProducts()">
+                            Thêm đã chọn
+                        </button>
                     </div>
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                         <table class="table">
-                            <thead>
+                            <thead style="position: sticky; top: 0; background: white; z-index: 1;">
                                 <tr>
                                     <th>
                                         <input type="checkbox" id="selectAll" class="form-check-input">
@@ -109,18 +119,6 @@
                             </tbody>
                         </table>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="col-sm-auto">
-                        <div>
-                            <input type="file" id="excelFile" accept=".xlsx, .xls" style="display: none;" onchange="importExcel()">
-                            <a href="#" class="btn btn-success" onclick="document.getElementById('excelFile').click(); return false;">
-                                <i class="ri-download-2-fill align-middle me-1"></i>Nhập Excel
-                            </a>
-                        </div>
-                    </div>
-                    <button type="button" class="btn btn-primary" onclick="addSelectedProducts()">Thêm sản phẩm đã chọn</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
@@ -287,17 +285,16 @@
             });
         });
 
-        document.getElementById('searchInput').addEventListener('input', function() {
-            const searchValue = this.value.toLowerCase();
-            const productRows = document.querySelectorAll('#productList tr');
-
-            productRows.forEach(row => {
-                const productName = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-                if (productName.includes(searchValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+        $(document).ready(function() {
+            $('#searchInput').on('keyup', function() {
+                let searchText = $(this).val().toLowerCase();
+                $('#productList tr').filter(function() {
+                    let productCode = $(this).find('td:eq(1)').text().toLowerCase(); // Mã sản phẩm
+                    let productName = $(this).find('td:eq(2)').text().toLowerCase(); // Tên sản phẩm
+                    let matches = productCode.includes(searchText) || productName.includes(
+                        searchText);
+                    $(this).toggle(matches);
+                });
             });
         });
 
@@ -320,7 +317,9 @@
             reader.onload = function(e) {
                 try {
                     const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
+                    const workbook = XLSX.read(data, {
+                        type: 'array'
+                    });
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
 
                     const jsonData = XLSX.utils.sheet_to_json(firstSheet, {
@@ -333,7 +332,7 @@
                         const checkbox = row.querySelector('.product-checkbox');
                         const priceInput = row.querySelector('input[placeholder="Nhập giá"]');
                         const quantityInput = row.querySelector('input[placeholder="Nhập số lượng"]');
-                        
+
                         if (checkbox) checkbox.checked = false;
                         if (priceInput) priceInput.value = '';
                         if (quantityInput) quantityInput.value = '';
@@ -377,7 +376,8 @@
 
                         if (productRow) {
                             const priceInput = productRow.querySelector('input[placeholder="Nhập giá"]');
-                            const quantityInput = productRow.querySelector('input[placeholder="Nhập số lượng"]');
+                            const quantityInput = productRow.querySelector(
+                                'input[placeholder="Nhập số lượng"]');
                             const checkbox = productRow.querySelector('.product-checkbox');
 
                             if (priceInput && quantityInput && checkbox) {
@@ -425,7 +425,7 @@
         // Sửa lại event submit form
         document.getElementById('importOrderForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             const totalInput = document.getElementById('total_amount');
             const rawValue = parseInt(totalInput.value.replace(/[.,]/g, ''));
             totalInput.value = rawValue;

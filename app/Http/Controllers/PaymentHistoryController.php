@@ -94,6 +94,8 @@ class PaymentHistoryController extends Controller
         try {
             DB::beginTransaction();
             $payment = Payment_history::find($id);
+
+
             if (!$payment) {
                 throw new \Exception('Không tìm thấy giao dịch');
             }
@@ -102,7 +104,6 @@ class PaymentHistoryController extends Controller
                 throw new \Exception('Giao dịch này đã được xác nhận trước đó');
             }
 
-            // Cập nhật số ti��n của customer
             $customer = null;
             if ($payment->transaction_type === 'sale') {
                 $order = Order::findOrFail($payment->related_id);
@@ -130,7 +131,8 @@ class PaymentHistoryController extends Controller
 
             Log::info('Payment updated successfully');
             DB::commit();
-            event(new TransactionConfirmed($id));
+            $payment->status = 1;
+            $payment->save();
             return response()->json([
                 'success' => true,
                 'message' => 'Xác nhận thanh toán thành công'

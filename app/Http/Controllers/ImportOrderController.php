@@ -57,7 +57,8 @@ class ImportOrderController extends Controller
     {
         $payments = Payment::query()->get();
         $suppliers = Supplier::query()->get();
-        $variants = Variation::all();
+        $variants = Variation::where('is_active', 1)->get();
+
         return view("admin.components.import_orders.create", compact("payments", "suppliers", "variants"));
     }
 
@@ -370,7 +371,7 @@ class ImportOrderController extends Controller
         $payments = Payment::pluck('name', 'id')->all();
         $suppliers = Supplier::pluck('name', 'id')->all();
         $importOrderDetails = Import_order_detail::where('import_order_id', $import_order->id)->get();
-        $variations = Variation::all();
+        $variants = Variation::where('is_active', 1)->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('import_order', 'payments', 'suppliers', 'variations', 'importOrderDetails'));
     }
 
