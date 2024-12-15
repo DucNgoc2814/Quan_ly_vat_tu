@@ -54,8 +54,7 @@
                             @csrf
                             @method('PUT')
                             <div class="profile-user position-relative d-inline-block mx-auto mb-3">
-                                <img id="preview"
-                                    src="{{ asset('storage/' . $datae->image) }}"
+                                <img id="preview" src="{{ asset('storage/' . $datae->image) }}"
                                     class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="image">
                                 <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                     <input id="profile-img-file-input" type="file" name="image"
@@ -72,31 +71,36 @@
 
                 </div>
             </div>
-            <div class="text-center card" style="text-align:start; padding: 20px">
-                <h6 style="text-align:start;">Quyền đặc biệt của nhân viên:</h6>
-                <span style="opacity: 0.5; font: small;"> (Ngoài những quyền hạn được phân theo chức vụ thì đây là quyền của
-                    riêng nhân viên {{ $datae->name }})</span>
-                <div class="d-flex justify-content-between">
-                    <input type="text" class="add_quyen form-control w-75" oninput="filterQuyen(event)" value="">
-                    <button disabled class="btn btn-changeQuen btn-primary"
-                        onclick="SubmitQuyen(event,'{{ $datae->id }}')">Thêm</button>
+            @if ($datae->role_id != '1')
+                <div class="text-center card" style="text-align:start; padding: 20px">
+                    <h6 style="text-align:start;">Quyền đặc biệt của nhân viên:</h6>
+                    <span style="opacity: 0.5; font: small;"> (Ngoài những quyền hạn được phân theo chức vụ thì đây là quyền
+                        của
+                        riêng nhân viên {{ $datae->name }})</span>
+                    <div class="d-flex justify-content-between">
+                        <input type="text" class="add_quyen form-control w-75" oninput="filterQuyen(event)"
+                            value="">
+                        <button disabled class="btn btn-changeQuen btn-primary"
+                            onclick="SubmitQuyen(event,'{{ $datae->id }}')">Thêm</button>
+                    </div>
+                    <ul class="list_quyen list-unstyled" id="list_quyen">
+                        @foreach ($listPermission as $item)
+                            <li style="display: none; cursor: pointer;"
+                                onclick="onValue('{{ $item->name }}','{{ $item->id }}')" class="quyen-item">
+                                {{ $item->name }}</li>
+                        @endforeach
+                    </ul>
+                    <ul class="list-unstyled">
+                        @foreach ($listpermission_employees as $item)
+                            <li id="permission-{{ $item->permission_id }}">
+                                <span
+                                    onclick="deleteQuyen('{{ $item->permission_id }}', '{{ $item->employee_id }}')">X</span>
+                                {{ $item->name }}
+                            </li>
+                        @endforeach
+                    </ul>
                 </div>
-                <ul class="list_quyen list-unstyled" id="list_quyen">
-                    @foreach ($listPermission as $item)
-                        <li style="display: none; cursor: pointer;"
-                            onclick="onValue('{{ $item->name }}','{{ $item->id }}')" class="quyen-item">
-                            {{ $item->name }}</li>
-                    @endforeach
-                </ul>
-                <ul class="list-unstyled">
-                    @foreach ($listpermission_employees as $item)
-                        <li id="permission-{{ $item->permission_id }}">
-                            <span onclick="deleteQuyen('{{ $item->permission_id }}', '{{ $item->employee_id }}')">X</span>
-                            {{ $item->name }}
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
+            @endif
             <script>
                 function deleteQuyen(permission_id, employee_id) {
                     let confirmDelete = window.confirm("Bạn có chắc chắn muốn xóa quyền này?");

@@ -235,15 +235,17 @@
                         <h5 class="card-title flex-grow-1 mb-0">Người phụ trách</h5>
                     </div>
                     <span class="fw-medium ms-1">
-                        <a href="{{ route('employees.edit', $data->first()->importOrder->employee->id ?? '1') }}">
+                        <a href="{{ route('employees.edit', $data->first()->order->employee->id ?? '1') }}">
                             {{ $data->first()->order->employee->name ?? 'Chưa phân công' }}
                         </a>
                     </span>
                     @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == '1')
-                        <button type="button" class="btn btn-link text-warning"
-                            onclick="openAssignmentModal('order', {{ $data->first()->order->id }})">
-                            <i class="ri-pencil-fill align-bottom"></i> Thay đổi
-                        </button>
+                        @if ($data->first()->order->status == 4 || $data->first()->order->status == 5)
+                            <button type="button" class="btn btn-link text-warning"
+                                onclick="openAssignmentModal('order', {{ $data->first()->order->id }})">
+                                <i class="ri-pencil-fill align-bottom"></i> Thay đổi
+                            </button>
+                        @endif
                     @endif
                 </div>
             </div>
@@ -438,7 +440,7 @@
             }, 1000);
             document.body.classList.add('no-loading');
         }
-        
+
         document.getElementById('submitPayment').addEventListener('click', function(event) {
             event.preventDefault();
 

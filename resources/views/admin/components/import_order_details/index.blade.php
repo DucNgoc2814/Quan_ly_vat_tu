@@ -106,7 +106,7 @@
                     </span>
                     {{-- Update the button in index.blade.php --}}
                     @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == '1' && 
-                        in_array($data->first()->importOrder->status, [1, 2, 3]))
+                        in_array($data->first()->importOrder->status, [1, 2]))
                         <button type="button" class="btn btn-link text-warning"
                             onclick="openAssignmentModal('importOrder', {{ $data->first()->importOrder->id }})">
                             <i class="ri-pencil-fill align-bottom"></i> Thay đổi

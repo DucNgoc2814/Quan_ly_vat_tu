@@ -26,8 +26,6 @@
                 <div class="card-body p-3">
                     <div class="text-center">
                         <div class="profile-user position-relative d-inline-block mx-auto mb-3">
-                            <img src="{{ asset('storage/' . (Session::get('employee')->image ?? 'themes/admin/assets/images/users/avatar-1.jpg')) }}"
-                                class="rounded-circle avatar-xl img-thumbnail user-profile-image" alt="user-profile-image">
                             <div class="avatar-xs p-0 rounded-circle profile-photo-edit">
                                 {{-- <input id="profile-img-file-input" type="file" class="profile-img-file-input"> --}}
                                 <label for="profile-img-file-input" class="profile-photo-edit avatar-xs">
@@ -97,8 +95,11 @@
                                                 @endphp
 
                                                 @if ($remainingAmount > 0)
-                                                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                        data-bs-target="#createPaymentModal">
+                                                    <button type="button" 
+                                                            class="btn btn-success" 
+                                                            onclick="openPaymentModal({{ $index->order->id }}, {{ $remainingAmount }})"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#createPaymentModal">
                                                         Xác nhận
                                                     </button>
                                                 @else
@@ -124,7 +125,7 @@
             </div>
         </div>
 
-        <div class="col-12 mt-5">
+        {{-- <div class="col-12 mt-5">
             <div class="card mt-n5">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between">
@@ -132,7 +133,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     </div>
     <div class="modal fade" id="createPaymentModal" tabindex="-1">
@@ -143,10 +144,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST"
-                        action="{{ route('payment.store', ['related_id' => $index->order->id, 'transaction_type' => 'sale']) }}"
-                        id="paymentForm" enctype="multipart/form-data">
+                    <form method="POST" 
+                          action="{{ route('payment.store', ['related_id' => ':orderId', 'transaction_type' => 'sale']) }}" 
+                          id="paymentForm" 
+                          enctype="multipart/form-data">
                         @csrf
+                        <input type="hidden" id="order_id" name="order_id">
                         <div class="mb-3">
                             <label class="form-label" for="payment_id">Phương thức thanh toán</label>
                             <select class="form-select" id="paymentId" name="payment_id">
@@ -176,9 +179,7 @@
                             <span class="invalid-feedback" id="documentError" style="display: none;"></span>
                             <small class="text-muted">Chấp nhận file: PDF, JPG, JPEG, PNG</small>
                         </div>
-                        <!-- Add hidden input for remaining amount -->
-                        <input type="hidden" id="remainingAmount"
-                            value="{{ $index->order->total_amount - $index->order->paid_amount }}">
+                        <input type="hidden" id="remainingAmount" name="remainingAmount">
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                             <button type="submit" class="btn btn-primary" id="submitPayment">Lưu</button>
@@ -189,46 +190,62 @@
         </div>
     </div>
     <script>
+        function openPaymentModal(orderId, remainingAmount) {
+            console.log('Opening modal with:', {orderId, remainingAmount});
+            
+            // Set form action với order ID  
+            const form = document.getElementById('paymentForm');
+            const baseUrl = 'http://duantotnghiep.test/lich-su-chuyen-tien/them-moi';
+            const newAction = `${baseUrl}?related_id=${orderId}&transaction_type=sale`;
+            form.action = newAction;
+            
+            console.log('Form action set to:', newAction);
+            
+            // Set remaining amount và order_id
+            document.getElementById('remainingAmount').value = remainingAmount;
+            document.getElementById('order_id').value = orderId;
+        }
+
         document.getElementById('submitPayment').addEventListener('click', function(event) {
             event.preventDefault();
+            
+            const form = document.getElementById('paymentForm');
+            
+            // Log form data
+            console.log('Form Details:', {
+                action: form.action,
+                method: form.method,
+                orderId: document.getElementById('order_id').value,
+                amount: document.getElementById('amount').value,
+                paymentId: document.getElementById('paymentId').value,
+                note: document.getElementById('note').value,
+                remainingAmount: document.getElementById('remainingAmount').value,
+                csrf: document.querySelector('input[name="_token"]').value
+            });
 
-            // Lấy giá trị từ form
-            const amount = parseFloat(document.getElementById('amount').value.trim()) || 0;
-            const note = document.getElementById('note').value.trim();
-            const paymentId = document.getElementById('paymentId').value.trim();
-            const remainingAmount = parseFloat(document.getElementById('remainingAmount').value) || 0;
+            // Validate
             let isValid = true;
-
-            // Reset error messages
-            document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
-
-            // Validate amount
-            if (!amount || amount <= 0) {
-                document.getElementById('amountError').innerText = 'Vui lòng nhập số tiền hợp lệ';
-                document.getElementById('amountError').style.display = 'block';
-                isValid = false;
-            } else if (amount > remainingAmount) {
-                document.getElementById('amountError').innerText = 'Số tiền không được lớn hơn số tiền cần thu';
-                document.getElementById('amountError').style.display = 'block';
-                isValid = false;
-            }
-
-            // Validate note
-            if (!note) {
-                document.getElementById('noteError').innerText = 'Vui lòng nhập nội dung chuyển tiền';
-                document.getElementById('noteError').style.display = 'block';
-                isValid = false;
-            }
-
-            if (!paymentId) {
-                document.getElementById('paymentError').innerText = 'Vui lòng chọn phương thức thanh toán';
-                document.getElementById('paymentError').style.display = 'block';
+            const amount = parseFloat(document.getElementById('amount').value);
+            const remainingAmount = parseFloat(document.getElementById('remainingAmount').value);
+            
+            if (amount > remainingAmount) {
+                console.error('Amount exceeds remaining amount');
                 isValid = false;
             }
 
             if (isValid) {
-                document.getElementById('paymentForm').submit();
+                console.log('Form is valid, submitting to:', form.action);
+                form.submit(); // Thử submit form
+            } else {
+                console.log('Form validation failed');
             }
+        });
+
+        // Thêm event listener cho modal
+        document.getElementById('createPaymentModal').addEventListener('show.bs.modal', function (event) {
+            console.log('Modal opening');
+            const button = event.relatedTarget;
+            console.log('Modal triggered by:', button);
         });
     </script>
 @endsection

@@ -360,6 +360,7 @@ class ThongkeController extends Controller
     }
     public function thongKeSanPham(Request $request)
     {
+        $variations = Variation::select('id', 'name')->get();
         $startDate1 = $request->get('start_date1', Carbon::now()->startOfMonth()->format('Y-m-d'));
         $endDate1 = $request->get('end_date1', Carbon::now()->endOfMonth()->format('Y-m-d'));
         $startDate = $request->get('start_date', Carbon::now()->startOfMonth()->format('Y-m-d'));
@@ -429,10 +430,16 @@ class ThongkeController extends Controller
             ->get();
 
         // Số lượng sản phẩm bán và nhập theo ngày
-        $productData = DB::table('order_details')
+        $productDataQuery = DB::table('order_details')
             ->join('orders', 'order_details.order_id', '=', 'orders.id')
             ->where('orders.status_id', 4)
-            ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+            ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
+
+        if ($variationId) {
+            $productDataQuery->where('order_details.variation_id', $variationId);
+        }
+
+        $productData = $productDataQuery
             ->select(
                 DB::raw('DATE(orders.created_at) as date'),
                 DB::raw('SUM(order_details.quantity) as total_sold')
@@ -441,20 +448,12 @@ class ThongkeController extends Controller
             ->orderBy('date', 'asc')
             ->get();
 
-        $productDataQuery = DB::table('order_details')
-            ->join('orders', 'order_details.order_id', '=', 'orders.id')
-            ->where('orders.status_id', 4)
-            ->whereBetween('orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
-
-        // Import data query    
         $importDataQuery = DB::table('import_order_details')
             ->join('import_orders', 'import_order_details.import_order_id', '=', 'import_orders.id')
             ->where('import_orders.status', 3)
             ->whereBetween('import_orders.created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59']);
 
-        // Add variation filter if selected
         if ($variationId) {
-            $productDataQuery->where('order_details.variation_id', $variationId);
             $importDataQuery->where('import_order_details.variation_id', $variationId);
         }
 
@@ -469,8 +468,6 @@ class ThongkeController extends Controller
 
 
 
-        $variations = Variation::all();
-
         if ($request->ajax()) {
             return response()->json([
                 'topProducts' => $topProducts,
@@ -480,14 +477,12 @@ class ThongkeController extends Controller
         }
 
         return view('admin.components.thongke.sanpham', compact(
-            'productStats',
-            'inventory',
+            'variations',
             'topProducts',
-            'productData',
-            'importData',
+            'inventory',
+            'productStats',
             'startDate',
-            'endDate',
-            'variations'
+            'endDate'
         ));
     }
     public function thongKeDoiTac()
@@ -765,64 +760,7 @@ class ThongkeController extends Controller
         ));
     }
 
-    public function filterPartnerStats(Request $request)
-    {
-        if ($request->partner_type === 'supplier') {
-            $query = DB::table('import_orders')
-                ->join('suppliers', 'import_orders.supplier_id', '=', 'suppliers.id')
-                ->select(
-                    'suppliers.id as partner_id',
-                    'suppliers.name as partner_name',
-                    DB::raw('COUNT(*) as total_orders'),
-                    DB::raw('SUM(import_orders.total_amount) as total_value'),
-                    DB::raw('SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) as successful_orders'),
-                    DB::raw('SUM(CASE WHEN status = 4 THEN 1 ELSE 0 END) as cancelled_orders'),
-                    DB::raw('ROUND(SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) as success_rate')
-                )
-                ->groupBy('suppliers.id', 'suppliers.name');
 
-            if ($request->partner_id) {
-                $query->where('suppliers.id', $request->partner_id);
-            }
-
-            if ($request->start_date) {
-                $query->where('import_orders.created_at', '>=', $request->start_date);
-            }
-
-            if ($request->end_date) {
-                $query->where('import_orders.created_at', '<=', $request->end_date . ' 23:59:59');
-            }
-        } else {
-            $query = DB::table('orders')
-                ->join('customers', 'orders.customer_id', '=', 'customers.id')
-                ->select(
-                    'customers.id as partner_id',
-                    'customers.name as partner_name',
-                    DB::raw('COUNT(*) as total_orders'),
-                    DB::raw('SUM(orders.total_amount) as total_value'),
-                    DB::raw('SUM(CASE WHEN orders.status_id = 4 THEN 1 ELSE 0 END) as successful_orders'),
-                    DB::raw('SUM(CASE WHEN orders.status_id = 5 THEN 1 ELSE 0 END) as cancelled_orders'),
-                    DB::raw('ROUND(SUM(CASE WHEN orders.status_id = 4 THEN 1 ELSE 0 END) * 100.0 / COUNT(*), 2) as success_rate')
-                )
-                ->groupBy('customers.id', 'customers.name');
-
-            if ($request->partner_id) {
-                $query->where('customers.id', $request->partner_id);
-            }
-
-            if ($request->start_date) {
-                $query->where('orders.created_at', '>=', $request->start_date);
-            }
-
-            if ($request->end_date) {
-                $query->where('orders.created_at', '<=', $request->end_date . ' 23:59:59');
-            }
-        }
-
-        $filteredStats = $query->orderBy('total_orders', 'desc')->get();
-
-        return response()->json($filteredStats);
-    }
 
     public function getTopProducts(Request $request)
     {

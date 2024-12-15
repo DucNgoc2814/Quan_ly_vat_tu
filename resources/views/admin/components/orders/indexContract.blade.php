@@ -47,7 +47,7 @@
                                         <td>{{ number_format($order->total_amount) }}</td>
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
-                                            @if ($order->status_id < 4)
+                                            @if ($order->status_id < 3)
                                                 <form action="{{ route('order.updateStatus', $order->slug) }}"
                                                     method="POST" class="{{ $order->slug }} d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">

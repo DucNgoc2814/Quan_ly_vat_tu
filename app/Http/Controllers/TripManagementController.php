@@ -6,6 +6,7 @@ use Exception;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginAdminRequest;
+use App\Models\Contract;
 use App\Models\Order;
 use App\Models\OrderStatusTime;
 use App\Models\Payment;
@@ -35,59 +36,66 @@ class TripManagementController extends Controller
         return view('admin.components.tripmanagement.login');
     }
     public function logOut()
-{
-    try {
-        // Forget the employee session
-        Session::forget('employee');
+    {
+        try {
+            // Forget the employee session
+            Session::forget('employee');
 
-        // Optionally, you can also clear all session data
-        Session::flush(); // Clear all session data, including employee session if needed
+            // Optionally, you can also clear all session data
+            Session::flush(); // Clear all session data, including employee session if needed
 
-        // Redirect to the login page with a success message
-        return redirect()->route('orderconfirm.login')->with('success', 'Đăng xuất thành công');
-    } catch (Exception $e) {
-        // If there is any issue during logout
-        return redirect()->route('orderconfirm.login')->with('error', 'Có lỗi xảy ra, thử lại sau');
+            // Redirect to the login page with a success message
+            return redirect()->route('orderconfirm.login')->with('success', 'Đăng xuất thành công');
+        } catch (Exception $e) {
+            // If there is any issue during logout
+            return redirect()->route('orderconfirm.login')->with('error', 'Có lỗi xảy ra, thử lại sau');
+        }
     }
-}
 
     public function loginPost(LoginAdminRequest $request)
     {
-        $credentials = [
-            'email' => $request->email,
-            'password' => $request->password,
-        ];
-
         try {
+            // Kiểm tra thông tin đăng nhập
             $employee = Employee::where('email', $request->email)->first();
-
-            // Check if employee exists
-            if (!$employee) {
-                return redirect()->route('orderconfirm.login')->with('error', 'Email hoặc mật khẩu không tồn tại trên hệ thống');
+            
+            if (!$employee || !password_verify($request->password, $employee->password)) {
+                return redirect()->route('orderconfirm.login')
+                    ->with('error', 'Thông tin đăng nhập không chính xác');
             }
 
-            // Check if employee is active
+            // Kiểm tra điều kiện
             if (!$employee->is_active) {
-                return redirect()->route('orderconfirm.login')->with('error', 'Tài khoản đã bị vô hiệu hóa');
+                return redirect()->route('orderconfirm.login')
+                    ->with('error', 'Tài khoản đã bị vô hiệu hóa');
             }
 
-            // Check if role_id is 4
             if ($employee->role_id != 3) {
-                return redirect()->route('orderconfirm.login')->with('error', 'Bạn không có quyền truy cập');
+                return redirect()->route('orderconfirm.login')
+                    ->with('error', 'Bạn không có quyền truy cập');
             }
 
-            // Check if the password is correct
-            if (!password_verify($request->password, $employee->password)) {
-                return redirect()->route('orderconfirm.login')->with('error', 'Thông tin đăng nhập không chính xác');
-            }
+            // Tạo token JWT với custom claims
+            $token = JWTAuth::customClaims([
+                'sub' => $employee->id,
+                'email' => $employee->email,
+                'role' => $employee->role_id
+            ])->fromUser($employee);
 
-            // Store employee info in session
-            Session::put('employee', $employee);
+            // Verify token trước khi lưu
+            JWTAuth::setToken($token)->check();
 
-            // Redirect to the order confirm page on successful login
-            return redirect()->route('orderconfirm.index')->with('success', 'Đăng nhập thành công');
-        } catch (Exception $e) {
-            return redirect()->route('orderconfirm.login')->with('error', 'Không thể đăng nhập, thử lại lần sau');
+            // Lưu token và thông tin employee vào session
+            Session::put([
+                'token' => $token,
+                'employee' => $employee
+            ]);
+
+            return redirect()->route('orderconfirm.index')
+                ->with('success', 'Đăng nhập thành công');
+
+        } catch (JWTException $e) {
+            return redirect()->route('orderconfirm.login')
+                ->with('error', 'Không thể đăng nhập, thử lại lần sau');
         }
     }
 
@@ -183,7 +191,13 @@ class TripManagementController extends Controller
                 }
             }
         }
-
+        if ($order->contract_id) {
+            $contract = Contract::find($order->contract_id);
+            if ($contract) {
+                $contractController = new \App\Http\Controllers\ContractController();
+                $contractController->checkAndUpdateContractStatus($contract);
+            }
+        }
         return back()->with('success', 'Cập nhật trạng thái đơn hàng thành công');
     }
 

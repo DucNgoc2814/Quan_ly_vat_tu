@@ -136,9 +136,9 @@
                     <h4 class="card-title mb-0">Biểu đồ sản phẩm bán và nhập</h4>
                     <div class="d-flex align-items-center">
                         <div class="form-group me-2">
-                            <select id="chartVariationSelect" class="form-control form-control-sm" style="width: 200px;">
+                            <select id="chartVariationSelect" class="form-control">
                                 <option value="">Tất cả sản phẩm</option>
-                                @foreach ($variations as $variation)
+                                @foreach($variations as $variation)
                                     <option value="{{ $variation->id }}">{{ $variation->name }}</option>
                                 @endforeach
                             </select>
@@ -181,6 +181,7 @@
                     url: '{{ route('thongKeSanPham') }}',
                     method: 'GET',
                     data: {
+                        variation_id: variationId,
                         start_date1: startDate1,
                         end_date1: endDate1
                     },
@@ -213,14 +214,14 @@
                     data: {
                         labels: productLabels,
                         datasets: [{
-                                label: 'Sản phẩm bán',
+                                label: 'Số lượng bán',
                                 data: productSold,
                                 borderColor: 'rgba(75, 192, 192, 1)',
                                 backgroundColor: 'rgba(75, 192, 192, 0.2)',
                                 fill: true,
                             },
                             {
-                                label: 'Sản phẩm nhập',
+                                label: 'Số lượng nhập',
                                 data: productImported,
                                 borderColor: 'rgba(192, 75, 75, 1)',
                                 backgroundColor: 'rgba(192, 75, 75, 0.2)',
@@ -310,7 +311,7 @@
                             type: 'line',
                             data: {
                                 datasets: [{
-                                        label: 'Sản phẩm bán',
+                                        label: 'Số lượng bán',
                                         data: response.productData.map(item => ({
                                             x: item.date,
                                             y: parseInt(item.total_sold)
@@ -320,7 +321,7 @@
                                         fill: true
                                     },
                                     {
-                                        label: 'Sản phẩm nhập',
+                                        label: 'Số lượng nhập',
                                         data: response.importData.map(item => ({
                                             x: item.date,
                                             y: parseInt(item.total_imported)

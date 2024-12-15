@@ -58,18 +58,11 @@
                                     </td>
                                     <td style="text-align: center">
                                         <div class="dropdown d-inline-block">
-                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-fill align-middle"></i>
-                                            </button>
 
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li>
-                                                    <a href="{{ route('employees.edit',  $item->id) }}"
-                                                        class="dropdown-item edit-item-btn"><i
-                                                            class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Thông tin chi tiết</a>
-                                                </li>
+                                            <a href="{{ route('employees.edit', $item->id) }}"
+                                                class="dropdown-item edit-item-btn"><i
+                                                    class="ri-pencil-fill align-bottom me-2 text-muted"></i>
+                                                Thông tin chi tiết</a>
                                             </ul>
                                         </div>
                                     </td>

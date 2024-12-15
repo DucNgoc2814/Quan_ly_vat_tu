@@ -68,9 +68,10 @@
                             <span class="text-muted">Người phụ trách:</span>
                             <span class="fw-medium ms-1"><a
                                     href="{{ route('employees.edit', $contract->employee->id) }}">{{ $contract->employee->name ?? 'Chưa phân công' }}</a></span>
-                            @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == '1')
+                            @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == '1' &&
+                                    in_array($contract->contract_status_id, [1, 2, 3, 4, 5, 6]))
                                 <button type="button" class="btn btn-link text-warning"
-                                    onclick="openAssignmentModal('contract', {{ $contract->id }})">
+                                    onclick="openAssignmentModal('order', {{ $contract->first()->id }})">
                                     <i class="ri-pencil-fill align-bottom"></i> Thay đổi
                                 </button>
                             @endif
@@ -807,7 +808,8 @@
                     isValid = false;
                 } else if (quantity > maxQuantity) {
                     quantityInput.classList.add('is-invalid');
-                    row.querySelector('.invalid-feedback').textContent = `Số lượng không được vượt quá ${maxQuantity}`;
+                    row.querySelector('.invalid-feedback').textContent =
+                        `Số lượng không được vượt quá ${maxQuantity}`;
                     row.querySelector('.invalid-feedback').style.display = 'block';
                     Swal.fire({
                         icon: 'error',
