@@ -42,13 +42,13 @@ class StoreLoginRequest extends FormRequest
             ];
         } elseif (request()->isMethod('post') && request()->route()->getName() == 'updateProfile') {
             return [
-                'name' => 'required|string|regex:/^(?=.*[a-zA-Z]).*$/|max:255',
+                'name' => 'required|string|regex:/^(?=.*[a-zA-Z]).*$/|max:5555',
                 'email' => 'required|string|email|max:255|unique:customers',
                 'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers',
             ];
         }
         return [
-            'name' => 'required|string|regex:/^(?=.*[a-zA-Z]).*$/|max:255',
+            'name' => 'required|string|regex:/^(?=.*[a-zA-Z]).*$/|max:5555',
             'email' => 'required|string|email|max:255|unique:customers',
             'number_phone' => 'required|regex:/^(0[0-9]{9,10})$/|unique:customers',
             'password' => 'required|string|min:6|confirmed',
@@ -60,6 +60,7 @@ class StoreLoginRequest extends FormRequest
         return [
             'name.required' => 'Vui lòng nhập tên tài khoản',
             'name.regex' => 'Tên tài khoản không được chỉ chứa mỗi số.',
+            'name.max' => 'Tên tài khoản không được quá 55 ký tự.',
             'email.required' => 'Vui lòng nhập email',
             'email.email' => 'Email không hợp lệ',
             'email.unique' => 'Email đã được sử dụng',

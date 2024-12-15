@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginAdminRequest;
 use App\Models\Order;
 use App\Models\OrderStatusTime;
+use App\Models\Payment;
 use App\Models\Role_employee;
 use App\Models\Trip;
 use App\Models\Trip_detail;
@@ -127,7 +128,9 @@ class TripManagementController extends Controller
         $data = Trip_detail::whereHas('trip', function ($query) use ($id) {
             $query->where('id', $id);
         })->with(['order', 'trip'])->get();
-        return view('admin.components.tripmanagement.detail', compact('data'));
+        $payments = Payment::pluck('name', 'id');
+
+        return view('admin.components.tripmanagement.detail', compact('data', 'payments'));
     }
 
 

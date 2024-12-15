@@ -252,12 +252,12 @@
                                                                         #<?php echo e($transaction->contract_number ?? $transaction->related_id); ?>
 
                                                                     </a>
-                                                                <?php elseif($transaction->transaction_type == 'sale'): ?>
-                                                                    Bán hàng
+                                                                <?php elseif($transaction->transaction_type == 'purchase'): ?>
+                                                                    Đơn nhập hàng
                                                                     #<?php echo e($transaction->slug ?? $transaction->related_id); ?>
 
                                                                 <?php else: ?>
-                                                                    Mua hàng
+                                                                    Đơn bán hàng
                                                                     #<?php echo e($transaction->slug ?? $transaction->related_id); ?>
 
                                                                 <?php endif; ?>
@@ -389,56 +389,67 @@
         function confirmTransaction(type, id) {
             event.stopPropagation();
 
-            Swal.fire({
+            let dialogConfig = {
                 title: 'Xác nhận',
-                text: "Bạn có chắc chắn muốn xác nhận giao dịch này?",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Đồng ý',
                 cancelButtonText: 'Hủy'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            };
 
-                    axios.post(`/lich-su-chuyen-tien/xac-nhan/${id}`, {}, {
-                            headers: {
-                                'X-CSRF-TOKEN': token,
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                        .then(response => {
-                            console.log('Success Response:', response);
-                            if (response.data && response.data.success) {
-                                Swal.fire({
-                                    title: 'Thành công!',
-                                    text: response.data.message || 'Giao dịch đã được xác nhận.',
-                                    icon: 'success'
-                                }).then(() => {
-                                    location.reload();
-                                });
-                            } else {
-                                throw new Error(response.data?.message || 'Có lỗi xảy ra');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error details:', {
-                                error: error,
-                                response: error.response,
-                                status: error.response?.status,
-                                data: error.response?.data
-                            });
-
-                            Swal.fire({
-                                title: 'Lỗi!',
-                                text: error.response?.data?.message ||
-                                    'Có lỗi xảy ra khi xác nhận giao dịch',
-                                icon: 'error'
-                            });
-                        });
+            // Special handling for refund/purchase
+            if (type === 'refund' || type === 'purchase') {
+                dialogConfig.html = `
+            <p>Bạn có chắc chắn muốn xác nhận giao dịch này?</p>
+            <div class="mb-3">
+                <label class="form-label">Chứng từ thanh toán</label>
+                <input type="file" id="proof-document" class="form-control" accept="image/*">
+            </div>
+        `;
+                dialogConfig.preConfirm = () => {
+                    const proofFile = Swal.getPopup().querySelector('#proof-document').files[0];
+                    if (!proofFile) {
+                        Swal.showValidationMessage('Vui lòng tải lên chứng từ thanh toán');
+                        return false;
+                    }
+                    const formData = new FormData();
+                    formData.append('proof-document', proofFile);
+                    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                    
+                    return formData;
                 }
+            } else {
+                dialogConfig.text = "Bạn có chắc chắn muốn xác nhận giao dịch này?";
+            }
+            Swal.fire(dialogConfig).then((result) => {
+                if (result.isConfirmed) {
+        $.ajax({
+            url: `/lich-su-chuyen-tien/xac-nhan/${id}`,
+            type: 'POST',
+            data: result.value,
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            success: (response) => {
+                if (response.success) {
+                    Swal.fire('Thành công', 'Đã xác nhận giao dịch', 'success')
+                        .then(() => location.reload());
+                }
+            },
+            error: (xhr, status, error) => {
+                Swal.fire({
+                    title: 'Lỗi!',
+                    text: `Không thể xác nhận giao dịch: ${xhr.responseJSON?.message || error}`,
+                    icon: 'error'
+                });
+            }
+        });
+    }
+
             });
         }
         document.addEventListener('DOMContentLoaded', function() {
@@ -558,21 +569,6 @@
                 }
             });
         }
-
-
-
-        // Thêm lắng nghe sự kiện realtime
-        window.Echo.channel('transactions')
-            .listen('TransactionConfirmed', (e) => {
-                // Tìm và xóa thông báo có transaction id tương ứng
-                const notificationElement = document.querySelector(`[data-transaction-id="${e.transactionId}"]`);
-                if (notificationElement) {
-                    notificationElement.remove();
-
-                    // Cập nhật số lượng thông báo
-                    updateNotificationCount();
-                }
-            });
 
         // Hàm cập nhật số lượng thông báo
         function updateNotificationCount() {

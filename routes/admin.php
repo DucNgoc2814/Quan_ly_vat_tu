@@ -160,7 +160,7 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/danh-sach-ban-le-co-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract')->middleware('permission:60');
                 Route::get('/them-don-hang', [OrderController::class, 'create'])->name('create')->middleware('permission:61');
                 Route::post('/nhap-them-don-hang', [OrderController::class, 'store'])->name('store')->middleware('permission:62');
-                Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract');
+
                 Route::get('/sua-don-hang/{slug}', [OrderController::class, 'edit'])->name('edit')->middleware('permission:63');
                 Route::put('/cap-nhat-don-hang/{slug}', [OrderController::class, 'update'])->name('update')->middleware('permission:64');
                 Route::post('/cap-nhat-trang-thai/{slug}', [OrderController::class, 'updateStatus'])->name('updateStatus')->middleware('permission:65');
@@ -343,7 +343,9 @@ Route::post('/suppliers/add-variations/{supplier}', [SupplierController::class, 
 Route::delete('/suppliers/{supplier}/variations/{variation}', [SupplierController::class, 'removeVariation'])->name('suppliers.removeVariation');
 Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 'getVariationsBySupplier']);
 Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
+Route::get('/thong-ke-doanh-thu/date-range', [ThongkeController::class, 'getDateRangeStats'])->name('admin.thongke.dateRange');
 Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
+Route::get('/thong-ke-doanh-thu/revenue', [ThongkeController::class, 'getRevenueStats'])->name('admin.thongke.revenue');
 Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
 Route::get('/thong-ke-san-pham', [ThongkeController::class, 'thongKeSanPham'])->name('thongKeSanPham');
 Route::get('/thong-ke-doi-tac', [ThongkeController::class, 'thongKeDoiTac'])->name('thongKeDoiTac');
@@ -353,6 +355,8 @@ Route::prefix('quan-ly-ban-hang')
     ->as('order.')
     ->group(function () {
         Route::get('/export-invoice/{orderId}', [OrderController::class, 'exportInvoice'])->name('invoice');
+        Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract');
+        Route::post('/yeu-cau-hoan-tien/{slug}', [OrderController::class, 'requestCancelAndRefund'])->name('order.cancel.refund');
     });
 // routes/admin.php
 Route::prefix('assignment')->group(function () {

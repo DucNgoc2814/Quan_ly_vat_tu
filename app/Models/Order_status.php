@@ -27,7 +27,7 @@ class Order_status extends Model
             case 4:
                 return 'success';
             case 6:
-                return 'danger';
+                return 'success';
             default:
                 return 'danger';
         }

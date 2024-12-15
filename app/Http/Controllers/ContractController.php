@@ -62,7 +62,7 @@ class ContractController extends Controller
      */
     public function create()
     {
-        $variation = Variation::all();
+        $variation = Variation::where('is_active', 1)->get();
         $customers  = Customer::all();
         return view(self::PATH_VIEW . __FUNCTION__, compact('variation', 'customers'));
     }

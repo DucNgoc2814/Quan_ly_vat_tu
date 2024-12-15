@@ -63,10 +63,8 @@
                                                             <option value="2">Xác Nhận</option>
                                                             <option value="5">Hủy</option>
                                                         @elseif ($order->status_id == 2)
-                                                            <option value="3">Đang giao</option>
+                                                            <option value="4">Khách hàng tự vận chuyển</option>
                                                             <option value="5">Hủy</option>
-                                                        @elseif ($order->status_id == 3)
-                                                            <option value="4">Thành công</option>
                                                         @endif
                                                     </select>
                                                 </form>

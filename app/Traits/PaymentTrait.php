@@ -31,6 +31,7 @@ trait PaymentTrait
         return match($type) {
             'contract' => \App\Models\Contract::findOrFail($id),
             'sale' => \App\Models\Order::findOrFail($id),
+            'refund' => \App\Models\Order::findOrFail($id),
             'purchase' => \App\Models\Import_order::findOrFail($id),
             default => throw new \Exception('Loại giao dịch không hợp lệ')
         };

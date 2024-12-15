@@ -61,6 +61,7 @@
                                     <th scope="col">Địa chỉ</th>
                                     <th scope="col">Sản phẩm</th>
                                     <th scope="col">Tổng tiền</th>
+                                    <th scope="col">Cần thu</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -80,8 +81,8 @@
 
                                             </ul>
                                         </td>
-                                        <td>{{ $index->order->total_amount }}</td>
-
+                                        <td>{{ number_format($index->order->total_amount) }}</td>
+                                        <td>{{ number_format($index->order->total_amount - $index->order->paid_amount) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

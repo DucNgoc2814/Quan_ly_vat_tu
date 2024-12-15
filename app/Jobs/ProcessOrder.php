@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Events\NewOrderCreated;
+use App\Models\Location;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -87,7 +88,32 @@ class ProcessOrder implements ShouldQueue
                 "total_amount" => str_replace(',', '', $this->orderData['total_amount']),
                 "paid_amount" => 0,
             ]);
-
+            if (!isset($this->orderData['contract_id'])) {
+                $existingLocation = Location::where('customer_id', $order->customer_id)
+                ->where('customer_name', $order->customer_name)
+                ->where('email', $order->email)
+                ->where('number_phone', $order->number_phone)
+                ->where('province', $order->province)
+                ->where('district', $order->district)
+                ->where('ward', $order->ward)
+                ->where('address', $order->address)
+                ->first();
+                
+                if (!$existingLocation && $order->province) {
+                    $locationCount = Location::where('customer_id', $order->customer_id)->count();
+                    $location = new Location();
+                    $location->customer_id = $order->customer_id;
+                    $location->customer_name = $order->customer_name;
+                    $location->email = $order->email;
+                    $location->number_phone = $order->number_phone;
+                    $location->province = $order->province;
+                    $location->district = $order->district;
+                    $location->ward = $order->ward;
+                    $location->address = $order->address;
+                    $location->is_active = $locationCount === 0 ? 1 : 0;
+                    $location->save();
+                }
+            }
             // Tạo chi tiết đơn hàng và cập nhật số lượng
             foreach ($this->orderData['variation_id'] as $key => $variationID) {
                 $lockKey = 'variation_stock_' . $variationID;
@@ -100,8 +126,19 @@ class ProcessOrder implements ShouldQueue
                 try {
                     $variation = Variation::lockForUpdate()->find($variationID);
                     $orderQuantity = $this->orderData['product_quantity'][$key];
-                    $price = $this->orderData['product_price'][$key];
+                    $price = isset($this->orderData['price'])
+                        ? $this->orderData['price'][$key]
+                        : $this->orderData['product_price'][$key];
+                    if (isset($this->orderData['contract_id'])) {
+                        $contractDetail = DB::table('contract_details')
+                            ->where('contract_id', $this->orderData['contract_id'])
+                            ->where('variation_id', $variationID)
+                            ->first();
 
+                        if ($orderQuantity > $contractDetail->remaining_quantity) {
+                            throw new Exception('Số lượng mua của sản phẩm ' . $variation->name . ' vượt quá số lượng còn lại trong hợp đồng.');
+                        }
+                    }
                     // Final stock check
                     if ($orderQuantity > $variation->stock) {
                         return back()->with('error', 'Số lượng mua của sản phẩm ' . $variation->name . ' vượt quá số lượng hàng tồn kho.');
@@ -117,6 +154,13 @@ class ProcessOrder implements ShouldQueue
 
                     // Cập nhật số lượng tồn kho
                     $variation->stock -= $orderQuantity;
+
+                    if (isset($this->orderData['contract_id'])) {
+                        DB::table('contract_details')
+                            ->where('contract_id', $this->orderData['contract_id'])
+                            ->where('variation_id', $variationID)
+                            ->decrement('remaining_quantity', $orderQuantity);
+                    }
                     $variation->save();
                 } finally {
                     $lock->release();

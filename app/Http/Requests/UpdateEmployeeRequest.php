@@ -39,7 +39,11 @@ class UpdateEmployeeRequest extends FormRequest
                 Rule::unique('employees', 'number_phone')->ignore($this->route('id')),
             ],
             'image' => 'image|mimes:jpeg,png,jpg,gif',
-            'cccd' => 'required|regex:/^[0-9]{12}$/|unique:employees,cccd,' . $this->route('id'),
+            'cccd' => [
+                'required',
+                'regex:/^([0-9]{9}|[0-9]{12})$/',
+                'unique:employees,cccd,' . $this->route('id')
+            ],
             'date' => 'required|date|before_or_equal:' . now()->subYears(16)->toDateString() . '|after_or_equal:' . now()->subYears(55)->toDateString(),
 
         ];
