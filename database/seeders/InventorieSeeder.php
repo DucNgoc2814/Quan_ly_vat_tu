@@ -13,14 +13,6 @@ class InventorieSeeder extends Seeder
      */
     public function run(): void
     {
-        $inventories = [
-            [
-                'name' => 1,
-            ]
-        ];
-
-        foreach ($inventories as $inventory) {
-            DB::table('inventories')->insert($inventory);
-        }
+       
     }
 }

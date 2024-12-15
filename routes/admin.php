@@ -31,6 +31,7 @@ use App\Http\Controllers\LogController;
 use App\Exports\VariationsExport;
 use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\PaymentHistoryController;
+use App\Http\Controllers\PublicController;
 use Maatwebsite\Excel\Facades\Excel;
 
 Route::prefix('trang-quan-tri')
@@ -128,6 +129,7 @@ Route::middleware('CheckEmployees')->group(
             });
         Route::prefix('hop-dong')
             ->as('contract.')
+            ->middleware(['check.ownership'])
             ->group(function () {
                 Route::get('/danh-sach', [ContractController::class, 'index'])->name('index')->middleware('permission:45');
                 Route::get('/them-moi', [ContractController::class, 'create'])->name('create')->middleware('permission:46');
@@ -152,6 +154,7 @@ Route::middleware('CheckEmployees')->group(
             });
         Route::prefix('quan-ly-ban-hang')
             ->as('order.')
+            ->middleware(['check.ownership'])
             ->group(function () {
                 Route::get('/danh-sach-ban-le', [OrderController::class, 'index'])->name('index')->middleware('permission:60');
                 Route::get('/danh-sach-ban-le-co-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract')->middleware('permission:60');
@@ -201,6 +204,7 @@ Route::middleware('CheckEmployees')->group(
             });
         Route::prefix('don-hang-nhap')
             ->as('importOrder.')
+            ->middleware(['check.ownership'])
             ->group(function () {
                 Route::get('/danh-sach', [ImportOrderController::class, 'index'])->name('index')->middleware('permission:93');
                 Route::get('/them-moi', [ImportOrderController::class, 'create'])->name('create')->middleware('permission:94');
@@ -210,13 +214,13 @@ Route::middleware('CheckEmployees')->group(
                 Route::get('/chi-tiet-don-hang/{slug}', [ImportOrderDetailController::class, 'index'])->name('indexImportDetail')->middleware('permission:98');
                 Route::post('/yeu-cau-huy/{slug}', [ImportOrderController::class, 'requestCancel'])->name('requestCancel')->middleware('permission:99');
                 Route::get('/pending-cancel-requests', [ImportOrderController::class, 'getPendingCancelRequests'])->name('pendingCancelRequests')->middleware('permission:100');
-                Route::get('/cancel/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel')->middleware('permission:101');
+                Route::post('/xac-nhan-huy/{slug}', [ImportOrderController::class, 'cancelImportOrder'])->name('cancel')->middleware('permission:101');
                 Route::post('/xac-nhan/{slug}', [ImportOrderController::class, 'confirmOrder'])->name('confirmOrder')->middleware('permission:102');
                 Route::get('/tu-dong-cap-nhat/{slug}', [ImportOrderController::class, 'autoUpdateStatus'])->name('autoUpdateStatus')->middleware('permission:103');
                 Route::get('/pending-new-requests', [ImportOrderController::class, 'getPendingNewRequests'])->name('pendingNewRequests')->middleware('permission:104');
                 Route::get('/kiem-tra-trang-thai/{slug}', [ImportOrderController::class, 'checkOrderStatus'])->name('checkOrderStatus')->middleware('permission:105');
                 Route::post('/cap-nhat-trang-thai/{slug}', [ImportOrderController::class, 'updateOrderStatus'])->name('updateOrderStatus')->middleware('permission:106');
-                Route::post('/reject/{slug}', [ImportOrderController::class, 'rejectOrder'])->name('rejectOrder')->middleware('permission:107');
+                Route::post('/tu-choi-huy/{slug}', [ImportOrderController::class, 'rejectOrder'])->name('rejectOrder')->middleware('permission:107');
             });
         Route::prefix('quan-ly-don-vi')
             ->as('units.')
@@ -319,9 +323,6 @@ Route::middleware('CheckEmployees')->group(
         Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf')->middleware('permission:161');
         Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen')->middleware('permission:162');
         Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission'])->middleware('permission:163');
-
-
-
     }
 );
 Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf');
@@ -353,3 +354,8 @@ Route::prefix('quan-ly-ban-hang')
     ->group(function () {
         Route::get('/export-invoice/{orderId}', [OrderController::class, 'exportInvoice'])->name('invoice');
     });
+// routes/admin.php
+Route::prefix('assignment')->group(function () {
+    Route::put('/{type}/{id}', [PublicController::class, 'update'])
+        ->name('assignment.update');
+});

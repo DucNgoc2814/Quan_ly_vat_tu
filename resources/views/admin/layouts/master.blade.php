@@ -286,15 +286,9 @@
 </head>
 
 <body>
-    <!-- Begin page -->
     <div id="jquery-wrapper">
         @include('admin.layouts.partials.header')
-        <!-- ========== App Menu ========== -->
         @include('admin.layouts.partials.sidebar')
-        <!-- Left Sidebar End -->
-        <!-- ============================================================== -->
-        <!-- Start right Content here -->
-        <!-- ============================================================== -->
         <div class="main-content">
 
             <div class="page-content">
@@ -429,21 +423,6 @@
     </script>
 
     <script>
-        window.Echo.channel('order-created')
-            .listen('NewOrderCreated', (e) => {
-                console.log('Nhận được event:', e);
-                Swal.fire({
-                    title: 'Đơn hàng mới!',
-                    text: `Đơn hàng bán "${e.order.slug}" vừa được tạo`,
-                    icon: 'info',
-                    confirmButtonText: 'OK'
-                }).then(() => {
-                    location.reload();
-                });
-            });
-    </script>
-
-    <script>
         window.Echo.channel('order-cancel')
             .listen('OrderCancelRequested', (e) => {
                 Swal.fire({
@@ -455,8 +434,6 @@
                     location.reload();
                 });
             });
-    </script>
-    <script>
         window.Echo.channel('import-order-created')
             .listen('NewImportOrderCreated', (e) => {
                 Swal.fire({
@@ -468,9 +445,7 @@
                     location.reload();
                 });
             });
-    </script>
 
-    <script>
         window.Echo.channel('import-order-cancel')
             .listen('ImportOrderCancelRequested', (e) => {
                 Swal.fire({
@@ -484,7 +459,7 @@
             });
     </script>
 
-    @yield('scripts')
+
     @if (session('authorization'))
         {{ session('authorization') }}
     @endif
@@ -538,6 +513,7 @@
             });
         });
     </script>
+    @yield('scripts')
 </body>
 
 </html>

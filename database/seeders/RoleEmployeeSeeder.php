@@ -21,17 +21,12 @@ class RoleEmployeeSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'name' => 'Quản lý kho',
+                'name' => 'Nhân viên kho',
                 'wage' => 40000,
             ],
             [
                 'id' => 3,
-                'name' => 'Kế toán',
-                'wage' => 30000,
-            ],
-            [
-                'id' => 4,
-                'name' => 'Lái xe',
+                'name' => 'Nhân viên lái xe',
                 'wage' => 20000,
             ],
         ]);

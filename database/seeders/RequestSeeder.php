@@ -13,13 +13,6 @@ class RequestSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('requests')->insert([
-            [
-                'employee_send' => 1,
-                'employee_get' => 1,
-                'title' => 'GGG',
-                'content' => 'NGUYEN VAN A',
-            ],
-        ]);
+      
     }
 }

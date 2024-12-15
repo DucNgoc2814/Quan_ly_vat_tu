@@ -13,15 +13,7 @@ class SliderSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('sliders')->insert([
-            [
-                'url' => '',
-                'description' => 'ABC',
-                'date_start' => '2024-05-05',
-                'date_end' => '2024-05-06',
-                'status' => true,
-            ],
-        ]);
+        
     }
 }
     

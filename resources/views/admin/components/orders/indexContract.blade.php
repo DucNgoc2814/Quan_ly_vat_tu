@@ -31,6 +31,7 @@
                                     <th>Giá trị đơn</th>
                                     <th data-ordering="false">Ngày đặt hàng </th>
                                     <th>Trạng thái</th>
+                                    <th>Người phụ trách</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
@@ -77,6 +78,8 @@
                                             @endif
 
                                         </td>
+                                        <td>
+                                            {{ $order->employee->name }}
                                         <td class="text-center">
                                             <div class="dropdown d-inline-block">
                                                 <button class="btn btn-soft-secondary btn-sm dropdown" type="button"

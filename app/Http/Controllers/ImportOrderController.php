@@ -28,8 +28,21 @@ class ImportOrderController extends Controller
     const PATH_VIEW = 'admin.components.import_orders.';
     public function index()
     {
-        $data = Import_order::with(['payment', 'supplier'])->get();
+        $token = Session::get('token');
+        $payload = JWTAuth::setToken($token)->getPayload();
+        $role = $payload->get('role');
+        $userId = $payload->get('id');
 
+        $query = Import_order::with(['payment', 'supplier']);
+
+        // Filter for non-admin users
+        if ($role != '1') {
+            $query->where('employee_id', $userId);
+        }
+
+        $data = $query->latest('id')->get();
+
+        // Keep existing low stock products query
         $lowStockProducts = Variation::with('product')
             ->where('stock', '<=', 30)
             ->get();
@@ -67,6 +80,7 @@ class ImportOrderController extends Controller
                 // Tạo đơn hàng nhập
                 $importOrder = Import_order::create([
                     "supplier_id" => $request->supplier_id,
+                    'employee_id' => JWTAuth::setToken(Session::get('token'))->getPayload()->get('id'),
                     "slug" => $slug,
                     "product_quantity" => array_sum($request->product_quantity),
                     "total_amount" => $totalAmount,
@@ -107,24 +121,32 @@ class ImportOrderController extends Controller
 
     public function requestCancel(Request $request, $slug)
     {
-        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-
-        // Cập nhật trạng thái về chờ hủy
-        // $importOrder->status = 1;
-        $importOrder->cancel_reason = $request->reason; // Lưu lý do hủy
-        $importOrder->save();
-
-        event(new ImportOrderCancelRequested($importOrder));
-
-
-        return response()->json(['success' => true, 'message' => 'Chờ quản lý xác nhận hủy']);
+        try {
+            $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+            if ($importOrder->status != 1) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Không thể  hủy đơn hàng này.'
+                ], 403);
+            }
+            DB::transaction(function () use ($importOrder, $request) {
+                $importOrder->cancel_reason = $request->reason;
+                $importOrder->save();
+                NewOrderRequest::where('import_order_id', $importOrder->id)->delete();
+                event(new ImportOrderCancelRequested($importOrder));
+            });
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Có lỗi xảy ra: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function getPendingCancelRequests()
     {
-        // Lấy các yêu cầu hủy đơn hàng có trạng thái đang chờ xử lý
-        $pendingRequests = Import_order::where('status', 1) // 1 = Chờ xác nhận
-            ->whereNotNull('cancel_reason') // Chỉ lấy đơn có yêu cầu hủy
+        $pendingRequests = Import_order::where('status', 1)
+            ->whereNotNull('cancel_reason')
             ->get();
 
         return response()->json($pendingRequests);
@@ -132,17 +154,33 @@ class ImportOrderController extends Controller
 
     public function cancelImportOrder($slug)
     {
-        $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-        $importOrder->status = 4; // Chuyển trạng thái thành hủy
-        $importOrder->save();
+        try {
+            $importOrder = Import_order::where('slug', $slug)->firstOrFail();
+            if ($importOrder->status != 1) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Chỉ có thể hủy đơn hàng ở trạng thái chờ xử lý'
+                ], 403);
+            }
+            $importOrder->status = 4;
+            $importOrder->save();
 
-        return redirect()->back()->with('success', 'Đơn hàng đã bị hủy');
+            return response()->json([
+                'success' => true,
+                'message' => 'Đã xác nhận hủy đơn hàng'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function confirmOrder($slug)
     {
         $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-        $importOrder->status = 2; // Đã xác nhận
+        $importOrder->status = 2;
         $importOrder->save();
 
         event(new ImportOrderConfirmed($importOrder));
@@ -156,12 +194,13 @@ class ImportOrderController extends Controller
     public function rejectOrder($slug)
     {
         $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-        $importOrder->status = 6; // Trạng thái từ chối
+        $importOrder->status = 2;
+        $importOrder->cancel_reason = null;
         $importOrder->save();
 
         return response()->json([
             'success' => true,
-            'message' => 'Đã từ chối đơn hàng',
+            'message' => 'Đã từ chối hủy đơn hàng',
         ]);
     }
 
@@ -170,7 +209,6 @@ class ImportOrderController extends Controller
         try {
             $token = Session('token');
             $dataToken = JWTAuth::setToken($token)->getPayload();
-            // Lấy role_id từ payload của token
             $role_id = $dataToken['role'];
             if ($role_id == 1) {
                 $pendingNewOrders = NewOrderRequest::with(['importOrder', 'variation'])
@@ -178,7 +216,11 @@ class ImportOrderController extends Controller
                         $query->where('status', 1);
                     })
                     ->get();
-                // Đơn hàng bán
+                $pendingCancelRequests = Import_order::where('status', 1)
+                    ->whereNotNull('cancel_reason')
+                    ->distinct()
+                    ->get()
+                    ->unique('slug');
                 $totalRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
                 $totalRevenueLastMonth = Order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
                 $revenueDifference = $totalRevenueThisMonth - $totalRevenueLastMonth;
@@ -246,6 +288,7 @@ class ImportOrderController extends Controller
                     ->get();
                 return view('admin.dashboard', compact(
                     'pendingNewOrders',
+                    'pendingCancelRequests',
                     'totalRevenueThisMonth',
                     'growthRateRevenue',
                     'totalCustomersThisMonth',
@@ -287,10 +330,9 @@ class ImportOrderController extends Controller
     {
         $importOrder = Import_order::where('slug', $slug)->first();
         if ($importOrder) {
-            $importOrder->status = 3; // Giao hàng thành công
+            $importOrder->status = 3;
             $importOrder->save();
 
-            // Cập nhật số lượng stock
             $importOrderDetails = Import_order_detail::where('import_order_id', $importOrder->id)->get();
             foreach ($importOrderDetails as $detail) {
                 $variation = Variation::find($detail->variation_id);
@@ -319,7 +361,7 @@ class ImportOrderController extends Controller
     public function edit($slug)
     {
         $import_order = Import_order::where('slug', $slug)->firstOrFail();
-        
+
         // Kiểm tra nếu đơn nhập đã được xác nhận thì không cho sửa
         if ($import_order->status != 1) {
             return redirect()->route('importOrder.index')->with('error', 'Không thể sửa đơn nhập hàng');
@@ -338,7 +380,7 @@ class ImportOrderController extends Controller
     public function update(UpdateImport_orderRequest $request, $slug)
     {
         $importOrder = Import_order::where('slug', $slug)->firstOrFail();
-        
+
         // Kiểm tra nếu đơn nhập đã được xác nhận thì không cho cập nhật
         if ($importOrder->status != 1) {
             return redirect()->route('importOrder.index')->with('error', 'Không thể cập nhật đơn nhập hàng');

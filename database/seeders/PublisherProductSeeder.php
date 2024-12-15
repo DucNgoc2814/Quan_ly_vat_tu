@@ -13,11 +13,6 @@ class PublisherProductSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('supplier_variation')->insert([
-            [
-                'supplier_id' => 1,
-                'variation_id' => 1,
-            ],
-        ]);
+        
     }
 }

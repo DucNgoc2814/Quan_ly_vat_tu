@@ -10,7 +10,7 @@
     </thead>
     <tbody>
         @foreach($inventory as $detail)
-        <tr>
+        <tr class="{{ $detail->actual_quantity > 0 && $detail->system_quantity == 0 ? 'table-danger' : '' }}">
             <td>{{ $detail->variation_id }}</td>
             <td>{{ $detail->variation_name }}</td>
             <td>{{ $detail->actual_quantity }}</td>

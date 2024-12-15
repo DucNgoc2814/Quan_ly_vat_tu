@@ -33,6 +33,7 @@
                                 <th data-ordering="false">Tiền đã trả</th>
                                 <th data-ordering="false">Trạng thái</th>
                                 <th data-ordering="false">Ngày đặt hàng</th>
+                                <th data-ordering="false">Người phụ trách</th>
                                 <th>Hành động</th>
                             </tr>
                         </thead>
@@ -52,13 +53,10 @@
                                             <span class="badge bg-success">Giao hàng thành công</span>
                                         @elseif($item->status == 4)
                                             <span class="badge bg-danger">Đã hủy</span>
-                                        @elseif($item->status == 5)
-                                            <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
-                                        @elseif($item->status == 6)
-                                            <span class="badge bg-warning">Đơn hàng chờ xác nhận hủy</span>
                                         @endif
                                     </td>
                                     <td>{{ $item->created_at }}</td>
+                                    <td>{{ $item->employee->name }}</td>
                                     <td class="text-center">
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
@@ -161,7 +159,8 @@
                                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
                             },
                             body: JSON.stringify({
-                                reason: result.value // Gửi lý do hủy đơn hàng
+                                reason: result.value,
+                                order_slug: slug
                             })
                         })
                         .then(response => response.json())
@@ -179,8 +178,6 @@
 
     <script>
         function checkOrderStatus(slug) {
-            console.log('Checking status for:', slug); // Debug log
-
             setInterval(function() {
                 fetch(`/don-hang-nhap/kiem-tra-trang-thai/${slug}`, {
                         method: 'GET',
@@ -197,17 +194,20 @@
                         return response.json();
                     })
                     .then(data => {
-                        console.log('Response data:', data); // Debug log
                         if (data.status === 'confirmed') {
-                            Swal.fire({
-                                title: 'Đơn hàng đã giao thành công',
-                                text: `Đơn hàng - ${slug} đã được giao thành công`,
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true
+                            });
+
+                            Toast.fire({
                                 icon: 'success',
-                                confirmButtonText: 'Xác nhận'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    updateOrderStatus(slug);
-                                }
+                                title: `Đơn hàng ${slug} đã giao thành công`
+                            }).then(() => {
+                                updateOrderStatus(slug);
                             });
                         }
                     })

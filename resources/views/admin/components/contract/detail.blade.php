@@ -25,7 +25,7 @@
                         <div class="col-lg-8">
                             <div class="d-flex align-items-center gap-3">
                                 <a href="{{ route('contract.index') }}" class="btn btn-success" id="addproduct-btn"><i
-                                    class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
+                                        class="ri-arrow-left-line align-bottom me-1"></i>Quay lại</a>
                                 <button class="btn btn-primary" onclick="showPdf({{ $contract->id }})">
                                     <i class="ri-file-pdf-line align-bottom me-1"></i>Xem hợp đồng
                                 </button>
@@ -53,7 +53,8 @@
                             <p><strong>Số điện thoại:</strong> <span
                                     class="text-muted">{{ $contract->customer_phone }}</span></p>
                             <p><strong>Email:</strong> <span class="text-muted">{{ $contract->customer_email }}</span></p>
-                            <p><strong>Thanh toán:</strong> <span class="text-muted">{{ number_format($contract->paid_amount) }}/
+                            <p><strong>Thanh toán:</strong> <span
+                                    class="text-muted">{{ number_format($contract->paid_amount) }}/
                                     {{ number_format($contract->total_amount) }} VNĐ</span></p>
 
                         </div>
@@ -65,7 +66,14 @@
                         <i class="ri-user-3-line text-muted fs-20 me-2"></i>
                         <div>
                             <span class="text-muted">Người phụ trách:</span>
-                            <span class="fw-medium ms-1"><a href="{{ route('employees.edit', $contract->employee->id) }}">{{ $contract->employee->name ?? 'Chưa phân công' }}</a></span>
+                            <span class="fw-medium ms-1"><a
+                                    href="{{ route('employees.edit', $contract->employee->id) }}">{{ $contract->employee->name ?? 'Chưa phân công' }}</a></span>
+                            @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == '1')
+                                <button type="button" class="btn btn-link text-warning"
+                                    onclick="openAssignmentModal('contract', {{ $contract->id }})">
+                                    <i class="ri-pencil-fill align-bottom"></i> Thay đổi
+                                </button>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -106,12 +114,14 @@
                 <div class="row">
                     <div class="my-3 d-flex justify-content-between align-items-center">
                         <h5>Danh sách đơn hàng</h5>
-                        @if($contract->contract_status_id == 6)
-                            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createOrderModal">
+                        @if ($contract->contract_status_id == 6)
+                            <button class="btn btn-sm btn-success" data-bs-toggle="modal"
+                                data-bs-target="#createOrderModal">
                                 Tạo đơn hàng
                             </button>
                         @else
-                            <button class="btn btn-sm btn-secondary" disabled title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo đơn hàng' }}">
+                            <button class="btn btn-sm btn-secondary" disabled
+                                title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo đơn hàng' }}">
                                 Tạo đơn hàng
                             </button>
                         @endif
@@ -125,6 +135,7 @@
                                 <th>Người nhận</th>
                                 <th>Số điện thoại</th>
                                 <th>Ngày đặt</th>
+                                <th>Người phụ trách</th>
                                 <th>Trạng thái</th>
                             </tr>
                         </thead>
@@ -137,6 +148,7 @@
                                     <td>{{ $order->customer_name }}</td>
                                     <td>{{ $order->number_phone }}</td>
                                     <td>{{ \Carbon\Carbon::parse($order->created_at)->format('H:i:s d/m/Y') }}</td>
+                                    <td>{{ $order->employee->name }}</td>
                                     <td class="text-center">
                                         <span
                                             class="badge bg-{{ $order->orderStatus->color }}-subtle text-{{ $order->orderStatus->color }}">
@@ -153,12 +165,13 @@
         <div class="col-lg-12 mt-4 card">
             <div class="my-3 d-flex justify-content-between align-items-center">
                 <h5>Lịch sử chuyển tiền</h5>
-                @if($contract->contract_status_id == 6)
+                @if ($contract->contract_status_id == 6)
                     <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createPaymentModal">
                         Tạo lịch sử chuyển tiền
                     </button>
                 @else
-                    <button class="btn btn-sm btn-secondary" disabled title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo lịch sử chuyển tiền' }}">
+                    <button class="btn btn-sm btn-secondary" disabled
+                        title="{{ $statusMessages[$contract->contract_status_id] ?? 'Không thể tạo lịch sử chuyển tiền' }}">
                         Tạo lịch sử chuyển tiền
                     </button>
                 @endif
@@ -180,7 +193,7 @@
                             <td>{{ $payment->note }}</td>
                             <td>{{ number_format($payment->amount) }} VNĐ</td>
                             <td>{{ $payment->payment->name }}</td>
-                            <td>{{ \Carbon\Carbon::parse($payment->payment_date)->format('d/m/Y') }}</td>
+                            <td>{{ \Carbon\Carbon::parse($payment->created_at)->format('H:i:s d/m/Y') }}</td>
                             <td>
                                 @if ($payment->document)
                                     @php
@@ -215,7 +228,49 @@
     </div><!--end col-->
     </div>
 @endsection
+<div class="modal fade" id="assignmentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thay đổi người phụ trách</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="assignmentForm">
+                @csrf
+                <input type="hidden" id="assignmentType" name="type">
+                <input type="hidden" id="assignmentId" name="id">
 
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Tìm nhân viên</label>
+                        <div class="position-relative">
+                            <input type="text" class="form-control" id="employeeSearch"
+                                placeholder="Nhập tên nhân viên..." autocomplete="off">
+                            <input type="hidden" name="employee_id" id="selectedEmployeeId">
+
+                            <div id="employeeSearchResults"
+                                class="position-absolute w-100 mt-1 shadow bg-white rounded-2 d-none"
+                                style="max-height: 200px; overflow-y: auto; z-index: 1000;">
+                                @foreach ($employees as $employee)
+                                    <div class="p-2 border-bottom employee-item" data-id="{{ $employee->id }}"
+                                        data-name="{{ $employee->name }}" style="cursor: pointer;">
+                                        {{ $employee->name }} - {{ $employee->id }}
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Đóng</button>
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div class="modal fade" id="pdfModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -270,20 +325,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="{{ route('order.storeContract', ['contract_id' => $contract->id, 'customer_id' => $contract->customer_id]) }}">
+                <form method="POST" id='orderForm'
+                    data-pending-total="{{ $contract->orders->whereIn('status_id', [1, 2, 3])->sum('total_amount') }}"
+                    action="{{ route('order.storeContract', ['contract_id' => $contract->id, 'customer_id' => $contract->customer_id]) }}">
                     @csrf
                     <div class="mb-3">
                         <label for="recipientName" class="form-label">Tên người nhận</label>
                         <input type="text" class="form-control" id="recipientName" name="customer_name">
-                        <span class="invalid-feedback" id="recipientNameError" style="display: none;"></span>
+                        <div class="invalid-feedback" id="recipientNameError"></div>
                     </div>
+
                     <div class="mb-3">
                         <label for="recipientPhone" class="form-label">Số điện thoại người nhận</label>
                         <input type="text" class="form-control" id="recipientPhone" name="number_phone">
-                        <span class="invalid-feedback" id="recipientPhoneError" style="display: none;"></span>
+                        <div class="invalid-feedback" id="recipientPhoneError"></div>
                     </div>
+
                     <div class="mb-3">
-                        <label class="form-label" for="">Địa chỉ người nhận</label>
+                        <label class="form-label">Địa chỉ người nhận</label>
                         <div class="location-select-container">
                             <div class="input-with-icons" id="input-with-icons">
                                 <input type="text" id="location-input" class="form-control"
@@ -302,6 +361,7 @@
                                             <option selected disabled value="">Chọn Tỉnh/Thành phố</option>
                                         </select>
                                         <input type="hidden" id="province_name" name="province_name">
+                                        <div class="invalid-feedback" id="provinceError"></div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="districts" class="form-label">Quận/Huyện</label>
@@ -309,6 +369,7 @@
                                             <option selected disabled value="">Chọn Quận/Huyện</option>
                                         </select>
                                         <input type="hidden" id="district_name" name="district_name">
+                                        <div class="invalid-feedback" id="districtError"></div>
                                     </div>
                                     <div class="col-md-4">
                                         <label for="wards" class="form-label">Phường/Xã</label>
@@ -316,10 +377,12 @@
                                             <option selected disabled value="">Chọn Phường/Xã</option>
                                         </select>
                                         <input type="hidden" id="ward_name" name="ward_name">
+                                        <div class="invalid-feedback" id="wardError"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div class="invalid-feedback" id="addressError"></div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label" for="address">Địa chỉ cụ thể(*Số nhà, đường, ngõ, ngách, cụm dân
@@ -340,6 +403,7 @@
                                     <th>Tên sản phẩm</th>
                                     <th>Số lượng đã đặt</th>
                                     <th>Số lượng cần thêm</th>
+                                    <th>Giá</th>
                                     <th>Tồn kho</th>
                                     <th>Số lượng cần mua</th>
                                 </tr>
@@ -355,6 +419,7 @@
                                         <td>{{ $item->variation->name }}</td>
                                         <td>{{ $item->quantity }}</td>
                                         <td>{{ $item->remaining_quantity }}</td>
+                                        <td>{{ $item->price }}</td>
                                         <td>{{ $item->variation->stock }}</td>
                                         <td>
                                             <input type="hidden" name="variation_id[]"
@@ -384,7 +449,132 @@
         </div>
     </div>
 </div>
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            const searchInput = $('#employeeSearch');
+            const searchResults = $('#employeeSearchResults');
+            const employeeItems = $('.employee-item');
+            const selectedIdInput = $('#selectedEmployeeId');
 
+            searchInput.on('input', function() {
+                const searchText = this.value.toLowerCase();
+
+                if (searchText === '') {
+                    searchResults.addClass('d-none');
+                    return;
+                }
+
+                employeeItems.each(function() {
+                    const employeeName = $(this).data('name').toLowerCase();
+                    const employeeId = $(this).data('id').toString();
+
+                    // Check if search text matches either name or ID
+                    if (employeeName.includes(searchText) || employeeId.includes(searchText)) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+                searchResults.removeClass('d-none');
+            });
+
+            searchInput.on('focus', function() {
+                if (this.value) {
+                    searchResults.removeClass('d-none');
+                }
+            });
+
+            employeeItems.on('click', function() {
+                const id = $(this).data('id');
+                const name = $(this).data('name');
+
+                selectedIdInput.val(id);
+                searchInput.val(name);
+                searchResults.addClass('d-none');
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(e) {
+                if (!searchInput.is(e.target) && !searchResults.is(e.target)) {
+                    searchResults.addClass('d-none');
+                }
+            });
+        });
+
+        function openAssignmentModal(type, id) {
+            $('#assignmentType').val(type);
+            $('#assignmentId').val(id);
+            $('#assignmentModal').modal('show');
+        }
+
+        $(document).ready(function() {
+            $('#assignmentForm').on('submit', function(e) {
+                e.preventDefault();
+
+                const id = $('#assignmentId').val();
+                const employeeId = $('#selectedEmployeeId').val();
+
+                console.log('Submitting data:', {
+                    id: id,
+                    employee_id: employeeId
+                });
+                if (!employeeId) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "error",
+                        title: "Vui lòng chọn nhân viên",
+                        showConfirmButton: false,
+                        timer: 1500,
+                        toast: true
+                    });
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ route('assignment.update', ['type' => 'contract', 'id' => ':id']) }}'
+                        .replace(':id', id),
+                    type: 'PUT',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        employee_id: employeeId, // Add employeeId to data instead of URL
+                        type: 'contract'
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            Swal.fire({
+                                position: "top-end",
+                                icon: "success",
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 1500,
+                                toast: true
+                            });
+                            $('#assignmentModal').modal('hide');
+                            location.reload();
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error details:', {
+                            xhr: xhr,
+                            status: status,
+                            error: error
+                        });
+                        Swal.fire({
+                            position: "top-end",
+                            icon: "error",
+                            title: xhr.responseJSON?.message || 'Có lỗi xảy ra',
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+@endpush
 <script>
     function toggleQuantityInput(checkbox) {
         const quantityInput = document.getElementById('quantity_' + checkbox.dataset.id);
@@ -395,20 +585,16 @@
             quantityInput.value = 0; // Đặt lại giá trị về 0
         }
     }
-</script>
 
-<script>
     const locationInput = document.getElementById('location-input');
     const locationDropdown = document.getElementById('location-dropdown');
     const inputWithIcons = document.getElementById('input-with-icons');
 
-    // Toggle dropdown visibility and show search icon when input is clicked
     locationInput.addEventListener('focus', function() {
         locationDropdown.classList.add('active');
         inputWithIcons.classList.add('focused');
     });
 
-    // Hide search icon and dropdown when clicking outside
     document.addEventListener('click', function(event) {
         if (!inputWithIcons.contains(event.target) && !locationDropdown.contains(event.target)) {
             locationDropdown.classList.remove('active');
@@ -416,7 +602,6 @@
         }
     });
 
-    // Load Provinces on page load
     async function loadProvinces() {
         try {
             const response = await fetch('https://api.mysupership.vn/v1/partner/areas/province');
@@ -472,17 +657,14 @@
         });
     }
 
-    // Update input value when all selects are chosen
     function updateLocationInput() {
         const province = document.getElementById('provinces').selectedOptions[0]?.text || '';
         const district = document.getElementById('districts').selectedOptions[0]?.text || '';
         const ward = document.getElementById('wards').selectedOptions[0]?.text || '';
 
-        // Update the location input field with the selected values (tên của tỉnh, huy��n, xã)
         locationInput.value = `${province}, ${district}, ${ward}`.trim();
     }
 
-    // Event listeners for dropdown changes
     document.getElementById('provinces').addEventListener('change', function() {
         const provinceName = this.selectedOptions[0].text;
         document.getElementById('province_name').value = provinceName; // Gán tên tỉnh vào input ẩn
@@ -503,7 +685,6 @@
         updateLocationInput();
     });
 
-    // Call loadProvinces when page loads
     document.addEventListener('DOMContentLoaded', loadProvinces);
 </script>
 
@@ -564,77 +745,115 @@
 
         document.getElementById('submitOrder').addEventListener('click', function(event) {
             event.preventDefault();
-            
-            // Tính toán tỷ lệ thanh toán
-            const totalContractAmount = {{ $contract->total_amount }};
-            const paidAmount = {{ $contract->paid_amount }};
-            const paymentRatio = paidAmount / totalContractAmount;
+            let isValid = true;
+            let hasProducts = false;
 
-            // Validate sản phẩm và số lượng
-            const productQuantities = document.querySelectorAll('.quantity-input');
-            let totalSelectedQuantity = 0;
-            let maxAllowedQuantity = 0;
-
-            // Tính tổng số lượng sản phẩm trong hợp đồng
-            const totalContractQuantity = {{ $contract->contractDetails->sum('quantity') }};
-            maxAllowedQuantity = Math.floor(totalContractQuantity * paymentRatio);
-
-            // Kiểm tra từng sản phẩm được chọn
-            productQuantities.forEach(input => {
-                if (input.style.display === 'block') {
-                    const quantity = parseInt(input.value) || 0;
-                    totalSelectedQuantity += quantity;
-
-                    // Kiểm tra số lượng còn lại của từng sản phẩm
-                    const remainingQuantity = parseInt(input.closest('tr').querySelector('td:nth-child(5)').textContent);
-                    if (quantity > remainingQuantity) {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Vượt quá số lượng cho phép',
-                            text: 'Số lượng đặt vượt quá số lượng còn lại của sản phẩm.',
-                            confirmButtonText: 'Đồng ý'
-                        });
-                        return;
-                    }
-                }
-            });
-
-            // Kiểm tra tổng số lượng so với số tiền đã thanh toán
-            if (totalSelectedQuantity > maxAllowedQuantity) {
-                Swal.fire({
-                    icon: 'warning',
-                    title: 'Vượt quá số lượng cho phép',
-                    html: `Với số tiền đã thanh toán <b>${new Intl.NumberFormat('vi-VN').format(paidAmount)}đ/${new Intl.NumberFormat('vi-VN').format(totalContractAmount)}đ</b>,<br>
-                          bạn chỉ được mua tối đa <b>${maxAllowedQuantity}</b> sản phẩm.<br><br>
-                          Số lượng bạn đang chọn: <b>${totalSelectedQuantity}</b> sản phẩm.`,
-                    confirmButtonText: 'Đồng ý'
+            const resetErrors = () => {
+                document.querySelectorAll('.invalid-feedback').forEach(element => {
+                    element.style.display = 'none';
+                    element.textContent = '';
                 });
-                return;
-            }
+                document.querySelectorAll('.form-control, .form-select').forEach(element => {
+                    element.classList.remove('is-invalid');
+                });
+            };
 
-            // Validate các trường thông tin cơ bản
-            const recipientName = document.getElementById('recipientName').value.trim();
-            const recipientPhone = document.getElementById('recipientPhone').value.trim();
-            const address = document.getElementById('address').value.trim();
-            const phoneRegex = /^(0[0-9]{9,10})$/;
+            resetErrors();
 
-            if (!recipientName || !recipientPhone || !address || !phoneRegex.test(recipientPhone)) {
+            const checkedProducts = document.querySelectorAll('.product-checkbox:checked');
+            hasProducts = checkedProducts.length > 0;
+
+            if (!hasProducts) {
+                isValid = false;
                 Swal.fire({
                     icon: 'error',
-                    title: 'Thiếu thông tin',   
-                    text: 'Vui lòng điền đầy đủ và chính xác thông tin người nhận hàng',
-                    confirmButtonText: 'Đồng ý'
+                    title: 'Lỗi',
+                    text: 'Vui lòng chọn ít nhất một sản phẩm'
                 });
-                return;
             }
 
-            // Nếu tất cả điều kiện đều hợp lệ, submit form
-            document.querySelector('form').submit();
+            if (hasProducts) {
+                const recipientName = document.getElementById('recipientName');
+                const nameError = document.getElementById('recipientNameError');
+                if (!recipientName.value.trim()) {
+                    isValid = false;
+                    recipientName.classList.add('is-invalid');
+                    nameError.textContent = 'Vui lòng nhập tên người nhận';
+                    nameError.style.display = 'block';
+                }
+
+                const phoneNumber = document.getElementById('recipientPhone');
+                const phoneError = document.getElementById('recipientPhoneError');
+                const phoneRegex = /^(0[0-9]{9})$/;
+                if (!phoneRegex.test(phoneNumber.value.trim())) {
+                    isValid = false;
+                    phoneNumber.classList.add('is-invalid');
+                    phoneError.textContent = 'Số điện thoại không hợp lệ';
+                    phoneError.style.display = 'block';
+                }
+
+                const provinces = document.getElementById('provinces');
+                if (!provinces.value) {
+                    isValid = false;
+                    provinces.classList.add('is-invalid');
+                    document.getElementById('provinceError').textContent = 'Vui lòng chọn Tỉnh/Thành phố';
+                    document.getElementById('provinceError').style.display = 'block';
+                }
+                const districts = document.getElementById('districts');
+                if (!districts.value) {
+                    isValid = false;
+                    districts.classList.add('is-invalid');
+                    document.getElementById('districtError').textContent = 'Vui lòng chọn Quận/Huyện';
+                    document.getElementById('districtError').style.display = 'block';
+                }
+                const wards = document.getElementById('wards');
+                if (!wards.value) {
+                    isValid = false;
+                    wards.classList.add('is-invalid');
+                    document.getElementById('wardError').textContent = 'Vui lòng chọn Phường/Xã';
+                    document.getElementById('wardError').style.display = 'block';
+                }
+                const address = document.getElementById('address');
+                const addressError = document.getElementById('addressError');
+                if (!address.value.trim()) {
+                    isValid = false;
+                    address.classList.add('is-invalid');
+                    addressError.textContent = 'Vui lòng nhập địa chỉ cụ thể';
+                    addressError.style.display = 'block';
+                }
+
+                if (isValid) {
+                    const contractPaidAmount = parseFloat('{{ $contract->paid_amount }}');
+                    const pendingOrdersTotal = parseFloat(document.getElementById('orderForm').dataset
+                        .pendingTotal) || 0;
+
+                    let currentOrderTotal = 0;
+                    checkedProducts.forEach(checkbox => {
+                        const row = checkbox.closest('tr');
+                        const quantity = parseFloat(row.querySelector('.quantity-input').value);
+                        const priceText = row.querySelector('td:nth-child(6)').textContent;
+                        const price = parseFloat(priceText.replace(/[^\d]/g, ''));
+                        currentOrderTotal += quantity * price;
+                    });
+
+                    if ((currentOrderTotal + pendingOrdersTotal) > contractPaidAmount) {
+                        isValid = false;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Không thể tạo đơn hàng',
+                            text: `Tổng giá trị đơn hàng mới (${new Intl.NumberFormat('vi-VN').format(currentOrderTotal)}đ) và các đơn chưa hoàn thành (${new Intl.NumberFormat('vi-VN').format(pendingOrdersTotal)}đ) vượt quá số tiền đã thanh toán của hợp đồng (${new Intl.NumberFormat('vi-VN').format(contractPaidAmount)}đ)`
+                        });
+                    }
+                }
+            }
+
+            if (isValid && hasProducts) {
+                document.getElementById('orderForm').submit();
+            }
         });
     </script>
 @endpush
 
-<!-- Modal for Creating Payment History -->
 <div class="modal fade" id="createPaymentModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -664,11 +883,7 @@
                         <input type="number" class="form-control" id="amount" name="amount" required>
                         <span class="invalid-feedback" id="amountError" style="display: none;"></span>
                     </div>
-                    <div class="mb-3">
-                        <label for="payment_date" class="form-label">Ngày chuyển</label>
-                        <input type="date" class="form-control" id="payment_date" name="payment_date" required>
-                        <span class="invalid-feedback" id="dateError" style="display: none;"></span>
-                    </div>
+
                     <div class="mb-3">
                         <label for="note" class="form-label">Nội dung</label>
                         <textarea class="form-control" id="note" name="note" rows="3" required></textarea>
@@ -695,44 +910,26 @@
     <script>
         document.getElementById('submitPayment').addEventListener('click', function(event) {
             event.preventDefault();
-
-            // Lấy giá trị từ form
             const amount = document.getElementById('amount').value.trim();
-            const paymentDate = document.getElementById('payment_date').value.trim();
             const note = document.getElementById('note').value.trim();
             const paymentId = document.getElementById('paymentId').value.trim();
             let isValid = true;
-
-            // Reset error messages
             document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
-
-            // Validate amount
             if (!amount || amount <= 0) {
                 document.getElementById('amountError').innerText = 'Vui lòng nhập số tiền hợp lệ';
                 document.getElementById('amountError').style.display = 'block';
                 isValid = false;
             }
-
-            // Validate date
-            if (!paymentDate) {
-                document.getElementById('dateError').innerText = 'Vui lòng chọn ngày chuyển tiền';
-                document.getElementById('dateError').style.display = 'block';
-                isValid = false;
-            }
-
-            // Validate note
             if (!note) {
                 document.getElementById('noteError').innerText = 'Vui lòng nhập nội dung chuyển tiền';
                 document.getElementById('noteError').style.display = 'block';
                 isValid = false;
             }
-
             if (paymentId == '') {
                 document.getElementById('paymentError').innerText = 'Vui lòng chọn phương thức thanh toán';
                 document.getElementById('paymentError').style.display = 'block';
                 isValid = false;
             }
-
             if (isValid) {
                 document.getElementById('paymentForm').submit();
             }
@@ -743,10 +940,7 @@
 @push('scripts')
     <script>
         function showDocument(url, fileType) {
-            // Ngăn chặn sự kiện click lan tỏa
             event.stopPropagation();
-
-            // Nếu là file ảnh
             Swal.fire({
                 imageUrl: url,
                 imageWidth: 500,

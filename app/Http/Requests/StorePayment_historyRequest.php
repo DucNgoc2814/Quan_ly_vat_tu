@@ -23,7 +23,6 @@ class StorePayment_historyRequest extends FormRequest
     {
         return [
             'amount' => 'required|numeric|min:0',
-            'payment_date' => 'required|date|before_or_equal:today',
             'note' => 'required|string|max:255',
             'document' => 'nullable|file|mimes:pdf,jpg,jpeg,png|max:2048', // Max 2MB
         ];
