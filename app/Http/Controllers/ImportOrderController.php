@@ -222,6 +222,10 @@ class ImportOrderController extends Controller
                 ->get()
                 ->unique('slug');
             $totalRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
+            $actualRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)
+                ->whereYear('updated_at', Carbon::now()->year)
+                ->where('status_id', 4)
+                ->sum('total_amount');
             $totalRevenueLastMonth = Order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
             $revenueDifference = $totalRevenueThisMonth - $totalRevenueLastMonth;
             if ($totalRevenueLastMonth != 0) {
@@ -300,12 +304,12 @@ class ImportOrderController extends Controller
                 'totalAmoutx',
                 'statusValues',
                 'latestOrders',
-                'productsWithTotalQuantity'
+                'productsWithTotalQuantity',
+                'actualRevenueThisMonth'
             ));
         } catch (\Exception $e) {
             return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
         }
-        // return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues', 'latestOrders', 'productsWithTotalQuantity'));
     }
 
 

@@ -323,43 +323,39 @@ Route::middleware('CheckEmployees')->group(
         Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf')->middleware('permission:161');
         Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen')->middleware('permission:162');
         Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission'])->middleware('permission:163');
+
+        Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf')->middleware('permission:164');;
+        Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf')->middleware('permission:165');
+        Route::prefix('hop-dong')
+            ->as('contract.')
+            ->group(function () {
+                Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove')->middleware('permission:166');;
+                Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject')->middleware('permission:167');;
+            });
+        Route::get('/quan-ly-ton-kho/lich-su-ban-hang/{id}', [InventoryController::class, 'getExportHistory'])->name('getExportHistory')->middleware('permission:170');;
+        Route::get('/quan-ly-ban-hang/danh-sach-don-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract')->middleware('permission:171');
+        Route::post('/suppliers/add-variations/{supplier}', [SupplierController::class, 'addVariations'])->name('suppliers.addVariations')->middleware('permission:172');
+        Route::delete('/suppliers/{supplier}/variations/{variation}', [SupplierController::class, 'removeVariation'])->name('suppliers.removeVariation')->middleware('permission:173');
+        Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 'getVariationsBySupplier'])->middleware('permission:174');
+        Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu')->middleware('permission:175');
+        Route::get('/thong-ke-doanh-thu/date-range', [ThongkeController::class, 'getDateRangeStats'])->name('admin.thongke.dateRange')->middleware('permission:176');
+        Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang')->middleware('permission:177');
+        Route::get('/thong-ke-doanh-thu/revenue', [ThongkeController::class, 'getRevenueStats'])->name('admin.thongke.revenue')->middleware('permission:178');
+        Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi')->middleware('permission:179');
+        Route::get('/thong-ke-san-pham', [ThongkeController::class, 'thongKeSanPham'])->name('thongKeSanPham')->middleware('permission:180');
+        Route::get('/thong-ke-doi-tac', [ThongkeController::class, 'thongKeDoiTac'])->name('thongKeDoiTac')->middleware('permission:181');
+        Route::get('/thong-ke-doi-tac/filter', [ThongkeController::class, 'filterPartnerStats'])->name('thongKeDoiTac.filter')->middleware('permission:182');
+        Route::prefix('quan-ly-ban-hang')
+            ->as('order.')
+            ->group(function () {
+                Route::get('/export-invoice/{orderId}', [OrderController::class, 'exportInvoice'])->name('invoice')->middleware('permission:183');
+                Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract')->middleware('permission:184');
+                Route::post('/yeu-cau-hoan-tien/{slug}', [OrderController::class, 'requestCancelAndRefund'])->name('order.cancel.refund')->middleware('permission:185');
+            });
+        // routes/admin.php
+        Route::prefix('assignment')->group(function () {
+            Route::put('/{type}/{id}', [PublicController::class, 'update'])
+                ->name('assignment.update')->middleware('permission:186');
+        });
     }
 );
-Route::post('/gui-giam-doc-pdf/{id}', [ContractController::class, 'sendToManagerPdf'])->name('contract.sendToManagerPdf');
-Route::get('hop-dong/xem-hop-dong/{id}/pdf', [ContractController::class, 'showPdf'])->name('showPdf');
-
-Route::prefix('hop-dong')
-    ->as('contract.')
-    ->group(function () {
-        Route::get('/xac-nhan/{id}/{token}', [ContractController::class, 'customerApprove'])->name('customerApprove');
-        Route::get('/tu-choi/{id}/{token}', [ContractController::class, 'customerReject'])->name('customerReject');
-    });
-Route::get('/add-quyen-permission/{idquyen}/{idStaff}', [EmployeeController::class, 'changeQuyen'])->name('changeQuyen');
-Route::delete('/deleteQuyen/{permission_id}/{employee_id}', [EmployeeController::class, 'deletePermission']);
-
-Route::get('/quan-ly-ton-kho/lich-su-ban-hang/{id}', [InventoryController::class, 'getExportHistory'])->name('getExportHistory');
-Route::get('/quan-ly-ban-hang/danh-sach-don-hop-dong', [OrderController::class, 'orderContract'])->name('orderContract');
-Route::post('/suppliers/add-variations/{supplier}', [SupplierController::class, 'addVariations'])->name('suppliers.addVariations');
-Route::delete('/suppliers/{supplier}/variations/{variation}', [SupplierController::class, 'removeVariation'])->name('suppliers.removeVariation');
-Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 'getVariationsBySupplier']);
-Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
-Route::get('/thong-ke-doanh-thu/date-range', [ThongkeController::class, 'getDateRangeStats'])->name('admin.thongke.dateRange');
-Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
-Route::get('/thong-ke-doanh-thu/revenue', [ThongkeController::class, 'getRevenueStats'])->name('admin.thongke.revenue');
-Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
-Route::get('/thong-ke-san-pham', [ThongkeController::class, 'thongKeSanPham'])->name('thongKeSanPham');
-Route::get('/thong-ke-doi-tac', [ThongkeController::class, 'thongKeDoiTac'])->name('thongKeDoiTac');
-Route::get('/thong-ke-doi-tac/filter', [ThongkeController::class, 'filterPartnerStats'])->name('thongKeDoiTac.filter');
-
-Route::prefix('quan-ly-ban-hang')
-    ->as('order.')
-    ->group(function () {
-        Route::get('/export-invoice/{orderId}', [OrderController::class, 'exportInvoice'])->name('invoice');
-        Route::post('/them-don-hang', [OrderController::class, 'storeContract'])->name('storeContract');
-        Route::post('/yeu-cau-hoan-tien/{slug}', [OrderController::class, 'requestCancelAndRefund'])->name('order.cancel.refund');
-    });
-// routes/admin.php
-Route::prefix('assignment')->group(function () {
-    Route::put('/{type}/{id}', [PublicController::class, 'update'])
-        ->name('assignment.update');
-});

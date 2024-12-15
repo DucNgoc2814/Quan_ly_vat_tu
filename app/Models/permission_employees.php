@@ -9,10 +9,11 @@ class permission_employees extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
 
     protected $fillable = [
         'permission_id',
         'employee_id',
     ];
+
+    public $timestamps = false;
 }
