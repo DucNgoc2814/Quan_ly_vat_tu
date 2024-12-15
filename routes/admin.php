@@ -343,7 +343,9 @@ Route::post('/suppliers/add-variations/{supplier}', [SupplierController::class, 
 Route::delete('/suppliers/{supplier}/variations/{variation}', [SupplierController::class, 'removeVariation'])->name('suppliers.removeVariation');
 Route::get('/products-by-supplier/{supplierId}', [ImportOrderController::class, 'getVariationsBySupplier']);
 Route::get('/thong-ke-doanh-thu', [ThongkeController::class, 'thongKeDoanhThu'])->name('thongKeDoanhThu');
+Route::get('/thong-ke-doanh-thu/date-range', [ThongkeController::class, 'getDateRangeStats'])->name('admin.thongke.dateRange');
 Route::get('/thong-ke-don-hang', [ThongkeController::class, 'thongKeDonHang'])->name('thongKeDonHang');
+Route::get('/thong-ke-doanh-thu/revenue', [ThongkeController::class, 'getRevenueStats'])->name('admin.thongke.revenue');
 Route::post('/thong-ke-don-hang/api', [ThongkeController::class, 'thongKeDonHangApi'])->name('thongKeDonHangapi');
 Route::get('/thong-ke-san-pham', [ThongkeController::class, 'thongKeSanPham'])->name('thongKeSanPham');
 Route::get('/thong-ke-doi-tac', [ThongkeController::class, 'thongKeDoiTac'])->name('thongKeDoiTac');

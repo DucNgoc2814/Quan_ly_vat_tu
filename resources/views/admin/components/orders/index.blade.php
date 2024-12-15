@@ -270,7 +270,7 @@
                     cancelButtonText: 'Hủy'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        sendUpdateRequest($(select), orderSlug, '6'); // Chuyển thành trạng thái hoàn thành
+                        sendUpdateRequest($(select), orderSlug, '4'); // Chuyển thành trạng thái hoàn thành
                     } else {
                         $(select).val(currentStatus);
                     }

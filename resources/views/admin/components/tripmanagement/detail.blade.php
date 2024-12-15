@@ -144,7 +144,7 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST"
-                        action="{{ route('payment.store', ['related_id' => $index->order_id, 'transaction_type' => 'sale']) }}"
+                        action="{{ route('payment.store', ['related_id' => $index->order->id, 'transaction_type' => 'sale']) }}"
                         id="paymentForm" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
@@ -177,7 +177,8 @@
                             <small class="text-muted">Chấp nhận file: PDF, JPG, JPEG, PNG</small>
                         </div>
                         <!-- Add hidden input for remaining amount -->
-                        <input type="hidden" id="remainingAmount" value="{{ $index->order->total_amount - $index->order->paid_amount }}">
+                        <input type="hidden" id="remainingAmount"
+                            value="{{ $index->order->total_amount - $index->order->paid_amount }}">
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
                             <button type="submit" class="btn btn-primary" id="submitPayment">Lưu</button>

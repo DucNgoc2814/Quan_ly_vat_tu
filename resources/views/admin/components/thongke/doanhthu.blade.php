@@ -276,15 +276,15 @@
 
                     <div class="col-xl-8 w-50">
                         <div class="card p-3">
-                            <h3 class="m-3">Khoản thu</h3>
-                            <div class="input-group gap-5" style="margin-bottom: 20px">
-                                <select name="" id="" class="form-select"
-                                    onchange="changeSelect(event)">
-                                    <option value="ngay">Thống kê theo ngày</option>
-                                    <option value="tuan">Thống kê theo tuần</option>
-                                    <option value="thang">Thống kê theo tháng</option>
-                                    <option value="nam">Thống kê theo năm</option>
-                                </select>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4>Doanh thu</h4>
+                                <div class="d-flex gap-3">
+                                    <input type="date" id="start_date" class="form-control form-select-sm"
+                                        onchange="changeSelect()">
+                                    <span class="align-self-center">đến</span>
+                                    <input type="date" id="end_date" class="form-control form-select-sm"
+                                        onchange="changeSelect()">
+                                </div>
                             </div>
                             <canvas id="myChart" style="width:100%"></canvas>
                             <div class="d-flex justify-content-between mt-3">
@@ -306,15 +306,15 @@
                     </div>
                     <div class="col-xl-8 w-50">
                         <div class="card p-3">
-                            <h3 class="m-3">Chi phí</h3>
-                            <div class="input-group gap-5" style="margin-bottom: 20px">
-                                <select name="" id="" class="form-select"
-                                    onchange="changeSelect222(event)">
-                                    <option value="ngay">Thống kê theo ngày</option>
-                                    <option value="tuan">Thống kê theo tuần</option>
-                                    <option value="thang">Thống kê theo tháng</option>
-                                    <option value="nam">Thống kê theo năm</option>
-                                </select>
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h4>Chi phí</h4>
+                                <div class="d-flex gap-3">
+                                    <input type="date" id="start_date2" class="form-control form-select-sm"
+                                        onchange="changeSelect222()">
+                                    <span class="align-self-center">đến</span>
+                                    <input type="date" id="end_date2" class="form-control form-select-sm"
+                                        onchange="changeSelect222()">
+                                </div>
                             </div>
                             <canvas id="myChart2" style="width:100%"></canvas>
                             <div class="d-flex justify-content-between mt-3">
@@ -354,37 +354,36 @@
                                 style="width:100%">
                                 <thead>
                                     <tr>
-                                        <th data-ordering="false">STT</th>
                                         <th style="background: rgb(0, 162, 255)" data-ordering="false">Ngày</th>
-                                        <th data-ordering="false" style="background: rgb(0, 162, 255)">Tổng doanh thu</th>
-                                        <th data-ordering="false" style="background: rgb(0, 162, 255)">Tổng doanh thu thực
+                                        <th data-ordering="false" style="background: rgb(0, 162, 255)">Doanh thu</th>
+                                        <th data-ordering="false" style="background: rgb(0, 162, 255)">Doanh thu thực
                                         </th>
                                         <th data-ordering="false" style="background: rgb(0, 162, 255)">Công nợ cần đòi
                                         </th>
-                                        <th data-ordering="false" style="background: rgb(0, 162, 255)">Tổng khoản chi</th>
-                                        <th data-ordering="false" style="background: rgb(0, 162, 255)">Tổng khoản chi thực
+                                        <th data-ordering="false" style="background: rgb(0, 162, 255)">Chi phí</th>
+                                        <th data-ordering="false" style="background: rgb(0, 162, 255)">Đã chi
                                         </th>
                                         <th data-ordering="false" style="background: rgb(0, 162, 255)">Công nợ cần trả
+                                        </th>
+                                        <th data-ordering="false" style="background: rgb(0, 162, 255)">Tiền hoàn
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @php
-                                        $count = 0;
-                                    @endphp
                                     @foreach ($mergedData as $item)
                                         <tr class="data-row">
-                                            <td style="text-align: center">{{ $count += 1 }}</td>
                                             <td style="background: rgb(136, 206, 246)" class="date">{{ $item['date'] }}
                                             </td>
                                             <td style="background: rgb(217, 132, 132)">{{ $item['total_doanhthu'] }}</td>
-                                            <td style="background: rgb(217, 132, 132)">{{ $item['paid_doanhthu'] }}</td>
+                                            <td style="background: rgb(78, 79, 80)">{{ $item['paid_doanhthu'] }}</td>
                                             <td style="background: rgb(217, 132, 132)">
                                                 {{ $item['total_doanhthu'] - $item['paid_doanhthu'] }}</td>
                                             <td style="background: rgb(104, 217, 104)">{{ $item['total_khoanchi'] }}</td>
                                             <td style="background: rgb(104, 217, 104)">{{ $item['paid_khoanchi'] }}</td>
                                             <td style="background: rgb(104, 217, 104)">
                                                 {{ $item['total_khoanchi'] - $item['paid_khoanchi'] }}</td>
+                                            <td style="background: rgb(104, 217, 104)">
+                                                {{ $item['tienHoan'] }}</td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -419,7 +418,13 @@
         const xValues = @json($tongDoanhThuThucTheoNgay->pluck('date'));
         let doanhThuThuc = @json($tongDoanhThuThucTheoNgay->pluck('paid_amount'));
         let doanhThu = @json($tongDoanhThuTheoNgay->pluck('total_amount'));
-        let congNo = doanhThu.map((value, index) => value - doanhThuThuc[index]);
+        let tongHoanTien = @json($tongHoanTienTheoNgay->pluck('refund_amount'));
+        let congNo = doanhThu.map((value, index) => {
+            const total = Number(value);
+            const paid = Number(doanhThuThuc[index] || 0);
+            const refund = Number(tongHoanTien[index] || 0);
+            return Math.max(0, total - (paid + refund));
+        });
         new Chart("myChart", {
             type: "line",
             data: {
@@ -445,139 +450,105 @@
             }
         });
 
-        function changeSelect(event) {
-            if (event.target.value == 'ngay') {
-                const xValues = @json($tongDoanhThuThucTheoNgay->pluck('date'));
-                let doanhThuThuc = @json($tongDoanhThuThucTheoNgay->pluck('paid_amount'));
-                let doanhThu = @json($tongDoanhThuTheoNgay->pluck('total_amount'));
-                let congNo = doanhThu.map((value, index) => value - doanhThuThuc[index]);
+        let myChart;
 
-                new Chart("myChart", {
-                    type: "line",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            data: congNo,
-                            borderColor: "red",
-                            fill: false
-                        }, {
-                            data: doanhThuThuc,
-                            borderColor: "green",
-                            fill: false
-                        }, {
-                            data: doanhThu,
-                            borderColor: "blue",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                });
-            } else if (event.target.value == 'tuan') {
-                let weeks = @json($tongDoanhThuThucTheoTuan->pluck('week'));
-                let years = @json($tongDoanhThuThucTheoTuan->pluck('year'));
-                const xValues = weeks.map((week, index) => `Tuần ${week}/${years[index]}`);
-                let doanhThuThuc = @json($tongDoanhThuThucTheoTuan->pluck('paid_amount'));
-                let doanhThu = @json($tongDoanhThuTheoTuan->pluck('total_amount'));
-                let congNo = doanhThu.map((value, index) => value - doanhThuThuc[index]);
+        function changeSelect() {
+            let startDate = $('#start_date').val();
+            let endDate = $('#end_date').val();
 
-                new Chart("myChart", {
-                    type: "line",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            data: congNo,
-                            borderColor: "red",
-                            fill: false
-                        }, {
-                            data: doanhThuThuc,
-                            borderColor: "green",
-                            fill: false
-                        }, {
-                            data: doanhThu,
-                            borderColor: "blue",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                });
-            } else if (event.target.value == 'thang') {
-                let months = @json($tongDoanhThuThucTheoThang->pluck('month'));
-                let years = @json($tongDoanhThuThucTheoThang->pluck('year'));
-                const xValues = months.map((month, index) => `${month}/${years[index]}`);
-                let doanhThuThuc = @json($tongDoanhThuThucTheoThang->pluck('paid_amount'));
-                let doanhThu = @json($tongDoanhThuTheoThang->pluck('total_amount'));
-                let congNo = doanhThu.map((value, index) => value - doanhThuThuc[index]);
+            if (!startDate || !endDate) return;
 
-                new Chart("myChart", {
-                    type: "line",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            data: congNo,
-                            borderColor: "red",
-                            fill: false
-                        }, {
-                            data: doanhThuThuc,
-                            borderColor: "green",
-                            fill: false
-                        }, {
-                            data: doanhThu,
-                            borderColor: "blue",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                });
-            } else if (event.target.value == 'nam') {
-                const xValues = @json($tongDoanhThuThucTheoNam->pluck('year'));
-                let doanhThuThuc = @json($tongDoanhThuThucTheoNam->pluck('paid_amount'));
-                let doanhThu = @json($tongDoanhThuTheoNam->pluck('total_amount'));
-                let congNo = doanhThu.map((value, index) => value - doanhThuThuc[index]);
+            $('#myChart').css('opacity', '0.5');
 
-                new Chart("myChart", {
-                    type: "line",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                            data: congNo,
-                            borderColor: "red",
-                            fill: false
-                        }, {
-                            data: doanhThuThuc,
-                            borderColor: "green",
-                            fill: false
-                        }, {
-                            data: doanhThu,
-                            borderColor: "blue",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        }
+            $.ajax({
+                url: '{{ route('admin.thongke.revenue') }}',
+                type: 'GET',
+                data: {
+                    start_date: startDate + ' 00:00:00',
+                    end_date: endDate + ' 23:59:59'
+                },
+                success: function(response) {
+                    $('#myChart').css('opacity', '1');
+                    console.log('Response:', response);
+
+                    let dates = response.dates.length ? response.dates : [startDate];
+                    let paid_amounts = response.paid_amounts.length ? response.paid_amounts : [0];
+                    let total_amounts = response.total_amounts.length ? response.total_amounts : [0];
+                    let refund_amounts = response.refund_amounts || new Array(dates.length).fill(0);
+
+                    // Calculate công nợ mới
+                    let debt = dates.map((date, index) => {
+                        const total = Number(total_amounts[index] || 0);
+                        const paid = Number(paid_amounts[index] || 0);
+                        const refund = Number(refund_amounts[date] || 0);
+                        return Math.max(0, total - paid - refund);
+                    });
+
+                    if (myChart) {
+                        myChart.destroy();
                     }
-                });
-            }
+
+                    const ctx = document.getElementById('myChart');
+                    myChart = new Chart(ctx, {
+                        type: "line",
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                data: debt,
+                                borderColor: "red",
+                                fill: false,
+                                label: 'Công nợ'
+                            }, {
+                                data: paid_amounts,
+                                borderColor: "green",
+                                fill: false,
+                                label: 'Doanh thu thực'
+                            }, {
+                                data: total_amounts,
+                                borderColor: "blue",
+                                fill: false,
+                                label: 'Tổng doanh thu'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    min: 0
+                                }
+                            }
+                        }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Error:', error);
+                    $('#myChart').css('opacity', '1');
+                }
+            });
         }
+
+        $(document).ready(function() {
+            $('#start_date, #end_date').on('change', function() {
+                console.log('Date changed:', {
+                    start: $('#start_date').val(),
+                    end: $('#end_date').val()
+                });
+                changeSelect();
+            });
+        });
     </script>
     <script>
         let xValues2 = @json($tongKhoanChiThucTheoNgay->pluck('date'));
         let KhoanChiThuc = @json($tongKhoanChiThucTheoNgay->pluck('paid_amount'));
         let KhoanChi = @json($tongKhoanChiTheoNgay->pluck('total_amount'));
         let congNo2 = KhoanChi.map((value, index) => value - KhoanChiThuc[index]);
+
         new Chart("myChart2", {
             type: "line",
             data: {
@@ -604,128 +575,73 @@
         });
     </script>
     <script>
-        function changeSelect222(event) {
-            if (event.target.value == 'ngay') {
-                let xValues2 = @json($tongKhoanChiThucTheoNgay->pluck('date'));
-                let KhoanChiThuc = @json($tongKhoanChiThucTheoNgay->pluck('paid_amount'));
-                let KhoanChi = @json($tongKhoanChiTheoNgay->pluck('total_amount'));
-                let congNo2 = KhoanChi.map((value, index) => value - KhoanChiThuc[index]);
-                new Chart("myChart2", {
-                    type: "line",
-                    data: {
-                        labels: xValues2,
-                        datasets: [{
-                            data: congNo2,
-                            borderColor: "red",
-                            fill: false
-                        }, {
-                            data: KhoanChiThuc,
-                            borderColor: "green",
-                            fill: false
-                        }, {
-                            data: KhoanChi,
-                            borderColor: "blue",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        }
+        let myChart2;
+
+        function changeSelect222() {
+            let startDate = $('#start_date2').val();
+            let endDate = $('#end_date2').val();
+
+            if (!startDate || !endDate) return;
+
+            $('#myChart2').css('opacity', '0.5');
+
+            $.ajax({
+                url: '{{ route('admin.thongke.dateRange') }}',
+                type: 'GET',
+                data: {
+                    start_date: startDate + ' 00:00:00',
+                    end_date: endDate + ' 23:59:59'
+                },
+                success: function(response) {
+                    $('#myChart2').css('opacity', '1');
+
+                    // Set default data if empty
+                    let dates = response.dates.length ? response.dates : [startDate];
+                    let paid_amounts = response.paid_amounts.length ? response.paid_amounts : [0];
+                    let total_amounts = response.total_amounts.length ? response.total_amounts : [0];
+
+                    if (myChart2) {
+                        myChart2.destroy();
                     }
-                });
-            } else if (event.target.value == 'tuan') {
-                let weeks = @json($tongKhoanChiThucTheoTuan->pluck('week'));
-                let years = @json($tongKhoanChiThucTheoTuan->pluck('year'));
-                let xValues2 = weeks.map((week, index) => `Tuần ${week}/${years[index]}`);
-                let KhoanChiThuc = @json($tongKhoanChiThucTheoTuan->pluck('paid_amount'));
-                let KhoanChi = @json($tongKhoanChiTheoTuan->pluck('total_amount'));
-                let congNo2 = KhoanChi.map((value, index) => value - KhoanChiThuc[index]);
-                new Chart("myChart2", {
-                    type: "line",
-                    data: {
-                        labels: xValues2,
-                        datasets: [{
-                            data: congNo2,
-                            borderColor: "red",
-                            fill: false
-                        }, {
-                            data: KhoanChiThuc,
-                            borderColor: "green",
-                            fill: false
-                        }, {
-                            data: KhoanChi,
-                            borderColor: "blue",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
+
+                    const ctx = document.getElementById('myChart2');
+                    myChart2 = new Chart(ctx, {
+                        type: "line",
+                        data: {
+                            labels: dates,
+                            datasets: [{
+                                data: total_amounts.map((total, i) => total - paid_amounts[i]),
+                                borderColor: "red",
+                                fill: false,
+                                label: 'Công nợ'
+                            }, {
+                                data: paid_amounts,
+                                borderColor: "green",
+                                fill: false,
+                                label: 'Chi thực tế'
+                            }, {
+                                data: total_amounts,
+                                borderColor: "blue",
+                                fill: false,
+                                label: 'Tổng chi'
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: false
+                                }
+                            }
                         }
-                    }
-                });
-            } else if (event.target.value == 'thang') {
-                let months = @json($tongKhoanChiThucTheoThang->pluck('month'));
-                let years = @json($tongKhoanChiThucTheoThang->pluck('year'));
-                let xValues2 = months.map((month, index) => `${month}/${years[index]}`);
-                let KhoanChiThuc = @json($tongKhoanChiThucTheoThang->pluck('paid_amount'));
-                let KhoanChi = @json($tongKhoanChiTheoThang->pluck('total_amount'));
-                let congNo2 = KhoanChi.map((value, index) => value - KhoanChiThuc[index]);
-                new Chart("myChart2", {
-                    type: "line",
-                    data: {
-                        labels: xValues2,
-                        datasets: [{
-                            data: congNo2,
-                            borderColor: "red",
-                            fill: false
-                        }, {
-                            data: KhoanChiThuc,
-                            borderColor: "green",
-                            fill: false
-                        }, {
-                            data: KhoanChi,
-                            borderColor: "blue",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                });
-            } else if (event.target.value == 'nam') {
-                let xValues2 = @json($tongKhoanChiThucTheoNam->pluck('year'));
-                let KhoanChiThuc = @json($tongKhoanChiThucTheoNam->pluck('paid_amount'));
-                let KhoanChi = @json($tongKhoanChiTheoNam->pluck('total_amount'));
-                let congNo2 = KhoanChi.map((value, index) => value - KhoanChiThuc[index]);
-                new Chart("myChart2", {
-                    type: "line",
-                    data: {
-                        labels: xValues2,
-                        datasets: [{
-                            data: congNo2,
-                            borderColor: "red",
-                            fill: false
-                        }, {
-                            data: KhoanChiThuc,
-                            borderColor: "green",
-                            fill: false
-                        }, {
-                            data: KhoanChi,
-                            borderColor: "blue",
-                            fill: false
-                        }]
-                    },
-                    options: {
-                        legend: {
-                            display: false
-                        }
-                    }
-                });
-            }
+                    });
+                },
+                error: function(xhr, status, error) {
+                    $('#myChart2').css('opacity', '1');
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi lấy dữ liệu');
+                }
+            });
         }
     </script>
 @endsection

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Payment_history;
 use App\Models\Product;
 use App\Models\Variation;
 use Illuminate\Support\Facades\Cache;
@@ -212,6 +213,27 @@ class ThongkeController extends Controller
         $tongKhoanChi = DB::table('import_orders')->sum('total_amount');
         $tongKhoanChiThuc = DB::table('import_orders')->sum('paid_amount');
         $listKhoanChi = DB::table('import_orders')->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total_amount) as total_amount'), DB::raw('SUM(paid_amount) as paid_amount'))->groupBy(DB::raw('DATE(created_at)'))->orderByDesc('date')->get();
+
+        $tongDaHoanTienTheoNgay = DB::table('payment_histories')
+            ->select(
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('COALESCE(SUM(amount), 0) as refund_amount')
+            )
+            ->where('transaction_type', 'refund')
+            ->where('status', 1)
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy('date')
+            ->get();
+
+        $tongHoanTienTheoNgay = DB::table('payment_histories')
+            ->where('transaction_type', 'refund')
+            ->select(
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('COALESCE(SUM(amount), 0) as refund_amount')
+            )
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy('date')
+            ->get();
         $tongDaHoanTien = DB::table('payment_histories')
             ->where('transaction_type', 'refund')
             ->where('status', 1)
@@ -221,6 +243,16 @@ class ThongkeController extends Controller
             ->sum('amount');
         $listDoanhThu = DB::table('orders')->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total_amount) as total_amount'), DB::raw('SUM(paid_amount) as paid_amount'))->groupBy(DB::raw('DATE(created_at)'))->orderByDesc('date')->get()->keyBy('date');
         $listKhoanChi = DB::table('import_orders')->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total_amount) as total_amount'), DB::raw('SUM(paid_amount) as paid_amount'))->groupBy(DB::raw('DATE(created_at)'))->orderByDesc('date')->get()->keyBy('date');
+        $listTienHoan = DB::table('payment_histories')
+            ->where('transaction_type', 'refund')
+            ->select(
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('COALESCE(SUM(amount), 0) as refund_amount')
+            )
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderByDesc('date')
+            ->get()
+            ->keyBy('date');
         $allDates = $listDoanhThu
             ->keys()
             ->merge($listKhoanChi->keys())
@@ -241,17 +273,90 @@ class ThongkeController extends Controller
         foreach ($dates as $date) {
             $doanhThu = $listDoanhThu->get($date);
             $khoanChi = $listKhoanChi->get($date);
-
+            $tienHoan = $listTienHoan->get($date);
             $mergedData[$date] = [
                 'date' => $date,
                 'total_doanhthu' => $doanhThu ? (float) $doanhThu->total_amount : 0,
                 'paid_doanhthu' => $doanhThu ? (float) $doanhThu->paid_amount : 0,
                 'total_khoanchi' => $khoanChi ? (float) $khoanChi->total_amount : 0,
                 'paid_khoanchi' => $khoanChi ? (float) $khoanChi->paid_amount : 0,
+                'tienHoan' => $tienHoan ? (float) $tienHoan->refund_amount : 0,
             ];
         }
 
-        return view('admin.components.thongke.doanhthu', compact('tongDoanhThuTheoNgay', 'tongDaHoanTien', 'tongHoanTien', 'tongDoanhThuTheoThang', 'tongDoanhThuTheoNam', 'tongDoanhThuTheoTuan', 'tongDoanhThuThucTheoNgay', 'tongDoanhThuThucTheoThang', 'tongDoanhThuThucTheoNam', 'tongDoanhThuThucTheoTuan', 'tongDoanhThu', 'tongDoanhThuThuc', 'listDoanhThu', 'tongKhoanChiTheoNgay', 'tongKhoanChiTheoThang', 'tongKhoanChiTheoNam', 'tongKhoanChiTheoTuan', 'tongKhoanChiThucTheoNgay', 'tongKhoanChiThucTheoThang', 'tongKhoanChiThucTheoNam', 'tongKhoanChiThucTheoTuan', 'tongKhoanChi', 'tongKhoanChiThuc', 'listKhoanChi', 'mergedData'));
+        return view('admin.components.thongke.doanhthu', compact('tongHoanTienTheoNgay', 'tongDoanhThuTheoNgay', 'tongDaHoanTien', 'tongHoanTien', 'tongDoanhThuTheoThang', 'tongDoanhThuTheoNam', 'tongDoanhThuTheoTuan', 'tongDoanhThuThucTheoNgay', 'tongDoanhThuThucTheoThang', 'tongDoanhThuThucTheoNam', 'tongDoanhThuThucTheoTuan', 'tongDoanhThu', 'tongDoanhThuThuc', 'listDoanhThu', 'tongKhoanChiTheoNgay', 'tongKhoanChiTheoThang', 'tongKhoanChiTheoNam', 'tongKhoanChiTheoTuan', 'tongKhoanChiThucTheoNgay', 'tongKhoanChiThucTheoThang', 'tongKhoanChiThucTheoNam', 'tongKhoanChiThucTheoTuan', 'tongKhoanChi', 'tongKhoanChiThuc', 'listKhoanChi', 'mergedData'));
+    }
+    public function getDateRangeStats(Request $request)
+    {
+        $startDate = $request->start_date . ' 00:00:00';
+        $endDate = $request->end_date . ' 23:59:59';
+        $data = DB::table('import_orders')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->select(
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('COALESCE(SUM(total_amount), 0) as total_amount'),
+                DB::raw('COALESCE(SUM(paid_amount), 0) as paid_amount')
+            )
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy('date')
+            ->get();
+
+        // Return empty arrays if no data
+        return response()->json([
+            'success' => true,
+            'dates' => $data->isEmpty() ? [] : $data->pluck('date'),
+            'total_amounts' => $data->isEmpty() ? [] : $data->pluck('total_amount'),
+            'paid_amounts' => $data->isEmpty() ? [] : $data->pluck('paid_amount'),
+            'hasData' => $data->isNotEmpty()
+        ]);
+    }
+    public function getRevenueStats(Request $request)
+    {
+        $startDate = $request->start_date . ' 00:00:00';
+        $endDate = $request->end_date . ' 23:59:59';
+
+        // Get orders data
+        $orderData = DB::table('orders')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->select(
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('COALESCE(SUM(total_amount), 0) as total_amount'),
+                DB::raw('COALESCE(SUM(paid_amount), 0) as paid_amount')
+            )
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->orderBy('date')
+            ->get();
+
+        // Get refund data by date
+        $refundsByDate = DB::table('payment_histories')
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->where('transaction_type', 'refund')
+            // Remove status=1 condition to get all refunds
+            ->select(
+                DB::raw('DATE(created_at) as date'),
+                DB::raw('COALESCE(SUM(amount), 0) as refund_amount')
+            )
+            ->groupBy(DB::raw('DATE(created_at)'))
+            ->pluck('refund_amount', 'date')
+            ->toArray();
+
+        $dates = $orderData->pluck('date');
+        $paid_amounts = $orderData->pluck('paid_amount');
+        $total_amounts = $orderData->pluck('total_amount');
+
+        // Map all refund amounts to dates
+        $refund_amounts = $dates->mapWithKeys(function ($date) use ($refundsByDate) {
+            return [$date => $refundsByDate[$date] ?? 0];
+        });
+
+        return response()->json([
+            'success' => true,
+            'dates' => $dates,
+            'total_amounts' => $total_amounts,
+            'paid_amounts' => $paid_amounts,
+            'refund_amounts' => $refund_amounts,
+            'hasData' => $orderData->isNotEmpty()
+        ]);
     }
     public function thongKeSanPham(Request $request)
     {
