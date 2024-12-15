@@ -24,33 +24,31 @@
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
-                       
+                        <thead>
+                            <tr>
+                                <th data-ordering="false">ID</th>
+                                <th data-ordering="false">Tên.</th>
+                                <th data-ordering="false">Dung Tích.</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($data as $item)
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->name }}</td>
+                                    <td>{{ $item->capacity }}</td>
+                                    {{-- <td>
+                                        <div class="dropdown d-inline-block">
+                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
+                                                data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="ri-more-fill align-middle"></i>
+                                            </button>
+                                        </div>
+                                    </td> --}}
+                                </tr>
+                            @endforeach
 
-<thead>
-    <tr>
-        <th data-ordering="false">ID</th>
-        <th data-ordering="false">Tên.</th>
-        <th data-ordering="false">Dung Tích.</th>
-    </tr>
-</thead>
-<tbody>
-    @foreach ($data as $item)
-        <tr>
-            <td>{{ $item->id }}</td>
-            <td>{{ $item->name }}</td>
-            <td>{{ $item->capacity }}</td>
-            <td>
-                <div class="dropdown d-inline-block">
-                    <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="ri-more-fill align-middle"></i>
-                    </button>
-                </div>
-            </td>
-        </tr>
-    @endforeach
-
-</tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -83,4 +81,3 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.2/css/buttons.dataTables.min.css">
 @endsection
-

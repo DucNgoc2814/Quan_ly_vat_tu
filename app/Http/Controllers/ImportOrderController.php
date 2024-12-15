@@ -466,8 +466,8 @@ class ImportOrderController extends Controller
             $variations = Supplier::findOrFail($supplierId)
                 ->variations()
                 ->select('variations.id', 'variations.name', 'variations.sku')
+                ->where('is_active', 1)
                 ->get();
-
             return response()->json($variations);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -480,6 +480,7 @@ class ImportOrderController extends Controller
 
             $variations = Supplier::find($supplierId)->variations()
                 ->select('variations.id', 'variations.name', 'variations.sku')
+                ->where('is_active', 1)                
                 ->get();
             return response()->json($variations);
         } catch (\Exception $e) {

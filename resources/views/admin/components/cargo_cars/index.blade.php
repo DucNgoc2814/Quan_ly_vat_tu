@@ -1,7 +1,7 @@
 @extends('admin.layouts.master')
 
 @section('title')
-    Danh sách xe vận chuyển
+    Danh sách xe
 @endsection
 
 @section('content')
@@ -9,14 +9,12 @@
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">{{ $title }}</h4>
-
                 <div class="col-sm-auto">
                     <div>
                         <a href="{{ route('CargoCars.create') }}" class="btn btn-success" id="addproduct-btn"><i
                                 class="ri-add-line align-bottom me-1"></i>Thêm vận chuyển </a>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -26,10 +24,9 @@
                 <div class="card-body">
                     <table id="myTable" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
-
                         <thead>
                             <tr>
-                                <th data-ordering="false">Loại xe vận chuyển. </th>
+                                <th data-ordering="false">Loại xe vận chuyển </th>
                                 <th data-ordering="false">Biển số xe</th>
                                 <th data-ordering="false">Trạng thái.</th>
                             </tr>

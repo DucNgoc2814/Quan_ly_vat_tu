@@ -2594,3 +2594,1145 @@
 [2024-12-15 17:26:03] local.INFO: File Save Attempted  
 [2024-12-15 17:26:03] local.INFO: File Exists After Save: Yes  
 [2024-12-15 17:26:03] local.INFO: File Size: 21463 bytes  
+[2024-12-15 17:27:23] local.INFO: === START LOGGING ===  
+[2024-12-15 17:27:23] local.INFO: Auth Check: No  
+[2024-12-15 17:27:23] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:27:23] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:27:23] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:27:23] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:27:23] local.INFO: File Exists: Yes  
+[2024-12-15 17:27:23] local.INFO: Loading existing file...  
+[2024-12-15 17:27:24] local.INFO: File Save Attempted  
+[2024-12-15 17:27:24] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:27:24] local.INFO: File Size: 21499 bytes  
+[2024-12-15 17:27:24] local.INFO: === START LOGGING ===  
+[2024-12-15 17:27:24] local.INFO: Auth Check: No  
+[2024-12-15 17:27:24] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:27:24] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:27:24] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:27:24] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:27:24] local.INFO: File Exists: Yes  
+[2024-12-15 17:27:24] local.INFO: Loading existing file...  
+[2024-12-15 17:27:24] local.INFO: File Save Attempted  
+[2024-12-15 17:27:24] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:27:24] local.INFO: File Size: 21524 bytes  
+[2024-12-15 17:27:24] local.INFO: Order processed successfully: DHBYWB172723  
+[2024-12-15 17:27:31] local.INFO: === START LOGGING ===  
+[2024-12-15 17:27:31] local.INFO: Auth Check: No  
+[2024-12-15 17:27:31] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:27:31] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:27:31] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:27:31] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:27:31] local.INFO: File Exists: Yes  
+[2024-12-15 17:27:31] local.INFO: Loading existing file...  
+[2024-12-15 17:27:31] local.INFO: File Save Attempted  
+[2024-12-15 17:27:31] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:27:31] local.INFO: File Size: 21554 bytes  
+[2024-12-15 17:27:31] local.INFO: === START LOGGING ===  
+[2024-12-15 17:27:31] local.INFO: Auth Check: No  
+[2024-12-15 17:27:31] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:27:31] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:27:31] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:27:31] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:27:31] local.INFO: File Exists: Yes  
+[2024-12-15 17:27:31] local.INFO: Loading existing file...  
+[2024-12-15 17:27:31] local.INFO: File Save Attempted  
+[2024-12-15 17:27:31] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:27:31] local.INFO: File Size: 21579 bytes  
+[2024-12-15 17:27:31] local.INFO: Order processed successfully: DHBFOJ172731  
+[2024-12-15 17:27:40] local.INFO: === START LOGGING ===  
+[2024-12-15 17:27:40] local.INFO: Auth Check: No  
+[2024-12-15 17:27:40] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:27:40] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:27:40] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:27:40] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:27:40] local.INFO: File Exists: Yes  
+[2024-12-15 17:27:40] local.INFO: Loading existing file...  
+[2024-12-15 17:27:40] local.INFO: File Save Attempted  
+[2024-12-15 17:27:40] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:27:40] local.INFO: File Size: 21609 bytes  
+[2024-12-15 17:27:40] local.INFO: === START LOGGING ===  
+[2024-12-15 17:27:40] local.INFO: Auth Check: No  
+[2024-12-15 17:27:40] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:27:40] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:27:40] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:27:40] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:27:40] local.INFO: File Exists: Yes  
+[2024-12-15 17:27:40] local.INFO: Loading existing file...  
+[2024-12-15 17:27:40] local.INFO: File Save Attempted  
+[2024-12-15 17:27:40] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:27:40] local.INFO: File Size: 21632 bytes  
+[2024-12-15 17:27:40] local.INFO: Order processed successfully: DHBPUC172740  
+[2024-12-15 17:27:55] local.INFO: Payment confirmation started {"id":"22"} 
+[2024-12-15 17:27:55] local.INFO: === START LOGGING ===  
+[2024-12-15 17:27:55] local.INFO: Auth Check: No  
+[2024-12-15 17:27:55] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:27:55] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:27:55] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:27:55] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:27:55] local.INFO: File Exists: Yes  
+[2024-12-15 17:27:55] local.INFO: Loading existing file...  
+[2024-12-15 17:27:55] local.INFO: File Save Attempted  
+[2024-12-15 17:27:55] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:27:55] local.INFO: File Size: 21663 bytes  
+[2024-12-15 17:27:55] local.INFO: === START LOGGING ===  
+[2024-12-15 17:27:55] local.INFO: Auth Check: No  
+[2024-12-15 17:27:55] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:27:55] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:27:55] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:27:55] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:27:55] local.INFO: File Exists: Yes  
+[2024-12-15 17:27:55] local.INFO: Loading existing file...  
+[2024-12-15 17:27:56] local.INFO: File Save Attempted  
+[2024-12-15 17:27:56] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:27:56] local.INFO: File Size: 21686 bytes  
+[2024-12-15 17:28:31] local.INFO: Payment confirmation started {"id":"23"} 
+[2024-12-15 17:28:31] local.INFO: === START LOGGING ===  
+[2024-12-15 17:28:31] local.INFO: Auth Check: No  
+[2024-12-15 17:28:31] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:28:31] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:28:31] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:28:31] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:28:31] local.INFO: File Exists: Yes  
+[2024-12-15 17:28:31] local.INFO: Loading existing file...  
+[2024-12-15 17:28:31] local.INFO: File Save Attempted  
+[2024-12-15 17:28:31] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:28:31] local.INFO: File Size: 21716 bytes  
+[2024-12-15 17:28:31] local.INFO: === START LOGGING ===  
+[2024-12-15 17:28:31] local.INFO: Auth Check: No  
+[2024-12-15 17:28:31] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:28:31] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:28:31] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:28:31] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:28:31] local.INFO: File Exists: Yes  
+[2024-12-15 17:28:31] local.INFO: Loading existing file...  
+[2024-12-15 17:28:31] local.INFO: File Save Attempted  
+[2024-12-15 17:28:31] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:28:31] local.INFO: File Size: 21740 bytes  
+[2024-12-15 17:28:57] local.INFO: === START LOGGING ===  
+[2024-12-15 17:28:57] local.INFO: Auth Check: No  
+[2024-12-15 17:28:57] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:28:57] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:28:57] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:28:57] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:28:57] local.INFO: File Exists: Yes  
+[2024-12-15 17:28:57] local.INFO: Loading existing file...  
+[2024-12-15 17:28:57] local.INFO: File Save Attempted  
+[2024-12-15 17:28:57] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:28:57] local.INFO: File Size: 21778 bytes  
+[2024-12-15 17:28:57] local.INFO: === START LOGGING ===  
+[2024-12-15 17:28:57] local.INFO: Auth Check: No  
+[2024-12-15 17:28:57] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:28:57] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:28:57] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:28:57] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:28:57] local.INFO: File Exists: Yes  
+[2024-12-15 17:28:57] local.INFO: Loading existing file...  
+[2024-12-15 17:28:57] local.INFO: File Save Attempted  
+[2024-12-15 17:28:57] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:28:57] local.INFO: File Size: 21809 bytes  
+[2024-12-15 17:29:28] local.INFO: === START LOGGING ===  
+[2024-12-15 17:29:28] local.INFO: Auth Check: No  
+[2024-12-15 17:29:28] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:29:28] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:29:28] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:29:28] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:29:28] local.INFO: File Exists: Yes  
+[2024-12-15 17:29:28] local.INFO: Loading existing file...  
+[2024-12-15 17:29:28] local.INFO: File Save Attempted  
+[2024-12-15 17:29:28] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:29:28] local.INFO: File Size: 21844 bytes  
+[2024-12-15 17:30:10] local.INFO: === START LOGGING ===  
+[2024-12-15 17:30:10] local.INFO: Auth Check: No  
+[2024-12-15 17:30:10] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:30:10] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:30:10] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:30:10] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:30:10] local.INFO: File Exists: Yes  
+[2024-12-15 17:30:10] local.INFO: Loading existing file...  
+[2024-12-15 17:30:10] local.INFO: File Save Attempted  
+[2024-12-15 17:30:10] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:30:10] local.INFO: File Size: 21876 bytes  
+[2024-12-15 17:30:59] local.INFO: === START LOGGING ===  
+[2024-12-15 17:30:59] local.INFO: Auth Check: No  
+[2024-12-15 17:30:59] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:30:59] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:30:59] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:30:59] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:30:59] local.INFO: File Exists: Yes  
+[2024-12-15 17:30:59] local.INFO: Loading existing file...  
+[2024-12-15 17:30:59] local.INFO: File Save Attempted  
+[2024-12-15 17:30:59] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:30:59] local.INFO: File Size: 21906 bytes  
+[2024-12-15 17:31:03] local.INFO: === START LOGGING ===  
+[2024-12-15 17:31:03] local.INFO: Auth Check: No  
+[2024-12-15 17:31:03] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:31:03] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:31:03] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:31:03] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:31:03] local.INFO: File Exists: Yes  
+[2024-12-15 17:31:03] local.INFO: Loading existing file...  
+[2024-12-15 17:31:04] local.INFO: File Save Attempted  
+[2024-12-15 17:31:04] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:31:04] local.INFO: File Size: 21937 bytes  
+[2024-12-15 17:31:06] local.INFO: === START LOGGING ===  
+[2024-12-15 17:31:06] local.INFO: Auth Check: No  
+[2024-12-15 17:31:06] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:31:06] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:31:06] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:31:06] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:31:06] local.INFO: File Exists: Yes  
+[2024-12-15 17:31:06] local.INFO: Loading existing file...  
+[2024-12-15 17:31:06] local.INFO: File Save Attempted  
+[2024-12-15 17:31:06] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:31:06] local.INFO: File Size: 21968 bytes  
+[2024-12-15 17:31:24] local.INFO: === START LOGGING ===  
+[2024-12-15 17:31:24] local.INFO: Auth Check: No  
+[2024-12-15 17:31:24] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:31:24] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:31:24] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:31:24] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:31:24] local.INFO: File Exists: Yes  
+[2024-12-15 17:31:24] local.INFO: Loading existing file...  
+[2024-12-15 17:31:24] local.INFO: File Save Attempted  
+[2024-12-15 17:31:24] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:31:24] local.INFO: File Size: 21997 bytes  
+[2024-12-15 17:31:24] local.INFO: === START LOGGING ===  
+[2024-12-15 17:31:24] local.INFO: Auth Check: No  
+[2024-12-15 17:31:24] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:31:24] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:31:24] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:31:24] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:31:24] local.INFO: File Exists: Yes  
+[2024-12-15 17:31:24] local.INFO: Loading existing file...  
+[2024-12-15 17:31:24] local.INFO: File Save Attempted  
+[2024-12-15 17:31:24] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:31:24] local.INFO: File Size: 22032 bytes  
+[2024-12-15 17:31:24] local.INFO: === START LOGGING ===  
+[2024-12-15 17:31:24] local.INFO: Auth Check: No  
+[2024-12-15 17:31:24] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:31:24] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:31:24] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:31:24] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:31:24] local.INFO: File Exists: Yes  
+[2024-12-15 17:31:24] local.INFO: Loading existing file...  
+[2024-12-15 17:31:25] local.INFO: File Save Attempted  
+[2024-12-15 17:31:25] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:31:25] local.INFO: File Size: 22066 bytes  
+[2024-12-15 17:31:46] local.INFO: === START LOGGING ===  
+[2024-12-15 17:31:46] local.INFO: Auth Check: No  
+[2024-12-15 17:31:46] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:31:46] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:31:46] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:31:46] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:31:46] local.INFO: File Exists: Yes  
+[2024-12-15 17:31:46] local.INFO: Loading existing file...  
+[2024-12-15 17:31:46] local.INFO: File Save Attempted  
+[2024-12-15 17:31:46] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:31:46] local.INFO: File Size: 22099 bytes  
+[2024-12-15 17:31:46] local.INFO: === START LOGGING ===  
+[2024-12-15 17:31:46] local.INFO: Auth Check: No  
+[2024-12-15 17:31:46] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:31:46] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:31:46] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:31:46] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:31:46] local.INFO: File Exists: Yes  
+[2024-12-15 17:31:46] local.INFO: Loading existing file...  
+[2024-12-15 17:31:47] local.INFO: File Save Attempted  
+[2024-12-15 17:31:47] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:31:47] local.INFO: File Size: 22125 bytes  
+[2024-12-15 17:31:47] local.INFO: === START LOGGING ===  
+[2024-12-15 17:31:47] local.INFO: Auth Check: No  
+[2024-12-15 17:31:47] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:31:47] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:31:47] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:31:47] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:31:47] local.INFO: File Exists: Yes  
+[2024-12-15 17:31:47] local.INFO: Loading existing file...  
+[2024-12-15 17:31:47] local.INFO: File Save Attempted  
+[2024-12-15 17:31:47] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:31:47] local.INFO: File Size: 22151 bytes  
+[2024-12-15 17:31:47] local.INFO: === START LOGGING ===  
+[2024-12-15 17:31:47] local.INFO: Auth Check: No  
+[2024-12-15 17:31:47] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:31:47] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:31:47] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:31:47] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:31:47] local.INFO: File Exists: Yes  
+[2024-12-15 17:31:47] local.INFO: Loading existing file...  
+[2024-12-15 17:31:47] local.INFO: File Save Attempted  
+[2024-12-15 17:31:47] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:31:47] local.INFO: File Size: 22185 bytes  
+[2024-12-15 17:32:12] local.INFO: === START LOGGING ===  
+[2024-12-15 17:32:12] local.INFO: Auth Check: No  
+[2024-12-15 17:32:12] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:32:12] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:32:12] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:32:12] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:32:12] local.INFO: File Exists: Yes  
+[2024-12-15 17:32:12] local.INFO: Loading existing file...  
+[2024-12-15 17:32:12] local.INFO: File Save Attempted  
+[2024-12-15 17:32:12] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:32:12] local.INFO: File Size: 22227 bytes  
+[2024-12-15 17:32:30] local.INFO: === START LOGGING ===  
+[2024-12-15 17:32:30] local.INFO: Auth Check: No  
+[2024-12-15 17:32:30] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:32:30] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:32:30] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:32:30] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:32:30] local.INFO: File Exists: Yes  
+[2024-12-15 17:32:30] local.INFO: Loading existing file...  
+[2024-12-15 17:32:30] local.INFO: File Save Attempted  
+[2024-12-15 17:32:30] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:32:30] local.INFO: File Size: 22268 bytes  
+[2024-12-15 17:32:30] local.INFO: === START LOGGING ===  
+[2024-12-15 17:32:30] local.INFO: Auth Check: No  
+[2024-12-15 17:32:30] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:32:30] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:32:30] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:32:30] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:32:30] local.INFO: File Exists: Yes  
+[2024-12-15 17:32:30] local.INFO: Loading existing file...  
+[2024-12-15 17:32:30] local.INFO: File Save Attempted  
+[2024-12-15 17:32:30] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:32:30] local.INFO: File Size: 22293 bytes  
+[2024-12-15 17:32:30] local.INFO: === START LOGGING ===  
+[2024-12-15 17:32:30] local.INFO: Auth Check: No  
+[2024-12-15 17:32:30] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:32:30] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:32:30] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:32:30] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:32:30] local.INFO: File Exists: Yes  
+[2024-12-15 17:32:30] local.INFO: Loading existing file...  
+[2024-12-15 17:32:30] local.INFO: File Save Attempted  
+[2024-12-15 17:32:30] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:32:30] local.INFO: File Size: 22319 bytes  
+[2024-12-15 17:32:30] local.INFO: === START LOGGING ===  
+[2024-12-15 17:32:30] local.INFO: Auth Check: No  
+[2024-12-15 17:32:30] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:32:30] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:32:30] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:32:30] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:32:30] local.INFO: File Exists: Yes  
+[2024-12-15 17:32:30] local.INFO: Loading existing file...  
+[2024-12-15 17:32:30] local.INFO: File Save Attempted  
+[2024-12-15 17:32:30] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:32:30] local.INFO: File Size: 22343 bytes  
+[2024-12-15 17:32:48] local.INFO: === START LOGGING ===  
+[2024-12-15 17:32:48] local.INFO: Auth Check: No  
+[2024-12-15 17:32:48] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:32:48] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:32:48] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:32:48] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:32:48] local.INFO: File Exists: Yes  
+[2024-12-15 17:32:48] local.INFO: Loading existing file...  
+[2024-12-15 17:32:48] local.INFO: File Save Attempted  
+[2024-12-15 17:32:48] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:32:48] local.INFO: File Size: 22376 bytes  
+[2024-12-15 17:32:55] local.INFO: === START LOGGING ===  
+[2024-12-15 17:32:55] local.INFO: Auth Check: No  
+[2024-12-15 17:32:55] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:32:55] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:32:55] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:32:55] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:32:55] local.INFO: File Exists: Yes  
+[2024-12-15 17:32:55] local.INFO: Loading existing file...  
+[2024-12-15 17:32:55] local.INFO: File Save Attempted  
+[2024-12-15 17:32:55] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:32:55] local.INFO: File Size: 22409 bytes  
+[2024-12-15 17:33:06] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:06] local.INFO: Auth Check: No  
+[2024-12-15 17:33:06] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:06] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:06] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:06] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:06] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:06] local.INFO: Loading existing file...  
+[2024-12-15 17:33:06] local.INFO: File Save Attempted  
+[2024-12-15 17:33:06] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:06] local.INFO: File Size: 22444 bytes  
+[2024-12-15 17:33:06] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:06] local.INFO: Auth Check: No  
+[2024-12-15 17:33:06] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:06] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:06] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:06] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:06] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:06] local.INFO: Loading existing file...  
+[2024-12-15 17:33:06] local.INFO: File Save Attempted  
+[2024-12-15 17:33:06] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:06] local.INFO: File Size: 22467 bytes  
+[2024-12-15 17:33:06] local.INFO: Order processed successfully: DHBNTB173306  
+[2024-12-15 17:33:13] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:13] local.INFO: Auth Check: No  
+[2024-12-15 17:33:13] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:13] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:13] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:13] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:13] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:13] local.INFO: Loading existing file...  
+[2024-12-15 17:33:13] local.INFO: File Save Attempted  
+[2024-12-15 17:33:13] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:13] local.INFO: File Size: 22501 bytes  
+[2024-12-15 17:33:28] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:28] local.INFO: Auth Check: No  
+[2024-12-15 17:33:28] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:28] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:28] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:28] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:28] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:28] local.INFO: Loading existing file...  
+[2024-12-15 17:33:28] local.INFO: File Save Attempted  
+[2024-12-15 17:33:28] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:28] local.INFO: File Size: 22535 bytes  
+[2024-12-15 17:33:31] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:31] local.INFO: Auth Check: No  
+[2024-12-15 17:33:31] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:31] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:31] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:31] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:31] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:31] local.INFO: Loading existing file...  
+[2024-12-15 17:33:31] local.INFO: File Save Attempted  
+[2024-12-15 17:33:31] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:31] local.INFO: File Size: 22567 bytes  
+[2024-12-15 17:33:31] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:31] local.INFO: Auth Check: No  
+[2024-12-15 17:33:31] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:31] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:31] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:31] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:31] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:31] local.INFO: Loading existing file...  
+[2024-12-15 17:33:31] local.INFO: File Save Attempted  
+[2024-12-15 17:33:31] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:31] local.INFO: File Size: 22592 bytes  
+[2024-12-15 17:33:45] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:45] local.INFO: Auth Check: No  
+[2024-12-15 17:33:45] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:45] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:45] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:45] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:45] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:45] local.INFO: Loading existing file...  
+[2024-12-15 17:33:45] local.INFO: File Save Attempted  
+[2024-12-15 17:33:45] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:45] local.INFO: File Size: 22623 bytes  
+[2024-12-15 17:33:55] local.INFO: Payment confirmation started {"id":"24"} 
+[2024-12-15 17:33:55] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:55] local.INFO: Auth Check: No  
+[2024-12-15 17:33:55] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:55] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:55] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:55] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:55] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:55] local.INFO: Loading existing file...  
+[2024-12-15 17:33:55] local.INFO: File Save Attempted  
+[2024-12-15 17:33:55] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:55] local.INFO: File Size: 22654 bytes  
+[2024-12-15 17:33:57] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:57] local.INFO: Auth Check: No  
+[2024-12-15 17:33:57] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:57] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:57] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:57] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:57] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:57] local.INFO: Loading existing file...  
+[2024-12-15 17:33:57] local.INFO: File Save Attempted  
+[2024-12-15 17:33:57] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:57] local.INFO: File Size: 22685 bytes  
+[2024-12-15 17:33:57] local.INFO: === START LOGGING ===  
+[2024-12-15 17:33:57] local.INFO: Auth Check: No  
+[2024-12-15 17:33:57] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:33:57] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:33:57] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:33:57] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:33:57] local.INFO: File Exists: Yes  
+[2024-12-15 17:33:57] local.INFO: Loading existing file...  
+[2024-12-15 17:33:57] local.INFO: File Save Attempted  
+[2024-12-15 17:33:57] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:33:57] local.INFO: File Size: 22712 bytes  
+[2024-12-15 17:34:17] local.INFO: Payment confirmation started {"id":"25"} 
+[2024-12-15 17:34:17] local.INFO: === START LOGGING ===  
+[2024-12-15 17:34:17] local.INFO: Auth Check: No  
+[2024-12-15 17:34:17] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:34:17] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:34:17] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:34:17] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:34:17] local.INFO: File Exists: Yes  
+[2024-12-15 17:34:17] local.INFO: Loading existing file...  
+[2024-12-15 17:34:17] local.INFO: File Save Attempted  
+[2024-12-15 17:34:17] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:34:17] local.INFO: File Size: 22745 bytes  
+[2024-12-15 17:34:17] local.INFO: === START LOGGING ===  
+[2024-12-15 17:34:17] local.INFO: Auth Check: No  
+[2024-12-15 17:34:17] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:34:17] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:34:17] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:34:17] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:34:17] local.INFO: File Exists: Yes  
+[2024-12-15 17:34:17] local.INFO: Loading existing file...  
+[2024-12-15 17:34:17] local.INFO: File Save Attempted  
+[2024-12-15 17:34:17] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:34:17] local.INFO: File Size: 22770 bytes  
+[2024-12-15 17:34:38] local.INFO: === START LOGGING ===  
+[2024-12-15 17:34:38] local.INFO: Auth Check: No  
+[2024-12-15 17:34:38] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:34:38] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:34:38] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:34:38] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:34:38] local.INFO: File Exists: Yes  
+[2024-12-15 17:34:38] local.INFO: Loading existing file...  
+[2024-12-15 17:34:38] local.INFO: File Save Attempted  
+[2024-12-15 17:34:38] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:34:38] local.INFO: File Size: 22799 bytes  
+[2024-12-15 17:34:50] local.INFO: === START LOGGING ===  
+[2024-12-15 17:34:50] local.INFO: Auth Check: No  
+[2024-12-15 17:34:50] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:34:50] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:34:50] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:34:50] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:34:50] local.INFO: File Exists: Yes  
+[2024-12-15 17:34:50] local.INFO: Loading existing file...  
+[2024-12-15 17:34:50] local.INFO: File Save Attempted  
+[2024-12-15 17:34:50] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:34:50] local.INFO: File Size: 22831 bytes  
+[2024-12-15 17:34:50] local.INFO: === START LOGGING ===  
+[2024-12-15 17:34:50] local.INFO: Auth Check: No  
+[2024-12-15 17:34:50] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:34:50] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:34:50] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:34:50] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:34:50] local.INFO: File Exists: Yes  
+[2024-12-15 17:34:50] local.INFO: Loading existing file...  
+[2024-12-15 17:34:50] local.INFO: File Save Attempted  
+[2024-12-15 17:34:50] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:34:50] local.INFO: File Size: 22857 bytes  
+[2024-12-15 17:35:05] local.INFO: === START LOGGING ===  
+[2024-12-15 17:35:05] local.INFO: Auth Check: No  
+[2024-12-15 17:35:05] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:35:05] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:35:05] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:35:05] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:35:05] local.INFO: File Exists: Yes  
+[2024-12-15 17:35:05] local.INFO: Loading existing file...  
+[2024-12-15 17:35:06] local.INFO: File Save Attempted  
+[2024-12-15 17:35:06] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:35:06] local.INFO: File Size: 22894 bytes  
+[2024-12-15 17:35:06] local.INFO: === START LOGGING ===  
+[2024-12-15 17:35:06] local.INFO: Auth Check: No  
+[2024-12-15 17:35:06] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:35:06] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:35:06] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:35:06] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:35:06] local.INFO: File Exists: Yes  
+[2024-12-15 17:35:06] local.INFO: Loading existing file...  
+[2024-12-15 17:35:06] local.INFO: File Save Attempted  
+[2024-12-15 17:35:06] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:35:06] local.INFO: File Size: 22924 bytes  
+[2024-12-15 17:35:16] local.INFO: === START LOGGING ===  
+[2024-12-15 17:35:16] local.INFO: Auth Check: No  
+[2024-12-15 17:35:16] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:35:16] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:35:16] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:35:16] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:35:16] local.INFO: File Exists: Yes  
+[2024-12-15 17:35:16] local.INFO: Loading existing file...  
+[2024-12-15 17:35:16] local.INFO: File Save Attempted  
+[2024-12-15 17:35:16] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:35:16] local.INFO: File Size: 22958 bytes  
+[2024-12-15 17:35:16] local.INFO: === START LOGGING ===  
+[2024-12-15 17:35:16] local.INFO: Auth Check: No  
+[2024-12-15 17:35:16] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:35:16] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:35:16] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:35:16] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:35:16] local.INFO: File Exists: Yes  
+[2024-12-15 17:35:16] local.INFO: Loading existing file...  
+[2024-12-15 17:35:17] local.INFO: File Save Attempted  
+[2024-12-15 17:35:17] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:35:17] local.INFO: File Size: 22988 bytes  
+[2024-12-15 17:35:17] local.INFO: Order processed successfully: DHBLCJ173516  
+[2024-12-15 17:36:08] local.INFO: Payment confirmation started {"id":"26"} 
+[2024-12-15 17:36:08] local.INFO: === START LOGGING ===  
+[2024-12-15 17:36:08] local.INFO: Auth Check: No  
+[2024-12-15 17:36:08] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:36:08] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:36:08] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:36:08] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:36:08] local.INFO: File Exists: Yes  
+[2024-12-15 17:36:08] local.INFO: Loading existing file...  
+[2024-12-15 17:36:08] local.INFO: File Save Attempted  
+[2024-12-15 17:36:08] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:36:08] local.INFO: File Size: 23018 bytes  
+[2024-12-15 17:36:08] local.INFO: === START LOGGING ===  
+[2024-12-15 17:36:08] local.INFO: Auth Check: No  
+[2024-12-15 17:36:08] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:36:08] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:36:08] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:36:08] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:36:08] local.INFO: File Exists: Yes  
+[2024-12-15 17:36:08] local.INFO: Loading existing file...  
+[2024-12-15 17:36:08] local.INFO: File Save Attempted  
+[2024-12-15 17:36:08] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:36:08] local.INFO: File Size: 23047 bytes  
+[2024-12-15 17:36:24] local.INFO: === START LOGGING ===  
+[2024-12-15 17:36:24] local.INFO: Auth Check: No  
+[2024-12-15 17:36:24] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:36:24] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:36:24] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:36:24] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:36:24] local.INFO: File Exists: Yes  
+[2024-12-15 17:36:24] local.INFO: Loading existing file...  
+[2024-12-15 17:36:24] local.INFO: File Save Attempted  
+[2024-12-15 17:36:24] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:36:24] local.INFO: File Size: 23074 bytes  
+[2024-12-15 17:36:33] local.INFO: === START LOGGING ===  
+[2024-12-15 17:36:33] local.INFO: Auth Check: No  
+[2024-12-15 17:36:33] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:36:33] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:36:33] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:36:33] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:36:33] local.INFO: File Exists: Yes  
+[2024-12-15 17:36:33] local.INFO: Loading existing file...  
+[2024-12-15 17:36:33] local.INFO: File Save Attempted  
+[2024-12-15 17:36:33] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:36:33] local.INFO: File Size: 23109 bytes  
+[2024-12-15 17:36:33] local.INFO: === START LOGGING ===  
+[2024-12-15 17:36:33] local.INFO: Auth Check: No  
+[2024-12-15 17:36:33] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:36:33] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:36:33] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:36:33] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:36:33] local.INFO: File Exists: Yes  
+[2024-12-15 17:36:33] local.INFO: Loading existing file...  
+[2024-12-15 17:36:33] local.INFO: File Save Attempted  
+[2024-12-15 17:36:33] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:36:33] local.INFO: File Size: 23135 bytes  
+[2024-12-15 17:37:03] local.INFO: Payment confirmation started {"id":"27"} 
+[2024-12-15 17:37:03] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:03] local.INFO: Auth Check: No  
+[2024-12-15 17:37:03] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:03] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:03] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:03] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:03] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:03] local.INFO: Loading existing file...  
+[2024-12-15 17:37:04] local.INFO: File Save Attempted  
+[2024-12-15 17:37:04] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:04] local.INFO: File Size: 23168 bytes  
+[2024-12-15 17:37:04] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:04] local.INFO: Auth Check: No  
+[2024-12-15 17:37:04] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:04] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:04] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:04] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:04] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:04] local.INFO: Loading existing file...  
+[2024-12-15 17:37:04] local.INFO: File Save Attempted  
+[2024-12-15 17:37:04] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:04] local.INFO: File Size: 23198 bytes  
+[2024-12-15 17:37:08] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:08] local.INFO: Auth Check: No  
+[2024-12-15 17:37:08] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:08] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:08] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:08] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:08] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:08] local.INFO: Loading existing file...  
+[2024-12-15 17:37:08] local.INFO: File Save Attempted  
+[2024-12-15 17:37:08] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:08] local.INFO: File Size: 23231 bytes  
+[2024-12-15 17:37:08] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:08] local.INFO: Auth Check: No  
+[2024-12-15 17:37:08] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:08] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:08] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:08] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:08] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:08] local.INFO: Loading existing file...  
+[2024-12-15 17:37:08] local.INFO: File Save Attempted  
+[2024-12-15 17:37:08] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:08] local.INFO: File Size: 23260 bytes  
+[2024-12-15 17:37:25] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:25] local.INFO: Auth Check: No  
+[2024-12-15 17:37:25] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:25] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:25] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:25] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:25] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:25] local.INFO: Loading existing file...  
+[2024-12-15 17:37:25] local.INFO: File Save Attempted  
+[2024-12-15 17:37:25] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:25] local.INFO: File Size: 23293 bytes  
+[2024-12-15 17:37:26] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:26] local.INFO: Auth Check: No  
+[2024-12-15 17:37:26] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:26] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:26] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:26] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:26] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:26] local.INFO: Loading existing file...  
+[2024-12-15 17:37:26] local.INFO: File Save Attempted  
+[2024-12-15 17:37:26] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:26] local.INFO: File Size: 23324 bytes  
+[2024-12-15 17:37:34] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:34] local.INFO: Auth Check: No  
+[2024-12-15 17:37:34] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:34] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:34] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:34] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:34] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:34] local.INFO: Loading existing file...  
+[2024-12-15 17:37:34] local.INFO: File Save Attempted  
+[2024-12-15 17:37:34] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:34] local.INFO: File Size: 23356 bytes  
+[2024-12-15 17:37:37] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:37] local.INFO: Auth Check: No  
+[2024-12-15 17:37:37] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:37] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:37] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:37] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:37] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:37] local.INFO: Loading existing file...  
+[2024-12-15 17:37:37] local.INFO: File Save Attempted  
+[2024-12-15 17:37:37] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:37] local.INFO: File Size: 23387 bytes  
+[2024-12-15 17:37:41] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:41] local.INFO: Auth Check: No  
+[2024-12-15 17:37:41] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:41] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:41] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:41] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:41] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:41] local.INFO: Loading existing file...  
+[2024-12-15 17:37:41] local.INFO: File Save Attempted  
+[2024-12-15 17:37:41] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:41] local.INFO: File Size: 23417 bytes  
+[2024-12-15 17:37:48] local.INFO: === START LOGGING ===  
+[2024-12-15 17:37:48] local.INFO: Auth Check: No  
+[2024-12-15 17:37:48] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:37:48] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:37:48] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:37:48] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:37:48] local.INFO: File Exists: Yes  
+[2024-12-15 17:37:48] local.INFO: Loading existing file...  
+[2024-12-15 17:37:48] local.INFO: File Save Attempted  
+[2024-12-15 17:37:48] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:37:48] local.INFO: File Size: 23446 bytes  
+[2024-12-15 17:38:00] local.INFO: === START LOGGING ===  
+[2024-12-15 17:38:00] local.INFO: Auth Check: No  
+[2024-12-15 17:38:00] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:38:00] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:38:00] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:38:00] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:38:00] local.INFO: File Exists: Yes  
+[2024-12-15 17:38:00] local.INFO: Loading existing file...  
+[2024-12-15 17:38:00] local.INFO: File Save Attempted  
+[2024-12-15 17:38:00] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:38:00] local.INFO: File Size: 23477 bytes  
+[2024-12-15 17:38:44] local.INFO: Payment confirmation started {"id":"28"} 
+[2024-12-15 17:38:44] local.INFO: === START LOGGING ===  
+[2024-12-15 17:38:44] local.INFO: Auth Check: No  
+[2024-12-15 17:38:44] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:38:44] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:38:44] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:38:44] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:38:44] local.INFO: File Exists: Yes  
+[2024-12-15 17:38:44] local.INFO: Loading existing file...  
+[2024-12-15 17:38:44] local.INFO: File Save Attempted  
+[2024-12-15 17:38:44] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:38:44] local.INFO: File Size: 23506 bytes  
+[2024-12-15 17:38:44] local.INFO: === START LOGGING ===  
+[2024-12-15 17:38:44] local.INFO: Auth Check: No  
+[2024-12-15 17:38:44] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:38:44] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:38:44] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:38:44] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:38:44] local.INFO: File Exists: Yes  
+[2024-12-15 17:38:44] local.INFO: Loading existing file...  
+[2024-12-15 17:38:44] local.INFO: File Save Attempted  
+[2024-12-15 17:38:44] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:38:44] local.INFO: File Size: 23532 bytes  
+[2024-12-15 17:38:56] local.INFO: === START LOGGING ===  
+[2024-12-15 17:38:56] local.INFO: Auth Check: No  
+[2024-12-15 17:38:56] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:38:56] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:38:56] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:38:56] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:38:56] local.INFO: File Exists: Yes  
+[2024-12-15 17:38:56] local.INFO: Loading existing file...  
+[2024-12-15 17:38:56] local.INFO: File Save Attempted  
+[2024-12-15 17:38:56] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:38:56] local.INFO: File Size: 23565 bytes  
+[2024-12-15 17:38:56] local.INFO: === START LOGGING ===  
+[2024-12-15 17:38:56] local.INFO: Auth Check: No  
+[2024-12-15 17:38:56] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:38:56] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:38:56] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:38:56] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:38:56] local.INFO: File Exists: Yes  
+[2024-12-15 17:38:56] local.INFO: Loading existing file...  
+[2024-12-15 17:38:56] local.INFO: File Save Attempted  
+[2024-12-15 17:38:56] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:38:56] local.INFO: File Size: 23590 bytes  
+[2024-12-15 17:38:56] local.INFO: Order processed successfully: DHBZQK173856  
+[2024-12-15 17:39:03] local.INFO: === START LOGGING ===  
+[2024-12-15 17:39:03] local.INFO: Auth Check: No  
+[2024-12-15 17:39:03] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:39:03] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:39:03] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:39:03] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:39:03] local.INFO: File Exists: Yes  
+[2024-12-15 17:39:03] local.INFO: Loading existing file...  
+[2024-12-15 17:39:03] local.INFO: File Save Attempted  
+[2024-12-15 17:39:03] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:39:03] local.INFO: File Size: 23623 bytes  
+[2024-12-15 17:39:12] local.INFO: === START LOGGING ===  
+[2024-12-15 17:39:12] local.INFO: Auth Check: No  
+[2024-12-15 17:39:12] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:39:12] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:39:12] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:39:12] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:39:12] local.INFO: File Exists: Yes  
+[2024-12-15 17:39:12] local.INFO: Loading existing file...  
+[2024-12-15 17:39:12] local.INFO: File Save Attempted  
+[2024-12-15 17:39:12] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:39:12] local.INFO: File Size: 23656 bytes  
+[2024-12-15 17:39:12] local.INFO: === START LOGGING ===  
+[2024-12-15 17:39:12] local.INFO: Auth Check: No  
+[2024-12-15 17:39:12] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:39:12] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:39:12] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:39:12] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:39:12] local.INFO: File Exists: Yes  
+[2024-12-15 17:39:12] local.INFO: Loading existing file...  
+[2024-12-15 17:39:12] local.INFO: File Save Attempted  
+[2024-12-15 17:39:12] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:39:12] local.INFO: File Size: 23682 bytes  
+[2024-12-15 17:39:27] local.INFO: === START LOGGING ===  
+[2024-12-15 17:39:27] local.INFO: Auth Check: No  
+[2024-12-15 17:39:27] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:39:27] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:39:27] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:39:27] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:39:27] local.INFO: File Exists: Yes  
+[2024-12-15 17:39:27] local.INFO: Loading existing file...  
+[2024-12-15 17:39:28] local.INFO: File Save Attempted  
+[2024-12-15 17:39:28] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:39:28] local.INFO: File Size: 23718 bytes  
+[2024-12-15 17:39:28] local.INFO: === START LOGGING ===  
+[2024-12-15 17:39:28] local.INFO: Auth Check: No  
+[2024-12-15 17:39:28] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:39:28] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:39:28] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:39:28] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:39:28] local.INFO: File Exists: Yes  
+[2024-12-15 17:39:28] local.INFO: Loading existing file...  
+[2024-12-15 17:39:28] local.INFO: File Save Attempted  
+[2024-12-15 17:39:28] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:39:28] local.INFO: File Size: 23746 bytes  
+[2024-12-15 17:39:37] local.INFO: === START LOGGING ===  
+[2024-12-15 17:39:37] local.INFO: Auth Check: No  
+[2024-12-15 17:39:37] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:39:37] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:39:37] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:39:37] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:39:37] local.INFO: File Exists: Yes  
+[2024-12-15 17:39:37] local.INFO: Loading existing file...  
+[2024-12-15 17:39:37] local.INFO: File Save Attempted  
+[2024-12-15 17:39:37] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:39:37] local.INFO: File Size: 23778 bytes  
+[2024-12-15 17:40:02] local.INFO: === START LOGGING ===  
+[2024-12-15 17:40:02] local.INFO: Auth Check: No  
+[2024-12-15 17:40:02] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:40:02] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:40:02] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:40:02] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:40:02] local.INFO: File Exists: Yes  
+[2024-12-15 17:40:02] local.INFO: Loading existing file...  
+[2024-12-15 17:40:02] local.INFO: File Save Attempted  
+[2024-12-15 17:40:02] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:40:02] local.INFO: File Size: 23812 bytes  
+[2024-12-15 17:40:02] local.INFO: === START LOGGING ===  
+[2024-12-15 17:40:02] local.INFO: Auth Check: No  
+[2024-12-15 17:40:02] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:40:02] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:40:02] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:40:02] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:40:02] local.INFO: File Exists: Yes  
+[2024-12-15 17:40:02] local.INFO: Loading existing file...  
+[2024-12-15 17:40:02] local.INFO: File Save Attempted  
+[2024-12-15 17:40:02] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:40:02] local.INFO: File Size: 23836 bytes  
+[2024-12-15 17:40:03] local.INFO: Order processed successfully: DHBOGZ174002  
+[2024-12-15 17:40:15] local.ERROR: SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: YES) (Connection: mysql, SQL: select * from `categories`) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 1045): SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: YES) (Connection: mysql, SQL: select * from `categories`) at C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:829)
+[stacktrace]
+#0 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#1 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(431): Illuminate\\Database\\Connection->run('select * from `...', Array, Object(Closure))
+#2 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2914): Illuminate\\Database\\Connection->select('select * from `...', Array, true)
+#3 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2902): Illuminate\\Database\\Query\\Builder->runSelect()
+#4 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3456): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#5 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2903): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#6 C:\\laragon\\www\\DuAnTotNghiep\\app\\Providers\\AppServiceProvider.php(20): Illuminate\\Database\\Query\\Builder->get()
+#7 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Concerns\\ManagesEvents.php(162): App\\Providers\\AppServiceProvider->App\\Providers\\{closure}(Object(Illuminate\\View\\View))
+#8 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Events\\Dispatcher.php(455): Illuminate\\View\\Factory->Illuminate\\View\\Concerns\\{closure}('composing: erro...', Array)
+#9 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Events\\Dispatcher.php(286): Illuminate\\Events\\Dispatcher->Illuminate\\Events\\{closure}('composing: erro...', Array)
+#10 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Events\\Dispatcher.php(266): Illuminate\\Events\\Dispatcher->invokeListeners('composing: erro...', Array, false)
+#11 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Concerns\\ManagesEvents.php(177): Illuminate\\Events\\Dispatcher->dispatch('composing: erro...', Array)
+#12 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(188): Illuminate\\View\\Factory->callComposer(Object(Illuminate\\View\\View))
+#13 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(159): Illuminate\\View\\View->renderContents()
+#14 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(69): Illuminate\\View\\View->render()
+#15 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(35): Illuminate\\Http\\Response->setContent(Object(Illuminate\\View\\View))
+#16 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ResponseFactory.php(58): Illuminate\\Http\\Response->__construct(Object(Illuminate\\View\\View), 404, Array)
+#17 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ResponseFactory.php(88): Illuminate\\Routing\\ResponseFactory->make(Object(Illuminate\\View\\View), 404, Array)
+#18 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(726): Illuminate\\Routing\\ResponseFactory->view('errors::404', Array, 404, Array)
+#19 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(650): Illuminate\\Foundation\\Exceptions\\Handler->renderHttpException(Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#20 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(556): Illuminate\\Foundation\\Exceptions\\Handler->prepareResponse(Object(Illuminate\\Http\\Request), Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#21 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(473): Illuminate\\Foundation\\Exceptions\\Handler->renderExceptionResponse(Object(Illuminate\\Http\\Request), Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#22 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(51): Illuminate\\Foundation\\Exceptions\\Handler->render(Object(Illuminate\\Http\\Request), Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#23 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(146): Illuminate\\Routing\\Pipeline->handleException(Object(Illuminate\\Http\\Request), Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#24 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#25 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#26 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#27 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#28 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#29 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#30 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#31 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#32 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#33 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#34 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#37 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#38 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#39 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#40 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#41 C:\\laragon\\www\\DuAnTotNghiep\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#42 {main}
+
+[previous exception] [object] (PDOException(code: 1045): SQLSTATE[HY000] [1045] Access denied for user 'forge'@'localhost' (using password: YES) at C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php:65)
+[stacktrace]
+#0 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(65): PDO->__construct('mysql:host=127....', 'forge', '', Array)
+#1 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\Connector.php(45): Illuminate\\Database\\Connectors\\Connector->createPdoConnection('mysql:host=127....', 'forge', '', Array)
+#2 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\MySqlConnector.php(24): Illuminate\\Database\\Connectors\\Connector->createConnection('mysql:host=127....', Array, Array)
+#3 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connectors\\ConnectionFactory.php(184): Illuminate\\Database\\Connectors\\MySqlConnector->connect(Array)
+#4 [internal function]: Illuminate\\Database\\Connectors\\ConnectionFactory->Illuminate\\Database\\Connectors\\{closure}()
+#5 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1339): call_user_func(Object(Closure))
+#6 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(1375): Illuminate\\Database\\Connection->getPdo()
+#7 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(528): Illuminate\\Database\\Connection->getReadPdo()
+#8 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(423): Illuminate\\Database\\Connection->getPdoForSelect(true)
+#9 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(816): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('select * from `...', Array)
+#10 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(783): Illuminate\\Database\\Connection->runQueryCallback('select * from `...', Array, Object(Closure))
+#11 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(431): Illuminate\\Database\\Connection->run('select * from `...', Array, Object(Closure))
+#12 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2914): Illuminate\\Database\\Connection->select('select * from `...', Array, true)
+#13 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2902): Illuminate\\Database\\Query\\Builder->runSelect()
+#14 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3456): Illuminate\\Database\\Query\\Builder->Illuminate\\Database\\Query\\{closure}()
+#15 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(2903): Illuminate\\Database\\Query\\Builder->onceWithColumns(Array, Object(Closure))
+#16 C:\\laragon\\www\\DuAnTotNghiep\\app\\Providers\\AppServiceProvider.php(20): Illuminate\\Database\\Query\\Builder->get()
+#17 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Concerns\\ManagesEvents.php(162): App\\Providers\\AppServiceProvider->App\\Providers\\{closure}(Object(Illuminate\\View\\View))
+#18 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Events\\Dispatcher.php(455): Illuminate\\View\\Factory->Illuminate\\View\\Concerns\\{closure}('composing: erro...', Array)
+#19 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Events\\Dispatcher.php(286): Illuminate\\Events\\Dispatcher->Illuminate\\Events\\{closure}('composing: erro...', Array)
+#20 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Events\\Dispatcher.php(266): Illuminate\\Events\\Dispatcher->invokeListeners('composing: erro...', Array, false)
+#21 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Concerns\\ManagesEvents.php(177): Illuminate\\Events\\Dispatcher->dispatch('composing: erro...', Array)
+#22 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(188): Illuminate\\View\\Factory->callComposer(Object(Illuminate\\View\\View))
+#23 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\View\\View.php(159): Illuminate\\View\\View->renderContents()
+#24 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(69): Illuminate\\View\\View->render()
+#25 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Response.php(35): Illuminate\\Http\\Response->setContent(Object(Illuminate\\View\\View))
+#26 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ResponseFactory.php(58): Illuminate\\Http\\Response->__construct(Object(Illuminate\\View\\View), 404, Array)
+#27 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ResponseFactory.php(88): Illuminate\\Routing\\ResponseFactory->make(Object(Illuminate\\View\\View), 404, Array)
+#28 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(726): Illuminate\\Routing\\ResponseFactory->view('errors::404', Array, 404, Array)
+#29 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(650): Illuminate\\Foundation\\Exceptions\\Handler->renderHttpException(Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#30 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(556): Illuminate\\Foundation\\Exceptions\\Handler->prepareResponse(Object(Illuminate\\Http\\Request), Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#31 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Exceptions\\Handler.php(473): Illuminate\\Foundation\\Exceptions\\Handler->renderExceptionResponse(Object(Illuminate\\Http\\Request), Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#32 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Pipeline.php(51): Illuminate\\Foundation\\Exceptions\\Handler->render(Object(Illuminate\\Http\\Request), Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#33 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(146): Illuminate\\Routing\\Pipeline->handleException(Object(Illuminate\\Http\\Request), Object(Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException))
+#34 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#35 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php(31): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#36 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#37 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php(21): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#38 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php(40): Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#39 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\TrimStrings->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#40 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php(27): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#41 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#42 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php(99): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#43 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#44 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php(49): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#45 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Http\\Middleware\\HandleCors->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#46 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php(39): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#47 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(183): Illuminate\\Http\\Middleware\\TrustProxies->handle(Object(Illuminate\\Http\\Request), Object(Closure))
+#48 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php(119): Illuminate\\Pipeline\\Pipeline->Illuminate\\Pipeline\\{closure}(Object(Illuminate\\Http\\Request))
+#49 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(175): Illuminate\\Pipeline\\Pipeline->then(Object(Closure))
+#50 C:\\laragon\\www\\DuAnTotNghiep\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php(144): Illuminate\\Foundation\\Http\\Kernel->sendRequestThroughRouter(Object(Illuminate\\Http\\Request))
+#51 C:\\laragon\\www\\DuAnTotNghiep\\public\\index.php(52): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
+#52 {main}
+"} 
+[2024-12-15 17:41:07] local.INFO: === START LOGGING ===  
+[2024-12-15 17:41:07] local.INFO: Auth Check: No  
+[2024-12-15 17:41:07] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:41:07] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:41:07] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:41:07] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:41:07] local.INFO: File Exists: Yes  
+[2024-12-15 17:41:07] local.INFO: Loading existing file...  
+[2024-12-15 17:41:08] local.INFO: File Save Attempted  
+[2024-12-15 17:41:08] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:41:08] local.INFO: File Size: 23870 bytes  
+[2024-12-15 17:41:08] local.INFO: === START LOGGING ===  
+[2024-12-15 17:41:08] local.INFO: Auth Check: No  
+[2024-12-15 17:41:08] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 17:41:08] local.INFO: Directory Exists: Yes  
+[2024-12-15 17:41:08] local.INFO: Directory Writable: Yes  
+[2024-12-15 17:41:08] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 17:41:08] local.INFO: File Exists: Yes  
+[2024-12-15 17:41:08] local.INFO: Loading existing file...  
+[2024-12-15 17:41:08] local.INFO: File Save Attempted  
+[2024-12-15 17:41:08] local.INFO: File Exists After Save: Yes  
+[2024-12-15 17:41:08] local.INFO: File Size: 23892 bytes  
+[2024-12-15 17:41:08] local.INFO: Order processed successfully: DHBVRP174107  
+[2024-12-15 17:41:08] local.ERROR: Lỗi xử lý đơn hàng: Số lượng mua của sản phẩm Cút nối nhựa vượt quá số lượng hàng tồn kho.  
+[2024-12-15 18:13:03] local.INFO: === START LOGGING ===  
+[2024-12-15 18:13:03] local.INFO: Auth Check: No  
+[2024-12-15 18:13:03] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:13:03] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:13:03] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:13:03] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:13:03] local.INFO: File Exists: Yes  
+[2024-12-15 18:13:03] local.INFO: Loading existing file...  
+[2024-12-15 18:13:04] local.INFO: File Save Attempted  
+[2024-12-15 18:13:04] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:13:04] local.INFO: File Size: 23926 bytes  
+[2024-12-15 18:13:04] local.INFO: === START LOGGING ===  
+[2024-12-15 18:13:04] local.INFO: Auth Check: No  
+[2024-12-15 18:13:04] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:13:04] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:13:04] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:13:04] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:13:04] local.INFO: File Exists: Yes  
+[2024-12-15 18:13:04] local.INFO: Loading existing file...  
+[2024-12-15 18:13:05] local.INFO: File Save Attempted  
+[2024-12-15 18:13:05] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:13:05] local.INFO: File Size: 23959 bytes  
+[2024-12-15 18:28:28] local.INFO: === START LOGGING ===  
+[2024-12-15 18:28:28] local.INFO: Auth Check: No  
+[2024-12-15 18:28:28] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:28:28] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:28:28] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:28:28] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:28:28] local.INFO: File Exists: Yes  
+[2024-12-15 18:28:28] local.INFO: Loading existing file...  
+[2024-12-15 18:28:28] local.INFO: File Save Attempted  
+[2024-12-15 18:28:28] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:28:28] local.INFO: File Size: 23990 bytes  
+[2024-12-15 18:28:43] local.INFO: === START LOGGING ===  
+[2024-12-15 18:28:43] local.INFO: Auth Check: No  
+[2024-12-15 18:28:43] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:28:43] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:28:43] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:28:43] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:28:43] local.INFO: File Exists: Yes  
+[2024-12-15 18:28:43] local.INFO: Loading existing file...  
+[2024-12-15 18:28:43] local.INFO: File Save Attempted  
+[2024-12-15 18:28:43] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:28:43] local.INFO: File Size: 24021 bytes  
+[2024-12-15 18:29:37] local.INFO: === START LOGGING ===  
+[2024-12-15 18:29:37] local.INFO: Auth Check: No  
+[2024-12-15 18:29:37] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:29:37] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:29:37] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:29:37] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:29:37] local.INFO: File Exists: Yes  
+[2024-12-15 18:29:37] local.INFO: Loading existing file...  
+[2024-12-15 18:29:37] local.INFO: File Save Attempted  
+[2024-12-15 18:29:37] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:29:37] local.INFO: File Size: 24051 bytes  
+[2024-12-15 18:29:44] local.INFO: === START LOGGING ===  
+[2024-12-15 18:29:44] local.INFO: Auth Check: No  
+[2024-12-15 18:29:44] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:29:44] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:29:44] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:29:44] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:29:44] local.INFO: File Exists: Yes  
+[2024-12-15 18:29:44] local.INFO: Loading existing file...  
+[2024-12-15 18:29:44] local.ERROR: === ERROR IN LOGGING ===  
+[2024-12-15 18:29:44] local.ERROR: Error Message: Token has expired  
+[2024-12-15 18:29:44] local.ERROR: Error File: C:\laragon\www\DuAnTotNghiep\vendor\tymon\jwt-auth\src\Claims\Expiration.php  
+[2024-12-15 18:29:44] local.ERROR: Error Line: 31  
+[2024-12-15 18:32:12] local.INFO: === START LOGGING ===  
+[2024-12-15 18:32:12] local.INFO: Auth Check: No  
+[2024-12-15 18:32:12] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:32:12] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:32:12] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:32:12] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:32:12] local.INFO: File Exists: Yes  
+[2024-12-15 18:32:12] local.INFO: Loading existing file...  
+[2024-12-15 18:32:12] local.INFO: File Save Attempted  
+[2024-12-15 18:32:12] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:32:12] local.INFO: File Size: 24084 bytes  
+[2024-12-15 18:32:13] local.INFO: === START LOGGING ===  
+[2024-12-15 18:32:13] local.INFO: Auth Check: No  
+[2024-12-15 18:32:13] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:32:13] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:32:13] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:32:13] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:32:13] local.INFO: File Exists: Yes  
+[2024-12-15 18:32:13] local.INFO: Loading existing file...  
+[2024-12-15 18:32:13] local.INFO: File Save Attempted  
+[2024-12-15 18:32:13] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:32:13] local.INFO: File Size: 24116 bytes  
+[2024-12-15 18:32:14] local.INFO: === START LOGGING ===  
+[2024-12-15 18:32:14] local.INFO: Auth Check: No  
+[2024-12-15 18:32:14] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:32:14] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:32:14] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:32:14] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:32:14] local.INFO: File Exists: Yes  
+[2024-12-15 18:32:14] local.INFO: Loading existing file...  
+[2024-12-15 18:32:14] local.INFO: File Save Attempted  
+[2024-12-15 18:32:14] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:32:14] local.INFO: File Size: 24145 bytes  
+[2024-12-15 18:32:18] local.INFO: === START LOGGING ===  
+[2024-12-15 18:32:18] local.INFO: Auth Check: No  
+[2024-12-15 18:32:18] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:32:18] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:32:18] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:32:18] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:32:18] local.INFO: File Exists: Yes  
+[2024-12-15 18:32:18] local.INFO: Loading existing file...  
+[2024-12-15 18:32:18] local.INFO: File Save Attempted  
+[2024-12-15 18:32:18] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:32:18] local.INFO: File Size: 24175 bytes  
+[2024-12-15 18:32:23] local.INFO: === START LOGGING ===  
+[2024-12-15 18:32:23] local.INFO: Auth Check: No  
+[2024-12-15 18:32:23] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:32:23] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:32:23] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:32:23] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:32:23] local.INFO: File Exists: Yes  
+[2024-12-15 18:32:23] local.INFO: Loading existing file...  
+[2024-12-15 18:32:24] local.INFO: File Save Attempted  
+[2024-12-15 18:32:24] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:32:24] local.INFO: File Size: 24204 bytes  
+[2024-12-15 18:32:31] local.INFO: === START LOGGING ===  
+[2024-12-15 18:32:31] local.INFO: Auth Check: No  
+[2024-12-15 18:32:31] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:32:31] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:32:31] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:32:31] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:32:31] local.INFO: File Exists: Yes  
+[2024-12-15 18:32:31] local.INFO: Loading existing file...  
+[2024-12-15 18:32:31] local.INFO: File Save Attempted  
+[2024-12-15 18:32:31] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:32:31] local.INFO: File Size: 24234 bytes  
+[2024-12-15 18:33:18] local.INFO: === START LOGGING ===  
+[2024-12-15 18:33:18] local.INFO: Auth Check: No  
+[2024-12-15 18:33:18] local.INFO: Directory Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs  
+[2024-12-15 18:33:18] local.INFO: Directory Exists: Yes  
+[2024-12-15 18:33:18] local.INFO: Directory Writable: Yes  
+[2024-12-15 18:33:18] local.INFO: File Path: C:\laragon\www\DuAnTotNghiep\public\storage/logs/activity_logs.xlsx  
+[2024-12-15 18:33:18] local.INFO: File Exists: Yes  
+[2024-12-15 18:33:18] local.INFO: Loading existing file...  
+[2024-12-15 18:33:18] local.INFO: File Save Attempted  
+[2024-12-15 18:33:18] local.INFO: File Exists After Save: Yes  
+[2024-12-15 18:33:18] local.INFO: File Size: 24264 bytes  
