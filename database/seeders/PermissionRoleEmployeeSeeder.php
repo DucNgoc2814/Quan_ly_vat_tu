@@ -13,21 +13,26 @@ class PermissionRoleEmployeeSeeder extends Seeder
      */
     public function run(): void
     {
+        // Lấy danh sách các permission_id hiện có
+        $existingPermissionIds = DB::table('permissions')
+            ->pluck('id')
+            ->toArray();
+
+        if (empty($existingPermissionIds)) {
+            throw new \Exception('Không tìm thấy permissions nào. Vui lòng chạy PermissionSeeder trước.');
+        }
+
         // Tạo mảng dữ liệu để insert
         $data = [];
-        for ($i = 1; $i <= 186; $i++) {
+
+        // Thêm permissions cho role_employee_id = 1
+        foreach ($existingPermissionIds as $permissionId) {
             $data[] = [
-                'permission_id' => $i,
+                'permission_id' => $permissionId,
                 'role_employee_id' => 1,
             ];
         }
 
-        for ($i = 1; $i <= 186; $i++) {
-            $data[] = [
-                'permission_id' => $i,
-                'role_employee_id' => 3,
-            ];
-        }
         // Insert dữ liệu vào bảng permission_role_employees
         DB::table('permission_role_employees')->insert($data);
     }

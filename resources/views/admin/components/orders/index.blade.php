@@ -149,7 +149,7 @@
             if (newStatus == '5') {
                 const paymentPercent = (paidAmount / totalAmount) * 100;
 
-                if (paymentPercent >= 30) {
+                if (paymentPercent > 30) {
                     // Case 1: Cancel with refund (>30% paid)
                     Swal.fire({
                         title: 'Yêu cầu hoàn tiền',

@@ -62,15 +62,16 @@
                                 <form action="javascript:void(0);">
                                     <div class="row g-3 mb-0 align-items-center">
                                         <div class="col-sm-auto">
-
                                         </div>
-                                        <!--end col-->
-                                        <div class="col-auto">
-                                            <button type="button"
-                                                class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn"
-                                                id="confirmButton"><i class="ri-notification-2-line align-middle me-1"></i>
-                                                Thông Báo Xác Nhận</button>
-                                        </div>
+                                        @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == 1)
+                                            <div class="col-auto">
+                                                <button type="button"
+                                                    class="btn btn-soft-danger waves-effect waves-light layout-rightside-btn"
+                                                    id="confirmButton"><i
+                                                        class="ri-notification-2-line align-middle me-1"></i>
+                                                    Thông Báo Xác Nhận</button>
+                                            </div>
+                                        @endif
                                     </div>
                                 </form>
                             </div>
@@ -79,151 +80,145 @@
                     <!--end col-->
                 </div>
                 <!--end row-->
+                @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == 1)
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6">
+                            <div class="card card-animate">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                                Doanh thu</p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <h5
+                                                class="text-success fs-14 mb-0  {{ $growthRateRevenue < 0 ? 'text-danger' : '' }} ">
+                                                <i
+                                                    class="ri-arrow-right-{{ $growthRateRevenue < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
+                                                {{ $growthRateRevenue }} %
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                                {{ formatCurrency($totalRevenueThisMonth) }} đ
+                                            </h4>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-primary-subtle rounded fs-3">
+                                                <i class="bx bx-wallet text-primary"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div><!-- end card body -->
+                            </div><!-- end card -->
+                        </div><!-- end col -->
+                        <div class="col-xl-3 col-md-6">
+                            <!-- card -->
+                            <div class="card card-animate">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                                Doanh thu thực</p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <h5
+                                                class="text-success fs-14 mb-0  {{ $growthRateCustomers < 0 ? 'text-danger' : '' }} ">
+                                                <i
+                                                    class="ri-arrow-right-{{ $growthRateCustomers < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
+                                                {{ $growthRateCustomers }} %
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                                {{ formatCurrency($actualRevenueThisMonth) }}
+                                            </h4>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-warning-subtle rounded fs-3">
+                                                <i class="bx bx-user-circle text-warning"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div><!-- end card body -->
+                            </div><!-- end card -->
+                        </div>
+                        <div class="col-xl-3 col-md-6">
+                            <!-- card -->
+                            <div class="card card-animate">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                                Tổng chi phí</p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <h5
+                                                class="text-success fs-14 mb-0  {{ $growthRateImportRevenue < 0 ? 'text-danger' : '' }} ">
+                                                <i
+                                                    class="ri-arrow-right-{{ $growthRateImportRevenue < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
+                                                {{ $growthRateImportRevenue }} %
+                                            </h5>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                                {{ formatCurrency($totalRevenueImportThisMonth) }} đ
+                                            </h4>
 
-                <div class="row">
-                    <div class="col-xl-3 col-md-6">
-                        <!-- card -->
-                        <div class="card card-animate">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1 overflow-hidden">
-                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                            Tổng doanh thu</p>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-info-subtle rounded fs-3">
+                                                <i class="bx bx-shopping-bag text-info"></i>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="flex-shrink-0">
-                                        <h5
-                                            class="text-success fs-14 mb-0  {{ $growthRateRevenue < 0 ? 'text-danger' : '' }} ">
-                                            <i
-                                                class="ri-arrow-right-{{ $growthRateRevenue < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
-                                            {{ $growthRateRevenue }} %
-                                        </h5>
+                                </div><!-- end card body -->
+                            </div><!-- end card -->
+                        </div><!-- end col -->
+                        <div class="col-xl-3 col-md-6">
+                            <!-- card -->
+                            <div class="card card-animate">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center">
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
+                                                Lợi nhuận</p>
+                                        </div>
+                                        <div class="flex-shrink-0">
+                                            <h5
+                                                class="text-success fs-14 mb-0  {{ $growthRateRevenue < 0 ? 'text-danger' : '' }} ">
+                                                <i
+                                                    class="ri-arrow-right-{{ $growthRateRevenue < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
+                                                {{ $growthRateRevenue }} %
+                                            </h5>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="d-flex align-items-end justify-content-between mt-4">
-                                    <div>
-                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ formatCurrency($totalRevenueThisMonth) }} đ
-                                        </h4>
+                                    <div class="d-flex align-items-end justify-content-between mt-4">
+                                        <div>
+                                            <h4 class="fs-22 fw-semibold ff-secondary mb-4">
+                                                {{ formatCurrency($actualRevenueThisMonth - $totalRevenueImportThisMonth) }}
+                                            </h4>
+                                        </div>
+                                        <div class="avatar-sm flex-shrink-0">
+                                            <span class="avatar-title bg-success-subtle rounded fs-3">
+                                                <i class="bx bx-dollar-circle text-success"></i>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-primary-subtle rounded fs-3">
-                                            <i class="bx bx-wallet text-primary"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div><!-- end card body -->
-                        </div><!-- end card -->
-                    </div><!-- end col -->
-                    <div class="col-xl-3 col-md-6">
-                        <!-- card -->
-                        <div class="card card-animate">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1 overflow-hidden">
-                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                            Tổng chi phí</p>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <h5
-                                            class="text-success fs-14 mb-0  {{ $growthRateImportRevenue < 0 ? 'text-danger' : '' }} ">
-                                            <i
-                                                class="ri-arrow-right-{{ $growthRateImportRevenue < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
-                                            {{ $growthRateImportRevenue }} %
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-end justify-content-between mt-4">
-                                    <div>
-                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ formatCurrency($totalRevenueImportThisMonth) }} đ
-                                        </h4>
+                                </div><!-- end card body -->
+                            </div><!-- end card -->
+                        </div><!-- end col -->
+                        <!-- end col -->
+                    </div>
+                @endif
 
-                                    </div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-info-subtle rounded fs-3">
-                                            <i class="bx bx-shopping-bag text-info"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div><!-- end card body -->
-                        </div><!-- end card -->
-                    </div><!-- end col -->
-                    <div class="col-xl-3 col-md-6">
-                        <!-- card -->
-                        <div class="card card-animate">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1 overflow-hidden">
-                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                            Tổng doanh thu thực</p>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <h5
-                                            class="text-success fs-14 mb-0  {{ $growthRateRevenue < 0 ? 'text-danger' : '' }} ">
-                                            <i
-                                                class="ri-arrow-right-{{ $growthRateRevenue < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
-                                            {{ $growthRateRevenue }} %
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-end justify-content-between mt-4">
-                                    <div>
-                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ formatCurrency($totalRevenueThisMonth - $totalRevenueImportThisMonth) }}
-                                        </h4>
-                                    </div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-success-subtle rounded fs-3">
-                                            <i class="bx bx-dollar-circle text-success"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div><!-- end card body -->
-                        </div><!-- end card -->
-                    </div><!-- end col -->
-
-
-
-
-
-
-                    <div class="col-xl-3 col-md-6">
-                        <!-- card -->
-                        <div class="card card-animate">
-                            <div class="card-body">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1 overflow-hidden">
-                                        <p class="text-uppercase fw-medium text-muted text-truncate mb-0">
-                                            Lợi nhuận</p>
-                                    </div>
-                                    <div class="flex-shrink-0">
-                                        <h5
-                                            class="text-success fs-14 mb-0  {{ $growthRateCustomers < 0 ? 'text-danger' : '' }} ">
-                                            <i
-                                                class="ri-arrow-right-{{ $growthRateCustomers < 0 ? 'down' : 'up' }}-line fs-13 align-middle "></i>
-                                            {{ $growthRateCustomers }} %
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-end justify-content-between mt-4">
-                                    <div>
-                                        <h4 class="fs-22 fw-semibold ff-secondary mb-4">
-                                            {{ formatCurrency($totalCustomersThisMonth) }}
-                                        </h4>
-                                    </div>
-                                    <div class="avatar-sm flex-shrink-0">
-                                        <span class="avatar-title bg-warning-subtle rounded fs-3">
-                                            <i class="bx bx-user-circle text-warning"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div><!-- end card body -->
-                        </div><!-- end card -->
-                    </div><!-- end col -->
-                </div> <!-- end row-->
-
-
-                <div class="col-xl-8 w-100 fs-12">
+                <div class="row ">
                     <div class="card">
                         <div class="card-header align-items-center d-flex">
                             <h4 class="card-title mb-0 flex-grow-1">Đơn hàng gần đây</h4>
@@ -231,10 +226,10 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
-                            <div class="table-responsive table-card">
-                                <table class="table table-borderless table-centered align-middle table-nowrap mb-0">
-                                    <thead class="text-muted table-light">
+                        <div class="card-body ">
+                            <div class="table-responsive table-card ">
+                                <table class="table table-borderless table-centered align-middle table-nowrap mb-0 fs-14">
+                                    <thead class="text-muted table-light ">
                                         <tr>
                                             <th scope="col">STT</th>
                                             <th scope="col">Mã đơn</th>
@@ -290,83 +285,50 @@
                         </div>
                     </div> <!-- .card-->
                 </div> <!-- .col-->
-                <div class="row fs-12">
-                    <div class="col-xl-6  w-100">
-                        <div class="card">
-                            <div class="card-header align-items-center d-flex">
-                                <h4 class="card-title mb-0 flex-grow-1">Sản phẩm bán chạy</h4>
-                                <div class="flex-shrink-0">
-                                </div>
+                <div class="row">
+                    <div class="card">
+                        <div class="card-header align-items-center d-flex">
+                            <h4 class="card-title mb-0 flex-grow-1">Sản phẩm bán chạy</h4>
+                            <div class="flex-shrink-0">
                             </div>
-                            <div class="card-body">
-                                <div class="table-responsive table-card  w-100">
-                                    <table class="table table-hover table-centered align-middle table-nowrap mb-0 ">
-                                        <tr>
-                                            <th>Mã biến thẻ</th>
-                                            <th>Sản phẩm</th>
-                                            <th>Đã bán</th>
-                                            <th>Trong kho</th>
-                                        </tr>
-                                        <tbody>
-                                            @foreach ($productsWithTotalQuantity as $value)
-                                                <tr>
-                                                    <td>
-                                                        <h5 class="fs-14 my-1 fw-normal">{{ $value->variation_sku }}</h5>
-                                                    </td>
-                                                    <td>
-                                                        <div class="d-flex align-items-center">
-                                                            <div>
-                                                                <h5 class="fs-14 my-1"><a
-                                                                        href="apps-ecommerce-product-details.html"
-                                                                        class="text-reset">{{ $value->product_name }}</a>
-                                                                </h5>
-                                                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive table-card w-100">
+                                <table class="table table-hover table-centered align-middle table-nowrap mb-0 fs-14">
+                                    <tr>
+                                        <th>Mã biến thẻ</th>
+                                        <th>Sản phẩm</th>
+                                        <th>Đã bán</th>
+                                        <th>Trong kho</th>
+                                    </tr>
+                                    <tbody>
+                                        @foreach ($productsWithTotalQuantity as $value)
+                                            <tr>
+                                                <td>
+                                                    <h5 class="fs-14 my-1 fw-normal">{{ $value->variation_sku }}</h5>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <div>
+                                                            <h5 class="fs-14 my-1"><a
+                                                                    href="apps-ecommerce-product-details.html"
+                                                                    class="text-reset">{{ $value->product_name }}</a>
+                                                            </h5>
                                                         </div>
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="fs-14 my-1 fw-normal">{{ $value->total_quantity }}</h5>
-                                                    </td>
-                                                    <td>
-                                                        <h5 class="fs-14 my-1 fw-normal">{{ $value->variation_stock }}
-                                                        </h5>
-                                                    </td>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <h5 class="fs-14 my-1 fw-normal">{{ $value->total_quantity }}</h5>
+                                                </td>
+                                                <td>
+                                                    <h5 class="fs-14 my-1 fw-normal">{{ $value->variation_stock }}
+                                                    </h5>
+                                                </td>
 
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                                <div
-                                    class="align-items-center mt-4 pt-2 justify-content-between row text-center text-sm-start">
-                                    <div class="col-sm">
-                                        <div class="text-muted">
-                                            Showing <span class="fw-semibold">5</span> of <span
-                                                class="fw-semibold">25</span> Results
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-auto  mt-3 mt-sm-0">
-                                        <ul
-                                            class="pagination pagination-separated pagination-sm mb-0 justify-content-center">
-                                            <li class="page-item disabled">
-                                                <a href="#" class="page-link">←</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">1</a>
-                                            </li>
-                                            <li class="page-item active">
-                                                <a href="#" class="page-link">2</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">3</a>
-                                            </li>
-                                            <li class="page-item">
-                                                <a href="#" class="page-link">→</a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
@@ -383,128 +345,153 @@
             </div> <!-- end .h-100-->
 
         </div> <!-- end col -->
-
-        <div class="col-auto layout-rightside-col">
-            <div class="overlay"></div>
-            <div class="layout-rightside">
-                <div class="card h-100 rounded-0">
-                    <div class="card-body p-0">
-                        <div class="p-3">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <h6 class="text-muted mb-0 text-uppercase fw-semibold">Yêu Cầu Xác Nhận</h6>
-                                <button type="button" class="btn-close text-danger" id="closeNotification"
-                                    aria-label="Close"></button>
+        @if (JWTAuth::setToken(Session::get('token'))->getPayload()->get('role') == 1)
+            <div class="col-auto layout-rightside-col">
+                <div class="overlay"></div>
+                <div class="layout-rightside">
+                    <div class="card h-100 rounded-0">
+                        <div class="card-body p-0">
+                            <div class="p-3">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h6 class="text-muted mb-0 text-uppercase fw-semibold">Yêu Cầu Xác Nhận</h6>
+                                    <button type="button" class="btn-close text-danger" id="closeNotification"
+                                        aria-label="Close"></button>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="p-3 mt-2">
-                            @foreach ($orderCancelRequests as $request)
-                                <div class="col mb-3 cancel-request" data-slug="{{ $request->slug }}">
-                                    <div class="card card-body">
-                                        <div class="d-flex mb-4 align-items-center">
-                                            <div class="flex-shrink-0">
-                                                <i class="ri-delete-bin-2-line text-danger fs-24"></i>
+                            <div class="p-3 mt-2">
+                                @foreach ($orderCancelRequests as $request)
+                                    <div class="col mb-3 cancel-request" data-slug="{{ $request->slug }}">
+                                        <div class="card card-body">
+                                            <div class="d-flex mb-4 align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class="ri-delete-bin-2-line text-danger fs-24"></i>
+                                                </div>
+                                                <div class="flex-grow-1 ms-2">
+                                                    <h5 class="card-title mb-1">Yêu cầu hủy đơn hàng bán ra</h5>
+                                                </div>
                                             </div>
-                                            <div class="flex-grow-1 ms-2">
-                                                <h5 class="card-title mb-1">Yêu cầu hủy đơn hàng bán ra</h5>
+                                            <p class="card-text text-muted">
+                                                Đơn hàng - {{ $request->slug }}, yêu cầu hủy -
+                                                {{ $request->cancel_reason }}
+                                            </p>
+                                            <div>
+                                                <button onclick="handleOrderStatus('{{ $request->slug }}', 5)"
+                                                    class="btn btn-info btn-sm">Xác Nhận</button>
+                                                <button onclick="handleOrderStatus('{{ $request->slug }}', 1)"
+                                                    class="btn btn-danger btn-sm">Từ Chối</button>
                                             </div>
-                                        </div>
-                                        <p class="card-text text-muted">
-                                            Đơn hàng - {{ $request->slug }}, yêu cầu hủy -
-                                            {{ $request->cancel_reason }}
-                                        </p>
-                                        <div>
-                                            <button onclick="handleOrderStatus('{{ $request->slug }}', 5)"
-                                                class="btn btn-info btn-sm">Xác Nhận</button>
-                                            <button onclick="handleOrderStatus('{{ $request->slug }}', 1)"
-                                                class="btn btn-danger btn-sm">Từ Chối</button>
                                         </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
 
-                            @foreach ($pendingNewOrders as $request)
-                                <div class="col mb-3">
-                                    <div class="card card-body">
-                                        <div class="d-flex mb-4 align-items-center">
-                                            <div class="flex-shrink-0">
-                                                <i class="ri-information-line text-primary fs-24"></i>
-                                            </div>
-                                            <div class="flex-grow-1 ms-2">
-                                                <h5 class="card-title mb-1">Yêu cầu thêm mới đơn hàng nhập:
-                                                    {{ $request->slug }}</h5>
-                                            </div>
-                                        </div>
-                                        <p class="card-text text-muted">
-                                            Sản phẩm:
-                                        <ul>
-                                            @foreach ($request->newOrderRequests as $item)
-                                                <li>{{ $item->variation->name }} - Số lượng: {{ $item->quantity }}</li>
-                                            @endforeach
-                                        </ul>
-                                        </p>
-                                        <div>
-                                            <button type="button" class="btn btn-info btn-sm"
-                                                onclick="confirmImportOrder('{{ $request->slug }}')">
-                                                Xác Nhận
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-sm"
-                                                onclick="rejectImportOrder('{{ $request->slug }}')">
-                                                Từ Chối
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                        <div class="pending-cancel-requests">
-                            <div class="row">
-                                @foreach ($pendingCancelRequests as $request)
+                                @foreach ($pendingNewOrders as $request)
                                     <div class="col mb-3">
                                         <div class="card card-body">
-                                            <div class="d-flex align-items-center">
+                                            <div class="d-flex mb-4 align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <i class="ri-information-line text-primary fs-24"></i>
+                                                </div>
                                                 <div class="flex-grow-1 ms-2">
-                                                    <h5 class="card-title mb-1">Đơn hàng nhập vào: {{ $request->slug }}
-                                                        yêu cầu hủy</h5>
-                                                    <p class="text-muted">Lý do: {{ $request->cancel_reason }}</p>
+                                                    <h5 class="card-title mb-1">Yêu cầu thêm mới đơn hàng nhập:
+                                                        {{ $request->slug }}</h5>
+                                                </div>
+                                            </div>
+                                            <p class="card-text text-muted">
+                                                Sản phẩm:
+                                            <ul>
+                                                @foreach ($request->newOrderRequests as $item)
+                                                    <li>{{ $item->variation->name }} - Số lượng: {{ $item->quantity }}
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                            </p>
+                                            <div>
+                                                <button type="button" class="btn btn-info btn-sm"
+                                                    onclick="confirmImportOrder('{{ $request->slug }}')">
+                                                    Xác Nhận
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm"
+                                                    onclick="rejectImportOrder('{{ $request->slug }}')">
+                                                    Từ Chối
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <div class="pending-cancel-requests">
+                                <div class="row">
+                                    @foreach ($pendingCancelRequests as $request)
+                                        <div class="col mb-3">
+                                            <div class="card card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-grow-1 ms-2">
+                                                        <h5 class="card-title mb-1">Đơn hàng nhập vào:
+                                                            {{ $request->slug }}
+                                                            yêu cầu hủy</h5>
+                                                        <p class="text-muted">Lý do: {{ $request->cancel_reason }}</p>
+                                                        <div class="mt-3">
+                                                            <button onclick="handleCancelConfirm('{{ $request->slug }}')"
+                                                                class="btn btn-info btn-sm">
+                                                                <i class="ri-check-line align-bottom me-1"></i>Xác Nhận
+                                                            </button>
+                                                            <button onclick="handleCancelReject('{{ $request->slug }}')"
+                                                                class="btn btn-danger btn-sm">
+                                                                <i class="ri-close-circle-line align-bottom me-1"></i>Từ
+                                                                Chối
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                @foreach ($pendingContracts as $contract)
+                                    <div class="col mb-3">
+                                        <div class="card card-body">
+                                            <div class="d-flex mb-4 align-items-center">
+                                                <div class="flex-grow-1 ms-2">
+                                                    <h5 class="card-title mb-1">Yêu cầu xác nhận hợp đồng:
+                                                        {{ $contract->contract_number }}</h5>
+                                                    <p>Khách hàng: {{ $contract->customer_name }}</p>
                                                     <div class="mt-3">
-                                                        <button onclick="handleCancelConfirm('{{ $request->slug }}')"
-                                                            class="btn btn-info btn-sm">
-                                                            <i class="ri-check-line align-bottom me-1"></i>Xác Nhận
-                                                        </button>
-                                                        <button onclick="handleCancelReject('{{ $request->slug }}')"
-                                                            class="btn btn-danger btn-sm">
-                                                            <i class="ri-close-circle-line align-bottom me-1"></i>Từ Chối
-                                                        </button>
+                                                        <a href="/storage/{{ $contract->file }}" target="_blank"
+                                                            class="btn btn-info btn-sm">Xem hợp đồng</a>
+                                                        <form action="{{ route('contract.confirm', $contract->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            <button type="submit" class="btn btn-success btn-sm">Xác
+                                                                nhận</button>
+                                                        </form>
+
+                                                        {{-- <button type="button" class="btn btn-danger btn-sm"
+                                                        onclick="showRejectModal({{ $contract->id }})">Từ chối</button> --}}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 @endforeach
+
                             </div>
-                        </div>
-                        <div class="mt-2">
-                            @foreach ($pendingContracts as $contract)
+
+                            @foreach ($validContracts as $item)
                                 <div class="col mb-3">
                                     <div class="card card-body">
                                         <div class="d-flex mb-4 align-items-center">
                                             <div class="flex-grow-1 ms-2">
-                                                <h5 class="card-title mb-1">Yêu cầu xác nhận hợp đồng:
-                                                    {{ $contract->contract_number }}</h5>
-                                                <p>Khách hàng: {{ $contract->customer_name }}</p>
+                                                <h5 class="card-title mb-1">Hợp đồng:
+                                                    {{ $item['contract']->contract_number }}
+                                                </h5>
                                                 <div class="mt-3">
-                                                    <a href="/storage/{{ $contract->file }}" target="_blank"
-                                                        class="btn btn-info btn-sm">Xem hợp đồng</a>
-                                                    <form action="{{ route('contract.confirm', $contract->id) }}"
-                                                        method="POST" class="d-inline">
-                                                        @csrf
-                                                        <button type="submit" class="btn btn-success btn-sm">Xác
-                                                            nhận</button>
-                                                    </form>
-
-                                                    {{-- <button type="button" class="btn btn-danger btn-sm"
-                                                        onclick="showRejectModal({{ $contract->id }})">Từ chối</button> --}}
+                                                    <a href="/storage/{{ $item['contract']->file_pdf }}" target="_blank"
+                                                        class="btn btn-info btn-sm">
+                                                        <i class="ri-eye-fill align-bottom me-2"></i>Xem hợp đồng
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>
@@ -513,31 +500,11 @@
                             @endforeach
 
                         </div>
+                    </div> <!-- end card-->
+                </div> <!-- end .rightbar-->
 
-                        @foreach ($validContracts as $item)
-                            <div class="col mb-3">
-                                <div class="card card-body">
-                                    <div class="d-flex mb-4 align-items-center">
-                                        <div class="flex-grow-1 ms-2">
-                                            <h5 class="card-title mb-1">Hợp đồng: {{ $item['contract']->contract_number }}
-                                            </h5>
-                                            <div class="mt-3">
-                                                <a href="/storage/{{ $item['contract']->file_pdf }}" target="_blank"
-                                                    class="btn btn-info btn-sm">
-                                                    <i class="ri-eye-fill align-bottom me-2"></i>Xem hợp đồng
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-
-                    </div>
-                </div> <!-- end card-->
-            </div> <!-- end .rightbar-->
-
-        </div> <!-- end col -->
+            </div> <!-- end col -->
+        @endif
     </div>
 @endsection
 
