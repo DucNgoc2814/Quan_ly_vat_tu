@@ -57,7 +57,8 @@ class ImportOrderController extends Controller
     {
         $payments = Payment::query()->get();
         $suppliers = Supplier::query()->get();
-        $variants = Variation::all();
+        $variants = Variation::where('is_active', 1)->get();
+
         return view("admin.components.import_orders.create", compact("payments", "suppliers", "variants"));
     }
 
@@ -210,105 +211,105 @@ class ImportOrderController extends Controller
             $token = Session('token');
             $dataToken = JWTAuth::setToken($token)->getPayload();
             $role_id = $dataToken['role'];
-            if ($role_id == 1) {
-                $pendingNewOrders = NewOrderRequest::with(['importOrder', 'variation'])
-                    ->whereHas('importOrder', function ($query) {
-                        $query->where('status', 1);
-                    })
-                    ->get();
-                $pendingCancelRequests = Import_order::where('status', 1)
-                    ->whereNotNull('cancel_reason')
-                    ->distinct()
-                    ->get()
-                    ->unique('slug');
-                $totalRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
-                $totalRevenueLastMonth = Order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
-                $revenueDifference = $totalRevenueThisMonth - $totalRevenueLastMonth;
-                if ($totalRevenueLastMonth != 0) {
-                    $growthRateRevenue = ($revenueDifference / $totalRevenueLastMonth) * 100;
-                } else {
-                    $growthRateRevenue = 100;
-                }
-                // Khách hàng
-                $totalCustomersThisMonth = Customer::whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->count();
-                $totalCustomersLastMonth = Customer::whereMonth('created_at', Carbon::now()->subMonth()->month)->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
-                $customerDifference = $totalCustomersThisMonth - $totalCustomersLastMonth;
-                if ($totalCustomersLastMonth != 0) {
-                    $growthRateCustomers = ($customerDifference / $totalCustomersLastMonth) * 100;
-                } else {
-                    $growthRateCustomers = 100;
-                }
-                // Đơn hàng nhập
-                $totalRevenueImportThisMonth = Import_order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
-                $totalRevenueImportLastMonth = Import_order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
-                $revenueImportDifference = $totalRevenueImportThisMonth - $totalRevenueImportLastMonth;
-                if ($totalRevenueImportLastMonth != 0) {
-                    $growthRateImportRevenue = ($revenueImportDifference / $totalRevenueImportLastMonth) * 100;
-                } else {
-                    $growthRateImportRevenue = 100;
-                }
-                // Thống kê
-                $startDate = Carbon::now()->subMonths(11)->startOfMonth();
-                $endDate = Carbon::now()->endOfMonth();
-
-                for ($date = $startDate; $date <= $endDate; $date->addMonth()) {
-                    $ordersCountn = Import_order::whereYear('created_at', $date->year)
-                        ->whereMonth('created_at', $date->month)
-                        ->count();
-                    $ordersPerMonthN[] = $ordersCountn;
-                    $ordersCountx = Order::whereYear('created_at', $date->year)
-                        ->whereMonth('created_at', $date->month)
-                        ->count();
-                    $ordersPerMonthX[] = $ordersCountx;
-                    $totalAmout = Order::whereYear('created_at', $date->year)
-                        ->whereMonth('created_at', $date->month)
-                        ->sum('total_amount');
-                    $totalAmoutx[] = $totalAmout / 1000000;
-                }
-
-                $statusValues = [
-                    Order::where('status_id', '!=', 4)
-                        ->where('status_id', '!=', 5)
-                        ->count(),
-                    Order::where('status_id', 4)->count(),
-                    Order::where('status_id', 5)->count(),
-                ];
-                $latestOrders = DB::table('orders')
-                    ->join('customers', 'orders.customer_id', '=', 'customers.id')
-                    ->orderBy('orders.created_at', 'desc')
-                    ->take(10)
-                    ->get();
-                $productsWithTotalQuantity = DB::table('variations')
-                    ->select('variations.name as variation_name', 'variations.sku as  variation_sku', 'variations.stock as  variation_stock', 'products.name as product_name', 'products.image', DB::raw('SUM(order_details.quantity) as total_quantity'))
-                    ->join('order_details', 'variations.id', '=', 'order_details.variation_id')
-                    ->join('products', 'products.id', '=', 'variations.product_id')
-                    ->groupBy('variations.name', 'products.name', 'products.image', 'variations.sku', 'variations.stock')
-                    ->orderByRaw('SUM(order_details.quantity) DESC')
-                    ->limit(10)
-                    ->get();
-                return view('admin.dashboard', compact(
-                    'pendingNewOrders',
-                    'pendingCancelRequests',
-                    'totalRevenueThisMonth',
-                    'growthRateRevenue',
-                    'totalCustomersThisMonth',
-                    'growthRateCustomers',
-                    'totalRevenueImportThisMonth',
-                    'growthRateImportRevenue',
-                    'ordersPerMonthN',
-                    'ordersPerMonthX',
-                    'totalAmoutx',
-                    'statusValues',
-                    'latestOrders',
-                    'productsWithTotalQuantity'
-                ));
+            $pendingNewOrders = NewOrderRequest::with(['importOrder', 'variation'])
+                ->whereHas('importOrder', function ($query) {
+                    $query->where('status', 1);
+                })
+                ->get();
+            $pendingCancelRequests = Import_order::where('status', 1)
+                ->whereNotNull('cancel_reason')
+                ->distinct()
+                ->get()
+                ->unique('slug');
+            $totalRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
+            $actualRevenueThisMonth = Order::whereMonth('updated_at', Carbon::now()->month)
+                ->whereYear('updated_at', Carbon::now()->year)
+                ->where('status_id', 4)
+                ->sum('total_amount');
+            $totalRevenueLastMonth = Order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
+            $revenueDifference = $totalRevenueThisMonth - $totalRevenueLastMonth;
+            if ($totalRevenueLastMonth != 0) {
+                $growthRateRevenue = ($revenueDifference / $totalRevenueLastMonth) * 100;
             } else {
-                return view('admin.dashboard-analytics');
+                $growthRateRevenue = 100;
             }
+            // Khách hàng
+            $totalCustomersThisMonth = Customer::whereMonth('created_at', Carbon::now()->month)->whereYear('created_at', Carbon::now()->year)->count();
+            $totalCustomersLastMonth = Customer::whereMonth('created_at', Carbon::now()->subMonth()->month)->whereYear('created_at', Carbon::now()->subMonth()->year)->count();
+            $customerDifference = $totalCustomersThisMonth - $totalCustomersLastMonth;
+            if ($totalCustomersLastMonth != 0) {
+                $growthRateCustomers = ($customerDifference / $totalCustomersLastMonth) * 100;
+            } else {
+                $growthRateCustomers = 100;
+            }
+            // Đơn hàng nhập
+            $totalRevenueImportThisMonth = Import_order::whereMonth('updated_at', Carbon::now()->month)->whereYear('updated_at', Carbon::now()->year)->sum('total_amount');
+            $totalRevenueImportLastMonth = Import_order::whereMonth('updated_at', Carbon::now()->subMonth()->month)->whereYear('updated_at', Carbon::now()->subMonth()->year)->sum('total_amount');
+            $revenueImportDifference = $totalRevenueImportThisMonth - $totalRevenueImportLastMonth;
+            if ($totalRevenueImportLastMonth != 0) {
+                $growthRateImportRevenue = ($revenueImportDifference / $totalRevenueImportLastMonth) * 100;
+            } else {
+                $growthRateImportRevenue = 100;
+            }
+            // Thống kê
+            $startDate = Carbon::now()->subMonths(11)->startOfMonth();
+            $endDate = Carbon::now()->endOfMonth();
+
+            for ($date = $startDate; $date <= $endDate; $date->addMonth()) {
+                $ordersCountn = Import_order::whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count();
+                $ordersPerMonthN[] = $ordersCountn;
+                $ordersCountx = Order::whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->count();
+                $ordersPerMonthX[] = $ordersCountx;
+                $totalAmout = Order::whereYear('created_at', $date->year)
+                    ->whereMonth('created_at', $date->month)
+                    ->sum('total_amount');
+                $totalAmoutx[] = $totalAmout / 1000000;
+            }
+
+            $statusValues = [
+                Order::where('status_id', '!=', 4)
+                    ->where('status_id', '!=', 5)
+                    ->count(),
+                Order::where('status_id', 4)->count(),
+                Order::where('status_id', 5)->count(),
+            ];
+            $latestOrders = DB::table('orders')
+                ->join('customers', 'orders.customer_id', '=', 'customers.id')
+                ->orderBy('orders.created_at', 'desc')
+                ->take(10)
+                ->get();
+            $productsWithTotalQuantity = DB::table('variations')
+                ->select('variations.name as variation_name', 'variations.sku as  variation_sku', 'variations.stock as  variation_stock', 'products.name as product_name', 'products.image', DB::raw('SUM(order_details.quantity) as total_quantity'))
+                ->join('order_details', 'variations.id', '=', 'order_details.variation_id')
+                ->join('products', 'products.id', '=', 'variations.product_id')
+                ->groupBy('variations.name', 'products.name', 'products.image', 'variations.sku', 'variations.stock')
+                ->orderByRaw('SUM(order_details.quantity) DESC')
+                ->limit(10)
+                ->get();
+            return view('admin.dashboard', compact(
+                'pendingNewOrders',
+                'pendingCancelRequests',
+                'totalRevenueThisMonth',
+                'growthRateRevenue',
+                'totalCustomersThisMonth',
+                'growthRateCustomers',
+                'totalRevenueImportThisMonth',
+                'growthRateImportRevenue',
+                'ordersPerMonthN',
+                'ordersPerMonthX',
+                'totalAmoutx',
+                'statusValues',
+                'latestOrders',
+                'productsWithTotalQuantity',
+                'actualRevenueThisMonth'
+            ));
         } catch (\Exception $e) {
             return redirect()->route('employees.login')->with('error', 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
         }
-        // return view('admin.dashboard', compact('pendingNewOrders', 'totalRevenueThisMonth', 'growthRateRevenue', 'totalCustomersThisMonth', 'growthRateCustomers', 'totalRevenueImportThisMonth', 'growthRateImportRevenue', 'ordersPerMonthN', 'ordersPerMonthX', 'totalAmoutx', 'statusValues', 'latestOrders', 'productsWithTotalQuantity'));
     }
 
 
@@ -370,7 +371,7 @@ class ImportOrderController extends Controller
         $payments = Payment::pluck('name', 'id')->all();
         $suppliers = Supplier::pluck('name', 'id')->all();
         $importOrderDetails = Import_order_detail::where('import_order_id', $import_order->id)->get();
-        $variations = Variation::all();
+        $variants = Variation::where('is_active', 1)->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact('import_order', 'payments', 'suppliers', 'variations', 'importOrderDetails'));
     }
 
@@ -465,8 +466,8 @@ class ImportOrderController extends Controller
             $variations = Supplier::findOrFail($supplierId)
                 ->variations()
                 ->select('variations.id', 'variations.name', 'variations.sku')
+                ->where('is_active', 1)
                 ->get();
-
             return response()->json($variations);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -479,6 +480,7 @@ class ImportOrderController extends Controller
 
             $variations = Supplier::find($supplierId)->variations()
                 ->select('variations.id', 'variations.name', 'variations.sku')
+                ->where('is_active', 1)
                 ->get();
             return response()->json($variations);
         } catch (\Exception $e) {

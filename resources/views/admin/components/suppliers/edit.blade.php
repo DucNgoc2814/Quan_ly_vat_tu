@@ -67,9 +67,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Danh sách biến thể -->
-
                 </div>
 
                 <div class="col-lg-4">
@@ -126,9 +123,15 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="table-responsive">
+                        <!-- Add search input -->
+                        <div class="mb-3">
+                            <input type="text" id="searchModalVariation" class="form-control"
+                                placeholder="Tìm kiếm sản phẩm...">
+                        </div>
+                        <!-- Make table scrollable -->
+                        <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                             <table class="table table-bordered">
-                                <thead>
+                                <thead style="position: sticky; top: 0; background: white; z-index: 1;">
                                     <tr>
                                         <th style="width: 50px;">
                                             <input type="checkbox" class="form-check-input" id="select-all">
@@ -136,7 +139,7 @@
                                         <th>Tên biến thể</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="modalVariationList">
                                     @foreach ($variations as $variation)
                                         @if (!$supplier->variations->contains($variation->id))
                                             <tr>
@@ -160,6 +163,20 @@
 
 @section('scripts')
     <script>
+        $(document).ready(function() {
+            // Search functionality
+            $('#searchModalVariation').on('keyup', function() {
+                let searchText = $(this).val().toLowerCase();
+                $('#modalVariationList tr').filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(searchText) > -1)
+                });
+            });
+
+            // Select all checkbox
+            $('#select-all').change(function() {
+                $('.variation-checkbox:visible').prop('checked', $(this).prop('checked'));
+            });
+        });
         // Xử lý check all
         document.getElementById('select-all').addEventListener('change', function() {
             const checkboxes = document.getElementsByClassName('variation-checkbox');

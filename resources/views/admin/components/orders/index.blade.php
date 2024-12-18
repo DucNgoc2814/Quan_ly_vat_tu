@@ -56,7 +56,7 @@
                                             {{ number_format($order->paid_amount) }}</td>
                                         <td class="date-column">{{ $order->created_at }}</td>
                                         <td class="text-center">
-                                            @if ($order->status_id < 4 || $order->status_id == 6)
+                                            @if ($order->status_id < 3)
                                                 <form action="{{ route('order.updateStatus', $order->slug) }}"
                                                     method="POST" class="{{ $order->slug }} d-inline status-update-form"
                                                     data-order-slug="{{ $order->slug }}">
@@ -72,11 +72,8 @@
                                                             <option value="2">Xác Nhận</option>
                                                             <option value="5">Hủy</option>
                                                         @elseif ($order->status_id == 2)
-                                                            <option value="3">Đang giao</option>
+                                                            <option value="6">Khách hàng tự vận chuyển</option>
                                                             <option value="5">Hủy</option>
-                                                        @elseif ($order->status_id == 3)
-                                                            <option value="4">Thành công</option>
-                                                        @elseif ($order->status_id == 6)
                                                         @endif
                                                     </select>
                                                 </form>
@@ -101,7 +98,7 @@
                                                                 class="ri-eye-fill align-bottom me-2 text-muted"></i>Chi
                                                             Tiết Đơn Hàng</a>
                                                     </li>
-                                                    @if ($order->status_id == 1 || $order->status_id == 2)
+                                                    @if ($order->status_id == 1)
                                                         <li><a href="{{ route('order.edit', ['slug' => $order->slug]) }}"
                                                                 class="dropdown-item edit-item-btn"><i
                                                                     class="ri-pencil-fill align-bottom me-2 text-muted"></i>
@@ -150,72 +147,134 @@
                 return;
             }
             if (newStatus == '5') {
-                Swal.fire({
-                    title: 'Yêu cầu hủy đơn hàng',
-                    text: 'Vui lòng nhập lý do hủy đơn hàng',
-                    input: 'textarea',
-                    inputPlaceholder: 'Nhập lý do hủy...',
-                    inputAttributes: {
-                        'aria-label': 'Nhập lý do hủy'
-                    },
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Gửi yêu cầu',
-                    cancelButtonText: 'Hủy',
-                    inputValidator: (value) => {
-                        if (!value) {
-                            return 'Vui lòng nhập lý do hủy!'
+                const paymentPercent = (paidAmount / totalAmount) * 100;
+
+                if (paymentPercent > 30) {
+                    // Case 1: Cancel with refund (>30% paid)
+                    Swal.fire({
+                        title: 'Yêu cầu hoàn tiền',
+                        html: `
+                            <div>
+                                <p>Số tiền cần hoàn: ${new Intl.NumberFormat('vi-VN').format(paidAmount - (30 * totalAmount/ 100))}VND</p>
+                                <div class="mb-3">
+                                    <textarea id="cancel-reason" class="form-control mt-2" placeholder="Lý do hủy..."></textarea>
+                                </div>
+                
+                                <div class="mb-3">
+                                    <label class="form-label">Ảnh QR/STK</label>
+                                    <input type="file" id="qr-image" class="form-control" accept="image/*">
+                                </div>
+                            </div>
+                        `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Gửi yêu cầu hoàn tiền',
+                        cancelButtonText: 'Đóng',
+                        preConfirm: () => {
+                            const reason = Swal.getPopup().querySelector('#cancel-reason').value;
+                            const qrFile = Swal.getPopup().querySelector('#qr-image').files[0];
+                            if (!reason || !qrFile) {
+                                Swal.showValidationMessage('Vui lòng điền đầy đủ thông tin');
+                                return false;
+                            }
+
+                            const formData = new FormData();
+                            formData.append('cancel_reason', reason);
+                            formData.append('amount', paidAmount);
+                            formData.append('qr_image', qrFile);
+                            formData.append('need_refund', true);
+                            formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+                            return formData;
                         }
-                    }
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: `/quan-ly-ban-hang/yeu-cau-huy/${orderSlug}`,
-                            type: 'POST',
-                            data: {
-                                _token: $('meta[name="csrf-token"]').attr('content'),
-                                cancel_reason: result.value
-                            },
-                            success: function(response) {
-                                if (response.success) {
-                                    Swal.fire({
-                                        title: 'Đã gửi yêu cầu!',
-                                        text: 'Yêu cầu hủy đã được gửi cho admin xác nhận',
-                                        icon: 'success',
-                                        confirmButtonText: 'OK'
-                                    }).then(() => {
-                                        // location.reload();
-                                    });
-                                }
-                            },
-                            error: function(xhr) {
-                                // Kiểm tra nếu là lỗi permission
-                                if (xhr.status === 403) {
-                                    Swal.fire({
-                                        title: 'Không có quyền!',
-                                        text: 'Bạn không có quyền thực hiện thao tác này',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
-                                    });
-                                } else {
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: `/quan-ly-ban-hang/yeu-cau-hoan-tien/${orderSlug}`,
+                                type: 'POST',
+                                data: result.value,
+                                processData: false,
+                                contentType: false,
+                                success: (response) => {
+                                    if (response.success) {
+                                        Swal.fire('Thành công', 'Đã gửi yêu cầu hoàn tiền', 'success')
+                                            .then(() => location.reload());
+                                    }
+                                },
+                                error: (xhr, status, error) => {
                                     Swal.fire({
                                         title: 'Lỗi!',
-                                        text: 'Có lỗi xảy ra khi gửi yêu cầu hủy',
-                                        icon: 'error',
-                                        confirmButtonText: 'OK'
+                                        text: `Không thể gửi yêu cầu: ${xhr.responseJSON?.message || error}`,
+                                        icon: 'error'
                                     });
                                 }
-                            },
-                            complete: function() {
-                                $(select).val(currentStatus);
+                            });
+                        }
+                        $(select).val(currentStatus);
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Yêu cầu hủy đơn hàng',
+                        html: `
+                                <div>
+                                    <textarea id="cancel-reason" class="form-control mt-2" placeholder="Lý do hủy..."></textarea>
+                                </div>
+                            `,
+                        showCancelButton: true,
+                        confirmButtonText: 'Xác nhận hủy',
+                        cancelButtonText: 'Đóng',
+                        preConfirm: () => {
+                            const reason = Swal.getPopup().querySelector('#cancel-reason').value;
+                            if (!reason) {
+                                Swal.showValidationMessage('Vui lòng nhập lý do hủy');
                             }
-                        });
+                            return reason;
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: `/quan-ly-ban-hang/yeu-cau-huy/${orderSlug}`,
+                                type: 'POST',
+                                data: {
+                                    _token: $('meta[name="csrf-token"]').attr('content'),
+                                    cancel_reason: result.value,
+                                    need_refund: false
+                                },
+                                success: (response) => {
+                                    if (response.success) {
+                                        Swal.fire('Thành công', 'Đã gửi yêu cầu hủy', 'success')
+                                            .then(() => location.reload());
+                                    }
+                                }
+                            });
+                        }
+                        $(select).val(currentStatus);
+                    });
+                }
+            } else if (newStatus == '6') {
+                if (paidAmount < totalAmount) {
+                    Swal.fire({
+                        title: 'Không thể cập nhật!',
+                        text: `Đơn hàng cần thanh toán đủ số tiền ${new Intl.NumberFormat('vi-VN').format(totalAmount - paidAmount)}VND để chuyển sang trạng thái tự vận chuyển`,
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                    $(select).val(currentStatus);
+                    return;
+                }
+
+                Swal.fire({
+                    title: 'Xác nhận tự vận chuyển',
+                    text: 'Xác nhận khách hàng tự vận chuyển?',
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonText: 'Xác nhận',
+                    cancelButtonText: 'Hủy'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        sendUpdateRequest($(select), orderSlug, '4'); // Chuyển thành trạng thái hoàn thành
                     } else {
                         $(select).val(currentStatus);
                     }
                 });
-            } else if (newStatus == '6') {
-                newStatus = '1';
             } else {
                 sendUpdateRequest($(select), orderSlug, newStatus);
             }

@@ -29,7 +29,12 @@ class OrderDetailController extends Controller
             ->select('id', 'name')
             ->get();
         $payments = Payment::pluck('name', 'id');
-        $paymentHistories = Payment_history::where('related_id', $data->first()->order_id)->where('transaction_type', 'sale')->get();
+        $paymentHistories = Payment_history::where('related_id', $data->first()->order_id)
+        ->where(function($query) {
+            $query->where('transaction_type', 'sale')
+                  ->orWhere('transaction_type', 'refund');
+        })
+        ->get();
         return view(self::PATH_VIEW . __FUNCTION__, data: compact('data', 'paymentHistories', 'employees', 'payments'));
     }
 

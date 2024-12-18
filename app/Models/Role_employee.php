@@ -17,7 +17,7 @@ class Role_employee extends Model
 
     public function permissions()
     {
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class, 'permission_id');
     }
 
     public function employees()

@@ -11,8 +11,8 @@
     <tbody>
         @foreach($inventory as $detail)
         <tr class="{{ $detail->actual_quantity > 0 && $detail->system_quantity == 0 ? 'table-danger' : '' }}">
-            <td>{{ $detail->variation_id }}</td>
-            <td>{{ $detail->variation_name }}</td>
+            <td>{{ $detail->variation->sku }}</td>
+            <td>{{ $detail->variation->name }}</td>
             <td>{{ $detail->actual_quantity }}</td>
             <td>{{ $detail->system_quantity }}</td>
             <td>{{ $detail->deviation }}</td>
